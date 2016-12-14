@@ -1,0 +1,131 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    	xmlns:a4j="http://richfaces.org/a4j"
+    template="../layout/template.xhtml">
+
+<ui:define name="head">
+	<script type="text/javascript"> //<![CDATA[
+
+		var adminTableNewOrg;
+		var adminTableNewOrg2;
+		
+		$jquery(document).ready(function(){
+			
+			
+			adminTableNewOrg= $jquery('#adminNewOrgTableId').dataTable({
+				"sScrollY": "200px",
+		    	"sScrollX": "100%",
+		    	"bScrollCollapse": true,
+		    	"bPaginate": false,
+		    	"iDisplayLength": 100,
+		    	"bFilter" : false,
+		    	"bAutoWidth": true,
+		    	"sAjaxSource" : RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH +"/organizationRestAction/loadOrgReportData?createdOrgs=N",
+		    	 "aoColumnDefs": [{
+		        	  "aTargets": ["_all"],
+		        	  "bUseRendered": false
+		        	}, {"bSortable" :false, "aTargets": [ 0 ]}],
+		        "aoColumns": [	
+		                      	 	{ "mDataProp": "adsId", sDefaultContent: ""},	
+								  	{ "mDataProp": "title", sDefaultContent: ""},
+								   {"mDataProp": "endDate", sDefaultContent: ""}
+		                    ],
+		      
+	   	      
+		        
+			});
+
+			//document.getElementById('adminNewOrgTableId_paginate').style.visibility = "hidden";
+			$jquery(".dataTables_wrapper").css("min-height", "150px");
+			$jquery("#adminNewOrgTableId_wrapper").css("min-height", "150px");
+
+			adminTableNewOrg2= $jquery('#adminNewOrgTableId2').dataTable({
+				"sScrollY": "200px",
+		    	"sScrollX": "100%",
+		    	"bScrollCollapse": true,
+		    	"bPaginate": false,
+		    	"iDisplayLength": 100,
+		    	"bFilter" : false,
+		    	"bAutoWidth": true,
+		    	"sAjaxSource" : RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH +"/organizationRestAction/loadOrgReportData?createdOrgs=Y",
+		    	 "aoColumnDefs": [{
+		        	  "aTargets": ["_all"],
+		        	  "bUseRendered": false
+		        	}, {"bSortable" :false, "aTargets": [ 0 ]}],
+		        "aoColumns": [	
+		                      	 	{ "mDataProp": "adsId", sDefaultContent: ""},	
+								  	{ "mDataProp": "title", sDefaultContent: ""},
+								   {"mDataProp": "endDate", sDefaultContent: ""}
+		                    ],
+		      
+	   	      
+		        
+			});
+
+			//document.getElementById('adminNewOrgTableId2_paginate').style.visibility = "hidden";
+			$jquery("#adminNewOrgTableId_wrapper").css("min-height", "150px");
+			
+		});
+
+		
+
+		
+		
+		 //]]>  </script>
+</ui:define>
+    <ui:define name="body">
+		<div class="box round first">	
+		  	<h2>Organization Data.</h2>
+		  		<br/>
+  				<h3><span style="font-family:Tahoma,​Geneva,​sans-serif;font-size:12.8667px;color:#000000;line-height: 1.2em;text-align: left;margin-right: 5px">Orgs Expiring in 1 Month:</span> 
+   				</h3>
+   				<br/>
+				<div class="dataTables_wrapper" id="adminNewOrgDiv" style="width:50%">
+			
+					<table id="adminNewOrgTableId" class="data display datatable" style="width:100%">
+						<thead>
+							<tr>
+								<th class="sorting_asc" rowspan="1" colspan="1">OrganizationId</th>
+		                         <th class="sorting" rowspan="1" colspan="1">Description</th>
+		                         <th class="sorting" rowspan="1" colspan="1" >Expiry Date</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+						<tfoot>
+						</tfoot>
+					</table>
+					
+				</div>
+				
+  				<h3><span style="font-family:Tahoma,​Geneva,​sans-serif;font-size:12.8667px;color:#000000;line-height: 1.2em;text-align: left;margin-right: 5px">Orgs Created in Last 2 Months:</span> 
+   				</h3>
+   				<br/>
+				<div class="dataTables_wrapper" id="adminNewOrgDiv2" style="width:50%" >
+			
+					<table id="adminNewOrgTableId2" class="data display datatable" style="width:100%">
+						<thead>
+							<tr>
+								<th class="sorting_asc" rowspan="1" colspan="1">OrganizationId</th>
+		                         <th class="sorting" rowspan="1" colspan="1">Description</th>
+		                         <th class="sorting" rowspan="1" colspan="1" >Start Date</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+						<tfoot>
+						</tfoot>
+					</table>
+					
+				</div>
+			
+	  	</div>
+
+    </ui:define>
+</ui:composition>

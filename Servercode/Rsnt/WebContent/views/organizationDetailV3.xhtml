@@ -1,0 +1,267 @@
+<f:subview xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"> 
+      
+   <html>
+   	<head>
+   		<title>Upload Logo</title>
+   		<!-- Setup Logo -->
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/html5/js/h5utils.js"></script>
+   	
+   	
+   	 <title>Drag and drop, automatic upload</title>
+   	 
+   	 <script type="text/javascript">
+			var $richv132 = jQuery.noConflict();
+				
+		</script>
+		
+		<script type="text/javascript"	src="#{request.contextPath}/uiframework/jQuery-js/jquery-1.8.2.min.js"></script>
+		<!-- load other jquery plugins:  -->
+		<script type="text/javascript"	src="#{request.contextPath}/uiframework/jQuery-js/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.gridster.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/TableTools.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/datatables.reload.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.layout-latest.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.multiselect.js"></script>	
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.notify.js"></script>
+		
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery-ui-timepicker-addon.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery-ui-sliderAccess.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.jeditable.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.Jcrop.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/lytebox.js"></script>	
+		
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.ui.accordion.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/setup.js"></script>	
+		
+			
+		<script>//jquery v 1.4.4 assigned to$jqueryv144 and can be used wherever we need to implement using new jquery plugins.
+			var $jquery = jQuery.noConflict();
+			 
+		</script> 
+			
+		<!-- reassigning back the richfaces jquery -->
+		<script> var jQuery = $richv132; </script> 
+		
+		
+		<link href="#{request.contextPath}/uiframework/jQuery-css/jquery.gridster.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/css/menus.css" rel="stylesheet" type="text/css" />
+		
+		<link href="#{request.contextPath}/uiframework/jQuery-css/TableTools.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/jQuery-css/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+		<link href="#{request.contextPath}/uiframework/jQuery-css/jquery.multiselect.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/jQuery-css/ui.notify.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" media="all" type="text/css" href="#{request.contextPath}/uiframework/jQuery-css/jquery-ui-timepicker-addon.css" />
+		<link href="#{request.contextPath}/uiframework/jQuery-css/jquery.Jcrop.css" rel="stylesheet" type="text/css" />
+		 
+		<link href="#{request.contextPath}/uiframework/css/grid.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/css/reset.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/css/text.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/css/layout.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/css/nav.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/css/lytebox.css" rel="stylesheet" type="text/css" />
+		
+	  	<script type="text/javascript" src="#{request.contextPath}/uiframework/js/rsntCommon.js?jsver=#{appInitializer.appVersion}"></script>
+	  	<script type="text/javascript">
+		  	function goToHomePage(){
+				 var serverPath = window.location.href;
+			     var serverPathIndex = serverPath.indexOf("/views");
+				 var finalLink = serverPath.substring(0, serverPathIndex)+"/views/home.seam";
+		       	 //window.open(serverPath.substring(0, serverPathIndex)+"/views/home.seam");
+		         window.location = finalLink;
+		       
+			}
+			
+		</script>
+   	 
+   	 
+   	 
+	
+	
+	
+</head>
+
+
+	<rich:modalPanel id="panel" width="850" height="450" moveable="false" autosized="true">
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="../img/close.png" styleClass="hidelink" id="hidelink"/>
+                <rich:componentControl for="panel" attachTo="hidelink" operation="hide" event="onclick"/>
+            </h:panelGroup>
+        </f:facet>
+        
+        <style>
+		#holder { border: 10px dashed #ccc; width: 850px; min-height: 450px; margin: 20px auto;}
+		#holder.hover { border: 10px dashed #0c0; }
+		#holder img { display: block; margin: 10px auto; }
+		#holder p { margin: 10px; font-size: 14px; }
+		#divButton { width: 100%; }
+		progress { width: 100%; align: center;}
+		progress:after { content: '%'; }
+		.fail { background: #c00; padding: 2px; color: #fff; }
+		.hidden { display: none !important;}
+		</style>
+        
+        
+        <br/>
+		
+		
+			
+        <article style="background-color:white;">
+          
+		  		
+		  <div class="holder" id="holder" style="background: #00ff00 url('../img/dragdrop.png') no-repeat fixed center; background-color:white;">
+		  	  
+		  </div>
+
+		  <p id="upload" class="hidden"><label>Drag &amp; drop not supported, but you can still upload via this input field:<br /><input type="file"/></label></p>
+		  <p id="filereader">File API &amp; FileReader API not supported</p>
+		  <p id="formdata">XHR2's FormData is not supported</p>
+		  <p id="progress">XHR2's upload progress isn't supported</p>
+<!-- 		  <p>Upload progress: <progress id="uploadprogress" max="100" value="0">0</progress></p> -->
+		 
+		</article>
+		<div class="divButton" >
+			<input id="doneButtonID" type="button" name="Done" class="button" value="Done" style="width:150px"
+										onclick="updateOrganizationProfileJS();" />
+		</div>
+		
+		 
+		 
+<script>//<![CDATA[
+var holder = document.getElementById('holder'),
+    tests = {
+      filereader: typeof FileReader != 'undefined',
+      dnd: 'draggable' in document.createElement('span'),
+      formdata: !!window.FormData,
+      progress: "upload" in new XMLHttpRequest
+    }, 
+    support = {
+      filereader: document.getElementById('filereader'),
+      formdata: document.getElementById('formdata'),
+      progress: document.getElementById('progress')
+    },
+    acceptedTypes = {
+      'image/png': true,
+      'image/jpeg': true,
+      'image/gif': true
+    },
+    progress = document.getElementById('uploadprogress'),
+    fileupload = document.getElementById('upload');
+
+"filereader formdata progress".split(' ').forEach(function (api) {
+  if (tests[api] === false) {
+    support[api].className = 'fail';
+  } else {
+    // FFS. I could have done el.hidden = true, but IE doesn't support
+    // hidden, so I tried to create a polyfill that would extend the
+    // Element.prototype, but then IE10 doesn't even give me access
+    // to the Element object. Brilliant.
+    support[api].className = 'hidden';
+  }
+});
+
+function restarHolder(){
+	document.getElementById('holder').style.background = "#00ff00 url('../img/dragdrop.png') no-repeat fixed center";
+	document.getElementById('holder').style.backgroundColor = "white";
+	//document.getElementById('doneButtonID').setAttribute("hidden", true);
+	
+	while (holder.firstChild) {
+  	  holder.removeChild(holder.firstChild);
+    }
+}
+
+
+function previewfile(file) {
+  if (tests.filereader === true && acceptedTypes[file.type] === true) {
+    var reader = new FileReader();
+    reader.onload = function (event) {
+      var image = new Image();
+      image.src = event.target.result;
+      image.width = 600; // a fake resize
+      //holder = document.getElementById('holder');
+      while (holder.firstChild) {
+    	  holder.removeChild(holder.firstChild);
+      }
+      document.getElementById('holder').style.background = "none";
+      holder.appendChild(image);
+      
+    };
+
+    reader.readAsDataURL(file);
+  }  else {
+    holder.innerHTML += '<p>Uploaded ' + file.name + ' ' + (file.size ? (file.size/1024|0) + 'K' : '');
+    console.log(file);
+  }
+}
+
+function readfiles(files) {
+    debugger;
+    var formData = tests.formdata ? new FormData() : null;
+    //for (var i = 0; i < files.length; i++) {
+    for (var i = 0; i < 1; i++) {
+      if (tests.formdata) formData.append('file', files[i]);
+      previewfile(files[i]);
+    }
+
+    // now post a new XHR request
+    if (tests.formdata) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/devnull.php');
+      xhr.onload = function() {
+        progress.value = progress.innerHTML = 100;
+      };
+
+      if (tests.progress) {
+        xhr.upload.onprogress = function (event) {
+          if (event.lengthComputable) {
+            var complete = (event.loaded / event.total * 100 | 0);
+            progress.value = progress.innerHTML = complete;
+          }
+        }
+      }
+
+      xhr.send(formData);
+    }
+}
+
+if (tests.dnd) { 
+  holder.ondragover = function () { this.className = 'hover'; return false; };
+  holder.ondragend = function () { this.className = ''; return false; };
+  holder.ondrop = function (e) {
+    this.className = '';
+    e.preventDefault();
+    readfiles(e.dataTransfer.files);
+  }
+} else {
+  fileupload.className = 'hidden';
+  fileupload.querySelector('input').onchange = function () {
+    readfiles(this.files);
+  };
+}
+//]]>
+</script>
+   	
+   	
+		 
+ </rich:modalPanel>
+ 
+ 
+    <h:outputLink value="#" id="link" onclick="restarHolder();">
+        Show Modal Panel 
+        <rich:componentControl for="panel" attachTo="link" operation="show" event="onclick"/>
+    </h:outputLink>
+
+
+   
+   
+   </html>
+    
+</f:subview>

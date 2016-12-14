@@ -1,0 +1,129 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.org/rich"
+	template="../layout/accountTemplate.xhtml">
+
+	<ui:define name="head">
+
+		<script type="text/javascript"> //<![CDATA[
+		function addSafeDataValidation() {
+			
+			$jquery( "#waitListSettingForm").validate({
+			  debug : true,
+		      rules: {
+			      "waitListSettingForm:sentBy": { 
+			    	required: true,
+			    	
+			      },
+		      },
+		      highlight: function(label) {
+			    //$jquery(label).closest('.control-group').addClass('error');
+			  },
+			
+			  messages :{
+				  sentBy : {
+					  equalTo: "sentBy Field Required"
+				  }
+			  }
+			  
+		  });
+		}
+
+		$jquery(document).ready(function(){
+			addSafeDataValidation();
+		});
+
+		function updateWaitListSettingsJS(){
+			if($jquery( "#waitListSettingForm").valid()){
+				saveSettings();
+			}
+			
+			return $jquery( "#waitListSettingForm").valid();
+
+
+		}
+
+		 //]]>  </script>
+
+
+	</ui:define>
+	<ui:define name="body">
+		<div class="box round first">
+			<h2>WaitList Setting</h2>
+			<br />
+			<rich:messages infoClass="rich-messages-label-sucess"
+				errorClass="rich-messages-label-error" id="errorMsg"
+				globalOnly="true" />
+			<br />
+			<a4j:outputPanel id="waitlistSettinglId">
+				<h:form id="waitListSettingForm">
+					<table id="waitlistSettingTable" class="form">
+
+
+						<tr>
+							<td class="col1" style="width: 10%"><label> Sent By:
+									<span class="required">*</span>
+							</label></td>
+							<td><h:inputText id="sentBy" label="sent"
+									value="#{organizationAction.organization.orgWaitlistConfig.sentBy}"
+									style="width:10%" maxlength="8">
+								</h:inputText></td>
+						</tr>
+
+						<!-- add by ronak -->
+						<tr>
+						<td class="col1" style="width: 10%"><label
+									style="font-weight: bold; float: left; margin-right: 23px;">
+										SMS Provider:</label></td>
+										<td class="col2">
+								<h:selectOneMenu value="#{organizationAction.orgsmsTypeData}">
+									<f:selectItems value="#{organizationAction.smsProviderList}"
+										var="sms" itemLabel="#{sms.label}" itemValue="#{sms.value}" />
+								</h:selectOneMenu>
+								</td>
+						</tr>
+					
+					
+					
+						<tr>
+							<td class="col1" style="width: 10%"><label> Level -
+									2: </label></td>
+							<td class="col2"><h:selectBooleanCheckbox id="levelTwo"
+									value="#{organizationAction.organization.orgWaitlistConfig.levelTwo}" /></td>
+						</tr>
+
+						<tr>
+							<td class="col1" style="width: 10%"><label> Level -
+									3: </label></td>
+							<td class="col2"><h:selectBooleanCheckbox id="levelThree"
+									value="#{organizationAction.organization.orgWaitlistConfig.levelThree}" /></td>
+						</tr>
+						<tr>
+							<td class="col1" style="width: 10%"><label> GatewayIdentifier:
+							</label></td>
+							<td><h:inputText id="gatewayIdentifier" label="gatewayIdentifier"
+									value="#{organizationAction.organization.orgWaitlistConfig.gatewayIdentifier}"
+									style="width:10%">
+								</h:inputText></td>
+						</tr>
+
+					
+						<tr>
+							<td class="buttonRow"><input type="button" class="button"
+								value="Save Settings" onclick="updateWaitListSettingsJS();" />
+								<a4j:jsFunction name="saveSettings"
+									action="#{organizationAction.updateOrganizationProfile}"
+									reRender="errorMsg" limitToList="true">
+								</a4j:jsFunction></td>
+						</tr>
+					</table>
+				</h:form>
+			</a4j:outputPanel>
+		</div>
+	</ui:define>
+</ui:composition>

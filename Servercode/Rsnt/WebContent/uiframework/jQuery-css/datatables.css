@@ -1,0 +1,147 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*********************************
+* jQuery DataTables
+**********************************/
+
+/* HEADER */
+.dataTables_length {
+    float: left;
+}
+
+.dataTables_filter {
+    float: right;
+    text-align: right;
+}
+
+/* FOOTER */
+.dataTables_info {
+	float:left;
+	display: inline;
+	height: 28px;
+	vertical-align: middle;
+	line-height: 28px;
+}
+
+.dataTables_paginate {
+	float: right;
+	display: inline;
+}
+
+/* Fix table margin from typography.css */
+.dataTables_wrapper .dataTable {
+	margin: 0px;
+	/*border-collapse: collapse;*/
+}
+
+.dataTables_wrapper .dataTables_scroll {
+	/* background-color: #e6e6e6; */
+}
+
+.dataTables_wrapper thead th {
+	/* background-color: #e6e6e6; */
+	background-color: lightgray;
+	
+	text-align: center;
+	font-weight: 100;	
+	/* border: 1px solid #BBBBBB; */
+	border: 1px solid #C5C5C5;
+	/* border-top-style: none; */
+	border-left-style: none;
+}
+
+.dataTables_wrapper tr.odd td {
+	/* background: none repeat scroll 0 0 #E5ECF9; */
+	background: none repeat scroll 0 0 white; 
+	border: 1px solid #E5ECF9; 
+	border-right-style: none;
+	border-left-style: none;
+	border-right: 1px solid lightgray;
+}
+
+.dataTables_wrapper tr.even td {
+	/* background-color: white; */
+	background-color: #FAFAFA;
+	border: 1px solid #FFF; 
+	border-right-style: none;
+	border-left-style: none;
+	border-right: 1px solid lightgray;
+}
+
+.dataTables_wrapper th.sorting_asc {
+	background-image: url(images/sort_asc.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+
+.dataTables_wrapper th.sorting_desc {
+	background-image: url(images/sort_desc.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+
+.dataTables_wrapper th.sorting {
+	background-image: url(images/sort_both.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+	background: -webkit-linear-gradient(top,#F9F9F9,#E3E4E6);
+}
+
+.dataTables_wrapper td, .dataTables_wrapper th {
+	white-space: normal;
+	/*overflow: hidden;*/
+	padding-right: 1.4em;
+	padding-left: 1.4em;
+	/* The below style is added to override extJS styles. And make the header and data columns aligned in a row. */
+	-webkit-box-sizing:initial;
+}
+
+/* SORT COLUMN 1 */
+/* .dataTables_wrapper tr.even td.sorting_1 {
+	background-color: #e5ecf9;
+}
+
+.dataTables_wrapper tr.odd td.sorting_1 {
+	background-color: #cedaf3;
+}
+
+SORT COLUMN 2
+.dataTables_wrapper tr.even td.sorting_2 {
+	background-color: #e5ecf9;
+}
+
+.dataTables_wrapper tr.odd td.sorting_2 {
+	background-color: #cedaf3;
+}
+
+SORT COLUMN 3
+.dataTables_wrapper tr.even td.sorting_3 {
+	background-color: #e5ecf9;
+}
+
+.dataTables_wrapper tr.odd td.sorting_3 {
+	background-color: #cedaf3;
+} */
+
+.dataTables_wrapper tr.row_selected td {
+	/*outline: #5981cc solid 1px;*/
+	
+	background: #d3e7ff; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2QzZTdmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNhYmQwZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(top, #d3e7ff 0%, #abd0ff 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d3e7ff), color-stop(100%,#abd0ff)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #d3e7ff 0%,#abd0ff 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #d3e7ff 0%,#abd0ff 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #d3e7ff 0%,#abd0ff 100%); /* IE10+ */
+	background: linear-gradient(top, #d3e7ff 0%,#abd0ff 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d3e7ff', endColorstr='#abd0ff',GradientType=0 );
+	border: 1px solid #5981cc;
+	border-right-style: none;
+	border-left-style: none;
+}
+
+.jqtable th td {
+	font-weight: normal;
+}

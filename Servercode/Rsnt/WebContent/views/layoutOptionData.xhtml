@@ -1,0 +1,166 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.org/rich"
+	 template="../layout/template.xhtml">
+
+	<ui:define name="head">
+		<script src="../uiframework/jQuery-js/app/optionDetail.js?jsver=#{appInitializer.appVersion}" type="text/javascript"></script>
+		<script> //<![CDATA[	
+
+        $jquery(document).ready(function(){
+
+        	$jquery("#layoutInfoDiv").dialog({
+    			autoOpen: false,
+    			height: 'auto',
+    			width: 'auto',
+   				modal: true,
+    			show: "clip",
+    			hide: "clip",
+    			resizable: false,
+    		    dialogClass: "noTitleStuff"
+    		});	
+
+         });
+                	
+		
+		
+		function openCompleteLayoutInfoPanel() {
+			$jquery("#layoutInfoDiv").dialog( "open" );
+		}
+		
+		function closeCompleteLayoutInfoPanel(){
+			$jquery("#layoutInfoDiv").dialog( "close" );
+		}
+
+			//]]></script>
+	</ui:define>
+	
+	<ui:define name="body">
+		<div class="box round first">	
+			<h2>Layout Options</h2>
+		 	<a4j:outputPanel rendered="#{s:hasPermission('','Add Option') and layoutOptionAction.orgPlanTypeWithAlert==true}">
+				   	<div class="add-button-div">
+				   		<img src="../img/add-button-app.png" onclick="addOptionAction();"/>
+				   </div>
+		   </a4j:outputPanel>
+		    <br/>
+		     <a4j:outputPanel id="createLayoutInputDialogPanelId">
+		     	<rich:messages infoClass="info" errorClass="error" id="addLayoutOptionErrorMsg" globalOnly="true" ajaxRendered="false"/>
+			     <h:form>
+					<table class="form">
+			  			<tr>
+			  				<td style="width:8%">
+			  					<label>Layout Name: </label>
+			  					<h:outputText value="&#160;" />
+			  					
+			  				</td>
+			  				<td>
+			  					<h:outputText value="#{layoutManagerAction.organizationLayout.layoutIdentificationName}" /> 
+			  				</td>
+			  			</tr>
+		  			</table>
+				  			
+				 	<h:selectManyCheckbox id="optionTypeSelect" value="#{layoutOptionAction.orgLayoutOptionsList}" label="Select Layout Alerts" layout="pageDirection" 
+								style="font-weight: bold;float: left;">
+						<f:selectItems value="#{layoutOptionAction.orgAllOptionsList}" />									
+				  	</h:selectManyCheckbox>
+				  			
+		  			<table  class="form">
+							<tr class="buttonsRow">
+					        	<td style="width:20%">
+					        		   <a4j:outputPanel rendered="#{s:hasPermission('','Save Layout Options')}">
+					             	   	 	<a4j:commandButton value="Complete Layout" styleClass="button" action="#{layoutOptionAction.associateLayoutToOptions}" 
+						            		status="showLoadingStatus" reRender="addLayoutOptionErrorMsg,completeLayoutInfoPanel" oncomplete="if(#{layoutOptionAction.completeLayoutValid}){
+						            			openCompleteLayoutInfoPanel();
+						            		
+						            		}" >
+						             		</a4j:commandButton>
+					              	  </a4j:outputPanel>
+             	  
+				            	
+					          	</td>
+			  				</tr>
+					</table>
+			     
+				</h:form>
+				<a4j:form>
+					<a4j:jsFunction name="completeLayoutSuccessJS" action="#{layoutOptionAction.completeLayout}">
+					</a4j:jsFunction>
+					<a4j:jsFunction name="addOptionAction"  action="#{layoutOptionAction.initializeObject}" oncomplete="addSafeDataValidation();openCreateOptionInputDialog();"
+	             		reRender="addOptionPanel">
+	             	</a4j:jsFunction>
+				</a4j:form>
+			</a4j:outputPanel>
+		</div>
+		<div id="layoutInfoDiv" title="Complete Layout"  style="display:none;width=160px">
+		     <a4j:outputPanel id="completeLayoutInfoPanel">
+		     	<table cellspacing="10" cellpadding="0" width="100%">
+							<tr>
+								<td colspan="2" style="color: maroon; white-space: normal">
+									<fieldset style="text-align: center; font-size: 11px; border-color: maroon; margin-bottom: 15px">
+										<h:outputText id="custNo" styleClass="label" value="Layout Successfully Created!">
+										</h:outputText>
+										<br />
+									</fieldset>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="button" class="button" value="OK" onclick="closeCompleteLayoutInfoPanel();completeLayoutSuccessJS();" />
+								</td>
+							</tr>
+					</table>
+		     	<br/>
+			</a4j:outputPanel>
+				
+			</div>
+			<div id="addOption" class="lbOuterContainer grey" style="border-radius: 8px; padding-bottom: 10px; padding-top: 14px;  border: 2px solid #E3862C; 
+												background-color: #42030C;
+												 margin: 0 auto;position: relative;color: #C2C2C2;visibility: hidden">
+			<div id="lbIframeContainer" class="light-box" style="padding: 4px">
+				<h2 style="margin-top: 1em;line-height: 1.2em;margin-bottom: 0.3em;text-align: center;" >Add Option Detail</h2>
+				<rich:messages infoClass="rich-messages-label-sucess" errorClass="rich-messages-label-error" id="addOptionErrorMsg" globalOnly="true"  ajaxRendered="false"/>
+				<a4j:outputPanel id="addOptionPanel">
+					<h:form id="addOptionForm">
+						
+						<table class="form">
+							<tr>
+								<td class="col1" style="width:25%">
+									<span style="font-weight: bold;font-family:Tahoma,​Geneva,​sans-serif;font-size:12.8667px;color:#000000;line-height: 1.2em;text-align: left">Option Description:</span>
+									<span class="required">*</span>
+								</td>
+								<td class="col2">
+									<h:inputText id="description" name="description" value="#{layoutOptionAction.selectedOrgOptionDesc}" />
+								</td>
+							</tr>
+							<tr>	
+								<td colspan="11">
+								   	<a4j:outputPanel rendered="#{s:hasPermission('','Add Option')}">
+				             	  	 <a4j:commandButton status="showLoadingStatus" value="Save" styleClass="button" onclick="updateOptionJS();"></a4j:commandButton>
+				              	  	</a4j:outputPanel>
+									<input type="button" class="button" onclick="closeDialog('#addOption')" value="Cancel" />
+									
+								</td>
+							</tr>
+						</table>
+						<a4j:jsFunction name="updateOptionAction" action="#{layoutOptionAction.addOptionData}" reRender="addOptionErrorMsg,createLayoutInputDialogPanelId" limitToList="true" 
+							oncomplete="if(#{layoutOptionAction.optionUpdateValid})
+							{
+								closeDialog('#addOption');
+							} ">
+						</a4j:jsFunction>
+					</h:form>
+					<a4j:form>
+						
+					</a4j:form>
+				</a4j:outputPanel>
+			</div>												 	
+		</div>
+	</ui:define>
+	
+	</ui:composition>

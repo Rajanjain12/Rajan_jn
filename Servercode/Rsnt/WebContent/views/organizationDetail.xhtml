@@ -1,0 +1,682 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:c="http://java.sun.com/jstl/core"
+	template="../layout/accountTemplate.xhtml">
+
+	<ui:define name="head">
+		<script type="text/javascript"> 
+ 			                                           	
+	 		function initializeJCrop(){
+				 $jquery('#cropForm\\:actualImage').Jcrop({
+				     setSelect: [0, 0, 600, 300],
+				     addClass: 'custom',
+				     bgColor: 'white',
+				     bgOpacity: .8,
+				     //aspectRatio: 4/3,
+				     //sideHandles: true
+				     allowResize: true,
+				     allowSelect: false,
+				     onSelect: storeCoords
+				 });
+	
+		 	}
+
+		 
+	
+			function storeCoords(c) {
+	
+				console.log('#X1'+c.x);
+				console.log('#Y1'+c.y); 
+				console.log('#X2'+c.x2);
+				console.log('#Y2'+c.y2); 
+				console.log('#W'+c.w);
+				console.log('#H'+c.h);
+	
+				$jquery('#cropForm\\:cx').val(c.x);
+				$jquery('#cropForm\\:cy').val(c.y);
+				$jquery('#cropForm\\:cx2').val(c.x2);
+				$jquery('#cropForm\\:cy2').val(c.y2);
+				$jquery('#cropForm\\:cw').val(c.w);
+				$jquery('#cropForm\\:ch').val(c.h);
+				$jquery('#cropImageBtn').removeAttr('disabled');
+			}
+
+			function setDefaultCoords(){
+				$jquery('#cropForm\\:cx').val('0');
+				$jquery('#cropForm\\:cy').val('0');
+				$jquery('#cropForm\\:cx2').val('1000');
+				$jquery('#cropForm\\:cy2').val('1000');
+				$jquery('#cropForm\\:cw').val('600');
+				$jquery('#cropForm\\:ch').val('300');
+
+			}
+	
+			function saveImageCropJS(){
+				saveImageCrop($jquery('#cropForm\\:cx').val(),$jquery('#cropForm\\:cy').val(),
+						$jquery('#cropForm\\:cx2').val(),$jquery('#cropForm\\:cy2').val(),$jquery('#cropForm\\:cw').val(),$jquery('#cropForm\\:ch').val());
+	
+			}
+	
+			function openImageCropDialog(){
+				 $jquery("#imageCropDiv").dialog({
+				     autoOpen: true,
+				     height: 400,
+				     width: 1000,
+				     modal: true,
+				     show: "clip", 
+				     hide: "clip",
+				     dialogClass: "noTitleStuff",
+				     position:'top',
+
+				     open: function(event, ui) {
+				    	 setDefaultCoords();
+				     },	
+				     close:function(){
+				    	 rerenderUpload();
+				  	 }
+				 });
+				document.getElementById('imageCropDiv').style.visibility = "visible";
+				$jquery("#imageCropDiv").css("height","100%"); 	// "500px");
+				$jquery("#imageCropDiv").css("width", "100%");	//"1000px");
+			};    
+			                                  	
+			function deleteCheckedAddonImgJS(){
+				var delImages="";
+				$jquery('.image-set input:checkbox').each(function () {
+					if(this.checked){
+						if($jquery(this).attr('name')=='33'){
+							alert('Cannot delete Banner Image');
+							
+						}
+						delImages = delImages + $jquery(this).attr('id') + ",";
+					}
+				});
+				console.log(delImages);
+				if(delImages==""){
+					alert('Please check Images for Deletion')	
+				}	
+				else{
+					deleteCheckedImg(delImages);
+					
+				}
+
+			
+					
+			}	 
+
+			function deleteIndImage(imgId){
+				console.log(imgId);
+				deleteCheckedImg(imgId);
+
+			}    
+			
+		 </script>
+
+
+		<!-- Setup Logo -->
+		<script type="text/javascript"
+			src="#{request.contextPath}/uiframework/html5/js/h5utils.js"></script>
+
+
+		<!-- Seam Remote -->
+		<script type="text/javascript"
+			src="#{request.contextPath}/seam/resource/remoting/resource/remote.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/seam/resource/remoting/interface.js?organizationAction"></script>
+
+
+		<script type="text/javascript"
+			src="../uiframework/jQuery-js/app/organizationDetail.js?jsver=#{appInitializer.appVersion}"></script>
+
+
+		<style type="text/css">
+		</style>
+
+	</ui:define>
+
+	<ui:define name="load">
+
+		<!-- Setup logo -->
+		<script type="text/javascript"> 
+			
+			function loadPage(){
+				if(document.getElementById('organizationForm:imageLogoID').src===null){
+					document.getElementById('organizationForm:imageLogoID').src = "../img/default-logo.jpg";
+				}
+			}
+		</script>
+
+		<body onload="loadPage();">
+
+		</body>
+
+	</ui:define>
+
+	<ui:define name="body">
+		<div class="box round first">
+			<h2>Organization Information</h2>
+			<div id="createOrgDiv">
+				<br />
+				<div class="error-msg" style="display: none" id="richErrMsg">
+					<rich:messages infoClass="rich-messages-label-sucess"
+						errorClass="rich-messages-label-error"
+						id="orgProfileUpdateErrorMsg" globalOnly="true" />
+				</div>
+				<div class="error-msg" style="display: none;" id="customErrMsg">
+					<div class="inner">
+						<p>
+							<span>Error</span><br />
+
+						</p>
+					</div>
+				</div>
+
+
+				<a4j:outputPanel id="createOrgPanel">
+					<a4j:form id="organizationForm" ajaxSingle="true">
+						<br />
+
+						<a4j:outputPanel id="hiddenOrgDataPanel">
+							<h:inputHidden id="orgCuisineDataHidden"
+								value="#{organizationAction.orgCuisineData}" />
+							<h:inputHidden id="orgDishDataHidden"
+								value="#{organizationAction.orgDishData}" />
+							<h:inputHidden id="orgRsntTypeDataHidden"
+								value="#{organizationAction.orgRsntTypeData}" />
+							<h:inputHidden id="orgRsntSeatTypeDataHidden"
+								value="#{organizationAction.orgseatTypeData}" />
+						</a4j:outputPanel>
+
+
+
+						<a4j:outputPanel id="uploadImgPanel">
+							<table id="createOrgTable" class="form">
+								<tr>
+									<td class="col1" style="width: 10%"><label>
+											Company Name: <span class="required">*</span>
+									</label></td>
+									<td><h:inputText id="title" label="title"
+											value="#{organizationAction.organization.organizationName}"
+											style="width:60%">
+										</h:inputText></td>
+								</tr>
+								<tr>
+									<td class="col1" style="width: 10%"><label>
+											Primary Phone:<span class="required">*</span>
+									</label></td>
+									<td style="width: 15%"><h:inputText id="primaryPhone"
+											label="primaryPhone"
+											value="#{organizationAction.primaryPhoneStr}"
+											style="width:60%">
+										</h:inputText></td>
+
+									<td style="width: 10%"><label for="secondaryPhone">Secondary
+											Phone:</label></td>
+
+									<td style="width: 15%"><h:inputText id="secondaryPhone"
+											label="secondaryPhone"
+											value="#{organizationAction.organization.secondaryPhone}"
+											style="width:60%">
+										</h:inputText></td>
+
+									<td class="col1" style="width: 10%"><label> Email:<span
+											class="required">*</span></label></td>
+									<td style="width: 15%"><h:inputText id="orgEmail"
+											label="email"
+											value="#{organizationAction.organization.email}"
+											style="width:60%">
+										</h:inputText></td>
+								</tr>
+								<tr>
+									<td class="col1" style="width: 10%"><label>
+											Address Line 1:<span class="required">*</span>
+									</label></td>
+									<td style="width: 10%"><h:inputText id="addLine1"
+											label="addLine1"
+											value="#{organizationAction.organization.address.addressLineOne}"
+											style="width:60%">
+										</h:inputText></td>
+									<td style="width: 10%"><label>Line 2:</label></td>
+									<td style="width: 10%"><h:inputText id="addLine2"
+											label="addLine2"
+											value="#{organizationAction.organization.address.addressLineTwo}"
+											style="width:60%">
+										</h:inputText></td>
+
+
+									<td class="col1" style="width: 10%"><label> City:<span
+											class="required">*</span></label></td>
+									<td style="width: 10%"><h:inputText id="city" label="city"
+											value="#{organizationAction.organization.address.city}"
+											style="width:60%">
+										</h:inputText></td>
+								</tr>
+								<tr>
+									<td class="col1" style="width: 10%"><label> State:<span
+											class="required">*</span></label></td>
+									<td style="width: 10%"><h:inputText id="state"
+											label="state"
+											value="#{organizationAction.organization.address.state}"
+											style="width:60%">
+										</h:inputText></td>
+
+
+									<td class="col1" style="width: 10%"><label>
+											Country:<span class="required">*</span>
+									</label></td>
+									<td style="width: 10%"><h:inputText id="country"
+											label="country"
+											value="#{organizationAction.organization.address.country}"
+											readonly="true" style="width:60%">
+										</h:inputText></td>
+
+									<td class="col1" style="width: 10%"><label> Zip:<span
+											class="required">*</span></label></td>
+									<td style="width: 10%"><h:inputText id="zip" label="zip"
+											value="#{organizationAction.organization.address.zipCode}"
+											style="width:60%">
+										</h:inputText></td>
+
+								</tr>
+								<tr>
+									<td class="col1" style="width: 10%"><label> Auto
+											Renew: </label></td>
+									<td class="col2"><h:selectBooleanCheckbox
+											value="#{organizationAction.organization.autoRenew}" /></td>
+								</tr>
+								<tr>
+									<td class="col1"><label for="uploadFileName">Choose
+											Upload Image Type:</label></td>
+									<td><rich:fileUpload id="fileNm"
+											fileUploadListener="#{organizationImageUploadHelper.listener}"
+											listWidth="200" listHeight="0"
+											acceptedTypes="jpg, gif, png, bmp"
+											addControlLabel="Choose File."
+											uploadControlLabel="Upload File" ajaxSingle="true">
+											<a4j:support event="onfileuploadcomplete"
+												oncomplete="openImageCropDialog();initializeJCrop();"
+												reRender="imageCropInfoPanel" limitToList="true"
+												ajaxSingle="true" />
+										</rich:fileUpload></td>
+								</tr>
+								<!-- <tr>
+									<td class="col1" style="width: 10%" valign="top"></td>
+									<td class="col2"><s:graphicImage
+											fileName="logoOrganization" id="imageLogoID"
+											style="padding: 15px; border: 4px solid #999; margin: 4px; border-style: solid;"
+											value="#{organizationAction.logoFile}" alt="Logo"
+											width="400px;">
+											<s:transformImageType contentType="image/png" />
+											<a4j:support event="onchange" ajaxSingle="true"
+												bypassUpdates="false" />
+										</s:graphicImage></td>
+								</tr> -->
+							</table>
+						</a4j:outputPanel>
+
+						<br />
+
+						<a4j:outputPanel id="addonImagePanel">
+							<a4j:repeat id="bannerImgSet"
+								value="#{organizationImageUploadHelper.adImageTOList}"
+								var="uploadTO" rowKeyVar="row" size ="1">
+								<a4j:outputPanel>
+									<div class="banner-form" style="margin-left: 195px">
+										<a4j:mediaOutput element="img"
+											mimeType="image/#{uploadTO.mime}"
+											createContent="#{organizationImageUploadHelper.paint}"
+											value="#{row}"
+											style="width:#{organizationImageUploadHelper.previewCw}px; height:#{organizationImageUploadHelper.previewCh}px;"
+											cacheable="false">
+											<f:param value="#{organizationImageUploadHelper.timeStamp}"
+												name="time" />
+										</a4j:mediaOutput>
+										<div class="delete-section">
+											<img src="../img/delete-button.png"
+												onclick="deleteIndImage('#{uploadTO.adImageId}')"
+												alt="Delete" />
+										</div>
+									</div>
+								</a4j:outputPanel>
+							</a4j:repeat>
+						</a4j:outputPanel>
+						<br />
+
+
+						<a4j:outputPanel id="addonOnlyImagePanel">
+							<div class="image-row" style="margin-left: 195px">
+								<div class="image-set">
+									<a4j:repeat id="addonImgSet"
+										value="#{organizationImageUploadHelper.adImageTOList}"
+										var="uploadTO" rowKeyVar="row">
+										<a4j:outputPanel rendered="#{uploadTO.imageTypeId==34}">
+											<div class="example-image-link" style="height: 220px">
+												<a4j:mediaOutput element="img"
+													mimeType="image/#{uploadTO.mime}"
+													createContent="#{organizationImageUploadHelper.paint}"
+													value="#{row}" style="width:187px; height:187px;"
+													cacheable="false">
+													<f:param value="#{organizationImageUploadHelper.timeStamp}"
+														name="time" />
+												</a4j:mediaOutput>
+
+												<input id="#{uploadTO.adImageId}"
+													name="#{uploadTO.imageTypeId}" type="checkbox" />
+											</div>
+
+										</a4j:outputPanel>
+									</a4j:repeat>
+								</div>
+							</div>
+						</a4j:outputPanel>
+						<br />
+
+						<h2>CheckIn Information</h2>
+
+						<a4j:outputPanel id="checkInPanel">
+							<table class="form">
+								<tr>
+									<td width="15%"><a4j:region>
+											<h:selectBooleanCheckbox id="checkInSplFlag"
+												value="#{organizationAction.checkInSpecial}">
+												<a4j:support event="onclick"
+													action="#{organizationAction.renderNote}"
+													reRender="checkInPanel"></a4j:support>
+											</h:selectBooleanCheckbox>
+										</a4j:region> <h:outputLabel value="Check In Special" for="checkInSplFlag" />
+									</td>
+									<td width="20%"><a4j:outputPanel
+											rendered="#{organizationAction.renderNoteFlag}">
+											<label>Check in Special Note</label>
+										</a4j:outputPanel></td>
+									<td><a4j:outputPanel
+											rendered="#{organizationAction.renderNoteFlag}">
+											<h:inputTextarea
+												value="#{organizationAction.checkInSpecialText}"
+												id="checkInSpecialText" />
+										</a4j:outputPanel></td>
+
+								</tr>
+							</table>
+						</a4j:outputPanel>
+
+
+						<br />
+						<h2>Additional Information</h2>
+
+						<br />
+						<table>
+							<tr>
+								<td><label
+									style="font-weight: bold; float: right; margin-right: 23px;">
+										Cuisine Type:</label></td>
+								<td><select id="cuisineTypeSelect" name="cuisineTypeSelect"
+									multiple="multiple">
+										<optgroup label="Chinese">
+											<a4j:repeat id="chineseIter"
+												value="#{organizationAction.cuisineTypeChineseList}"
+												var="cus1">
+												<option value="#{cus1.value}">#{cus1.label}</option>
+											</a4j:repeat>
+										</optgroup>
+										<optgroup label="Asian">
+											<a4j:repeat id="asianIter"
+												value="#{organizationAction.cuisineTypeAsianList}"
+												var="cus2">
+												<option value="#{cus2.value}">#{cus2.label}</option>
+											</a4j:repeat>
+										</optgroup>
+										<optgroup label="European">
+											<a4j:repeat id="eurIter"
+												value="#{organizationAction.cuisineTypeEurList}" var="cus3">
+												<option value="#{cus3.value}">#{cus3.label}</option>
+											</a4j:repeat>
+										</optgroup>
+										<optgroup label="North/South American">
+											<a4j:repeat id="naIter"
+												value="#{organizationAction.cuisineTypeNAList}" var="cus4">
+												<option value="#{cus4.value}">#{cus4.label}</option>
+											</a4j:repeat>
+										</optgroup>
+
+								</select></td>
+
+								<td><label
+									style="font-weight: bold; float: right; margin-right: 23px;">
+										Dish Type:</label></td>
+								<td><select id="dishTypeSelect" name="dishTypeSelect"
+									multiple="multiple">
+										<a4j:repeat id="dishIter"
+											value="#{organizationAction.dishTypeList}" var="dish1">
+											<option value="#{dish1.value}">#{dish1.label}</option>
+										</a4j:repeat>
+								</select></td>
+
+								<td><label
+									style="font-weight: bold; float: right; margin-right: 23px;">
+										Restaurant Type:</label></td>
+								<td><select id="rsntTypeSelect" name="rsntTypeSelect"
+									multiple="multiple">
+										<a4j:repeat id="rsntTypeIter"
+											value="#{organizationAction.rsntTypeList}" var="rsntType">
+											<option value="#{rsntType.value}">#{rsntType.label}</option>
+										</a4j:repeat>
+								</select></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+							</tr>
+						</table>
+						<br />
+						<h2>Account Settings</h2>
+
+						<br />
+						<table class="form">
+							<tr>
+								<td class="col1" style="width: 25%"><label
+									style="font-weight: bold; float: left; margin-right: 23px;">
+										Seating Preferences:</label></td>
+
+								<!-- <td class="col1" style="width:10%"><label> Company Name: <span class="required">*</span></label></td> -->
+
+								<!-- <td class="col1" style="width:10%"><label> Address Line 1:<span class="required">*</span></label></td> -->
+
+								<td class="col1" style="width: 25%"><select
+									id="seatingTypeSelect" name="seatingTypeSelect"
+									multiple="multiple">
+										<a4j:repeat id="seatingIter"
+											value="#{organizationAction.seatingTypeList}" var="seat">
+											<option value="#{seat.value}">#{seat.label}</option>
+										</a4j:repeat>
+
+								</select></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td class="col1" style="width: 25%"><label
+									style="font-weight: bold; float: left; margin-right: 23px;">
+										Wait-List Back-Up Email:</label></td>
+								<td class="col1" style="width: 25%"><h:inputText
+										id="backupEmail" label="email"
+										value="#{organizationAction.organization.waitListBackupEmail}"
+										style="width:60%">
+									</h:inputText></td>
+								<td></td>
+								<td></td>
+							</tr>
+						</table>
+
+						<!-- <table>
+							<tr>
+								<td><label style="font-weight: bold;float: right;margin-right: 23px;"> Wait-List Back-Up Email:</label></td>
+								<td style="width:15%">
+									<h:inputText id="backupEmail" label="email" value="#{organizationAction.organization.waitListBackupEmail}" style="width:60%">
+									</h:inputText>
+								</td>
+							</tr>
+							<tr>
+							<td></td><td></td>
+							</tr>
+							</table> -->
+						<table class="form" style="width: 30%">
+							<tr>
+								<td><br></br> <a4j:outputPanel
+										rendered="#{s:hasPermission('','Update Organization')}">
+										<input type="button" name="Update" class="button" value="Save"
+											onclick="updateOrganizationProfileJS();" />
+									</a4j:outputPanel> <a4j:jsFunction name="updateOrganizationProfile"
+										action="#{organizationAction.updateOrganizationProfile}"
+										oncomplete="getTargetDivAndShowMsg('#richErrMsg')"
+										status="showLoadingStatus" reRender="orgProfileUpdateErrorMsg"
+										limitToList="true"></a4j:jsFunction></td>
+							</tr>
+						</table>
+
+
+
+
+					</a4j:form>
+				</a4j:outputPanel>
+			</div>
+			<a4j:form>
+				<a4j:jsFunction name="updateOrgCuisineData"
+					action="#{organizationAction.updateOrgAddData}"
+					reRender="hiddenOrgDataPanel">
+					<a4j:actionparam name="param1"
+						assignTo="#{organizationAction.orgCuisineData}" />
+				</a4j:jsFunction>
+				<a4j:jsFunction name="updateOrgDishData"
+					action="#{organizationAction.updateOrgAddData}"
+					reRender="hiddenOrgDataPanel">
+					<a4j:actionparam name="param1"
+						assignTo="#{organizationAction.orgDishData}" />
+				</a4j:jsFunction>
+				<a4j:jsFunction name="updateOrgRsntSeatData"
+					action="#{organizationAction.updateOrgAddData}"
+					reRender="hiddenOrgDataPanel">
+					<a4j:actionparam name="param1"
+						assignTo="#{organizationAction.orgseatTypeData}" />
+				</a4j:jsFunction>
+				<a4j:jsFunction name="deleteCheckedImg"
+					action="#{organizationAction.deleteAddonImages}"
+					status="showLoadingStatus"
+					reRender="addonImagePanel,addonOnlyImagePanel,addonHdrPanel,tableData, uploadImgPanel,editAdErrorMsg"
+					limitToList="true" oncomplete="showRichErrMsg('#richErrMsg')">
+					<a4j:actionparam name="param1"
+						assignTo="#{organizationAction.selectedDelAdImgId}" />
+				</a4j:jsFunction>
+			</a4j:form>
+
+			<div id="imageCropDiv" class="lbOuterContainer grey"
+				style="border-radius: 8px; padding-bottom: 10px; padding-top: 14px; border: 2px solid #E3862C; background-color: #42030C; margin: 0 auto; position: relative; color: #C2C2C2; visibility: hidden">
+
+				<div id="lbIframeContainer" class="light-box" style="padding: 10px">
+					<h2
+						style="margin-top: 1em; line-height: 1.2em; margin-bottom: 0.3em; text-align: center;">Crop
+						your selection</h2>
+					<a4j:outputPanel id="imageCropInfoPanel">
+						<a4j:form id="cropForm" ajaxSingle="true">
+							<h:inputHidden value="" id="cx" />
+							<h:inputHidden value="" id="cy" />
+							<h:inputHidden value="" id="cx2" />
+							<h:inputHidden value="" id="cy2" />
+							<h:inputHidden value="" id="cw" />
+							<h:inputHidden value="" id="ch" />
+
+							<h3>
+								<span
+									style="font-family: Tahoma, ​Geneva, ​sans-serif; font-size: 12.8667px; color: #000000; line-height: 1.2em; text-align: left">Please
+									make your selection by dragging the rectangle:</span>
+							</h3>
+							<table class="form">
+								<tr class="buttonsRow">
+									<td colspan="11"><input type="button" class="button"
+										id="cropImageBtn" onclick="saveImageCropJS();"
+										value="Crop Image" name="Crop Image" disabled="disabled" /> <input
+										type="button" class="button" id="cropImageCancelBtn"
+										onclick="cancelImageCrop();" value="Cancel" name="Cancel" /></td>
+								</tr>
+							</table>
+							<rich:panel>
+								<h:panelGrid columns="2">
+									<a4j:mediaOutput id="actualImage" element="img"
+										mimeType="image/#{organizationImageUploadHelper.mime}"
+										createContent="#{organizationImageUploadHelper.paintCurrent}"
+										value="1" cacheable="false" session="true">
+										<f:param value="#{organizationImageUploadHelper.timeStamp}"
+											name="time" />
+									</a4j:mediaOutput>
+
+								</h:panelGrid>
+							</rich:panel>
+
+
+
+
+							<a4j:jsFunction name="updateStartTime"
+								action="#{organizationAction.dummyMethod}">
+								<a4j:actionparam name="param1"
+									assignTo="#{organizationAction.startTime}" />
+							</a4j:jsFunction>
+							<a4j:jsFunction name="updateEndTime"
+								action="#{organizationAction.dummyMethod}">
+								<a4j:actionparam name="param1"
+									assignTo="#{organizationAction.endTime}" />
+							</a4j:jsFunction>
+							<a4j:jsFunction name="updateStartDate"
+								action="#{organizationAction.dummyMethod}">
+								<a4j:actionparam name="param1"
+									assignTo="#{organizationAction.startDate}" />
+							</a4j:jsFunction>
+							<a4j:jsFunction name="updateEndDate"
+								action="#{organizationAction.dummyMethod}">
+								<a4j:actionparam name="param1"
+									assignTo="#{organizationAction.endDate}" />
+							</a4j:jsFunction>
+							<a4j:jsFunction name="saveImageCrop"
+								action="#{organizationImageUploadHelper.resizeImage}"
+								oncomplete="closeDialog('#imageCropDiv');"
+								status="showLoadingStatus"
+								reRender="addonImagePanel,addonOnlyImagePanel,addonHdrPanel,tableData, uploadImgPanel"
+								limitToList="true" ajaxSingle="true">
+								<a4j:actionparam name="param1"
+									assignTo="#{organizationImageUploadHelper.cx}" />
+								<a4j:actionparam name="param2"
+									assignTo="#{organizationImageUploadHelper.cy}" />
+								<a4j:actionparam name="param3"
+									assignTo="#{organizationImageUploadHelper.cx2}" />
+								<a4j:actionparam name="param4"
+									assignTo="#{organizationImageUploadHelper.cy2}" />
+								<a4j:actionparam name="param5"
+									assignTo="#{organizationImageUploadHelper.cw}" />
+								<a4j:actionparam name="param6"
+									assignTo="#{organizationImageUploadHelper.ch}" />
+							</a4j:jsFunction>
+							<a4j:jsFunction name="cancelImageCrop"
+								oncomplete="closeDialog('#imageCropDiv');"
+								status="showLoadingStatus"
+								reRender="addonImagePanel,addonOnlyImagePanel,addonHdrPanel,tableData, uploadImgPanel"
+								limitToList="true" ajaxSingle="true">
+							</a4j:jsFunction>
+							<a4j:jsFunction name="rerenderUpload" reRender="uploadImgPanel">
+							</a4j:jsFunction>
+
+						</a4j:form>
+					</a4j:outputPanel>
+				</div>
+			</div>
+
+		</div>
+
+
+	</ui:define>
+
+</ui:composition>

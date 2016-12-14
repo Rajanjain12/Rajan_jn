@@ -1,0 +1,18 @@
+#Wed Feb 18 19:12:41 PST 2015
+action.package=org.domain.rsntejb.session
+action.sources=/Rsnt-ejb/ejbModule
+eclipse.preferences.version=1
+model.package=org.domain.rsntejb.entity
+model.sources=/Rsnt-ejb/ejbModule
+seam.ear.project=Rsnt-ejb
+seam.ejb.project=Rsnt-ejb
+seam.parent.project=Rsnt
+seam.project.connection.profile=DefaultDS
+seam.project.deployment.type=ear
+seam.project.settings.version=1.1
+seam.project.web.root.folder=/Rsnt-ejb/ejbModule
+seam.runtime.name=Seam 2.2.EAP5
+seam.test.creating=false
+seam.test.project=Rsnt-ejb
+test.package=org.domain.rsntejb.test
+test.sources=/Rsnt-ejb/ejbModule

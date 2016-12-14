@@ -1,0 +1,67 @@
+{
+  "levels": [
+    {
+      "id": "9",
+      "title": "nn",
+      "locations": [
+        {
+          "id": "90",
+          "title": "Table  1",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Table  1",
+          "link": "",
+          "about": "Table  1",
+          "y": 0.12195,
+          "x": 0.35810000000000003
+        },
+        {
+          "id": "91",
+          "title": "Table  2",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Table  2",
+          "link": "",
+          "about": "Table  2",
+          "y": 0.09165,
+          "x": 0.021299999999999996
+        },
+        {
+          "id": "92",
+          "title": "Table  3",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Table  3",
+          "link": "",
+          "about": "Table  3",
+          "y": 0.054400000000000004,
+          "x": 0.38305
+        },
+        {
+          "id": "93",
+          "title": "Table  4",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Table  4",
+          "link": "",
+          "about": "Table  4",
+          "y": 0.0997,
+          "x": 0.20025
+        }
+      ],
+      "name": "nn",
+      "map": "",
+      "minimap": ""
+    }
+  ],
+  "categories": [
+    {
+      "id": "TableMarkets",
+      "title": "TableMarkets",
+      "color": "#4cd3b8",
+      "show": "true"
+    }
+  ],
+  "mapheight": "2000",
+  "mapwidth": "2000"
+}

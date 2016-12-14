@@ -1,0 +1,62 @@
+.error{float:right; color:red; font-size:12px;}
+.fancy-form{width:400px; height:200px; border:1px solid #000; margin:0 auto;}
+.fancy-form form{display:block;}
+.fancy-form form div.sec2{clear:both; margin-top:10px; float:left;}
+.fancy-form form div.sec3{clear:both; margin-top:10px; float:left;}
+.fancy-form form label{display:block; font-family:tahoma; font-size:14px; color:#990000; padding:10px; float:left; width:135px;}
+.textfield{border: 1px solid #ccc; border-radius: 6px; box-shadow: 4px 2px 5px 1px #ccc; color: #8d8c8c; font-family: tahoma; font-size: 13px; height: 26px; margin: 6px 10px 0 0; width: 229px; float:right;}
+.forget{/*font-family:tahoma; font-size:12px; color:#F60; text-decoration:none; margin-left:156px;*/color: #f60;
+    float: left;
+    font-family: tahoma;
+    font-size: 12px;
+    margin-left: 10px;
+    margin-top: 5px;
+    text-decoration: none;}
+.loginerror{font-family:tahoma; font-size:12px; color:#F60; text-decoration:none; margin-left:156px;}
+
+.submit-button2{background:no-repeat scroll 0 0 rgba(0, 0, 0, 0); border: medium none; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; -moz-box-shadow: 2px 2px 5px 2px #dfc1c1; -webkit-box-shadow: 2px 2px 5px 2px #dfc1c1; color: #fff; cursor: pointer; font-family: tahoma; font-size: 16px; font-weight: bold; height: 35px; line-height: 18px; margin-left: 156px; width: 89px; float:left;}
+.submit-button3{background: none repeat scroll 0 0 #990000; border: medium none; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; box-shadow: 2px 2px 5px 2px #dfc1c1; -moz-box-shadow: 2px 2px 5px 2px #dfc1c1; -webkit-box-shadow: 2px 2px 5px 2px #dfc1c1; color: #fff; cursor: pointer; font-family: tahoma; font-size: 16px; font-weight: bold; height: 35px; line-height: 18px; margin-left: 15px; width: 89px; float:left;}
+.login-sec{ clear: both; float:right; height: 25px; width: 100% !important;margin-top: 1px}
+.text-field{width:180px; height:30px; border:none; padding:0px 5px; font-family:Arial; font-size:12px; line-height:14px; color:#5A0100; margin-left:10px; float: left;}
+.login{background:url(../../img/login-bg.png) no-repeat 0px 0px; width:71px; height:30px; color:#fff; font-family: 'myriad_probold_condensed'; font-size:18px;color:#fff; text-transform:uppercase; font-weight:normal; float: left; margin-left:10px; cursor:pointer;}
+
+
+/*--- New-Responsive ---*/
+
+@media only screen and (min-width: 980px) and (max-width: 1199px) {
+.wrapper {
+	max-width: 980px;
+}
+}
+
+@media only screen and (min-width: 768px) and (max-width: 979px) {
+.wrapper {
+	max-width: 738px;
+}
+.forget{ float:none; margin-top:6px; margin-left:0;}
+}
+
+@media only screen and (min-width: 640px) and (max-width: 767px) {
+.wrapper {
+	max-width: 610px;
+}
+
+
+}
+@media only screen and (min-width: 480px) and (max-width: 639px) {
+.wrapper {
+	max-width: 450px;
+}
+}
+@media only screen and (min-width:360px) and (max-width:380px) {
+}
+
+@media only screen and (max-width : 479px) {
+.wrapper {
+	max-width: 90%;
+}
+.text-field{ width:235px; margin-bottom:10px;}
+
+.login{ width:56px; font-size:13px;}
+
+}

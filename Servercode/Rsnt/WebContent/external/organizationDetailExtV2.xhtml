@@ -1,0 +1,673 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.org/rich"
+	 template="../layout/externalTemplate.xhtml">
+	 
+	 <ui:define name="head">
+	 	<script type="text/javascript" src="../uiframework/jQuery-js/app/organizationDetail.js?jsver=#{appInitializer.appVersion}"></script>
+	 	
+		
+		<script type="text/javascript"> //<![CDATA[
+			var gCurrentIndex = 0; 
+			var ACCORDION_PANEL_COUNT = 2;
+			var wizard;
+		
+			$jquery(document).ready(function(){
+
+				wizard = $jquery("#accordion").accordion({
+				       event: false,
+				       active: 0,
+				       autoheight: true,
+				       animated: "bounceslide",
+				       icons: { 'header': 'ui-icon-plus', 'headerSelected': 'ui-icon-minus' },
+				       change: function (event, ui) { gCurrentIndex = $jquery(this).find("h3").index(ui.newHeader[0]); }
+				       
+					});
+				
+
+				addSafeDataValidation();
+				$jquery("#organizationForm\\:userName").val($jquery("#organizationForm\\:orgEmail").val());
+				$jquery("#organizationForm\\:userName").val($jquery("#organizationForm\\:waitlistEmail").val());
+				setPaymentDivHeight();
+
+			});
+
+			function changeAccdn(navVar, cnt){
+				
+				var index = 0;
+				if(!cnt) cnt= 1;
+				
+				for(var i=1; i<=cnt; i++){
+					if(navVar=='next'){
+						 index = gCurrentIndex + 1+index;
+				       if (index > ACCORDION_PANEL_COUNT ) {
+				               index = ACCORDION_PANEL_COUNT;
+				       }
+					}
+					else {
+				      index = gCurrentIndex - 1-index;
+				      if (index < 0) {
+				             index = 0;
+				 		}
+				 }
+				}
+				
+			  wizard.accordion("activate", index);
+			}
+
+			function setPaymentDivHeight(){
+				$jquery("#paymentDiv").css("height", "300px");
+
+			}
+
+			function setInActiveStepCss(stepNoCnt){
+				$jquery('#step1Ref').removeClass();
+				$jquery('#step2Ref').removeClass();
+				$jquery('#step3Ref').removeClass();
+
+				$jquery('#step'+stepNoCnt+'Ref').addClass('active');
+
+				for(var i=stepNoCnt-1;i>=1;i--){
+					$jquery('#step'+i+'Ref').addClass('less-active');
+
+				}
+				
+			}
+
+			function resetData(){
+				$jquery('#organizationForm\\:title').val('');
+				$jquery('#organizationForm\\:primaryPhone').val('');
+				$jquery('#organizationForm\\:orgEmail').val('');
+				$jquery('#organizationForm\\:waitlistEmail').val('');
+				$jquery('#organizationForm\\:addLine1').val('');
+				$jquery('#organizationForm\\:city').val('');
+				$jquery('#organizationForm\\:state').val('');
+				$jquery('#organizationForm\\:zip').val('');
+				$jquery('#organizationForm\\:email').val('');
+				$jquery('#organizationForm\\:password').val('');
+				$jquery('#organizationForm\\:confirmPassword').val('');
+				$jquery('#organizationForm\\:firstName').val('');
+				$jquery('#organizationForm\\:lastName').val('');
+				$jquery('#organizationForm\\:selectedPlanId').val("0");
+				$jquery('#organizationForm\\:unit').val("0");
+				$jquery('#organizationForm\\:unitsCount').val("");
+				$jquery('#organizationForm\\:cost').text("");
+				$jquery('#organizationForm\\:totalCost').text("");
+				
+
+			}
+
+		 //]]>  </script>
+		 
+	 </ui:define>
+	 <ui:define name="body">
+	 	<div class="box round first">	
+ 			<h2>Restaurant Sign Up</h2>
+ 			<div class="sign-up">
+	       		<ul>
+	           		<li class="step1"><a id="step1Ref" class="active" href=""></a></li>
+	               	<li class="step2"><a id="step2Ref" href=""></a></li>
+	               	<li class="step3"><a id="step3Ref" href=""></a></li>
+	           </ul>   
+	       	</div>
+ 		</div>
+	 	<div class="error-msg"  style="display: none" id="richErrMsg">
+     			<rich:messages infoClass="rich-messages-label-sucess" errorClass="rich-messages-label-error" id="addUserErrorMsg" globalOnly="true"/>
+        </div>
+	 	<div class="error-msg"  style="display: none; margin-top: 200px" id="customErrMsg">
+           	<div class="inner">
+               	<p><span>Error</span><br />
+               		
+               	</p>
+               </div>
+        </div>
+        <br/>
+	 	<div class="box round first">	
+			<div id="accordion">
+					
+					<h3>Restaurant Details</h3>
+					<div>
+						
+		           		<a4j:outputPanel id="createOrgPanel">
+					    	<h:form id="organizationForm">
+					   			 <h:inputHidden id="freePlanIdHidden" value="#{organizationAction.freePlanId}" />
+							
+									<table class="form">
+										<tr>
+											<td class="col1"><label for="title"> Company Name: <span class="required">*</span></label></td>
+		           							<td class="col2">
+		           								<h:inputText id="title" label="title" value="#{organizationAction.organization.organizationName}" styleClass="medium">
+												</h:inputText>
+		           							</td>
+										</tr>
+					
+										<tr>
+											<td class="col1"><label for="primaryPhone"> Primary Phone: <span class="required">*</span></label></td>
+		            						<td class="col2">
+		            							<h:inputText id="primaryPhone" label="primaryPhone" value="#{organizationAction.primaryPhoneStr}"  styleClass="medium">
+												</h:inputText>
+		            						</td>
+		            
+										</tr>
+										
+										<tr>	
+								  			<td class="col1"><label for="secondaryPhone"> Secondary Phone:</label></td>
+		           							<td class="col2">
+		           								<h:inputText id="secondaryPhone" label="secondaryPhone" value="#{organizationAction.organization.secondaryPhone}"  styleClass="medium">
+												</h:inputText>
+		           							</td>
+											
+										</tr>
+		
+										<tr>	
+											<td class="col1"><label for="orgEmail"> Email: <span class="required">*</span></label></td>
+		            						<td class="col2">
+		            							<h:inputText id="orgEmail" label="email" value="#{organizationAction.organization.email}" styleClass="medium">
+												</h:inputText>
+											</td>
+										</tr>
+										
+										<tr>	
+											<td class="col1"><label for="waitlistEmail"> Waitlist Backup Email: <span class="required">*</span></label></td>
+		            						<td class="col2">
+		            							<h:inputText id="waitlistEmail" label="email" value="#{organizationAction.organization.waitListBackupEmail}" styleClass="medium">
+												</h:inputText>
+											</td>
+										</tr>
+										
+		
+										<tr>
+											 <td class="col1"><label for="addLine1">Address Line 1:<span class="required">*</span></label></td>
+											
+											<td class="col2">
+												<h:inputText id="addLine1" label="addLine1" value="#{organizationAction.organization.address.addressLineOne}" styleClass="medium" >
+												</h:inputText>
+											</td>
+											
+										</tr>
+										
+										<tr>
+											<td valign="top"><label for="addLine1">Line 2:</label></td>
+											<td>
+												<h:inputText id="addLine2" label="addLine2" value="#{organizationAction.organization.address.addressLineTwo}" styleClass="medium" style="margin-right: 32px;">
+												</h:inputText>
+											</td>
+										</tr>
+										
+										<tr>	
+											<td class="col1"><label for="city">City: <span class="required">*</span></label></td>
+		           							<td class="col2">
+		           								<h:inputText id="city" label="city" value="#{organizationAction.organization.address.city}" styleClass="medium">
+												</h:inputText>
+		           							</td>
+										</tr>
+										
+										<tr>
+											<td class="col1"><label for="state">State: <span class="required">*</span></label></td>
+		            						<td class="col2">
+		           								<h:inputText id="state" label="state" value="#{organizationAction.organization.address.state}" styleClass="medium">
+												</h:inputText>
+		            						</td>
+										</tr>
+										<tr>            
+									  		 <td class="col1"><label  for="country">Country: <span class="required">*</span></label></td>
+		           							 <td class="col2">
+		           							 	<h:inputText id="country" label="country" value="#{organizationAction.organization.address.country}" readonly="true" styleClass="medium">
+												</h:inputText>
+		           							 </td>
+										</tr>
+										
+										<tr>	
+											<td class="col1"><label for="zip">Zip: <span class="required">*</span></label></td>
+		           							<td class="col2">
+		           								<h:inputText id="zip" label="zip" value="#{organizationAction.organization.address.zipCode}" styleClass="medium">
+												</h:inputText>
+		           							</td>
+										</tr>
+										
+									</table>
+									<table class="form">
+										
+									 	<tr><td colspan="2"><h2>Plan Selection</h2></td></tr>
+										  
+									  	<tr>
+										   <td class="col1"><label for="selectedPlanId">Plan Name: <span class="required">*</span></label></td>
+											
+											<td class="col2">
+												<h:selectOneMenu value="#{organizationAction.selectedPlanId}" id="selectedPlanId" >
+													<f:selectItems value="#{organizationAction.planList}"/>
+													<a4j:support event="onchange" action="#{organizationAction.onPlanChange}" reRender="unit,cost,unitsCount,totalCost" limitToList="true"
+														oncomplete="setUnitsForFreePlan();">
+													</a4j:support>
+												</h:selectOneMenu>
+												
+											</td>
+										</tr>
+										<tr>
+										  	<td class="col1"><label for="unitsCount">Subscription Duration<span class="required">*</span></label></td>
+											<!--  added by jaimin patel class="medium" -->
+											<td class="col2">
+												<h:inputText id="unitsCount" styleClass="medium" label="unitsCount" value="#{organizationAction.unitsCount}">
+													<a4j:support event="onchange" action="#{organizationAction.onPlanPriceChange}" reRender="totalCost" limitToList="true">
+													</a4j:support>										
+												</h:inputText>
+											</td>
+											<!-- ended by jaimin patel -->
+										</tr>
+										<tr>	
+											<td class="col1"><label for="unit">Subscription Type<span class="required">*</span></label></td>
+											<td class="col2">
+												<h:selectOneMenu id="unit" value="#{organizationAction.selectedPlanPriceId}" >
+													<f:selectItems value="#{organizationAction.planPriceList}"/>
+													<a4j:support event="onchange" action="#{organizationAction.onPlanPriceChange}" reRender="cost,totalCost" limitToList="true">
+													</a4j:support>
+												</h:selectOneMenu>
+											</td>
+										</tr>
+										<tr>
+											<td class="col1"><label>Cost Per Unit</label></td>
+											<td class="col2">
+												<h:outputText id="cost" label="cost" value="#{organizationAction.selectedPlanCost}">
+												</h:outputText>
+											</td>
+										</tr>
+										<tr>
+											<td class="col1"><label>Total Cost</label></td>
+											<td class="col2">
+												<h:outputText id="totalCost" label="totalCost" value="#{organizationAction.totalUnitsCost}">
+												</h:outputText>
+											</td>
+										</tr>
+										<tr>
+											<td class="col1"><label> Auto Renew: </label></td>
+											<td class="col2">
+												<h:selectBooleanCheckbox value="#{organizationAction.organization.autoRenew}"/>
+											</td>
+										</tr>
+										
+									</table>
+									
+									<table class="form">
+										 <tr><td colspan="2"><h2>User Details</h2></td></tr>
+										 
+										 <tr>
+											<td class="col1"><label for="email"> Email: <span class="required">*</span></label></td>
+											 <td class="col2">
+											 	<h:inputText id="email" name="email"  value="#{organizationAction.user.email}" styleClass="medium"/>
+										 	</td>
+										</tr>
+										<tr>	
+											<td class="col1"><label for="userName"> User Name: <span class="required">*</span></label></td>
+		           							<td class="col2">
+		           								<h:inputText id="userName" name="userName" readonly="true" styleClass="medium"/>
+		           							</td>
+										</tr>
+										<tr>
+											<td class="col1"><label for="password"> Password: <span class="required">*</span></label></td>
+		           							<td class="col2">
+		           								<h:inputSecret id="password" name="password" value="#{organizationAction.password}" styleClass="medium" />
+		           							</td>
+											
+										</tr>
+										<tr>
+											<td class="col1"><label for="confirmPassword"> Confirm Password: <span class="required">*</span></label></td>
+		           							<td class="col2">
+		           								<h:inputSecret id="confirmPassword" name="confirmPassword" value=""  styleClass="medium"/>
+		          							</td>
+										</tr>
+		
+										<tr>
+											<td class="col1"><label> First Name: <span class="required">*</span></label></td>
+		            						<td class="col2">
+		            							<h:inputText id="firstName" name="firstName"  value="#{organizationAction.user.firstName}" styleClass="medium" />
+		           							</td>
+										</tr>
+										
+										<tr>
+											<td class="col1"><label> Last Name: <span class="required">*</span></label></td>
+		           							<td class="col2">
+		           								<h:inputText id="lastName" name="lastName" value="#{organizationAction.user.lastName}" styleClass="medium" />
+		          							</td>
+										</tr>
+										<tr>
+						              		<td></td>
+						                	<td><input name="" type="checkbox" value="" />  By signing up, I agree to the <a href="/privacy-terms/" target="new"><span>terms of service</span></a>. </td>
+						                </tr>
+										  
+									</table>
+								
+								<table class="form">
+								<tr>
+									<td>
+										<input type="button" name="Reset" class="button" value="Reset" onclick="resetData();"/>
+						             	<input type="button" name="Next" class="button" value="Next" onclick="addOrganizationStep1();"/>
+						             	<a4j:jsFunction name="createOrganizationStep1Action" action="#{organizationAction.selectNextPage}" 
+						             		reRender="addUserErrorMsg, payPanel" limitToList="true" status="showLoadingStatus"
+						             		oncomplete="getTargetDivAndShowMsg('#richErrMsg');if(#{organizationAction.step1Complete}){
+												changeAccdn('next');
+												setInActiveStepCss('2');
+												addSafePaymentDataValidation();
+												hideErrMsgDivs();
+											} ">
+						             	</a4j:jsFunction>
+						             		
+									</td>
+								</tr>
+							</table>
+						</h:form>	
+					</a4j:outputPanel>
+					
+	           </div>
+	           
+	           	<h3>Payment Details</h3>
+			   	<div id="paymentDiv">
+					<a4j:outputPanel id="payPanel">
+						<a4j:outputPanel rendered="#{organizationAction.totalUnitsCost > 0}">
+					   		<h:form id="paymentDetailForm">
+								<br/>
+								<table class="form">
+										<tr>
+											<td class="col1"><label> Payment Type: <span class="required">*</span></label></td>
+											<td class="col2">
+												<h:selectOneMenu value="#{organizationAction.selectedCardProcessorId}">
+													<f:selectItems value="#{organizationAction.cardProcessorList}"/>
+													<a4j:support event="onchange" action="#{organizationAction.setCardProcessorValue}" limitToList="true">
+													</a4j:support>
+												</h:selectOneMenu>
+											</td>
+										</tr>
+										<tr>
+											<td class="col1"><label for="ccNo"> Credit Card Number: <span class="required">*</span></label></td>
+											
+											<td class="col2">
+												<h:inputText id="ccNo" label="ccNo" value="#{organizationAction.cardNumber}" >
+												</h:inputText>
+											</td>
+										</tr>
+											
+									  	<tr>
+											<td class="col1"><label for="expDate"> Expiry Date: <span class="required">*</span></label></td>
+											<td  class="col2">
+												<h:inputText id="expDate" label="expDate" value="#{organizationAction.expiryDate}">
+												</h:inputText>
+											</td>
+											
+										</tr>
+										<tr>
+											<td class="col1"><label for="cvv"> CVV: <span class="required">*</span></label></td>
+											<td class="col2">
+												<h:inputText id="cvv" label="cvv" value="#{organizationAction.cvv}" >
+												</h:inputText>
+											</td>
+										</tr>
+				          
+									</table>
+									<table class="form">
+										<tr class="buttonsRow">
+								        	<td colspan="11">
+								        		<input type="button" class="button" value="Previous" onclick="createOrganizationStep2ActionFail();"/>
+								        		<input type="button" class="button" value="Proceed to Summary" onclick="addOrganizationStep2();"/>
+								        	
+								          	</td>
+				          				</tr>
+									</table>
+									
+									
+									<a4j:jsFunction name="setExpDateJS" action="#{organizationAction.dummyMethod}">
+										<a4j:actionparam name="param1" assignTo="#{organizationAction.expiryDate}"/>
+									</a4j:jsFunction>
+									<a4j:jsFunction name="createOrganizationStep2ActionScs"  status="showLoadingStatus" reRender="confirmPanel" oncomplete="changeAccdn('next'); setInActiveStepCss('3');">
+									</a4j:jsFunction>
+									<a4j:jsFunction name="createOrganizationStep2ActionFail"  status="showLoadingStatus" reRender="confirmPanel" oncomplete="changeAccdn('prev');setInActiveStepCss('1'); ">
+									</a4j:jsFunction>
+									
+									
+							</h:form>
+					   	</a4j:outputPanel>
+					   	
+					   	
+					   	<a4j:outputPanel rendered="#{organizationAction.totalUnitsCost == 0}">
+							<table class="form">
+								<tr>
+									<td>
+										<h:outputText value="*No payment required at this time" style="font-size:15px;width: 100%" >
+										</h:outputText>
+									</td>
+								</tr>
+							</table>
+							<table class="form">
+								<tr class="buttonsRow">
+						        	<td colspan="11">
+						        		<input type="button" class="button" value="Previous" onclick="changeAccdn('prev');setInActiveStepCss('1');"/>
+						        		<input type="button" class="button" value="Proceed to Summary" onclick="createOrganizationStep2ActionFree();"/>
+						        	
+						          	</td>
+		          				</tr>
+							</table>
+							<a4j:form>
+								<a4j:jsFunction name="createOrganizationStep2ActionFree"  status="showLoadingStatus" reRender="confirmPanel" oncomplete="changeAccdn('next');setInActiveStepCss('3');">
+								</a4j:jsFunction>
+							</a4j:form>
+							
+						</a4j:outputPanel>
+						
+					</a4j:outputPanel>
+			   </div>
+			   
+				<h3>Confirmation Detail</h3>
+				<div>
+					<a4j:outputPanel id="confirmPanel">
+	 					<h:form>
+				  					<table class="form">
+			  						   <tr><td colspan="2"><h2>Organization Details</h2></td></tr>
+										<tr>
+											<td  class="col1"><label>Restaurant Name:</label></td>
+											<td  class="col2">
+												<h:outputText id="title" label="title" value="#{organizationAction.organization.organizationName}"  >
+												</h:outputText>
+											</td>
+										</tr>
+										<tr>
+											<td  class="col1"><label>Primary Phone # </label></td>
+											
+											<td  class="col2">
+												<h:outputText id="primaryPhone" label="primaryPhone" value="#{organizationAction.primaryPhoneStr}" >
+												</h:outputText>
+											</td>
+										</tr>
+										<tr>	
+											<td  class="col1"><label>Secondary Phone#</label></td>
+											<td  class="col2">
+												<h:outputText id="secondaryPhone" label="secondaryPhone" value="#{organizationAction.organization.secondaryPhone}">
+												</h:outputText>
+											</td>
+										</tr>
+										<tr>
+											<td class="col1"><label>Email</label></td>
+											<td  class="col2">
+												<h:outputText id="orgEmail" label="email" value="#{organizationAction.organization.email}">
+												</h:outputText>
+											</td>
+										</tr>
+										<tr>
+											<td  class="col1"><label>Address: Line 1</label></td>
+											<td  class="col2">
+												<h:outputText id="addLine1" label="addLine1" value="#{organizationAction.organization.address.addressLineOne}" >
+												</h:outputText>
+											</td>
+										</tr>
+										<tr>
+											<td  class="col1" style="padding-right: 10px"><label>Line 2</label></td>
+											<td  class="col2">
+												<h:outputText id="addLine2" label="addLine2" value="#{organizationAction.organization.address.addressLineTwo}">
+												</h:outputText>
+											</td>
+										</tr>
+										<tr>
+											<td  class="col1"><label>City</label></td>
+											<td  class="col2">
+												<h:outputText id="city" label="city" value="#{organizationAction.organization.address.city}">
+												</h:outputText>
+											
+											</td>
+										</tr>
+										<tr>
+											<td  class="col1"><label>State</label></td>
+											
+											<td  class="col2">
+												<h:outputText id="state" label="state" value="#{organizationAction.organization.address.state}" >
+												</h:outputText>
+											</td>
+										</tr>
+										<tr>	
+											<td  class="col1"><label>Zip</label></td>
+											<td  class="col2">
+												<h:outputText id="zip" label="zip" value="#{organizationAction.organization.address.zipCode}">
+												</h:outputText>
+											</td>
+											
+										</tr>
+										<tr>	
+											<td  class="col1"><label>Country</label></td>
+											<td  class="col2">
+												<h:outputText id="country" label="country" value="#{organizationAction.organization.address.country}">
+												</h:outputText>
+											</td>
+										</tr>
+										<tr>
+											<td  class="col1"><label>Selected Plan</label></td>
+											<td  class="col2">
+												<h:outputText id="plan" label="plan" value="#{organizationAction.selectedPlan.planName}">
+												</h:outputText>
+											</td>
+										</tr>
+								</table>
+						
+								<table>
+										<tr>
+								        	<td colspan="2">
+								        		<input type="button" class="button" value="Update" onclick="changeAccdn('prev','2');setInActiveStepCss('1');"/>
+								          	</td>
+				          				</tr>
+								</table>
+								
+							
+								<table class="form">
+								   <tr><td colspan="2"><h2>User Details</h2></td></tr>
+									<tr>
+										<td  class="col1"><label>User Name:</label></td>
+										<td class="col2">
+											<h:outputText id="userName" name="userName" value="#{organizationAction.user.userName}" />
+										</td>
+									</tr>
+									<tr>	
+										<td class="col1">
+											<label class="control-label" for="password">Password:</label>
+										</td>
+										<td class="col2">
+											<h:outputText id="password" name="password" value="*****" />
+										</td>
+									</tr>
+									<tr>
+										<td class="col1">
+											<label class="control-label" for="firstName">First Name:</label>
+										</td>
+										<td class="col2">
+											<h:outputText id="firstName" name="firstName"  value="#{organizationAction.user.firstName}" />
+										</td>
+									</tr>
+									<tr>
+										<td class="col1">
+											<label class="control-label" for="lastName">Last Name:</label>
+										</td>
+										<td class="col2">
+											<h:outputText id="lastName" name="lastName" value="#{organizationAction.user.lastName}" />
+										</td>
+									</tr>
+									<tr>
+										<td class="col1">
+											<label class="control-label" for="email">Email:</label>
+										</td>
+										<td class="col2">
+											<h:outputText id="email" name="email"  value="#{organizationAction.user.email}" />
+										</td>
+									</tr>
+								
+							</table>
+							<table class="form">
+									<tr class="buttonsRow">
+							        	<td colspan="11">
+							        		<input type="button" class="button" value="Update" onclick="changeAccdn('prev','2');setInActiveStepCss('1');"/>
+							          	</td>
+			          				</tr>
+							</table>
+						
+							<a4j:outputPanel rendered="#{organizationAction.totalUnitsCost > 0}">
+								<table class="form">
+								   <tr><td colspan="2"><h2>Payment Details</h2></td></tr>
+									<tr>
+										<td class="col1"><label>Payment Type:</label></td>
+										<td class="col2">
+											<h:outputText value="#{organizationAction.selectedCardProcessorValue}" />
+											
+										</td>
+									</tr>
+									<tr>
+										<td class="col1"><label>Card Number:</label></td>
+										<td  class="col2">
+											<h:outputText value="#{organizationAction.cardNumber}" >
+											</h:outputText>
+										</td>
+									</tr>
+										
+								  	<tr>
+										<td class="col1"><label>Expiration Date:</label></td>
+										<td  class="col2">
+											<h:outputText value="#{organizationAction.expiryDate}">
+											</h:outputText>
+										</td>
+										
+									</tr>
+									<tr>
+										<td class="col1"><label>CVV:</label></td>
+										<td class="col2">
+											<h:outputText value="#{organizationAction.cvv}" >
+											</h:outputText>
+										</td>
+									</tr>
+		          
+								</table>
+								<table class="form">
+									<tr class="buttonsRow">
+							        	<td colspan="11">
+							        		<input type="button" class="button" value="Update" onclick="changeAccdn('prev');setInActiveStepCss('2');"/>
+							          	</td>
+			          				</tr>
+								</table>
+						
+							</a4j:outputPanel>
+								
+							<table class="form">
+									<tr class="buttonsRow">
+							        	<td colspan="11">
+						            		<a4j:commandButton value="Finalize And Submit" styleClass="button" action="#{organizationAction.saveNewOrganization}" status="showLoadingStatus" 
+						            			reRender="addUserErrorMsg" oncomplete="getTargetDivAndShowMsg('#richErrMsg')">
+						             		</a4j:commandButton>
+							          	</td>
+			          				</tr>
+							</table>
+						</h:form>	
+  					</a4j:outputPanel>						
+				</div>
+			</div>
+		</div>
+						
+	 </ui:define>
+	 
+	 
+</ui:composition>

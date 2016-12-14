@@ -1,0 +1,48 @@
+<m:message xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:m="http://jboss.com/products/seam/mail"
+    xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+    charset="UTF-8">
+  
+	<ui:repeat value="#{emailUtil.addressedTo}" var="recepient">
+		<m:to name="#{recepient.name}">#{recepient.emailId}</m:to>	
+	</ui:repeat>
+	
+	<ui:repeat value="#{emailUtil.addressCC}" var="recepient">
+		<m:cc name="#{recepient.name}">#{recepient.emailId}</m:cc>	
+	</ui:repeat>
+	
+	<a4j:outputPanel rendered="#{emailUtil.bccRcpnt!=null}">
+		<m:bcc name="#{emailUtil.bccRcpnt.name}">#{emailUtil.bccRcpnt.emailId}</m:bcc>
+	</a4j:outputPanel>
+	
+	
+	<m:from name="#{emailUtil.addressedFrom.name}" address="#{emailUtil.addressedFrom.emailId}" />
+    <m:header name="Sent" value="#{emailUtil.sendDate}"/>
+    
+    <m:subject>#{emailUtil.subject}</m:subject>
+    
+    <m:attachment contentType="image/png"  fileName="logo.png" value="/img/signature.png"
+       disposition="inline" status="banner"/> 
+   
+     <ui:repeat value="#{emailUtil.emailAttachmentList}" var="p">
+          <m:attachment value="#{p.image}" contentType="image/png" fileName="#{p.fileName}.png" />
+     </ui:repeat>
+   
+   <a4j:outputPanel rendered="#{emailUtil.pdfAttachment!=null}">
+		<m:attachment value="#{emailUtil.pdfAttachment.image}" contentType="application/pdf" fileName="#{emailUtil.pdfAttachment.fileName}.pdf" />
+	</a4j:outputPanel>
+	       
+    <m:body>
+		<span style = "font-size: 10pt; font-family: &quot;Arial&quot;;">
+        <p><h:outputText value="#{emailUtil.messageBody}" escape="false"/></p>
+		</span>
+		<img  src="cid:#{banner.contentId}"/> 
+    </m:body>
+    
+   
+     
+	
+    
+</m:message>

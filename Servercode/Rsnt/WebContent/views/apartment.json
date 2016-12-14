@@ -1,0 +1,274 @@
+{
+  "levels": [
+    {
+      "id": "2",
+      "title": "Default",
+      "locations": [
+        {
+          "id": "21",
+          "title": "Table 1",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Table 1",
+          "link": "",
+          "about": "Table 1",
+          "y": 1.90875,
+          "x": 0.187875
+        },
+        {
+          "id": "22",
+          "title": "Table 2",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Table 2",
+          "link": "",
+          "about": "Table 2",
+          "y": 1.90875,
+          "x": 0.992125
+        },
+        {
+          "id": "23",
+          "title": "Table 3",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Table 3",
+          "link": "",
+          "about": "Table 3",
+          "y": 1.90875,
+          "x": 1.800125
+        },
+        {
+          "id": "24",
+          "title": "Table 4",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Table 4",
+          "link": "",
+          "about": "Table 4",
+          "y": 1.90875,
+          "x": 3.416125
+        },
+        {
+          "id": "25",
+          "title": "Table 5",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Table 5",
+          "link": "",
+          "about": "Table 5",
+          "y": 1.90875,
+          "x": 4.224125
+        },
+        {
+          "id": "26",
+          "title": "Table 6",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Table 6",
+          "link": "",
+          "about": "Table 6",
+          "y": 1.90875,
+          "x": 5.032125
+        },
+        {
+          "id": "27",
+          "title": "Table 7",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Table 7",
+          "link": "",
+          "about": "Table 7",
+          "y": 3.72,
+          "x": 0.187875
+        },
+        {
+          "id": "28",
+          "title": "Table 8",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Table 8",
+          "link": "",
+          "about": "Table 8",
+          "y": 3.72,
+          "x": 0.992125
+        },
+        {
+          "id": "29",
+          "title": "Table 9",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Table 9",
+          "link": "",
+          "about": "Table 9",
+          "y": 3.72,
+          "x": 1.803875
+        },
+        {
+          "id": "30",
+          "title": "Table 10",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Table 10",
+          "link": "",
+          "about": "Table 10",
+          "y": 3.72,
+          "x": 3.416125
+        },
+        {
+          "id": "31",
+          "title": "Table 11",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Table 11",
+          "link": "",
+          "about": "Table 11",
+          "y": 3.72,
+          "x": 4.224125
+        },
+        {
+          "id": "32",
+          "title": "Table 12",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Table 12",
+          "link": "",
+          "about": "Table 12",
+          "y": 3.72,
+          "x": 5.032125
+        }
+      ],
+      "name": "Default",
+      "map": "",
+      "minimap": ""
+    },
+    {
+      "id": "20",
+      "title": "test",
+      "locations": [
+        {
+          "id": "74",
+          "title": "Marker Description 1",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Marker Description 1",
+          "link": "",
+          "about": "Marker Description 1",
+          "y": 0,
+          "x": 0.072
+        },
+        {
+          "id": "75",
+          "title": "Marker Description 2",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Marker Description 2",
+          "link": "",
+          "about": "Marker Description 2",
+          "y": 0,
+          "x": 0.216
+        },
+        {
+          "id": "76",
+          "title": "Marker Description 3",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Marker Description 3",
+          "link": "",
+          "about": "Marker Description 3",
+          "y": 0,
+          "x": 0.36
+        },
+        {
+          "id": "77",
+          "title": "Marker Description 4",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Marker Description 4",
+          "link": "",
+          "about": "Marker Description 4",
+          "y": 0,
+          "x": 0.504
+        },
+        {
+          "id": "78",
+          "title": "Marker Description 5",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Marker Description 5",
+          "link": "",
+          "about": "Marker Description 5",
+          "y": 0.072,
+          "x": 0.072
+        },
+        {
+          "id": "79",
+          "title": "Marker Description 6",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Marker Description 6",
+          "link": "",
+          "about": "Marker Description 6",
+          "y": 0.072,
+          "x": 0.216
+        },
+        {
+          "id": "80",
+          "title": "Marker Description 7",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Marker Description 7",
+          "link": "",
+          "about": "Marker Description 7",
+          "y": 0.072,
+          "x": 0.36
+        },
+        {
+          "id": "81",
+          "title": "Marker Description 8",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Marker Description 8",
+          "link": "",
+          "about": "Marker Description 8",
+          "y": 0.072,
+          "x": 0.504
+        },
+        {
+          "id": "82",
+          "title": "Marker Description 9",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Marker Description 9",
+          "link": "",
+          "about": "Marker Description 9",
+          "y": 0.144,
+          "x": 0.072
+        },
+        {
+          "id": "83",
+          "title": "Marker Description 10",
+          "category": "TableMarkets",
+          "zoom": "",
+          "description": "Marker Description 10",
+          "link": "",
+          "about": "Marker Description 10",
+          "y": 0.144,
+          "x": 0.216
+        }
+      ],
+      "name": "test",
+      "map": "",
+      "minimap": ""
+    }
+  ],
+  "categories": [
+    {
+      "id": "TableMarkets",
+      "title": "TableMarkets",
+      "color": "#4cd3b8",
+      "show": "true"
+    }
+  ],
+  "mapheight": "1250",
+  "mapwidth": "1250"
+}

@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0">
+  <title>index</title>
+  <link rel="stylesheet" href="css/standardize.css">
+  <link rel="stylesheet" href="css/index-grid.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="body page-index clearfix">
+  <div class="heading"></div>
+  <img class="image image-1" src="images/logo.png">
+  <p class="text text-1">Hello Jae</p>
+  <p class="text text-2">
+Ads Balance : <span>25000</span> || Plan: <span>Tier 5</span> || Organization: <span>Jae's Demo Restaurant</span>
+</p>
+  <button class="_button _button-1">Logout</button>
+  <nav class="menubar"></nav>
+  <button class="mainmenu mainmenu-1">Dashboard</button>
+  <button class="mainmenu mainmenu-2">Status</button>
+  <button class="mainmenu mainmenu-3">Layout</button>
+  <button class="mainmenu mainmenu-4">Feedback</button>
+  <button class="mainmenu mainmenu-5">Analytics</button>
+  <button class="mainmenu mainmenu-6">Help/FAQ</button>
+  <div class="approx-wait-time clearfix">
+    <p class="text">Approximate Wait Time</p>
+    <select class="waittime" name="waittime">
+      <option value="0 min">0 min</option>
+      <option value="1 min">1 min</option>
+      <option value="2 mins">2 mins</option>
+      <option value="3 mins">3 mins</option>
+      <option value="4 mins">4 mins</option>
+      <option value="5 mins">5 mins</option>
+      <option value="6 mins">6 mins</option>
+      <option value="7 mins">7 mins</option>
+      <option value="8 mins">8 mins</option>
+      <option value="9 mins">9 mins</option>
+      <option value="10 mins">10 mins</option>
+      <option value="15 mins">15 mins</option>
+      <option value="20 mins">20 mins</option>
+      <option value="25 mins">25 mins</option>
+      <option value="30 mins">30 mins</option>
+      <option value="35 mins">35 mins</option>
+    </select>
+  </div>
+  <div class="total-wait-time clearfix">
+    <p class="text text-4">Total Wait Time</p>
+    <p class="text text-5">5 mins</p>
+  </div>
+  <div class="notify-parties clearfix">
+    <p class="text text-6">Notify</p>
+    <select class="_select">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+    </select>
+    <p class="text text-8">parties</p>
+  </div>
+  <label class="history-checkbox clearfix">
+    <input class="checkbox" type="checkbox">
+    <span class="point-text">History</span>
+  </label>
+  <button class="guest-checkin guest-checkin-1">Add New Guest</button>
+  <button onClick="window.location='checkin.html';" class="guest-checkin guest-checkin-2">Guest Check-in</button>
+  <div class="show-entries clearfix">
+    <p class="text text-9">Show</p>
+    <select class="_select">
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+    </select>
+    <p class="text text-11">entries</p>
+  </div>
+  <input class="searchbox" placeholder="search" type="text">
+  <div class="guests-table-wrapper clearfix">
+    <div class="guests-table clearfix">
+      <p class="text text-12">Seat</p>
+      <p class="text text-14">Name</p>
+      <p class="text text-15">Seating Preference</p>
+      <p class="text text-16">Delete</p>
+    </div>
+    <div class="table-rows clearfix">
+      <div class="table-row table-row-1 clearfix">
+        <img class="image image-5" src="images/ready_icon.png">
+        <p class="text text-17">Janis Joplin</p>
+        <p class="text text-18">B / FA / T</p>
+        <img class="image image-6" src="images/delete.gif">
+      </div>
+      <div class="table-row table-row-2 clearfix">
+        <img class="image image-7" src="images/ready_icon.png">
+        <p class="text text-19">Jimmy Hendrix</p>
+        <p class="text text-20">B / FA / T</p>
+        <img class="image image-8" src="images/delete.gif">
+      </div>
+      <div class="table-row table-row-3 clearfix">
+        <img class="image image-9" src="images/ready_icon.png">
+        <p class="text text-21">Jim Morrison</p>
+        <p class="text text-22">B / FA / T</p>
+        <img class="image image-10" src="images/delete.gif">
+      </div>
+    </div>
+    <div class="seperator"></div>
+  </div>
+  <p class="showing-text">Showing 1 to 2 of 2 entries</p>
+  <div class="nav-buttons clearfix">
+    <button class="_button _button-3">prev</button>
+    <button class="_button _button-4">next</button>
+  </div>
+  <footer class="_container _container-5 clearfix">
+    <p>#{appInitializer.footerMsg}</p>
+  </footer>
+</body>
+</html>

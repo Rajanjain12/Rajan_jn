@@ -1,0 +1,1609 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.org/rich"
+	template="../layout/template.xhtml">
+	<ui:define name="head">
+		<script
+			src="#{request.contextPath}/uiframework/js/jquery-1.11.0.min.js"></script>
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+		<link
+			href="#{request.contextPath}/uiframework/css/layout.css?jsver=#{appInitializer.appVersion}"
+			rel="stylesheet" type="text/css" />
+		<link
+			href="#{request.contextPath}/uiframework/css/grid.css?jsver=#{appInitializer.appVersion}"
+			rel="stylesheet" type="text/css" />
+		<link
+			href="#{request.contextPath}/uiframework/jQuery-css/style.css?jsver=#{appInitializer.appVersion}"
+			rel="stylesheet" type="text/css" />
+<!-- jaimin patel -->
+		<link
+			href="#{request.contextPath}/uiframework/css/responsive.css?jsver=#{appInitializer.appVersion}"
+			rel="stylesheet" type="text/css" />					
+		<script type="text/javascript"
+			src="../uiframework/js/table/jquery.dataTables.min.js"></script>
+		<script type="text/javascript"
+			src="../uiframework/jQuery-js/setup.js?jsver=#{appInitializer.appVersion}"></script>
+		<!-- <script src="https://cdn.pubnub.com/pubnub-dev.js?jsver=#{appInitializer.appVersion}"></script> -->
+		<script type="text/javascript"
+			src="#{request.contextPath}/uiframework/jQuery-js/jquery.maskedinput.js?jsver=#{appInitializer.appVersion}"></script>
+		<!--<script type="text/javascript"
+			src="http://code.xrtml.org/xrtml-3.0.0.js"></script>
+		  <script type="text/javascript"
+			src="http://dfdbz2tdq3k01.cloudfront.net/js/2.1.0/ortc.js"></script>-->
+		<script type="text/javascript"
+			src="#{request.contextPath}/uiframework/js/xrtml-3.0.0.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/uiframework/js/ortc.js"></script>
+
+		<script type="text/javascript">
+    //<![CDATA[
+    var pubKey, privateKey;
+    var connectionUrl = 'https://ortc-developers.realtime.co/server/2.1';
+    var appKey = '';
+    var authToken = 'Unno1adyiSooIAkAEt';
+    var channel = '';
+    var privateKey = '';
+    var isCluster = true;
+    var authenticationRequired = false;
+    var client;
+    var countMsgChannel = 0;
+    if (window.Prototype) {
+        // delete Object.prototype.toJSON;
+        delete Array.prototype.toJSON;
+        // delete Hash.prototype.toJSON;
+        //  delete String.prototype.toJSON;
+    }
+    $jquery.ajax({
+        url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/pusgerinformation",
+        dataType: "json",
+        type: "GET",
+        async: false,
+        "success": function(data) {
+            console.log(data);
+            appKey = data.REALTIME_APPLICATION_KEY;
+            privateKey = data.REALTIME_PRIVATE_KEY;
+            channel = data.pusherChannelEnv;
+        }
+    });
+    /*  
+       Realtime framework code
+    */
+    $(document).ready(function() {
+        updateActiveMenuItem('#spnstatus');
+        // call loadOrtcFactory here
+        var OrtcNodeclient = loadOrtcFactory(IbtRealTimeSJType, function(factory, error) {
+            debugger;
+            client = factory.createClient();
+            client.setClusterUrl(connectionUrl);
+            client.setConnectionMetadata('UserConnectionMetadata');
+            client.onConnected = clientConnected;
+            client.onSubscribed = clientSubscribed;
+            //client.onUnsubscribed = clientUnsubscribed;
+            client.onReconnecting = clientReconnecting;
+            client.onReconnected = clientReconnected;
+            client.onDisconnected = clientDisconnected;
+            client.onException = clientException;
+            client.connect(appKey, authToken);
+            function clientConnected(ortc) {
+                console.log('Connected to: ' + ortc.getUrl());
+                console.log('Subscribe to channel: ' + channel);
+                if (client.getIsConnected() == false) {
+                    client.connect(appKey, authToken);
+                }
+                // Subscribe channel
+                ortc.subscribe(channel, true, function onMessage(ortc, channel, message) {
+                    countMsgChannel++;
+                    countMsgChannel++;
+                    console.log('Received (' + countMsgChannel + '): ' + message + ' at channel: ' + channel);
+                    var m = jQuery.parseJSON(message);
+                    if (m.orgid == $jquery("#orgIdHidden").val()) {
+                    	$jquery("#totalParties").val(m.totalParties);
+                    	$jquery("#totalWaitTime").val(m.totalWaitTime);
+                    	$jquery("#guestIdToBeNotifiedNext").val(m.guestIdToBeNotifiedNext);
+                    	$jquery("#notifynusers").val(m.notifyUser);
+                    	if(m.OP != "NOTIFY_USER")
+                    	{ loadWaitlistGuests();}
+                    }
+                });
+            };
+            function clientSubscribed(ortc, channel) {
+                console.log('Subscribed to channel: ' + channel);
+            };
+            function clientUnsubscribed(ortc, channel) {
+                console.log('Unsubscribed from channel: ' + channel);
+            };
+            function clientReconnecting(ortc) {
+                console.log('Reconnecting to ' + connectionUrl);
+            };
+            function clientReconnected(ortc) {
+                console.log('Reconnected to: ' + ortc.getUrl());
+            };
+            function clientDisconnected(ortc) {
+                console.log('Disconnected', 'disconnected');
+            };
+            function clientException(ortc, error) {
+                console.log('Error: ' + error);
+            };
+        });
+    });
+    var dialog;
+    var guests = new Array();
+    var waitlisttable;
+    var dataSet;
+    var waitlisttablehistory;
+    var orgID = $jquery("#orgIdHidden").val();
+    $jquery(document).ready(function() {
+        dialog = $jquery("#dialog-form").dialog({
+            autoOpen: false,
+            height: 300,
+            width: 350,
+            modal: true,
+            buttons: {
+                "Create an account": function() {
+                    dialog.dialog("close");
+                },
+                Cancel: function() {
+                    dialog.dialog("close");
+                }
+            },
+            close: function() {
+                form[0].reset();
+                allFields.removeClass("ui-state-error");
+            }
+        });
+        $jquery.ajax({
+            url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/orgseatpref?orgid=" + $jquery("#orgIdHidden").val(),
+            dataType: "json",
+            type: "GET",
+            async: true,
+            "success": function(data) {
+                var seatPref = data.seatpref;
+                if (seatPref) {
+                    $jquery.each(seatPref, function(i, item) {
+                        $jquery('#crguestlbsearpref').append('<option value=' + item.prefValueId + '>' + item.prefValue + '</option>');
+                    });
+                    $jquery.each(seatPref, function(i, item) {
+                        $jquery('#upguestlbsearpref').append('<option value=' + item.prefValueId + '>' + item.prefValue + '</option>');
+                    });
+                }
+            }
+        });
+        //loadOrgMetrciks();
+        loadWaitlistGuests();
+        //setSidebarHeight();
+    });
+    function loadOrgMetrciks() {
+        $jquery.ajax({
+            url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/totalwaittimemetricks?orgid=" + $jquery("#orgIdHidden").val(),
+            dataType: "json",
+            type: "GET",
+            async: false,
+            "success": function(data) {
+                console.log(data);
+                setOrgMetrixData(data);
+            }
+        });
+    }
+    function setOrgMetrixData(data) {totalWaitTime
+        $jquery("#perPartyWaitTime").val(data.ORG_WAIT_TIME)
+        $jquery("#totalGuestCount").val(data.ORG_GUEST_COUNT)
+       // var twt = data.ORG_GUEST_COUNT < 1 ? data.ORG_WAIT_TIME : (((data.ORG_GUEST_COUNT) * data.ORG_WAIT_TIME) + parseInt(data.ORG_WAIT_TIME));
+       // $jquery("#totalWaitTime").val(twt)
+       var twt = data.ORG_TOTAL_WAIT_TIME;
+       $jquery("#totalWaitTime").val(data.ORG_TOTAL_WAIT_TIME)
+        $jquery("#notifynusers").val(data.ORG_NOTIFY_COUNT)
+            //var twt = parseInt($jquery("#totalWaitTime").html());
+        var hour = Math.floor(twt / 60);
+        var min = twt % 60;
+        $jquery("#hour").html(hour);
+        $jquery("#min").html(min);
+        $jquery("#guestRankMin").html(data.GUEST_RANK_MIN);
+        changeGuestPreferenceType('SMS', 'crguestlboptvalue');
+    }
+    function openCreateGuestWindow() {
+        var wind = window.open('guestDetail.html?orgid=' + $jquery("#orgIdHidden").val(), "_self");
+        var winClosed = setInterval(function() {
+            if (wind.closed) {
+                location.reload();
+            }
+        }, 250);
+    }
+    function openReadyAcceptDialog(guestId, valPosition) {
+        console.log(valPosition);
+        //$jquery.ajax({
+        //    url:RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/readynotify?guestid="+guestId,
+        //    dataType: "json",
+        //    type:"GET",
+        //    async: true,
+        //    "success": function(data) {
+        //  }
+        //});	
+        valPosition = valPosition;
+        var prefix = '';
+        if ($jquery("#orgIdHidden").val() == 15) {
+            prefix = 'A';
+        }
+        var foundGuestFlag = true;
+        var guestIndex = -1;
+        for (var i = 0; i < guests.length && foundGuestFlag; i++) {
+            if (guests[i].guestID == guestId) {
+                $jquery("#guestlb").text("Guest #" + prefix + valPosition);
+                $jquery("#guestlbname").text(guests[i].name);
+                $jquery("#guestlbpartyof").text(guests[i].crguestlbpartyof);
+                $jquery("#guestlbemail").text(guests[i].email);
+                if (guests[i].optin)
+                    $jquery("#guestlboptin").attr('checked', true)
+                else
+                    $jquery("#guestlboptin").removeAttr('checked');
+                $jquery("#guestlbsms").text(guests[i].sms);
+                guests[i].updatedTime = null;
+                foundGuestFlag = false;
+                guestIndex = i;
+            }
+        }
+        $jquery("#ready-confirm").dialog({
+            height: 300,
+            width: 414,
+            modal: true,
+            buttons: {
+                "Not Present": function() {
+                    incrementCalloutCount(guests[guestIndex]);
+                    $jquery(this).dialog("close");
+                },
+                "Incomplete": function() {
+                    markasIncomplete(guests[guestIndex]);
+                    $jquery(this).dialog("close");
+                },
+                "Yes": function() {
+                    markasSeated(guestId);
+                    $jquery(this).dialog("close");
+                },
+                "Cancel": function() {
+                    $jquery(this).dialog("close");
+                }
+            }
+        });
+    }
+    function openDeleteAcceptDialog(guestId, valPosition) {
+        debugger;
+        console.log(valPosition);
+        valPosition = valPosition;
+        var prefix = '';
+        if ($jquery("#orgIdHidden").val() == 15) {
+            prefix = 'A';
+        }
+        for (var i = 0; i < guests.length; i++) {
+            if (guests[i].guestID == guestId) {
+                $jquery("#dguestlb").text("Guest #" + valPosition);
+                $jquery("#dguestlbname").text(guests[i].name);
+                $jquery("#dguestlbpartyof").text(guests[i].noOfPeople);
+                $jquery("#dguestlbemail").text(guests[i].email);
+                if (guests[i].optin)
+                    $jquery("#dguestlboptin").attr('checked', true)
+                else
+                    $jquery("#dguestlboptin").removeAttr('checked');
+                $jquery("#dguestlbsms").text(guests[i].sms);
+            }
+        }
+        $jquery("#delete-confirm").dialog({
+            height: 300,
+            width: 350,
+            modal: true,
+            title: "Delete Guest #" + prefix + valPosition + "?",
+            buttons: {
+                "Delete": function() {
+                    deleteGuest(guestId);
+                    $jquery(this).dialog("close");
+                },
+                "Cancel": function() {
+                    $jquery(this).dialog("close");
+                }
+            }
+        });
+    }
+    function openCreateGuestDialog() {
+        if (orgID == 13 || orgID == 14 || orgID == 15 || orgID == 16) {
+            $("#crguestlboptin").attr('checked', true);
+        } else {
+            $("#crguestlboptin").attr('checked', false);
+        }
+        $jquery("#crguestlbsearpref").multiselect({
+            noneSelectedText: 'Select..',
+            selectedList: 5
+        });
+        $jquery("#crguestlbsearpref").multiselect("refresh");
+        $jquery("#create-guest").dialog({
+            height: 350,
+            width: 470,
+            modal: true,
+            buttons: {
+                "Add": function() {
+                    var guest = {};
+                    guest.name = $jquery("#crguestlbname").val();
+                    guest.note = $jquery("#crguestlbnote").val();
+                    guest.organizationID = $jquery("#orgIdHidden").val();
+                    guest.noOfPeople = $jquery("#crguestlbname").val();
+                    if ($jquery('input:radio[name=crguestlbemailopt]:checked').val() == 'Email') {
+                        guest.email = $jquery("#crguestlboptvalue").val();
+                        guest.prefType = 'EMAIL';
+                    } else {
+                        guest.prefType = 'SMS';
+                        guest.sms = $("#crguestlboptvalue").val().replace(/()-/, '');
+                        guest.sms = guest.sms.replace(/\(|\)/g, '');
+                        guest.sms = guest.sms.replace(/ /g, '');
+                    }
+                    guest.optin = $jquery("#crguestlboptin").is(':checked');
+                    guest.status = 'CHECKIN';
+                    guest.noOfPeople = $jquery("#crguestlbpartyof option:selected").text();
+                    var validation = true;
+                    $jquery("#createErrorDiv").empty();
+                    if (!guest.name && guest.name.length <= 0) {
+                        validation = false;
+                        $jquery("#createErrorDiv").append("<li>Please enter name.</li>");
+                    }
+                    if (!guest.note && guest.note.length > 250) {
+                        validation = false;
+                        $jquery("#createErrorDiv").append("<li>Maximum length of Note is 250 characters.</li>");
+                    }
+                    if (guest.noOfPeople == 0) {
+                        validation = false;
+                        $jquery("#createErrorDiv").append("<li>Please select # of guests.</li>");
+                    }
+                    if (!$jquery('input:radio[name=crguestlbemailopt]:checked').val()) {
+                        validation = false;
+                        $jquery("#createErrorDiv").append("<li>Please select phone number or e-mail.</li>");
+                    }
+                    if ($jquery("#crguestlboptvalue").val().length <= 0) {
+                        validation = false;
+                        $jquery("#createErrorDiv").append("<li>Please provide phone number or e-mail.</li>");
+                    }
+                    if (guest.prefType && guest.prefType == 'EMAIL' && guest.email && !isValidEmailAddress(guest.email)) {
+                        validation = false;
+                        $jquery("#createErrorDiv").append("<li>Please provide valid e-mail.</li>");
+                    }
+                    if (guest.prefType && guest.prefType == 'SMS' && guest.sms && !isValidPhoneNumber(guest.sms)) {
+                        validation = false;
+                        $jquery("#createErrorDiv").append("<li>Please provide valid phone number.</li>");
+                    }
+                    if (validation) {
+                        $jquery("#createErrorDiv").empty();
+                        $jquery("#createErrorDiv").removeClass("validation");
+                        guest.guestPreferences = new Array();
+                        $jquery("#crguestlbsearpref option:selected").each(function() {
+                            var prefObject = {};
+                            prefObject.prefValueId = parseInt($jquery(this).val());
+                            prefObject.prefValue = $jquery(this).text();
+                            guest.guestPreferences.push(prefObject);
+                        });
+                        //guest.guestPreferences =selections;
+                        addGuest(guest);
+                        $jquery(this).dialog("close");
+                        clearCraeteGuestFields();
+                    } else {
+                        $jquery("#createErrorDiv").addClass("validation");
+                    }
+                },
+                "Cancel": function() {
+                    clearCraeteGuestFields();
+                    $jquery(this).dialog("close");
+                }
+            }
+        });
+    }
+    function isValidPhoneNumber(phone) {
+        var pattern = new RegExp(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/);
+        return pattern.test(phone);
+    }
+    function isValidEmailAddress(emailAddress) {
+        var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
+        return pattern.test(emailAddress);
+    }
+    function openUpdateModal(guestId, sequence) {
+        debugger;
+        var selectedPrefValues = [];
+        var selectedPrefObjects = [];
+        $jquery.ajax({
+            url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/guest?guestid=" + guestId,
+            dataType: "json",
+            type: "GET",
+            async: false,
+            "success": function(data) {
+                console.log(data);
+                sequence = sequence;
+                $jquery("#upguestlbname").val();
+                $jquery("#orgIdHidden").val();
+                $jquery("#update-guest").attr("title", "Edit guest #" + sequence);
+                $jquery("#upguestlbname").val(data.guests.name);
+                $jquery("#upguestlbnote").val(data.guests.note);
+                if (data.guests.prefType.toLocaleLowerCase() == 'email') {
+                    changeGuestPreferenceType('email', 'upguestlboptvalue');
+                    $jquery("#upguestlboptvalue").val(data.guests.email);
+                    $jquery("input[name='upguestlbemailopt'][value='Email']").attr("checked", true);
+                } else {
+                    changeGuestPreferenceType('SMS', 'upguestlboptvalue');
+                    $jquery("#upguestlboptvalue").val(data.guests.sms);
+                    $jquery("input[name='upguestlbemailopt'][value='Sms']").attr("checked", true);
+                }
+                if (data.guests.optin)
+                    $jquery("#upguestlboptin").attr('checked', true)
+                else
+                    $jquery("#upguestlboptin").removeAttr('checked');
+                $jquery("#upguestlbpartyof").val(data.guests.noOfPeople);
+                if (data.guests.seatingPreference) {
+                    var seatingPreference = data.guests.seatingPreference;
+                    var arr = seatingPreference.split(",");
+                    var seatingPrefArray = document.getElementById("upguestlbsearpref").options;
+                    for(var i = 0; i < seatingPrefArray.length; ++i) {
+                    	if(arr.indexOf(seatingPrefArray[i].value) > -1)
+                        {
+                    		selectedPrefValues.push(seatingPrefArray[i].value);
+                            selectedPrefObjects.push(seatingPrefArray[i].innerHTML);
+                        }
+                    }
+                    
+                   // $jquery(data.guests.guestPreferences).each(function(index, value) {
+                      //  selectedPrefValues.push(value.prefValueId);
+                    //    selectedPrefObjects.push(value);
+                   // });
+                    $jquery("#upguestlbsearpref").val(selectedPrefValues);
+                }
+                $jquery("#upguestlbsearpref").multiselect({
+                    noneSelectedText: 'Select..',
+                    selectedList: 5
+                });
+                $jquery("#upguestlbsearpref").multiselect("refresh");
+                var prefix = '';
+                if ($jquery("#orgIdHidden").val() == 15) {
+                    prefix = 'A';
+                }
+                $jquery("#update-guest").dialog({
+                    height: 350,
+                    width: 470,
+                    modal: true,
+                    title: "Edit guest #" + prefix + sequence,
+                    buttons: {
+                        "Update": function() {
+                            var guest = {};
+                            guest.guestID = guestId;
+                            guest.name = $jquery("#upguestlbname").val();
+                            guest.note = $jquery("#upguestlbnote").val();
+                            guest.organizationID = $jquery("#orgIdHidden").val();
+                            guest.noOfPeople = $jquery("#upguestlbname").val();
+                            if ($jquery('input:radio[name=upguestlbemailopt]:checked').val() == 'Email') {
+                                guest.email = $jquery("#upguestlboptvalue").val();
+                                guest.prefType = 'EMAIL';
+                                changeGuestPreferenceType('EMAIL', 'upguestlboptvalue')
+                            } else {
+                                guest.prefType = 'SMS';
+                                //guest.sms=$jquery("#upguestlboptvalue").val();
+                                guest.sms = $("#upguestlboptvalue").val().replace(/()-/, '');
+                                guest.sms = guest.sms.replace(/\(|\)/g, '');
+                                guest.sms = guest.sms.replace(/ /g, '');
+                                changeGuestPreferenceType('SMS', 'upguestlboptvalue');
+                            }
+                            guest.optin = $jquery("#upguestlboptin").is(':checked')
+                            guest.status = 'CHECKIN';
+                            guest.noOfPeople = $jquery("#upguestlbpartyof option:selected").text();
+                            var validation = true;
+                            $jquery("#updateErrorDiv").empty();
+                            if (!guest.name && guest.name.length <= 0) {
+                                validation = false;
+                                $jquery("#updateErrorDiv").append("<li>Please enter name.</li>");
+                            }
+                            if (!guest.note && guest.note.length > 250) {
+                                validation = false;
+                                $jquery("#createErrorDiv").append("<li>Maximum length of Note is 250 characters.</li>");
+                            }
+                            if (guest.noOfPeople == 0) {
+                                validation = false;
+                                $jquery("#updateErrorDiv").append("<li>Please select # of guests.</li>");
+                            }
+                            if (!$jquery('input:radio[name=upguestlbemailopt]:checked').val()) {
+                                validation = false;
+                                $jquery("#updateErrorDiv").append("<li>Please select phone number or e-mail.</li>");
+                            }
+                            if ($jquery("#upguestlboptvalue").val().length <= 0) {
+                                validation = false;
+                                $jquery("#updateErrorDiv").append("<li>Please provide phone number or e-mail.</li>");
+                            }
+                            if (guest.prefType && guest.prefType == 'EMAIL' && guest.email && !isValidEmailAddress(guest.email)) {
+                                validation = false;
+                                $jquery("#updateErrorDiv").append("<li>Please provide valid e-mail.</li>");
+                            }
+                            if (guest.prefType && guest.prefType == 'SMS' && guest.sms && !isValidPhoneNumber(guest.sms)) {
+                                validation = false;
+                                $jquery("#updateErrorDiv").append("<li>Please provide valid phone number.</li>");
+                            }
+                            if (validation) {
+                                $jquery("#updateErrorDiv").empty();
+                                $jquery("#updateErrorDiv").removeClass("validation");
+                                guest.guestPreferences = new Array();
+                                $jquery("#upguestlbsearpref option:selected").each(function() {
+                                    var prefObject = {};
+                                    prefObject.prefValueId = parseInt($jquery(this).val());
+                                    prefObject.prefValue = $jquery(this).text();
+                                    var sameObjectPref = $jquery.grep(selectedPrefObjects, function(item) {
+                                        return item.prefValueId == prefObject.prefValueId;
+                                    });
+                                    if (sameObjectPref && sameObjectPref.length > 0) {
+                                        prefObject.guestPrefId = sameObjectPref[0].guestPrefId;
+                                    }
+                                    guest.guestPreferences.push(prefObject);
+                                });
+                                updateGuestInfo(guest);
+                                $jquery(this).dialog("close");
+                            } else {
+                                $jquery("#updateErrorDiv").addClass("validation");
+                            }
+                        },
+                        "Cancel": function() {
+                            clearUpdateGuestFields();
+                            $jquery(this).dialog("close");
+                        }
+                    }
+                });
+            }
+        });
+    }
+    function updateGuest(guest) {
+         debugger;
+        $jquery.ajax({
+            url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/updateguest",
+            dataType: "json",
+            data: JSON.stringify(guest),
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            async: false,
+            "success": function(data) {
+                console.log(data);
+
+                if (client.getIsConnected() == false) {
+                    client.connect(appKey, authToken);
+                }
+                var message = JSON.stringify({
+                    "OP": "UPD",
+                    "guestObj": data.guest.guestID,
+                    "updguest": data.guest,
+                    "FROM": "ADMIN",
+                    "ppwt": $jquery("#perPartyWaitTime").val(),
+                    "orgid": $jquery("#orgIdHidden").val()
+                });
+                client.send(channel, message);
+                console.log('Sending from update: ' + message + ' to channel: ' + channel);
+                $jquery.ajax({
+                    url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/checkinnotify?guestid=" + data.guest.guestID,
+                    dataType: "json",
+                    type: "GET",
+                    async: true,
+                    "success": function(data) {
+                    }
+                });
+                $jquery.ajax({
+                    url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/waitingListBackupUpdate?guestid=" + data.guest.guestID,
+                    dataType: "json",
+                    type: "GET",
+                    async: true,
+                    "success": function(data) {
+                    }
+                });
+                clearUpdateGuestFields();
+                //loadWaitlistGuests();
+            }
+        });
+    }
+    function addGuest(guest){
+    	$jquery.ajax({
+            url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/addGuest",
+            data: JSON.stringify(guest),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            async: true,
+            "success": function(data) {
+            	loadWaitlistGuests();
+            	var twt = data.ORG_TOTAL_WAIT_TIME;
+            	$jquery("#totalWaitTime").val(twt);
+            }
+        });
+    }
+    function updateGuestInfo(guest){
+        debugger;
+    	$jquery.ajax({
+            url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/updateGuestInfo",
+            data: JSON.stringify(guest),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            async: true,
+            "success": function(data) {
+            	loadWaitlistGuests();
+            }
+        });
+    }
+    function deleteGuest(guestId){
+        debugger;
+    	var orgId = $jquery("#orgIdHidden").val();
+    	$jquery.ajax({
+            url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/deleteGuest?guestId=" + guestId + "&orgId="+orgId,
+            dataType: "json",
+            type: "GET",
+            async: false,
+            "success": function(data) {
+            	loadWaitlistGuests();
+            }
+        });
+    }
+    
+    function changeNotificationThreshold() {
+        var orgId = $jquery("#orgIdHidden").val();
+        var notifyCount = $jquery("#notifynusers option:selected").val();
+        var perPartyWaitTime = $jquery("#perPartyWaitTime option:selected").val();
+        $jquery.ajax({
+            url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/changeNotificationThreshold?numberofusers=" 
+           			+ notifyCount + "&perPartyWaitTime=" + perPartyWaitTime + "&orgid=" + orgId,
+            type: "GET",
+            async: false,
+            "success": function(data) {
+                alert("The top " + notifyCount + " parties will be notified in the event of any change in status.");
+            }
+        });
+    }
+    function saveorupdateGuestOld(guest) {
+        $jquery.ajax({
+            url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/saveguest",
+            dataType: "json",
+            data: JSON.stringify(guest),
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            async: false,
+            "success": function(data) {
+                console.log(data);
+                console.log(data.GUEST_RANK_MIN);
+                /*
+	PUBNUB_RSNT.publish({
+	   	    	    channel: 'RSNT_GUEST',
+	   	    	    message: {"OP":"ADD",
+	   	    	    	  "guestObj":data.guest.guestID,
+	   	    	    	  "FROM":"ADMIN",
+	   	    	    	  "ppwt":$jquery("#perPartyWaitTime").val(),
+	   	    	    	  "orgid":$jquery("#orgIdHidden").val()
+	   	    	    	  }
+	   	    	});
+	*/
+                //dataSet.push(data.guest);
+                //Update the localStorage item.
+                sessionStorage.setItem('dataSet', JSON.stringify(dataSet));
+                console.log("-----------------" + dataSet.length);
+                //console.log(data.guest);
+                if (client.getIsConnected() == false) {
+                    client.connect(appKey, authToken);
+                }
+                var message = JSON.stringify({
+                    "OP": "ADD",
+                    "guest": data.guest,
+                    "guestObj": data.guest.guestID,
+                    "FROM": "ADMIN",
+                    "ppwt": $jquery("#perPartyWaitTime").val(),
+                    "orgid": $jquery("#orgIdHidden").val()
+                });
+                client.send(channel, message);
+                console.log('Sending from delete: ' + message + ' to channel: ' + channel);
+                $jquery.ajax({
+                    url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/checkinnotify?guestid=" + data.guest.guestID,
+                    dataType: "json",
+                    type: "GET",
+                    async: true,
+                    "success": function(data) {
+                    }
+                });
+                $jquery.ajax({
+                    url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/waitingListBackup?guestid=" + data.guest.guestID,
+                    dataType: "json",
+                    type: "GET",
+                    async: true,
+                    "success": function(data) {
+                    }
+                });
+                $jquery.ajax({
+                    url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/getguestminrankbyorgid?orgid=" + $jquery("#orgIdHidden").val(),
+                    dataType: "json",
+                    type: "GET",
+                    async: true,
+                    "success": function(data) {
+                        //console.log("----------"+data);
+                        /*
+	PUBNUB_RSNT.publish({
+	   	    	    channel: 'RSNT_GUEST',
+	   	    	    message: {"OP":"MINRANK",
+	   	    	    	  "orgid":$jquery("#orgIdHidden").val(),
+	   	    	    	  "guminrank":data}
+	   	    	});
+	*/
+                        if (client.getIsConnected() == false) {
+                            client.connect(appKey, authToken);
+                        }
+                        var message = JSON.stringify({
+                            "OP": "MINRANK",
+                            "orgid": $jquery("#orgIdHidden").val(),
+                            "guminrank": data
+                        });
+                        client.send(channel, message);
+                        console.log('Sending from delete: ' + message + ' to channel: ' + channel);
+                    }
+                });
+                //loadWaitlistGuests();
+                clearCraeteGuestFields();
+            }
+        });
+    }
+    function clearCraeteGuestFields() {
+        $jquery("#createErrorDiv").empty();
+        $jquery("#crguestlbname").val('');
+        $jquery("#crguestlbnote").val('');
+        $jquery("#crguestlboptvalue").val('');
+        $jquery("#crguestlboptin").removeAttr('checked');
+        $jquery("#crguestlbpartyof").val("");
+        $jquery("#crguestlbsearpref").val("");
+        $jquery("#sms").prop("checked", true);
+    }
+    function clearUpdateGuestFields() {
+        $jquery("#updateErrorDiv").empty();
+        $jquery("#upguestlbname").val('');
+        $jquery("#upguestlbnote").val('');
+        $jquery("#upguestlboptvalue").val('');
+        $jquery("#upguestlboptin").removeAttr('checked');
+        $jquery("#upguestlbpartyof").val("");
+    }
+    function markasSeated(guestId) {
+        debugger;
+        console.log("inside markasseated----" + guestId);
+        var orgId = $jquery("#orgIdHidden").val();
+        $jquery.ajax({
+            url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/markAsSeated?guestId=" + guestId + "&orgId="+orgId,
+            dataType: "json",
+            type: "GET",
+            async: false,
+            "success": function(data) {
+                console.log(data);
+            }
+        });
+    }
+    function incrementCalloutCount(guest) {
+        $jquery.ajax({
+            url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/incrementCalloutCount",
+            data: JSON.stringify(guest),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            async: false,
+            "success": function(data) {
+                console.log(data);
+                /*
+	PUBNUB_RSNT.publish({
+	   	    	    channel: 'RSNT_GUEST',
+	   	    	    message: {"OP":"NOT_PRESENT","guestObj":guestId,"FROM":"ADMIN","ppwt":$jquery("#perPartyWaitTime").val(),"orgid":$jquery("#orgIdHidden").val()}
+	   	    	});
+	*/
+                if (client.getIsConnected() == false) {
+                    client.connect(appKey, authToken);
+                }
+                var message = JSON.stringify({
+                    "OP": "NOT_PRESENT",
+                    "guestObj": data.guest,
+                    "FROM": "ADMIN",
+                    "ppwt": $jquery("#perPartyWaitTime").val(),
+                    "orgid": $jquery("#orgIdHidden").val()
+                });
+                client.send(channel, message);
+                console.log('Sending from not present: ' + message + ' to channel: ' + channel);
+                //loadWaitlistGuests();
+            },
+            error: function(xhr, status, error) {
+                console.log(error);
+            }
+        });
+    }
+    function markasIncomplete(guest) {
+        $jquery.ajax({
+            url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/markAsIncomplete",
+            data: JSON.stringify(guest),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            async: false,
+            "success": function(data) {
+                console.log(data);
+                /*
+	PUBNUB_RSNT.publish({
+	   	    	    channel: 'RSNT_GUEST',
+	   	    	    message: {"OP":"NOT_PRESENT","guestObj":guestId,"FROM":"ADMIN","ppwt":$jquery("#perPartyWaitTime").val(),"orgid":$jquery("#orgIdHidden").val()}
+	   	    	});
+	*/
+                if (client.getIsConnected() == false) {
+                    client.connect(appKey, authToken);
+                }
+                var message = JSON.stringify({
+                    "OP": "INCOMPLETE",
+                    "guestObj": data.guest,
+                    "FROM": "ADMIN",
+                    "ppwt": $jquery("#perPartyWaitTime").val(),
+                    "orgid": $jquery("#orgIdHidden").val()
+                });
+                client.send(channel, message);
+                console.log('Sending from mark as incomplete: ' + message + ' to channel: ' + channel);
+                //loadWaitlistGuests();
+            },
+            error: function(xhr, status, error) {
+                console.log(error);
+            }
+        });
+    }
+    function markasDeleted(guestId) {
+        $jquery.ajax({
+            url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/deleted?guestid=" + guestId,
+            dataType: "json",
+            type: "GET",
+            async: false,
+            "success": function(data) {
+                console.log(data);
+                /*
+	 PUBNUB_RSNT.publish({
+	   	    	    channel: 'RSNT_GUEST',
+	   	    	    message: {"OP":"DEL","guestObj":guestId,"FROM":"ADMIN","ppwt":$jquery("#perPartyWaitTime").val(),"orgid":$jquery("#orgIdHidden").val()}
+	   	    	});
+	*/
+                if (client.getIsConnected() == false) {
+                    client.connect(appKey, authToken);
+                }
+                var message = JSON.stringify({
+                    "OP": "DEL",
+                    "guestObj": guestId,
+                    "FROM": "ADMIN",
+                    "ppwt": $jquery("#perPartyWaitTime").val(),
+                    "orgid": $jquery("#orgIdHidden").val()
+                });
+                client.send(channel, message);
+                console.log('Sending from delete: ' + message + ' to channel: ' + channel);
+                $jquery.ajax({
+                    url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/getguestminrankbyorgid?orgid=" + $jquery("#orgIdHidden").val(),
+                    dataType: "json",
+                    type: "GET",
+                    async: true,
+                    "success": function(data) {
+                        console.log("----------" + data);
+                        /*
+	PUBNUB_RSNT.publish({
+	   	    	    channel: 'RSNT_GUEST',
+	   	    	    message: {"OP":"MINRANK",
+	   	    	    	  "orgid":$jquery("#orgIdHidden").val(),
+	   	    	    	  "guminrank":data}
+	   	    	});
+	*/
+                        if (client.getIsConnected() == false) {
+                            client.connect(appKey, authToken);
+                        }
+                        var message = JSON.stringify({
+                            "OP": "MINRANK",
+                            "orgid": $jquery("#orgIdHidden").val(),
+                            "guminrank": data
+                        });
+                        client.send(channel, message);
+                        console.log('Sending from minrank: ' + message + ' to channel: ' + channel);
+                    }
+                });
+                // loadWaitlistGuests();
+            }
+        });
+    }
+    function loadWaitlistGuests() {
+        debugger;
+        loadOrgMetrciks();
+        if (waitlisttable) {
+            waitlisttable.dataTable().fnDestroy();
+        }
+        $jquery("#waitlisttable").show();
+        $jquery("#waitlistSort").show();
+        $jquery("#nextPage").show();
+        $jquery("#previousPage").show();
+   
+        $jquery("#nextPageHistory").hide();
+        $jquery("#previousPageHistory").hide();
+   
+        $jquery("#historySort").hide();
+        
+        $jquery("#waitlisttablehistory").hide();
+        var recordsPerPage;
+        if (document.getElementById('recordsPerPage') == null) {
+            recordsPerPage = 10;
+        } else {
+            recordsPerPage = document.getElementById('recordsPerPage').value;
+        }
+        var pageNumber = document.getElementById("pageNumber").value;
+        $jquery("#waitlisttable > tbody").html("");
+        $jquery.ajax({
+            url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/checkinusers?orgid=" + $jquery("#orgIdHidden").val() + "&recordsPerPage=" + recordsPerPage + "&pageNumber=" + pageNumber,
+            dataType: "json",
+            type: "GET",
+            async: false,
+            "success": function(data) {
+                try {
+                    //console.log(data);
+                    //console.log(JSON.stringify(data));
+                    sessionStorage.setItem('dataSet', JSON.stringify(data.guests));
+                    dataSet = JSON.parse(sessionStorage.getItem('dataSet'));
+                    console.log("dataset---inside loadWaitlistGuests" + dataSet.length);
+                } catch (err) {
+                    dataSet = [];
+                    changePage('previous');
+                }
+                console.log("............." + JSON.parse(sessionStorage.getItem('dataSet')));
+                if (data.guests)
+                    if (data.guests.length > 0) {
+                        guests = [];
+                        guests = data.guests;
+                        for (var i = 0; i < data.guests.length; i++) {
+                            if(i == (parseInt($jquery("#notifynusers").val())-1))
+                            {
+                            	$jquery("#guestIdToNotify").val(data.guests[i].guestID);
+                            }
+                            var row = addWaitlistTableRow(data.guests[i]);
+                            $jquery("#waitlisttable > tbody").append(row);
+                        }
+                    }
+                waitlisttable = $jquery('#waitlisttable').dataTable({
+                    "aLengthMenu": [
+                        [25, 50, 75, 200],
+                        [25, 50, 75, "200"]
+                    ],
+                    "iDisplayLength": 200,
+                    "bFilter": true,
+                    "bAutoWidth": true,
+                    "bDestroy": true,
+                    "bSort": false
+                });
+            }
+        });
+        $("#waitlisttable_previous").css("display", "none");
+        $("#waitlisttable_next").css("display", "none");
+        $("#waitlisttable_length").css("display", "none");
+    }
+    function changePage(key) {
+        debugger;
+        var pageNumber = document.getElementById("pageNumber").value;
+        if (pageNumber == 1 && key == 'previous') {
+            return false;
+        }
+        if (key == 'previous') {
+            document.getElementById("pageNumber").value = parseInt(pageNumber) - 1;
+        } else {
+            document.getElementById("pageNumber").value = parseInt(pageNumber) + 1;
+        }
+        if(document.getElementById("history").checked)
+        {        loadHistory();	}
+        else {
+        	loadWaitlistGuests();
+        	
+            }
+    }
+    function addWaitlistTableRow(guest) {
+        // console.log("inside addWaitlistTableRow");
+        // console.log(guest);
+        $jquery('tr').find('td.dataTables_empty').parent().remove();
+        var row = '';
+        var imgOranges = '';
+        var startStyle = '';
+        var endStyle = '';
+        var prefix = '';
+        if ($jquery("#orgIdHidden").val() == 15) {
+            prefix = 'A';
+        }
+        if (guest.calloutCount && guest.calloutCount > 0) {
+            var imgOrange = '<img class="colout" src="../uiframework/images/callout.png">';
+            for (var j = 0; j < guest.calloutCount; j++) {
+                imgOranges = imgOranges + imgOrange;
+            }
+        }
+        if (guest.incompleteParty == 1) {
+            startStyle = '<font>';
+            endStyle = '</font>';
+        }
+        //var pref = [];
+        //for (var k = 0; k < guest.guestPreferences.length; k++) {
+            // console.log("pref value==="+guest.guestPreferences[k].prefValue);
+        //    pref.push(guest.guestPreferences[k].prefValue);
+        //}
+        //console.log("length"+guest.guestPreferences.length);
+        //console.log(pref.join(","));
+        if (guest.optin) {
+            row = ' <tr id="w' + guest.guestID + '" class="gradeX odd">' +
+                '  <td class=" sorting_1"><div class="button_default"><a href="javascript:void(0);" onclick="openReadyAcceptDialog(' + guest.guestID + ',' + guest.rank + ');"><img src="../uiframework/images/ready_icon.png" alt=""/></a></div>' +
+                '   <td class="center">' + prefix + guest.rank + '</td>' +
+                '   <td class="center">' + '<a href="javascript:void(0);" onclick="openUpdateModal(' + guest.guestID + ',' + guest.rank + ')">' + startStyle + guest.name + endStyle + '</a>' + imgOranges + '</td>' +
+                '   <td class="center">' + guest.seatingPreference + '</td>' +
+                '   <td class="center"><a href="javascript:void(0);" onclick="openDeleteAcceptDialog(' + guest.guestID + ',' + guest.rank + ');"><img title="Toggle Active Status" style="width:20px;height:18px;cursor:pointer;" src="../uiframework/images/delete.gif" id="112" class="deleteImage" /></a></td>' +
+                '   <td class="center ">' + guest.noOfPeople + ' </td>' +
+                '   <td class="center ">' + guest.note + ' </td>' +
+                //'   <td class="center email"><a href="mailto:stone@meekness.com">'+data.guests[i].email+'</a></td>'+
+                '   <td class="center td-hide">' + guest.sms + '</td>' +
+                '   <td class="center td-hide"><a href=mailto:' + guest.email + '>' + guest.email + '</a></td>' +
+                '   <td class="center td-hide"><input type="checkbox" name="vehicle" disabled="disabled" checked/></td>' +
+                ' </tr>';
+        } else {
+            row = ' <tr id="w' + guest.guestID + '" class="gradeX odd">' +
+                '  <td class="sorting_1"><div class="button_default"><a href="javascript:void(0);" onclick="openReadyAcceptDialog(' + guest.guestID + ',' + guest.rank + ');"><img src="../uiframework/images/ready_icon.png" alt=""/></a></div></td>' +
+                '   <td class="center">' + prefix + guest.rank + '</td>' +
+                '   <td class="center">' + '<a href="javascript:void(0);" onclick="openUpdateModal(' + guest.guestID + ',' + guest.rank + ')">' + startStyle + guest.name + endStyle + '</a>' + imgOranges + '</td>' +
+                '   <td class="center">' + guest.seatingPreference + '</td>' +
+                '   <td class="center"><a href="javascript:void(0);" onclick="openDeleteAcceptDialog(' + guest.guestID + ',' + guest.rank + ');"><img title="Toggle Active Status" style="width:20px;height:18px;cursor:pointer;" src="../uiframework/images/delete.gif" id="112" class="deleteImage" /></a></td>' +
+                '   <td class="center">' + guest.noOfPeople + ' </td>' +
+                '   <td class="center">' + guest.note + ' </td>' +
+                //'   <td class="center email"><a href="mailto:stone@meekness.com">'+data.guests[i].email+'</a></td>'+
+                '   <td class="center td-hide">' + guest.sms + '</td>' +
+                '   <td class="center td-hide"><a href=mailto:' + guest.email + '>' + guest.email + '</a></td>' +
+                '   <td class="center td-hide"><input type="checkbox" name="vehicle" disabled="disabled"/></td>' +
+                ' </tr>';
+        }
+        return row;
+    }
+    function loadHistory() {
+  	        debugger;
+        if ($jquery("#history").is(':checked')) {
+            if (waitlisttablehistory)
+            	waitlisttablehistory.dataTable().fnDestroy();
+            if (waitlisttable)
+            	waitlisttable.dataTable().fnDestroy();
+        	
+            $jquery("#waitlisttable").hide();
+            $jquery("#waitlistSort").hide();
+            $jquery("#nextPage").hide();
+            $jquery("#previousPage").hide();
+            $jquery("#nextPageHistory").show();
+            $jquery("#previousPageHistory").show();
+            
+            
+            $jquery("#historySort").show();
+            $("#waitlisttable_wrapper").css("display", "none");
+            $("#waitlisttablehistory_info").show();
+                $jquery("#waitlisttablehistory").show();
+            $jquery("#waitlisttablehistory > tbody").html("");
+//added by ronak
+          var recordsPerPageForHistory;
+          if (document.getElementById('recordsPerPageForHistory') == null) {
+              recordsPerPage = 10;
+          } else {
+              recordsPerPage = document.getElementById('recordsPerPageForHistory').value;
+          }
+          var pageNumber = document.getElementById("pageNumber").value;
+            
+            $jquery.ajax({
+                url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/history?orgid=" + $jquery("#orgIdHidden").val()+ "&recordsPerPage=" + recordsPerPage + "&pageNumber=" + pageNumber,
+                dataType: "json",
+                type: "GET",
+                async: false,
+                "success": function(data) {
+                    console.log(data);
+                    if (data.guests)
+                        if (data.guests.length > 0) {
+                            for (var i = 0; i < data.guests.length; i++) {
+                                var startStyle = '';
+                                var endStyle = '';
+                                var row = '';
+                                var imgOranges = '';
+                                if (data.guests[i].calloutCount && data.guests[i].calloutCount > 0) {
+                                    var imgOrange = '<img class="colout" src="../uiframework/images/callout.png">';
+                                    for (var j = 0; j < data.guests[i].calloutCount; j++) {
+                                        imgOranges = imgOranges + imgOrange;
+                                    }
+                                }
+                                if (data.guests[i].incompleteParty == 1) {
+                                    startStyle = '<font style="background : #ffff00 none repeat scroll 0 0">';
+                                    endStyle = '</font>';
+                                }
+                                //var pref = [];
+                               // for (var k = 0; k < data.guests[i].guestPreferences.length; k++) {
+                                //    pref.push(data.guests[i].guestPreferences[k].prefValue);
+                                //}
+                                if (data.guests[i].optin) {
+                                    row = ' <tr class="gradeX odd">' +
+                                        '   <td class="center">' + data.guests[i].rank + '</td>' +
+                                        '   <td class="center">' + startStyle + data.guests[i].name + endStyle + imgOranges + '</td>' +
+                                        '   <td class="center">' + data.guests[i].seatingPreference + '</td>' +
+                                        '   <td class="center">' + data.guests[i].status + '</td>' +
+                                        '   <td class="center">' + data.guests[i].noOfPeople + ' </td>' +
+                                        '   <td class="center">' + data.guests[i].note + ' </td>' +
+                                        //'   <td class="center email"><a href="mailto:stone@meekness.com">'+data.guests[i].email+'</a></td>'+
+                                        '   <td class="center td-hide">' + data.guests[i].sms + '</td>' +
+                                        '   <td class="center td-hide"><a href=mailto:' + data.guests[i].email + '>' + data.guests[i].email + '</a></td>' +
+                                        '   <td class="center td-hide"><input type="checkbox" name="vehicle" disabled="disabled" checked/></td>' +
+                                        ' </tr>';
+                                } else {
+                                    row = ' <tr class="gradeX odd">' +
+                                        '   <td class="center">' + data.guests[i].rank + '</td>' +
+                                        '   <td class="center">' + startStyle + data.guests[i].name + endStyle + imgOranges + '</td>' +
+                                        '   <td class="center">' + data.guests[i].seatingPreference + '</td>' +
+                                        '   <td class="center">' + data.guests[i].status + '</td>' +
+                                        '   <td class="center">' + data.guests[i].noOfPeople + ' </td>' +
+                                        '   <td class="center">' + data.guests[i].note + ' </td>' +
+                                        //'   <td class="center email"><a href="mailto:stone@meekness.com">'+data.guests[i].email+'</a></td>'+
+                                        '   <td class="center td-hide">' + data.guests[i].sms + '</td>' +
+                                        '   <td class="center td-hide"><a href=mailto:' + data.guests[i].email + '>' + data.guests[i].email + '</a></td>' +
+                                        '   <td class="center td-hide"><input type="checkbox" name="vehicle" disabled="disabled"/></td>' +
+                                        ' </tr>';
+                                }
+                                $jquery("#waitlisttablehistory > tbody").append(row);
+                            }
+                        }
+           
+                    
+                    waitlisttablehistory = $jquery('#waitlisttablehistory').dataTable({
+                        "iDisplayLength": 100,
+                        "bFilter": true,
+                        "bAutoWidth": true,
+                        "bDestroy": true,
+                        "bSort": false
+                    });
+                }
+            });
+            $("#waitlisttablehistory_previous").css("display", "none");
+            $("#waitlisttablehistory_next").css("display", "none");
+            $("#waitlisttablehistory_length").css("display", "none");
+        } 
+        else{
+             $("#waitlisttablehistory_wrapper").hide();
+             $jquery("#nextPage").show();
+             $jquery("#previousPage").show();
+             $jquery("#nextPageHistory").hide();
+             $jquery("#previousPageHistory").hide();
+            loadWaitlistGuests();
+            }
+    }
+    function changePerPartyWaitTime() {
+        var orgId = $jquery("#orgIdHidden").val();
+        var notifyCount = $jquery("#notifynusers option:selected").val();
+        var perPartyWaitTime = $jquery("#perPartyWaitTime option:selected").val();
+        $jquery.ajax({
+        	url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/changePerPartyWaitTime?numberofusers=" 
+   						+ notifyCount + "&perPartyWaitTime=" + perPartyWaitTime + "&orgid=" + orgId,
+            dataType: "json",
+            type: "GET",
+            async: false,
+            "success": function(data) {
+                setOrgMetrixData(data);
+            }
+        });
+    }
+    function notifyUsers() {
+        var orgId = $jquery("#orgIdHidden").val();
+        var notifyCount = $jquery("#notifynusers option:selected").val();
+        console.log(orgId);
+        $jquery.ajax({
+            url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/notify?numberofusers=" + notifyCount + "&orgid=" + orgId,
+            type: "GET",
+            async: false,
+            "success": function(data) {
+                // alert("Successfully Notified "+notifyCount+" Guests");
+                alert("The top " + notifyCount + " parties will be notified in the event of any change in status.");
+                /* PUBNUB_RSNT.publish({
+    	   	    	    channel: 'RSNT_GUEST',
+    	   	    	    message: {"OP":"NOTIFY_USER","FROM":"ADMIN","notifyUser":notifyCount,"orgid":$jquery("#orgIdHidden").val()}
+    	   	    	});*/
+                if (client.getIsConnected() == false) {
+                    client.connect(appKey, authToken);
+                }
+                var message = JSON.stringify({
+                    "OP": "NOTIFY_USER",
+                    "FROM": "ADMIN",
+                    "notifyUser": notifyCount,
+                    "orgid": $jquery("#orgIdHidden").val()
+                });
+                client.send(channel, message);
+                console.log('Sending from notify users: ' + message + ' to channel: ' + channel);
+            }
+        });
+    }
+    function changeGuestPreferenceType(prefValue, inputId) {
+        if (prefValue && prefValue.toLocaleLowerCase() == "sms") {
+            $("#" + inputId).get(0).setAttribute("type", "tel");
+            $("#" + inputId).attr('placeholder', '(___) ___-____');
+            $("#" + inputId).mask("(999) 999-9999");
+        } else {
+            $("#" + inputId).get(0).setAttribute("type", "email");
+            $("#" + inputId).attr('value', '');
+            $("#" + inputId).attr('placeholder', 'guest@email.com');
+            $("#" + inputId).unmask();
+        }
+    }
+    //]]>
+</script>
+
+
+
+
+
+	</ui:define>
+	<ui:define name="body">
+		<div id="ready-confirm" title="Confirm Table Ready For"
+			style="display: none">
+			<form>
+				<fieldset>
+					<label id="guestlb"></label> <br /> <label id="guestlbname"></label>
+					<br /> <label id="guestlbpartyof"></label> <br />
+					<!-- <label   id="guestlbemail"  ></label>  -->
+					<!-- <input type="checkbox" id="guestlboptin"/>
+      <br/>
+      <label   id="guestlbsms"  ></label>-->
+					<br />
+				</fieldset>
+			</form>
+		</div>
+		<div id="update-guest" title="Edit Guest #" style="display: none">
+			<form>
+				<fieldset>
+					<div id="updateErrorDiv"></div>
+					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td align="right"><label for="upguestlbname">Name</label></td>
+							<td></td>
+							<td><input type="text" name="upguestlbname"
+								id="upguestlbname" value="" /></td>
+						</tr>
+						<tr>
+							<td align="right"><label for="upguestlbpartyof">Party
+									of</label></td>
+							<td></td>
+							<td><select name="upguestlbpartyof" id="upguestlbpartyof">
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+									<option value="11">11</option>
+									<option value="12">12</option>
+									<option value="13">13</option>
+									<option value="14">14</option>
+									<option value="15">15</option>
+									<option value="16">16</option>
+									<option value="17">17</option>
+									<option value="18">18</option>
+									<option value="19">19</option>
+									<option value="20">20</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td align="right"><label for="upguestlbsearpref">Seating
+									Preferences </label></td>
+							<td></td>
+							<td><select name="upguestlbsearpref" id="upguestlbsearpref"
+								multiple="multiple">
+							</select></td>
+						</tr>
+						<tr>
+							<td align="right"><label>SMS</label> <input type="radio"
+								name="upguestlbemailopt" value="Sms"
+								onclick="changeGuestPreferenceType('SMS','upguestlboptvalue')" />
+								<label>E-mail</label> <input type="radio"
+								name="upguestlbemailopt" value="Email"
+								onclick="changeGuestPreferenceType('EMAIL','upguestlboptvalue')" />
+								<label for="upguestlboptvalue"></label></td>
+							<td></td>
+							<td><input type="text" name="upguestlboptvalue"
+								id="upguestlboptvalue" value="" /></td>
+						</tr>
+						<tr>
+							<td align="right"><label for="upguestlbnote">Note</label></td>
+							<td></td>
+							<td><textarea name="upguestlbnote" id="upguestlbnote"
+									rows="5" cols="38" maxlength="250"></textarea></td>
+						</tr>
+
+						<tr>
+							<td></td>
+							<td></td>
+							<td><input type="checkbox" name="upguestlboptin"
+								id="upguestlboptin" /><label for="upguestlboptin">Opt-in</label>
+							</td>
+						</tr>
+					</table>
+				</fieldset>
+			</form>
+		</div>
+		<div id="create-guest" title="Add new Guest" style="display: none;">
+			<form>
+				<fieldset>
+					<div id="createErrorDiv"></div>
+					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td align="right"><label for="crguestlbname">Name</label></td>
+							<td></td>
+							<td><input type="text" name="crguestlbname"
+								id="crguestlbname" value="" /></td>
+						</tr>
+						<tr>
+							<td align="right"><label for="crguestlbpartyof">Party
+									of</label></td>
+							<td></td>
+							<td><select name="crguestlbpartyof" id="crguestlbpartyof">
+									<option>1</option>
+									<option>2</option>
+									<option>3</option>
+									<option>4</option>
+									<option>5</option>
+									<option>6</option>
+									<option>7</option>
+									<option>8</option>
+									<option>9</option>
+									<option>10</option>
+									<option>11</option>
+									<option>12</option>
+									<option>13</option>
+									<option>14</option>
+									<option>15</option>
+									<option>16</option>
+									<option>17</option>
+									<option>18</option>
+									<option>19</option>
+									<option>20</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td align="right"><label for="crguestlbsearpref">Seating
+									Preferences </label></td>
+							<td></td>
+							<td><select name="crguestlbsearpref" id="crguestlbsearpref"
+								multiple="multiple">
+							</select></td>
+						</tr>
+						<tr>
+							<td align="right"><label>SMS</label> <input type="radio" id="sms"
+								name="crguestlbemailopt" value="Sms" checked="true"
+								onclick="changeGuestPreferenceType('SMS','crguestlboptvalue')" />
+								<label>E-mail</label> <input type="radio"
+								name="crguestlbemailopt" value="Email" id="email"
+								onclick="changeGuestPreferenceType('EMAIL','crguestlboptvalue')" />
+								<label for="crguestlboptvalue"></label></td>
+							<td></td>
+							<td><input type="number" class="input-value"
+								name="crguestlboptvalue" id="crguestlboptvalue" value="" /></td>
+						</tr>
+						<tr>
+							<td align="right"><label for="crguestlbnote">Note</label></td>
+							<td></td>
+
+							<td><textarea name="crguestlbnote" id="crguestlbnote"
+									rows="5" cols="38" maxlength="250"></textarea></td>
+						</tr>
+
+						<tr>
+							<td></td>
+							<td></td>
+							<td><input type="checkbox" name="crguestlboptin"
+								id="crguestlboptin" /><label for="crguestlboptin">Opt-in</label></td>
+						</tr>
+					</table>
+				</fieldset>
+			</form>
+
+		</div>
+		<div id="delete-confirm" title="Delete Guest ?" style="display: none">
+			<form>
+				<fieldset>
+					<label id="dguestlb"></label> <br /> <label id="dguestlbname"></label>
+					<br /> <label style="display: none" id="dguestlbpartyof"></label>
+					<br />
+					<!--   <label   id="dguestlbemail"  ></label> -->
+					<!-- <input type="checkbox" id="dguestlboptin"/>
+      <br/>
+      <label   id="dguestlbsms"  ></label>
+      <br/>-->
+				</fieldset>
+			</form>
+		</div>
+
+		<div id="reset-confirm" title="Reset Guests ?" style="display: none">
+			<form>
+				<fieldset>
+					Are you SURE you want to clear the wait-list?<br /> The process
+					cannot be reversed.
+				</fieldset>
+			</form>
+		</div>
+
+		<div class="box round first grid">
+			<h2>Wait List</h2>
+			<div class="grid_12 top-sorter">
+				<div class="grid_3">
+					<input type="checkbox" name="history" id="history" value="email"
+						onclick="loadHistory();" /> <label>History</label>
+				</div>
+				<div class="grid_5" style="text-align: right;">
+					<table border="1" cellspacing="0" cellpadding="0">
+						<a4j:outputPanel
+							rendered="#{s:hasPermission('','Approximate Wait Time')}">
+							<tr>
+								<td class="heading">Approximate Wait Time</td>
+								<td></td>
+								<td><div class="top-select-option">
+										<select id="perPartyWaitTime"
+											onchange="changePerPartyWaitTime()">
+											<option value="0">0 Min.</option>
+											<option value="1">1 Min.</option>
+											<option value="2">2 Min.</option>
+											<option value="3">3 Min.</option>
+											<option value="4">4 Min.</option>
+											<option value="5">5 Min.</option>
+											<option value="6">6 Min.</option>
+											<option value="7">7 Min.</option>
+											<option value="8">8 Min.</option>
+											<option value="9">9 Min.</option>
+											<option value="10">10 Min.</option>
+											<option value="15">15 Min.</option>
+											<option value="20">20 Min.</option>
+											<option value="25">25 Min.</option>
+											<option value="30">30 Min.</option>
+											<option value="35">35 Min.</option>
+
+
+										</select> <label>Per party</label>
+									</div></td>
+							</tr>
+						</a4j:outputPanel>
+						<tr>
+							<td class="heading">Total Wait Time</td>
+							<td></td>
+							<td><div class="top-select-option">
+									<input type="button" id="totalWaitTime" value="0" /> <input
+										type="button" value="Minutes" style="white-space: nowrap" />
+								</div></td>
+						</tr>
+						<a4j:outputPanel rendered="#{s:hasPermission('','Notify First')}">
+							<tr>
+								<td class="heading">Notify First</td>
+								<td></td>
+								<td><div class="top-select-option">
+										<select id="notifynusers" onchange="changeNotificationThreshold()">
+
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="4">4</option>
+											<option value="5">5</option>
+											<option value="6">6</option>
+											<option value="7">7</option>
+											<option value="8">8</option>
+											<option value="9">9</option>
+											<option value="10">10</option>
+										</select> <label>Parties</label>
+									</div></td>
+							</tr>
+						</a4j:outputPanel>
+					</table>
+				</div>
+
+				<a4j:outputPanel rendered="#{s:hasPermission('','Guest Check-in')}">
+					<div class="grid_3">
+						<div class="button-top">
+							<a href="#" class="button-default" style="float: right;"
+								onclick="openCreateGuestWindow();">Guest Check-in</a>
+						</div>
+					</div>
+				</a4j:outputPanel>
+				<a4j:outputPanel
+					rendered="#{s:hasPermission('','Add Guest Button')}">
+					<div class="grid_1">
+						<div class="add-button">
+							<a href="#" onclick="openCreateGuestDialog()"></a>
+						</div>
+					</div>
+				</a4j:outputPanel>
+			</div>
+			<div class="dataTables_length" id="waitlistSort">
+			<label>Show <select id="recordsPerPage"
+					onchange="loadWaitlistGuests()">
+						<option value="7">7</option>
+						<option value="25">25</option>
+						<option value="50">50</option>
+						<option value="75">75</option>
+						<option value="100" selected="selected">100</option>
+				</select> entries
+				</label>
+			</div>
+				<div class="dataTables_length" id="historySort" >
+			<label>Show <select id="recordsPerPageForHistory"
+					onchange="loadHistory()">
+						<option value="7">7</option>
+						<option value="25">25</option>
+						<option value="50">50</option>
+						<option value="75">75</option>
+						<option value="100" selected="selected">100</option>
+				</select> entries
+				</label>
+			</div>
+			<div class="block history">
+				<div class="dataTables_scroll">
+					<div class="dataTables_scrollHead"
+						style="border: 0px none; width: 100%;"></div>
+					<div class="dataTables_scrollBody"
+						style="overflow: auto; width: 100%; height: 100%;">
+						<div class="dataTables_wrapper" id="example_wrapper">
+							<table width="100%" class="data display datatable"
+								id="waitlisttable">
+								<thead>
+									<tr>
+										<th rowspan="1" colspan="1" class="seat" style="width: 80px;">Seat</th>
+										<th rowspan="1" colspan="1" class="no" style="width: 80px;">No.</th>
+										<th rowspan="1" colspan="1" class="name" style="width: 223px;">Name</th>
+										<th rowspan="1" colspan="1" class="name" style="width: 223px;">Seating
+											Preferences</th>
+										<th rowspan="1" colspan="1" class="delt" style="width: 80px;">Delete</th>
+										<th rowspan="1" colspan="1" class="party-of"
+											style="width: 43px;">Party of</th>
+										<th rowspan="1" colspan="1" class="name" style="width: 223px;">Note</th>
+										<th rowspan="1" colspan="1" class="sms" style="width: 113px;">SMS</th>
+										<th rowspan="1" colspan="1" class="emial"
+											style="width: 113px;">E-mail</th>
+										<th rowspan="1" colspan="1" class="opt-in"
+											style="width: 125px;">Opt-in</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+							<table width="100%" class="data display datatable"
+								id="waitlisttablehistory" style="display: none">
+								<thead>
+									<tr>
+										<th rowspan="1" colspan="1" class="no" style="width: 80px;">No.</th>
+										<th rowspan="1" colspan="1" class="name" style="width: 223px;">Name</th>
+										<th rowspan="1" colspan="1" class="name" style="width: 223px;">Seating
+											Preferences</th>
+										<th rowspan="1" colspan="1" class="delt" style="width: 80px;">Status</th>
+										<th rowspan="1" colspan="1" class="party-of"
+											style="width: 43px;">Party of</th>
+										<th rowspan="1" colspan="1" class="name" style="width: 223px;">Note</th>
+										<th rowspan="1" colspan="1" class="sms" style="width: 113px;">SMS</th>
+										<th rowspan="1" colspan="1" class="emial"
+											style="width: 113px;">E-mail</th>
+										<th rowspan="1" colspan="1" class="opt-in"
+											style="width: 125px;">Opt-in</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<input type="hidden" id="pubkey" value="" /> <input type="hidden"
+				id="privatekey" value="" /> <input type="hidden" id="pageNumber"
+				value="1" /> <input type="hidden" id="nowServingParty"
+				value="1" /> <input type="hidden" id="totalParties"
+				value="1" /> <input type="hidden" id="totalWaitTime"
+				value="1" /> <input type="hidden" id="guestIdToBeNotifiedNext"
+				value="1" />
+			<div class="paginate_enabled_next" title="Next" id="nextPage"
+				style="float: right; font-weight: bold;"
+				onclick="changePage('next')">Next</div>
+			<div class="paginate_enabled_previous" title="Previous"
+				id="previousPage" style="float: right; font-weight: bold;"
+				onclick="changePage('previous')">Previous</div>
+			<div class="paginate_enabled_next" title="Next" id="nextPageHistory"
+				style="float: right; font-weight: bold;"
+				onclick="changePage('next')">Next</div>
+			<div class="paginate_enabled_previous" title="Previous"
+				id="previousPageHistory" style="float: right; font-weight: bold;"
+				onclick="changePage('previous')">Previous</div>
+		</div>
+	</ui:define>
+</ui:composition>

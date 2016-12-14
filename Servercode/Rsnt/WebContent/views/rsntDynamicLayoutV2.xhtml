@@ -1,0 +1,416 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:richfaces="http://richfaces.ajax4jsf.org/rich"
+	template="../layout/template.xhtml">
+
+	<ui:define name="head">
+	
+     <meta charset="utf-8" />
+	 <!-- Viewport for Responsivity -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+	<!-- Stylesheets -->
+		<link href='http://fonts.googleapis.com/css?family=Maven+Pro:400,700' rel='stylesheet' type='text/css' />
+		<link rel="stylesheet" type="text/css" href="#{request.contextPath}/uiframework/mapplic/css/mapplicstyle.css"/>
+		<link rel="stylesheet" type="text/css" href="#{request.contextPath}/uiframework/mapplic/mapplic.css"/>
+<!-- <script type="text/javascript"	src="#{request.contextPath}/uiframework/jQuery-js/jquery-1.7.2.js"></script>
+<script type="text/javascript"	src="#{request.contextPath}/uiframework/jQuery-js/jquery.event.drag-2.2.js"></script>
+<script type="text/javascript"	src="#{request.contextPath}/uiframework/jQuery-js/jquery.event.drag.live-2.2.js"></script>
+<script type="text/javascript"	src="#{request.contextPath}/uiframework/jQuery-js/jquery.event.drop-2.2.js"></script>
+<script type="text/javascript"	src="#{request.contextPath}/uiframework/jQuery-js/jquery.event.drop.live-2.2.js"></script>
+<script type="text/javascript"	src="#{request.contextPath}/uiframework/jQuery-js/excanvas.min.js"></script>
+ -->
+	 <script type="text/javascript" src="#{request.contextPath}/uiframework/mapplic/js/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/mapplic/js/hammer.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/mapplic/js/jquery.easing.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/mapplic/js/jquery.mousewheel.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/mapplic/js/smoothscroll.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/mapplic/mapplic.js"></script>
+<style>
+#layoutListId {
+	list-style: none;
+	
+}
+
+.dark_button {
+	font-size: 11px;
+	font-weight: bold;
+	color: rgb(40, 137, 213);
+	text-decoration: none !important;
+	border: 1px solid rgb(0, 0, 0);
+	border-radius: 3px 3px 3px 3px;
+	box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3) inset;
+	background: -moz-linear-gradient(center top, rgb(85, 85, 85) 0%,
+		rgb(51, 51, 51) 100%) repeat scroll 0% 0% rgb(85, 85, 85);
+	-moz-user-select: none;
+	cursor: pointer;
+	padding: 1px 1px 1px;
+	float: center;
+	margin: 1px 1px;
+}
+
+.submit {
+	background: url(../img/box-1.png) no-repeat;
+}
+
+.drag {
+	position: absolute;
+	
+	cursor: move;
+	top: 350px;
+}
+
+#containerdrag {
+	min-height:300px;
+	height:4200px;
+	overflow: hidden;
+	border: 1px dashed #888;
+	background-color: #E0F2F7;
+}
+#containerdrag ul {
+	height:100%;
+}
+#containerdrag li {
+	display: inline-block;
+}
+</style>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-98841-11']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+		<script type="text/javascript">  //<![CDATA[
+
+		           $jquery(window).load(function(){
+		        	   var orglayoutID ;
+		        	   var mappliclaer;
+		        	   var optionVal = [];
+		            	  //  initalizeGridster();
+		            	   
+		            	   updateActiveMenuItem('#spnLyt');
+		            	  orglayoutID = $('#selectedOrgLayoutIdHidden').val();
+		            	  console.log("window is loaded",orglayoutID);
+		            	
+		            			var orgLayoutList = $('.mapplic-levels-select').attr('id','orgLayoutListmapplic');
+								//if(orgLayoutList != undifined)
+								$('#orgLayoutListmapplic [value='+orglayoutID+']').attr('selected',true);
+								   
+								      $("#orgLayoutListmapplic option").each(function()
+										   {
+									       optionVal.push($(this).val());
+										   });
+									           for(var i = 0;i<optionVal.length;i++)
+										       {
+									    	   mappliclaer = 'mapplic-layer '+optionVal[i];
+											   $("[class*='"+mappliclaer+"']").attr('id',"mapplicmainDIV"+optionVal[i]);
+			                                  if(optionVal[i] == orglayoutID)
+			                                      {
+			                                	  $('#mapplicmainDIV'+orglayoutID).attr('style','display:block');
+			                                	 
+			                                	 
+			                                      }
+			                                  else
+			                                      {
+			                                	  $('#mapplicmainDIV'+optionVal[i]).attr('style','display:none');
+			                                      }
+											   };
+			            	   
+					
+								$('#orgLayoutListmapplic').change(function() {
+									console.log('onchange');
+									  orglayoutID = $(this).val();
+									  $('#selectedOrgLayoutIdHidden').val(orglayoutID);
+						            
+						            
+									var draggable = $('#mapplicmainDIV'+orglayoutID).find('div:first');
+									var pos = draggable.position();
+									if(draggable.attr('style').indexOf('top')<0) {
+										var w = draggable.width() + 20;
+										var h = draggable.height() + 20;
+										$('#mapplicmainDIV'+orglayoutID).find('div').each(function(index,a){
+											if (index==0)
+												$(this).css({top: pos.top, left: pos.left})
+											else
+												$(this).css({top: pos.top + (h*parseInt(index/8)), left: pos.left + (w*parseInt(index%8)) })
+										})
+										$jquery("#mapplicmainDIV"+orglayoutID).css("visibility", "visible");
+									}
+									//saveLayout(orglayoutID);
+								});
+							
+						
+							
+						});
+					   	$jquery(document).ready(function(){	
+					   		console.log("document is ready");
+					     	var orglayoutID = $('#selectedOrgLayoutIdHidden').val();
+					           //Mapplic code
+					          	$('#mapplic').mapplic({
+										source:RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH +"/layoutManagerRestAction/getDashboardMapplicObject?layoutId="+orglayoutID,
+                                    
+									    height: 1500,
+										
+										animate: false,
+										mapfill: true,
+										sidebar: false,
+										minimap: false,
+										deeplinking: false,
+										fullscreen: false,
+										hovertip: false,
+										developer: true,
+										maxscale: 1,
+										pindrag:true
+									});
+
+									$('.usage').click(function(e) {
+										e.preventDefault();
+										
+										$('.editor-window').slideToggle(200);
+									});
+
+									$('.editor-window .window-mockup').click(function() {
+										$('.editor-window').slideUp(200);
+									});
+									
+				  	  		   	  
+					     	 
+					   	});
+							
+				var timer = {};
+				var pollTimer;
+				var notificationInstance;
+				
+				function saveLayout(){
+					
+			   	   	  var params = {
+			   	        
+			   	           'layoutDataList': []
+			   	       };
+			   	   	  	var layoutDataArr= [];
+			            var orglayoutID = $('#selectedOrgLayoutIdHidden').val();
+			            var mappliclaer;
+			            mappliclaer = 'mapplic-layer '+orglayoutID;
+			            if($("."+mappliclaer).length == 0) 
+		            	   {
+	            		    
+						   $("[class*='"+mappliclaer+"']").attr('id',"mapplicmainDIV"+orglayoutID);  
+		            	   }
+	            	       
+			            // var mappliclaer = 'mapplic-layer '+orglayoutID;
+			              //document.getElementsByClassName(mappliclaer).id = "mapplicmainDIV";
+			           // testmapplic.id = "mapplicmainDIV";
+			           // testmapplic.attr('id','mapplicmainDIV');
+			            //$("[class*='mapplic-layer 2']").attr('id','mapplicmainDIV');
+			           //$("[class*='"+mappliclaer+"']").attr('id','mapplicmainDIV');
+			           
+						$('#mapplicmainDIV'+orglayoutID).find('div').each(function(index){
+							
+							//console.log('this new :',$jquery(this).attr('style'),$jquery(this).position());
+							var dataLocal = {};
+							var id =  $jquery(this).attr('id').split('-');
+							dataLocal["id"] = id[1];
+							dataLocal["dataRow"] = 0;
+							dataLocal["dataCol"] = 0;
+							dataLocal["dataSizex"] =1;
+							dataLocal["dataSizey"] = 1;
+							dataLocal["styleClass"] = 'alert';
+							
+							if($jquery(this).attr('style').indexOf('top')<0) {
+								var pos = $jquery(this).position();
+								dataLocal["stylePos"] = 'top:' + pos.top + 'px; left:' + pos.left + 'px;';
+							} else
+								{
+								var lateststyle = $jquery(this).attr('style');
+								console.log('lateststyle',lateststyle);
+								var lateststyleslipt = [];
+								lateststyleslipt = lateststyle.split(';');
+								var toptoken=[];
+								var lefttoken =[];
+								 toptoken = lateststyleslipt[0].split(":");
+							     lefttoken = lateststyleslipt[1].split(":");
+							     var top = toptoken[1].substring(0,toptoken[1].indexOf("%"));
+								 var left = lefttoken[1].substring(0,lefttoken[1].indexOf("%"));
+								 
+								 dataLocal["stylePos"] = 'top:' + top + 'px; left:' + left + 'px;';
+
+								
+								}
+								
+								
+							layoutDataArr.push(dataLocal);
+							params.layoutDataList.push(JSON.stringify(dataLocal));
+							
+							
+						});
+						$jquery("#layoutListId").css("visibility", "visible");						
+						//params.layoutDataList = JSON.stringify(layoutDataArr);
+						$jquery.ajax({
+		 		    	    url:RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/layoutManagerRestAction/saveLayoutPositionData?cid=" + #{conversation.id},
+		 		    	    dataType: "json",
+		 		    	    type:"POST",
+		 		    	    async: false,
+		 		    	    data: params,
+		 		    	    "success": function(data) {
+		 		    	    	console.log('success :',data);
+			 		    	    
+			 		    	  }
+		 		    	});	
+
+						//closeNotification();
+						
+		    	}
+
+				
+
+			 /*   	function initalizeGridster(){
+			   		jQuery(function($){
+			   			var $div = $('#containerdrag');
+			   			
+			   			$('.drag')
+			   				.drag("start",function( ev, dd ){
+			   					dd.limit = $div.offset();
+			   					dd.limit.bottom = dd.limit.top + $div.outerHeight() - $( this ).outerHeight();
+			   					dd.limit.right = dd.limit.left + $div.outerWidth() - $( this ).outerWidth();
+			   				})
+			   				
+			   				.drag(function( ev, dd ){
+			   					$( this ).css({
+			   						top: Math.min( dd.limit.bottom, Math.max( dd.limit.top, dd.offsetY ) ),
+			   						left: Math.min( dd.limit.right, Math.max( dd.limit.left, dd.offsetX ) )
+			   					});
+			   				 createNotificationJS();
+			   				});
+			   		 
+			   		});
+			   		
+
+				 } */
+
+
+			   	function hideAllIconDivs(layoutMarkerId){
+				   	if(layoutMarkerId.startsWith('btn')){
+				   		layoutMarkerId = layoutMarkerId.substring(4,6);
+				   		console.log('Substring: '+layoutMarkerId);
+					   }
+					   	
+			   		var divCheck = '#'+layoutMarkerId +' .icon' ;
+			   		$jquery(divCheck).each(function () {
+						$jquery(this).removeAttr('style');
+						$jquery(this).attr('style','visibility: hidden');
+						
+					});
+
+				 }
+
+				 function clearAllMarkerOptTimers(layoutMarkerId){
+					if(layoutMarkerId.startsWith('btn')){
+				   		layoutMarkerId = layoutMarkerId.substring(4,6);
+				   		console.log('Substring: '+layoutMarkerId);
+				   	}
+						   	
+			   		var divCheck = '#'+layoutMarkerId +' .icon img' ;
+			   		var btnId='';
+			   		$jquery(divCheck).each(function () {
+			   			//console.log('div img: '+$jquery(this));
+			   			console.log('div img Id: '+$jquery(this).attr('id'));
+			   			btnId = $jquery(this).attr('id');
+			   			clearInterval(timer[btnId]);	
+						
+					});
+
+				}
+
+				
+				function createSaveNotification() {
+					create("basic-template","",{
+					    expires: false,
+					    speed: 500
+					});
+				}
+				function create( template, vars, opts ){
+					
+					notificationInstance =  $container.notify("create", template, vars, opts);
+					return notificationInstance;
+				}
+
+				function closeNotification(){
+					notificationInstance.close();
+
+				}
+   //]]> </script>
+	</ui:define>
+
+	<ui:define name="body">
+
+		<div class="box round first">
+			<a4j:outputPanel id="dynamicLayoutPanelId">
+
+				<h:form id="dynaForm">
+
+					<rich:messages id="errorMsg" globalOnly="true"
+						infoClass="rich-messages-label-sucess"
+						errorClass="rich-messages-label-error" />
+					<br />
+
+					<a4j:outputPanel id="dashButtonPanel">
+						<table class="form">
+							<tr class="buttonsRow">
+								<td style="width: 90%"><span style="float: right"> <a4j:outputPanel
+											rendered="#{s:hasPermission('','Save Marker Positions')}">
+											<a4j:commandButton status="showLoadingStatus"
+												value="Save Marker Positions" styleClass="button"
+												onclick="saveLayout(this.selectedOrgLayoutIdHidden);" reRender="errorMsg">
+											</a4j:commandButton>
+										</a4j:outputPanel> <a4j:commandButton value="Select Layout Options"
+											styleClass="button"
+											action="#{layoutOptionAction.initializeLayoutOptions}">
+										</a4j:commandButton>
+								</span></td>
+							</tr>
+						</table>
+					</a4j:outputPanel>
+
+				</h:form>
+
+			</a4j:outputPanel>
+
+			<a4j:outputPanel>
+				<section>
+
+					<a4j:outputPanel id="dynamicLayoutPanelGridId">
+						<h:inputHidden value="#{layoutManagerAction.selectedOrgLayoutId}"
+							id="selectedOrgLayoutIdHidden" />
+				            <div id="mapplic">
+                      </div>
+
+					</a4j:outputPanel>
+
+				</section>
+
+			</a4j:outputPanel>
+
+		</div>
+
+
+		<a4j:form>
+			<a4j:jsFunction action="#{layoutManagerAction.dummyMethod}"
+				name="createNotificationJS" reRender="rightsMessagePanel"
+				oncomplete="createSaveNotification()">
+			</a4j:jsFunction>
+		</a4j:form>
+
+	</ui:define>
+
+</ui:composition>

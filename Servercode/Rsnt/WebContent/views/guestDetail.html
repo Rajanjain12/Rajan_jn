@@ -1,0 +1,495 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<title>checkin</title>
+<link href="http://fonts.googleapis.com/css?family=Oswald:400"
+	rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/Rsnt/uiframework/css/standardize.css">
+<link rel="stylesheet" href="/Rsnt/uiframework/css/checkin-grid.css">
+<link rel="stylesheet" href="/Rsnt/uiframework/css/styles.css">
+
+
+<script type="text/javascript">
+	function isValidPhoneNumber(phone) {
+	    var pattern = new RegExp(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/);
+	    return pattern.test(phone);
+	}
+	
+	function isValidEmailAddress(emailAddress) {
+	    var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
+	    return pattern.test(emailAddress);
+	}
+	
+
+
+	</script>
+
+</head>
+<body class="body page-checkin clearfix">
+	<div class="main-container clearfix">
+			<div id="block"></div> 		
+		<div class="parties-waiting-text-wrapper clearfix">
+			<p class="waiting-text">
+				(<label id="numberofparties"></label>)
+			</p>
+			<p class="parties-text">Parties Waiting</p>
+		</div>
+		<div class="logo-wrap">
+			<!--  <img id="logoID" class="logo" src="">
+			<p class="welcome-text">Welcome to</p>-->
+		</div>
+		<div class="now-serving-wrapper clearfix">
+			<p class="now-serving-head">Now Serving</p>
+
+			<p class="now-serving--text">
+				<span class="hash-text">#</span><label id="guestRankMin"></label>
+			</p>
+		</div>
+		<div class="seperator"></div>
+		<div class="est-wait-time-wrapper">
+			<p class="est-wait-time-head">Est. Wait Time</p>
+			<p class="est-wait-time-text">
+				<label id="hour" class="hour"></label><label id="points">:</label><label
+					id="min" class="min"></label>
+			</p>
+		</div>
+		<button id="checkin-btn" class="checkin-btn">PRESS HERE TO CHECK-IN</button>
+	</div>
+	<div id="popup-wrapper" class="popup clearfix">
+		<p class="text text-7">* = Required</p>
+		<img id="close-btn" class="close-btn"
+			src="/Rsnt/uiframework/images/close-btn.gif"> <input
+			id="crguestlbname" class="name" placeholder="Name*" type="text">
+		<div id="name-tooltip" class="tooltip tooltip-1 clearfix">
+			<img class="image image-2"
+				src="/Rsnt/uiframework/images/left-arrow.png">
+			<p class="tooltip-text tooltip-text-1">Oops! What should we call
+				you when your table's ready?</p>
+		</div>
+		<div class="container _container clearfix">
+			<div class="tel-email">
+				<label class="radio-label _container radio-label-1 clearfix">
+					<input class="radio radio-1" type="radio" name="crguestlbemailopt"
+					value="sms" checked
+					onClick="changeGuestPreferenceType('SMS','crguestlboptvalue')">
+					<span class="point-text point-text-2">Cell Phone</span>
+				</label>
+				<p class="text text-10">
+					<span>OR</span>
+				</p>
+				<label class="radio-label _container radio-label-2 clearfix">
+					<input class="radio radio-2" type="radio" name="crguestlbemailopt"
+					value="email"
+					onClick="changeGuestPreferenceType('EMAIL','crguestlboptvalue')">
+					<span class="point-text"><span>E-mail</span></span>
+				</label>
+			</div>
+
+			<input id="crguestlboptvalue" class="phone-email"
+				placeholder="(___)-___-____ *" type="text">
+		</div>
+		<p class="text text-13"></p>
+		<div id="number-tooltip" class="tooltip tooltip-2 clearfix">
+			<img class="image image-3"
+				src="/Rsnt/uiframework/images/left-arrow.png">
+			<p class="tooltip-text tooltip-text-2">How many seats should we
+				prepare for your party?</p>
+		</div>
+		<div id="phone-tooltip" class="tooltip tooltip-3 clearfix">
+			<img class="image image-4"
+				src="/Rsnt/uiframework/images/left-arrow.png">
+			<p class="tooltip-text tooltip-text-3">Wouldn't you rather get a
+				text/e-mail when your table's almost ready? You can also check your
+				status with the link provided!</p>
+		</div>
+		<select id="crguestlbpartof" class="_select">
+			<option value="# of people in your party *"># of people in
+				your party *</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
+			<option value="23">23</option>
+			<option value="24">24</option>
+			<option value="25">25</option>
+		</select>
+		<div class="seating-pref-box clearfix"></div>
+		<label class="checkbox-label _container clearfix"> <input
+			class="checkbox" type="checkbox" id="crguestlboptin"> <span
+			class="point-text">Opt-in to receive promotions/specials</span>
+		</label>
+		<button id="go" class="_button">Add me to the Wait-list</button>
+		
+	</div>
+		<!--<div id="qrcode"></div>-->
+		<div id="deviceId"></div>
+		<div id="deviceType"></div>
+
+	<input type="hidden" id="ppwtime" />
+
+	<div class="popup clearfix" id="aftersave">
+
+		<p>Thank you! Your customer number is:</p>
+		<div class="now-serving-head">
+			<label class="now-serving-head">#</label> <label id="guestRank"></label>
+		</div>
+		<div class="guest_pop_contain">We apologize for any
+			inconvenience, but anyone not ready with their entire party will not
+			be seated.</div>
+		<span class="thnk_text"> Thank you for your understanding and
+			cooperation! </span> <label class="close-btn">OK</label>
+	</div>
+
+	   <footer class="footer clearfix">
+		<div class="footer-cont">
+			<div class="element"></div>
+			<img class="image" src="/Rsnt/uiframework/images/logo.png">
+			<p id="footerMsg"></p>
+		</div>
+
+	</footer>
+
+	<!-- <script src="/Rsnt/uiframework/js/jquery-1.11.0.min.js"></script> -->
+
+	<script
+		src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script type="text/javascript"
+		src="/Rsnt/uiframework/jQuery-js/jquery-ui.min.js?v=1.3"></script>
+	<script src="/Rsnt/uiframework/jQuery-js/jquery.multiselect.js?v=1.5"></script>
+	<script src="/Rsnt/uiframework/jQuery-js/jquery.query-object.js?v=1.5"></script>
+	<script src="/Rsnt/uiframework/js/main.js"></script>
+	<script type="text/javascript"
+		src="/Rsnt/uiframework/jQuery-js/jquery.maskedinput.js?v=1.5"></script>
+	<!--  <script type="text/javascript" src="http://code.xrtml.org/xrtml-3.0.0.js"></script>
+	<script type="text/javascript" src="http://dfdbz2tdq3k01.cloudfront.net/js/2.1.0/ortc.js"></script>-->
+	<script type="text/javascript"
+		src="/Rsnt//uiframework/js/xrtml-3.0.0.js"></script>
+	<script type="text/javascript"
+		src="/Rsnt//uiframework/js/ortc.js"></script>
+	<script src="/Rsnt/uiframework/js/checkin.js"></script>
+<script type="text/javascript" src="/Rsnt/uiframework/js/jquery.qrcode.js"></script>
+		<script src="/Rsnt/uiframework/js/qrcode.js"></script>
+
+
+	<script type="text/javascript">
+RSNT_GLOBALCONTEXTPATH = '/Rsnt';
+RSNT_RESTEASYPATH = '/seam/resource/restv1';
+var pubKey,privateKey;
+var connectionUrl = 'https://ortc-developers.realtime.co/server/2.1';
+
+var appKey = '';
+var authToken = 'Unno1adyiSooIAkAEt';
+var channel = '';
+var qrcodechannel = '';
+var qrcodevalue = '';
+var privateKey = '';
+var isCluster = true;
+var authenticationRequired = false;
+var client;
+var countMsgChannel = 0;
+
+$.ajax({
+    url:RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/pusgerinformation",
+    dataType: "json",
+    type:"GET",
+    async: false,
+    "success": function(data) {
+	    console.log(data);
+	    appKey = data.REALTIME_APPLICATION_KEY;
+  	    privateKey = data.REALTIME_PRIVATE_KEY;
+  	    channel = data.pusherChannelEnv;
+  	    qrcodevalue = data.qrcodevalue;
+  	    qrcodechannel=data.qrcodevalue+'_'+channel;
+  	  	$("p#footerMsg").text(data.footerMsg);
+  	  	console.log(qrcodechannel);
+	  }
+});	
+
+jQuery('#qrcode').qrcode({
+	render	: "table",
+	text	: qrcodevalue
+});
+
+/*
+var PUBNUB_RSNT = PUBNUB.init({
+    publish_key: pubKey,
+    subscribe_key: privateKey
+})chrome://bookmarks/;*/
+/*  
+    Realtime framework code
+ */
+ $( document ).ready(function() {
+ var OrtcNodeclient = loadOrtcFactory(IbtRealTimeSJType, function (factory, error){
+ client = factory.createClient();
+ client.setClusterUrl(connectionUrl);
+ client.setConnectionMetadata('UserConnectionMetadata');
+ 
+client.onConnected = clientConnected;
+client.onSubscribed = clientSubscribed;
+//client.onUnsubscribed = clientUnsubscribed;
+client.onReconnecting = clientReconnecting;
+client.onReconnected = clientReconnected;
+client.onDisconnected = clientDisconnected;
+client.onException = clientException;
+client.connect(appKey, authToken);
+if(authenticationRequired){
+	// Enable presence data for MyChannel
+	client.enablePresence({
+		applicationKey : appKey,
+		channel : channel, 
+		privateKey : privateKey, 
+		url : connectionUrl,
+		isCluster : isCluster,
+		metadata : 1
+	},
+	function(error,result){
+		if(error){
+			console.log('Enable presence error: ' + error);  
+		}else{
+			console.log('Presence enable: ' + result);              
+		}
+	});
+	
+}
+
+/* 
+ * Function connected to realtime.co framework and it is the main function for developers  
+ * */
+
+function clientConnected(ortc) {
+    console.log('Connected to: ' + ortc.getUrl());
+    console.log('Subscribe to channel: ' + channel);
+    if (client.getIsConnected() == false) {
+        client.connect(appKey, authToken);
+     }
+    // Subscribe channel
+    ortc.subscribe(channel, true, function onMessage(ortc, channel, message) {
+        countMsgChannel++;
+        console.log('Received (' + countMsgChannel + '): ' + message+ ' at channel: ' + channel);
+		var m = jQuery.parseJSON(message);
+        if(m.orgid == $.query.get("orgid")){
+         if(m.OP=='ADD' ){
+	    			var nbp = parseInt($("#numberofparties").html());
+	    			$("#numberofparties").html(nbp+1);
+	    			var twt = parseInt(m.totalWaitTime);
+	    			$("#totalWaitTime").val(twt);
+	    			var h = Math.floor(twt/60);	
+	    			var hour = h.toString().length == 1 ? (0+h.toString()) : h ;
+	    			var minutes = twt%60;
+	   	    	 	var min = minutes.toString().length == 1 ? (0+minutes.toString()) : minutes ;
+	      	    	  $("#hour").html(hour);
+	      	    	  $("#min").html(min);
+	      	    	  var nowServing = parseInt(m.nowServingParty);
+	      	    	$("#guestRankMin").html(nowServing);
+	    			}
+	    	    if(m.OP=='DEL'){
+	    	    	var nbp = parseInt($("#numberofparties").html());
+	    			//$("#numberofparties").html(nbp-1);
+	    			$("#numberofparties").html(m.numberofparties);
+	    			var twt = parseInt(m.totalWaitTime);
+	    			$("#totalWaitTime").val(twt);
+	    			var h = Math.floor(twt/60);	
+	    			var hour = h.toString().length == 1 ? (0+h.toString()) : h ;
+	    			var minutes = twt%60;
+	   	    	 	var min = minutes.toString().length == 1 ? (0+minutes.toString()) : minutes ;
+	      	    	  $("#hour").html(hour);
+	      	    	  $("#min").html(min);
+	      	    	var nowServing = parseInt(m.nowServingParty);
+	      	    	$("#guestRankMin").html(nowServing);
+	    		    }
+	    	    if(m.OP=='PPT_CHG'){
+	    	    	var nbp = parseInt($("#numberofparties").html());
+	    			$("#numberofparties").html(nbp);
+	    			$("#ppwtime").val(m.ppwt);
+	    			var twt = parseInt(m.totalWaitTime);
+	    			$("#totalWaitTime").val(twt);
+					var h = Math.floor(twt/60);	
+	    			var hour = h.toString().length == 1 ? (0+h.toString()) : h ;
+	    			var minutes = twt%60;
+	   	    	 	var min = minutes.toString().length == 1 ? (0+minutes.toString()) : minutes ;
+	      	      $("#hour").html(hour);
+	      	    	  $("#min").html(min);
+	      	    	var nowServing = parseInt(m.nowServingParty);
+	      	    	$("#guestRankMin").html(nowServing);
+	    		    }
+	    	    if(m.OP=='RESET'){ 
+	    	    	location.reload();
+	    		    }
+	    	    
+	    	    if(m.OP=='MINRANK'){ 
+	    	    	 $("#guestRankMin").html(m.guminrank);
+	    		    }
+	    	    if(m.OP=='MARK_AS_SEATED' || m.OP=='UPD'){ 
+	    	    	var twt = parseInt(m.totalWaitTime);
+	    	    	
+	    			$("#totalWaitTime").val(twt);
+	    			var h = Math.floor(twt/60);	
+	    			var hour = h.toString().length == 1 ? (0+h.toString()) : h ;
+	    			var minutes = twt%60;
+	   	    	 	var min = minutes.toString().length == 1 ? (0+minutes.toString()) : minutes ;
+	   	    		$("#hour").html(hour);
+     	    	  	$("#min").html(min);
+	   	    	 	$("#guestRankMin").html(m.NOW_SERVING_GUEST_ID);
+	   	    	 	$("#numberofparties").html(m.ORG_GUEST_COUNT);
+	    	    }
+	         }
+    });
+
+    ortc.subscribe(qrcodechannel, true, function (ortc, channel, message) {    
+        var m = jQuery.parseJSON(message);    
+    	$("#deviceId").html(m.deviceId);
+   	 		
+    	                    
+   });
+};
+
+function clientSubscribed(ortc, channel) {
+    console.log('Subscribed to channel: ' + channel);
+};
+
+function clientUnsubscribed(ortc, channel) {
+    console.log('Unsubscribed from channel: ' + channel);
+};
+
+function clientReconnecting(ortc) {
+    console.log('Reconnecting to ' + connectionUrl);
+};
+
+function clientReconnected(ortc) {
+    console.log('Reconnected to: ' + ortc.getUrl());
+};
+
+function clientDisconnected(ortc) {
+    console.log('Disconnected');
+};
+
+function clientException(ortc, error) {
+    console.log('Error: ' + error);
+};
+console.log('Connecting to ' + connectionUrl);
+	// Connect to the Realtime Framework cluster
+client.connect(appKey, authToken);
+
+
+});
+ });
+
+console.log($.query.get("orgid"));
+if($.query.get("orgid")){
+	loadOrgMetrciks();
+	
+}
+
+	$.ajax({
+	    url:RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/orgseatpref?orgid="+$.query.get("orgid"),
+	    dataType: "json",
+	    type:"GET",
+	    async: true,
+	    "success": function(data) {
+    	    console.log(data);
+    	   var seatPref = data.seatpref;
+    	   if(seatPref) { 
+    		   $(".seating-pref-box").append ($("<p class='seating-pref-text'>Seating Preference:</p>"));
+    		   var countLbl = 2;
+    		   var countIpt = 3;
+    		   var countSpn = 5;
+    		   
+    		   $.each(seatPref, function (i, item) {
+        		   
+					if(item.prefValue == 'First Available'){
+						// default checked the box if "First Available"
+						$(".seating-pref-box").append ($("<label class='seating-pref-checkbox seating-pref-checkbox-1' clearfix'><input class='checkbox checkbox-2' id=" + item.prefValueId + " type='checkbox' value=" + item.prefValue + " checked /><span class='point-text point-text-4'><span>"+item.prefValue+"</span></span></label>"));
+					}else{
+						$(".seating-pref-box").append ($("<label class='seating-pref-checkbox seating-pref-checkbox-"+countLbl+"' clearfix'><input class='checkbox checkbox-"+countIpt+"' id=" + item.prefValueId + " type='checkbox' value=" + item.prefValue + " /><span class='point-text point-text-"+countSpn+"' ><span>"+item.prefValue+"</span></span></label>"));
+
+						countLbl++;
+						countIpt++;
+						countSpn++;
+						}
+    			});
+        	}
+   	  	}
+	});	
+
+	$(document).ready(function() {
+		//myFunction ();
+	});
+function loadOrgMetrciks(){ 
+	$.ajax({
+	    url:RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/waitlistRestAction/totalwaittimemetricks?orgid="+$.query.get("orgid"),
+	    dataType: "json",
+	    type:"GET",
+	    async: false,
+	    "success": function(data) {
+    	    console.log("loadOrgMetrciks--------------------"+data);
+    	    console.log("loadOrgMetrciks--------------------"+data.ORG_GUEST_COUNT);
+    	    
+    	    
+			
+    	     $("#ppwtime").val(data.ORG_WAIT_TIME)
+    	        $("#numberofparties").html(data.ORG_GUEST_COUNT)
+    	       var twt = data.ORG_TOTAL_WAIT_TIME;
+    	       $("#totalWaitTime").val(data.ORG_TOTAL_WAIT_TIME)
+    	        
+    	        
+	    	 var h = Math.floor(twt/60);	
+    		 var hour = h.toString().length == 1 ? (0+h.toString()) : h ;
+    		 var m = twt%60;
+   	    	 var min = m.toString().length == 1 ? (0+m.toString()) : m ;
+      	     $("#hour").html(hour);
+   	    	 $("#min").html(min);
+	    	 $("#guestRankMin").html(data.GUEST_RANK_MIN);
+  			 changeGuestPreferenceType('SMS','crguestlboptvalue');	 
+  		
+   	  }
+	});	
+	} 
+
+
+function changeGuestPreferenceType(prefValue,inputId){
+	if(prefValue && prefValue.toLocaleLowerCase()== "sms"){ 
+		$("#"+inputId).get(0).setAttribute("type","tel");
+		$('#crguestlboptvalue').attr('placeholder', '(___) ___-____ *');
+		$("#crguestlboptvalue").mask("(999) 999-9999");
+	} 	
+	else { 
+		$("#"+inputId).get(0).setAttribute("type","email");
+		$('#crguestlboptvalue').attr('value', ''); 
+		$('#crguestlboptvalue').attr('placeholder', 'guest@email.com *');
+		$("#crguestlboptvalue").unmask();
+	}
+ }
+
+$(document).click(function(){
+	  $("#crguestlbsearpref").hide();
+});	
+$(document).on('touchstart', function(event) {
+	  $("#crguestlbsearpref").hide();
+});
+
+
+
+</script>
+
+</body>
+</html>

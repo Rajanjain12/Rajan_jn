@@ -1,0 +1,437 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:richfaces="http://richfaces.ajax4jsf.org/rich"
+	template="../layout/template.xhtml">
+
+	<ui:define name="head">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+
+		<style>
+.dark_button {
+	font-size: 11px;
+	font-weight: bold;
+	color: rgb(40, 137, 213);
+	text-decoration: none !important;
+	border: 1px solid rgb(0, 0, 0);
+	border-radius: 3px 3px 3px 3px;
+	box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3) inset;
+	background: -moz-linear-gradient(center top, rgb(85, 85, 85) 0%,
+		rgb(51, 51, 51) 100%) repeat scroll 0% 0% rgb(85, 85, 85);
+	-moz-user-select: none;
+	cursor: pointer;
+	padding: 1px 1px 1px;
+	float: center;
+	margin: 1px 1px;
+}
+
+.submit {
+	background: url(../img/box-1.png) no-repeat;
+}
+
+#containerdrag {
+	min-height: 300px;
+	height: 4200px;
+	overflow: hidden;
+	border: 1px dashed #888;
+	background-color: #E0F2F7;
+	;
+}
+
+#layoutListId {
+	list-style: none;
+}
+
+.drag {
+	position: absolute;
+	cursor: pointer;
+	cursor: hand;
+	
+	top: 350px;
+}
+
+#containerdrag ul {
+	height: 100%;
+}
+
+#containerdrag li {
+	display: inline-block;
+}
+</style>
+
+		<script type="text/javascript"> //<![CDATA[  
+				$jquery(document).ready(function(){
+					initalizeGridster();
+					startPoll();
+					updateActiveMenuItem('#spnDbd');
+					var draggable = $('#containerdrag li:first');
+					var pos = draggable.position()
+					
+					
+					
+											if(draggable.attr('style').indexOf('top')<0) {
+						
+						var w = draggable.width() +30 ;
+						var h = draggable.height() + 20;
+						$('#containerdrag li').each(function(index, li){
+							if (index==0)
+								$(this).css({top: pos.top, left: pos.left})
+							else
+								$(this).css({top: pos.top + (h*parseInt(index/10)), left: pos.left + w*(index%10) })
+						})
+					}
+				});
+				
+				var timer = {};
+				var pollTimer;
+				var notificationInstance;
+				var audibleBtnID = {};
+				
+
+				function stopTimer(btnId){
+					clearInterval(timer[btnId]);			
+					//$jquery('#'+btnId).attr('disabled','disabled');
+					$jquery('#'+btnId).removeAttr('onclick');
+		  	  	}
+
+			   	function blinking(btnId) {
+			   		clearInterval(timer[btnId]);		
+			   		//$jquery('#'+btnId).removeAttr('disabled');
+			   		//var fnName = "initializeAssignWaiterJS('"+btnId+"')";
+			   		//$jquery('#'+btnId).attr('onclick',fnName);			   		
+			   	    timer[btnId] = setInterval(blink, 10);
+			   	    function blink() {
+				   	    var elm = $jquery('#'+btnId);
+			   	        elm.fadeOut(400, function() {
+			   	           elm.fadeIn(400);
+			   	        });
+			   	    }
+			   	}			   
+
+			   	function playAlert(btnId) {
+			   		var vid = document.getElementById("beep");  
+			   	    vid.play();
+			   	} 
+
+			   	function stopAlert() {
+			   		var vid = document.getElementById("beep");  
+			   	    vid.stop(); 
+			   	}
+			   	
+			   	function attachOnClickFn(btnId){
+			   		var fnName = "initializeAssignWaiterJS('"+btnId+"')";
+			   		$jquery('#'+btnId).attr('onclick',fnName);
+
+				}
+
+			   	function initalizeGridster(){
+			   		
+			   		
+				 }
+
+				function startPoll(){
+					pollTimer = setInterval(function(){ poll(); }, 2000);
+		
+				}
+				
+				function stopPoll(){
+					 clearInterval(pollTimer);
+					 pollTimer = null;
+
+				}                   function callAudio()                   {                       }
+				
+			   	function poll(){
+				   	$jquery.ajax({
+			             url: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH +"/layoutManagerRestAction/getDashboardAlertsForLayout" + "?orgLayoutId=" + document.getElementById('selectedOrgLayoutIdHidden').value,
+			             dataType: "json",
+			             async: false,
+			             type: 'GET',
+			             
+			             "success": function( response) {			            	
+			              	$jquery.each(response.aaData, function(i,rootElement){			              					              		console.log('aa data is:::::-'+response.aaData);			              		console.log("rootElement is:::"+rootElement);
+								var tempArray = rootElement.split("-");
+								console.log('Resp Received: Attaching Blink to btn-'+tempArray[0]);
+								blinking('btn-'+tempArray[0]);
+								if(audibleBtnID[tempArray[0]+tempArray[1]]){							   		//audibleBtnID.remove(tempArray[0]);									//audibleBtnID[tempArray[0]] = null;				   									   	}else{							   		audibleBtnID[tempArray[0]+tempArray[1]] = tempArray[0]+tempArray[1];							   		playAlert(tempArray[0]+tempArray[1]);								}
+								attachOnClickFn('btn-'+tempArray[0]);
+								//console.log(audibleBtnID[tempArray[0]]);
+								//console.log("for playing audio::::"+audibleBtnID[tempArray[0]]);
+									
+								//hideAllIconDivs(tempArray[0]);	
+								console.log('Resp Received: clearAllMarkerOptTimers '+tempArray[0]);
+								clearAllMarkerOptTimers(tempArray[0]);								console.log('tempArray[1] is :::: '+tempArray[1]);
+								var optionArr = tempArray[1].split(",");								
+								 for ( i=0; i<optionArr.length; i++ ){
+									 //$jquery('#'+tempArray[0]+'-'+optionArr[i]).removeAttr('style');
+									 //$jquery('#'+tempArray[0]+'-'+optionArr[i]).attr('style','visibility:visible');
+									 var btnId = 'btn-'+tempArray[0]+'-'+optionArr[i];									 console.log("optionArr[i] is::::"+optionArr[i]);
+									 console.log('Resp Received: Attaching Blink to: '+btnId);
+									 blinking(btnId);
+									 if(audibleBtnID[tempArray[0]+optionArr[i]]){									   		//audibleBtnID.remove(tempArray[0]);											//audibleBtnID[tempArray[0]] = null;				   											   	}else{									   		audibleBtnID[tempArray[0]+optionArr[i]] = tempArray[0]+optionArr[i];									   		playAlert(tempArray[0]+optionArr[i]);										}
+								 }
+								
+				            });
+			             }
+				   	});       
+			              
+			             
+			   	}
+
+			   	function hideAllIconDivs(layoutMarkerId){
+				   	if(layoutMarkerId.startsWith('btn')){
+				   		layoutMarkerId = layoutMarkerId.substring(4,6);
+				   		console.log('hideAllIconDivs: Substring: '+layoutMarkerId);
+					   }
+					   	
+			   		var divCheck = '#'+layoutMarkerId +' .icon' ;
+			   		$jquery(divCheck).each(function () {
+						$jquery(this).removeAttr('style');
+						$jquery(this).attr('style','visibility: hidden');
+						
+					});
+
+				 }
+
+				 function clearAllMarkerOptTimers(layoutMarkerId){					 var e = document.getElementById("allocateWaiterForm:alertDtlsItem");					   var str = e.options[e.selectedIndex].value;					   console.log('Alert Id is:::: '+str);					 
+					 console.log('clearAllMarkerOptTimers: Start: '+layoutMarkerId);					 audibleBtnID[layoutMarkerId+str] = null;
+					if(layoutMarkerId.startsWith('btn')){
+				   		layoutMarkerId = layoutMarkerId.substring(4,7);
+				   		console.log("layoutMarkerId is ::::"+layoutMarkerId);
+				   		//audibleBtnID.remove(layoutMarkerId);
+				   		/* audibleBtnID = jQuery.grep(audibleBtnID, function(value) {
+  return value != layoutMarkerId;
+});  */						console.log("after removing from array  is::::"+audibleBtnID);
+				   		audibleBtnID[layoutMarkerId+str] = null;
+				   		console.log("after removing from array  is::::"+audibleBtnID);
+				   		console.log("after removing from array value is::::"+audibleBtnID[layoutMarkerId]);
+				   		console.log('clearAllMarkerOptTimers: Substring: '+layoutMarkerId);
+				   	}
+						   	
+			   		var divCheck = '#'+layoutMarkerId +' .icon img' ;
+			   		console.log('clearAllMarkerOptTimers: divCheck: '+divCheck);
+			   		var btnId='';
+			   		$jquery(divCheck).each(function () {
+			   			//console.log('div img: '+$jquery(this));
+			   			console.log('clearAllMarkerOptTimers div img Id: '+$jquery(this).attr('id'));
+			   			btnId = $jquery(this).attr('id');
+			   			clearInterval(timer[btnId]);	
+						
+					});
+
+				}
+
+				function openAssignWaiterDialog(){
+					$jquery("#allocateWaiterDiv").dialog({
+						autoOpen: false,
+						height: 300,
+					    width: 500,
+					    modal: true,
+					    show: "clip",
+					    hide: "clip",
+					    dialogClass: "noTitleStuff"
+
+					});
+					$jquery("#allocateWaiterDiv").dialog("open");
+					document.getElementById('allocateWaiterDiv').style.visibility = "visible";
+					$jquery("#allocateWaiterDiv").css("height", "");
+
+				}
+
+				function stopButtonTimer(){
+					var btnId = '#{dashboardAction.selectedOrgLayoutMarkerId}';
+					clearInterval(timer[$jquery("#allocateWaiterForm\\:selectedMarkerOptionHidden").val()]);
+
+				}
+				function closeAssignWaiterDialog(){
+					$jquery("#allocateWaiterDiv").dialog( "close" );
+				}
+					
+				function createSaveNotification() {
+					create("basic-template","",{
+					    expires: false,
+					    speed: 500
+					});
+				}
+				function create( template, vars, opts ){
+					
+					notificationInstance =  $container.notify("create", template, vars, opts);
+					return notificationInstance;
+				}
+
+				function closeNotification(){
+					notificationInstance.close();
+
+				}
+
+
+	    	   	
+
+		//]]> </script>
+	</ui:define>
+
+	<ui:define name="body">
+       <div>
+			<audio id="beep">
+				<source src="../audio/beepOgg.ogg" type="audio/ogg" />
+ 					Your browser does not support the audio tag.
+			</audio>
+       </div>
+		<div class="box round first">
+			<a4j:outputPanel id="dynamicLayoutPanelId">
+
+				<a4j:form id="dynaForm">
+
+					<rich:messages id="errorMsg" globalOnly="true"
+						infoClass="rich-messages-label-sucess"
+						errorClass="rich-messages-label-error" />
+					<br />
+
+					<a4j:outputPanel id="dashDropDownPanel">
+						<h2>My DashBoard</h2>
+						<table class="form" style="width: 20%">
+							<tr>
+								<td><label>Selected Layout:</label></td>
+								<td><h:selectOneMenu
+										value="#{dashBoardAction.selectedOrgLayoutId}"
+										style="width:100%">
+										<f:selectItems value="#{dashBoardAction.orgLayoutList}" />
+										<a4j:support event="onchange"
+											action="#{dashBoardAction.loadOrgDashBoardForOrgLayoutId}"
+											limitToList="true"
+											reRender="dynamicLayoutPanelGridId,errorMsg"
+											oncomplete="initalizeGridster();stopPoll();startPoll();"></a4j:support>
+									</h:selectOneMenu></td>
+							</tr>
+						</table>
+					</a4j:outputPanel>
+
+
+				</a4j:form>
+
+			</a4j:outputPanel>
+
+			<a4j:outputPanel>
+				<section>
+
+					<a4j:outputPanel id="dynamicLayoutPanelGridId">
+						<h:inputHidden value="#{dashBoardAction.selectedOrgLayoutId}"
+							id="selectedOrgLayoutIdHidden" />
+						<div id="containerdrag">
+							<ul id="layoutListId">
+								<a4j:repeat id="layoutIterator"
+									value="#{dashBoardAction.organizationLayoutMarkerList}"
+									var="table">
+									<li id="#{table.organizationLayoutMarkerId}"
+										data-row="0"
+										data-col="0"
+										data-sizex="#{table.layoutMarkerDataXSize}"
+										data-sizey="#{table.layoutMarkerDataYSize}"
+										class="#{table.layoutMarkerStyleClass} drag" style="#{table.layoutMarkerStylePos}">
+
+										<div
+											style="text-align: center;font-family: Tahoma; font-size: 12px; border: solid 1px;height: 110px;width: 110px;">
+											<div>
+												<h:outputText value="#{table.layoutMarkerCode}" />
+											</div>
+											<img id="btn-#{table.organizationLayoutMarkerId}"
+												src="../img/box-1.png" style="height: 60px; width: 60px;"   />
+
+										</div>
+									
+
+									</li>
+								</a4j:repeat>
+							</ul>
+						</div>
+
+					</a4j:outputPanel>
+
+				</section>
+				<a4j:form>
+					<a4j:jsFunction name="initializeAssignWaiterJS"
+						action="#{dashBoardAction.loadMarkerAlerts}"
+						oncomplete="openAssignWaiterDialog()"
+						reRender="allocateWaiterDialogPanelId22">
+						<a4j:actionparam name="param1"
+							assignTo="#{dashBoardAction.selectedOrgLayoutMarkerId}" />
+					</a4j:jsFunction>
+				</a4j:form>
+			</a4j:outputPanel>
+
+		</div>
+
+		<div id="allocateWaiterDiv" class="lbOuterContainer grey"
+			style="border-radius: 8px; padding-bottom: 10px; padding-top: 14px; border: 2px solid #E3862C; background-color: #42030C; margin: 0 auto; position: relative; color: #C2C2C2; visibility: hidden">
+			<div id="lbIframeContainer" class="light-box" style="padding: 4px">
+				<h2
+					style="margin-top: 1em; line-height: 1.2em; margin-bottom: 0.3em; text-align: center;">Choose
+					Waiter</h2>
+				<rich:messages infoClass="info" errorClass="error"
+					id="editAdErrorMsg" globalOnly="true" />
+				<a4j:outputPanel id="allocateWaiterDialogPanelId22">
+					<a4j:form id="allocateWaiterForm">
+						<h3>
+							<span
+								style="font-family: Tahoma,? Geneva,? sans-serif; font-size: 12.8667px; color: #000000; line-height: 1.2em; text-align: left">Choose
+								Option:</span>
+							<h:selectOneMenu id="alertDtlsItem"
+								style="font-family:Tahoma,?Geneva,?sans-serif;font-size:12.8667px"
+								value="#{dashBoardAction.selectedMarkerOptionId}">
+								<f:selectItems value="#{dashBoardAction.orgMarkerOptions}" />								
+							</h:selectOneMenu>
+
+						</h3>
+						<h3>
+							<span
+								style="font-family: Tahoma,? Geneva,? sans-serif; font-size: 12.8667px; color: #000000; line-height: 1.2em; text-align: left">Choose
+								Waiter:</span>
+							<h:selectOneMenu value="#{dashBoardAction.selectedTaskWaiterId}"
+								style="font-family:Tahoma,?Geneva,?sans-serif;font-size:12.8667px">
+								<f:selectItems value="#{dashBoardAction.orgLayoutWaiters}" />
+							</h:selectOneMenu>
+
+						</h3>
+						<table id="allocateWaiterDivTable" class="form">
+							<tr>
+								<td class="buttonRow" colspan="10" style="text-align: right">
+									<br></br> <input type="button" class="button"
+									onclick="processAlertRequest(); closeDialog('#allocateWaiterDiv')"
+									value="Save" /> <input type="button" class="button"
+									onclick="closeDialog('#allocateWaiterDiv')" value="Cancel" />
+									<a4j:jsFunction name="processAlertRequest"
+										action="#{dashBoardAction.processAlertRequest}"
+										reRender="addLayoutErrorMsg"
+										oncomplete="stopTimer('#{dashBoardAction.selectedOrgLayoutMarkerId}');clearAllMarkerOptTimers('#{dashBoardAction.selectedOrgLayoutMarkerId}');">
+									</a4j:jsFunction>
+								</td>
+							</tr>
+						</table>
+					</a4j:form>
+				</a4j:outputPanel>
+			</div>
+			<div id="lbBottomContainer" class="grey"
+				style="border-radius: 8px; display: block;">
+				<div id="lbBottomData" class="grey">
+					<span id="lbTitleBottom"></span><span id="lbNumBottom"></span> <span
+						id="lbDescBottom" style="display: none;"></span>
+				</div>
+
+			</div>
+
+		</div>
+		<a4j:form>
+			<a4j:jsFunction action="#{layoutManagerAction.dummyMethod}"
+				name="createNotificationJS" reRender="rightsMessagePanel"
+				oncomplete="createSaveNotification()">
+			</a4j:jsFunction>
+		</a4j:form>
+
+	</ui:define>
+
+</ui:composition>

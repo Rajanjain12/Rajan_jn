@@ -1,0 +1,17 @@
+action.package=com.rsnt.session
+action.sources=/Rsnt-ejb/ejbModule
+eclipse.preferences.version=1
+model.package=com.rsnt.entity
+model.sources=/Rsnt-ejb/ejbModule
+seam.ear.project=Rsnt-ear
+seam.ejb.project=Rsnt-ejb
+seam.project.connection.profile=New Oracle
+seam.project.deployment.type=ear
+seam.project.settings.version=1.1
+seam.project.web.root.folder=/Rsnt/WebContent
+seam.runtime.name=jboss-seam-2.2.0.GA
+seam.settings.changed.by.user=true
+seam.test.creating=false
+seam.test.project=Rsnt-test
+test.package=org.domain.rsnt.test
+test.sources=/Rsnt-test/test-src

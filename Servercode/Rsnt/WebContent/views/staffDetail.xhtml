@@ -1,0 +1,233 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.org/rich"
+	 template="../layout/accountTemplate.xhtml">
+  <ui:define name="head"> 
+    <script src="../uiframework/jQuery-js/app/staffDetails.js?jsver=#{appInitializer.appVersion}" type="text/javascript"></script> 
+    <script type="text/javascript"> //<![CDATA[
+	 	var staffDetailsTable;
+		$jquery(document).ready(function(){
+			setupLeftMenu();
+
+			setSidebarHeight();
+
+			
+			
+			staffDetailsTable = $jquery('#staffDetailsTableId').dataTable( {
+		    	"sScrollY": "200px",
+		    	"sScrollX": "100%",
+		    	"bPaginate": true,
+		    	"iDisplayLength": 100,
+		    	"bFilter" : true,
+		    	"bRetrieve" : true,
+		    	"bAutoWidth" : false,
+		    	"bScrollCollapse": true,
+		    	//"sDom": "Tfrtip",
+		    	"sAjaxSource" : RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/staffManagerRestAction/loadStaffData?orgId="+$jquery('#orgIdHidden').val()
+		    										+"&userId="+$jquery('#userIdHidden').val()+"&objectName=Edit Staff",
+		    	"aoColumnDefs": [{"bVisible": false, "aTargets": [0]}],
+		        "aoColumns": [
+								  { "mDataProp": "userId" , sDefaultContent: ""},
+								  { "mDataProp": "userId" , sDefaultContent: "",
+									  "mRender": function (val, type, row) {
+			                              return getImage(val, row);  }
+								  },
+		                          { "mDataProp": "userName", sDefaultContent: "" },
+		                          { "mDataProp": "firstName", sDefaultContent: "" },
+		                          { "mDataProp": "lastName" , sDefaultContent: "" },
+		                          { "mDataProp": "role" , sDefaultContent: "" },
+		                          { "mDataProp": "primaryContactNo" , sDefaultContent: "" },
+		                          { "mDataProp": "email", sDefaultContent: "" },
+		                          { "mDataProp": "activeStatus", sDefaultContent: "",
+		                        	  "mRender": function (val, type, full) {
+										  if(val=='Y'){
+											  	var str = '<div class="active1-div"></div>';
+												return str;
+											  }
+										  else{
+											  var str = '<div class="active1-div-off"></div>';
+												return str;
+											  }
+										     
+			                              }
+		                          
+		                          }
+		                    ]
+		    } );
+			document.getElementById('staffDetailsTableId_paginate').style.visibility = "hidden";
+			 updateActiveMenuItem('#spnAccnts');
+			 updateActiveMenuItem('#spnStaff');
+
+		});	                                            	
+		
+		
+		
+		$jquery('.editImage').live('click', function() { 
+			var id = $jquery(this).attr('id');
+			updateStaff(id);
+		});
+		
+		$jquery('.deleteImage').live('click', function() { 
+			var id = $jquery(this).attr('id');
+			deleteStaff(id);
+		});
+
+		function reloadStaffData() {
+			staffDetailsTable.fnReloadAjax();
+		}
+		
+	 //]]>  </script> 
+  </ui:define>
+  <ui:define name="body">
+    <div class="box round first grid">
+      <h2>Accounts</h2>
+      <a4j:outputPanel rendered="#{s:hasPermission('','Add Staff')}">
+        <div class="add-button"> <a href="#" onclick="addStaffActionJS();"></a> </div>
+      </a4j:outputPanel>
+      <div class="error-msg"  style="display: none" id="richErrMsg">
+        <rich:messages infoClass="rich-messages-label-sucess" errorClass="rich-messages-label-error" id="errorMsg" globalOnly="true"/>
+      </div>
+      <div class="error-msg"  style="display: none" id="customErrMsg">
+        <div class="inner">
+          <p><span>Error</span><br />
+          </p>
+        </div>
+      </div>
+      <div class="success-msg"  style="display: none" id="customSucMsg">
+        <div class="inner">
+          <p><span>Success Message</span><br />
+          </p>
+        </div>
+      </div>
+      <br/>
+      <div id="staffDetailDiv" class="dataTables_wrapper">
+        <table id="staffDetailsTableId" class="data display datatable">
+          <thead>
+            <tr>
+              <th class="sorting_asc" rowspan="1" colspan="1" style="width: 1px;">User Id</th>
+              <th class="sorting" rowspan="1" colspan="1" style="width: 50px;">Actions</th>
+              <th class="sorting" rowspan="1" colspan="1" style="width: 110px;">User Name</th>
+              <th class="sorting" rowspan="1" colspan="1" style="width: 118px;">First Name</th>
+              <th class="sorting" rowspan="1" colspan="1" style="width: 101px;">Last Name</th>
+              <th class="sorting" rowspan="1" colspan="1" style="width: 41px;">Role</th>
+              <th class="sorting" rowspan="1" colspan="1" style="width: 103px;">Primary Contact No</th>
+              <th class="sorting" rowspan="1" colspan="1" style="width: 103px;">Email</th>
+              <th class="sorting" rowspan="1" colspan="1" style="width: 20px;">Active</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+          <tfoot>
+          </tfoot>
+        </table>
+      <!--   <div class="dataTables_paginate paging_two_button" id="example_paginate">
+          <div class="paginate_disabled_previous" title="Previous" id="example_previous"></div>
+          <div class="paginate_enabled_next" title="Next" id="example_next"></div>
+        </div> -->
+            <div class="dataTables_paginate paging_two_button" id="example_paginate">
+          <a class="paginate_disabled_previous" tabindex="0" role="button" id="example_previous" aria-controls="waitlisttable">Previous</a>
+          <a class="paginate_disabled_next" tabindex="0" role="button" id="example_next" aria-controls="waitlisttable">Next</a>
+       </div>
+      </div>
+      <h:form>
+        <a4j:jsFunction name="addStaffActionJS" action="#{staffDetailAction.initializeObject}" actionListener="#{staffDetailAction.setEditMode('false')}" oncomplete="addSafeDataValidation();openAddStaffDiv();" 
+ 				limitToList="true" reRender="addStaffPanel" />
+        <a4j:jsFunction name="updateStaff" actionListener="#{staffDetailAction.setEditMode('true')}" action="#{staffDetailAction.fetchStaff()}" ajaxSingle="true" oncomplete="addSafeDataValidation();openAddStaffDiv();" limitToList="true" reRender="errorMsg,addStaffPanel" >
+          <a4j:actionparam name="param" assignTo="#{staffDetailAction.userId}" />
+        </a4j:jsFunction>
+        <a4j:jsFunction name="deleteStaff" action="#{staffDetailAction.deactivateStaffData}"  oncomplete="getTargetDivAndShowMsg('#richErrMsg');reloadStaffData();" limitToList="true" reRender="errorMsg" >
+          <a4j:actionparam name="param" assignTo="#{staffDetailAction.userId}" />
+        </a4j:jsFunction>
+      </h:form>
+    </div>
+    <div id="addStaff" class="lbOuterContainer grey" style="border-radius: 8px; padding-bottom: 10px; padding-top: 14px; border: 2px solid #E3862C; 
+												background-color: #42030C;
+												 margin: 0 auto;position: relative;color: #C2C2C2;visibility: hidden">
+      <div id="lbIframeContainer" class="light-box" style="padding: 4px">
+        <h2 style="margin-top: 1em;line-height: 1.2em;margin-bottom: 0.3em;text-align: center;" >Add Staff Detail</h2>
+        <rich:messages infoClass="rich-messages-label-sucess" errorClass="rich-messages-label-error" id="addStaffErrorMsg" globalOnly="true"  ajaxRendered="false"/>
+        <a4j:outputPanel id="addStaffPanel">
+          <a4j:form id="addStaffForm">
+            <table class="form">
+              <tr>
+                <td class="col1" style="text-align: right;padding-right: 5px;"><span style="font-weight: bold;font-family:Tahoma,​Geneva,​sans-serif;font-size:12.8667px;color:#000000;line-height: 1.2em;text-align: left">Email:</span> <span class="required">*</span></td>
+                <td class="col2"><a4j:outputPanel rendered="#{staffDetailAction.editMode == false}">
+                    <h:inputText id="email" name="email"  value="#{staffDetailAction.user.email}"  styleClass="medium"/>
+                  </a4j:outputPanel>
+                  <a4j:outputPanel rendered="#{staffDetailAction.editMode == true}">
+                    <h:inputText id="emailRd" name="emailRd"  value="#{staffDetailAction.user.email}"  styleClass="medium" />
+                  </a4j:outputPanel></td>
+              </tr>
+              <tr>
+                <td class="col1" style="text-align: right;padding-right: 5px;"><span style="font-weight: bold;font-family:Tahoma,​Geneva,​sans-serif;font-size:12.8667px;color:#000000;line-height: 1.2em;text-align: left">User Name:</span> <span class="required">*</span></td>
+                <td class="col2"><h:inputText id="userNameEdit" name="userNameEdit" value="#{staffDetailAction.user.userName}"  readonly="true" styleClass="medium"/></td>
+              </tr>
+              <tr>
+                <td class="col1" style="text-align: right;padding-right: 5px;"><span style="font-weight: bold;font-family:Tahoma,​Geneva,​sans-serif;font-size:12.8667px;color:#000000;line-height: 1.2em;text-align: left">First Name:</span> <span class="required">*</span></td>
+                <td><h:inputText id="firstName" name="firstName"  value="#{staffDetailAction.user.firstName}" styleClass="medium" /></td>
+              </tr>
+              <tr>
+                <td class="col1" style="text-align: right;padding-right: 5px;"><span style="font-weight: bold;font-family:Tahoma,​Geneva,​sans-serif;font-size:12.8667px;color:#000000;line-height: 1.2em;text-align: left">Last Name:</span> <span class="required">*</span></td>
+                <td><h:inputText id="lastName" name="lastName"  value="#{staffDetailAction.user.lastName}" styleClass="medium" /></td>
+              </tr>
+              <tr>
+                <td class="col1" style="text-align: right;padding-right: 5px;"><span style="font-weight: bold;font-family:Tahoma,​Geneva,​sans-serif;font-size:12.8667px;color:#000000;line-height: 1.2em;text-align: left; margin-right:10px;">Address:</span></td>
+                <td><h:inputText name="address" id="address" value="#{staffDetailAction.user.address}" /></td>
+              </tr>
+              <tr>
+                <td class="col1" style="text-align: right;padding-right: 5px;"><span style="font-weight: bold;font-family:Tahoma,​Geneva,​sans-serif;font-size:12.8667px;color:#000000;line-height: 1.2em;text-align: left">Primary Contact No:</span> <span class="required">*</span></td>
+                <td><h:inputText name="primaryContact" id="primaryContact" value="#{staffDetailAction.user.primaryContactNo}" /></td>
+              </tr>
+              <tr>
+                <td class="col1" style="width:25%; text-align: right;padding-right: 5px;"><span style="font-weight: bold;font-family:Tahoma,​Geneva,​sans-serif;font-size:12.8667px;color:#000000;line-height: 1.2em;text-align: left; margin-right:10px;">Alternate Contact No:</span></td>
+                <td><h:inputText name="alternateContact" id="alternateContact" value="#{staffDetailAction.user.alternateContactNo}" /></td>
+              </tr>
+              
+              <tr>
+              
+              	<td class="col1" style="width:25%; text-align: right;padding-right: 5px;"><span style="font-weight: bold;font-family:Tahoma,​Geneva,​sans-serif;font-size:12.8667px;color:#000000;line-height: 1.2em;text-align: left; margin-right:10px;">Account Type:</span><span class="required">*</span></td>
+              	<td>
+              		<h:selectOneMenu value="#{staffDetailAction.userType}">
+   						<f:selectItem itemValue="Staff" itemLabel="Staff" />
+   						<f:selectItem itemValue="Manager" itemLabel="Manager" />	   							
+					</h:selectOneMenu></td>
+              </tr>
+            </table>
+            <table class="form">
+              <tr>
+                <td class="buttonRow" colspan="6" style="text-align: right"><a4j:outputPanel rendered="#{s:hasPermission('','Edit Staff')}">
+                    <a4j:outputPanel rendered="#{staffDetailAction.editMode == true}">
+                      <input type="button" class="button" value="Save" onclick="addStaff('edit');"/>
+                    </a4j:outputPanel>
+                    <a4j:outputPanel rendered="#{staffDetailAction.editMode == false}">
+                      <input type="button" class="button" value="Save" onclick="addStaff('add');"/>
+                    </a4j:outputPanel>
+                  </a4j:outputPanel>
+                  <input type="button" class="button" value="Cancel" onclick="closeDialog('#addStaff');"/>
+                  <a4j:jsFunction name="addStaffAction" action="#{staffDetailAction.addStaffData}" reRender="addStaffPanel,addStaffErrorMsg" limitToList="true" 
+									oncomplete="if(#{staffDetailAction.addEditStaffValid}){
+										closeDialog('#addStaff');
+										reloadStaffData();
+									} "></a4j:jsFunction>
+                  <a4j:jsFunction name="editStaffAction" action="#{staffDetailAction.updateStaffData}" reRender="addStaffPanel,addStaffErrorMsg" limitToList="true" 
+										oncomplete="if(#{staffDetailAction.addEditStaffValid}){
+										closeDialog('#addStaff');
+										reloadStaffData();
+									} "></a4j:jsFunction></td>
+              </tr>
+            </table>
+          </a4j:form>
+        </a4j:outputPanel>
+      </div>
+      <div id="lbBottomContainer" class="grey" style="border-radius: 8px; display: block;">
+        <div id="lbBottomData" class="grey"> <span id="lbTitleBottom"></span><span id="lbNumBottom"></span> <span id="lbDescBottom" style="display: none;"></span> </div>
+        <div id="lbBottomNav"> <a id="lbClose" title="Close (Esc)" class="grey" href="javascript:void(0)" style="display: none;"></a> </div>
+      </div>
+    </div>
+  </ui:define>
+</ui:composition>

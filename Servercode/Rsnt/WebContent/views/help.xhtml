@@ -1,0 +1,188 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.org/rich"
+	 template="../layout/template.xhtml"> 
+	 <!-- template="../layout/externalTemplate.xhtml"> --> 
+
+<ui:define name="head">
+<title>Title of document</title>
+<style>
+.container {background: none repeat scroll 0 0 #fff; margin: 0 auto;}
+.container .inn .left { margin:0 auto; padding: 20px;width: 800px; background:#e9e8e8; }
+.container .inn .left h2 {border-bottom: 1px solid #5a0100; color: #5a0100; font-family: Tahoma; font-size: 21px; font-style: italic; font-weight: bold; text-transform: uppercase;}
+.h3class {font-family: Tahoma; font-size: 16px; font-weight: bold; margin-top: 20px; text-decoration: underline;font-weight: bolder; color: #5a0100;}
+.container .inn .left p {color: #5a0201; font-family: Tahoma; font-size: 14px; line-height: 28px; margin-bottom: 20px; margin-top: 25px; text-align: justify; text-transform: none;font-weight: bold;}
+.look {font-size: 16px; font-style: italic; font-weight: bold; padding-right: 5px; text-transform: uppercase;}
+.tree {display: block; margin-left: 20px;}
+.tree ul {color: #ff6700; list-style: square outside none;}
+.tree ul li {background: url("../images/bullet4.png") no-repeat scroll 0 7px rgba(0, 0, 0, 0); color: #5a0201; font-family: Tahoma;font-size: 12px; line-height: 28px; padding-left: 30px;}
+.container .inn .right { float: right;}
+</style>
+<script type="text/javascript"> //<![CDATA[
+ 
+			
+			$jquery(document).ready(function(){
+				updateActiveMenuItem('#spnHelpFaq');
+			});                                 
+ 		 //]]>  </script>
+</ui:define>
+	<ui:define name="body">
+
+<section class="container">
+<div class="inn">
+<div class="left">
+<div class="box round first">	
+		  	<h2>Help</h2>
+		</div>	
+<h3 class="h3class"><strong>Getting Started</strong></h3>
+<p>Welcome to <span class="look">KYOBEE!</span> To get started, please follow these instructions. If you have any questions or require further assistance, please contact your <span class="look">KYOBEE</span> Consultant or e-mail us at <a style="color:#FF6700;" href="mailto:support@kyobee.com">support@kyobee.com</a>.</p>
+<p>1. <a style="color:#FF6700;" href="https://kyobee.com/Rsnt/external/createNewOrganization.seam">Sign up</a> for your account. Be sure to verify your e-mail to complete registration.</p>
+<p>2. <a style="color:#FF6700;" href="https://www.kyobee.com">Login</a> and configure your account. You must setup the following:
+<div class="tree">
+<ul>
+<li>Floorplan layout</li>
+<li>Advertisements</li>
+<li>Feedback surveys (for paid accounts)</li>
+<li>Check-in specials (if any)</li>
+<li>Staff details</li>
+</ul>
+</div>
+</p>
+<p>3. Floorplan layout
+<div class="tree">
+<ul>
+<li class="hide"><span class="space">A.</span>	Go to “Layout” on the navigation bar.</li>
+<li class="hide"><span class="space">B.</span>	Click on the “+” sign at top right.</li>
+<li class="hide"><span class="space">C.</span>	Enter layout name, number of markers, and choose if this will be the default layout.</li>
+<li class="hide"><span class="space">D.</span>	The new layout should now be visible on the Layout page.</li>
+<li class="hide"><span class="space">E.</span>	Click on the name of the new layout.</li>
+<li class="hide"><span class="space">F.</span>	Edit the name of each table to match your existing naming system (click on “Rename” at far left of each marker)</li>
+<li class="hide"><span class="space">G.</span>	Click on “Arrange Layout” at top right.</li>
+<li class="hide"><span class="space">H.</span>	Click and drag the tables to best match your most commonly used floorplan setting. Be sure the table names match as well, not just the layout.</li>
+<li class="hide"><span class="space">I.</span>	As you’re setting up the layout, click on “Save Marker Positions” periodically to save your progress as you work and once everything is completed.</li>
+<li class="hide"><span class="space">J.</span>	Once the floorplan is completed, click on “Select Layout Options”</li>
+<li class="hide"><span class="space">K.</span>	Choose the ringer options you want to use. You can also add customized options by clicking on the “+” sign at the top right and entering the description.</li>
+<li class="hide"><span class="space">L.</span>	Click on “Complete Layout”</li>
+</ul>
+</div>
+</p>
+<p>4. Advertisements
+<div class="tree">
+<ul>
+<li class="hide"><span class="space">A.</span>	Click on “Ads”</li>
+<li class="hide"><span class="space">B.</span>	Click on “+” sign at top right</li>
+<li class="hide"><span class="space">C.</span>	Enter ad title and descriptions</li>
+<li class="hide"><span class="space">D.</span>	Original price and discounted prices are optional</li>
+<li class="hide"><span class="space">E.</span>	Choose when you want the ads to run:
+<ul>
+<li class="hide1"><span class="space">a.</span>	At all times</li>
+<li class="hide1"><span class="space">b.</span>	Until all credit available is used</li>
+<li class="hide1"><span class="space">c.</span>	Only on specific time/days</li>
+</ul>
+</li>
+<li class="hide"><span class="space">F.</span>	Upload a banner image - this is the image that will be available on the homepage of the app that will entice the user to click on it for additional details.</li>
+<li class="hide"><span class="space">G.</span>	Upload additional images as Add-on images. These will be shown on the ad page that will scroll automatically.</li>
+<li class="hide"><span class="space">H.</span>	Repeat process for any additional ads you want to run. They can be run concurrently, or at different times/days of the week.</li>
+</ul>
+</div>
+</p>
+<p>5. Feedback surveys
+<div class="tree">
+<ul>
+<li class="hide"><span class="space">A.</span>	Tier 1 accounts can skip this section. You will automatically receive a star-rating and a text response for all customer feedback.</li>
+<li class="hide"><span class="space">B.</span>	For Tier 2 and above, you will be able to customize the feedback you want to receive. Options include:
+<ul>
+<li class="hide1"><span class="space">a.</span>	Open text comment box</li>
+<li class="hide1"><span class="space">b.</span>	Check-box response</li>
+<li class="hide1"><span class="space">c.</span>	Rating response</li>
+<li class="hide1"><span class="space">b.</span>	Multiple choice response</li>
+</ul>
+</li>
+<li class="hide"><span class="space">C.</span>	Ask as many questions as you need to in order to improve your operations</li>
+<li class="hide"><span class="space">D.</span>	Also, create rewards for filling out surveys and/or opting in to receive e-mails (see check-in specials below)</li>
+</ul>
+</div>
+</p>
+<p>6. Check-in specials
+<div class="tree">
+<ul>
+<li class="hide"><span class="space">A.</span>	Check-in specials can be used to offer incentives to fill out surveys, or opt-in to receive updates/promotions/coupons from the restaurant.</li>
+<li class="hide"><span class="space">B.</span>	Go to “Account” on the navigation bar.</li>
+<li class="hide"><span class="space">C.</span>	Click on “Check-in Specials”, and enter the details of the offer.</li>
+<li class="hide"><span class="space">D.</span>	<strong>IMPORTANT - Be sure to properly train your staff!</strong> When a customer fills out the survey or opts-in, they will need to show the confirmation page to the server in order to receive the offer. Offers can include free drinks, desserts, appetizers, a discount on their bill, or whatever you’d like to offer. Be creative and feel free to do whatever you need to in order to better service your customers!</li>
+</ul>
+</div>
+</p>
+<p>8. Table tent setup
+<div class="tree">
+<ul>
+<li class="hide"><span class="space">A.</span>	Once everything is setup and you receive your table tents, arrange them on each table to correspond to the layout as you have it setup in the dashboard.</li>
+<li class="hide"><span class="space">B.</span>	Test each table tent to ensure that every table tent is accurate and properly functioning (including ads, feedbacks, and check-in specials).</li>
+</ul>
+</div>
+</p>
+<h3 class="h3class"><strong>Using KYOBEE</strong></h3>
+<p>Now that your initial setup is complete, be sure to thoroughly train all staff members who will be using the app. Most importantly, you will need to have a clear line of communications established so that there will be no confusion when you go live with the app.</p>
+<p>I. In order to begin using KYOBEE, you must ensure that at least one staff member is monitoring the Dashboard at all times.
+<div class="tree">
+<ul>
+<li class="hide"><span class="space">A.</span>	If possible, we generally recommend that a floor manager with a hand-held tablet be the person in charge.</li>
+<li class="hide"><span class="space">B.</span>	If a floor manager is not available, you can assign the host/hostess who has access to a computer terminal at the front of the restaurant.</li>
+<li class="hide"><span class="space">C.</span>	If your restaurant uses a walkie-talkie system (either actual or virtual), it can also be the owner or a general manager in the back office or even a remote location (additional details below).</li>
+</ul>
+</div>
+</p>
+<p>II.	Dashboard
+<div class="tree">
+<ul>
+<li class="hide"><span class="space">A.</span>	When a customer scans the QR code at their table and submits a request, a notification will appear on the dashboard indicating which table needs what.<br/> Their table number, and the request will blink on the dashboard.</li>
+<li class="hide"><span class="space">B.</span>	When the manager clicks on the marker, the request will show, along with a choice as to which server to assign the request to.
+<ul>
+<li class="hide1"><span class="space">1.</span>	If you wish to keep track of server response times, mark the request as filled only after the server has completed the task, or attended to the customer’s needs.</li>
+<li class="hide1"><span class="space">2.</span>	However, if keeping track of staff response time is not an issue, feel free to simply mark the request as filled once the server has been notified.</li>
+</ul>
+</li>
+<li class="hide"><span class="space">C.</span>	Communication options
+<ul>
+<li class="hide1"><span class="space">1.</span>	In order to operate more smoothly and function cohesively as a team, some restaurants may find additional benefits using a walkie-talkie with the servers. There are many models out there that are discreet and offer quiet communication that can help keep everyone on the same page.</li>
+<li class="hide1"><span class="space">2.</span>	TiKL, or similar apps are also available for free, which simulate a walkie-talkie using a smartphone.
+<ul>
+<li class="hide1"><span class="space">a)</span>	 If most of your staff already have a smartphone and an investment in a walkie-talkie system is not a necessity, you may want to consider using a system like TiKL and just provide everyone with a headset.</li>
+<li class="hide1"><span class="space">b)</span>	 Using such systems, an owner or a manager can be anywhere in the world (with internet access) and direct customer’s requests as they come in. Both dashboard and TiKL can be used remotely, so distance is no longer an issue!
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</p>
+<p>III. Check-in special offers
+<div class="tree">
+<ul>
+<li class="hide"><span class="space">A.</span>	In order to incentivize customers to fill out surveys and opt-in, restaurants can offer check-in specials. Rewards can be anything from free drinks, appetizers, discounts, or whatever you want to offer.</li>
+<li class="hide"><span class="space">B.</span>	Restaurants wanting to provide feedback or opt-in specials will need to have servers verify it after it’s been completed and provide the offered item.</li>
+<li class="hide"><span class="space">B.</span>	Staff should be trained to encourage customers to complete the check-in specials in order to maximize feedback.</li>
+</ul>
+</div>
+</p>
+<p>IV. Advertisements
+<div class="tree">
+<ul>
+<li class="hide"><span class="space">A.</span>	All servers should be very familiar with the specials being offered on the advertisements.</li>
+<li class="hide"><span class="space">B.</span>	They should be familiar with the items on special, the discount, as well as when the specials are available.</li>
+</ul>
+</div>
+</p>
+</div>
+<div class="right"><img src="images/about-mobile.png" border="mobile" alt="mobile"/></div>
+<div class="spacer"></div>
+</div>
+</section>
+</ui:define>
+	 </ui:composition>

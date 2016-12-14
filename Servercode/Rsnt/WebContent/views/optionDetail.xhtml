@@ -1,0 +1,152 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.org/rich"
+	 template="../layout/accountTemplate.xhtml">
+ 	<ui:define name="head">
+	 	<script src="../uiframework/jQuery-js/app/optionDetail.js?jsver=#{appInitializer.appVersion}" type="text/javascript"></script>
+	 
+		 <script type="text/javascript"> //<![CDATA[
+			 var optionDetailsTable;
+		
+			 $jquery(document).ready(function(){ 
+	
+				setupLeftMenu();
+	
+				setSidebarHeight();
+					
+			 	optionDetailsTable = $jquery('#optionDetailTableId').dataTable( {
+			 		"sScrollY": "100%",
+			     	"sScrollX": "100%",
+			     	"bPaginate": true,
+			     	"bFilter" : true,
+			     	"iDisplayLength": 100,
+			     	"bRetrieve" : true,
+			     	"bAutoWidth" : false,
+			     	"bJqueryUI" : false,
+			     	"bScrollCollapse": true,
+			     	//"sDom": "Tfrtip",
+			     	"sAjaxSource" : RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/optionDetailRestAction/loadOptionData?orgId="+$jquery('#orgIdHidden').val(),
+			 	   	 "aoColumnDefs": [{
+			 	   	  "aTargets": ["_all"],
+			 	   	  "bUseRendered": false
+			 	   	}, {"bSortable" :false, "aTargets": [ 0 ]}],
+			         "aoColumns": [
+			 						 
+			 						  { "mDataProp": "orgOptionId" , sDefaultContent: "","sWidth" : "12px",
+			 							  "mRender": function (val, type, row) {
+			 	                              return getImage(val);  }
+			 						  },
+			 						  { "mDataProp": "description" , sDefaultContent: "","sWidth" : "30px"}
+			                          
+			                     ]
+			     } );
+			 	
+			 	$jquery('.editImage').live('click', function() { 
+			 		var id = $jquery(this).attr('id');
+			 		editOptionAction(id);
+			 	});
+			 	
+			 	$jquery('.deleteImage').live('click', function() { 
+			 		var id = $jquery(this).attr('id');
+			 		deleteOptionAction(id);
+			 	});
+
+			 	document.getElementById('optionDetailTableId_paginate').style.visibility = "hidden";
+			 	updateActiveMenuItem('#spnAccnts');
+			 	updateActiveMenuItem('#spnOptDetail');
+		 });
+
+	//]]>  </script>
+			
+ 	</ui:define>	
+	 <ui:define name="body">
+		<div class="box round first grid">	
+		 	<h2>Options</h2>
+		 	
+		 	    <a4j:outputPanel rendered="#{s:hasPermission('','Add Option') and optionDetailAction.orgPlanTypeWithAlert==true}">
+				   	<div class="add-button-div">
+				   		<img src="../img/add-button-app.png" onclick="addOptionAction();"/>
+				   </div>
+			   </a4j:outputPanel>
+	 		  <br/>
+			<rich:messages infoClass="rich-messages-label-sucess" errorClass="rich-messages-label-error" id="errorMsg" globalOnly="true"/>
+		 		
+			<div id="optionDetailDiv" class="dataTables_wrapper">
+				<table class="data display datatable" id="optionDetailTableId" >
+					<thead>
+						<tr>
+							<th class="sorting_asc" rowspan="1" colspan="1">Option Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+					<tfoot>
+					</tfoot>
+				</table>
+				<!-- <div class="dataTables_paginate paging_two_button" id="example_paginate">
+					<div class="paginate_disabled_previous" title="Previous" id="example_previous"></div>
+					<div class="paginate_enabled_next" title="Next" id="example_next"></div>
+				</div> -->
+				    <div class="dataTables_paginate paging_two_button" id="example_paginate">
+          <a class="paginate_disabled_previous" tabindex="0" role="button" id="example_previous" aria-controls="waitlisttable">Previous</a>
+          <a class="paginate_disabled_next" tabindex="0" role="button" id="example_next" aria-controls="waitlisttable">Next</a>
+       </div>
+			</div>
+			<h:form>
+             	<a4j:jsFunction name="addOptionAction"  action="#{optionDetailAction.initializeObject}" oncomplete="addSafeDataValidation();openCreateOptionInputDialog();"
+             		reRender="addOptionPanel">
+             	</a4j:jsFunction>
+          		<a4j:jsFunction name="editOptionAction" action="#{optionDetailAction.fetchOptionData}"  reRender="addOptionPanel,addOptionErrorMsg" limitToList="true" oncomplete="addSafeDataValidation();openCreateOptionInputDialog();">
+          			<a4j:actionparam name="param1" assignTo="#{optionDetailAction.selectedOrgOptionId}"/>
+          		</a4j:jsFunction>
+			</h:form>
+		</div>
+		
+		<div id="addOption" class="lbOuterContainer grey" style="border-radius: 8px; padding-bottom: 10px; padding-top: 14px;  border: 2px solid #E3862C; 
+												background-color: #42030C;
+												 margin: 0 auto;position: relative;color: #C2C2C2;visibility: hidden">
+			<div id="lbIframeContainer" class="light-box" style="padding: 4px">
+				<h2 style="margin-top: 1em;line-height: 1.2em;margin-bottom: 0.3em;text-align: center;" >Add Option Detail</h2>
+				<rich:messages infoClass="rich-messages-label-sucess" errorClass="rich-messages-label-error" id="addOptionErrorMsg" globalOnly="true"  ajaxRendered="false"/>
+				<a4j:outputPanel id="addOptionPanel">
+					<h:form id="addOptionForm">
+						
+						<table class="form">
+							<tr>
+								<td class="col1" style="width:25%">
+									<span style="font-weight: bold;font-family:Tahoma,​Geneva,​sans-serif;font-size:12.8667px;color:#000000;line-height: 1.2em;text-align: left">Option Description:</span>
+									<span class="required">*</span>
+								</td>
+								<td class="col2">
+									<h:inputText id="description" name="description" value="#{optionDetailAction.selectedOrgOptionDesc}" />
+								</td>
+							</tr>
+							<tr>	
+								<td colspan="11">
+								   	<a4j:outputPanel rendered="#{s:hasPermission('','Edit Option')}">
+				             	  	 <a4j:commandButton status="showLoadingStatus" value="Save" styleClass="button" onclick="updateOptionJS();"></a4j:commandButton>
+				              	  	</a4j:outputPanel>
+									
+									<input type="button" class="button" onclick="closeDialog('#addOption')" value="Cancel" />
+									
+									<a4j:jsFunction name="updateOptionAction" action="#{optionDetailAction.addOptionData}" reRender="addOptionErrorMsg" limitToList="true" 
+									oncomplete="if(#{optionDetailAction.optionUpdateValid})
+									{
+										closeDialog('#addOption');
+										reloadOptionData();
+									} ">
+									</a4j:jsFunction>
+								</td>
+							</tr>
+						</table>
+					</h:form>
+				</a4j:outputPanel>
+			</div>												 	
+		</div>
+	</ui:define>	 
+</ui:composition>

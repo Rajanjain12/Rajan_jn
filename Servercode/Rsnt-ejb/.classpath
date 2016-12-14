@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="ejbModule"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/jaxrs-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/jackson-core-asl-1.9.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/jackson-mapper-asl-1.9.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/httpcore-4.4.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/bcprov-jdk15on-148.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/antlr-runtime.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/commons-beanutils.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/commons-io-2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/commons-lang-2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/core-2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/drools-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/drools-compiler.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/drools-core.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/ezmorph-0.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/gcm-server.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/gson-1.7.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/httpclient-4.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/itext-rtf.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/itext.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/JavaPNS_2.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/javase-2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/jboss-el.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/jboss-seam-resteasy.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/jbpm-jpdl.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/json-lib-0.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/json-simple-1.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/mvel2.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/resteasy-atom-provider.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/resteasy-jaxb-provider.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/resteasy-jaxrs.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/resteasy-jettison-provider.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/richfaces-api-3.3.3.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/scannotation.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/stripe-java-latest.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/commons-codec-1.9.jar"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.web.container/Rsnt"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/jboss-seam.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/jboss-seam-remoting.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/hibernate-annotations.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/hibernate-commons-annotations.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/hibernate-core.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/hibernate-entitymanager.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Rsnt-ear/EarContent/lib/hibernate-validator.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.jboss.ide.eclipse.as.core.server.runtime.runtimeTarget/JBoss EAP 6.4 Runtime">
+		<attributes>
+			<attribute name="owner.project.facets" value="jst.ejb"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Rsnt-ear/EarContent/lib/mail.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

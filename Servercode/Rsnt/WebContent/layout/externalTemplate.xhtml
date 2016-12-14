@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:a4j="http://richfaces.org/a4j"
+   xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:rich="http://richfaces.org/rich"
+   contentType="text/html">
+<html>
+	<head>
+	   
+	    <title>Rsnt</title>
+	    <!--  Load the Richfaces Jquery first  -->
+		<a4j:loadScript src="resource://jquery.js"/>
+		<link rel="icon" type="image/png" href="http://kyobee.com/wp-content/themes/koybee/images/favicon2.png"></link>
+		<script type="text/javascript">
+			var $richv132 = jQuery.noConflict();
+		</script>
+		
+		<script type="text/javascript"	src="#{request.contextPath}/uiframework/jQuery-js/jquery-1.8.2.min.js"></script>
+		<!-- load other jquery plugins:  -->
+		<script type="text/javascript"	src="#{request.contextPath}/uiframework/jQuery-js/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.gridster.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/TableTools.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/datatables.reload.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.layout-latest.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.multiselect.js"></script>	
+		
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.ui.accordion.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/setup.js"></script>	
+		
+		<script>//jquery v 1.4.4 assigned to$jqueryv144 and can be used wherever we need to implement using new jquery plugins.
+
+		
+		
+			var $jquery = jQuery.noConflict();
+			 
+		</script> 
+			
+		<!-- reassigning back the richfaces jquery  -->
+		<script> var jQuery = $richv132; </script>
+		
+		
+		<link href="#{request.contextPath}/uiframework/jQuery-css/jquery.gridster.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/css/menus.css" rel="stylesheet" type="text/css" />
+
+		<link href="#{request.contextPath}/uiframework/jQuery-css/TableTools.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/jQuery-css/jquery-ui.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/jQuery-css/jquery.multiselect.css" rel="stylesheet" type="text/css" />
+
+		<link href="#{request.contextPath}/uiframework/css/grid.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/css/reset.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/css/text.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/css/layout.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/css/nav.css" rel="stylesheet" type="text/css" />
+			  	
+	  	<script type="text/javascript" src="#{request.contextPath}/uiframework/js/rsntCommon.js?jsver=#{appInitializer.appVersion}"></script>
+	    <script type="text/javascript" src="#{request.contextPath}/uiframework/js/googleAnalytic.js"></script>
+	  	
+	  	  	<script type="text/javascript">
+		  	function goToHomePage(){
+				 var serverPath = window.location.href;
+			     var serverPathIndex = serverPath.indexOf("/views");
+				 var finalLink = "https://kyobee.com";
+		       	 //window.open(serverPath.substring(0, serverPathIndex)+"/views/home.seam");
+		         window.location = finalLink;
+		       
+			}
+			
+		</script>
+	  	
+      <ui:insert name="head"/>
+   </head>
+   
+   <body>
+       
+       <div class="container_12">
+   		
+   		<div class="grid_12 header-repeat">
+    		<div id="branding">
+          			<div class="floatleft"> 
+          			<img src="../img/logo.png" alt="Logo" width="85%" onclick="goToHomePage();" class="description_img" />
+          			</div>
+          			<div class="clear"> 
+          			</div>
+     		</div>
+  		</div>
+      <div class="clear"> </div>
+      
+      <div class="grid_12">
+	    
+	  </div>
+	  
+	  <div class="clear"> </div>
+	 
+	  <div class="grid_10">
+	  	 <ui:insert name="body"/>
+	  </div> 
+	 
+      <div class="clear"> </div>
+     		
+	       <div>
+	   		<a4j:region>			
+		     	<a4j:status id="showLoadingStatus" onstart="#{rich:component('spinnerModal')}.show();" onstop="#{rich:component('spinnerModal')}.hide();" >
+					<f:facet name="start">			
+						<rich:modalPanel id="spinnerModal" styleClass="progressIndicator" resizeable="false" autosized="true" width="200" height="70" style="align:right" >	
+							<a4j:outputPanel>
+								<table class="form">
+									<tr>
+										<td>
+											<div> 
+												<img src="../img/ajax-loader.gif"  width="60%" style="margin-left: 35px"/>
+											</div>
+										</td>
+									</tr>
+								</table>
+							</a4j:outputPanel>
+						</rich:modalPanel>
+					</f:facet>
+				</a4j:status>
+			</a4j:region>
+			
+		   </div>
+	</div>
+	<div class="clear">
+    </div>
+    <div id="site_info">
+       <p>#{appInitializer.footerMsg}</p>
+    </div>
+   	 <a href="#TOP" id="topLink" />
+   
+   
+   </body>
+</html>
+</f:view>

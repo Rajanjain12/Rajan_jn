@@ -1,0 +1,454 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:c="http://java.sun.com/jstl/core"
+	 template="../layout/template.xhtml">
+	 
+	  <ui:define name="head">
+	  	<script type="text/javascript" src="../uiframework/jQuery-js/app/adDetail.js?jsver=#{appInitializer.appVersion}"></script>
+ 	
+ 		<script type="text/javascript"> //<![CDATA[
+
+ 		                                       	
+ 			                                           	
+	 		function initializeJCrop(){
+				 $jquery('#cropForm\\:actualImage').Jcrop({
+				     setSelect: [0, 0, 600, 300],
+				     addClass: 'custom',
+				     bgColor: 'white',
+				     bgOpacity: .8,
+				     aspectRatio: 4/3,
+				     //sideHandles: true
+				     allowResize: true,
+				     allowSelect: false,
+				     onSelect: storeCoords
+				 });
+	
+		 	}
+
+		 
+	
+			function storeCoords(c) {
+	
+				console.log('#X1'+c.x);
+				console.log('#Y1'+c.y); 
+				console.log('#X2'+c.x2);
+				console.log('#Y2'+c.y2); 
+				console.log('#W'+c.w);
+				console.log('#H'+c.h);
+	
+				$jquery('#cropForm\\:cx').val(c.x);
+				$jquery('#cropForm\\:cy').val(c.y);
+				$jquery('#cropForm\\:cx2').val(c.x2);
+				$jquery('#cropForm\\:cy2').val(c.y2);
+				$jquery('#cropForm\\:cw').val(c.w);
+				$jquery('#cropForm\\:ch').val(c.h);
+				$jquery('#cropImageBtn').removeAttr('disabled');
+			}
+
+			function setDefaultCoords(){
+				$jquery('#cropForm\\:cx').val('0');
+				$jquery('#cropForm\\:cy').val('0');
+				$jquery('#cropForm\\:cx2').val('600');
+				$jquery('#cropForm\\:cy2').val('300');
+				$jquery('#cropForm\\:cw').val('600');
+				$jquery('#cropForm\\:ch').val('300');
+
+			}
+	
+			function saveImageCropJS(){
+				saveImageCrop($jquery('#cropForm\\:cx').val(),$jquery('#cropForm\\:cy').val(),
+						$jquery('#cropForm\\:cx2').val(),$jquery('#cropForm\\:cy2').val(),$jquery('#cropForm\\:cw').val(),$jquery('#cropForm\\:ch').val());
+	
+			}
+	
+			function toggleActiveAds(isInactiveChecked){
+				var activeFlag="1";
+				console.log('isInactiveChecked'+isInactiveChecked);
+				if(isInactiveChecked)activeFlag="0";
+				var newUrl = RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/adsDetailRestAction/loadAdsData?active="+activeFlag;
+				adsDetailsTable.fnReloadAjax(newUrl);
+				
+			}  
+			function openImageCropDialog(){
+				 $jquery("#imageCropDiv").dialog({
+				     autoOpen: true,
+				     height: 400,
+				     width: 1000,
+				     modal: true,
+				     show: "clip", 
+				     hide: "clip",
+				     dialogClass: "noTitleStuff",
+				     position:'top',
+
+				     open: function(event, ui) {
+				    	 setDefaultCoords();
+				     },	
+				     close:function(){
+				    	 rerenderUpload();
+				  	 }
+				 });
+				document.getElementById('imageCropDiv').style.visibility = "visible";
+				$jquery("#imageCropDiv").css("height", "500px");
+				$jquery("#imageCropDiv").css("width", "1000px");
+			};    
+			                                  	
+			function deleteCheckedAddonImgJS(){
+				var delImages="";
+				$jquery('.image-set input:checkbox').each(function () {
+					if(this.checked){
+						if($jquery(this).attr('name')=='33'){
+							alert('Cannot delete Banner Image');
+							
+						}
+						delImages = delImages + $jquery(this).attr('id') + ",";
+					}
+				});
+				console.log(delImages);
+				if(delImages==""){
+					alert('Please check Images for Deletion')	
+				}	
+				else{
+					deleteCheckedImg(delImages);
+					
+				}
+
+			
+					
+			}	 
+
+			function deleteIndImage(imgId){
+				console.log(imgId);
+				deleteCheckedImg(imgId);
+
+			}    
+			
+			$jquery(document).ready(function(){
+				addDatePickers();
+				updateActiveMenuItem('#spnAd');
+			}); 			                                
+ 		 //]]>  </script>
+	  </ui:define>
+	 
+	 <ui:define name="body">
+	 	<div class="box round first">
+		  <h2>Ad Details</h2>	
+		 	<div id="adEditDiv">
+				 <br/>
+				
+				<div class="error-msg"  style="display: none" id="richErrMsg">
+           			<rich:messages id="editAdErrorMsg" globalOnly="true"/>
+	            </div>
+	            
+			 	<div class="error-msg"  style="display: none" id="customErrMsg">
+	            	<div class="inner">
+	                	<p><span>Error</span><br />
+	                		
+	                	</p>
+	                </div>
+	            </div>
+	            
+			     <a4j:outputPanel id="editAdPanel">
+				    <a4j:form id="addAdForm" ajaxSingle="true">
+						<br/>
+						<table id="editAdTable"  class="form">
+								<tr>
+									
+									<td class="col1"><label for="title"> Ad Title: <span class="required">*</span></label></td>
+									
+									<td class="col2">
+										<h:inputText id="title" label="title" value="#{adsDetailAction.selectedAd.title}" styleClass="medium">
+										</h:inputText>
+									</td>
+									
+								</tr>
+								
+								<tr>
+									 <td valign="top"><label for="description">Ad Description: <span class="required">*</span></label></td>
+									 
+									<td>
+										<h:inputTextarea value="#{adsDetailAction.selectedAd.description}" id="description" />
+									</td>
+								</tr>
+								
+								<tr>
+									<td><label for="originalPriceDetail">Original Price:</label></td>
+									<td>
+										<h:inputText id="originalPriceDetail" label="description" value="#{adsDetailAction.selectedAd.originalPrice}">
+										</h:inputText>
+									</td>
+								</tr>
+								<tr>
+									<td><label for="discountPriceDetail">Discount Price:</label></td>
+									<td>
+										<h:inputText id="discountPriceDetail" label="description" value="#{adsDetailAction.selectedAd.discountPrice}">
+										</h:inputText>
+									</td>
+								</tr>
+								
+								<tr>
+									 <td><label for="runTillCredit">Use All Credits?:</label></td>
+									<td>
+										<a4j:region>
+											<h:selectBooleanCheckbox id="runTillCredit" value="#{adsDetailAction.runTillCredit}">
+												<a4j:support event="onclick" reRender="weeklyDataPanel" oncomplete="addDatePickers();"></a4j:support>
+											</h:selectBooleanCheckbox>
+										</a4j:region>
+										
+									</td>
+								</tr>
+								
+							</table>
+												
+							<a4j:outputPanel id="weeklyDataPanel">
+								<a4j:outputPanel  rendered="#{adsDetailAction.runTillCredit=='false'}">
+									<table id="editWeeklyAdTable"  class="form">
+										<tr>
+											
+											<td class="col1"><label for="title">Run On: <span class="required">*</span></label></td>
+										
+											<td class="col2">
+													
+												<div id="weeklyRunDiv">
+													
+													<h:selectManyCheckbox  id="weeklyRunDetail1" value="#{adsDetailAction.weeklyRun1}" 
+														 layout="lineDirection" 
+															name="selectTermYears">
+														<f:selectItems value="#{adsDetailAction.weekdayList1}" var="n"
+						 											itemLabel="#{n.label}" itemValue="#{n.value}" />
+														
+													  </h:selectManyCheckbox>
+													  
+													  <h:selectManyCheckbox  id="weeklyRunDetail2" value="#{adsDetailAction.weeklyRun2}" 
+														 layout="lineDirection" 
+															name="selectTermYears">
+														<f:selectItems value="#{adsDetailAction.weekdayList2}" var="n"
+						 											itemLabel="#{n.label}" itemValue="#{n.value}" />
+														
+													  </h:selectManyCheckbox>
+												</div>
+												
+											</td>
+										</tr>
+										<tr>
+											<td><label for="startDatePicker"> Start Date: <span class="required">*</span></label></td>
+											<td style="width: 30%">
+												<h:inputText value="#{adsDetailAction.startDate}" readonly="true" id="startDatePicker" />
+											</td>
+											
+											<td style="width: 10%"><label  for="endDatePicker"> Stop Date: <span class="required">*</span></label></td>
+											<td >
+												<h:inputText value="#{adsDetailAction.endDate}" readonly="true" id="endDatePicker" />
+											</td>
+										</tr>
+										
+										<tr>
+										 	<td ><label  for="startTimePicker"> Start Time: <span class="required">*</span></label></td>
+											<td style="width: 30%">
+												<h:inputText value="#{adsDetailAction.startTime}" readonly="true" id="startTimePicker" />
+											</td>
+											
+											<td style="width: 10%"><label for="endTimePicker"> Stop Time: <span class="required">*</span></label></td>
+											<td>
+												<h:inputText value="#{adsDetailAction.endTime}" readonly="true" id="endTimePicker" />
+											</td>
+										</tr>
+									</table>
+						
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							
+							
+							<a4j:outputPanel id="uploadImgPanel">
+								<table class="form">
+									<tr>
+									 	<td class="col1"><label for="uploadFileName">Choose Upload Image Type:</label></td>
+										<td class="col2" style="width: 10%">
+											<h:selectOneMenu value="#{adImageUploadHelper.activeUploadImageTypeId}" id="selectedActiveImageUploadId" style="width:120px;height=10px">
+												<f:selectItems value="#{adImageUploadHelper.imageTypeList}"/>
+												<a4j:support event="onchange" action="#{adsDetailAction.dummyMethod}" limitToList="true">
+											</a4j:support>
+											</h:selectOneMenu>
+										</td>
+										<td>
+											<rich:fileUpload id="fileNm" fileUploadListener="#{adImageUploadHelper.listener}" listWidth="200" listHeight="0"
+												acceptedTypes="jpg, gif, png, bmp"  
+												addControlLabel="Choose File." uploadControlLabel="Upload File"  
+												ajaxSingle="true" >
+													<a4j:support event="onfileuploadcomplete" 
+													 oncomplete="openImageCropDialog();initializeJCrop();" reRender="imageCropInfoPanel" limitToList="true" ajaxSingle="true"/>
+											</rich:fileUpload>
+										</td>
+									</tr>
+								</table>
+						
+			             		 
+							</a4j:outputPanel>
+							
+							<br/>
+							
+							<a4j:outputPanel id="addonImagePanel">
+								<a4j:repeat id="bannerImgSet" value="#{adImageUploadHelper.adImageTOList}" var="uploadTO" rowKeyVar="row" >
+									 <a4j:outputPanel rendered="#{uploadTO.imageTypeId==33}">
+									 	<div class="banner-form" style="margin-left: 195px">
+									 		<a4j:mediaOutput element="img" mimeType="image/#{uploadTO.mime}"
+			                                    createContent="#{adImageUploadHelper.paint}" value="#{row}"
+			                                    style="width:#{adImageUploadHelper.previewCw}px; height:#{adImageUploadHelper.previewCh}px;" cacheable="false">
+			                                    <f:param value="#{adImageUploadHelper.timeStamp}" name="time"/>  
+			                                </a4j:mediaOutput>
+			                                <div class="delete-section"><img src="../img/delete-button.png" onclick="deleteIndImage('#{uploadTO.adImageId}')" 
+			                                	alt="Delete" />
+			                                </div>
+			                                <div class="caption">Banner</div>
+									 	</div>
+									 </a4j:outputPanel>
+								</a4j:repeat>
+								
+								
+							</a4j:outputPanel>
+							
+							<br/>
+							
+							<a4j:outputPanel id="addonHdrPanel">
+								<a4j:outputPanel rendered="#{adImageUploadHelper.adImageTOList.size>0}">
+										<h3 style="margin-left: 195px">Addons</h3>
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+						
+							
+							<a4j:outputPanel id="addonOnlyImagePanel">
+								<div class="image-row" style="margin-left: 195px">
+									<div class="image-set">
+										<a4j:repeat id="addonImgSet" value="#{adImageUploadHelper.adImageTOList}" var="uploadTO" rowKeyVar="row" >
+											 <a4j:outputPanel rendered="#{uploadTO.imageTypeId==34}">
+											 	<div class="example-image-link" style="height: 220px">
+													<a4j:mediaOutput element="img" mimeType="image/#{uploadTO.mime}"
+					                                    createContent="#{adImageUploadHelper.paint}" value="#{row}"
+					                                    style="width:187px; height:187px;" cacheable="false" rendered="#{uploadTO.imageTypeId==34}">
+					                                    <f:param value="#{adImageUploadHelper.timeStamp}" name="time"/>  
+					                                </a4j:mediaOutput>
+					                              
+					                                <input id="#{uploadTO.adImageId}"  name="#{uploadTO.imageTypeId}" type="checkbox"/>
+												</div>
+												
+			                                </a4j:outputPanel>
+							   	 		</a4j:repeat>
+									</div>
+								</div>
+								
+							</a4j:outputPanel>
+							
+							<br/>
+							<br/>
+							<br/>
+							
+							<table id="buttonTable" class="form">
+								<tr >
+										<td colspan="10" ></td>
+							        	<td></td>
+							        	<td></td>
+							        	<td></td>
+							        	<td></td>
+							        	<td colspan="4">
+						             			<a4j:outputPanel rendered="#{s:hasPermission('','Edit Ad Detail')}">
+														<input type="button" class="button" onclick="saveAdJS();" value="Save" name="Save"/>
+												  </a4j:outputPanel>
+						             		<a4j:commandButton value="Cancel" styleClass="button" action="#{adsDetailAction.cancelEdit}"></a4j:commandButton>
+						             		<input type="button" class="button" onclick="deleteCheckedAddonImgJS();" value="Delete Checked Image(s)" name="Delete"/>	
+							          	</td>
+				  				</tr>
+							</table>
+							
+							<a4j:jsFunction name="saveAdAction" action="#{adsDetailAction.updateAdd}" status="showLoadingStatus" 
+								reRender="editAdErrorMsg" limitToList="true" oncomplete="showRichErrMsg('#richErrMsg')">
+							</a4j:jsFunction>
+							<a4j:jsFunction name="deleteCheckedImg" action="#{adsDetailAction.deleteAddonImages}"  status="showLoadingStatus" 
+								reRender="addonImagePanel,addonOnlyImagePanel,addonHdrPanel,tableData, uploadImgPanel,editAdErrorMsg" limitToList="true" oncomplete="showRichErrMsg('#richErrMsg')">
+								<a4j:actionparam name="param1" assignTo="#{adsDetailAction.selectedDelAdImgId}" />
+							</a4j:jsFunction>
+					
+					</a4j:form>	
+				</a4j:outputPanel>
+			</div>
+		
+			<div id="imageCropDiv" class="lbOuterContainer grey" style="border-radius: 8px; padding-bottom: 10px; padding-top: 14px; border: 2px solid #E3862C; 
+													background-color: #42030C;
+													 margin: 0 auto;position: relative;color: #C2C2C2;visibility: hidden">
+				
+				<div id="lbIframeContainer" class="light-box" style="padding: 10px">
+					<h2 style="margin-top: 1em;line-height: 1.2em;margin-bottom: 0.3em;text-align: center;" >Crop your selection</h2>
+					<a4j:outputPanel id="imageCropInfoPanel">
+		   				<a4j:form id="cropForm" ajaxSingle="true">
+		   				 	<h:inputHidden value="" id="cx" />
+		   				 	<h:inputHidden value="" id="cy" />
+		   				 	<h:inputHidden value="" id="cx2" />
+		   				 	<h:inputHidden value="" id="cy2" />
+		   				 	<h:inputHidden value="" id="cw" />
+		  				 	<h:inputHidden value="" id="ch" />
+		                   
+							<h3><span style="font-family:Tahoma,​Geneva,​sans-serif;font-size:12.8667px;color:#000000;line-height: 1.2em;text-align: left">Please make your selection by dragging the rectangle:</span> 
+	    					</h3>
+	    					<table class="form">
+								<tr class="buttonsRow">
+						        	<td colspan="11">
+										<input type="button" class="button" id="cropImageBtn" onclick="saveImageCropJS();" value="Crop Image" name="Crop Image" disabled="disabled"/>
+						             	<input type="button" class="button" id="cropImageCancelBtn" onclick="cancelImageCrop();" value="Cancel" name="Cancel"/>
+						          	</td>
+				  				</tr>
+							</table> 
+		                   <rich:panel>
+		                            <h:panelGrid columns="2">
+		                                <a4j:mediaOutput id="actualImage" element="img" mimeType="image/#{adImageUploadHelper.mime}"
+		                                    createContent="#{adImageUploadHelper.paintCurrent}" value="1"
+		                                       cacheable="false" session="true" >
+		                                     <f:param value="#{adImageUploadHelper.timeStamp}" name="time" />
+		                                </a4j:mediaOutput>
+		                               
+		                            </h:panelGrid>
+		                        </rich:panel>
+		                   
+		                	
+		                
+		                
+		                <a4j:jsFunction name="updateStartTime" action="#{adsDetailAction.dummyMethod}">
+							<a4j:actionparam name="param1" assignTo="#{adsDetailAction.startTime}"/>
+						</a4j:jsFunction>
+						<a4j:jsFunction name="updateEndTime" action="#{adsDetailAction.dummyMethod}">
+							<a4j:actionparam name="param1" assignTo="#{adsDetailAction.endTime}"/>
+						</a4j:jsFunction>
+						<a4j:jsFunction name="updateStartDate" action="#{adsDetailAction.dummyMethod}">
+							<a4j:actionparam name="param1" assignTo="#{adsDetailAction.startDate}"/>
+						</a4j:jsFunction>
+						<a4j:jsFunction name="updateEndDate" action="#{adsDetailAction.dummyMethod}">
+							<a4j:actionparam name="param1" assignTo="#{adsDetailAction.endDate}"/>
+						</a4j:jsFunction>
+						<a4j:jsFunction name="saveImageCrop" action="#{adImageUploadHelper.resizeImage}" oncomplete="closeDialog('#imageCropDiv');" 
+			 				status="showLoadingStatus" reRender="addonImagePanel,addonOnlyImagePanel,addonHdrPanel,tableData, uploadImgPanel" limitToList="true" ajaxSingle="true">
+			 				<a4j:actionparam name="param1" assignTo="#{adImageUploadHelper.cx}" />
+			 				<a4j:actionparam name="param2" assignTo="#{adImageUploadHelper.cy}" />
+			 				<a4j:actionparam name="param3" assignTo="#{adImageUploadHelper.cx2}" />
+			 				<a4j:actionparam name="param4" assignTo="#{adImageUploadHelper.cy2}" />
+			 				<a4j:actionparam name="param5" assignTo="#{adImageUploadHelper.cw}" />
+			 				<a4j:actionparam name="param6" assignTo="#{adImageUploadHelper.ch}" />
+			 			</a4j:jsFunction>
+			 			<a4j:jsFunction name="cancelImageCrop" oncomplete="closeDialog('#imageCropDiv');" 
+			 				status="showLoadingStatus" reRender="addonImagePanel,addonOnlyImagePanel,addonHdrPanel,tableData, uploadImgPanel" limitToList="true" ajaxSingle="true">
+			 			</a4j:jsFunction>
+			 			<a4j:jsFunction name="rerenderUpload" reRender="uploadImgPanel" >
+			 			</a4j:jsFunction>
+		 				
+		              </a4j:form>
+	            	</a4j:outputPanel>
+				</div>
+			</div>
+	 	</div>
+	 	
+	 	
+	 </ui:define>
+	 
+ </ui:composition>

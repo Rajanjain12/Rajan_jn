@@ -1,0 +1,22 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.org/rich"
+	 template="../layout/externalTemplate.xhtml">
+	 
+  	<ui:define name="body">
+	  	 <div class="box round first">	
+	 	 	<h2>OOPS</h2>
+  			<a4j:outputPanel>
+  				<br/>
+					<h:outputText value="There was an error in processing your request.Please contact the System Administrator" />	
+				<br/>
+			</a4j:outputPanel>
+		</div>
+	</ui:define>
+	 
+ </ui:composition>

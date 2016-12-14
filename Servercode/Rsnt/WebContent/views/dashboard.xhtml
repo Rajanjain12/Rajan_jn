@@ -1,0 +1,592 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:richfaces="http://richfaces.ajax4jsf.org/rich"
+	template="../layout/template.xhtml">
+
+
+
+	<ui:define name="head">
+     <meta charset="utf-8" />
+	 <!-- Viewport for Responsivity -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+	<!-- Stylesheets -->
+		<link href='http://fonts.googleapis.com/css?family=Maven+Pro:400,700' rel='stylesheet' type='text/css' />
+		<link rel="stylesheet" type="text/css" href="#{request.contextPath}/uiframework/mapplic/css/mapplicstyle.css"/>
+		<link rel="stylesheet" type="text/css" href="#{request.contextPath}/uiframework/mapplic/mapplic.css"/>
+	  <style>
+.dark_button {
+	font-size: 11px;
+	font-weight: bold;
+	color: rgb(40, 137, 213);
+	text-decoration: none !important;
+	border: 1px solid rgb(0, 0, 0);
+	border-radius: 3px 3px 3px 3px;
+	box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3) inset;
+	background: -moz-linear-gradient(center top, rgb(85, 85, 85) 0%,
+		rgb(51, 51, 51) 100%) repeat scroll 0% 0% rgb(85, 85, 85);
+	-moz-user-select: none;
+	cursor: pointer;
+	padding: 1px 1px 1px;
+	float: center;
+	margin: 1px 1px;
+}
+
+.submit {
+	background: url(../img/box-1.png) no-repeat;
+}
+
+#containerdrag {
+	min-height: 300px;
+	height: 4200px;
+	overflow: hidden;
+	border: 1px dashed #888;
+	background-color: #E0F2F7;
+	;
+}
+
+#layoutListId {
+	list-style: none;
+}
+
+.drag {
+	position: absolute;
+	cursor: pointer;
+	cursor: hand;
+	top: 350px;
+}
+
+#containerdrag ul {
+	height: 100%;
+}
+
+#containerdrag li {
+	display: inline-block;
+}
+</style>
+ <script type="text/javascript" src="#{request.contextPath}/uiframework/mapplic/js/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/mapplic/js/hammer.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/mapplic/js/jquery.easing.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/mapplic/js/jquery.mousewheel.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/mapplic/js/smoothscroll.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/mapplic/mapplic.js"></script>
+       	<script type="text/javascript" src="http://code.xrtml.org/xrtml-3.0.0.js"></script>
+		<script type="text/javascript" src="http://dfdbz2tdq3k01.cloudfront.net/js/2.1.0/ortc.js"></script>
+
+		<script type="text/javascript"> //<![CDATA[  			
+		 var pubKey,privateKey;
+	   			var connectionUrl = 'http://ortc-developers.realtime.co/server/2.1';
+
+	   			var appKey = '';
+	   			var authToken = 'Unno1adyiSooIAkAEt';
+	   			var channel;
+	   			var privateKey = '';
+	   			var isCluster = true;
+	   			var authenticationRequired = false;
+	   			var client;
+	   			var countMsgChannel = 0;			
+	      	$jquery(document).ready(function(){	
+		     
+
+	      		//Added by Aditya
+	      		$jquery('#mapplic').css('display', 'none');
+		  	  		   	   	 
+           //Mapplic code
+          	$('#mapplic').mapplic({
+					source: RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH +"/layoutManagerRestAction/getDashboardMapplicObject",
+					height: 1500,
+					animate: true,
+					mapfill: true,
+					sidebar: false,
+					minimap: false,
+					deeplinking: false,
+					fullscreen: false,
+					hovertip: false,
+					developer: true,
+					maxscale: 1,
+					pindrag:false,
+					developer: true,
+				});
+
+				$('.usage').click(function(e) {
+					e.preventDefault();
+					
+					$('.editor-window').slideToggle(200);
+				});
+
+				$('.editor-window .window-mockup').click(function() {
+					$('.editor-window').slideUp(200);
+				});
+
+	  	  		   	   	                  
+		      	
+		      	  $jquery.ajax({
+		      	    url:RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/layoutManagerRestAction/pusgerinformation",
+		      	    dataType: "json",
+		      	    type:"GET",
+		      	    async: false,
+		      	    "success": function(data) {
+		        	    console.log(data);
+		        	    appKey = data.REALTIME_APPLICATION_KEY;
+		        	    privateKey = data.REALTIME_PRIVATE_KEY;
+		        	    channel = data.pusherChannelEnv;
+		       	  }
+		      	});	        		
+                	startPoll();				
+			     	updateActiveMenuItem('#spnDbd');					
+			     	
+
+ 		    		                     });								
+                        var timer = {};				
+                        var pollTimer;				
+                        var notificationInstance;			
+                       	var audibleBtnID = {};							
+                       	function stopTimer(btnId){	
+                           	clearInterval(timer[btnId]);					
+                           				//$jquery('#'+btnId).attr('disabled','disabled');		
+                           				$jquery('#'+btnId).removeAttr('onclick');		  	  
+                           		}			  
+                   	function blinking(btnId) {			   
+                      		clearInterval(timer[btnId]);					  
+                      		 		//$jquery('#'+btnId).removeAttr('disabled');		
+                      		   		//var fnName = "initializeAssignWaiterJS('"+btnId+"')";			   	
+                      		   		//$jquery('#'+btnId).attr('onclick',fnName);			   			
+                     		   	    timer[btnId] = setInterval(blink, 10);			   	 
+                     		   	     function blink() {				   	
+                         		      var elm = $jquery('#'+btnId);			   	    
+                         		          elm.fadeOut(400, function() {			   	
+                             		            elm.fadeIn(400);			   	     
+                             		               });			   	 
+                    		                  }			 
+           		                    	}			   			 
+                  	function playAlert(btnId) {
+                    var vid = document.getElementById("beep");  			   	  
+			   	    vid.play();
+			   	    console.log("after playing is :::btn id is:::"+btnId);			  
+			   	     	} 			   	
+		   	     	function stopAlert() {		
+			   	     	     var vid = document.getElementById("beep");  			
+			   		   		 vid.stop(); 			  
+			   		   		 }			   				   
+	   		   	     		function attachOnClickFn(btnId){			   		
+		   		   	     		var fnName = "initializeAssignWaiterJS('"+btnId+"')";		
+		   		   	     	    $jquery('#'+btnId).attr('onclick',fnName);				
+
+		   		   	     	    }			  
+	   		   	     	     				
+		   		   	     	    function startPoll(){			
+			   		   	     	poll();	
+			   		   	     	 	
+			   		   	     	}						
+		   		   	   		function stopPoll(){				
+			   		   	   			 clearInterval(pollTimer);					
+			   		   	   			  pollTimer = null;				
+			   		   	   			  }                   
+	   		   	   			  function callAudio()                 
+	   		   	   			    {                    
+		   		   	   			       }							  
+  		   	   			        	function poll(){
+  		   	   			       	
+  		   	   			        var OrtcNodeclient = loadOrtcFactory(IbtRealTimeSJType, function (factory, error){
+  		   	   			    client = factory.createClient();
+  		   	   			    client.setClusterUrl(connectionUrl);
+  		   	   			    client.setConnectionMetadata('UserConnectionMetadata');
+  		   	   			    
+  		   	   			   client.onConnected = clientConnected;
+  		   	   			   client.onSubscribed = clientSubscribed;
+  		   	   			   //client.onUnsubscribed = clientUnsubscribed;
+  		   	   			   client.onReconnecting = clientReconnecting;
+  		   	   			   client.onReconnected = clientReconnected;
+  		   	   			   client.onDisconnected = clientDisconnected;
+  		   	   			   client.onException = clientException;
+  		   	   			   client.connect(appKey, authToken);
+  		   	   			   function clientConnected(ortc) {
+  		   	   			       console.log('Connected to: ' + ortc.getUrl());
+  		   	   			       console.log('Subscribe to channel: ' + channel);
+  		   	   			  
+  		   	   			       if (client.getIsConnected() == false) {
+  		   	   			           client.connect(appKey, authToken);
+  		   	   			           console.log('client is not connected');
+  		   	   			        }
+  		   	   			    // Subscribe channel
+  		   	   			       ortc.subscribe(channel, true, function onMessage(ortc, channel, message) {
+  		   	   			           countMsgChannel++;
+
+  		   	   			           countMsgChannel++;
+  		   	   			           console.log('Received (' + countMsgChannel + '): ' + message+ ' at channel: ' + channel);
+  		   	   			   		    var response = jQuery.parseJSON(message);
+  		   	   				//Added by Aditya
+  		   	   				var orgLayoutMarkerId = response.orgLayoutMarkerId;
+  		   	   				var alertId = response.alertId;
+  		   	   				
+  		   	   			   	if(response.stopMarker == 'true')
+  	  		   	   			{
+  		   	   					stopTimer(response.markerId);
+	   	   						clearAllMarkerOptTimers(response.markerId);
+  	  		   	   			}
+  		   	   			   	else if (orgLayoutMarkerId != null)
+  	  		   	   			{
+  		   	   					blinking('btn-'+orgLayoutMarkerId);
+	  		   	   				attachOnClickFn('btn-'+orgLayoutMarkerId);
+	  		   	   				playAlert('btn-'+orgLayoutMarkerId);
+  	  		   	   			}
+  		   	   			       });
+  		   	   			   };
+
+  		   	   			   function clientSubscribed(ortc, channel) {
+  		   	   			       console.log('Subscribed to channel: ' + channel);
+  		   	   			   };
+
+  		   	   			   function clientUnsubscribed(ortc, channel) {
+  		   	   			       console.log('Unsubscribed from channel: ' + channel);
+  		   	   			   };
+
+  		   	   			   function clientReconnecting(ortc) {
+  		   	   			       console.log('Reconnecting to ' + connectionUrl);
+  		   	   			   };
+
+  		   	   			   function clientReconnected(ortc) {
+  		   	   			       console.log('Reconnected to: ' + ortc.getUrl());
+  		   	   			   };
+
+  		   	   			   function clientDisconnected(ortc) {
+  		   	   			       console.log('Disconnected','disconnected');
+  		   	   			   };
+
+  		   	   			   function clientException(ortc, error) {
+  		   	   			       console.log('Error: ' + error);
+  		   	   			   };
+  		   	   			   		            	
+
+  	  	  		   	   			             });				
+  	 									    	  			      
+
+	        			             			   	}		   
+		           	function hideAllIconDivs(layoutMarkerId){				   
+			           		if(layoutMarkerId.startsWith('btn')){				   		
+				           	layoutMarkerId = layoutMarkerId.substring(4,6);				
+				            console.log('hideAllIconDivs: Substring: '+layoutMarkerId);					   
+				            }					   				   		
+				            var divCheck = '#'+layoutMarkerId +' .icon' ;			   
+				       		$jquery(divCheck).each(function () 
+						     {	
+					       	$jquery(this).removeAttr('style');				
+					        $jquery(this).attr('style','visibility: hidden');								
+					  			});			
+				  				 }				
+	  				  function clearAllMarkerOptTimers(layoutMarkerId){
+					 var e = document.getElementById("allocateWaiterForm:alertDtlsItem");
+					 var str;
+					 if( e!= undefined){
+					  	str = e.options[e.selectedIndex].value;
+					   audibleBtnID[layoutMarkerId+str] = null;
+					 }
+					if(layoutMarkerId.startsWith('btn')){
+				   		layoutMarkerId = layoutMarkerId.substring(4,7);
+						if( e!= undefined){
+					   		audibleBtnID[layoutMarkerId+str] = null;
+						}
+				   	}
+			   		var divCheck = '#'+layoutMarkerId +' .icon img' ;
+			   		var btnId='';
+			   		$jquery(divCheck).each(function () {
+			   			btnId = $jquery(this).attr('id');
+			   			clearInterval(timer[btnId]);	
+					});
+				}				
+				function openAssignWaiterDialog()
+				{
+				   $jquery("#allocateWaiterDiv").dialog({
+                                                 autoOpen: false,
+                                                 height: 700,
+                                                 width: 700,  
+                                                 modal: true,	
+                                                 show: "clip",					    
+                                                 hide: "clip",					   
+                                                  dialogClass: "noTitleStuff"					
+                                                      });					
+                   $jquery("#allocateWaiterDiv").dialog("open");					
+                   document.getElementById('allocateWaiterDiv').style.visibility = "visible";					
+                   $jquery("#allocateWaiterDiv").css("height", "");				
+                   }				
+
+                    function stopButtonTimer(){					
+                        var btnId = '#{dashboardAction.selectedOrgLayoutMarkerId}';					
+                        clearInterval(timer[$jquery("#allocateWaiterForm\\:selectedMarkerOptionHidden").val()]);			
+                        	}			
+                	function closeAssignWaiterDialog(){			
+                    		$jquery("#allocateWaiterDiv").dialog( "close" );			
+                    	}									
+                	function createSaveNotification() {					
+                    	create("basic-template","",{					   
+                        	 expires: false,					    
+                        	 speed: 500	});				
+                   	 }				
+                  	 function create( template, vars, opts ){										
+                      	 notificationInstance =  $container.notify("create", template, vars, opts);				
+                      	 	return notificationInstance;				
+                      	 	}				
+               	 	     function closeNotification(){					
+                   	 	     notificationInstance.close();				
+                   	 	     }	    	   			//]]> 
+
+               	 	     //Added by Aditya
+               	 	   function loadNewLayout(newValue)
+               	 	   {
+               	 		$jquery('#mapplic').css('display', '');
+						$jquery('.mapplic-layer').css('display', 'none');
+                   	 	$jquery('.mapplic-layer.'+newValue).css('display', '');                   	 
+                   	 	}
+
+
+               	 	$( window ).load(function() {
+               	 		$jquery('.mapplic-layer').css('display', 'none');
+               	    });
+               	 	
+               	 	     </script>
+
+	</ui:define>
+
+
+
+	<ui:define name="body">
+
+		<div>
+
+			<audio id="beep">
+
+				<source src="../audio/beepOgg.ogg" type="audio/ogg" />
+
+				Your browser does not support the audio tag.
+
+			</audio>
+
+		</div>
+
+		<div class="box round first">
+
+			<a4j:outputPanel id="dynamicLayoutPanelId">
+
+
+
+				<a4j:form id="dynaForm">
+
+
+
+					<rich:messages id="errorMsg" globalOnly="true"
+						infoClass="rich-messages-label-sucess"
+						errorClass="rich-messages-label-error" />
+
+					<br />
+
+
+
+					<a4j:outputPanel id="dashDropDownPanel">
+
+						<h2>My DashBoard</h2>
+
+						<table class="form" style="width: 20%">
+
+							<tr>
+
+								<td><label>Selected Layout:</label></td>
+
+								<td><h:selectOneMenu onchange="loadNewLayout(this.value);" id="layoutId"
+										value="#{dashBoardAction.selectedOrgLayoutId}"
+										style="width:100%">
+
+										<f:selectItems value="#{dashBoardAction.orgLayoutList}" />
+
+										<a4j:support event="onchange"
+											action="#{dashBoardAction.loadOrgDashBoardForOrgLayoutId}"
+											limitToList="true"
+											reRender="dynamicLayoutPanelGridId,errorMsg"
+											oncomplete="initalizeGridster();stopPoll();startPoll();"></a4j:support>
+
+									</h:selectOneMenu></td>
+
+							</tr>
+
+						</table>
+
+					</a4j:outputPanel>
+
+
+
+
+
+				</a4j:form>
+
+
+
+			</a4j:outputPanel>
+
+
+
+			<a4j:outputPanel>
+
+				<section>
+
+
+
+					<a4j:outputPanel id="dynamicLayoutPanelGridId">
+
+						<h:inputHidden value="#{dashBoardAction.selectedOrgLayoutId}"
+							id="selectedOrgLayoutIdHidden" />
+
+						<div id="mapplic">
+                      </div>
+
+
+
+					</a4j:outputPanel>
+
+
+
+				</section>
+
+				<a4j:form>
+
+					<a4j:jsFunction name="initializeAssignWaiterJS"
+						action="#{dashBoardAction.loadMarkerAlerts}"
+						oncomplete="openAssignWaiterDialog()"
+						reRender="allocateWaiterDialogPanelId22">
+
+						<a4j:actionparam name="param1"
+							assignTo="#{dashBoardAction.selectedOrgLayoutMarkerId}" />
+
+					</a4j:jsFunction>
+
+				</a4j:form>
+
+			</a4j:outputPanel>
+
+
+
+		</div>
+
+
+
+		<div id="allocateWaiterDiv" class="lbOuterContainer grey"
+			style="border-radius: 8px; padding-bottom: 10px; padding-top: 14px; border: 2px solid #E3862C; background-color: #42030C; margin: 0 auto; position: relative; color: #C2C2C2; visibility: hidden">
+
+			<div id="lbIframeContainer" class="light-box" style="padding: 4px">
+
+				<h2
+					style="margin-top: 1em; line-height: 1.2em; margin-bottom: 0.3em; text-align: center;font-size: 26px">Choose
+
+					Waiter</h2>
+
+				<rich:messages infoClass="info" errorClass="error"
+					id="editAdErrorMsg" globalOnly="true" />
+
+				<a4j:outputPanel id="allocateWaiterDialogPanelId22">
+
+					<a4j:form id="allocateWaiterForm">
+
+						<h3>
+
+							<span
+								style="font-family: Tahoma,? Geneva,? sans-serif; font-size: 17px; color: #000000; line-height: 1.2em; text-align: left">Choose
+
+								Option : </span>
+
+							<h:selectOneMenu id="alertDtlsItem"
+								style="font-family:Tahoma,?Geneva,?sans-serif;font-size:17px"
+								value="#{dashBoardAction.selectedMarkerOptionId}">
+
+								<f:selectItems value="#{dashBoardAction.orgMarkerOptions}" />
+
+							</h:selectOneMenu>
+
+
+
+						</h3>
+
+						<h3>
+
+							<span
+								style="font-family: Tahoma,? Geneva,? sans-serif; font-size: 17px; color: #000000; line-height: 1.2em; text-align: left">Choose
+
+								Waiter : </span>
+
+							<h:selectOneMenu value="#{dashBoardAction.selectedTaskWaiterId}"
+								style="font-family:Tahoma,?Geneva,?sans-serif;font-size:17px">
+
+								<f:selectItems value="#{dashBoardAction.orgLayoutWaiters}" />
+
+							</h:selectOneMenu>
+
+
+
+						</h3>
+
+						<table id="allocateWaiterDivTable" class="form">
+
+							<tr>
+
+								<td class="buttonRow" colspan="10" style="text-align: right">
+
+									<br></br> <input type="button" class="button"
+									onclick="processAlertRequest(); closeDialog('#allocateWaiterDiv')"
+									value="Save" style="width: 20%"/> <input type="button" class="button"
+									onclick="closeDialog('#allocateWaiterDiv')" value="Cancel" style="width: 20%"/>
+
+									<a4j:jsFunction name="processAlertRequest"
+										action="#{dashBoardAction.processAlertRequest}"
+										reRender="addLayoutErrorMsg">
+
+									</a4j:jsFunction>
+
+								</td>
+
+							</tr>
+
+						</table>
+
+					</a4j:form>
+
+				</a4j:outputPanel>
+
+			</div>
+
+			<div id="lbBottomContainer" class="grey"
+				style="border-radius: 8px; display: block;">
+
+				<div id="lbBottomData" class="grey">
+
+					<span id="lbTitleBottom"></span><span id="lbNumBottom"></span> <span
+						id="lbDescBottom" style="display: none;"></span>
+
+				</div>
+
+
+
+			</div>
+
+
+
+		</div>
+
+		<a4j:form>
+
+			<a4j:jsFunction action="#{layoutManagerAction.dummyMethod}"
+				name="createNotificationJS" reRender="rightsMessagePanel"
+				oncomplete="createSaveNotification()">
+
+			</a4j:jsFunction>
+
+		</a4j:form>
+
+
+
+	</ui:define>
+
+
+
+</ui:composition>

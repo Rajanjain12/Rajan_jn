@@ -1,0 +1,463 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.org/rich"
+	 template="../layout/template.xhtml">
+  <ui:define name="head"> 
+    <script type="text/javascript" src="../uiframework/jQuery-js/app/feedback.js?jsver=#{appInitializer.appVersion}"></script> 
+    <script type="text/javascript"> //<![CDATA[
+ 		
+ 			var feedbackDetailTable;
+ 		    var addSelectedTerritoryTable;
+ 		    var optionCnt=0;
+
+			$jquery(document).ready(function(){
+				feedbackDetailTable = $jquery('#feedbackDetailTableId').dataTable( {
+			    	"sScrollY": "100%",
+			    	"sScrollX": "100%",
+			    	"bPaginate": true,
+			    	"iDisplayLength": 100,
+			    	"bFilter" : true,
+			    	"bRetrieve" : true,
+			    	"bAutoWidth" : false,
+			    	"bJqueryUI" : false,
+			    	"bScrollCollapse": true,
+			    	//"sDom": "Tfrtip",
+			    	"sAjaxSource" : RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/feedbackRestAction/loadFeedbackDetail?orgId="+$jquery('#orgIdHidden').val()
+			    								+"&userId="+$jquery('#userIdHidden').val()+"&objectName=Edit Feedback Detail",
+				   	 "aoColumnDefs": [
+				 		{"aTargets": ["_all"],"bUseRendered": false},
+				 		{"aTargets": ["_all"],"sClass": "datatables_action"}, 
+				 		{"bSortable" :false, "aTargets": [ 0 ]}],
+			        "aoColumns": [
+									{ "mDataProp": "planId" , sDefaultContent: "",
+										  "mRender": function (val, type, row) {
+									        return getImage(val,row);  }
+											},
+									 
+									  { "mDataProp": "planDescription" , sDefaultContent: "",
+										  "mRender": function (data, type, full) {
+											  var str = '<a class="description">' +data+ '</a>';
+												return str;   
+				                              }
+									  },
+									  { "mDataProp": "planType" , sDefaultContent: ""},
+									  { "mDataProp": "active" , sDefaultContent: "",
+										  "mRender": function (val, type, full) {
+											  if(val=='Y'){
+												  	var str = '<div class="active1-div"></div>';
+													return str;
+												  }
+											  else{
+												  var str = '<div class="active1-div-off"></div>';
+													return str;
+												  }
+											     
+				                              }
+									  },
+									  
+			                         
+			                    ],
+			        "fnRowCallback" : function(nRow, aData, iDisplayIndex){
+						$jquery(nRow).attr("id",aData.planId);
+						return nRow;
+					},
+			    } );
+				document.getElementById('feedbackDetailTableId_paginate').style.visibility = "hidden";
+				updateActiveMenuItem('#spnFdbk');
+				
+	
+			});
+			
+			$jquery(".description").live('click', function(){
+				var feedbackId = $jquery(this).closest("tr").attr("id");
+				console.log('FeedbackDetailid: '+feedbackId);
+				loadFeedbackDetailJS(feedbackId);
+
+			});
+
+
+			$jquery('.deleteImage').live('click', function() { 
+				var id = $jquery(this).attr('id');
+				toggleActiveAdJS(id);
+			});	
+
+			function deleteRow(idrow){
+
+				var nodes = addSelectedTerritoryTable.fnGetNodes();
+				var row = null;
+
+				$jquery.each(nodes, function(key, fila){
+					console.log(fila);
+					console.log($jquery(fila).find("td:eq(0)").text());
+					console.log($jquery(fila).find("td:eq(1)").find("img").attr("id"));
+				    if($jquery(fila).find("td:eq(1)").find("img").attr("id") == idrow){
+				        row = fila;
+				    }
+				});       
+
+				var pos = addSelectedTerritoryTable.fnGetPosition(row);
+				addSelectedTerritoryTable.fnDeleteRow(pos);
+
+			}
+
+			function submitForm(feedbackId){
+				 var link = document.getElementById("feedbackIdForm:loadFeedbackDetailLink");
+				   var finalLink = link.href;
+				   window.location = finalLink;
+			}
+
+
+
+			function openCreateFeedbackDetailDialog(){
+				$jquery("#adFeedbackDetailDiv").dialog({
+					autoOpen: true,
+				    modal: true,
+				    height: 648,
+				    width: 500,
+				    show: "clip",
+				    hide: "clip",
+				    dialogClass: "noTitleStuff",
+				    open: function(event ,ui){
+				    	initializeRadioEvent();
+					},
+			    	close : function(event ,ui){
+			    		$jquery("#customErrMsgInner").hide();
+			    		addSelectedTerritoryTable=null;
+			        }
+
+				});
+				document.getElementById('adFeedbackDetailDiv').style.visibility = "visible";
+				$jquery("#adFeedbackDetailDiv").css("height", "");
+
+			}
+
+			function reloadFeedbackDetailData() {
+				console.log('Reload Called');
+				feedbackDetailTable.fnReloadAjax();
+			}
+
+			function setSelectedFeedbackAnswerTypeRadio(){
+				$jquery("#radioDiv :radio").each(function() {
+					 if(this.id==$jquery("#addFeedbackDetailForm\\:selFdBkAnswerType").val()){
+						this.checked="checked";
+					 }
+				        
+			    });
+			}
+			function loadOptionDetailTable(){
+
+				addSelectedTerritoryTable = $jquery('#addSelectedTerritoryTableId').dataTable( {
+		  			"sScrollY": "90px",
+		        	"sScrollX": "100%",
+		        	"bPaginate": false,
+		        	"bAutoWidth": true,
+		        	"bFilter" : false,
+		        	"bRetrieve":true,
+		        	"bInfo" : false,
+		       	 	"aoColumnDefs": [{"aTargets": ["_all"],"bUseRendered": false}],
+		        	
+		  		});
+				optionCnt=0;
+				$jquery("#addSelectedTerritoryTableId_wrapper").css("min-height", "90px");
+
+				
+				optionCnt=0;	
+				 var selectedFdbkOptVar = $jquery("#addFeedbackDetailForm\\:selFdBkOptionVals").val();
+				 if(selectedFdbkOptVar){
+					 var tempArray = selectedFdbkOptVar.split("|");
+					 for ( i=0; i<tempArray.length; i++ ){
+						 if(tempArray[i]!=""){
+							 addSelectedTerritoryTable.fnAddData([ '<a class="description_test">'+tempArray[i]+'</a>'
+,'<img class="deleteImageOpt" id=' + optionCnt+ ' onclick="deleteRow('+optionCnt+')" src="'+RSNT_GLOBALCONTEXTPATH +'/uiframework/images/delete.gif" style="width:20px;height:18px;cursor:pointer;" title="Delete?" />']);
+	       					 optionCnt++;
+						 }
+						
+					 }
+				 }
+						
+			    
+			}
+
+			function addOption(){
+				if($jquery('#addFeedbackDetailForm\\:option').val()!=""){
+				
+					addSelectedTerritoryTable.fnAddData([ '<a class="description_test">'+$jquery('#addFeedbackDetailForm\\:option').val()+'</a>'
+,'<img class="deleteImageOpt" id=' + optionCnt+ ' onclick="deleteRow('+optionCnt+')" src="'+RSNT_GLOBALCONTEXTPATH +'/uiframework/images/delete.gif" style="width:20px;height:18px;cursor:pointer;" title="Delete?" />']);
+					optionCnt++;
+					$jquery('#addFeedbackDetailForm\\:option').val("");
+				}
+			}
+
+			function getJQItemData(){
+
+			
+				var selFeedbackAnswerType="";
+				 $jquery("#radioDiv :radio").each(function() {
+					 console.log(this.id+ " Value is " +this.checked);
+				     if(this.checked){
+				    	 selFeedbackAnswerType = this.id;
+					  }   
+			    });
+
+				var nodes = addSelectedTerritoryTable.fnGetNodes();
+				var optText= "";
+				var optCnt = 0;
+
+				$jquery.each(nodes, function(key, fila){
+					console.log($jquery(fila).find("td:eq(0)").text());
+					optCnt = optCnt +1;
+					optText= optText+$jquery(fila).find("td:eq(0)").text()+"|";
+				});
+
+				if($jquery("#addFeedbackDetailForm\\:qText").val()==""){
+					
+					//$jquery("#customErrMsgInner").find(".inner").text("");
+					//$jquery("#customErrMsgInner").show();
+					//$jquery("#customErrMsgInner").find(".inner").text('Please specify Feedback Question');
+					//return false;
+
+					$jquery("#customErrMsgInner").find(".inner").html("");
+					$jquery("#customErrMsgInner").show();
+					advalidMsg = '<p><span>Error</span><br>Please specify Feedback Question</p>';
+					$jquery("#customErrMsgInner").find(".inner").html(advalidMsg);
+					return false;
+					
+				}
+				
+				if(selFeedbackAnswerType==36 && optCnt<2 ){
+					//$jquery("#customErrMsgInner").find(".inner").text("");
+					//$jquery("#customErrMsgInner").show();
+					//$jquery("#customErrMsgInner").find(".inner").text('Incorrect number of option values specified for Single Option Type');
+					//return false;
+
+					$jquery("#customErrMsgInner").find(".inner").html("");
+					$jquery("#customErrMsgInner").show();
+					advalidMsg = '<p><span>Error</span><br>Incorrect number of option values specified for Single Option Type</p>';
+					$jquery("#customErrMsgInner").find(".inner").html(advalidMsg);
+					return false;
+				}
+
+				if(selFeedbackAnswerType==37 && optCnt<2 ){
+					//$jquery("#customErrMsgInner").find(".inner").text("");
+					//$jquery("#customErrMsgInner").show();
+					//$jquery("#customErrMsgInner").find(".inner").text('Incorrect number of option values specified for Multiple Option Type');
+					//return false;
+					$jquery("#customErrMsgInner").find(".inner").html("");
+					$jquery("#customErrMsgInner").show();
+					advalidMsg = '<p><span>Error</span><br>Incorrect number of option values specified for Multiple Option Type</p>';
+					$jquery("#customErrMsgInner").find(".inner").html(advalidMsg);
+					return false;
+				}
+				$jquery("#customErrMsgInner").hide();
+				
+				saveFeedbackDetailAction(selFeedbackAnswerType,optText ) ;
+			}
+
+			function initializeRadioEvent(){
+				$jquery("#radioDiv :radio").each(function() {
+					$jquery('#'+this.id).live('click', function(){
+						console.log('Radio clicked: '+this.id);
+						loadOptionDivJS(this.id);
+
+					});
+				});
+			}
+
+			function selectRadio(radioId){
+				$jquery('#'+radioId).attr('checked',true);
+				loadOptionDivJS(radioId);
+			}
+
+			function showOptionDetailTable(val){
+				console.log('showOptionDetailTable called: '+val);
+				if(val){
+					$jquery('.option-text').show();
+				}
+				else{
+					$jquery('.option-text').hide();
+				}
+
+			}
+
+				
+			
+		 //]]>  </script> 
+  </ui:define>
+  <ui:define name="body">
+    <div class="box round first">
+      <h2>Feedback</h2>
+      <a4j:outputPanel rendered="#{s:hasPermission('','Edit Feedback Detail') and feedbackAction.advancedFeedback==true}">
+        <div class="add-button"> <a href="#" onclick="addFeedbackDetailJS();"></a> </div>
+      </a4j:outputPanel>
+      <div class="error-msg"  style="display: none" id="richErrMsg">
+        <rich:messages infoClass="rich-messages-label-sucess" errorClass="rich-messages-label-error" id="errorMsg" globalOnly="true"/>
+      </div>
+      <div class="error-msg"  style="display: none" id="customErrMsg">
+        <div class="inner">
+          <p><span>Error</span><br />
+          </p>
+        </div>
+      </div>
+      <div class="success-msg"  style="display: none" id="customSucMsg">
+        <div class="inner">
+          <p><span>Success Message</span><br />
+          </p>
+        </div>
+      </div>
+      <br/>
+      <div class="dataTables_wrapper">
+        <table id="feedbackDetailTableId" class="data display datatable">
+          <thead>
+            <tr>
+              <th class="sorting_asc" rowspan="1" colspan="1">Action</th>
+              <th class="sorting_asc" rowspan="1" colspan="1">Feedback Question</th>
+              <th class="sorting" rowspan="1" colspan="1">Feedback Answer</th>
+              <th class="sorting" rowspan="1" colspan="1" >Active</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+          <tfoot>
+          </tfoot>
+        </table>
+    <!--     <div class="dataTables_paginate paging_two_button" id="example_paginate">
+          <div class="paginate_disabled_previous" title="Previous" id="example_previous"></div>
+          <div class="paginate_enabled_next" title="Next" id="example_next"></div>
+        </div> -->
+            <div class="dataTables_paginate paging_two_button" id="example_paginate">
+          <a class="paginate_disabled_previous" tabindex="0" role="button" id="example_previous" aria-controls="waitlisttable">Previous</a>
+          <a class="paginate_disabled_next" tabindex="0" role="button" id="example_next" aria-controls="waitlisttable">Next</a>
+       </div>
+      </div>
+      <h:form id="feedbackIdForm">
+        <a4j:jsFunction name="loadFeedbackDetailJS" action="#{feedbackAction.loadFeedbackDetail}" 
+					limitToList="true" reRender="errorMsg,editFeedbackDetailPanel" status="showLoadingStatus" oncomplete="openCreateFeedbackDetailDialog();setSelectedFeedbackAnswerTypeRadio();loadOptionDetailTable();
+					if(#{feedbackAction.renderOptionText}){
+				             	   	
+				             	   		showOptionDetailTable(true);
+				             	   
+				             	   }
+				             	   else{
+				             	   		showOptionDetailTable(false);
+				             	   }
+					">
+          <a4j:actionparam name="param1" assignTo="#{feedbackAction.selectedFeedbackDetailId}" />
+        </a4j:jsFunction>
+        <a4j:jsFunction name="toggleActiveAdJS"  action="#{feedbackAction.deactivateFeedback}" 
+ 				 status="showLoadingStatus"  reRender="errorMsg,editFeedbackDetailPanel" oncomplete="getTargetDivAndShowMsg('#richErrMsg');reloadFeedbackDetailData();">
+          <a4j:actionparam name="param1"  assignTo="#{feedbackAction.selectedFeedbackDetailId}" />
+        </a4j:jsFunction>
+        <a4j:jsFunction name="addFeedbackDetailJS" action="#{feedbackAction.addNewFeedbackDetail}" 
+					limitToList="true" reRender="errorMsg,editFeedbackDetailPanel" status="showLoadingStatus" oncomplete="openCreateFeedbackDetailDialog();setSelectedFeedbackAnswerTypeRadio();loadOptionDetailTable();
+					if(#{feedbackAction.renderOptionText}){
+				             	   	
+				             	   		showOptionDetailTable(true);
+				             	   
+				             	   }
+				             	   else{
+				             	   		showOptionDetailTable(false);
+				             	   }"> </a4j:jsFunction>
+        <a4j:commandButton value="Test Save Feedback Mobile" onclick="saveFeedbackMobile();" styleClass="button" limitToList="true" 
+             		status="showLoadingStatus" rendered="#{s:hasPermission('','Test Feedback Mobile')}"/>
+      </h:form>
+    </div>
+    <div id="adFeedbackDetailDiv" class="lbOuterContainer grey" style="border-radius: 8px; padding-bottom: 10px; padding-top: 14px; border: 2px solid #E3862C; 
+												background-color: #42030C;
+												 margin: 0 auto;position: relative;color: #C2C2C2;visibility: hidden">
+      <div id="lbIframeContainer" class="light-box" style="padding: 3px">
+        <h2 style="margin-top: 1em;line-height: 1.2em;margin-bottom: 0.3em;text-align: center;" >Create Edit Survey</h2>
+        <div class="error-msg"  style="display: none; width: 98%" id="customErrMsgInner">
+          <div class="inner" style="width:96%">
+            <p><span>Error</span><br />
+            </p>
+          </div>
+        </div>
+        <a4j:outputPanel id="editFeedbackDetailPanel">
+          <h:form id="addFeedbackDetailForm">
+            <h:inputHidden id="selFdBkAnswerType" value="#{feedbackAction.selectedFeedbackAnswerType}" />
+            <h:inputHidden id="selFdBkOptionVals" value="#{feedbackAction.selectedFeedbackQuestionaireDetail.optionText}" />
+            <h3><span style="font-family:Tahoma,​Geneva,​sans-serif;font-size:12.8667px;color:#000000;line-height: 1.2em;text-align: left; margin-left: 30px;margin-right: 5px">Question:</span>
+              <h:inputText style="font-family:Tahoma,​Geneva,​sans-serif;font-size:12.8667px" id="qText" label="title" value="#{feedbackAction.selectedFeedbackQuestionaireDetail.questionText}"> </h:inputText>
+            </h3>
+            <span style="font-weight: bold;font-family:Tahoma,​Geneva,​sans-serif;font-size:12.8667px;color:#000000;line-height: 1.2em;text-align: left">Response Type:</span> <span style="font-weight: bold;font-family:Tahoma,​Geneva,​sans-serif;font-size:12.8667px;color:#E3862C;line-height: 1.2em;text-align: left">Choose One:</span>
+            <div id="radioDiv">
+              <div class="option">
+                <label>
+                  <input name="rd" id="35" type="radio" value=""/>
+                  <a href="#"><img src="../img/button_comments.png" alt="Feedback Comment" onclick="selectRadio('35')" /></a></label>
+              </div>
+              <div class="option">
+                <label>
+                  <input name="rd" id="36" type="radio" value=""/>
+                  <a href="#"><img src="../img/button_radio.png" alt="Single Option" onclick="selectRadio('36')"/></a></label>
+              </div>
+              <div class="option">
+                <label>
+                  <input name="rd" id="37" type="radio" value=""/>
+                  <a href="#"><img src="../img/button_checkbox_opt.png" alt="Checkbox Option" onclick="selectRadio('37')"/></a></label>
+              </div>
+              <div class="option">
+                <label>
+                  <input name="rd" id="38" type="radio" value=""/>
+                  <a href="#"><img src="../img/button_rating_question.png" alt="Rating Option" onclick="selectRadio('38')"/></a></label>
+              </div>
+            </div>
+            <a4j:outputPanel id="optionDataPanel">
+              <a4j:outputPanel id="optionDataPanelChild">
+                <div class="option-text">
+                  <h3><span style="font-family:Tahoma,​Geneva,​sans-serif;font-size:12.8667px;color:#000000;line-height: 1.2em;text-align: left; margin-right: 5px">Add Selection Description:</span>
+                    <h:inputText style="font-family:Tahoma,​Geneva,​sans-serif;font-size:12.8667px; width:30%" id="option" label="option" value=""> </h:inputText>
+                  </h3>
+                  <div class="add-option"> <a href="#"><img src="../img/add-option.png" title="Add Option" alt="Add Option" onclick="addOption()" /></a> </div>
+                  <table class="display jqtable" cellpadding="0" cellspacing="0" border="0" id="addSelectedTerritoryTableId">
+                    <thead>
+                      <tr>
+                        <th>Selection Values</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div>
+              </a4j:outputPanel>
+            </a4j:outputPanel>
+            <a4j:jsFunction name="saveFeedbackDetailAction" action="#{feedbackAction.updateFeedbackDetail}" status="showLoadingStatus" 
+							oncomplete="closeDialog('#adFeedbackDetailDiv');reloadFeedbackDetailData();">
+              <a4j:actionparam name="param1" assignTo="#{feedbackAction.selectedFeedbackAnswerType}"/>
+              <a4j:actionparam name="param2" assignTo="#{feedbackAction.optionTextVal}"/>
+            </a4j:jsFunction>
+            <a4j:jsFunction name="loadOptionDivJS"
+							 action="#{feedbackAction.renderOptionTypeData}"
+							 oncomplete="if(#{feedbackAction.renderOptionText}){
+				             	   	
+				             	   		showOptionDetailTable(true);
+				             	   
+				             	   }
+				             	   else{
+				             	   		showOptionDetailTable(false);
+				             	   }" >
+              <a4j:actionparam name="param1" assignTo="#{feedbackAction.selectedFeedbackAnswerType}"/>
+            </a4j:jsFunction>
+          </h:form>
+        </a4j:outputPanel>
+        <table id="buttonTable" class="form" style="width:30%; float:right">
+          <tr class="buttonsRow">
+            <td><a4j:outputPanel rendered="#{s:hasPermission('','Edit Feedback Detail')}">
+                <input type="button" class="button" onclick="getJQItemData();" value="Save" name="Save"/>
+              </a4j:outputPanel>
+              <input type="button" class="button" onclick="closeDialog('#adFeedbackDetailDiv')" value="Cancel" name="Cancel"/></td>
+          </tr>
+        </table>
+      </div>
+      <div id="lbBottomContainer" class="grey" style="border-radius: 8px; display: block;">
+        <div id="lbBottomData" class="grey"> <span id="lbTitleBottom"></span><span id="lbNumBottom"></span> <span id="lbDescBottom" style="display: none;"></span> </div>
+      </div>
+    </div>
+  </ui:define>
+</ui:composition>

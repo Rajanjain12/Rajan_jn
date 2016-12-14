@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.org/rich"
+	 template="../layout/externalTemplate.xhtml">
+	 
+  	<ui:define name="body">
+	   <div class="box round first">	
+	 	 	<h2>CONGRATULATIONS</h2>
+  			<a4j:outputPanel>
+  				<h:form>
+	  				<br/>
+						<h:outputText value="An activation link for your account has been emailed to you. Please activate your acount and then login to the Application using your username and password below" />
+						<br/>
+						<br/>
+						<a4j:commandButton value="Login" styleClass="button" action="#{organizationAction.navigateToLoginPage}" >
+	             		</a4j:commandButton>
+					<br/>
+				</h:form>
+			</a4j:outputPanel>
+		</div>
+	</ui:define>
+	 
+ </ui:composition>

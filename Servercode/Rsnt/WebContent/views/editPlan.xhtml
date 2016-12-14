@@ -1,0 +1,197 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.org/rich"
+	 template="../layout/template.xhtml">
+	 
+	 <ui:define name="head">
+	 	<script type="text/javascript" src="../uiframework/jQuery-js/app/planDetail.js?jsver=#{appInitializer.appVersion}"></script>
+	 </ui:define>
+	 
+	 <style type="text/css">
+			.productTitle {
+				cursor: pointer;
+			}
+			table.formTableSalesPattern td {
+				padding-bottom:10px;
+			}
+		</style>
+		
+	 
+	  <ui:define name="body">
+	 
+		<div  id="planDetailDiv" class="box round first">			 
+		 	<br/>
+			<div class="error-msg"  style="display: none" id="richErrMsg">
+          			<rich:messages id="editPlanErrorMsg" globalOnly="true"/>
+            </div>
+            
+		 	<div class="error-msg"  style="display: none" id="customErrMsg">
+            	<div class="inner">
+                	<p><span>Error</span><br />
+                		
+                	</p>
+                </div>
+            </div>
+	        
+		 	 <a4j:outputPanel id="editPlanPanel">
+			    <h:form id="addPlanForm">
+			    	
+			    	<a4j:outputPanel id="hiddenPlanDataPanel">
+			    		<h:inputHidden id="planAlertDataHidden" value="#{planAction.planAlertData}" />
+			    		<h:inputHidden id="planReportDataHidden" value="#{planAction.planReportData}" />
+			    	</a4j:outputPanel>
+			    	
+			    	<table class="form">
+			    		 <tr><td colspan="4"><h2>Plan Details</h2></td></tr>
+			    	</table>
+			    	
+					<table id="editPlanTable" class="form" style="width: 50%">
+						<tr>
+							<td style="width:25%"><label> Plan Name: <span class="required">*</span></label></td>
+							
+							<td style="width:45%">
+								<a4j:outputPanel rendered="#{planAction.editMode==true}">
+									<h:inputText id="title1" label="title" value="#{planAction.selectedPlanName}" styleClass="medium" style="width:60%">
+									</h:inputText>
+								</a4j:outputPanel>
+
+								<a4j:outputPanel rendered="#{planAction.editMode==false}">
+									<h:inputText id="title2" label="title" value="#{planAction.selectedPlanName}" readonly="true" styleClass="medium" style="width:60%">
+								</h:inputText>
+								</a4j:outputPanel>
+							</td>
+							
+							<td ><label> Active: </label></td>
+							<td >
+								<h:selectBooleanCheckbox value="#{planAction.selectedPlan.activeFlag}" disabled="#{planAction.selectedPlanId==3}"/>
+							</td>
+						
+						</tr>
+	          
+					</table>
+						<h:panelGroup id="items">
+							<a4j:outputPanel id="planUnitCostPanel">
+								<table class="form">
+									<tr><td colspan="8"><h2>Unit Cost Details</h2></td></tr>
+									<tr>
+										<td><label> Cost Per Month: <span class="required">*</span></label></td>
+										<td>
+											<h:inputText id="monthlyCost" label="cost" value="#{planAction.monthlyCost}" styleClass="medium">
+											</h:inputText>
+										</td>
+										<td>
+											<h:selectOneMenu id="monthlyCurrency" value="#{planAction.monthlyCurrencyId}" style="width:80%" >
+												<f:selectItems value="#{planAction.currencyList}"/>
+											</h:selectOneMenu>
+										</td>
+										
+										<td><label>Cost Per Ad</label></td>
+										<td>
+											<h:inputText id="monthlyPerAd" label="monthlyPerAd" value="#{planAction.monthlyCostPerAd}">
+											</h:inputText>
+										</td>
+										<td><label>Free Ads</label></td>
+										<td>
+											<h:inputText id="monthlyFreeAds" label="monthlyFreeAds" value="#{planAction.monthlyFreeAds}">
+											</h:inputText>
+										</td>
+									</tr>
+									
+								</table>
+								
+								<table class="form" >
+									<tr><td colspan="8"><h2>Choose Features</h2></td></tr>
+								</table>
+								
+								<table class="form" style="width:50%">	
+						  			<tr>
+						  				<td><label>Configure Alerts:</label></td>
+						  				<td>
+						  					<select id="alertTypeSelect" name="alertTypeSelect" multiple="multiple">
+													<a4j:repeat id="alertIter" value="#{planAction.planAlertsList}" var="alert1" >
+										    			<option value="#{alert1.value}">#{alert1.label}</option>
+										   	 		</a4j:repeat>
+											</select>
+						  				</td>
+						  			</tr>
+						  			<tr>
+						  				<td><label>Configure Feedback:</label></td>
+						  				<td >
+											<h:selectOneMenu value="#{planAction.selectedFeedbackId}">
+												<f:selectItems value="#{planAction.planFeedbackList}"/>
+											</h:selectOneMenu>
+						  				</td>
+						  			</tr>
+					  				<tr>
+						  				<td><label>Configure Reports:</label></td>
+						  				<td>
+						  					<select id="reportTypeSelect" name="reportTypeSelect" multiple="multiple">
+													<a4j:repeat id="reportIter" value="#{planAction.planReportsList}" var="reportVar" >
+										    			<option value="#{reportVar.value}">#{reportVar.label}</option>
+										   	 		</a4j:repeat>
+											</select>
+						  				</td>
+						  			</tr>
+						  			<tr>
+						  				<td><label>Opt In Promotional Offers</label></td>
+						  				<td>
+						  					<h:selectBooleanCheckbox value="#{planAction.promotionalOffers}" />
+						  				</td>
+						  			</tr>
+						  			
+						  			<tr>
+						  				<td><label>Special Ads</label></td>
+						  				<td>
+						  					<h:selectBooleanCheckbox value="#{planAction.specialAds}" />
+						  				</td>
+						  			</tr>
+						  			
+						  			<tr>
+						  				<td><label>Option Create?</label></td>
+						  				<td>
+						  					<h:selectBooleanCheckbox value="#{planAction.optionCreate}" />
+						  				</td>
+						  			</tr>
+						  			
+						  			
+						  			<tr class="buttonsRow">
+							        	<td>
+						        		   <a4j:outputPanel rendered="#{s:hasPermission('','Edit Plan')}">
+						             	   		<input type="button" class="button" onclick="savePlanJS();" value="Save"/>
+						              	  </a4j:outputPanel>
+						             	
+						             		<a4j:commandButton styleClass="button" value="Cancel" action="#{planAction.cancelEdit}"></a4j:commandButton>
+							          	</td>
+				  					</tr>
+				  			
+								</table>
+							</a4j:outputPanel>
+							
+						</h:panelGroup>
+						
+						<br/>
+						<br/>
+						
+						<br/>
+						<a4j:jsFunction name="updatePlanAlertData" action="#{planAction.updatePlanAlertData}" reRender="hiddenPlanDataPanel">
+							<a4j:actionparam name="param1" assignTo="#{planAction.planAlertData}" />
+						</a4j:jsFunction>
+						
+						<a4j:jsFunction name="updatePlanReportData" action="#{planAction.updatePlanReportData}" reRender="hiddenPlanDataPanel">
+							<a4j:actionparam name="param1" assignTo="#{planAction.planReportData}" />
+						</a4j:jsFunction>
+						<a4j:jsFunction name="savePlanAction" action="#{planAction.savePlan}" status="showLoadingStatus" reRender="editPlanErrorMsg">
+						</a4j:jsFunction>
+				</h:form>	
+			</a4j:outputPanel>
+		</div>
+ 	</ui:define>
+	 
+	 
+	 
+</ui:composition>

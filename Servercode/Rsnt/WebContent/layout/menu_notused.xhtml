@@ -1,0 +1,126 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"	
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:richfaces="http://richfaces.ajax4jsf.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+	<style>
+    div#mainNav li#specLink ul li
+	{
+		position: relative;
+		border-bottom: 1px solid #6e8cd3;
+		padding: 5px 10px;
+		margin: 0px;
+		background-color: #deecfc;
+	}
+	
+	dark_button {
+	    font-size: 11px;
+	    font-weight: bold;
+	    color: rgb(255, 255, 255);
+	    text-shadow: 0px 1px 0px black;
+	    text-decoration: none !important;
+	    border: 1px solid rgb(0, 0, 0);
+	    border-radius: 3px 3px 3px 3px;
+	    box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3) inset;
+	    background: -moz-linear-gradient(center top , rgb(85, 85, 85) 0%, rgb(51, 51, 51) 100%) repeat scroll 0% 0% rgb(85, 85, 85);
+	    -moz-user-select: none;
+	    cursor: pointer;
+	    padding: 3px 10px 5px;
+	    float: left;
+	    margin: 4px 0px;
+	}
+	
+</style>
+<nav style="z-index: 10;">
+	<div style="background-color: white; border: 1px solid #6e8cd3; border-radius: 5px; top: 5px; left: 5px; right: 5px; height: 30px;padding: 0px">
+	  	<div id="mainNav">
+	  	<ul style="position: relative; left: -10px; top: 0px; text-align:left; z-index: 99">
+	          <li id="topRow" > #{messages['Rsnt.Menus.Labels.MasterData']}
+	            <ul>
+	              <li>
+	                <s:link id="menuHomeId" view="/views/home.xhtml" value="Home"/>
+	              </li>
+	              <a4j:outputPanel rendered="#{s:hasPermission('','View Layout Manager')}">
+		              <li>
+		                <s:link id="menuHomeId2" view="/views/layoutData.xhtml" value="Layout Manager"/>
+		              </li>
+              	  </a4j:outputPanel>
+              	  
+	              <a4j:outputPanel rendered="#{s:hasPermission('','View Staff Detail')}">
+		              <li>
+		                 <s:link id="menuHomeId5" view="/views/staffDetail.xhtml" value="Manage Staff Detail" action="#{staffDetailAction.initializeObject()}" />
+		              </li>
+              	  </a4j:outputPanel>
+              	  
+              	   <a4j:outputPanel rendered="#{s:hasPermission('','View Option Detail')}">
+		              <li>
+		                <s:link id="menuHomeId6" view="/views/optionDetail.xhtml" value="Manage Options"/>
+		              </li>
+              	  </a4j:outputPanel>
+             	  <a4j:outputPanel rendered="#{s:hasPermission('','View Plan Detail')}">
+	             	 <li>
+	               	 	<s:link id="menuHomeId7" view="/views/plan/planList.xhtml" value="Manage Plans"/>
+              		</li>
+              	  </a4j:outputPanel>
+	         	   <a4j:outputPanel rendered="#{s:hasPermission('','View Ad Detail')}">
+	             	  <li>
+		                <s:link id="menuHomeId8" view="/views/ads/adsListV3.xhtml" value="Manage Ads"/>
+		              </li>
+              	  </a4j:outputPanel>
+	              
+	               <a4j:outputPanel rendered="#{s:hasPermission('','View Feedback Detail')}">
+	             	   <li>
+		              	<s:link id="menuHomeId10" value="Manage Feedback"  view="/views/feedback/feedbackList.xhtml" action="#{feedbackAction.initialize}" />
+		              </li>
+              	  </a4j:outputPanel>
+	             <a4j:outputPanel rendered="#{s:hasPermission('','View Password Detail')}">
+             	   	 <li>
+		                <s:link id="menuHomeId9" view="/views/changePassword.xhtml" value="Change Password"/>
+		              </li>
+              	  </a4j:outputPanel>
+	             
+	            </ul>
+	          </li>
+	        </ul>            
+	         
+	       <ul style="position: relative; left: -10px; top: 0px; text-align:left; z-index: 99">
+	       		 <li id="topRow" > #{messages['Rsnt.Menus.Labels.DashBoard']}
+	       		 	<ul>
+	       		 		<!--<li>
+	                		<s:link id="menuHomeId3" view="/views/rsntLayout_Notused.xhtml" value="Load DashBoard"/>
+	              		</li>
+	              		--><li>
+	                		<s:link id="menuHomeId4" view="/views/rsntDynamicLayoutV2.xhtml" value="Load DashBoard" action="#{dashBoardAction.loadDefaultOrgDashBoard}"/>
+	              		</li>
+	       		 	</ul>
+	       		 </li>
+	       </ul>
+
+	       <h:form>
+	       		<div style="position: absolute; top: 5px; right: 10px; white-space:nowrap;">
+	       		<h:outputText value="Ads Balance: #{sessionContext.get('orgAdsBalance')}" styleClass="userStyle"/>&#160;&#160;&#160;
+	       		
+	       		<h:outputText value="Plan: " styleClass="userStyle"/>
+	       		<s:link id="planData" view="/views/plan/upgradePlan.xhtml"  value="#{sessionContext.get('orgSusPlanName')}"  styleClass="userStyle"
+	       			action="#{upgradePlanAction.loadUpgradePlanView}"/>&#160;&#160;&#160;
+	       		 
+	       		 <h:outputText value="Organization: " styleClass="userStyle"/>
+	       		 <s:link id="profileData" view="/views/organizationDetail.xhtml" value="#{sessionContext.get('orgName')}"  styleClass="userStyle"
+	       			action="#{organizationAction.loadOrganizationProfile}"/>
+					&#160;&#160;&#160;
+			       <h:outputText value="User: #{loginUser.firstName}" styleClass="userStyle"/>&#160;&#160;&#160;
+	       			<a4j:commandButton styleClass="button"  action="#{rsntAuthenticator.logout}"  value="Logout"></a4j:commandButton>
+	       		</div>	
+	       		
+	       </h:form>
+	  </div>
+	
+	</div>
+	
+</nav>
+</html>

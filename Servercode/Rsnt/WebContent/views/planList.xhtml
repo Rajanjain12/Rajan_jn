@@ -1,0 +1,125 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.org/rich"
+	 template="../layout/accountTemplate.xhtml">
+ <ui:define name="head">
+ 	
+ 		<script type="text/javascript"> //<![CDATA[
+ 			var planDetailsTable;
+			$jquery(document).ready(function(){
+
+				setupLeftMenu();
+				setSidebarHeight();
+
+				planDetailsTable = $jquery('#planDetailsTableId').dataTable( {
+			    	"sScrollY": "100%",
+			    	"sScrollX": "100%",
+			    	"bPaginate": true,
+			    	"iDisplayLength": 100,
+			    	"bFilter" : true,
+			    	"bRetrieve" : true,
+			    	"bAutoWidth" : true,
+			    	"bJqueryUI" : false,
+			    	"bScrollCollapse": true,
+			    	//"sDom": "Tfrtip",
+			    	"sAjaxSource" : RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/planRestAction/loadPlanData",
+				   	 "aoColumnDefs": [{
+			        	  "aTargets": ["_all"],
+			        	  "bUseRendered": false
+			        	}, {"bSortable" :false, "aTargets": [ 0 ]}],
+			        "aoColumns": [
+									 
+									  { "mDataProp": "planDescription" , sDefaultContent: "",
+										  "mRender": function (data, type, full) {
+											  var str = '<a class="description">' +data+ '</a>';
+												return str;   
+				                              }
+									  },
+									  { "mDataProp": "active", sDefaultContent: "",
+			                        	  "mRender": function (val, type, full) {
+											  if(val=='Y'){
+												  	var str = '<div class="active1-div"></div>';
+													return str;
+												  }
+											  else{
+												  var str = '<div class="active1-div-off"></div>';
+													return str;
+												  }
+											     
+				                              }
+			                          
+			                          }
+									 
+			                         
+			                    ],
+			        "fnRowCallback" : function(nRow, aData, iDisplayIndex){
+						$jquery(nRow).attr("id",aData.planId);
+						return nRow;
+					},
+			    } );
+				document.getElementById('planDetailsTableId_paginate').style.visibility = "hidden";
+				 updateActiveMenuItem('#spnAccnts');
+				 updateActiveMenuItem('#spnPlnList');
+			    
+	
+			});
+			
+			$jquery(".description").live('click', function(){
+				var planId = $jquery(this).closest("tr").attr("id");
+				editPlanAction(planId);
+
+			});
+			
+		 //]]>  </script>
+ 
+ </ui:define>
+ <ui:define name="body">
+ 
+	<div class="box round first">	
+		<h2>Plan Information</h2>
+		<br/>
+		 <a4j:outputPanel rendered="#{s:hasPermission('','Add Plan')}">
+		   	<div class="add-button-div">
+		   		<img src="../img/add-button-app.png" onclick="addPlanAction();"/>
+		   </div>
+	   	</a4j:outputPanel>
+		   
+		<div id="planDetailDiv"  class="dataTables_wrapper">
+			<rich:messages infoClass="info" errorClass="error" id="errorMsg" globalOnly="true"/>
+	 		
+			<table id="planDetailsTableId" class="data display datatable">
+				<thead>
+					<tr>
+						<th class="sorting_asc" rowspan="1" colspan="1">Plan Description</th>
+						<th class="sorting_asc" rowspan="1" colspan="1">Status</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+				<tfoot>
+				</tfoot>
+			</table>
+			<div class="dataTables_paginate paging_two_button" id="example_paginate">
+				<div class="paginate_disabled_previous" title="Previous" id="example_previous"></div>
+				<div class="paginate_enabled_next" title="Next" id="example_next"></div>
+			</div>
+			
+			<h:form>
+	 			<a4j:jsFunction name="editPlanAction" action="#{planAction.fetchPlanData}" limitToList="true" reRender="errorMsg,editPlanPanel,items,hiddenPlanDataPanel" status="showLoadingStatus">
+	 				<a4j:actionparam name="param" assignTo="#{planAction.selectedPlanId}" />
+	 			</a4j:jsFunction>
+	 			<a4j:jsFunction name="addPlanAction" action="#{planAction.addNewPlan}" reRender="editPlanPanel,editPlanErrorMsg" 
+	 				status="showLoadingStatus">
+	 			</a4j:jsFunction>
+			</h:form>
+			   
+		</div>
+		
+	</div>
+</ui:define>	 
+</ui:composition>

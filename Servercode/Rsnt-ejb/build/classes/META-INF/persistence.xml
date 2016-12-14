@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Persistence deployment descriptor for dev profile -->
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" 
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" 
+             version="1.0">
+             
+   <persistence-unit name="Rsnt">
+      <provider>org.hibernate.ejb.HibernatePersistence</provider>
+      <jta-data-source>java:jboss/datasources/RsntDatasource</jta-data-source>
+      
+      <!-- The <jar-file> element is necessary if you put the persistence.xml in the WAR and the classes in the JAR -->
+      <!--
+      <jar-file>../../vehicles.jar</jar-file>
+      -->
+      <properties>
+      	<property name="jboss.as.jpa.providerModule" value="hibernate3-bundled" />
+		<property name="hibernate.transaction.manager_lookup_class"	value="org.hibernate.transaction.JBossTransactionManagerLookup" />
+      	
+      
+      
+         <property name="hibernate.dialect" value="com.rsnt.web.util.CustomDialect"/>
+         <property name="hibernate.show_sql" value="true"/>
+         <property name="hibernate.format_sql" value="true"/>
+         <property name="jboss.entity.manager.factory.jndi.name" value="java:/RsntEntityManagerFactory"/>
+         <property name="hibernate.archive.autodetection" value="class"/>
+          <property name="hibernate.cache.use_second_level_cache" value="false"/>
+        <!-- <property name="hibernate.c3p0.min_size" value="5"/>
+		<property name="hibernate.c3p0.max_size" value="20"/>
+		<property name="hibernate.c3p0.timeout" value="0"/>
+		<property name="hibernate.c3p0.max_statements" value="50"/>
+		<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+		<property name="hibernate.connection.pool_size" value="10" />
+		<property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider"/> -->		
+      <!--   Production DB detail -->
+       <!--  
+         <property name="hibernate.connection.password" value="kyobeedbopwd"/>
+         <property name="hibernate.connection.url" value="jdbc:mysql://10.224.143.12:3306/kyobeeprod?noAccessToProcedureBodies=true"/>
+         <property name="hibernate.connection.username" value="kyobeedbo"/> 
+       
+    -->
+    
+         <!-- <property name="hibernate.connection.password" value="kyobeedbopwd"/>
+         <property name="hibernate.connection.url" value="jdbc:mysql://207.20.229.120:3306/kyobeeprod?noAccessToProcedureBodies=true"/>
+         <property name="hibernate.connection.username" value="kyobeedbo"/> --> 
+      
+    
+ 	<!-- <property name="hibernate.connection.password" value="1234"/>
+        <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/kyobee"/>
+        <property name="hibernate.connection.username" value="root"/> 
+        <property name="hibernate.c3p0.idle_test_period" value="10"/>  -->
+       
+        <!--   QA DB detail -->
+        
+        <!-- <property name="hibernate.connection.password" value="buzzbellapp"/>
+        <property name="hibernate.connection.url" value="jdbc:mysql://ringmyserver.com:3306/buzzbell_qa?noAccessToProcedureBodies=true"/>
+        <property name="hibernate.connection.username" value="buzzbell_app"/> 
+        <property name="hibernate.c3p0.idle_test_period" value="10"/> -->
+      </properties>
+      
+      <class>com.rsnt.common.entity.BaseEntity</class>
+      <class>com.rsnt.entity.User</class>
+      <class>com.rsnt.entity.UserRole</class>
+      <class>com.rsnt.entity.Address</class>
+      <class>com.rsnt.entity.Ads</class>
+      <class>com.rsnt.entity.AdsCreditAnalytics</class>
+      <class>com.rsnt.entity.AdsImage</class>
+      <class>com.rsnt.entity.AdUsageHistoryReport</class>
+      <class>com.rsnt.entity.Feedback</class>
+      <class>com.rsnt.entity.FeedbackQuestionaire</class>
+      <class>com.rsnt.entity.FeedbackQuestionaireDetail</class>
+      <class>com.rsnt.entity.FeedbackQuestionaireResponse</class>
+      <class>com.rsnt.entity.FeedbackQuestionaireResponseDetail</class>
+      <class>com.rsnt.entity.Guest</class>
+      <class>com.rsnt.entity.GuestReset</class>
+      <class>com.rsnt.entity.Lookup</class>
+      <class>com.rsnt.entity.LookupType</class>
+      <class>com.rsnt.entity.Organization</class>
+      <class>com.rsnt.entity.OrganizationAdCredit</class>
+      <class>com.rsnt.entity.OrganizationAdCreditScheduler</class>
+      <class>com.rsnt.entity.OrganizationCategory</class>
+      <class>com.rsnt.entity.OrganizationLayout</class>
+      <class>com.rsnt.entity.OrganizationLayoutDashboard</class>
+      <class>com.rsnt.entity.OrganizationLayoutMarkerDeviceMap</class>
+      <class>com.rsnt.entity.OrganizationLayoutMarkers</class>
+      <class>com.rsnt.entity.OrganizationLayoutOption</class>
+      <class>com.rsnt.entity.OrganizationOption</class>
+      <class>com.rsnt.entity.OrganizationPlanSubscription</class>
+      <class>com.rsnt.entity.OrganizationPlanSubscriptionInvoice</class>
+      <class>com.rsnt.entity.OrganizationUser</class>
+      <class>com.rsnt.entity.Plan</class>
+      <class>com.rsnt.entity.PlanFeature</class>
+      <class>com.rsnt.entity.PlanPrice</class>
+      <class>com.rsnt.entity.ProtectedObject</class>
+      <class>com.rsnt.entity.RoleProtectedObject</class>
+      
+   </persistence-unit>
+    
+</persistence>

@@ -1,0 +1,669 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.org/rich"
+	template="../layout/accountTemplateV2.xhtml">
+	<!--  xmlns:h="http://java.sun.com/jsf/html"-->
+	
+	<ui:define name="security">
+		
+		<!-- Setup logo -->
+		<script type="text/javascript"> //<![CDATA[
+			
+			function loadPage(){
+				if(document.getElementById('organizationForm:imageLogoID').src===null){
+					document.getElementById('organizationForm:imageLogoID').src = "../img/default-logo.jpg";
+				}
+			}
+		
+		//]]>  
+		</script>
+		
+		<body onload="loadPage();" >
+		
+		</body>
+		
+	</ui:define>
+	
+	<ui:define name="head">
+		
+		<!-- Setup Logo -->
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/html5/js/h5utils.js"></script>
+		
+		<script type="text/javascript" src="#{request.contextPath}/seam/resource/remoting/resource/remote.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/seam/resource/remoting/interface.js?organizationAction"></script>
+	
+		 
+		<script type="text/javascript"
+			src="../uiframework/jQuery-js/app/organizationDetail.js?jsver=#{appInitializer.appVersion}"></script>
+
+		<script type="text/javascript"> //<![CDATA[
+
+			$jquery(document).ready(function(){
+
+				setupLeftMenu();
+
+				setSidebarHeight();
+				
+				addOrganizationDataValidation();
+				 $jquery("#cuisineTypeSelect").multiselect({
+					 noneSelectedText: 'Select..',
+				     selectedList:5 
+
+				 });
+				 $jquery("#cuisineTypeSelect").bind("multiselectclose",function(){
+					 var checkedValues = $jquery.map($jquery(this).multiselect("getChecked"), function( input ){
+				            return input.value;
+				        });
+					
+				      updateOrgCuisineData(checkedValues.join(','));			
+				 });
+
+				 $jquery("#dishTypeSelect").multiselect({
+					 noneSelectedText: 'Select..',
+				     selectedList:5 
+
+				 });
+				 $jquery("#dishTypeSelect").bind("multiselectclose",function(){
+					 var checkedValues = $jquery.map($jquery(this).multiselect("getChecked"), function( input ){
+				            return input.value;
+				        });
+					
+				      updateOrgDishData(checkedValues.join(','));			
+				 });
+
+
+				 $jquery("#rsntTypeSelect").multiselect({
+					 noneSelectedText: 'Select..',
+				     selectedList:5 
+
+				 });
+				 $jquery("#rsntTypeSelect").bind("multiselectclose",function(){
+					 var checkedValues = $jquery.map($jquery(this).multiselect("getChecked"), function( input ){
+				            return input.value;
+				        });
+					
+				      updateOrgRsntTypeData(checkedValues.join(','));			
+				 });
+
+				 $jquery("#seatingTypeSelect").multiselect({
+					 noneSelectedText: 'Select..',
+				     selectedList:5 
+
+				 });
+				 $jquery("#seatingTypeSelect").bind("multiselectclose",function(){
+					 var checkedValues = $jquery.map($jquery(this).multiselect("getChecked"), function( input ){
+				            return input.value;
+				        });
+					
+					 updateOrgRsntSeatData(checkedValues.join(','));			
+				 });
+
+				 var selectedCuisneVar = $jquery("#organizationForm\\:orgCuisineDataHidden").val();
+				 if(selectedCuisneVar){
+					 var tempArray = selectedCuisneVar.split(",");
+					 for ( i=0; i<tempArray.length; i++ ){
+						 $jquery("#cuisineTypeSelect").find('option[value="'+tempArray[i]+'"]').attr("selected", "selected");
+					 }
+
+					 $jquery("#cuisineTypeSelect").multiselect("refresh");
+					 
+					 	
+				 }
+
+				 var selectedDishVar = $jquery("#organizationForm\\:orgDishDataHidden").val();
+				 if(selectedDishVar){
+					 var tempArray = selectedDishVar.split(",");
+					 for ( i=0; i<tempArray.length; i++ ){
+						 $jquery("#dishTypeSelect").find('option[value="'+tempArray[i]+'"]').attr("selected", "selected");
+					 }
+
+					 $jquery("#dishTypeSelect").multiselect("refresh");
+					 	
+				 }
+
+				 var selectedRsntTypeVar = $jquery("#organizationForm\\:orgRsntTypeDataHidden").val();
+				 if(selectedRsntTypeVar){
+					 var tempArray = selectedRsntTypeVar.split(",");
+					 for ( i=0; i<tempArray.length; i++ ){
+						 $jquery("#rsntTypeSelect").find('option[value="'+tempArray[i]+'"]').attr("selected", "selected");
+					 }
+
+					 $jquery("#rsntTypeSelect").multiselect("refresh");
+					 	
+				 }
+				 
+				 var selectedRsntSeatTypeVar = $jquery("#organizationForm\\:orgRsntSeatTypeDataHidden").val();
+				 if(selectedRsntSeatTypeVar){
+					 var tempArray = selectedRsntSeatTypeVar.split(",");
+					 for ( i=0; i<tempArray.length; i++ ){
+						 $jquery("#seatingTypeSelect").find('option[value="'+tempArray[i]+'"]').attr("selected", "selected");
+					 }
+
+					 $jquery("#seatingTypeSelect").multiselect("refresh");
+					 	
+				 }
+				 updateActiveMenuItem('#spnAccnts');
+				 updateActiveMenuItem('#spnOrg');
+			});
+
+		 	 //]]>  
+			 </script>
+		<style type="text/css">
+</style>
+
+
+
+
+	</ui:define>
+	<ui:define name="body">
+
+
+		<div class="box round first">
+			<h2>Organization Information</h2>
+
+			<br />
+			<div class="error-msg" style="display: none" id="richErrMsg">
+				<rich:messages infoClass="rich-messages-label-sucess"
+					errorClass="rich-messages-label-error"
+					id="orgProfileUpdateErrorMsg" globalOnly="true" />
+			</div>
+			<div class="error-msg" style="display: none;" id="customErrMsg">
+				<div class="inner">
+					<p>
+						<span>Error</span><br />
+
+					</p>
+				</div>
+			</div>
+
+
+			<a4j:outputPanel id="createOrgPanel" ajaxRendered="true">
+				<h:form id="organizationForm" enctype="multipart/form-data">
+
+					<a4j:outputPanel id="hiddenOrgDataPanel">
+						<h:inputHidden id="orgCuisineDataHidden"
+							value="#{organizationAction.orgCuisineData}" />
+						<h:inputHidden id="orgDishDataHidden"
+							value="#{organizationAction.orgDishData}" />
+						<h:inputHidden id="orgRsntTypeDataHidden"
+							value="#{organizationAction.orgRsntTypeData}" />
+						<h:inputHidden id="orgRsntSeatTypeDataHidden"
+							value="#{organizationAction.orgseatTypeData}" />
+					</a4j:outputPanel>
+
+					<table id="createOrgTable" class="form">
+						<tr>
+							<td class="col1" style="width: 10%"><label> Company
+									Name: <span class="required">*</span>
+							</label></td>
+							<td><h:inputText id="title" label="title"
+									value="#{organizationAction.organization.organizationName}"
+									style="width:60%">
+								</h:inputText></td>
+						</tr>
+						<tr>
+							<td class="col1" style="width: 10%"><label> Primary
+									Phone:<span class="required">*</span>
+							</label></td>
+							<td style="width: 15%"><h:inputText id="primaryPhone"
+									label="primaryPhone"
+									value="#{organizationAction.primaryPhoneStr}" style="width:60%">
+								</h:inputText></td>
+
+							<td style="width: 10%"><label for="secondaryPhone">Secondary
+									Phone:</label></td>
+
+							<td style="width: 15%"><h:inputText id="secondaryPhone"
+									label="secondaryPhone"
+									value="#{organizationAction.organization.secondaryPhone}"
+									style="width:60%">
+								</h:inputText></td>
+
+							<td class="col1" style="width: 10%"><label> Email:<span
+									class="required">*</span></label></td>
+							<td style="width: 15%"><h:inputText id="orgEmail"
+									label="email" value="#{organizationAction.organization.email}"
+									style="width:60%">
+								</h:inputText></td>
+						</tr>
+						<tr>
+							<td class="col1" style="width: 10%"><label> Address
+									Line 1:<span class="required">*</span>
+							</label></td>
+							<td style="width: 10%"><h:inputText id="addLine1"
+									label="addLine1"
+									value="#{organizationAction.organization.address.addressLineOne}"
+									style="width:60%">
+								</h:inputText></td>
+							<td style="width: 10%"><label>Line 2:</label></td>
+							<td style="width: 10%"><h:inputText id="addLine2"
+									label="addLine2"
+									value="#{organizationAction.organization.address.addressLineTwo}"
+									style="width:60%">
+								</h:inputText></td>
+
+
+							<td class="col1" style="width: 10%"><label> City:<span
+									class="required">*</span></label></td>
+							<td style="width: 10%"><h:inputText id="city" label="city"
+									value="#{organizationAction.organization.address.city}"
+									style="width:60%">
+								</h:inputText></td>
+						</tr>
+						<tr>
+							<td class="col1" style="width: 10%"><label> State:<span
+									class="required">*</span></label></td>
+							<td style="width: 10%"><h:inputText id="state" label="state"
+									value="#{organizationAction.organization.address.state}"
+									style="width:60%">
+								</h:inputText></td>
+
+
+							<td class="col1" style="width: 10%"><label> Country:<span
+									class="required">*</span></label></td>
+							<td style="width: 10%"><h:inputText id="country"
+									label="country"
+									value="#{organizationAction.organization.address.country}"
+									readonly="true" style="width:60%">
+								</h:inputText></td>
+
+							<td class="col1" style="width: 10%"><label> Zip:<span
+									class="required">*</span></label></td>
+							<td style="width: 10%"><h:inputText id="zip" label="zip"
+									value="#{organizationAction.organization.address.zipCode}"
+									style="width:60%">
+								</h:inputText></td>
+
+						</tr>
+						
+						<tr>
+							<td class="col1" style="width: 10%"><label> Auto
+									Renew: </label></td>
+							<td class="col2"><h:selectBooleanCheckbox
+									value="#{organizationAction.organization.autoRenew}" /></td>
+						</tr>
+
+
+
+						<!-- Setup Logo (Isai) -->
+						<tr>
+							<td class="col1" style="width: 10%" valign="top"><label>
+									Logo: </label></td>
+							<td style="width: 15%" valign="top">
+							
+								<h:commandButton action="#" value="Upload"
+									onclick="Richfaces.showModalPanel('panel');"
+									style="width:150px" />
+															
+							</td>
+
+						</tr>
+						<tr>
+							<td class="col1" style="width: 10%" valign="top"></td>
+							<td class="col2">
+								<s:graphicImage fileName="logoOrganization" id="imageLogoID"  
+										style="padding: 15px; border: 4px solid #999; margin: 4px; border-style: solid;"
+										value="#{organizationAction.organization.data}" alt="Logo" width="400px;">
+										<s:transformImageType contentType="image/png"/>
+										<a4j:support event="onchange" ajaxSingle="true" bypassUpdates="false" />
+								</s:graphicImage>
+							</td>
+						</tr>
+
+					</table>
+
+
+					<br />
+					<h2>CheckIn Information</h2>
+
+					<a4j:outputPanel id="checkInPanel">
+						<table class="form">
+							<tr>
+								<td width="15%"><a4j:region>
+										<h:selectBooleanCheckbox id="checkInSplFlag"
+											value="#{organizationAction.checkInSpecial}">
+											<a4j:support event="onclick"
+												action="#{organizationAction.renderNote}"
+												reRender="checkInPanel"></a4j:support>
+										</h:selectBooleanCheckbox>
+									</a4j:region> <h:outputLabel value="Check In Special" for="checkInSplFlag" />
+								</td>
+								<td width="20%"><a4j:outputPanel
+										rendered="#{organizationAction.renderNoteFlag}">
+										<label>Check in Special Note</label>
+									</a4j:outputPanel></td>
+								<td><a4j:outputPanel
+										rendered="#{organizationAction.renderNoteFlag}">
+										<h:inputTextarea
+											value="#{organizationAction.checkInSpecialText}"
+											id="checkInSpecialText" />
+									</a4j:outputPanel></td>
+
+							</tr>
+						</table>
+					</a4j:outputPanel>
+
+
+					<br />
+					<h2>Additional Information</h2>
+
+					<br />
+					<table>
+						<tr>
+							<td><label
+								style="font-weight: bold; float: right; margin-right: 23px;">
+									Cuisine Type:</label></td>
+							<td><select id="cuisineTypeSelect" name="cuisineTypeSelect"
+								multiple="multiple">
+									<optgroup label="Chinese">
+										<a4j:repeat id="chineseIter"
+											value="#{organizationAction.cuisineTypeChineseList}"
+											var="cus1">
+											<option value="#{cus1.value}">#{cus1.label}</option>
+										</a4j:repeat>
+									</optgroup>
+									<optgroup label="Asian">
+										<a4j:repeat id="asianIter"
+											value="#{organizationAction.cuisineTypeAsianList}" var="cus2">
+											<option value="#{cus2.value}">#{cus2.label}</option>
+										</a4j:repeat>
+									</optgroup>
+									<optgroup label="European">
+										<a4j:repeat id="eurIter"
+											value="#{organizationAction.cuisineTypeEurList}" var="cus3">
+											<option value="#{cus3.value}">#{cus3.label}</option>
+										</a4j:repeat>
+									</optgroup>
+									<optgroup label="North/South American">
+										<a4j:repeat id="naIter"
+											value="#{organizationAction.cuisineTypeNAList}" var="cus4">
+											<option value="#{cus4.value}">#{cus4.label}</option>
+										</a4j:repeat>
+									</optgroup>
+
+							</select></td>
+
+							<td><label
+								style="font-weight: bold; float: right; margin-right: 23px;">
+									Dish Type:</label></td>
+							<td><select id="dishTypeSelect" name="dishTypeSelect"
+								multiple="multiple">
+									<a4j:repeat id="dishIter"
+										value="#{organizationAction.dishTypeList}" var="dish1">
+										<option value="#{dish1.value}">#{dish1.label}</option>
+									</a4j:repeat>
+							</select></td>
+
+							<td><label
+								style="font-weight: bold; float: right; margin-right: 23px;">
+									Restaurant Type:</label></td>
+							<td><select id="rsntTypeSelect" name="rsntTypeSelect"
+								multiple="multiple">
+									<a4j:repeat id="rsntTypeIter"
+										value="#{organizationAction.rsntTypeList}" var="rsntType">
+										<option value="#{rsntType.value}">#{rsntType.label}</option>
+									</a4j:repeat>
+							</select></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+					</table>
+					<br />
+					<h2>Account Settings</h2>
+
+					<br />
+					<table>
+						<tr>
+							<td><label
+								style="font-weight: bold; float: right; margin-right: 23px;">
+									Seating Preferences:</label></td>
+							<td><select id="seatingTypeSelect" name="seatingTypeSelect"
+								multiple="multiple">
+									<a4j:repeat id="seatingIter"
+										value="#{organizationAction.seatingTypeList}" var="seat">
+										<option value="#{seat.value}">#{seat.label}</option>
+									</a4j:repeat>
+
+							</select></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+					</table>
+					<table class="form" style="width: 30%">
+						<tr>
+							<td><br></br> <a4j:outputPanel
+									rendered="#{s:hasPermission('','Update Organization')}">
+									<input type="button" name="Update" class="button" value="Save"
+										onclick="updateOrganizationProfileJS();" />
+								</a4j:outputPanel> <a4j:jsFunction name="updateOrganizationProfile"
+									action="#{organizationAction.updateOrganizationProfile}"
+									oncomplete="getTargetDivAndShowMsg('#richErrMsg')"
+									status="showLoadingStatus" reRender="orgProfileUpdateErrorMsg"
+									limitToList="true"></a4j:jsFunction></td>
+						</tr>
+					</table>
+					<br />
+
+				</h:form>
+			</a4j:outputPanel>
+			<a4j:form>
+				<a4j:jsFunction name="updateOrgCuisineData"
+					action="#{organizationAction.updateOrgAddData}"
+					reRender="hiddenOrgDataPanel">
+					<a4j:actionparam name="param1"
+						assignTo="#{organizationAction.orgCuisineData}" />
+				</a4j:jsFunction>
+				<a4j:jsFunction name="updateOrgDishData"
+					action="#{organizationAction.updateOrgAddData}"
+					reRender="hiddenOrgDataPanel">
+					<a4j:actionparam name="param1"
+						assignTo="#{organizationAction.orgDishData}" />
+				</a4j:jsFunction>
+				<a4j:jsFunction name="updateOrgRsntSeatData"
+					action="#{organizationAction.updateOrgAddData}"
+					reRender="hiddenOrgDataPanel">
+					<a4j:actionparam name="param1"
+						assignTo="#{organizationAction.orgseatTypeData}" />
+				</a4j:jsFunction>
+			</a4j:form>
+
+			
+			<!-- Setup Logo ModalPanel -->
+			<a4j:form>
+			
+			<rich:modalPanel id="panel" width="850" height="450" moveable="false" autosized="true">
+		        <f:facet name="controls">
+		            <h:panelGroup>
+		                <h:graphicImage value="../img/close.png" styleClass="hidelink" id="hidelink"/>
+		                <rich:componentControl for="panel" attachTo="hidelink" operation="hide" event="onclick"/>
+		            </h:panelGroup>
+		        </f:facet>
+		        
+		        <style>
+				#holder { border: 10px dashed #ccc; width: 850px; min-height: 450px; margin: 20px auto;}
+				#holder.hover { border: 10px dashed #0c0; }
+				#holder img { display: block; margin: 10px auto; }
+				#holder p { margin: 10px; font-size: 14px; }
+				#divButton { width: 100%; }
+				progress { width: 100%; align: center;}
+				progress:after { content: '%'; }
+				.fail { background: #c00; padding: 2px; color: #fff; }
+				.hidden { display: none !important;}
+				</style>
+		        
+		        
+		        <br/>
+	
+					
+		        <article style="background-color:white;">
+
+				  <div class="holder" id="holder" style="background: #00ff00 url('../img/dragdrop.png') no-repeat fixed center; background-color:white;">
+				  	  
+				  </div>
+		
+				  <p id="upload" class="hidden"><label>Drag &amp; drop not supported, but you can still upload via this input field:<br /><input type="file"/></label></p>
+				  <p id="filereader">File API &amp; FileReader API not supported</p>
+				  <p id="formdata">XHR2's FormData is not supported</p>
+				  <p id="progress">XHR2's upload progress isn't supported</p>
+
+				</article>
+				<div class="divButton" >
+					<input id="doneButtonID" type="button" name="Done" class="button" value="Done" style="width:150px"
+						onclick="actionDone();" />
+				</div>
+				
+				 
+				 
+					<script>//<![CDATA[
+					var holder = document.getElementById('holder'),
+					    tests = {
+					      filereader: typeof FileReader != 'undefined',
+					      dnd: 'draggable' in document.createElement('span'),
+					      formdata: !!window.FormData,
+					      progress: "upload" in new XMLHttpRequest
+					    }, 
+					    support = {
+					      filereader: document.getElementById('filereader'),
+					      formdata: document.getElementById('formdata'),
+					      progress: document.getElementById('progress')
+					    },
+					    acceptedTypes = {
+					      'image/png': true,
+					      'image/jpeg': true,
+					      'image/gif': true
+					    },
+					    progress = document.getElementById('uploadprogress'),
+					    fileupload = document.getElementById('upload');
+					
+					"filereader formdata progress".split(' ').forEach(function (api) {
+					  if (tests[api] === false) {
+					    support[api].className = 'fail';
+					  } else {
+					    // FFS. I could have done el.hidden = true, but IE doesn't support
+					    // hidden, so I tried to create a polyfill that would extend the
+					    // Element.prototype, but then IE10 doesn't even give me access
+					    // to the Element object. Brilliant.
+					    support[api].className = 'hidden';
+					  }
+					});
+			
+					function actionDone(){
+						//alert("Clic Done!");
+			
+						var file = document.getElementById('holder').firstChild.getAttribute("src");
+						Seam.Component.getInstance("organizationAction").saveLogo(file);
+			
+						//document.getElementById('organizationForm:emptyLogoID').setAttribute("rendered", "false");
+						//document.getElementById('organizationForm:imageLogoID').setAttribute("rendered", "true");
+						document.getElementById('organizationForm:imageLogoID').src = document.getElementById('holder').firstChild.getAttribute("src");
+						//document.getElementById('organizationForm:imageLogoID').value = document.getElementById('holder').firstChild.getAttribute("src");
+						document.getElementById('organizationForm:imageLogoID').style.width  = "400px";
+						var logo = document.getElementById('organizationForm:imageLogoID');
+						Richfaces.hideModalPanel('panel');
+						//alert("Data Image: " + file);
+
+					}
+					
+					
+					function restarHolder(){
+						document.getElementById('holder').style.background = "#00ff00 url('../img/dragdrop.png') no-repeat fixed center";
+						document.getElementById('holder').style.backgroundColor = "white";
+						//document.getElementById('doneButtonID').setAttribute("hidden", true);
+						
+						while (holder.firstChild) {
+					  	  holder.removeChild(holder.firstChild);
+					    }
+					}
+					
+					
+					function previewfile(file) {
+					  if (tests.filereader === true && acceptedTypes[file.type] === true) {
+					    var reader = new FileReader();
+					    reader.onload = function (event) {
+					      var image = new Image();
+					      image.src = event.target.result;
+					      image.width = 600; // a fake resize
+					      //holder = document.getElementById('holder');
+					      while (holder.firstChild) {
+					    	  holder.removeChild(holder.firstChild);
+					      }
+					      document.getElementById('holder').style.background = "none";
+					      holder.appendChild(image);
+					      
+					    };
+					
+					    reader.readAsDataURL(file);
+					  }  else {
+					    holder.innerHTML += '<p>Uploaded ' + file.name + ' ' + (file.size ? (file.size/1024|0) + 'K' : '');
+					    console.log(file);
+					  }
+					}
+					
+					function readfiles(files) {
+					    debugger;
+					    var formData = tests.formdata ? new FormData() : null;
+					    //for (var i = 0; i < files.length; i++) {
+					    for (var i = 0; i < 1; i++) {
+					      if (tests.formdata) formData.append('file', files[i]);
+					      previewfile(files[i]);
+					    }
+					
+					    // now post a new XHR request
+					    if (tests.formdata) {
+					      var xhr = new XMLHttpRequest();
+					      xhr.open('POST', '/devnull.php');
+					      xhr.onload = function() {
+					        progress.value = progress.innerHTML = 100;
+					      };
+					
+					      if (tests.progress) {
+					        xhr.upload.onprogress = function (event) {
+					          if (event.lengthComputable) {
+					            var complete = (event.loaded / event.total * 100 | 0);
+					            progress.value = progress.innerHTML = complete;
+					          }
+					        }
+					      }
+					
+					      xhr.send(formData);
+					    }
+					}
+					
+					if (tests.dnd) { 
+					  holder.ondragover = function () { this.className = 'hover'; return false; };
+					  holder.ondragend = function () { this.className = ''; return false; };
+					  holder.ondrop = function (e) {
+					    this.className = '';
+					    e.preventDefault();
+					    readfiles(e.dataTransfer.files);
+					  }
+					} else {
+					  fileupload.className = 'hidden';
+					  fileupload.querySelector('input').onchange = function () {
+					    readfiles(this.files);
+					  };
+					}
+					//]]>
+					</script>
+		   	
+		 </rich:modalPanel>
+			
+		</a4j:form>
+		
+		
+			
+		</div>
+	</ui:define>
+
+
+
+</ui:composition>

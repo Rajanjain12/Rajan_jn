@@ -1,0 +1,358 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.org/rich"
+	 template="../layout/template.xhtml">
+	 
+	 <ui:define name="head">
+	 
+	 	<script type="text/javascript"> //<![CDATA[
+	 		var layoutJqueryLayoutTableData;
+			$jquery(document).ready(function(){
+				var orgLayoutHeaderId = $jquery("#layoutTableDataForm\\:orgLayoutHeaderId").val();
+				console.log(orgLayoutHeaderId);
+				
+				layoutJqueryLayoutTableData= $jquery('#layoutTableDataId').dataTable({
+					"sScrollY": "100%",
+			    	"sScrollX": "100%",
+			    	"bScrollCollapse": true,
+			    	"bPaginate": true,
+			    	"pagingType": "simple",
+			    	"iDisplayLength": 100,
+			    	"bFilter" : true,
+			    	"bAutoWidth": true,
+			    	"sAjaxSource" : RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/layoutManagerRestAction/loadLayoutMarkerData?orgId="+$jquery('#orgIdHidden').val()
+						+"&userId="+$jquery('#userIdHidden').val()+"&objectName=Edit Layout Marker&orgLayoutHeaderId="+orgLayoutHeaderId,
+				   	 "aoColumnDefs": [{
+			        	  "aTargets": ["_all"],
+			        	  "bUseRendered": false
+			        	}, {"bSortable" :false, "aTargets": [ 0 ]}],
+			        "aoColumns": [	
+			                     	 { "mDataProp": "organizationLayoutMarkerId" , sDefaultContent: "",
+									  "mRender": function (val, type, row) {
+			                              return getLayoutMarkerImage(val,row);  }
+										},
+									   {"mDataProp": "tableName", sDefaultContent: ""},
+									   {"mDataProp": "qrCodeGenerated", sDefaultContent: ""},
+									   { "mDataProp": "activeStatus", sDefaultContent: "",
+				                        	  "mRender": function (val, type, full) {
+												  if(val=='Y'){
+													  	var str = '<div class="active1-div"></div>';
+														return str;
+													  }
+												  else{
+													  var str = '<div class="active1-div-off"></div>';
+														return str;
+													  }
+												     
+					                              }
+				                          
+				                          }
+									  
+									  
+			                    ],
+			        "oTableTools" : {
+	  					"sRowSelect" : "single",
+  					
+  					},
+		   	       "fnRowCallback" : function(nRow, aData, iDisplayIndex){
+						$jquery(nRow).attr("id",aData.organizationLayoutMarkerId);
+						return nRow;
+					},
+			        
+				});
+
+				document.getElementById('layoutTableDataId_previous').style.width= '100px';
+				addSafeMarkerDataValidation();
+				updateActiveMenuItem('#spnLyt');
+
+			});
+
+			function addSafeMarkerDataValidation() {
+				$jquery("#createMarkerForm").validate({
+				  debug : true,
+			      rules: {
+				      "createMarkerForm:markerName": { 
+				    	required: true
+				      },
+				      
+				     
+			      },
+			      highlight: function(label) {
+				    //$jquery(label).closest('.control-group').addClass('error');
+				  },
+				  success: function(label) {
+					  label
+				      .addClass('validImg')
+				      .closest('.control-group').addClass('success');
+				  }
+			  });
+				
+				
+			}
+				
+			$jquery("#layoutTableDataId tbody").live("click", function(event) {
+					
+				   	$jquery(layoutJqueryLayoutTableData.fnSettings().aoData).each(function (){
+				    	$jquery(this.nTr).removeClass('row_selected');
+				   	});
+				   	$jquery(event.target.parentNode).addClass('row_selected');
+			 });
+
+			$jquery('.editImage').live('click', function() { 
+				var id = $jquery(this).attr('id');
+				addEditMarker(id);
+			});
+			
+			$jquery('.deleteImage').live('click', function() { 
+				var id = $jquery(this).attr('id');
+				deactivateLayoutMarker(id);
+			});
+
+			$jquery('.generateQRCodeImage').live('click', function() { 
+				var trClicked = $jquery(this).closest("tr");
+		    	var id = $jquery(this).attr('id');
+				var link = document.getElementById("layoutMarkerDataForm:downloadQRCodeMarkerLink");
+				var finalLink = link.href;
+				finalLink += "&addEditMarkerId=" + id;
+				
+				window.location = finalLink;
+			
+			});
+			  
+			$jquery('.printImage').live('click', function() {
+				
+			    var trClicked = $jquery(this).closest("tr");
+			    if(trClicked[0].children[2].innerHTML == 'Y'){
+			    	var id = $jquery(this).attr('id');
+					var link = document.getElementById("layoutMarkerDataForm:downloadQRCodeMarkerLink");
+					var finalLink = link.href;
+					finalLink += "&addEditMarkerId=" + id;
+					
+					window.location = finalLink;
+				 }
+			    else{
+				    	alert('Please generate QRCode for marker before printing.')
+			    }
+				
+			});
+
+			function downloadLayoutQRCodeJS(){
+				var link = document.getElementById("layoutMarkerDataForm:downloadQRCodeLayoutLink");
+				var finalLink = link.href;
+				
+				window.location = finalLink;
+
+			}
+
+			
+			function openCreateLayoutMarkerInputDialog(){
+				$jquery("#createLayoutMarkerDiv").dialog({
+					autoOpen: true,
+					height: 310,
+				    width: 550,
+				    modal: true,
+				    show: "clip",
+				    hide: "clip",
+				    dialogClass: "noTitleStuff"
+				    
+
+				});
+				document.getElementById('createLayoutMarkerDiv').style.visibility = "visible";
+				$jquery("#createLayoutMarkerDiv").css("height", "");
+
+			}
+			function editOrganizationLayoutMarker(){
+
+				var aTrs = layoutJqueryLayoutTableData.fnGetNodes();
+				
+				for ( var i=0 ; i<aTrs.length ; i++ )
+				{
+					if ( $jquery(aTrs[i]).hasClass('row_selected') )
+					{
+						console.log("Edit Row Selected "+aTrs[i].id);
+						addEditMarker(aTrs[i].id);
+						//aReturn.push( aTrs[i] );
+					}
+				}
+				//return aReturn;
+
+			}
+			function reloadJqueryLayoutMarkerTable(){
+				layoutJqueryLayoutTableData.fnReloadAjax();
+			}
+
+			function createMarkerJS(){
+				if ($jquery("#createMarkerForm").valid()) {
+						createMarkerAction();
+				}
+				return $jquery( "#createMarkerForm").valid();
+			}
+
+			function emailQRCodesJS(){
+				emailQRCodes();
+
+			}
+
+
+ 		//]]>  </script>
+	 
+	 </ui:define>
+	 
+	 <ui:define name="body">
+	 	
+	 	<div class="box round first">	
+ 			<h2>Layout Markers</h2>
+ 			
+		   	<h:form id="layoutTableDataForm">
+				<h:inputHidden id="orgLayoutHeaderId" value="#{layoutManagerAction.selectedOrgLayoutId}" />
+			 	
+				<a4j:outputPanel  id="layoutMarkerHeaderMainPanel" >
+						<table class="form">
+						<tr>
+							<td style="width: 8%">
+								<label>Layout Name: </label>
+			 		 			<h:outputText value="&#160;" />
+							</td>
+							<td style="width: 10%">
+								<h:outputText value="#{layoutManagerAction.organizationLayout.layoutIdentificationName}" /> 
+							</td>
+							<td style="width: 75%">
+				          		<span style="float: right">
+				             		<input type="button" value="Publish QR Codes for Layout"  onclick = "emailQRCodesJS();" />
+				          		</span>
+				          	</td>
+				          	<td style="width: 75%">
+				          		<span style="float: right">
+				          			<a4j:commandButton value="Arrange Layout" styleClass="button" 
+				          				 action="#{layoutManagerAction.loadDashBoardForOrgLayoutId}"  reRender="dynamicLayoutPanelId,errorMsg">
+				             		</a4j:commandButton>
+				          		</span>
+				          	</td>
+				          	<td style="text-align: right">
+								<a4j:outputPanel rendered="#{s:hasPermission('','Create Layout Marker')}">
+								   	<div class="add-button-div">
+								   		<img src="../img/add-button-app.png" onclick="addEditMarker();"/>
+						   			</div>
+							   	</a4j:outputPanel>
+							</td>
+						</tr>
+						
+			 		</table>
+				</a4j:outputPanel>
+				<a4j:jsFunction name="emailQRCodes" action="#{layoutManagerAction.generateQRCodeForMarkersAndEmail}" status="showLoadingStatus" ajaxSingle="true" oncomplete="reloadJqueryLayoutMarkerTable();">
+				</a4j:jsFunction>
+			</h:form>
+				
+		   <div class="error-msg"  style="display: none" id="richErrMsg">
+          			<rich:messages infoClass="rich-messages-label-sucess" errorClass="rich-messages-label-error" id="errorMsg" globalOnly="true"/>
+            </div>
+            
+		 	<div class="error-msg"  style="display: none" id="customErrMsg">
+            	<div class="inner">
+                	<p><span>Error</span><br />
+                		
+                	</p>
+                </div>
+            </div>
+            
+            <div class="success-msg"  style="display: none" id="customSucMsg">
+            	<div class="inner">
+                	<p><span>Success Message</span><br />
+                		
+                	</p>
+                </div>
+            </div>
+            <br/>
+ 			<div class="dataTables_wrapper" >
+				<table id="layoutTableDataId" class="data display datatable">
+					<thead>
+						<tr>
+							<th class="sorting_asc" rowspan="1" colspan="1">Action</th>
+	                         <th class="sorting" rowspan="1" colspan="1">Marker Name</th>
+	                         <th class="sorting" rowspan="1" colspan="1" >QR Code Available</th>
+	                         <th class="sorting" rowspan="1" colspan="1">Active</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+					<tfoot>
+					</tfoot>
+				</table>
+				
+					
+	 		</div>
+ 		</div>
+	 	
+	 	<div id="createLayoutMarkerDiv" class="lbOuterContainer grey" style="border-radius: 8px;padding-bottom: 10px; padding-top: 14px; border: 2px solid #E3862C; 
+												background-color: #42030C;
+												 margin: 0 auto;position: relative;color: #C2C2C2;visibility: hidden">
+			<div id="lbIframeContainer" class="light-box" style="padding: 4px">
+				<h2 style="margin-top: 1em;line-height: 1.2em;margin-bottom: 0.3em;text-align: center;" >Add/Rename Marker</h2>
+				<rich:messages infoClass="info" errorClass="error" id="addMarkerErrorMsg" globalOnly="true" ajaxRendered="false"/>
+				 <a4j:outputPanel id="createMarkerDialogPanelId">
+			    	<h:form id="createMarkerForm">
+			    		<table class="form">
+							<tr>
+								<td class="col1" style="width:25%; text-align: right;padding-right: 5px;"><span style="font-weight: bold;font-family:Tahoma,​Geneva,​sans-serif;font-size:12.8667px;color:#000000;line-height: 1.2em;text-align: left">Marker Name:</span>
+									<span class="required">*</span>
+								</td>
+								<td class="col2">
+									<h:inputText styleClass="medium" id="markerName" label="markerName" value="#{layoutManagerAction.addEditOrgMarkerName}">
+									</h:inputText>	
+								</td>
+							</tr>
+						</table>
+	    				
+	    				<table class="form">
+							<tr class="buttonsRow">
+					        	<td colspan="11">
+									 <a4j:outputPanel rendered="#{s:hasPermission('','Edit Layout Marker')}">
+					             	   	 <input type="button" class="button" onclick="createMarkerJS();" value="Save"/>
+					             		<input type="button" class="button" onclick="closeDialog('#createLayoutMarkerDiv')" value="Cancel"/>
+					              	  </a4j:outputPanel>
+				             		
+					             	<a4j:jsFunction name="createMarkerAction" action="#{layoutManagerAction.addEditLayoutMarker}" status="showLoadingStatus"
+					             		oncomplete=" if(#{layoutManagerAction.createLayoutValid}) 
+					            		{
+					            			closeDialog('#createLayoutMarkerDiv');
+					            			reloadJqueryLayoutMarkerTable();
+					            			
+					            		} " reRender="addMarkerErrorMsg" limitToList="true">
+				             		</a4j:jsFunction>
+					          	</td>
+			  				</tr>
+						</table>
+							
+			    	</h:form>
+		    	</a4j:outputPanel>
+			</div>
+			<div id="lbBottomContainer" class="grey" style="border-radius: 8px; display: block;">
+				<div id="lbBottomData" class="grey">
+					<span id="lbTitleBottom"></span><span id="lbNumBottom"></span>
+					<span id="lbDescBottom" style="display: none;"></span>
+				</div>
+				<div id="lbBottomNav">
+					<a id="lbClose" title="Close (Esc)" class="grey" href="javascript:void(0)" style="display: none;"></a>
+				</div>
+			</div>
+		</div>
+		
+	 <a4j:form id="layoutMarkerDataForm">
+		<a4j:jsFunction name="addEditMarker" oncomplete="openCreateLayoutMarkerInputDialog();addSafeMarkerDataValidation();" action="#{layoutManagerAction.initializeAddEditMarker}"  reRender="createMarkerDialogPanelId">
+			<a4j:actionparam name="param1" assignTo="#{layoutManagerAction.addEditOrganizationMarkerId}" />
+		</a4j:jsFunction>
+		<a4j:jsFunction name="deactivateLayoutMarker" oncomplete="getTargetDivAndShowMsg('#richErrMsg');reloadJqueryLayoutMarkerTable();" action="#{layoutManagerAction.deactivateLayoutMarker}" reRender="errorMsg">
+			<a4j:actionparam name="param1" assignTo="#{layoutManagerAction.addEditOrganizationMarkerId}" />
+		</a4j:jsFunction>
+		<s:link id="downloadQRCodeMarkerLink" action="#{layoutManagerAction.startDownloadPdf(false)}" style="visibility:hidden; display:none;"/>
+			<s:link id="downloadQRCodeLayoutLink" action="#{layoutManagerAction.startDownloadPdf(true)}" style="visibility:hidden; display:none;" />
+		
+	</a4j:form>		 
+	 </ui:define>
+	 
+	 </ui:composition>

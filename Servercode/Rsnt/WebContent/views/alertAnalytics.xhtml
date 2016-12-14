@@ -1,0 +1,332 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.org/rich"
+	 template="../layout/template.xhtml">
+ <ui:define name="head">
+ 	  	
+ 
+
+ 	<script type="text/javascript"> //<![CDATA[
+		var reportData = null;
+		var yAxisValues = null;
+		var xTicks = null;
+		var graphObject = null;
+		var presentGraph = 'DAILY';
+		var alertTypeValues = new Array();
+ 	   function addReportDatePickers(){
+ 		  $jquery('#alertReportForm\\:startDatePicker').datepicker({
+ 			 dateFormat: 'yy-mm-dd',
+ 				onClose: function(dateText, inst) {
+ 					console.log(dateText);
+ 					updateStartReportDate(dateText);
+ 					var startDateTmp = $jquery('#alertReportForm\\:startDatePicker').datepicker('getDate');
+ 					if(startDateTmp){
+ 						$jquery('#alertReportForm\\:endDatePicker').datepicker("option", 'minDate',startDateTmp);
+ 					}
+ 				}	
+ 			});
+
+ 			$jquery('#alertReportForm\\:endDatePicker').datepicker({
+ 				dateFormat: 'yy-mm-dd',
+ 				onClose: function(dateText, inst) {
+ 					console.log(dateText);
+ 					updateEndReportDate(dateText);
+ 				}
+ 			});
+
+ 	 	   }
+ 	                                          
+	
+	$jquery(document).ready(function(){
+		addReportDatePickers();
+		updateActiveMenuItem('#spnAnalytics');
+	}); 
+
+ 	     function generateAlertReport(){
+ 	 	     
+ 	    	var fromDate = $jquery('#alertReportForm\\:startDatePicker').val();
+ 	    	var toDate = $jquery('#alertReportForm\\:endDatePicker').val();
+ 	    	var url ='http://localhost:8181/birt.war/frameset?__report=versionView.rptdesign&';
+ 	    	url = url +"param_1="+fromDate+"&param_2="+toDate;
+ 	    //	window.open(url,'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=yes');
+ 	    	$jquery.ajax({
+ 	    	    url:RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/analyticsRestAction/alerts?stratDate="+fromDate+"&endDate="+toDate,
+ 	    	    dataType: "json",
+ 	    	    type:"GET",
+ 	    	    async: false,
+ 	    	    "success": function(data) {
+ 	   	    	    console.log(data);
+ 	   	    	    if(data.error.trim().length == 0){
+ 	   	    	    reportData= data;
+ 	   	    		alertTypeValues = [];
+ 	   	    	$jquery("input[name='alerttype']:checked").each(function() {
+ 	 	    		  alertTypeValues.push($jquery(this).val());
+ 	 	    		});
+ 	   	    		convertToDailyReport(data);
+ 	   	    	$jquery('#Trend').css("display","block");
+ 	   	    	$jquery('#altypes').css("display","block");
+ 	   	    	
+ 	 	   	    	    }
+ 	       	  }
+ 	    	});	
+
+ 	 	     }
+ 	    function alertTypeChart(){
+ 	    	alertTypeValues = [];
+ 	    	$jquery("input[name='alerttype']:checked").each(function() {
+	    		  alertTypeValues.push($jquery(this).val());
+	    		});
+	    		if(presentGraph == 'DAILY')
+	    			convertToDailyReport();
+	    		if(presentGraph == 'MONTHLY')
+	    			convertToMonthlyReport();
+	    		if(presentGraph == 'WEEKLY')
+	    			convertToWeeklyReport();
+ 	    	 
+	 		}
+ 	     function convertToDailyReport(data){
+ 	    	presentGraph = 'DAILY';
+ 	    	 xTicks = new Array(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23);
+ 	    	if (data === undefined || data === null) {
+ 	    		data = reportData;
+ 	    	}else {
+ 	    		reportData = data;
+ 	 	 	    }
+ 	    	yAxisValues = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+			for(var i = 0; i<reportData.data.length; i++){
+				if(alertTypeValues.indexOf(reportData.data[i].description)>=0)
+				yAxisValues[parseInt(reportData.data[i].xAxisValue.substring(10,13))] = parseInt(yAxisValues[parseInt(reportData.data[i].xAxisValue.substring(10,13))]) + reportData.data[i].yAxisValue;
+				}
+ 	    	drawLineChart();
+ 	 	     }
+	 	    
+ 	    function convertToMonthlyReport(data){
+ 	    	presentGraph = 'MONTHLY';
+ 	    	 xTicks = new Array([1,'Jan'], [2,'Feb'],[3, 'Mar'],[4, 'Apr'],[5, 'May'],[6, 'Jun'],[7, 'Jul'],[8 ,'Aug'],[9, 'Sept'], [10,'Oct'],[11, 'Nov'],[12, 'Dec']);
+ 	    	if (data === undefined || data === null) {
+ 	    		data = reportData;
+ 	    	}else {
+ 	    		reportData = data;
+ 	 	 	    }
+ 	    	yAxisValues = [0,0,0,0,0,0,0,0,0,0,0,0]
+			for(var i = 0; i<reportData.data.length; i++){
+				if(alertTypeValues.indexOf(reportData.data[i].description)>=0)
+				yAxisValues[parseInt(reportData.data[i].xAxisValue.substring(5,7))] = parseInt(yAxisValues[parseInt(reportData.data[i].xAxisValue.substring(5,7))]) + reportData.data[i].yAxisValue;
+				}
+ 	    	drawLineChart();
+ 	 	     }
+ 	   function convertToWeeklyReport(data){
+	    	presentGraph = 'WEEKLY';
+	    	 xTicks = new Array([1,'Mon'], [2,'Tue'],[3, 'Wed'],[4, 'Thu'],[5, 'Fri'],[6, 'Sat'],[7, 'Sun']);
+	    	 var weekObj = {"Sun":0,"Mon":1,"Tue":2,"Wed":3,"Thu":4,"Fri":5,"Sat":6};
+	    	if (data === undefined || data === null) {
+	    		data = reportData;
+	    	}else {
+	    		reportData = data;
+	 	 	    }
+	    	yAxisValues = [0,0,0,0,0,0,0]
+			for(var i = 0; i<reportData.data.length; i++){
+				if(alertTypeValues.indexOf(reportData.data[i].description)>=0)
+				yAxisValues[weekObj[reportData.data[i].xAxisValue.substring(14)]] = parseInt(yAxisValues[weekObj[reportData.data[i].xAxisValue.substring(14)]]) + reportData.data[i].yAxisValue;
+				}
+	    	drawLineChart();
+	 	     }
+ 	  function convertToYearlyReport(data){
+	    	presentGraph = 'YEARLY';
+	    	 xTicks = new Array();
+	    	if (data === undefined || data === null) {
+	    		data = reportData;
+	    	}else {
+	    		reportData = data;
+	 	 	    }
+	    	yAxisValues = []
+			for(var i = 0; i<reportData.data.length; i++){
+				if(alertTypeValues.indexOf(reportData.data[i].description)>=0)
+				yAxisValues[weekObj[reportData.data[i].xAxisValue.substring(14)]] = parseInt(yAxisValues[weekObj[reportData.data[i].xAxisValue.substring(14)]]) + reportData.data[i].yAxisValue;
+				}
+	    	drawLineChart();
+	 	     }
+ 	     function drawLineChart(){
+ 	    	if(graphObject)
+ 	        {
+ 	    		graphObject.destroy();
+ 	         }
+	 	     
+ 	    	graphObject = $jquery.jqplot ('chart2', [yAxisValues], {
+ 	    	      // Give the plot a title.
+ 	    	      title: 'Alert Chart',
+ 	    	      // You can specify options for all axes on the plot at once with
+ 	    	      // the axesDefaults object.  Here, we're using a canvas renderer
+ 	    	      // to draw the axis label which allows rotated text.
+ 	    	      //axesDefaults: {
+ 	    	        //labelRenderer: $jquery.jqplot.CanvasAxisLabelRenderer
+ 	    	      //},
+ 	    	      // Likewise, seriesDefaults specifies default options for all
+ 	    	      // series in a plot.  Options specified in seriesDefaults or
+ 	    	      // axesDefaults can be overridden by individual series or
+ 	    	      // axes options.
+ 	    	      // Here we turn on smoothing for the line.
+ 	    	      seriesDefaults: {
+ 	    	          rendererOptions: {
+ 	    	              smooth: true
+ 	    	          },
+ 	    	        // showMarker: false,
+ 	                pointLabels: { show: true }
+ 	    	      },
+ 	    	      // An axes object holds options for all axes.
+ 	    	      // Allowable axes are xaxis, x2axis, yaxis, y2axis, y3axis, ...
+ 	    	      // Up to 9 y axes are supported.
+ 	    	      axes: {
+ 	    	        // options for each axis are specified in seperate option objects.
+ 	    	        xaxis: {
+ 	    	          label: "X Axis",
+ 	    	          // Turn off "padding".  This will allow data point to lie on the
+ 	    	          // edges of the grid.  Default padding is 1.2 and will keep all
+ 	    	          // points inside the bounds of the grid.
+ 	    	         autoscale: false,
+ 	    	        ticks : xTicks
+ 	    	        },
+ 	    	        yaxis: {
+ 	    	          label: "Y Axis"
+ 	    	        }
+ 	    	      },
+ 	            axesDefaults: {
+ 	                show: false,
+
+ 	                showTicks: true,
+ 	                showTickMarks: true
+
+ 	            },
+
+ 	            highlighter: {
+ 	            	tooltipContentEditor: function (str, seriesIndex, pointIndex) {
+ 	                   return str + " -#Alerts: "+yAxisValues[pointIndex];
+ 	               },
+ 	                show: true,
+ 	                sizeAdjust: 8,
+ 	                tooltipLocation: 'n',
+ 	                tooltipAxes: 'piered',
+ 	               formatString:'%s',
+ 	                fadeTooltip: true,
+ 	                tooltipFadeSpeed: "fast",
+ 	                useAxesFormatters: false
+
+ 	            }
+ 	    	    });
+ 	 	     }
+ 	 //]]>  </script>
+ 		
+	 	
+</ui:define>
+<ui:define name="body">
+	 	<div class="box round first">
+		  <h2>Alert Analytics</h2>	
+		 	<div id="adEditDiv">
+				 <br/>
+				
+				<div class="error-msg"  style="display: none" id="richErrMsg">
+           			<rich:messages id="editAdErrorMsg" globalOnly="true"/>
+	            </div>
+	            
+			 	<div class="error-msg"  style="display: none" id="customErrMsg">
+	            	<div class="inner">
+	                	<p><span>Error</span><br />
+	                		
+	                	</p>
+	                </div>
+	            </div>
+	            
+			     <a4j:outputPanel id="editAdPanel">
+				    <a4j:form id="alertReportForm" ajaxSingle="true">
+						<br/>
+								
+							<a4j:outputPanel id="weeklyDataPanel">
+								<a4j:outputPanel  >
+									<table id="editWeeklyAdTable"  class="form">
+										
+										<tr>
+											<td><label for="startDatePicker"> Start Date: <span class="required">*</span></label></td>
+											<td style="width: 30%">
+												<h:inputText  readonly="true" id="startDatePicker" />
+											</td>
+											
+											<td style="width: 10%"><label  for="endDatePicker"> Stop Date: <span class="required">*</span></label></td>
+											<td >
+												<h:inputText  readonly="true" id="endDatePicker" />
+											</td>
+										</tr>
+										<tr>
+										<td colspan="4" style="float: right">
+										<a4j:outputPanel >
+														<input type="button" class="button" onclick="generateAlertReport();" value="Generate Report" name="alertReport"/>
+												  </a4j:outputPanel>
+										</td>
+										</tr>
+										<tr>
+											<td></td>
+											<td style="width: 30%">
+												<div id="chart2" style="height:300px; width:500px;"></div>
+											</td>
+											
+											<td >
+											<div id="altypes" style="display:none">
+											<div style="float: left;">
+   												 Alert Types
+											</div>
+												<div style="float: left;">
+													<input type="checkbox" checked="checked" name="alerttype"  value="Server" onclick="alertTypeChart()" style="  float: none;" />&#160;Server<br /> 
+													<input type="checkbox" checked="checked" name="alerttype"  value="Order" onclick="alertTypeChart()" style="  float: none;" />&#160;Order<br /> 
+												<input type="checkbox"  checked="checked" name="alerttype" value="Drinks" onclick="alertTypeChart()" style="  float: none;" />&#160;Drinks<br /> 
+												<input type="checkbox" checked="checked" name="alerttype" value="Check please" onclick="alertTypeChart()" style="  float: none;" />&#160;Check please
+												</div>
+											
+											</div>
+											
+											</td>
+											<td >
+												<ul  id="Trend" style="display:none">
+									<li> <a href="#" onclick="convertToDailyReport();">Daily</a></li>
+									<li> <a href="#" onclick="convertToMonthlyReport();"> Monthly</a></li>
+									<li> <a href="#" onclick="convertToWeeklyReport();"> Weekly</a></li>
+									<li>  <a href="#">Yearly</a></li>
+									<li>  <h:commandLink action="#{analyticsAction.generateExcelReport}" value="download Report" /> </li>
+									</ul>
+											</td>
+										</tr>
+										
+										
+									</table>
+						
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							
+							
+							
+							<br/>
+							
+							
+							
+					
+					</a4j:form>	
+					
+					<a4j:jsFunction name="updateStartReportDate" action="#{analyticsAction.dummyMethod}">
+							<a4j:actionparam name="param1" assignTo="#{analyticsAction.startDate}"/>
+						</a4j:jsFunction>
+						<a4j:jsFunction name="updateEndReportDate" action="#{analyticsAction.dummyMethod}">
+							<a4j:actionparam name="param1" assignTo="#{analyticsAction.endDate}"/>
+						</a4j:jsFunction>
+				</a4j:outputPanel>
+			</div>
+		
+			
+	 	</div>
+	 	
+	 	
+	 </ui:define>
+	 
+ </ui:composition>

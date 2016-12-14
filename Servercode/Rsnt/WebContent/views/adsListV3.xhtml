@@ -1,0 +1,269 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:c="http://java.sun.com/jstl/core"
+	 template="../layout/template.xhtml">
+  <ui:define name="head"> 
+    <script type="text/javascript" src="../uiframework/jQuery-js/app/adDetail.js?jsver=#{appInitializer.appVersion}"></script> 
+    <script type="text/javascript"> //<![CDATA[
+ 			var adsDetailsTable;
+			$jquery(document).ready(function(){
+
+				adsDetailsTable = $jquery('#adsDetailsTableId').dataTable( {
+			    	"sScrollY": "100%",
+			    	"sScrollX": "100%",
+			    	"bPaginate": true,
+			    	"iDisplayLength": 100,
+			    	"bFilter" : true,
+			    	"bRetrieve" : true,
+			    	"bAutoWidth" : false,
+			    	"bJqueryUI" : false,
+			    	"bScrollCollapse": true,
+			    	//"sDom": "Tfrtip",
+			    "sAjaxSource" : RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/adsDetailRestAction/loadAdsData?active=1&orgId="+$jquery('#orgIdHidden').val()
+									+"&userId="+$jquery('#userIdHidden').val()+"&objectName=Edit Ad Detail",
+				   	 "aoColumnDefs": [{
+			        	  "aTargets": ["_all"],
+			        	  "bUseRendered": false
+			        	}, {"bSortable" :false, "aTargets": [ 0 ]}],
+			        "aoColumns": [
+
+			                      { "mDataProp": "adsId" , sDefaultContent: "",
+									  "mRender": function (val, type, row) {
+			                             return getImage(val, row);  }
+								  }, 
+									  { "mDataProp": "title" , sDefaultContent: "",
+										  "mRender": function (data, type, full) {
+											  var str = '<a class="description">' +data+ '</a>';
+												return str;   
+				                              }
+									  },
+									  { "mDataProp": "adBannerImage" , sDefaultContent: "",
+										  "mRender": function (val, type, row) {
+				                             return getBannerImage(val, row);  }
+									  },
+									  {"mDataProp": "weekdayRun" , sDefaultContent: "",},
+									  {"mDataProp": "startDate" , sDefaultContent: "",},
+									  {"mDataProp": "endDate" , sDefaultContent: "",},
+									  {"mDataProp": "startTime" , sDefaultContent: "",},
+									  {"mDataProp": "endTime" , sDefaultContent: "",},
+									  {"mDataProp": "tillCreditAvailable" , sDefaultContent: "",},
+									  { "mDataProp": "active" , sDefaultContent: "",
+										  "mRender": function (val, type, full) {
+											  if(val=='Y'){
+												  	var str = '<div class="active1-div"></div>';
+													return str;
+												  }
+											  else{
+												  var str = '<div class="active1-div-off"></div>';
+													return str;
+												  }
+											     
+				                              }
+									  }
+									 
+									  
+			                         
+			                    ],
+			        "fnRowCallback" : function(nRow, aData, iDisplayIndex){
+						$jquery(nRow).attr("id",aData.adsId);
+						return nRow;
+					},
+			    } );
+
+				document.getElementById('adsDetailsTableId_paginate').style.visibility = "hidden";
+				updateActiveMenuItem('#spnAd');
+	
+			});
+			
+			$jquery(".description").live('click', function(){
+				var adId = $jquery(this).closest("tr").attr("id");
+				$jquery("#adActionForm\\:selectedAdIdHidden").val(adId)
+				editAdActionJs(adId);
+
+		});
+
+			function getSelectedAdIdValue(){
+				console.log('getSelectedAdidValue: '+$jquery("#adActionForm\\:selectedAdIdHidden").val());
+				return $jquery("#adActionForm\\:selectedAdIdHidden").val();
+
+			}
+
+			function openCreateAdInputDialog(){
+				$jquery("#adEditDiv").dialog({
+					autoOpen: true,
+					height: 700,
+				    width: 850,
+				    modal: true,
+				    show: "clip",
+				    hide: "clip",
+				    
+
+				});
+				document.getElementById('adEditDiv').style.visibility = "visible";
+
+			}
+
+			function reloadAdData() {
+				console.log('Reload Called');
+				adsDetailsTable.fnReloadAjax();
+			}
+
+
+			function openUploadDialog(){
+				 $jquery("#uploadImageDiv").dialog({
+				     autoOpen: true,
+				     height: 250,
+				     width: 350,
+				     modal: true,
+				     show: "clip", 
+				     hide: "clip"
+				 });
+			}
+			function loadPrimaryAdLinkNew(val) {
+				window.open(val.src);
+				
+			}
+			function loadPrimaryAdLink(val) {
+
+				console.log($jquery("#addAdForm\\:uploadPrimaryAdLink").val());
+				var itsmUrl = $jquery("#addAdForm\\:uploadPrimaryAdLink").val();
+				window.open('http://'+itsmUrl);
+			
+			}
+
+			$jquery('.deleteImage').live('click', function() { 
+				var id = $jquery(this).attr('id');
+				toggleActiveAdJS(id);
+			});	
+
+			function toggleActiveAds(isInactiveChecked){
+				var activeFlag="1";
+				console.log('isInactiveChecked'+isInactiveChecked);
+				if(isInactiveChecked)activeFlag="0";
+				var newUrl = RSNT_GLOBALCONTEXTPATH + RSNT_RESTEASYPATH + "/adsDetailRestAction/loadAdsData?active="+activeFlag+
+					"&orgId="+$jquery('#orgIdHidden').val()+"&userId="+$jquery('#userIdHidden').val()+"&objectName=Edit Ad Detail";
+				
+				adsDetailsTable.fnReloadAjax(newUrl);
+				
+			}	
+
+			
+			
+		 //]]>  </script> 
+  </ui:define>
+  <ui:define name="body">
+    <div class="box round first">
+      <h2>Ad's</h2>
+      <h:form id="adActionForm">
+        <h:inputHidden value="" id="selectedAdIdHidden" />
+        <a4j:jsFunction name="editAdActionJs" status="showLoadingStatus"  action="#{adsDetailAction.loadAdDetail}" 
+	 				 reRender="editAdPanel,weeklyDataPanel,addonImagePanel">
+          <a4j:actionparam name="param1"  assignTo="#{adsDetailAction.selectedAdId}"/>
+        </a4j:jsFunction>
+        <a4j:jsFunction name="toggleActiveAdJS" status="showLoadingStatus"  action="#{adsDetailAction.deactivateAd}" 
+	 				 reRender="editAdPanel,weeklyDataPanel" oncomplete="reloadAdData();">
+          <a4j:actionparam name="param1"  assignTo="#{adsDetailAction.selectedAdId}" />
+        </a4j:jsFunction>
+        <a4j:jsFunction name="addActionJS" status="showLoadingStatus"  action="#{adsDetailAction.addNewAd}" 
+	 				 reRender="editAdPanel,weeklyDataPanel,addonImagePanel"> </a4j:jsFunction>
+      </h:form>
+      <br/>
+      <rich:messages infoClass="rich-messages-label-sucess" errorClass="rich-messages-label-error" id="errorMsg" globalOnly="true"/>
+      <table class="form">
+        <tr>
+          <td style="width:2%"><h:selectBooleanCheckbox id="inactiveAds" onclick="toggleActiveAds(this.checked)" /></td>
+          <td style="text-align: left; width: 10%"><h:outputLabel value="Show Inactive" for="inactiveAds" style="font-weight: bold;float: left;"/></td>
+          <td style="text-align: right"><a4j:outputPanel rendered="#{s:hasPermission('','Edit Ad Detail')}">
+              <div class="add-button"> <a href="#" onclick="addActionJS();"></a> </div>
+            </a4j:outputPanel></td>
+        </tr>
+      </table>
+      <div class="dataTables_wrapper" id="adDetailDiv">
+        <table id="adsDetailsTableId" class="data display datatable">
+          <thead>
+            <tr>
+              <th class="sorting_asc" rowspan="1" colspan="1" style="width: 79px;">Action</th>
+              <th class="sorting" rowspan="1" colspan="1" style="width: 207px;">Ad Title</th>
+              <th class="sorting" rowspan="1" colspan="1" style="width: 110px;">Banner</th>
+              <th class="sorting" rowspan="1" colspan="1" style="width: 155px;">WeekdayRun</th>
+              <th class="sorting" rowspan="1" colspan="1" style="width: 118px;">StartDate</th>
+              <th class="sorting" rowspan="1" colspan="1" style="width: 101px;">EndDate</th>
+              <th class="sorting" rowspan="1" colspan="1" style="width: 120px;">StartTime</th>
+              <th class="sorting" rowspan="1" colspan="1" style="width: 103px;">EndTime</th>
+              <th class="sorting" rowspan="1" colspan="1" style="width: 79px;">Till Credit Available</th>
+              <th class="sorting" rowspan="1" colspan="1" style="width: 75px;">Active</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+          <tfoot>
+          </tfoot>
+        </table>
+      <!--   <div class="dataTables_paginate paging_two_button" id="example_paginate">
+          <div class="paginate_disabled_previous" title="Previous" id="example_previous"></div>
+          <div class="paginate_enabled_next" title="Next" id="example_next"></div>
+        </div> -->
+            <div class="dataTables_paginate paging_two_button" id="example_paginate">
+          <a class="paginate_disabled_previous" tabindex="0" role="button" id="example_previous" aria-controls="waitlisttable">Previous</a>
+          <a class="paginate_disabled_next" tabindex="0" role="button" id="example_next" aria-controls="waitlisttable">Next</a>
+       </div>
+      </div>
+      <div id="uploadImageDiv" style="display:none">
+        <a4j:outputPanel id="imageUploadPanel">
+          <a4j:form id="imageUploadForm" ajaxSingle="true">
+            <rich:fileUpload id="fileNm" fileUploadListener="#{adImageUploadHelper.listener}" listWidth="280" listHeight="100"
+						acceptedTypes="jpg, gif, png, bmp"  
+						addControlLabel="Choose File(jpg, gif, png, bmp only)" uploadControlLabel="Upload File"  
+						ajaxSingle="true" >
+              <a4j:support event="onfileuploadcomplete" onsubmit="closeDialog('#uploadImageDiv');"  
+							 oncomplete="openImageCropDialog();initializeJCrop();" reRender="imageCropInfoPanel" limitToList="true"/>
+            </rich:fileUpload>
+          </a4j:form>
+        </a4j:outputPanel>
+      </div>
+      <div id="imageCropDiv" style="display:none;">
+        <a4j:outputPanel id="imageCropInfoPanel">
+          <a4j:form id="cropForm" ajaxSingle="true">
+            <h:inputHidden value="" id="cx" />
+            <h:inputHidden value="" id="cy" />
+            <h:inputHidden value="" id="cx2" />
+            <h:inputHidden value="" id="cy2" />
+            <h:inputHidden value="" id="cw" />
+            <h:inputHidden value="" id="ch" />
+            <rich:panel bodyClass="info">
+              <f:facet name="header">
+                <h:outputText value="Uploaded Files Info" />
+              </f:facet>
+              <br/>
+              <h:outputText value="Please make your selection by dragging the rectangle" />
+              <br/>
+              <rich:panel>
+                <h:panelGrid columns="2">
+                  <a4j:mediaOutput id="actualImage" element="img" mimeType="#{adImageUploadHelper.mime}"
+                                    createContent="#{adImageUploadHelper.paintCurrent}" value="1"
+                                       cacheable="false" session="true" >
+                    <f:param value="#{adImageUploadHelper.timeStamp}" name="time" />
+                  </a4j:mediaOutput>
+                </h:panelGrid>
+              </rich:panel>
+            </rich:panel>
+            <table cellspacing="0" cellpadding="4" class="formTable" style="padding-bottom: 10px; width:100%">
+              <tr class="buttonsRow">
+                <td colspan="11"><input type="button" class="button" id="cropImageBtn" onclick="saveImageCropJS();" value="Crop Image" name="Crop Image" disabled="disabled"/>
+                  <input type="button" class="button" onclick="closeDialog('#imageCropDiv');" value="Close" name="Close"/></td>
+              </tr>
+            </table>
+            <rich:spacer height="3"/>
+            <br />
+          </a4j:form>
+        </a4j:outputPanel>
+      </div>
+    </div>
+  </ui:define>
+</ui:composition>

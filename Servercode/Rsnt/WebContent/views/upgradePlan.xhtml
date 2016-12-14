@@ -1,0 +1,395 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:rich="http://richfaces.org/rich"
+	 template="../layout/accountTemplate.xhtml">
+	 
+	 <ui:define name="head">
+	 	<script type="text/javascript" src="../uiframework/jQuery-js/app/upgradePlan.js?jsver=#{appInitializer.appVersion}"></script>
+	 	
+	 	<script type="text/javascript"> //<![CDATA[
+
+			function updateSecondaryMenuItem(){
+		 		updateActiveMenuItem('#spnMySubs');
+	
+		 	}
+
+		 //]]>  </script>
+		 
+	 </ui:define>
+	  <style type="text/css">
+			.productTitle {
+				cursor: pointer;
+			}
+			table.formTableSalesPattern td {
+				padding-bottom:10px;
+			}
+		</style>
+	  <ui:define name="body">
+	 
+		<div class="box round first">	
+			<br/>
+		  	<div class="error-msg"  style="display: none" id="richErrMsg">
+   				<rich:messages infoClass="rich-messages-label-sucess" errorClass="rich-messages-label-error" id="planUpgradeErrorMessage" globalOnly="true"/>
+       		</div>
+		 	<div class="error-msg"  style="display: none;" id="customErrMsg">
+	           	<div class="inner">
+	               	<p><span>Error</span><br />
+	               		
+	               	</p>
+               </div>
+       		</div>
+        
+			<h:inputHidden id="freePlanIdHidden" value="#{upgradePlanAction.freePlanId}" />
+			<div id="accordion">
+				<h3>Current Plan Information</h3>
+				<div>
+					<a4j:outputPanel id="changePlanViewPanel">
+						<table class="form" style="width:50%">
+							<tr>
+								<td style="width:35%"><label>Plan Name: </label></td>
+								<td style="width:25%">
+									<h:outputText id="titleView" label="titleView" value="#{upgradePlanAction.selectedOrgPlanSub.plan.planName}"  >
+									</h:outputText>
+								</td>
+							</tr>
+							<tr>
+								<td><label>Start Date: </label></td>
+								<td>
+									<h:outputText id="startDateView" name="startDateView"  value="#{upgradePlanAction.selectedOrgPlanSub.startDate}" />
+								</td>
+								<td style="width:35%"><label>End Date: </label></td>
+								<td>
+									<h:outputText id="endDateView" name="endDateView" value="#{upgradePlanAction.selectedOrgPlanSub.endDate}" />
+								</td>
+							</tr>
+							<tr>
+								<td style="width:40%"><label>Cost Per Month: </label></td>
+								<td>
+									<h:outputText id="unitCostView" label="costView" value="#{upgradePlanAction.costPerUnitData}">
+									</h:outputText>
+								</td>
+								<td style="width:35%"><label>Months: </label></td>
+								<td>
+									<h:outputText id="unitsView" label="unitsView" value="#{upgradePlanAction.unitsCountData}">
+									</h:outputText>
+								</td>
+							</tr>
+							<tr>
+								<td><label>Cost Per Additional Ad: </label></td>
+								<td>
+									<h:outputText id="adCostView" label="costView" value="#{upgradePlanAction.selectedOrgPlanSub.costPerAd}">
+									</h:outputText>
+								</td>
+								<td style="width:45%" ><label>Ads/Month:</label></td>
+								<td>
+									<h:outputText id="adsPerUnitView" label="adsPerUnitView" value="#{upgradePlanAction.selectedOrgPlanSub.noOfAdsPerUnit}">
+									</h:outputText>
+								</td>
+							</tr>
+							<tr>
+								<td style="width:45%"><label>Total Plan Cost:</label></td>
+								<td>
+									<h:outputText id="totalCostView" label="totalCostView" value="#{upgradePlanAction.selectedOrgPlanSub.totalAmount}">
+									</h:outputText>
+								</td>
+							</tr>
+						</table>
+					</a4j:outputPanel>
+					
+					<a4j:outputPanel id="changePlanViewButtonPanel" rendered="#{!upgradePlanAction.upgradePlanEdit and !upgradePlanAction.buyMoreAds}">
+						<table>
+							<tr class="buttonsRow">
+					        	<td colspan="11">
+					        		<a4j:form>
+						        		 <a4j:outputPanel rendered="#{s:hasPermission('','Edit Subscription')}">
+							             	 <a4j:commandButton styleClass="button" value="Cancel Plan" action="#{upgradePlanAction.startCancelSubscription}" 
+							             	 	oncomplete="changeAccdn('next', '2');" reRender="summaryPanel">
+							             	 </a4j:commandButton>
+							             	 <input type="button" class="button" onclick="editUpgradePlanFn();" value="Change Plan"/>
+						              	  </a4j:outputPanel>
+					        		</a4j:form>
+					          	</td>
+			  				</tr>
+						</table>
+					</a4j:outputPanel>
+				</div>
+				
+				<h3>New Plan Information</h3>
+				<div>
+					<a4j:outputPanel id="changePlanEditPanel">
+						<a4j:outputPanel rendered="#{upgradePlanAction.upgradePlanEdit}">
+							<h:form id="upgradeForm">
+								<div style="width:600px">
+									<table id="createOrgTable2" class="form">
+										<tr>
+											<td style="width:20%"><label>Plan:<span class="required">*</span> </label></td>
+											<td style="width:60%">
+												<h:selectOneMenu value="#{upgradePlanAction.selectedPlanId}" id="selectedPlanId" style="width:50%">
+													<f:selectItems value="#{upgradePlanAction.planList}"/>
+													<a4j:support event="onchange" action="#{upgradePlanAction.onPlanChange}" reRender="unit,cost,unitsCount,totalCost" limitToList="true" oncomplete="setUnitsForFreePlan();">
+													</a4j:support>
+												</h:selectOneMenu>
+											</td>
+										</tr>
+										<tr>	
+											<td style="width:20%"><label>Months:<span class="required">*</span> </label></td>
+											<td style="width:80%" >
+												<h:inputText id="unitsCount" label="unitsCount" value="#{upgradePlanAction.unitsCount}" style="width:47%">
+													<a4j:support event="onchange" action="#{upgradePlanAction.onPlanPriceChange}" reRender="totalCost" limitToList="true">
+													</a4j:support>										
+												</h:inputText>
+											</td>
+										</tr>
+										<tr>
+											<td style="width:20%"><label>Term:<span class="required">*</span></label></td>
+											<td style="width:80%">
+												<h:selectOneMenu id="unit" value="#{upgradePlanAction.selectedPlanPriceId}" style="width:50%" >
+													<f:selectItems value="#{upgradePlanAction.planPriceList}"/>
+													<a4j:support event="onchange" action="#{upgradePlanAction.onPlanPriceChange}" reRender="cost,totalCost" limitToList="true" >
+													</a4j:support>
+												</h:selectOneMenu>
+											</td>
+										</tr>
+										<tr>
+											<td style="width:30%"><label>Cost Per Month:</label></td>
+											<td>
+												<h:outputText id="cost" label="cost" value="#{upgradePlanAction.selectedPlanCost}">
+												</h:outputText>
+											</td>
+										</tr>
+										<tr>	
+											<td style="width:20%"><label>Total Cost:</label></td>
+											<td>
+												<h:outputText id="totalCost" label="totalCost" value="#{upgradePlanAction.totalUnitsCost}">
+												</h:outputText>
+											</td>
+										</tr>
+										<tr>
+								        	<td>
+							        		  	<input type="button" class="button" onclick="changeAccdn('prev');" value="Previous" style="margin-left:30px"/>
+							        		  	<input type="button" class="button" onclick="checkUpgradeValidation();" value="Change" />
+							             		
+								          	</td>
+						  				</tr>
+									</table>
+								</div>
+							</h:form>
+						</a4j:outputPanel>
+					
+					</a4j:outputPanel>
+				</div>
+					
+				<h3>Plan Adjustment Summary</h3>
+				<div>
+					<a4j:outputPanel id="summaryPanel">
+						<table class="form" style="width:50%">
+							<tr>
+								<td ><label>Old Plan Pro-rated Cost Till Today: </label></td>
+								<td>
+									<h:outputText id="oldPlanCost" label="oldPlanCost" value="#{upgradePlanAction.oldPlanProratedAmount}">
+									</h:outputText>
+								</td>
+							</tr>
+							<tr>
+								<td ><label>Old Plan Refund Amount: </label></td>
+								<td>
+									<h:outputText id="oldPlanRefundAmt" label="oldPlanRefundAmt" value="#{upgradePlanAction.oldPlanOnlyRefundAmount}">
+									</h:outputText>
+								</td>
+							</tr>
+							<tr>
+								<td ><label>Old Plan Ads Adjustment Cost: </label></td>
+								<td>
+									<h:outputText id="oldPlanAdAdjCost" label="oldPlanAdAdjCost" value="#{upgradePlanAction.adOnlyAdjustmentCost}" >
+									</h:outputText>
+								</td>
+							</tr>
+							
+							<tr>
+								<td ><label>Old Plan Refund: </label></td>
+								<td>
+									<h:outputText id="oldPlanRefund" label="oldPlanRefund" value="#{upgradePlanAction.totalOldPlanRefund}">
+									</h:outputText>
+								</td>
+							</tr>
+							
+							<tr>
+								<td ><label>New Selected Plan Name: </label></td>
+								<td style="width:35%">
+									<h:outputText id="newPlanName" label="newPlanName" value="#{upgradePlanAction.selectedPlan.planName}" >
+									</h:outputText>
+								</td>
+							</tr>
+							<tr>
+								<td ><label>New Plan Cost: </label></td>
+								<td >
+									<h:outputText id="newPlanCost" label="newPlanCost" value="#{upgradePlanAction.totalUnitsCost}" >
+									</h:outputText>
+								</td>
+							</tr>
+						</table>
+						
+						<a4j:form>
+							<table>
+								<tr class="buttonsRow">
+									<td>
+					             		<a4j:commandButton styleClass="button" value="Back" action="#{upgradePlanAction.navigateToEditPlanPage}"  oncomplete="changeAccdn('prev','2')"
+					             			rendered="#{upgradePlanAction.cancelSubscription}" status="showLoadingStatus">
+					             		</a4j:commandButton>
+						          	</td>
+						          	<td>
+					             		<a4j:commandButton styleClass="button" value="Back" action="#{upgradePlanAction.navigateToEditPlanPage}"  oncomplete="changeAccdn('prev');"
+					             			rendered="#{!upgradePlanAction.cancelSubscription}" status="showLoadingStatus">
+					             		</a4j:commandButton>
+						          	</td>
+						        	<td >
+					             		<a4j:commandButton styleClass="button" value="Next" action="#{upgradePlanAction.navigateToPaymentPage}" status="showLoadingStatus"
+					             			reRender="payPanel" rendered="#{!upgradePlanAction.cancelSubscription}" oncomplete="addPaymentValidationAcdn(); changeAccdn('next')">
+					             		</a4j:commandButton>
+						          	</td>
+						          	<td >
+					             		<a4j:commandButton styleClass="button" value="Next" status="showLoadingStatus" reRender="payPanel" 
+					             			rendered="#{upgradePlanAction.cancelSubscription}" oncomplete="changeAccdn('next')">
+					             		</a4j:commandButton>
+						          	</td>
+			  					</tr>
+							</table>
+						</a4j:form>
+					</a4j:outputPanel>
+				</div>
+					
+				<h3>Payment Detail</h3>
+				<div>
+					<a4j:outputPanel id="payPanel" >
+						<h:form id="planPaymentDetailForm">
+							<a4j:outputPanel rendered="#{upgradePlanAction.totalUnitsCost > 0 || upgradePlanAction.buyMoreAds}">
+							 	<a4j:region>
+							 		<table>
+							 			<tr>
+							 				<td>
+							 				<a4j:outputPanel rendered="#{upgradePlanAction.autoRenew==true}">
+							 				
+							 					<h:selectBooleanCheckbox id="useDiffCard" value="#{upgradePlanAction.useDifferentCard}" title="Use Different Card">
+													<a4j:support event="onclick"  reRender="payPanel" oncomplete="addPlanPaymentDataValidation(this.checked);"></a4j:support>
+												</h:selectBooleanCheckbox>	
+												<rich:spacer width="20px" height="10px"></rich:spacer>
+												<h:outputLabel value="Use Different Card" for="useDiffCard" />
+											</a4j:outputPanel>
+							 				</td>
+							 			</tr>
+							 		</table>
+							 	</a4j:region>
+					 	
+								<table id="payPanelTable"  class="form">
+									<tr>
+										<td style="width: 14%"><label> Payment Type: <span class="required">*</span></label></td>
+										<td class="col2">
+											<a4j:region>
+												<h:selectOneMenu value="#{upgradePlanAction.selectedCardProcessorId}"  disabled="#{!upgradePlanAction.useDifferentCard}" style="width:100%">
+													<f:selectItems value="#{upgradePlanAction.cardProcessorList}"/>
+												</h:selectOneMenu>
+											</a4j:region>
+											
+											
+										</td>
+									</tr>
+									<tr>
+										<td style="width: 18%"><label for="ccNo"> Credit Card Number: <span class="required">*</span></label></td>
+											<td  style="width: 22%" class="col2">
+											<h:inputText id="ccNo" label="ccNo" value="#{upgradePlanAction.cardNumber}"  readonly="#{!upgradePlanAction.useDifferentCard}" style="width:60%">
+											</h:inputText>
+										</td>
+								
+										<td style="width: 12%" class="col1"><label for="expDate"> Expiry Date: <span class="required">*</span></label></td>
+										<td  style="width: 18%" class="col2">
+											<h:inputText id="expDate" label="expDate" value="#{upgradePlanAction.expiryDate}"  readonly="#{!upgradePlanAction.useDifferentCard}" style="width:60%">
+											</h:inputText>
+										</td>
+									
+										<td  style="width: 10%" class="col1"><label for="cvv"> CVV: <span class="required">*</span></label></td>
+										<td  style="width: 18%" class="col2">
+											<h:inputText id="cvv" label="cvv" value="#{upgradePlanAction.cvv}"  readonly="#{!upgradePlanAction.useDifferentCard}" style="width:60%">
+											</h:inputText>
+										</td>
+									</tr>
+								</table>
+								
+								<table>
+									<tr>
+										<td>
+											<h:outputText value="*Any Refunds will appear in your credit card in next 24-48 hrs" style="font-size:10px;width: 100%" >
+											</h:outputText>
+										</td>
+									</tr>
+								</table>
+									
+								<table class="form">
+									<tr class="buttonsRow">
+							        	<td>
+						             		<input type="button" class="button" onclick="changeAccdn('prev',2);" value="Cancel"/>
+											<a4j:outputPanel  rendered="#{upgradePlanAction.upgradePlanEdit}">
+												<input type="button" class="button" onclick="checkValidCardDetails();" value="Submit"/>
+											</a4j:outputPanel>
+						             		<a4j:commandButton value="Cancel Subscription" styleClass="button" action="#{upgradePlanAction.confirmCancelSubscription}" rendered="#{upgradePlanAction.cancelSubscription}" reRender="planUpgradeErrorMessage" status="showLoadingStatus"
+						             			oncomplete="logOut();" >
+						             		</a4j:commandButton>
+						             		
+							          	</td>
+			          				</tr>
+								</table>
+									
+								<a4j:jsFunction name="setExpDateJS" action="#{upgradePlanAction.dummyMethod}">
+									<a4j:actionparam name="param1" assignTo="#{upgradePlanAction.expiryDate}"/>
+								</a4j:jsFunction>
+								<a4j:jsFunction name="logOut" action="#{rsntAuthenticator.logout}">
+								</a4j:jsFunction>
+							</a4j:outputPanel>
+						</h:form>
+						
+						<h:form id="freePaymentDetailForm">
+							<a4j:outputPanel rendered="#{upgradePlanAction.totalUnitsCost == 0}">
+							   	<table class="form">
+									<tr>
+										<td>
+											<h:outputText value="*Any Refunds will appear in your credit card in next 24-48 hrs" style="font-size:10px;width: 100%" >
+											</h:outputText>
+										</td>
+									</tr>
+									<tr class="buttonsRow">
+							        	<td>
+						             		<input type="button" class="button" onclick="changeAccdn('prev',2);" value="Cancel"/>
+						             		<a4j:commandButton value="Submit" styleClass="button" action="#{upgradePlanAction.confirmPlanUpgrade}" rendered="#{upgradePlanAction.upgradePlanEdit}" reRender="planUpgradeErrorMessage" status="showLoadingStatus" oncomplete="getTargetDivAndShowMsg('#richErrMsg')">
+						             		</a4j:commandButton>
+						             		<a4j:commandButton value="Submit" styleClass="button" action="#{upgradePlanAction.confirmCancelSubscription}" rendered="#{upgradePlanAction.cancelSubscription}" reRender="planUpgradeErrorMessage" status="showLoadingStatus"
+						             			oncomplete="logOutFree();" >
+						             		</a4j:commandButton>
+							          	</td>
+			          				</tr>
+								</table>
+								<a4j:jsFunction name="logOutFree" action="#{rsntAuthenticator.logout}">
+								</a4j:jsFunction>
+							</a4j:outputPanel>
+						</h:form>
+					</a4j:outputPanel>
+				</div>
+			</div> 
+		
+			<a4j:form>
+				<a4j:jsFunction name="editUpgradePlanFn"  action="#{upgradePlanAction.loadUpgradePlanEdit}" status="showLoadingStatus" oncomplete="changeAccdn('next'); addNewPlanDataValidation();hideErrMsgDivs();" reRender="changePlanEditPanel">
+				</a4j:jsFunction>
+				<a4j:jsFunction name="logOut" action="#{rsntAuthenticator.logout}">		
+				</a4j:jsFunction>
+          		<a4j:jsFunction name="startUpgradeFn" action="#{upgradePlanAction.startUpgradePlan}"  oncomplete="changeAccdn('next');" reRender="upgradePlanErrorMsg, summaryPanel" status="showLoadingStatus">
+				</a4j:jsFunction>
+				<a4j:jsFunction name="submitPlanUpgrade" action="#{upgradePlanAction.confirmPlanUpgrade}"  reRender="planUpgradeErrorMessage" status="showLoadingStatus" oncomplete="getTargetDivAndShowMsg('#richErrMsg')">
+				</a4j:jsFunction>
+			</a4j:form>
+		</div>
+	 </ui:define>				 
+	
+	 </ui:composition>

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages login-view-id="/login.xhtml"
+ xmlns="http://jboss.com/products/seam/pages"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+ <page view-id="/external/activationResult.xhtml">
+  <action execute="#{organizationAction.activateCustomer}"/>
+  <navigation from-action="#{organizationAction.navigateToLoginPage}">
+   <rule if-outcome="success">
+    <redirect view-id="/views/home.xhtml"/>
+   </rule>
+  </navigation>
+ </page>
+ <page view-id="/external/resetUserPasswordExt.xhtml">
+  <action execute="#{forgotPasswordAction.resetUserPassword}"/>
+ </page>
+ 
+ <page view-id="/views/home.xhtml">
+	<action execute="#{rsntAuthenticator.login}" if="#{!identity.loggedIn}"/>
+  	<action execute="#{rsntAuthenticator.loadOrgContextData}"/>
+	<action execute="#{securityAction.navigateForUserRole}"/>
+ </page>
+ 
+ 
+ <page view-id="/views/layoutData.xhtml">
+  <begin-conversation join="true"/>
+  <navigation from-action="#{layoutManagerAction.initialize}"/>
+  <navigation from-action="#{layoutManagerAction.loadLayoutData}"/>
+ </page>
+ <page view-id="/views/layoutMarkerData.xhtml">
+  <begin-conversation join="true"/>
+  <navigation from-action="#{layoutManagerAction.loadDashBoardForOrgLayoutId}">
+   <rule if-outcome="success">
+    <redirect view-id="/views/rsntDynamicLayoutV2.xhtml"/>
+   </rule>
+  </navigation>
+  <navigation from-action="#{layoutManagerAction.startDownloadPdf(true)}">
+   <rule if-outcome="success">
+    <redirect view-id="/views/layoutMarkerData.xhtml"/>
+   </rule>
+  </navigation>
+ </page>
+ <page view-id="/views/staffDetail.xhtml">
+  <begin-conversation join="true"/>
+  <navigation from-action="#{staffDetailAction.addStaffData}"/>
+  <navigation from-action="#{staffDetailAction.initializeObject}"/>
+ </page>
+ 
+ <page view-id="/views/rsntDynamicLayoutV2.xhtml">
+	<begin-conversation join="true"/>
+  	<navigation from-action="#{layoutOptionAction.initializeLayoutOptions}">
+	   <rule if-outcome="success">
+	    <redirect view-id="/views/layoutOptionData.xhtml"/>
+	   </rule>
+	  </navigation>
+  <navigation from-action="#{dashBoardAction.loadOrgDashBoardForOrgLayoutId}"/>
+ </page>
+ 
+  <page view-id="/views/dashboard.xhtml" >
+ 	<action execute="#{dashBoardAction.loadDefaultOrgDashBoard}" on-postback="false"/>
+  </page>
+  
+ <page view-id="/views/layoutOptionData.xhtml">
+  <begin-conversation join="true"/>
+  <navigation from-action="#{layoutOptionAction.completeLayout}">
+   <rule if-outcome="success">
+    <redirect view-id="/views/home.xhtml"/>
+   </rule>
+  </navigation>
+ </page>
+ <page view-id="/views/planList.xhtml">
+  <begin-conversation join="true"/>
+  <navigation from-action="#{planAction.fetchPlanData}">
+   <rule if-outcome="success">
+    <redirect view-id="/views/editPlan.xhtml"/>
+   </rule>
+  </navigation>
+  <navigation from-action="#{planAction.addNewPlan}">
+   <rule if-outcome="success">
+    <redirect view-id="/views/editPlan.xhtml"/>
+   </rule>
+  </navigation>
+ </page>
+ <page view-id="/views/editPlan.xhtml">
+  <begin-conversation join="true"/>
+  <navigation from-action="#{planAction.savePlan}">
+   <rule if-outcome="success">
+    <redirect view-id="/views/planList.xhtml"/>
+   </rule>
+  </navigation>
+  <navigation from-action="#{planAction.cancelEdit}">
+   <rule if-outcome="success">
+    <redirect view-id="/views/planList.xhtml"/>
+   </rule>
+  </navigation>
+  <navigation from-action="#{planAction.updatePlanAlertData}"/>
+  <navigation from-action="#{planAction.updatePlanReportData}"/>
+ </page>
+ 
+ <page view-id="/views/optionDetail.xhtml">
+  <begin-conversation join="true"/>
+    <navigation from-action="#{optionDetailAction.initialize}"/>
+ </page>
+ <page view-id="/external/success.xhtml">
+  <navigation from-action="#{organizationAction.navigateToLoginPage}">
+   <rule if-outcome="success">
+    <redirect view-id="/views/home.xhtml"/>
+   </rule>
+  </navigation>
+ </page>
+ 
+ <page view-id="/external/forgotPassword.xhtml">
+  <navigation from-action="#{forgotPasswordAction.completeForgotPassword}">
+   <rule if-outcome="success">
+    <redirect view-id="/views/home.xhtml"/>
+   </rule>
+  </navigation>
+ </page>
+ <page view-id="/views/upgradePlan.xhtml">
+  <navigation from-action="#{upgradePlanAction.confirmPlanUpgrade}">
+   <rule if-outcome="success">
+    <redirect view-id="/views/home.xhtml"/>
+   </rule>
+  </navigation>
+ </page>
+ 
+  <page view-id="/views/buyAds.xhtml">
+  	<navigation from-action="#{upgradePlanAction.confirmBuyMoreAdsPage2}">
+	   <rule if-outcome="success">
+	    <redirect view-id="/views/home.xhtml"/>
+	   </rule>
+  	</navigation>
+  </page>
+ 
+ <page view-id="*">
+  <navigation from-action="#{rsntAuthenticator.logout}">
+   <end-conversation/>
+   <redirect view-id="/views/home.xhtml"/>
+  </navigation>
+ </page>
+ <page view-id="/views/adsListV3.xhtml">
+  <header name="Cache-Control" value="no-cache, no-store, max-age=0, must-revalidate"/>
+  <begin-conversation join="true"/>
+  <navigation from-action="#{adsDetailAction.loadAdDetail}">
+   <rule if-outcome="success">
+    <redirect view-id="/views/editAd.xhtml"/>
+   </rule>
+  </navigation>
+  <navigation from-action="#{adsDetailAction.addNewAd}">
+   <rule if-outcome="success">
+    <redirect view-id="/views/editAd.xhtml"/>
+   </rule>
+  </navigation>
+ </page>
+ <page view-id="/views/editAd.xhtml">
+  <begin-conversation join="true"/>
+  <navigation from-action="#{adsDetailAction.updateAdd}">
+   <rule if-outcome="success">
+    <end-conversation/>
+    <redirect view-id="/views/adsListV3.xhtml"/>
+   </rule>
+  </navigation>
+  <navigation from-action="#{adsDetailAction.cancelEdit}">
+   <rule if-outcome="success">
+    <end-conversation/>
+    <redirect view-id="/views/adsListV3.xhtml"/>
+   </rule>
+  </navigation>
+  
+ </page>
+ 
+ <page view-id="/external/createNewOrganization.xhtml">
+  <action execute="#{organizationAction.initialize}" />
+  <navigation>
+	   <render view-id="/external/organizationDetailExtV2.xhtml"/>
+  </navigation>
+ 
+ </page>
+ 
+ <page view-id="/external/organizationDetailExtV2.xhtml">
+ 	<navigation from-action="#{organizationAction.saveNewOrganization}">
+	   <rule if-outcome="success">
+	    <redirect view-id="/external/success.xhtml"/>
+	   </rule>
+ 	</navigation>
+ </page>
+ 
+ <exception class="org.jboss.seam.framework.EntityNotFoundException">
+  <redirect view-id="/error.xhtml">
+   <message severity="warn">Record not found</message>
+  </redirect>
+ </exception>
+ <exception class="javax.persistence.EntityNotFoundException">
+  <redirect view-id="/error.xhtml">
+   <message severity="warn">Record not found</message>
+  </redirect>
+ </exception>
+ <exception class="javax.persistence.EntityExistsException">
+  <redirect view-id="/error.xhtml">
+   <message severity="warn">Duplicate record</message>
+  </redirect>
+ </exception>
+ <exception class="javax.persistence.OptimisticLockException">
+  <end-conversation/>
+  <redirect view-id="/error.xhtml">
+   <message severity="warn">Another user changed the same data, please try again</message>
+  </redirect>
+ </exception>
+ <exception class="org.jboss.seam.security.AuthorizationException">
+  <redirect view-id="/error.xhtml">
+   <message severity="error">You don't have permission to access this resource</message>
+  </redirect>
+ </exception>
+ <exception class="org.jboss.seam.security.NotLoggedInException">
+  <redirect view-id="/login.xhtml">
+   <message severity="warn">#{messages['org.jboss.seam.NotLoggedIn']}</message>
+  </redirect>
+ </exception>
+ <exception class="javax.faces.application.ViewExpiredException">
+  <redirect view-id="/error.xhtml">
+   <message severity="warn">Your session has timed out, please try again</message>
+  </redirect>
+ </exception>
+ <exception class="org.jboss.seam.ConcurrentRequestTimeoutException" log-level="trace">
+  <http-error error-code="503"/>
+ </exception>
+ <exception>
+  <redirect view-id="/error.xhtml">
+   <message severity="error">Unexpected error, please try again</message>
+  </redirect>
+ </exception>
+</pages>

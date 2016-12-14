@@ -1,0 +1,93 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ajax="https://ajax4jsf.dev.java.net/ajax"
+	xmlns:richfaces="http://richfaces.ajax4jsf.org/rich"
+	template="../layout/template.xhtml">
+	
+	<ui:define name="head">
+	</ui:define>
+	
+	<ui:define name="body">
+		<div class="box round first">
+			<div class="error-msg"  style="display: none" id="richErrMsg">
+	     			<rich:messages infoClass="rich-messages-label-sucess" errorClass="rich-messages-label-error" id="editAdErrorMsg" globalOnly="true"/>
+	         </div>
+		 	<div class="error-msg"  style="display: none" id="customErrMsg">
+	           	<div class="inner">
+	               	<p><span>Error</span><br />
+	               		
+	               	</p>
+	               </div>
+	        </div>
+	        <div class="success-msg"  style="display: none" id="customSucMsg">
+	        	<div class="inner">
+	            	<p><span>Success Message</span><br />
+	            		
+	            	</p>
+	            </div>
+	        </div>
+	        <br/>
+			<a4j:outputPanel id="securityPanelId">
+				<h:form id="securityForm">
+				
+					<rich:messages id="errorMsg" globalOnly="true" infoClass="rich-messages-label-sucess" errorClass="rich-messages-label-error"/> 
+					<br/>
+					<h2>Manage Role Security</h2>
+					<table class="form" style="width:20%">
+						<tr>
+							<td><label>Selected Role:</label></td>
+							<td>
+								<h:selectOneMenu value="#{securityAction.selectedRoleId}" style="width:100%">
+									<f:selectItems value="#{securityAction.roleList}"/>
+									<a4j:support event="onchange" action="#{securityAction.loadProtectedObjectForRole}" reRender="securityDataPanel">
+									</a4j:support>
+								</h:selectOneMenu>
+							</td>
+						</tr>
+			 		</table>
+			 		<br/>
+			 		<a4j:outputPanel id="securityDataPanel">
+			 			<a4j:outputPanel id="securityDataPanelInner" rendered="#{securityAction.selectedRoleId!='0'}">
+			 				<table id="editRoleTable"  class="form" style="width:10%">
+								<tr>
+									<td><label for="title">Mapped Role:</label></td>
+								  </tr>
+							  </table>
+							  <div id="secDiv1" style="margin-left: 110px">
+								<h:selectManyCheckbox  value="#{securityAction.roleProtectedObjList}" 
+									 layout="pageDirection" 
+										name="selectTermYears" style="width:20%;float:left;margin-left:5px; font-weight:bold">
+									<f:selectItems value="#{securityAction.allProtectedObjList}" var="n"
+	 											itemLabel="#{n.label}" itemValue="#{n.value}"/>
+								  </h:selectManyCheckbox>
+							  </div>
+						  
+			 			</a4j:outputPanel>
+			 		
+			 		</a4j:outputPanel>
+			 		
+			 		<a4j:outputPanel rendered="#{s:hasPermission('','Edit Security')}">
+				 		<table id="buttonTable" class="form" style="margin-left: 20px">
+							<tr>
+				       		 	<td>
+									<input type="button" class="button" onclick="saveRoleMapping();" value="Update Permissions" name="Update Permissions"/>
+					          	</td>
+			  				</tr>
+						</table>
+			 		</a4j:outputPanel>
+							
+					<a4j:jsFunction name="saveRoleMapping" action="#{securityAction.updateRoleProtectedObjectMapping}" status="showLoadingStatus" 
+						reRender="editAdErrorMsg" limitToList="true" oncomplete="getTargetDivAndShowMsg('#richErrMsg')">
+					</a4j:jsFunction>
+				</h:form>
+			</a4j:outputPanel>
+		</div>
+	
+	</ui:define>
+	
+	</ui:composition>

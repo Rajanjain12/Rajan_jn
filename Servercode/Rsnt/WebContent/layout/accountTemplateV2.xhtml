@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:a4j="http://richfaces.org/a4j"
+   xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:rich="http://richfaces.org/rich"
+   contentType="text/html">
+<html>
+	<head>
+	   
+	    <title>Rsnt</title>
+	    
+		<link rel="icon" type="image/png" href="http://kyobee.com/wp-content/themes/koybee/images/favicon2.png"></link>
+		
+		
+		<script type="text/javascript">
+			var $richv132 = jQuery.noConflict();
+				
+		</script>
+		
+		<script type="text/javascript"	src="#{request.contextPath}/uiframework/jQuery-js/jquery-1.8.2.min.js"></script>
+		<!-- load other jquery plugins:  -->
+		<script type="text/javascript"	src="#{request.contextPath}/uiframework/jQuery-js/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.gridster.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/TableTools.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/datatables.reload.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.layout-latest.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.multiselect.js"></script>	
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.notify.js"></script>
+		
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery-ui-timepicker-addon.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery-ui-sliderAccess.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.jeditable.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.Jcrop.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/lytebox.js"></script>	
+		
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/jquery.ui.accordion.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/uiframework/jQuery-js/setup.js"></script>	
+		
+			
+		<script>//jquery v 1.4.4 assigned to$jqueryv144 and can be used wherever we need to implement using new jquery plugins.
+			var $jquery = jQuery.noConflict();
+			 
+		</script> 
+			
+		<!-- reassigning back the richfaces jquery -->
+		<script> var jQuery = $richv132; </script> 
+		
+		
+		<link href="#{request.contextPath}/uiframework/jQuery-css/jquery.gridster.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/css/menus.css" rel="stylesheet" type="text/css" />
+		
+		<link href="#{request.contextPath}/uiframework/jQuery-css/TableTools.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/jQuery-css/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+		<link href="#{request.contextPath}/uiframework/jQuery-css/jquery.multiselect.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/jQuery-css/ui.notify.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" media="all" type="text/css" href="#{request.contextPath}/uiframework/jQuery-css/jquery-ui-timepicker-addon.css" />
+		<link href="#{request.contextPath}/uiframework/jQuery-css/jquery.Jcrop.css" rel="stylesheet" type="text/css" />
+		 
+		<link href="#{request.contextPath}/uiframework/css/grid.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/css/reset.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/css/text.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/css/layout.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/css/nav.css" rel="stylesheet" type="text/css" />
+		<link href="#{request.contextPath}/uiframework/css/lytebox.css" rel="stylesheet" type="text/css" />
+		
+	  	<script type="text/javascript" src="#{request.contextPath}/uiframework/js/rsntCommon.js?jsver=#{appInitializer.appVersion}"></script>
+	  	<script type="text/javascript">
+		  	function goToHomePage(){
+				 var serverPath = window.location.href;
+			     var serverPathIndex = serverPath.indexOf("/views");
+				 var finalLink = serverPath.substring(0, serverPathIndex)+"/views/home.seam";
+		       	 //window.open(serverPath.substring(0, serverPathIndex)+"/views/home.seam");
+		         window.location = finalLink;
+		       
+			}
+			
+		</script>
+	  <ui:insert name="security"/>
+      <ui:insert name="head"/>
+   </head>
+   
+   <body>
+   		<div class="container_12">
+   		
+   		<div class="grid_12 header-repeat">
+    		<div id="branding">
+          			<div class="floatleft"> <img src="../img/logo.png" alt="Logo" width="85%" onclick="goToHomePage()" class="description_img"/></div>
+          			<div class="floatright">
+        				<div class="section-rght">
+        					<div class="inline-ul marginleft10" style="width:100%">
+        						<h:form>
+        							<ul class="inline-ul floatleft">
+	            						<li>Hello <h:outputText value=" #{loginUser.firstName}"/><span style="color:#FFFFFF">|</span>
+	            							<a4j:commandLink action="#{rsntAuthenticator.logout}"  style="float:right;margin:0px 4px 0px;" value="Logout"></a4j:commandLink>	
+	            						 	<br/>
+            						 	</li>
+	          						</ul>
+          							<br/>
+        						</h:form>
+                            </div>
+            			</div>
+              			<div class="info-right">
+              				<h3>Ads Balance : <span>
+              					<s:link value="#{sessionContext.get('orgAdsBalance')}" view="/views/buyAds.xhtml" action="#{upgradePlanAction.loadUpgradePlanView}" />
+              				</span> 
+              				Plan: <span>
+		              					<s:link  value="#{sessionContext.get('orgSusPlanName')}"  view="/views/upgradePlan.xhtml" 
+		              						action="#{upgradePlanAction.loadUpgradePlanView}">
+		              					</s:link>
+              				</span>  
+              				Organization: <span class="last">
+              				<s:link value="#{sessionContext.get('orgName')}" view="/views/organizationDetail.xhtml" action="#{organizationAction.loadOrganizationProfile}"></s:link>
+              				</span></h3>
+              				 <a href="#TOP" id="topLink" />
+                            
+              			</div>
+      				</div>
+          			<div class="clear"> 
+          			</div>
+     		</div>
+  		</div>
+      <div class="clear"> </div>
+      
+      <div class="grid_12">
+	    <ul class="nav main">
+	          <li class="ic-dashboard">
+             		<s:link id="menuHomeId4" view="/views/dashboard.xhtml"><span id="spnDbd">Dashboard</span></s:link>
+	     	 </li>
+	     	  <li class="ic-layout">
+	     	 <s:link id="menuHomeId11" view="/views/waitlistStatus.xhtml"><span id="spnstatus">Waitlist</span></s:link>
+	     	 </li>
+	          <li class="ic-layout">
+          			<s:link id="menuHomeId2" view="/views/layoutData.xhtml"><span>Layout</span></s:link>
+	          </li>
+	          <li class="ic-ads"> 
+	          	<s:link id="menuHomeId8" view="/views/adsListV3.xhtml"><span>Ad's</span></s:link>
+	          </li>
+	          <li class="ic-form-style">
+	          	<s:link id="menuHomeId10"  view="/views/feedbackList.xhtml" action="#{feedbackAction.initialize}"><span>Feedback</span></s:link>
+	          </li>
+	          
+			<li class="ic-grid-tables"><a href="#"><span id="spnAnalytics">Analytics</span></a>
+             <ul>
+     			 <li><s:link   view="/views/alertAnalytics.xhtml" action="#{analyticsAction.initialize}" >Alert</s:link></li>
+     			 <li><a href="#">Adds</a></li>
+     			 <li><a href="#">Feedback</a></li>
+				</ul>      
+             </li>
+             	          
+	          <li class="ic-accounts">
+	          	<s:link id="menuHomeId22" view="/views/organizationDetail.xhtml" action="#{organizationAction.loadOrganizationProfile}"><span id="spnAccnts">Accounts</span></s:link>
+	          </li>
+              <li class="ic-accounts">
+	          	<s:link id="menuHomeId23" view="/views/applySecurity.xhtml" action="#{securityAction.initialize}" rendered="#{s:hasPermission('','View Security')}"><span>Security</span></s:link>
+	          </li>
+	           
+	          <li class="ic-grid-tables">
+				<s:link id="menuHomeId24" view="/views/help.xhtml"><span id="spnHelpFaq">Help/FAQ</span></s:link>
+			  </li>
+	          <!--  <li class="ic-gallery dd"><a href="javascript:"><span>Contact Us</span></a> </li>-->
+	        </ul>
+	  </div>
+	  
+	  <div class="clear"> </div>
+	 
+	 <div class="grid_2">
+            <div class="box sidemenu">
+                <div class="block" id="section-menu">
+                    <ul class="section menu">
+                    	<li>
+                   			<s:link id="spnOrg" view="/views/organizationDetail.xhtml" action="#{organizationAction.loadOrganizationProfile}"><span>Organization</span></s:link>
+                    	</li>
+                    	
+                    	<li>
+                    		<s:link id="spnStaff" view="/views/staffDetail.xhtml"><span>Staff</span></s:link>
+                    	</li>
+                        
+                        <li>
+                        	<s:link id="spnMySubs" view="/views/upgradePlan.xhtml" action="#{upgradePlanAction.loadUpgradePlanView}"><span>My Plan</span></s:link>
+                        </li>
+		             	 <li>
+		               	 	<s:link id="spnPlnList" view="/views/planList.xhtml" value="Add/Edit Plans" rendered="#{s:hasPermission('','View Plan Detail')}"/>
+	              		</li>
+            	  		
+	             	 	 <li>
+		               	 	<s:link id="spnBuyAds" view="/views/buyAds.xhtml" value="Purchase Ads" action="#{upgradePlanAction.loadUpgradePlanView}" />
+	              		</li>
+	              	  	
+              	  		<li>
+                        	<s:link id="spnOptDetail" view="/views/optionDetail.xhtml"><span> Alert Options</span></s:link>
+                        </li>
+                        <li>
+                        	<s:link id="spnChgPass" view="/views/changePassword.xhtml"><span>Change Password</span></s:link>
+                        </li>
+                     </ul>
+                </div>
+            </div>
+        </div>
+        
+	  <div class="grid_15">
+	  	 <ui:insert name="body"/>
+	  </div> 
+	 
+      <div class="clear"> </div>
+     		<h:inputHidden id="userIdHidden" value="#{loginUser.userId}" />
+       		<h:inputHidden id="orgIdHidden" value="#{sessionContext.get('orgId')}" />
+	       <div>
+	   		<a4j:region>			
+		     	<a4j:status id="showLoadingStatus" onstart="#{rich:component('spinnerModal')}.show();" onstop="#{rich:component('spinnerModal')}.hide();" >
+					<f:facet name="start">			
+						<rich:modalPanel id="spinnerModal" styleClass="progressIndicator" resizeable="false" autosized="true" width="200" height="70" style="align:right" >	
+							<a4j:outputPanel>
+								<table class="form">
+									<tr>
+										<td>
+											<div> 
+												<img src="../img/ajax-loader.gif"  width="60%" style="margin-left: 35px"/>
+											</div>
+										</td>
+									</tr>
+								</table>
+							</a4j:outputPanel>
+						</rich:modalPanel>
+					</f:facet>
+				</a4j:status>
+				
+			</a4j:region>
+			<a4j:outputPanel id="rightsMessagePanel">
+				<script>
+				// initialize widget on a container, passing in all the defaults.
+				// the defaults will apply to any notification created within this
+				// container, but can be overwritten on notification-by-notification
+				// basis.
+				$container = $jquery("#container").notify();
+				</script>
+				<!-- set the container hidden to avoid a flash of unstyled content
+				when the page first loads -->
+				<div id="container" style="display:none">
+				 
+				    <!-- 
+				    Later on, you can choose which template to use by referring to the 
+				    ID assigned to each template.  Alternatively, you could refer
+				    to each template by index, so in this example, "basic-tempate" is
+				    index 0 and "advanced-template" is index 1.
+				    -->
+				    <div id="basic-template" >
+				        <a class="ui-notify-cross ui-notify-close" href="#">x</a>
+				        <h1>Save Layout Marker Positions</h1>
+				        <p>There are unsaved changes. <br></br>
+				        Please click the save button.</p>
+				    </div>
+				 
+				</div>
+			</a4j:outputPanel>
+		
+	
+		   </div>
+	</div>
+	<div class="clear">
+    </div>
+    <div id="site_info">
+       <p>#{appInitializer.footerMsg}</p>
+    </div>
+   	
+   	<!--  Load the Richfaces Jquery first  -->
+	<a4j:loadScript src="resource://jquery.js"/>
+   	
+   </body>
+</html>
+</f:view>

@@ -1,0 +1,100 @@
+<!-- <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Rsnt Login</title>
+
+</head>
+<body>
+
+<div style="margin-right: 19px ! important; display: block; left: 463.5px; top: 97px;" class="dropdown dropdown-tip has-icons" id="dropdown-6">
+<div class="dropdown-panel">
+	<script>
+
+	function openForgotPassPage(){
+		 var serverPath = window.location.href;
+	     var serverPathIndex = serverPath.indexOf("/views");
+       	 window.open(serverPath.substring(0, serverPathIndex)+"/external/forgotPassword.seam");
+       
+	}
+	</script>
+		<form method="post" action="j_security_check">
+
+		Username/Email: <input type="text" placeholder="Username"  name="j_username"/><br /><br />
+		Password:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       <input type="password" placeholder="Password" name="j_password"/><br /> <br />
+		<p style="width:100%;"><a href="javascript:void(0);" onclick="openForgotPassPage();" class="forget">Forgot Password?</a></p>
+		<label style="clear:both;">	
+		<input type="submit" value="Login"/> 
+		<input type="reset" value="Reset"/>
+		</label>
+	</form>
+	</div>
+	</div>
+</body>
+
+</html>-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Form</title>
+<style>
+.fancy-form{width:400px; height:200px; border:1px solid #000; margin:0 auto;}
+.fancy-form form{display:block;}
+.fancy-form form div.sec2{clear:both; margin-top:10px; float:left;}
+.fancy-form form div.sec3{clear:both; margin-top:0px; float:left;}
+.fancy-form form label{display:block; font-family:tahoma; font-size:14px; color:#990000; padding:10px; float:left; width:135px;}
+.textfield{border: 1px solid #ccc; border-radius: 6px; box-shadow: 4px 2px 5px 1px #ccc; color: #8d8c8c; font-family: tahoma; font-size: 13px; height: 26px; margin: 6px 10px 0 0; width: 229px; float:right;}
+.forget{font-family:tahoma; font-size:12px; color:#F60; text-decoration:none; margin-left:156px;}
+.submit-button2{background: none repeat scroll 0 0 #990000; border: medium none; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; box-shadow: 2px 2px 5px 2px #dfc1c1; -moz-box-shadow: 2px 2px 5px 2px #dfc1c1; -webkit-box-shadow: 2px 2px 5px 2px #dfc1c1; color: #fff; cursor: pointer; font-family: tahoma; font-size: 16px; font-weight: bold; height: 35px; line-height: 18px; margin-left: 156px; width: 89px; float:left;}
+.submit-button3{background: none repeat scroll 0 0 #990000; border: medium none; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; box-shadow: 2px 2px 5px 2px #dfc1c1; -moz-box-shadow: 2px 2px 5px 2px #dfc1c1; -webkit-box-shadow: 2px 2px 5px 2px #dfc1c1; color: #fff; cursor: pointer; font-family: tahoma; font-size: 16px; font-weight: bold; height: 35px; line-height: 18px; margin-left: 15px; width: 89px; float:left;}
+</style>
+</head>
+
+<body>
+<script>
+
+	function openForgotPassPage(){
+		 var serverPath = window.location.href;
+	     var serverPathIndex = serverPath.indexOf("/views");
+       	 window.open(serverPath.substring(0, serverPathIndex)+"/external/forgotPassword.seam");
+       
+	}
+	</script>
+<div class="fancy-form">
+	<form action="j_security_check" method="post" target="_blank">
+		<script type="text/javascript"> 
+		var query = window.location.search.substring(1);
+		alert(window.location.href);
+		alert(document.url);
+		  var vars = query.split("&"); 
+		  for (var i=0;i<vars.length;i++)
+		  { 
+		    var pair = vars[i].split("="); 
+		    alert(pair);
+		    if (pair[0] == "fail")
+		    { 
+				document.write("<p>Invalid UserId/Password.</p>") 
+		    } 
+		  }
+		
+		</script>
+    	<div class="sec2">
+        	<label>Username / Email:</label>
+        	<input type="text" name="j_username" class="textfield">
+        </div>
+        <div class="sec2">
+        	<label>Password</label>
+        	<input type="password" name="j_password" class="textfield">
+        </div>
+        <div class="sec3">
+        	<a class="forget" onclick="openForgotPassPage();" href="javascript:void(0);">Forgot Password?</a>
+        </div>
+        <div class="sec2">
+        	<input type="submit" value="Login" class="submit-button2">
+            <input type="reset" value="Reset" class="submit-button3">
+        </div>
+    </form>
+</div>
+</body>
+</html>

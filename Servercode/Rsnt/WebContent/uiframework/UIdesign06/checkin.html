@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0">
+  <title>checkin</title>
+  <link href="http://fonts.googleapis.com/css?family=Oswald:400" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="css/standardize.css">
+  <link rel="stylesheet" href="css/checkin-grid.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="body page-checkin clearfix">
+  <div class="main-container clearfix">
+    <div class="parties-waiting-text-wrapper clearfix">
+      <p class="waiting-text">(15)</p>
+      <p class="parties-text">Parties Waiting</p>
+    </div>
+    <div class="logo-wrap">
+      <img class="logo" src="images/tajima-logo.gif">
+      <p class="welcome-text">Welcome to</p>
+    </div>
+    <div class="now-serving-wrapper clearfix">
+      <p class="now-serving-head">Now Serving</p>
+      <p class="hash-text">#</p>
+      <p class="now-serving--text">283</p>
+    </div>
+    <div class="seperator"></div>
+    <div class="est-wait-time-wrapper">
+      <p class="est-wait-time-head">Est. Wait Time</p>
+      <p class="est-wait-time-text">0:35</p>
+    </div>
+    <button id="checkin-btn" class="checkin-btn">Check-In to Wait-list</button>
+  </div>
+  <div id="popup-wrapper" class="popup clearfix">
+    <p class="text text-7">* = Required</p>
+    <img id="close-btn" class="close-btn" src="images/close-btn.gif">
+    <input id="name-field" class="name" placeholder="Name*" type="text">
+    <div id="name-tooltip" class="tooltip tooltip-1 clearfix">
+      <img class="image image-2" src="images/left-arrow.png">
+      <p class="tooltip-text tooltip-text-1">Oops!  What should we call you when your table's ready?</p>
+    </div>
+    <div class="container _container clearfix">
+      <label class="radio-label _container radio-label-1 clearfix">
+        <input class="radio radio-1" type="radio">
+        <span class="point-text point-text-2">Phone</span>
+      </label>
+      <p class="text text-10"><span>OR</span></p>
+      <label class="radio-label _container radio-label-2 clearfix">
+        <input class="radio radio-2" type="radio">
+        <span class="point-text"><span>E-mail</span></span>
+      </label>
+      <input id="phone-email" class="phone-email" placeholder="(___)-___-____" type="text">
+    </div>
+    <p class="text text-13"></p>
+    <div id="number-tooltip" class="tooltip tooltip-2 clearfix">
+      <img class="image image-3" src="images/left-arrow.png">
+      <p class="tooltip-text tooltip-text-2">How many seats should we prepare for your party?</p>
+    </div>
+    <div id="phone-tooltip" class="tooltip tooltip-3 clearfix">
+      <img class="image image-4" src="images/left-arrow.png">
+      <p class="tooltip-text tooltip-text-3">Wouldn't you rather get a text/e-mail when your table's almost ready?  You can also check your status with the link provided!</p>
+    </div>
+    <select id="no-of-people" class="_select">
+      <option value="# of people in your party*"># of people in your party*</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+      <option value="22">22</option>
+      <option value="23">23</option>
+      <option value="24">24</option>
+      <option value="25">25</option>
+    </select>
+    <div class="seating-pref-box clearfix">
+      <p class="seating-pref-text">Seating Preference:</p>
+      <label class="seating-pref-checkbox seating-pref-checkbox-1 clearfix">
+        <input class="checkbox checkbox-2" type="checkbox">
+        <span class="point-text point-text-4"><span>First Available</span></span>
+      </label>
+      <label class="seating-pref-checkbox seating-pref-checkbox-2 clearfix">
+        <input class="checkbox checkbox-3" type="checkbox">
+        <span class="point-text point-text-5"><span>Bar</span></span>
+      </label>
+      <label class="seating-pref-checkbox seating-pref-checkbox-3 clearfix">
+        <input class="checkbox checkbox-4" type="checkbox">
+        <span class="point-text point-text-6"><span>Table</span></span>
+      </label>
+    </div>
+    <label class="checkbox-label _container clearfix">
+      <input class="checkbox" type="checkbox">
+      <span class="point-text">Opt-in to receive promotions/specials</span>
+    </label>
+    <button id="submit-button" class="_button">Add me to the Wait-list</button>
+  </div>
+  <footer class="footer clearfix">
+    <div class="element"></div>
+    <img class="image" src="images/logo.png">
+    <p>#{appInitializer.footerMsg}</p>
+  </footer>
+
+  <script src="js/jquery-min.js"></script>
+  <script src="js/checkin.js"></script>
+</body>
+</html>
