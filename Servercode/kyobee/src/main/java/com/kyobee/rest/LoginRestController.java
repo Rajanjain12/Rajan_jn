@@ -1,7 +1,12 @@
 package com.kyobee.rest;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,64 +16,82 @@ import com.kyobee.dto.UserDTO;
 import com.kyobee.dto.common.Credential;
 import com.kyobee.dto.common.Response;
 import com.kyobee.entity.User;
+import com.kyobee.exception.RsntException;
+import com.kyobee.service.ISecurityService;
+import com.kyobee.util.common.CommonUtil;
+import com.kyobee.util.common.Constants;
+import com.kyobee.util.common.LoggerUtil;
 
 @RestController
 @RequestMapping("/rest")
 public class LoginRestController {
 
+	@Autowired
+	ISecurityService securityService;
+
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
-	public Response<UserDTO> login(@RequestBody Credential credenitals,HttpServletRequest request) {
-		Response<UserDTO> reponse = new Response<UserDTO>();
+	public Response<UserDTO> login(@RequestBody Credential credenitals, HttpServletRequest request) {
+		Response<UserDTO> response = new Response<UserDTO>();
 		User loginUser = null;
-		/*try {			
-			if(credenitals != null && credenitals.getUsername() != null && credenitals.getPassword() != null){
-				loginUser = userService.loginUser(credenitals.getUsername(), credenitals.getPassword());
-				
-				if(loginUser !=null ){
-					
-					if (loginUser.getActivationCompleted().longValue() == 0) {
-						CommonUtil.setWebserviceResponse(reponse, BeeyaConstants.FAILURE, "", "",
-								"Account is not verified. Please check your email & complete verification process.");
-						return reponse;
+		try {
+			if (credenitals != null && credenitals.getUsername() != null && credenitals.getPassword() != null) {
+				loginUser = securityService.getSecurityUserDetails(credenitals.getUsername());
+
+				if (loginUser != null) {
+
+					if (!loginUser.isActive()) {
+						response.setStatus("ERROR");
+						CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",
+								"Account is active. Please contact customer support.");
+						return response;
 					}
-					
-					if (CommonUtil.isNullOrEmpty(loginUser.getUserRoles())) {
-						CommonUtil.setWebserviceResponse(reponse, BeeyaConstants.FAILURE, "", "",
-								"Login Failed. No UserRoles Defined. Please contact support");
-						return reponse;
-					} else {
-						boolean active = false;
-						for (UserRole uRole : loginUser.getUserRoles()) {
-							if (uRole.getActive() == 1) {
-								active = true;
-								break;
-							}
-						}
-						if (!active) {
-							CommonUtil.setWebserviceResponse(reponse, BeeyaConstants.FAILURE, "", "",
-									"Login Failed. User is not active. Please contact support");
-							return reponse;
-						}
-					}
+
 					HttpSession sessionObj = request.getSession();
-					UserDTO userDTO = prepareUserObject(loginUser,false);
-					sessionObj.setAttribute(BeeyaConstants.USER_OBJ, userDTO);
-					reponse.setServiceResult(userDTO);
-					LoggerUtil.logInfo("---- Login successful ----- : " + userDTO.getUsername());					
-					CommonUtil.setWebserviceResponse(reponse, BeeyaConstants.SUCCESS, "");
-				}else{
-					CommonUtil.setWebserviceResponse(reponse, BeeyaConstants.FAILURE, "", "", "Login Failed. Invalid Username or Password");
-					return reponse;
+					UserDTO userDTO = prepareUserObj(loginUser);
+					sessionObj.setAttribute(Constants.USER_OBJ, userDTO);
+					response.setServiceResult(userDTO);
+					LoggerUtil.logInfo("---- Login successful ----- : " + userDTO.getUserName());
+					response.setStatus("SUCCESS");
+					CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "");
+				} else {
+					response.setStatus("ERROR");
+					CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",
+							"Login Failed. Invalid Username or Password");
+					return response;
 				}
-			}else{
-				CommonUtil.setWebserviceResponse(reponse, BeeyaConstants.ERROR, "");
+			} else {
+				response.setStatus("ERROR");
+				CommonUtil.setWebserviceResponse(response, Constants.ERROR, "");
 			}
 
-		} catch (ApplicationException e) {
-			CommonUtil.setWebserviceResponse(reponse, BeeyaConstants.ERROR, "");
+		} catch (RsntException e) {
+			response.setStatus("ERROR");
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, "");
 			LoggerUtil.logError("Error while login", e);
-		}*/
-		return reponse;
+		}
+		return response;
 	}
-	
+
+	private UserDTO prepareUserObj(User loginUser) {
+		UserDTO userDTO = new UserDTO();
+		userDTO.setUserId(loginUser.getUserId());
+		userDTO.setUserName(loginUser.getUserName());
+		userDTO.setFirstName(loginUser.getFirstName());
+		userDTO.setLastName(loginUser.getLastName());
+		userDTO.setEmail(loginUser.getEmail());
+		userDTO.setPrimaryContactNo(loginUser.getPrimaryContactNo());
+		userDTO.setAlternateContactNo(loginUser.getAlternateContactNo());
+		userDTO.setActivationId(loginUser.getActivationId());
+		userDTO.setAddress(loginUser.getAddress());
+		userDTO.setActive(loginUser.isActive());
+		userDTO.setPermissionList(new ArrayList<String>());
+		final List<String> userPermissions = securityService.getUserPermissions(loginUser.getUserId());
+		if (userPermissions != null && !userPermissions.isEmpty()) {
+			for (final String permission : userPermissions) {
+				userDTO.getPermissionList().add(permission);
+			}
+		}
+		return userDTO;
+	}
+
 }

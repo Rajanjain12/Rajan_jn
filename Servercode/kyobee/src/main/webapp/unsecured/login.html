@@ -15,13 +15,25 @@
                         <div class="">
                             <div class="text-center login-title"><h2>KYOBEE</h2>Waitlist</div>
                         </div>
+                        
+                        <div class="alert alert-danger" role="alert" ng-show="errorMsg != null && errorMsg != ''">
+							<button type="button" class="close" ng-click="hideErrorMsg();" >&times;</button>
+							<strong>Error ! </strong>{{errorMsg}}
+						</div>
+                        
                         <div class="login-center-1">                                              
                             <form class="form-signin" name="loginForm">
-
-                                <input type="text" class="form-control" placeholder="Username" ng-model="username" required autofocus>
-                               
-                                <div class="password-area">
-                                    <input type="password" class="form-control" ng-model="password"  placeholder="Password" required>
+								<div ng-class="{'has-error' : loginForm.uname.$invalid && (!loginForm.uname.$pristine || loginForm.$submitted)}">
+                                	<input type="text" name="uname" class="form-control" placeholder="Username" ng-model="username" required autofocus>
+                                	<div ng-messages="loginForm.uname.$error" ng-show=" (!loginForm.uname.$pristine || loginForm.$submitted)" class="help-block">
+								        <div ng-message="required">Username/Email cannot be blank</div>
+								    </div>
+                                </div>
+                                <div class="password-area" ng-class="{'has-error' : loginForm.pwd.$invalid && (!loginForm.pwd.$pristine || loginForm.$submitted)}">
+                                    <input type="password" name="pwd" class="form-control" ng-model="password"  placeholder="Password" required>
+                                    <div ng-messages="loginForm.pwd.$error" ng-show=" (!loginForm.pwd.$pristine || loginForm.$submitted)" class="help-block">
+								        <div ng-message="required">Password cannot be blank</div>
+								    </div>
                                 </div>
 
                                 <div class="checkbox checkbox-success checkbox-inline">

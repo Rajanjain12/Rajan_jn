@@ -16,7 +16,7 @@ KyobeeUnSecuredController.controller('homeCtrl',
 					
 					$scope.username=null;
 					$scope.password=null;
-					
+					$scope.errorMsg = null;
 					
 					$scope.changeView = function(view) {
 						switch (view) {
@@ -42,6 +42,8 @@ KyobeeUnSecuredController.controller('homeCtrl',
 							return;
 						}
 						
+						$scope.errorMsg = null;
+						
 						var postBody = {
 								 username: $scope.username,
 							     password: $scope.password
@@ -52,7 +54,6 @@ KyobeeUnSecuredController.controller('homeCtrl',
 						KyobeeUnsecuredService.postService(url).query(postBody,
 								function(data) {
 									console.log(data);
-									$scope.changeView('dashboard');
 									if (data.status == "SUCCESS") {
 										$scope.changeView('dashboard');
 									} else if (data.status == "FAILURE") {

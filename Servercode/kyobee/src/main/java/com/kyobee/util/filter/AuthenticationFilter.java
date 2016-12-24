@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import com.kyobee.dto.UserDTO;
+import com.kyobee.util.common.Constants;
 
 
 
@@ -28,7 +29,7 @@ public class AuthenticationFilter implements Filter {
 	//@Autowired
 	//UserService userService;
 	
-	private FilterConfig filterConfig = null;
+	//private FilterConfig filterConfig = null;
 
 	/**
 	 * Default constructor.
@@ -48,7 +49,7 @@ public class AuthenticationFilter implements Filter {
 	 * @see Filter#init(FilterConfig)
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-		this.filterConfig = fConfig;
+		//this.filterConfig = fConfig;
 	}
 
 	/**
@@ -62,7 +63,7 @@ public class AuthenticationFilter implements Filter {
 		HttpServletRequest httpReq = (HttpServletRequest) request;
 		HttpServletResponse httpRes= (HttpServletResponse) response;
 		String requestURI = httpReq.getRequestURI();
-		ObjectMapper oMapper = new ObjectMapper();
+		//ObjectMapper oMapper = new ObjectMapper();
 		
 		
 		try {
@@ -70,17 +71,17 @@ public class AuthenticationFilter implements Filter {
 			/**
 			 * FOR LOGOUT - Client just has to hit this url and session would be invalidated.
 			 */
-			/*if(requestURI.contains(BeeyaConstants.LOGOUT_URL)){
+			if(requestURI.contains(Constants.LOGOUT_URL)){
 				this.sessionOut(httpReq);
 				return;
-			}*/
+			}
 			
 			
 			if(requestURI.contains("kyobee/web/")){
-				//UserDTO userDTO = (UserDTO) httpReq.getSession().getAttribute(BeeyaConstants.USER_OBJ);
-				//if(userDTO == null ){				
-				//	httpRes.sendRedirect(httpReq.getContextPath()+ "/unsecured/index.html");
-				//}
+				UserDTO userDTO = (UserDTO) httpReq.getSession().getAttribute(Constants.USER_OBJ);
+				if(userDTO == null ){				
+					httpRes.sendRedirect(httpReq.getContextPath()+ "/unsecured/index.html");
+				}
 			}
 			
 			

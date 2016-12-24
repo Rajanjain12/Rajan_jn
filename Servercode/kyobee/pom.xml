@@ -148,8 +148,61 @@
 			<artifactId>commons-io</artifactId>
 			<version>1.2</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>commons-lang</groupId>
+		    <artifactId>commons-lang</artifactId>
+		    <version>2.6</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>commons-beanutils</groupId>
+		    <artifactId>commons-beanutils</artifactId>
+		    <version>1.9.2</version>
+		</dependency>
 
 
+		<dependency>
+		  <groupId>com.stripe</groupId>
+		  <artifactId>stripe-java</artifactId>
+		  <version>3.5.0</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.lowagie</groupId>
+		    <artifactId>itext</artifactId>
+		    <version>2.1.7</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.lowagie</groupId>
+		    <artifactId>itext-rtf</artifactId>
+		    <version>2.1.7</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>net.sf.json-lib</groupId>
+		    <artifactId>json-lib</artifactId>
+		    <version>0.9</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.google.zxing</groupId>
+		    <artifactId>core</artifactId>
+		    <version>2.1</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.google.zxing</groupId>
+		    <artifactId>javase</artifactId>
+		    <version>2.1</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.github.fernandospr</groupId>
+		    <artifactId>javapns-jdk16</artifactId>
+		    <version>2.2.1</version>
+		</dependency>
 
 		<!-- FOR OMAPPER - AUTHENTICATION FILTER & REST CALLS -->
 		<dependency>

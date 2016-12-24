@@ -2,6 +2,14 @@ package com.kyobee.util.common;
 
 public class Constants {
 	
+	
+	public static final String ERROR = "ERROR";
+	public static final String SUCCESS = "SUCCESS";
+	public static final String FAILURE = "FAILURE";
+	
+	public static final String USER_OBJ = "USER_SESSION_OBJ";
+	public static final CharSequence LOGOUT_URL = "/logout";
+	
 	public static final String PUSHER_CHANNEL_ENV="pusherChannelEnv";
 	public static final String QRCODE_VALUE="qrcodevalue";
 
