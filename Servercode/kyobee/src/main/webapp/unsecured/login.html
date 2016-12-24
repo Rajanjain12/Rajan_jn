@@ -1,0 +1,61 @@
+<!----------Login-Section-1-------->
+
+
+<section class="login-outer">
+    
+        <div class="container">
+            
+            <div class="row">
+
+
+                <div class="login-wrap">
+
+
+                    <div class="account-wall-1 text-center">
+                        <div class="">
+                            <div class="text-center login-title"><h2>KYOBEE</h2>Waitlist</div>
+                        </div>
+                        <div class="login-center-1">                                              
+                            <form class="form-signin" name="loginForm">
+
+                                <input type="text" class="form-control" placeholder="Username" ng-model="username" required autofocus>
+                               
+                                <div class="password-area">
+                                    <input type="password" class="form-control" ng-model="password"  placeholder="Password" required>
+                                </div>
+
+                                <div class="checkbox checkbox-success checkbox-inline">
+                                    <input type="checkbox" id="inlineCheckbox1" value="option1">
+                                    <label for="inlineCheckbox1">Remember Me</label>
+                                </div>                       
+
+                                <button ng-click="login(loginForm.$invalid)" class="btn btn-lg btn-block btn-sign-in" type="submit">Login</button>
+
+
+                                <div class="sign-up text-center"> 
+                                   <a href="javascript:void(0);" class="need-help" id="emailshow">Forgot Password?</a>
+                                </div>
+                                
+                                <div id="emailhide">
+                                
+                                    <div class="password-area">
+                                        <input type="password" class="form-control" placeholder="Enter your e-mail address" required>
+                                    </div>
+
+                                    <button class="btn btn-lg btn-block btn-sign-in" type="submit">Send</button>
+                                    
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                </div>               
+                
+            </div>
+
+        </div>
+    
+        <div class="copyright"><h5 >Copyright KYOBEE All Rights Reserved - Version 2.3 - 12/18/2016 7.00 AM</h5></div>
+
+</section>

@@ -1,0 +1,68 @@
+<html lang="en" ng-app="KyobeeAppUnsecured">
+<head>
+	<meta charset="ISO-8859-1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+	<link rel="icon" type="image/png" href="assets/img/favicon.png">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<title>Welcome To Kyobee</title>
+
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+
+	<!--   Fonts and icons    -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    
+	<link rel="stylesheet" href="assets/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/fonts.css" />
+    
+	<!-- CSS Files -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+     
+    
+        
+    <!--   Readyb main stylesheet    -->
+    <link href="assets/css/theme-main.css" rel="stylesheet" />    
+    
+    
+    <!--   ReadyB Default Css   -->
+    <link href="assets/css/theme_default.css" rel="stylesheet" />
+    
+    <!--   Custom Responsive  -->
+    <link href="assets/css/custom_responsive.css" rel="stylesheet" />   
+
+
+    
+    <!--   Main JS Files   -->
+    <script src="assets/js/jquery-1.11.3.js" type="text/javascript"></script>
+
+	<!-- AngularJs -->
+<script src="framework/angularjs/angular-1.5.9/angular.js"></script>
+<script src="framework/angularjs/angular-1.5.9/angular-messages.js"></script>
+<script src="framework/angularjs/angular-1.5.9/angular-route.js"></script>
+<script src="framework/angularjs/angular-1.5.9/angular-resource.js"></script>
+<script src="framework/angularjs/angular-1.5.9/angular-animate.js"></script>
+
+	<script src="controller/app.js"></script>
+	<script src="controller/services.js"></script>
+	<script src="controller/controllers.js"></script>
+	
+ 
+</head>
+<body ng-controller="homeCtrl">
+
+	<div  ng-view></div>
+
+</body>
+    <!-- Custom Scritp Area -->
+    <script type="text/javascript">
+    var toggle  = document.getElementById("emailshow");
+    var content = document.getElementById("emailhide");
+
+    toggle.addEventListener("click", function(){
+      content.style.display = (content.dataset.toggled ^= 1) ? "block" : "none";
+    }, false);
+        
+    </script>
+    
+</html>
