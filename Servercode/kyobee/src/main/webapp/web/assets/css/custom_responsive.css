@@ -5,7 +5,10 @@
 
 @media only screen and (max-width: 479px) {
 
-
+.simplePopup {width: 95%;top: 30% !important; left: 2% !important;}
+.btn-orange { width: 50%;}    
+.guest-name h1 {font-size: 25px;}
+.confirm-table-wrap h2 {font-size: 20px;}    
     
     
 }
@@ -29,19 +32,10 @@
 .kw-dav-2 span { font-size: 15px;    margin: 10px 0 0 0;  display: inline-block;}
     .kw-dav-1 ul li a { color: #FFF; font-size: 16px;}
 
-.kw-dav-2 {
-    float: right;
-    width: 50%;
-}
-.kw-dav-2 ul li a img {
-    width: 75%;
-}
-.kw-dav-2 ul li {  
-    margin: 0 5px 0 0;
-}
-.kw-dav-2 span p {   
-    margin-left: 5px;
-}
+.kw-dav-2 { float: right;  width: 50%;}
+.kw-dav-2 ul li a img { width: 75%;}
+.kw-dav-2 ul li { margin: 0 5px 0 0;}
+.kw-dav-2 span p { margin-left: 5px;}
 .table-wrap {
     width: 100%;
     float: left;
@@ -49,22 +43,11 @@
     overflow-y: scroll;
     overflow-x: scroll;
 }
- #waitlisttable td, #waitlisttable th {
-    min-width: 150px;
-}
-    
-.dropbtn {
-    color: #dd4124;
-}
-.dropdown { 
-    margin-top: -40px;
-}    
-    
+ #waitlisttable td, #waitlisttable th { min-width: 150px;}    
+.dropbtn { color: #dd4124;}
+.dropdown {  margin-top: -40px;}        
 a.headersh {display: block;font-size: 35px; color: #dd4124; text-align: center;}    
-
-.header-waitlist {    
-    display: none;
-}    
+.header-waitlist { display: none;}    
     
     
 }
@@ -76,16 +59,21 @@ a.headersh {display: block;font-size: 35px; color: #dd4124; text-align: center;}
 
 .kw-dav-1 { width: 45%;    margin-left: 20%;}
 .kw-dav-1 h1{font-size: 40px;} 
-.kw-dav-2 {    
-    width: auto;
-}    
+.kw-dav-2 {width: auto;}    
+.dropbtn { color: #dd4124;}
+.dropdown {  margin-top: -40px;}  
+/*popup*/    
+.btn-orange { width: 40%; margin: 5px 10px;}  
+.confirm-table-wrap h2{font-size: 2em;}
+.guest-name h1 {font-size: 2em;}    
     
 }
 
 
 @media only screen and (min-width: 979px) and (max-width: 1200px) { 
 .kw-dav-1 { width: 45%;    margin-left: 15%;}
-
+.btn-orange { width: 30%; margin: 0 5px;}
+    
 }
 
 @media only screen and (min-width: 1600px) and (max-width: 1920px) { 

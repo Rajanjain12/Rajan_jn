@@ -21,7 +21,7 @@ import org.hibernate.annotations.Type;
 @Table(name="USER")
 @NamedQueries({@NamedQuery(name=User.GET_PROFILE_BY_USERLOGIN,query="Select u from User u where lower(u.userName)=:username and active is true"),
 	@NamedQuery(name=User.GET_USER_ORGANIZATION,
-			query="Select user.organizationUser.organization from User user join user.organizationUser where user.userId=?1"),
+			query="Select user.organizationUser.organization from User user join user.organizationUser where user.userId=:userId"),
 			@NamedQuery(name=User.GET_USER_BY_USERNAME_ONLY,query="Select u from User u where lower(u.userName)=?1 "),
 			@NamedQuery(name=User.GET_USER_BY_USERNAME,query="Select u from User u inner join u.organizationUser organizationUser " +
 					"where lower(u.userName)=?1  and organizationUser.organization.organizationId = ?2 "),

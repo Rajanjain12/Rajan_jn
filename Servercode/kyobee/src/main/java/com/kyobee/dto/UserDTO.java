@@ -32,6 +32,8 @@ public class UserDTO {
 
 	private String activationId;
 
+	private Long organizationId;
+
 	public Long getUserId() {
 		return userId;
 	}
@@ -118,6 +120,14 @@ public class UserDTO {
 
 	public void setActivationId(String activationId) {
 		this.activationId = activationId;
+	}
+
+	public Long getOrganizationId() {
+		return organizationId;
+	}
+
+	public void setOrganizationId(Long organizationId) {
+		this.organizationId = organizationId;
 	}
 
 }

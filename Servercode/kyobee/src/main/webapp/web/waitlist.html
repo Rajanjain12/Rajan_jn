@@ -11,16 +11,16 @@
                 <div class="row content">
 
                     <div class="col-md-4 col-sm-4 text-center">
-                        <label class="rbc">Approximate Wait Time</label>
+                        <label class="theme-fontcolor">Approximate Wait Time</label>
                         <div class="input-group time-x">
                               <span class="input-group-btn">
-                                  <button type="button" class="btn btn-red btn-number"  data-type="minus" data-field="quant[1]">
+                                  <button type="button" class="btn btn-red btn-number theme-color"  data-type="minus" data-field="quant[1]">
                                       <span class="glyphicon glyphicon-minus"></span>
                                   </button>
                               </span>
-                              <input type="text" name="quant[1]" class="form-control input-number" value="1" min="1" max="10">
+                              <input type="text" name="quant[1]" class="form-control input-number border-color" ng-model="waitTime" min="1" max="10">
                               <span class="input-group-btn">
-                                  <button type="button" class="btn btn-red btn-number" data-type="plus" data-field="quant[1]">
+                                  <button type="button" class="btn btn-red btn-number theme-color" data-type="plus" data-field="quant[1]">
                                       <span class="glyphicon glyphicon-plus"></span>
                                   </button>
                               </span>
@@ -30,16 +30,16 @@
                     </div>
                     
                     <div class="col-md-4 col-sm-4 text-center">
-                        <label class="rbc">Notify First</label>
+                        <label class="theme-fontcolor">Notify First</label>
                         <div class="input-group time-x">
                               <span class="input-group-btn">
-                                  <button type="button" class="btn btn-red btn-number" data-type="minus" data-field="quant[2]">
+                                  <button type="button" class="btn btn-red btn-number theme-color" data-type="minus" data-field="quant[2]">
                                       <span class="glyphicon glyphicon-minus"></span>
                                   </button>
                               </span>
-                              <input type="text" name="quant[2]" class="form-control input-number" value="1" min="1" max="10">
+                              <input type="text" name="quant[2]" class="form-control input-number border-color" ng-model="notifyFirst" min="1" max="10">
                               <span class="input-group-btn">
-                                  <button type="button" class="btn btn-red btn-number" data-type="plus" data-field="quant[2]">
+                                  <button type="button" class="btn btn-red btn-number theme-color" data-type="plus" data-field="quant[2]">
                                       <span class="glyphicon glyphicon-plus"></span>
                                   </button>
                               </span>
@@ -49,9 +49,9 @@
                     
                     
                     <div class="col-md-4 col-sm-4 text-center">
-                        <label class="rbc">Total Wait Time</label>
+                        <label class="theme-fontcolor">Total Wait Time</label>
                         <div class="time-x">
-                            <h2>03:30</h2>
+                        	<h2 class="border-color">{{totalWaitTime}}</h2>
                         </div>
                         <label class="sm-txt">Hour:Minute</label>
                         
@@ -102,6 +102,21 @@
                       </div>                
                     </div>
                 
+                <div id="showpopup" class="simplePopup border-color">
+	              <div class="confirm-table-wrap text-center">
+	                    <h2 class="theme-fontcolor">Confirm Table Ready For</h2>
+	                    <div class="guest-name">
+	                        <h1>Guest #1</h1>
+	                        <h1>Jenis</h1>
+	                    </div>
+	                    <div class="btn-guest border-top">
+	                        <button type="button" class="btn btn-orange theme-color">NOT PRESENT</button>
+	                        <button type="button" class="btn btn-orange theme-color">INCOMPLETE</button>
+	                        <button type="button" class="btn btn-orange theme-color">YES</button>
+	                    </div>
+	              </div>
+	           </div>
+                
                 
                  <table id="waitlisttable" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
@@ -127,7 +142,7 @@
                         </tfoot>-->
                         <tbody>
                             <tr>
-                                <td><img src="assets/img/greenarrow.png"></td>
+                                <td><a class="clickpopup" href="#"><img src="assets/img/greenarrow.png"></a></td>
                                 <td>1</td>
                                 <td><div class="name-active">Joy</div><img src="assets/img/downhand.png"> &nbsp;<img src="assets/img/downhand.png"></td>
                                 <td>123-456-7890</td>
@@ -136,7 +151,7 @@
                                 
                             </tr>
                              <tr>
-                                <td><img src="assets/img/greenarrow.png"></td>
+                                <td><a class="clickpopup" href="#"><img src="assets/img/greenarrow.png"></a></td>
                                 <td>2</td>
                                 <td>Leonardo</td>
                                 <td>123-456-7890</td>
@@ -146,7 +161,7 @@
                             </tr>
                             
                             <tr>
-                                <td><img src="assets/img/greenarrow.png"></td>
+                                <td><a class="clickpopup" href="#"><img src="assets/img/greenarrow.png"></a></td>
                                 <td>3</td>
                                 <td>Leonardo</td>
                                 <td>123-456-7890</td>
@@ -156,7 +171,7 @@
                             </tr>
                             
                             <tr>
-                                <td><img src="assets/img/greenarrow.png"></td>
+                                <td><a class="clickpopup" href="#"><img src="assets/img/greenarrow.png"></a></td>
                                 <td>4</td>
                                 <td>Leonardo</td>
                                 <td>123-456-7890</td>
@@ -167,7 +182,7 @@
                             
                             
                             <tr>
-                                <td><img src="assets/img/greenarrow.png"></td>
+                                <td><a class="clickpopup" href="#"><img src="assets/img/greenarrow.png"></a></td>
                                 <td>5</td>
                                 <td>Leonardo</td>
                                 <td>123-456-7890</td>
@@ -177,7 +192,7 @@
                             </tr>
                             
                             <tr>
-                                <td><img src="assets/img/greenarrow.png"></td>
+                                <td><a class="clickpopup" href="#"><img src="assets/img/greenarrow.png"></a></td>
                                 <td>6</td>
                                 <td>Leonardo</td>
                                 <td>123-456-7890</td>
@@ -187,7 +202,7 @@
                             </tr>
                             
                             <tr>
-                                <td><img src="assets/img/greenarrow.png"></td>
+                                <td><a class="clickpopup" href="#"><img src="assets/img/greenarrow.png"></a></td>
                                 <td>6</td>
                                 <td>Leonardo</td>
                                 <td>123-456-7890</td>
@@ -197,7 +212,7 @@
                             </tr>
                             
                             <tr>
-                                <td><img src="assets/img/greenarrow.png"></td>
+                                <td><a class="clickpopup" href="#"><img src="assets/img/greenarrow.png"></a></td>
                                 <td>6</td>
                                 <td>Leonardo</td>
                                 <td>123-456-7890</td>
@@ -207,7 +222,7 @@
                             </tr>
                             
                             <tr>
-                                <td><img src="assets/img/greenarrow.png"></td>
+                                <td><a class="clickpopup" href="#"><img src="assets/img/greenarrow.png"></a></td>
                                 <td>6</td>
                                 <td>Leonardo</td>
                                 <td>123-456-7890</td>

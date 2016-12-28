@@ -203,6 +203,19 @@
 		    <artifactId>javapns-jdk16</artifactId>
 		    <version>2.2.1</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>co.realtime</groupId>
+		    <artifactId>messaging</artifactId>
+		    <version>2.1.20</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient</artifactId>
+		    <version>4.5</version>
+		</dependency>
 
 		<!-- FOR OMAPPER - AUTHENTICATION FILTER & REST CALLS -->
 		<dependency>

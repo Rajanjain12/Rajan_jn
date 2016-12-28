@@ -4,6 +4,10 @@
 */
 
 
+.theme-color{background: #dd4124;}
+.theme-fontcolor{color: #dd4124;}
+.border-color{border: 1px solid #dd4124;}
+.border-top{border-top: 1px solid #dc4123;}
 
 /**  Marketing Home Page  **/
 
@@ -269,7 +273,15 @@
 
 /*added css styel by specal dashboard page*/
 .checkbox {padding-left: 20px;}
-.checkbox label {display: inline-block; position: relative; padding-left: 10px;color: #fff; width: 100%;}
+.checkbox label {
+    display: inline-block;
+    position: relative;
+    padding-left: 10px;
+    width: 100%;
+    color: #bbbbbb;
+    font-size: 18px;
+    line-height: 20px;
+}
 .checkbox label::before {
       content: "";
       display: inline-block;
@@ -375,7 +387,7 @@ label.chexclr {color: #333 !Important;}
     right: 15px;}
 p.text-msg-pswd { color: #c9ced1; font-size: 16px;  text-align: left;    display: inline-block;}
 
-.header-waitlist { background: #dd4124;}
+.header-waitlist { }
 .kw-dav-1 h1 {    color: #FFF;
     margin: 10px 0 20px 0;
     display: inline-block;
@@ -407,7 +419,7 @@ p.text-msg-pswd { color: #c9ced1; font-size: 16px;  text-align: left;    display
     display: inline-block;
 }
 .btn-number {
-    background: #dd4124;
+    /*background: #dd4124;*/
     color: #FFF;
     border-radius: 3px;
     padding: 15px;
@@ -418,7 +430,7 @@ p.text-msg-pswd { color: #c9ced1; font-size: 16px;  text-align: left;    display
     font-size: 24px;
     font-weight: 600; 
     padding: 26px 0;
-        border: 1px solid #dd4124;
+        
 }
 
 .time-x input:focus{
@@ -436,8 +448,7 @@ p.text-msg-pswd { color: #c9ced1; font-size: 16px;  text-align: left;    display
     text-align: center;
     font-size: 24px;
     font-weight: 600;
-    padding: 13px 0;
-    border: 1px solid #dd4124;
+    padding: 13px 0;    
     border-radius: 3px;
 }
 
@@ -580,3 +591,219 @@ a.headersh {display: none;}
 
 
 /* ===================================== */
+
+
+
+/************* Guest popup ***************/
+
+.confirm-table-wrap h2 {    
+    font-weight: 600;
+    margin-top: 10px;
+}
+.guest-name {
+    display: inline-block;
+}
+.btn-orange {    
+    color: #FFF;
+    width: 25%;
+    font-size: 20px;
+    margin: 0 3%;
+}
+.btn-guest {
+    
+    padding: 25px 0;
+}
+.guest-name {
+    margin: 5% 0;
+}
+.guest-name h1 {
+    font-size: 3em;
+}
+
+
+/*Pop Up CSS*/
+
+.simplePopup {
+    display: none;
+    position: fixed !important;    
+    background: #fff;
+    z-index: 999;    
+    width: 45%;
+    border-radius: 10px;
+    top: 30% !important;
+    left: 28% !important;
+    
+}
+
+.simplePopupClose {
+    float: right;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.simplePopupBackground {
+display:none;
+background:#000;
+position:fixed;
+height:100%;
+width:100%;
+top:0;
+left:0;
+z-index: 3;
+}
+
+
+/*** Radio button section ****/
+.radio {
+  padding-left: 20px; }
+  .radio label {
+    display: inline-block;
+    position: relative;
+    padding-left: 5px;
+      font-size: 15px;}
+    .radio label::before {
+      content: "";
+      display: inline-block;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      left: 0;
+     border-radius: 2px;
+      margin-left: -20px;
+      border: 1px solid #cdcdcd;      
+      background-color: #fff;
+      -webkit-transition: border 0.15s ease-in-out;
+      -o-transition: border 0.15s ease-in-out;
+      transition: border 0.15s ease-in-out; }
+    .radio label::after {
+        display: inline-block;
+        position: absolute;
+        content: " ";
+        width: 8px;
+        height: 8px;
+        left: 5px;
+        top: 6px;
+        margin-left: -19px;
+        border-radius: 50%;
+        background-color: #dd4124;
+        -webkit-transform: scale(0, 0);
+        -ms-transform: scale(0, 0);
+        -o-transform: scale(0, 0);
+        transform: scale(0, 0);
+        -webkit-transition: -webkit-transform 0.1s cubic-bezier(0.8, -0.33, 0.2, 1.33);
+        -moz-transition: -moz-transform 0.1s cubic-bezier(0.8, -0.33, 0.2, 1.33);
+        -o-transition: -o-transform 0.1s cubic-bezier(0.8, -0.33, 0.2, 1.33);
+        transition: transform 0.1s cubic-bezier(0.8, -0.33, 0.2, 1.33);
+    }
+  .radio input[type="radio"] {
+    opacity: 0; }
+    .radio input[type="radio"]:focus + label::before {
+      outline: thin dotted;
+      outline: 5px auto -webkit-focus-ring-color;
+      outline-offset: -2px; }
+    .radio input[type="radio"]:checked + label::after {
+      -webkit-transform: scale(1, 1);
+      -ms-transform: scale(1, 1);
+      -o-transform: scale(1, 1);
+      transform: scale(1, 1); }
+    .radio input[type="radio"]:disabled + label {
+      opacity: 0.65; }
+      .radio input[type="radio"]:disabled + label::before {
+        cursor: not-allowed; }
+  .radio.radio-inline {
+    margin-top: 0; }
+.radio-primary input[type="radio"] + label::after {
+  background-color: #428bca; }
+.radio-primary input[type="radio"]:checked + label::before {
+  border-color: #428bca; }
+.radio-primary input[type="radio"]:checked + label::after {
+  background-color: #428bca; }
+
+
+/**** Form add new guest *****/
+
+.new_guest_wrap {
+    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inse;
+    padding: 0 10px;
+}
+.well-guest .form-group {
+    margin-bottom: 25px;
+}
+.addnew-color {
+    padding: 10px 0;
+    color: #FFF;
+    margin-top: 30px;
+}
+.addnew-color a img {
+    padding-left: 5px;
+}
+.btn-add {
+    color: #fff;
+}
+.btn-add {
+    color: #fff;
+    width: 120px;
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+.form-control {
+    color: #bbbbbb;
+}
+.panel-form {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 12px;
+}
+.panel-form .radio label {
+    color: #bbbbbb;
+    font-size: 18px;
+    line-height: 20px;
+}
+
+.addf1 label {
+    color: #bbbbbb;
+    font-size: 18px;
+    font-weight: normal;
+}
+.addf1 {
+    display: inline-block;
+}
+.addf2 {
+    display: inline-block;
+        padding-left: 25px;
+}
+.addf2 .checkbox {
+    margin: 0 25px 0 0;
+}
+.addf3 .radio {
+    margin: 10px 20px 10px 0;    
+    display: inline-block;
+}
+.addf3input input {
+    display: inline-block;
+    margin: 0 0 10px 0;
+}
+.addf4 a {
+    color: #93a9d1;
+    font-size: 18px;
+    margin-right: 15px;
+}
+.addf4 label {
+    color: #bbbbbb;
+}
+
+.well-guest input, select {
+    font-size: 18px !important;
+    height: 45px !important;
+}
+
+.well-guest textarea{
+    font-size: 18px !important;    
+}
+
+#notehide{display: none;}
+#smshide{display: none;}
+#emailhide{display: none;}
+

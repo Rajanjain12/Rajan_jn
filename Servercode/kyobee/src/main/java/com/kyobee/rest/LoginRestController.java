@@ -18,6 +18,7 @@ import com.kyobee.dto.common.Response;
 import com.kyobee.entity.User;
 import com.kyobee.exception.RsntException;
 import com.kyobee.service.ISecurityService;
+import com.kyobee.util.SessionContextUtil;
 import com.kyobee.util.common.CommonUtil;
 import com.kyobee.util.common.Constants;
 import com.kyobee.util.common.LoggerUtil;
@@ -28,6 +29,9 @@ public class LoginRestController {
 
 	@Autowired
 	ISecurityService securityService;
+	
+	@Autowired
+	SessionContextUtil sessionContextUtil;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
 	public Response<UserDTO> login(@RequestBody Credential credenitals, HttpServletRequest request) {
@@ -47,6 +51,7 @@ public class LoginRestController {
 					}
 
 					HttpSession sessionObj = request.getSession();
+					loadOrgContextData(loginUser.getUserId());
 					UserDTO userDTO = prepareUserObj(loginUser);
 					sessionObj.setAttribute(Constants.USER_OBJ, userDTO);
 					response.setServiceResult(userDTO);
@@ -71,7 +76,28 @@ public class LoginRestController {
 		}
 		return response;
 	}
+	
+	@RequestMapping(value = "/userDetails", method = RequestMethod.GET, produces = "application/json")
+	public Response<UserDTO> fetchUserDetails(HttpServletRequest request) {
+		Response<UserDTO> userDetails = new Response<UserDTO>();
+		HttpSession sessionObj = request.getSession();
+		UserDTO userDTO = (UserDTO)sessionObj.getAttribute(Constants.USER_OBJ);
+		userDetails.setServiceResult(userDTO);
+		CommonUtil.setWebserviceResponse(userDetails, Constants.SUCCESS, "");
+		return userDetails;
+	}
+	
+	private void loadOrgContextData(Long userId) throws RsntException {
+		try {
+			securityService.getUserOrganization(userId);
+			// Long orgId = new Long(1);
+		} catch (Exception e) {
+			LoggerUtil.logError("Exception: ", e);
+			throw e;
+		}
 
+	}
+	
 	private UserDTO prepareUserObj(User loginUser) {
 		UserDTO userDTO = new UserDTO();
 		userDTO.setUserId(loginUser.getUserId());
@@ -85,6 +111,7 @@ public class LoginRestController {
 		userDTO.setAddress(loginUser.getAddress());
 		userDTO.setActive(loginUser.isActive());
 		userDTO.setPermissionList(new ArrayList<String>());
+		userDTO.setOrganizationId((Long) sessionContextUtil.get(Constants.CONST_ORGID));
 		final List<String> userPermissions = securityService.getUserPermissions(loginUser.getUserId());
 		if (userPermissions != null && !userPermissions.isEmpty()) {
 			for (final String permission : userPermissions) {

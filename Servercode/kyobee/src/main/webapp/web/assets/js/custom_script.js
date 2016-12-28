@@ -35,10 +35,10 @@ $(window).scroll(function() {
         
         
   
-    $(window).load(function(){
-      $("#mynav").sticky({ topSpacing: 0 });
-        
-    });
+$(window).load(function(){
+  $("#mynav").sticky({ topSpacing: 0 });
+
+});
 
     
     
@@ -66,6 +66,22 @@ $(document).ready(function(){
 
 
 */
+
+
+
+
+
+
+ 
+$(document).ready(function(){
+
+    $('.clickpopup').click(function(){
+        $('#showpopup').simplePopup();
+    });
+        
+});
+
+
 
 /*********************** Number Count in pluse Minues ***********************/
 

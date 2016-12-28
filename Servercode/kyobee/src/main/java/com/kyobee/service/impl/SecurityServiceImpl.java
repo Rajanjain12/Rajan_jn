@@ -14,8 +14,9 @@ import com.kyobee.entity.RoleProtectedObject;
 import com.kyobee.entity.User;
 import com.kyobee.exception.RsntException;
 import com.kyobee.service.ISecurityService;
-import com.kyobee.util.AppInitializer;
 import com.kyobee.util.AppTransactional;
+import com.kyobee.util.SessionContextUtil;
+import com.kyobee.util.common.Constants;
 import com.kyobee.util.common.NativeQueryConstants;
 
 @AppTransactional
@@ -24,6 +25,9 @@ public class SecurityServiceImpl implements ISecurityService {
 
 	@Autowired
     private SessionFactory sessionFactory;
+	
+	@Autowired
+	private SessionContextUtil sessionContextUtil;
 
 	/*@Logger
 	private Log log;*/
@@ -79,8 +83,18 @@ public class SecurityServiceImpl implements ISecurityService {
     public Organization getUserOrganization(final Long userId) throws RsntException {
     	
     	try{
-    		return (Organization) sessionFactory.getCurrentSession().getNamedQuery(User.GET_USER_ORGANIZATION)
-            .setParameter(1, userId).uniqueResult();
+    		Organization org = (Organization) sessionFactory.getCurrentSession().getNamedQuery(User.GET_USER_ORGANIZATION)
+            .setParameter("userId", userId).uniqueResult();
+    		if (org == null)
+				throw new RsntException("Unable to Find User " + userId);
+			sessionContextUtil.put(Constants.CONST_ORGID, org.getOrganizationId());
+			sessionContextUtil.put(Constants.CONST_ORGNAME, org.getOrganizationName());
+			sessionContextUtil.put(Constants.CONST_ORGSUBSCRIBEDPLANNAME,
+					org.getActiveOrgPlanSubscription().getPlan().getPlanName());
+			sessionContextUtil.put(Constants.CONST_ORGSUBSCRIPTIONPLANID,
+					org.getActiveOrgPlanSubscription().getOrganizationPlanId());
+			sessionContextUtil.put(Constants.CONST_ORGADSBALANCE, org.getAdsBalance());
+    		return org;
 
     	}
     	catch(Exception e){

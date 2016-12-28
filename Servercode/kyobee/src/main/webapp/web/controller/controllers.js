@@ -15,6 +15,14 @@ KyobeeControllers.controller('homeCtrl',
 				'KyobeeService',
 				function($scope, $location, $timeout, $interval, KyobeeService) {
 
+					$scope.userDTO = null;
+					$scope.waitTime = null;
+					$scope.notifyFirst = null;
+					$scope.totalWaitTime = null;
+					$scope.appKey = null;
+		            $scope.privateKey = null;
+		            $scope.channel = null;
+					
 					$scope.changeView = function(view, searchParms) {
 						switch (view) {
 						case "home":
@@ -31,6 +39,85 @@ KyobeeControllers.controller('homeCtrl',
 						;
 					};
 
+					$scope.fetchUserDetails = function() {
+						var postBody = {
+
+						};
+						var url = '/kyobee/rest/userDetails';
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										$scope.userDTO = data.serviceResult;
+										$scope.loadDataForPage();
+									} else if (data.status == "FAILURE") {
+										alert('Error while fetching user details. Please login again or contact support');
+										$scope.logout();
+									}
+								}, function(error) {
+									alert('Error while fetching user details. Please login again or contact support');
+								});
+					};
+					
+					$scope.loadInfo = function() {
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/pusgerinformation';
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										$scope.appKey = data.serviceResult.REALTIME_APPLICATION_KEY;
+										$scope.privateKey = data.serviceResult.REALTIME_PRIVATE_KEY;
+										$scope.channel = data.serviceResult.pusherChannelEnv;
+									} else if (data.status == "FAILURE") {
+										alert('Error while fetching user details. Please login again or contact support');
+										$scope.logout();
+									}
+								}, function(error) {
+									alert('Error while fetching user details. Please login again or contact support');
+								});
+					};
+					
+					$scope.loadOrgMetricks = function() {
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/totalwaittimemetricks?orgid=' + $scope.userDTO.organizationId;
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										$scope.waitTime = data.serviceResult.ORG_WAIT_TIME;
+										$scope.notifyFirst = data.serviceResult.OP_NOTIFYUSERCOUNT;
+										$scope.totalWaitTime = data.serviceResult.ORG_TOTAL_WAIT_TIME;
+									} else if (data.status == "FAILURE") {
+										alert('Error while fetching wait times.');
+									}
+								}, function(error) {
+									alert('Error while fetching wait times.. Please login again or contact support');
+								});
+					};
+					
+					$scope.loadWaitListGuests = function() {
+						var postBody = {
+
+						};
+						$scope.loadOrgMetricks();
+						var url = '/kyobee/web/rest/waitlistRestAction/checkinusers?orgid=' + $scope.userDTO.organizationId + '&recordsPerPage=10&pageNumber=1';
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+
+									} else if (data.status == "FAILURE") {
+										alert('Error while fetching wait times.');
+									}
+								}, function(error) {
+									alert('Error while fetching wait times.. Please login again or contact support');
+								});
+					};
 					
 					$scope.logout = function(){
 						var postBody = {
@@ -45,6 +132,13 @@ KyobeeControllers.controller('homeCtrl',
 									$scope.changeView("logout");
 								});
 					}
+					
+					$scope.loadDataForPage = function(){
+						$scope.loadInfo();
+						$scope.loadWaitListGuests();	
+					}
+					
+					$scope.fetchUserDetails();
 					
 
 				} ]);
