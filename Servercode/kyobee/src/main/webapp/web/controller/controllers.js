@@ -22,14 +22,17 @@ KyobeeControllers.controller('homeCtrl',
 					$scope.appKey = null;
 		            $scope.privateKey = null;
 		            $scope.channel = null;
+		            $scope.guestWaitList = null;
 					
 					$scope.changeView = function(view, searchParms) {
 						switch (view) {
 						case "home":
 							$location.path("/home");
 							break;
+						case "addGuest":
+							$location.path("/addGuest");
+							break;
 						case "logout":
-							$scope.Module = null;
 							$location.path("/logout");
 							break;
 						default:
@@ -110,7 +113,7 @@ KyobeeControllers.controller('homeCtrl',
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
-
+										$scope.guestWaitList = data.serviceResult;
 									} else if (data.status == "FAILURE") {
 										alert('Error while fetching wait times.');
 									}
@@ -139,6 +142,10 @@ KyobeeControllers.controller('homeCtrl',
 					}
 					
 					$scope.fetchUserDetails();
+					
+					$scope.showPopup = function(){
+						$('#showpopup').simplePopup();
+					}
 					
 
 				} ]);

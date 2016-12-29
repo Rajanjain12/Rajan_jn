@@ -5,6 +5,9 @@ KyobeeApp.config([ '$routeProvider', function($routeProvider) {
 	$routeProvider.when('/home', {
 		templateUrl : 'waitlist.html',
 		controller : 'homeCtrl'
+	}).when('/addGuest', {
+		templateUrl : 'addnewguest.html',
+		controller : 'guestCtrl'
 	}).when('/logout', {
 		templateUrl : '../index.html'
 	}).	otherwise({

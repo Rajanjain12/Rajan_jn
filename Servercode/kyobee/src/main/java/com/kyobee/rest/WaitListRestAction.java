@@ -415,12 +415,13 @@ public class WaitListRestAction {
 	//@Path("/checkinusers")
 	//@Produces(MediaType.APPLICATION_JSON)
 	@RequestMapping(value = "/checkinusers", method = RequestMethod.GET, produces = "application/json")
-	public String fetchCheckinUsers(@RequestParam("orgid") Long orgid, 
+	public Response<List<GuestDTO>> fetchCheckinUsers(@RequestParam("orgid") Long orgid, 
 			@RequestParam("recordsPerPage") int recordsPerPage, @RequestParam("pageNumber") int pageNumber){
 		log.info("Entering :: fetchCheckinUsers --OrgId::"+orgid);
+		Response<List<GuestDTO>> response = new Response<List<GuestDTO>>();
 		List<GuestDTO> guestDTOs = null;
-		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
-		final List<String> errorArray = new ArrayList<String>(0);
+		//final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
+		//final List<String> errorArray = new ArrayList<String>(0);
 		Map<Integer, String> guestPreferenceMap;
 		List<Guest> guests;
 		try {
@@ -433,23 +434,27 @@ public class WaitListRestAction {
 				for (Guest guest : guests) {
 					guestDTOs.add(convertGuesEntityToVo(guest, guestPreferenceMap));
 				}
+				response.setServiceResult(guestDTOs);
+				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 
 			}
 
 		} catch (RsntException e) {
 			e.printStackTrace();
 			log.error("fetchCheckinUsers() - failed:", e);
-			rootMap.put("id", -1);
-			rootMap.put(Constants.RSNT_ERROR, "System Error - fetchCheckinUsers failed");
-			rootMap.put("fieldErrors", errorArray);
-
-			final JSONObject jsonObject = JSONObject.fromObject(rootMap);
-			return jsonObject.toString();
+			//rootMap.put("id", -1);
+			//rootMap.put(Constants.RSNT_ERROR, "System Error - fetchCheckinUsers failed");
+			//rootMap.put("fieldErrors", errorArray);
+			
+			//final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+			//return jsonObject.toString();
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - fetchCheckinUsers failed");
 		}
-		rootMap.put(Constants.RSNT_ERROR, "");
-		rootMap.put("guests",guestDTOs);
-		final JSONObject jsonObject = JSONObject.fromObject(rootMap);
-		return jsonObject.toString();
+		//rootMap.put(Constants.RSNT_ERROR, "");
+		//rootMap.put("guests",guestDTOs);
+		//final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+		return response;
 	}
 	/**
 	 * Fetch Guest Details By Id
