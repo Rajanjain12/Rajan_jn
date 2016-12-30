@@ -199,10 +199,10 @@ public class WaitListRestAction {
 			String seatingPreference = null;
 			List<GuestPreferencesDTO> guestPrefList = guest.getGuestPreferences();
 			for(GuestPreferencesDTO o : guestPrefList) {
-				if(null == seatingPreference)
-					seatingPreference = o.getPrefValueId()+"";
-				else
-					seatingPreference = seatingPreference + "," + o.getPrefValueId();
+					if(null == seatingPreference)
+						seatingPreference = o.getPrefValueId()+"";
+					else
+						seatingPreference = seatingPreference + "," + o.getPrefValueId();
 			}
 			guestObj.setSeatingPreference(seatingPreference);
 		}
@@ -592,26 +592,30 @@ public class WaitListRestAction {
 	//@Path("/orgseatpref")
 	//@Produces(MediaType.APPLICATION_JSON)
 	@RequestMapping(value = "/orgseatpref", method = RequestMethod.GET, produces = "application/json")
-	public String getOrganizationSeatingPreferences(@RequestParam("orgid") Long orgid){
-		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
-		final List<String> errorArray = new ArrayList<String>(0);
+	public Response<List<GuestPreferencesDTO>> getOrganizationSeatingPreferences(@RequestParam("orgid") Long orgid){
+		//final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
+		//final List<String> errorArray = new ArrayList<String>(0);
+		Response<List<GuestPreferencesDTO>> response = new Response<List<GuestPreferencesDTO>>();
 		List<GuestPreferencesDTO> searPref =  null;
 		try {
 			searPref=	waitListService.getOrganizationSeatingPref(orgid);
-			rootMap.put(Constants.RSNT_ERROR, "");
-			rootMap.put("seatpref",searPref);
-			final JSONObject jsonObject = JSONObject.fromObject(rootMap);
-			return jsonObject.toString();
+			response.setServiceResult(searPref);
+			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+			//rootMap.put(Constants.RSNT_ERROR, "");
+			//rootMap.put("seatpref",searPref);
+			//final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+			//return jsonObject.toString();
 		} catch (Exception e) {
-			e.printStackTrace();
 			log.error("getOrganizationSeatingPreferences() - failed:", e);
-			rootMap.put("id", -1);
-			rootMap.put(Constants.RSNT_ERROR, "System Error - getOrganizationSeatingPreferences failed");
-			rootMap.put("fieldErrors", errorArray);
-			final JSONObject jsonObject = JSONObject.fromObject(rootMap);
-			return jsonObject.toString();
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - getOrganizationSeatingPreferences failed");
+			//rootMap.put("id", -1);
+			//rootMap.put(Constants.RSNT_ERROR, "");
+			//rootMap.put("fieldErrors", errorArray);
+			//final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+			//return jsonObject.toString();
 		}
-
+		return response;
 
 	}
 	private boolean checkMarkerForStatusChange(Guest guest){
@@ -632,22 +636,15 @@ public class WaitListRestAction {
 	//@Produces(MediaType.APPLICATION_JSON)
 	//@Consumes(MediaType.APPLICATION_JSON)
 	@RequestMapping(value = "/addGuest", method = RequestMethod.POST, produces = "application/json")
-	public String addGuest (@RequestBody String guestJSONStr) {
+	public Response<String> addGuest (@RequestBody GuestDTO guestDTO) {
 		log.info("Entering into addGuest");
-		log.info("guestJSONStr-->"+guestJSONStr);
-		ObjectMapper objectMapper = new ObjectMapper();
-		GuestDTO guestDTO = null;
+		Response<String> response = new Response<String>();
 		Guest guest = null;
-		JSONObject jsonObject = null;
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 		WaitlistMetrics oWaitlistMetrics = null;
 		try {
-			guestDTO = objectMapper.readValue(guestJSONStr, GuestDTO.class);
 			guest = convertGuesVoToEntity(guestDTO);
-			//Added this for demo of QRcode
-			/*guest.setPrefType("PUSH");
-			guest.setDeviceType("AN");
-			guest.setDeviceId("APA91bGPrj8J9PYsiV6sGtDu7w1vFpGGf4hHB2a1-P0-DaClvmSXJmNZW2Ajli1VFplwmE8va9u6fU3eRh33_gTZ7WzLik3-Sb5Yu9J8H2zt-qNHsBdKOL8");*/
+			
 			oWaitlistMetrics = waitListService.addGuest(guest);
 
 			rootMap.put(Constants.RSNT_NOW_SERVING_GUEST_ID, oWaitlistMetrics.getNowServingParty());
@@ -655,16 +652,6 @@ public class WaitListRestAction {
 			rootMap.put(Constants.RSNT_NEXT_TO_NOTIFY_GUEST_ID, oWaitlistMetrics.getGuestToBeNotified());
 			
 			guest.setRank(Long.parseLong(oWaitlistMetrics.getGuestRank()+""));
-
-			/*required params for the mobile app
-			Total Wait Time
-			Total Parties Waiting
-			Now Serving Party
-			Organization ID
-			Guest ID of added Guest
-			Guest Rank of added Guest
-			Guest UUID of added Guest
-			*/
 			
 			rootMap.put("OP", "ADD");
 			rootMap.put("totalWaitTime", oWaitlistMetrics.getTotalWaitTime());
@@ -678,26 +665,18 @@ public class WaitListRestAction {
 			rootMap.put("guestRank", oWaitlistMetrics.getGuestRank());
 
 			sendNotification(guest, oWaitlistMetrics, "NORMAL");
-			jsonObject = sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
+			sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
+			response.setServiceResult("");
+			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 
-
-		} catch (JsonParseException e) {
-			log.error("Error :: saveOrUpdateGuest ", e);
-		} catch (JsonMappingException e) {
-			log.error("Error :: saveOrUpdateGuest ", e);
-		} catch (IOException e) {
-			log.error("Error :: saveOrUpdateGuest ", e);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}finally{
-			rootMap.put("id", -1);
-			rootMap.put(Constants.RSNT_ERROR, "System Error - addGuest failed");
-			jsonObject = JSONObject.fromObject(rootMap);
+		} catch (Exception e) {
+			log.error(e);
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - add Guest failed");
 		}
 		
 
-		return jsonObject.toString();
+		return response;
 	}
 
 	private String getGuestNoPrefix(long orgId){

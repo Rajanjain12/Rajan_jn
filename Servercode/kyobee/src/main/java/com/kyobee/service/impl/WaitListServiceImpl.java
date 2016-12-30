@@ -661,7 +661,7 @@ public class WaitListServiceImpl implements IWaitListService {
 		List<GuestPreferencesDTO> pref = null;
 		GuestPreferencesDTO dto = new GuestPreferencesDTO();
 		List<Object[]> list = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_SEATING_PREF_VALUES).
-				setParameter(1, orgId).setParameter(2, Constants.CONT_LOOKUPTYPE_SEATTYPE).list();
+				setParameter("orgId", orgId).setParameter("catTypeId", Constants.CONT_LOOKUPTYPE_SEATTYPE).list();
 		if(null != list && list.size()>0){
 			pref = new ArrayList<GuestPreferencesDTO>();
 			for (Object[] lookupvalue : list) {

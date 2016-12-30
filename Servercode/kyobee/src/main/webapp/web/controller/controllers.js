@@ -23,6 +23,7 @@ KyobeeControllers.controller('homeCtrl',
 		            $scope.privateKey = null;
 		            $scope.channel = null;
 		            $scope.guestWaitList = null;
+		            $scope.seatPrefs = null;
 					
 					$scope.changeView = function(view, searchParms) {
 						switch (view) {
@@ -103,6 +104,25 @@ KyobeeControllers.controller('homeCtrl',
 								});
 					};
 					
+					$scope.loadSeatingPref = function() {
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/orgseatpref?orgid=' + $scope.userDTO.organizationId;;
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										$scope.seatPrefs = data.serviceResult;
+									} else if (data.status == "FAILURE") {
+										alert('Error while fetching user details. Please login again or contact support');
+										$scope.logout();
+									}
+								}, function(error) {
+									alert('Error while fetching user details. Please login again or contact support');
+								});
+					};
+					
 					$scope.loadWaitListGuests = function() {
 						var postBody = {
 
@@ -138,7 +158,8 @@ KyobeeControllers.controller('homeCtrl',
 					
 					$scope.loadDataForPage = function(){
 						$scope.loadInfo();
-						$scope.loadWaitListGuests();	
+						$scope.loadWaitListGuests();
+						$scope.loadSeatingPref();
 					}
 					
 					$scope.fetchUserDetails();

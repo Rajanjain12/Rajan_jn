@@ -422,7 +422,7 @@ public class NativeQueryConstants {
 	public static final String HQL_GET_GUESTS_HISTORY = "FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN') and g.OrganizationID=:orgId order by g.rank asc";
 	public static final String HQL_GET_GUEST_BY_UUID = "FROM Guest g WHERE g.status ='CHECKIN' and  g.resetTime is null and uuid=:UUID";
 	public static final String GET_ORG_SEATING_PREF_VALUES = "select lkp.LookupID,lkp.Name from ORGANIZATION org inner join ORGANIZATIONCATEGORY oc on org.organizationID=oc.organizationID "+
-                                                              " inner join LOOKUP lkp on oc.CategoryValueID=lkp.LookupID where oc.organizationID=?1 and oc.CategoryTypeID=?2";
+                                                              " inner join LOOKUP lkp on oc.CategoryValueID=lkp.LookupID where oc.organizationID=:orgId and oc.CategoryTypeID=:catTypeId";
 	//Added for Guest Reset functionality
 	public static final String HQL_GET_GUESTS = "FROM Guest where OrganizationID = ?1";
 	//public static final String HQL_GET_GUESTS_PREFERENCES = "FROM GuestPreferences";

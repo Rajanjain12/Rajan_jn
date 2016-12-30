@@ -11,6 +11,7 @@ public class GuestPreferencesDTO {
 	private Long guestPrefId;
 	private Long prefValueId;
 	private String prefValue;
+	private boolean selected;
 	
 	@XmlAttribute
 	public Long getGuestPrefId() {
@@ -33,6 +34,11 @@ public class GuestPreferencesDTO {
 	public void setPrefValue(String prefValue) {
 		this.prefValue = prefValue;
 	}
-	
+	public boolean isSelected() {
+		return selected;
+	}
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}	
 	
 }

@@ -17,8 +17,11 @@ import com.kyobee.util.common.RsntDateSerializer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 @XmlRootElement
 public class GuestDTO implements Serializable{
+	
+	private static final long serialVersionUID = -2197383543076344525L;
+	
 	private Long guestID;
-	private Long OrganizationID;
+	private Long organizationID;
 	private String name;
 	private String note;
 	private String uuid;
@@ -73,10 +76,10 @@ public class GuestDTO implements Serializable{
 	}
 	@XmlAttribute
 	public Long getOrganizationID() {
-		return OrganizationID;
+		return organizationID;
 	}
 	public void setOrganizationID(Long organizationID) {
-		OrganizationID = organizationID;
+		this.organizationID = organizationID;
 	}
 	@XmlAttribute
 	public String getName() {

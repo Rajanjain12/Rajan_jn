@@ -69,25 +69,9 @@
                         <label>Seating Preference:</label>
                     </div>
                     <div class="addf2">
-                    <div class="checkbox checkbox-success checkbox-inline">
-                        <input type="checkbox" id="inlineCheckbox01" value="option1" >
-                        <label for="inlineCheckbox01">Patio</label>
-                    </div>
-                    <div class="checkbox checkbox-success checkbox-inline">
-                        <input type="checkbox" id="inlineCheckbox02" value="option1" >
-                        <label for="inlineCheckbox02">Booth</label>
-                    </div>
-                    <div class="checkbox checkbox-success checkbox-inline">
-                        <input type="checkbox" id="inlineCheckbox03" value="option1" >
-                        <label for="inlineCheckbox03">Table</label>
-                    </div>
-                    <div class="checkbox checkbox-success checkbox-inline">
-                        <input type="checkbox" id="inlineCheckbox04" value="option1" >
-                        <label for="inlineCheckbox04">Bar</label>
-                    </div>
-                    <div class="checkbox checkbox-success checkbox-inline">
-                        <input type="checkbox" id="inlineCheckbox05" value="option1" >
-                        <label for="inlineCheckbox05">First Available</label>
+                    <div class="checkbox checkbox-success checkbox-inline" ng-repeat="sPerf in guestPref">
+                        <input type="checkbox"  ng-model="sPerf.selected" >
+                        <label>{{sPerf.prefValue}}</label>
                     </div>
                     </div>
                 </div>
