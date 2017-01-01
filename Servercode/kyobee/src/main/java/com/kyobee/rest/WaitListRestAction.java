@@ -1137,8 +1137,7 @@ public class WaitListRestAction {
 		guestNotificationBean.setDeviceId(guestToNotify.getDeviceId());
 		guestNotificationBean.setDeviceType(guestToNotify.getDeviceType());
 		guestNotificationBean.setOrgId(guestToNotify.getOrganizationID());
-		// TODO - Complete the JMS Configuration and uncomment the below section. - rohit
-		//waitListService.sendNotificationToGuest(guestNotificationBean);
+		waitListService.sendNotificationToGuest(guestNotificationBean);
 	}
 	
 	private Map<Integer, String> getGuestSeatingPrefMap() throws NumberFormatException, RsntException

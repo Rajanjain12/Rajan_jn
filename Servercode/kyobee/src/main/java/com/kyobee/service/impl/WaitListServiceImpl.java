@@ -47,6 +47,7 @@ import com.kyobee.service.IWaitListService;
 import com.kyobee.util.AppTransactional;
 import com.kyobee.util.common.Constants;
 import com.kyobee.util.common.NativeQueryConstants;
+import com.kyobee.util.jms.NotificationQueueSender;
 import com.telerivet.Project;
 import com.telerivet.TelerivetAPI;
 import com.telerivet.Util;
@@ -64,6 +65,9 @@ public class WaitListServiceImpl implements IWaitListService {
 	private EntityManager entityManager;*/
 	@Autowired
     private SessionFactory sessionFactory;
+	
+	@Autowired
+	private NotificationQueueSender notificationQueueSender;
 	
 	private Logger log = Logger.getLogger(WaitListServiceImpl.class);
 	
@@ -539,18 +543,54 @@ public class WaitListServiceImpl implements IWaitListService {
 
 	}
 
-	/*s*/
+	@Override
+	public void sendNotificationToGuest(GuestNotificationBean guestNotificationBean) {
+		//QueueConnection connection = null;
+		try {
+			/*InitialContext ctx = new InitialContext();			
+			Queue queue = (Queue) ctx.lookup("/queue/NotificationQueue");
+			QueueConnectionFactory factory = (QueueConnectionFactory) ctx.lookup("ConnectionFactory");
+			connection = factory.createQueueConnection();//(QueueConnection) ds.getConnection(); 
+			QueueSession session = 
+					connection.createQueueSession(false, QueueSession.AUTO_ACKNOWLEDGE);
+			QueueSender sender = session.createSender(queue);*/
+			
+			Map<String, Object> rootMap =  getSMSDetail(guestNotificationBean.getOrgId());
+			guestNotificationBean.setSmsRoute(rootMap.get("smsRoute").toString());
+			guestNotificationBean.setSmsSignature(rootMap.get("smsSignature").toString());
+
+			System.out.println("-----------------------"+rootMap.get("smsRoute").toString());
+			System.out.println("-----------------------"+ rootMap.get("smsSignature"));
+
+			//ObjectMessage objectMessage = 
+			//		session.createObjectMessage(guestNotificationBean);
+			
+			//sender.send(objectMessage);
+			notificationQueueSender.sendMessage(guestNotificationBean);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+		finally {
+			/*try {
+				connection.close();
+			} catch (JMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
+		}
+	}
 	
 	public Map<String, Object> getSMSDetail(Long orgID){
 		Map<String, Object> rootMap = new LinkedHashMap<String, Object>();		
 		try{
 				
-			Object smsSignature = sessionFactory.getCurrentSession().createSQLQuery("SELECT smsSignature FROM ORGANIZATION where OrganizationID =?1").setParameter(1, orgID)
+			Object smsSignature = sessionFactory.getCurrentSession().createSQLQuery("SELECT smsSignature FROM ORGANIZATION where OrganizationID =:orgId").setParameter("orgId", orgID)
 			.uniqueResult();
 			System.out.println(smsSignature.toString());
 			rootMap.put("smsSignature", smsSignature.toString());
 
-			String smsRoute = sessionFactory.getCurrentSession().createSQLQuery("SELECT smsRoute FROM ORGANIZATION where OrganizationID =?1").setParameter(1, orgID)
+			String smsRoute = sessionFactory.getCurrentSession().createSQLQuery("SELECT smsRoute FROM ORGANIZATION where OrganizationID =:orgId").setParameter("orgId", orgID)
 					.uniqueResult().toString();	
 			System.out.println(smsRoute.toString());
 			rootMap.put("smsRoute", smsRoute.toString());

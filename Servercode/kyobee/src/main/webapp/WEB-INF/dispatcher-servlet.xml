@@ -25,14 +25,15 @@
 
 	<mvc:resources mapping="/**" location="/" />
 	
-	<!-- <bean
+	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath:beeya.properties</value>
+				<value>classpath:rsnt.properties</value>
+				<value>classpath:waitlist.properties</value>
 			</list>
 		</property>
-	</bean> -->
+	</bean>
 
 	<!-- <bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -67,7 +68,26 @@
 	</bean>
 	
 	
+	<jee:jndi-lookup id="jndiJmsQueueConnectionFactory"
+	        jndi-name="ConnectionFactory" proxy-interface="javax.jms.ConnectionFactory"
+	        >
+	 </jee:jndi-lookup>
+	 
+	 <jee:jndi-lookup id="jndiSendQueue" jndi-name="/queue/NotificationQueue"
+        proxy-interface="javax.jms.Queue" ></jee:jndi-lookup>
 	
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref ="jndiJmsQueueConnectionFactory"></property>
+        <property name="defaultDestinationName" value="NotificationQueue" />
+	</bean>
+	
+	<bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+	    <property name="connectionFactory" ref="jndiJmsQueueConnectionFactory"/>
+	    <property name="destinationName" value="NotificationQueue"/>
+	    <property name="messageListener" ref="notificationMessageReceiver"/>
+	</bean>
+	
+	<bean id="notificationMessageReceiver" class="com.kyobee.util.jms.NotificationMessageReceiver"/>
 	
 	<!-- <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="100000000" />

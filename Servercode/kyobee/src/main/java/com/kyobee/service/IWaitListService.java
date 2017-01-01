@@ -155,7 +155,7 @@ public interface IWaitListService {
 	 * Sends notification via SMS/EMail to Guest
 	 * @param guestNotificationBean
 	 */
-	//public void sendNotificationToGuest(GuestNotificationBean guestNotificationBean);
+	public void sendNotificationToGuest(GuestNotificationBean guestNotificationBean);
 	
 	/**
 	 * Updates Guest information
