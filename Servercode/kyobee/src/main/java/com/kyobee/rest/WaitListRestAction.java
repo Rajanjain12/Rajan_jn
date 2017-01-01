@@ -572,16 +572,19 @@ public class WaitListRestAction {
 	//@GET
 	//@Path("/pusgerinformation")
 	@RequestMapping(value = "/pusgerinformation", method = RequestMethod.GET, produces = "application/json")
-	public String getPushEventsConfigDetails(){
-		// TODO - Uncomment this below section and replace with alternative for context.getSession - rohit
+	public Response<Map<String, String>> getPushEventsConfigDetails(){
+		Response<Map<String, String>> response = new Response<Map<String,String>>();
 		Map<String, String> eventConfig = new HashMap<String, String>();
 		eventConfig.put(Constants.REALTIME_APPLICATION_KEY, System.getProperty(Constants.REALTIME_APPLICATION_KEY_VAL));
 		eventConfig.put(Constants.REALTIME_PRIVATE_KEY, System.getProperty(Constants.REALTIME_PRIVATE_KEY_VAL));
 		eventConfig.put(Constants.PUSHER_CHANNEL_ENV, AppInitializer.pusherChannelEnv+"_"+sessionContextUtil.get(Constants.CONST_ORGID));
 		eventConfig.put(Constants.QRCODE_VALUE, "123_"+AppInitializer.pusherChannelEnv+"_"+sessionContextUtil.get(Constants.CONST_ORGID));
 		eventConfig.put(Constants.FOOTER_MSG, AppInitializer.staticFooterMsg);
-		final JSONObject jsonObject = JSONObject.fromObject(eventConfig);
-		return jsonObject.toString();
+		//final JSONObject jsonObject = JSONObject.fromObject(eventConfig);
+		//return jsonObject.toString();
+		response.setServiceResult(eventConfig);
+		CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+		return response;
 	}
 
 	/**
@@ -871,18 +874,19 @@ public class WaitListRestAction {
 	//@Produces(MediaType.APPLICATION_JSON)
 	//@Consumes(MediaType.APPLICATION_JSON)
 	@RequestMapping(value = "/incrementCalloutCount", method = RequestMethod.POST, produces = "application/json")
-	public String incrementCalloutCount (@RequestBody String guestJSONStr) {
+	public Response<Map<String, Object>> incrementCalloutCount (@RequestBody GuestDTO guestDTO) {
 		log.info("Entering into incrementCalloutCount");
-		JSONObject jsonObject = null;
-		ObjectMapper objectMapper = new ObjectMapper();
-		GuestDTO guestDTO = null;
+		//JSONObject jsonObject = null;
+		//ObjectMapper objectMapper = new ObjectMapper();
+		//GuestDTO guestDTO = null;
 		Guest guest = null;
+		Response<Map<String, Object>> response = new Response<Map<String,Object>>();
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 		WaitlistMetrics oWaitlistMetrics = null;
 		Long guestCount = null;
 
 		try {
-			guestDTO = objectMapper.readValue(guestJSONStr, GuestDTO.class);
+			//guestDTO = objectMapper.readValue(guestJSONStr, GuestDTO.class);
 			guest = convertGuesVoToEntity(guestDTO);
 			String seatingPreference = buildSeatingPreference(guestDTO);
 			guest.setSeatingPreference(seatingPreference);
@@ -891,23 +895,27 @@ public class WaitListRestAction {
 			rootMap.put(Constants.RSNT_NOW_SERVING_GUEST_ID, oWaitlistMetrics.getNowServingParty());
 			rootMap.put(Constants.RSNT_ORG_TOTAL_WAIT_TIME, oWaitlistMetrics.getTotalWaitTime());
 			rootMap.put(Constants.RSNT_NEXT_TO_NOTIFY_GUEST_ID, oWaitlistMetrics.getGuestToBeNotified());
-
+			
 			guestCount = Long.parseLong(oWaitlistMetrics.getTotalWaitingGuest()+"");
-
-			jsonObject = JSONObject.fromObject(rootMap);
+			
+			
+			response.setServiceResult(rootMap);
+			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+			//jsonObject = JSONObject.fromObject(rootMap);
 
 		}catch (Exception e) {
+			response.setServiceResult(rootMap);
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - add Guest failed");
 			e.printStackTrace();
 		}
-
+		
 		rootMap.put("OP", "UPD");
 		rootMap.put("guestObj", guest.getGuestID());
 		rootMap.put("updguest", guest);
 		rootMap.put("FROM", "ADMIN");
 		rootMap.put("ORG_GUEST_COUNT", guestCount);
 		rootMap.put("totalWaitTime", oWaitlistMetrics.getTotalWaitTime());
-
-		//rootMap.put("ppwt": $jquery("#perPartyWaitTime").val(),
 		rootMap.put("orgid", guest.getOrganizationID());
 
 		if(oWaitlistMetrics.getGuestToBeNotified() != -1){
@@ -917,9 +925,9 @@ public class WaitListRestAction {
 			}
 		}
 		
-		jsonObject = sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
-
-		return jsonObject.toString();
+		sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
+		
+		return response;
 	}
 
 	/**
@@ -932,18 +940,19 @@ public class WaitListRestAction {
 	//@Produces(MediaType.APPLICATION_JSON)
 	//@Consumes(MediaType.APPLICATION_JSON)
 	@RequestMapping(value = "/markAsIncomplete", method = RequestMethod.POST, produces = "application/json")
-	public String markAsIncomplete (@RequestBody String guestJSONStr) {
+	public Response<Map<String, Object>> markAsIncomplete (@RequestBody GuestDTO guestDTO) {
 		log.info("Entering into markAsIncomplete");
-		ObjectMapper objectMapper = new ObjectMapper();
-		GuestDTO guestDTO = null;
+		Response<Map<String, Object>> response = new Response<Map<String,Object>>();
+		//ObjectMapper objectMapper = new ObjectMapper();
+		//GuestDTO guestDTO = null;
 		Guest guest = new Guest();
-		JSONObject jsonObject = null;
+		//JSONObject jsonObject = null;
 		WaitlistMetrics oWaitlistMetrics = null;
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 		Long guestCount = null;
 
 		try {
-			guestDTO = objectMapper.readValue(guestJSONStr, GuestDTO.class);
+			//guestDTO = objectMapper.readValue(guestJSONStr, GuestDTO.class);
 			guest = convertGuesVoToEntity(guestDTO);
 			String seatingPreference = buildSeatingPreference(guestDTO);
 			guest.setSeatingPreference(seatingPreference);
@@ -954,10 +963,14 @@ public class WaitListRestAction {
 			rootMap.put(Constants.RSNT_NEXT_TO_NOTIFY_GUEST_ID, oWaitlistMetrics.getGuestToBeNotified());
 
 			guestCount = Long.parseLong(oWaitlistMetrics.getTotalWaitingGuest()+"");
-
-			jsonObject = JSONObject.fromObject(rootMap);
+			response.setServiceResult(rootMap);
+			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+			//jsonObject = JSONObject.fromObject(rootMap);
 
 		} catch (Exception e) {
+			response.setServiceResult(rootMap);
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - add Guest failed");
 			e.printStackTrace();
 		}
 
@@ -977,9 +990,10 @@ public class WaitListRestAction {
 			}
 		}
 		
-		jsonObject = sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
+		return response;
+		/*jsonObject = sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
 
-		return jsonObject.toString();
+		return jsonObject.toString();*/
 	}
 
 	/**
@@ -990,12 +1004,11 @@ public class WaitListRestAction {
 	//@GET
 	//@Path("/markAsSeated")
 	@RequestMapping(value = "/markAsSeated", method = RequestMethod.GET, produces = "application/json")
-	public String markAsSeated (@RequestParam("guestId")  int guestId, @RequestParam("orgId")  int orgId) {
+	public Response<Map<String, Object>> markAsSeated (@RequestParam("guestId")  int guestId, @RequestParam("orgId")  int orgId) {
 		log.info("Entering into markAsSeated");
+		Response<Map<String, Object>> response = new Response<Map<String,Object>>();
 		Guest guestToBeSeated = waitListService.getGuestById(guestId);
-		/*guest.setGuestID(Long.parseLong(guestId+""));
-		guest.setOrganizationID((long)orgId);*/
-		JSONObject jsonObject = null;
+		//JSONObject jsonObject = null;
 		WaitlistMetrics oWaitlistMetrics = null;
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 		Long guestCount = null;
@@ -1007,9 +1020,14 @@ public class WaitListRestAction {
 			rootMap.put(Constants.RSNT_NEXT_TO_NOTIFY_GUEST_ID, oWaitlistMetrics.getGuestToBeNotified());
 
 			guestCount = Long.parseLong(oWaitlistMetrics.getTotalWaitingGuest()+"");
-			jsonObject = JSONObject.fromObject(rootMap);
+			//jsonObject = JSONObject.fromObject(rootMap);
+			response.setServiceResult(rootMap);
+			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 
 		} catch (Exception e) {
+			response.setServiceResult(rootMap);
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - add Guest failed");
 			e.printStackTrace();
 		}
 
@@ -1034,9 +1052,7 @@ public class WaitListRestAction {
 				sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED);
 			}
 		}
-		jsonObject = sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
-
-		return jsonObject.toString();
+		return response;
 	}
 	
 	/**

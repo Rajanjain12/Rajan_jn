@@ -106,13 +106,13 @@
 	              <div class="confirm-table-wrap text-center">
 	                    <h2 class="theme-fontcolor">Confirm Table Ready For</h2>
 	                    <div class="guest-name">
-	                        <h1>Guest #1</h1>
-	                        <h1>Jenis</h1>
+	                        <h1>{{selectedGuest.guestID}}</h1>
+	                        <h1>{{selectedGuest.name}}</h1>
 	                    </div>
 	                    <div class="btn-guest border-top">
-	                        <button type="button" class="btn btn-orange theme-color">NOT PRESENT</button>
-	                        <button type="button" class="btn btn-orange theme-color">INCOMPLETE</button>
-	                        <button type="button" class="btn btn-orange theme-color">YES</button>
+	                        <button type="button" class="btn btn-orange theme-color" ng-click="incrementCalloutCount();">NOT PRESENT</button>
+	                        <button type="button" class="btn btn-orange theme-color" ng-click="markasIncomplete();">INCOMPLETE</button>
+	                        <button type="button" class="btn btn-orange theme-color" ng-click="markasSeated();">YES</button>
 	                    </div>
 	              </div>
 	           </div>
@@ -131,9 +131,14 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="record in guestWaitList">
-                                <td><a class="clickpopup" ng-click="showPopup();"><img src="assets/img/greenarrow.png"></a></td>
+                                <td><a class="clickpopup" ng-click="showPopup(record);"><img src="assets/img/greenarrow.png"></a></td>
                                 <td>{{record.guestID}}</td>
-                                <td><div class="name-active">{{record.name}}</div><img src="assets/img/downhand.png"> &nbsp;<img src="assets/img/downhand.png"></td>
+                                <td>
+                                	{{record.name}} &nbsp;
+                                	<span ng-show="record.calloutCount != null" ng-repeat="item in getArrayFromNum(record.calloutCount) track by $index">
+                                	<img src="assets/img/downhand.png"> &nbsp;
+                                	</span>
+                                </td>
                                 <td ng-show="prefType='SMS'">{{record.sms}}</td>
                                 <td ng-show="prefType!='SMS'">{{record.email}}</td>
                                 <td><img src="assets/img/roundarrow.png"></td>

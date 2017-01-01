@@ -16,14 +16,12 @@ KyobeeControllers.controller('homeCtrl',
 				function($scope, $location, $timeout, $interval, KyobeeService) {
 
 					$scope.userDTO = null;
-					$scope.waitTime = null;
-					$scope.notifyFirst = null;
-					$scope.totalWaitTime = null;
 					$scope.appKey = null;
 		            $scope.privateKey = null;
 		            $scope.channel = null;
-		            $scope.guestWaitList = null;
 		            $scope.seatPrefs = null;
+		            $scope.authToken = 'Unno1adyiSooIAkAEt';
+		            $scope.connectionUrl = 'https://ortc-developers.realtime.co/server/2.1';
 					
 					$scope.changeView = function(view, searchParms) {
 						switch (view) {
@@ -84,25 +82,7 @@ KyobeeControllers.controller('homeCtrl',
 								});
 					};
 					
-					$scope.loadOrgMetricks = function() {
-						var postBody = {
-
-						};
-						var url = '/kyobee/web/rest/waitlistRestAction/totalwaittimemetricks?orgid=' + $scope.userDTO.organizationId;
-						KyobeeService.getDataService(url, '').query(postBody,
-								function(data) {
-									console.log(data);
-									if (data.status == "SUCCESS") {
-										$scope.waitTime = data.serviceResult.ORG_WAIT_TIME;
-										$scope.notifyFirst = data.serviceResult.OP_NOTIFYUSERCOUNT;
-										$scope.totalWaitTime = data.serviceResult.ORG_TOTAL_WAIT_TIME;
-									} else if (data.status == "FAILURE") {
-										alert('Error while fetching wait times.');
-									}
-								}, function(error) {
-									alert('Error while fetching wait times.. Please login again or contact support');
-								});
-					};
+					
 					
 					$scope.loadSeatingPref = function() {
 						var postBody = {
@@ -123,24 +103,7 @@ KyobeeControllers.controller('homeCtrl',
 								});
 					};
 					
-					$scope.loadWaitListGuests = function() {
-						var postBody = {
-
-						};
-						$scope.loadOrgMetricks();
-						var url = '/kyobee/web/rest/waitlistRestAction/checkinusers?orgid=' + $scope.userDTO.organizationId + '&recordsPerPage=10&pageNumber=1';
-						KyobeeService.getDataService(url, '').query(postBody,
-								function(data) {
-									console.log(data);
-									if (data.status == "SUCCESS") {
-										$scope.guestWaitList = data.serviceResult;
-									} else if (data.status == "FAILURE") {
-										alert('Error while fetching wait times.');
-									}
-								}, function(error) {
-									alert('Error while fetching wait times.. Please login again or contact support');
-								});
-					};
+					
 					
 					$scope.logout = function(){
 						var postBody = {
@@ -156,17 +119,15 @@ KyobeeControllers.controller('homeCtrl',
 								});
 					}
 					
-					$scope.loadDataForPage = function(){
-						$scope.loadInfo();
-						$scope.loadWaitListGuests();
+					$scope.loadDataForPage = function(){	
 						$scope.loadSeatingPref();
 					}
 					
-					$scope.fetchUserDetails();
-					
-					$scope.showPopup = function(){
-						$('#showpopup').simplePopup();
+					$scope.getArrayFromNum = function(num){
+						return new Array(num);
 					}
 					
+					$scope.fetchUserDetails();
+					$scope.loadInfo();
 
 				} ]);
