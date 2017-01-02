@@ -757,12 +757,12 @@ public class WaitListRestAction {
 	//@GET
 	//@Path("/deleteGuest")
 	@RequestMapping(value = "/deleteGuest", method = RequestMethod.GET, produces = "application/json")
-	public String deleteGuest (@RequestParam("guestId") String guestId, @RequestParam("orgId")  int orgId) {
+	public Response<Map<String, Object>> deleteGuest (@RequestParam("guestId") String guestId, @RequestParam("orgId")  int orgId) {
 		log.info("Entering into deleteGuest");
+		Response<Map<String, Object>> response = new Response<Map<String,Object>>();
 		Guest guest = new Guest();
 		guest.setGuestID(Long.parseLong(guestId+""));
 		guest.setOrganizationID(Long.parseLong(orgId+""));
-		JSONObject jsonObject = null;
 		WaitlistMetrics oWaitlistMetrics = null;
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 		Long totalWaitTime = null;
@@ -775,10 +775,12 @@ public class WaitListRestAction {
 
 			guest.setRank(Long.parseLong(oWaitlistMetrics.getGuestId()+""));
 			totalWaitTime = Long.parseLong(oWaitlistMetrics.getTotalWaitTime()+"");
-			jsonObject = JSONObject.fromObject(rootMap);
-
+			//jsonObject = JSONObject.fromObject(rootMap);
+			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 		} catch (Exception e) {
 			e.printStackTrace();
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - add Guest failed");
 		}
 
 		rootMap.put("OP", "DEL");
@@ -798,9 +800,9 @@ public class WaitListRestAction {
 				sendNotification(guestToBeNotified, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED);
 			}
 		}
-		jsonObject = sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
-
-		return jsonObject.toString();
+		sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
+		response.setServiceResult(rootMap);
+		return response;
 	}
 
 	/**

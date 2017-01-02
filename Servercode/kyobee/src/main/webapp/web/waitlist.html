@@ -116,6 +116,20 @@
 	                    </div>
 	              </div>
 	           </div>
+	           
+	           <div id="deletePopup" class="simplePopup border-color">
+	              <div class="confirm-table-wrap text-center">
+	                    <h2 class="theme-fontcolor">Confirm Delete Guest</h2>
+	                    <div class="guest-name">
+	                        <h1>{{selectedGuest.guestID}}</h1>
+	                        <h1>{{selectedGuest.name}}</h1>
+	                    </div>
+	                    <div class="btn-guest border-top">
+	                        <button type="button" class="btn btn-orange theme-color" ng-click="deleteGuest();">DELETE</button>
+	                        <button type="button" class="btn btn-orange theme-color" ng-click="cancelDelete();">CANCEL</button>
+	                    </div>
+	              </div>
+	           </div>
                 
                 
                  <table id="waitlisttable" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -142,7 +156,7 @@
                                 <td ng-show="prefType='SMS'">{{record.sms}}</td>
                                 <td ng-show="prefType!='SMS'">{{record.email}}</td>
                                 <td><img src="assets/img/roundarrow.png"></td>
-                                <td><a href=""><img src="assets/img/delete.png"></a></td>
+                                <td><a ng-click="showDeletePopup(record);"><img src="assets/img/delete.png"></a></td>
                                 
                             </tr>
                        	</tbody>

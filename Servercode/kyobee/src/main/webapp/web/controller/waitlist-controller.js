@@ -61,6 +61,11 @@ KyobeeControllers.controller('waitListCtrl',
 						$scope.selectedGuest = guestObj;
 					}
 					
+					$scope.showDeletePopup = function(guestObj){
+						$('#deletePopup').simplePopup();
+						$scope.selectedGuest = guestObj;
+					}
+					
 					$scope.incrementCalloutCount = function(){
 						var postBody = $scope.selectedGuest;
 						
@@ -72,6 +77,7 @@ KyobeeControllers.controller('waitListCtrl',
 										console.log("scccessfully called out.");
 										console.log(data.serviceResult);
 										$('#showpopup').simplePopup().hide();
+										$(".simplePopupBackground").fadeOut("fast");
 										if ($scope.client.getIsConnected() == false) {
 											$scope.client.connect($scope.appKey, $scope.authToken);
 						                }
@@ -103,6 +109,7 @@ KyobeeControllers.controller('waitListCtrl',
 										console.log("scccessfully called out.");
 										console.log(data.serviceResult);
 										$('#showpopup').simplePopup().hide();
+										$(".simplePopupBackground").fadeOut("fast");
 										if ($scope.client.getIsConnected() == false) {
 											$scope.client.connect($scope.appKey, $scope.authToken);
 						                }
@@ -134,6 +141,7 @@ KyobeeControllers.controller('waitListCtrl',
 									console.log(data);
 									if (data.status == "SUCCESS") {
 										$('#showpopup').simplePopup().hide();
+										$(".simplePopupBackground").fadeOut("fast");
 										console.log(data);
 									} else if (data.status == "FAILURE") {
 										alert('Error while marking as seated.');
@@ -142,6 +150,33 @@ KyobeeControllers.controller('waitListCtrl',
 									alert('Error while marking as seated');
 								});
 						
+					}
+					
+					$scope.deleteGuest = function(){
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/deleteGuest?orgId=' + $scope.userDTO.organizationId + '&guestId='+$scope.selectedGuest.guestID;
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										$('#deletePopup').simplePopup().hide();
+										$(".simplePopupBackground").fadeOut("fast");
+										$scope.loadWaitListGuests();
+									} else if (data.status == "FAILURE") {
+										alert('Error while deleting guest.');
+									}
+								}, function(error) {
+									alert('Error while deleting guest.');
+								});
+						
+					}
+					
+					$scope.cancelDelete = function(){
+						$('#deletePopup').simplePopup().hide();
+						$(".simplePopupBackground").fadeOut("fast");
+						$scope.selectedGuest = null;
 					}
 					
 					$scope.loadOrtcFactory = loadOrtcFactory(IbtRealTimeSJType, function(factory, error) {
