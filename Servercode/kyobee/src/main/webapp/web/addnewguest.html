@@ -21,14 +21,23 @@
         <div id="demo-one-field" class="section">
           
             <div id="atLeastOneExampleDemo">
-              <form id="atLeastOneForm" class="well-guest">
-                <div class="form-group">
+              <form name="addGuestForm" class="well-guest">
+              
+              	<div class="alert alert-danger" role="alert" ng-show="errorMsg != null && errorMsg != ''">
+					<button type="button" class="close" ng-click="hideErrorMsg();" >&times;</button>
+					<strong>Error ! </strong>{{errorMsg}}
+				</div>
+				
+                <div class="form-group" ng-class="{'has-error' : addGuestForm.name.$invalid && (!addGuestForm.name.$pristine || addGuestForm.$submitted)}">
                   <label class="control-label"></label>
-                  <input type="text" name="field1" class="form-control" ng-model="guestDTO.name"  placeholder="Name" />
+                  <input type="text" name="name" class="form-control" ng-model="guestDTO.name" required placeholder="Name" />
+                  <div ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
+				        <div ng-message="required">Name cannot be blank</div>
+				  </div>
                 </div>
                   
-               <div class="form-group">
-                    <select name="city" class="form-control" ng-model="guestDTO.noOfPeople" >
+               <div class="form-group" ng-class="{'has-error' : addGuestForm.partyOf.$invalid && (!addGuestForm.partyOf.$pristine || addGuestForm.$submitted)}">
+                    <select name="partyOf" class="form-control" ng-model="guestDTO.noOfPeople" required>
                         <option value="">Party of:</option>
                         <option value="1">Party 1</option>
                         <option value="2">Party 2</option>
@@ -41,6 +50,9 @@
                         <option value="9">Party 9</option>
                         <option value="10">Party 10</option>
                     </select>
+                    <div ng-messages="addGuestForm.partyOf.$error" ng-show=" (!addGuestForm.partyOf.$pristine || addGuestForm.$submitted)" class="help-block">
+				        <div ng-message="required">Party of cannot be blank</div>
+				  </div>
                 </div>
                   
                 
@@ -89,7 +101,7 @@
                 </div>
 
                 <div class="form-group text-center">
-                  <input type="submit" class="btn btn-add theme-color" value="Add" ng-click="addGuest();"/>
+                  <input type="submit" class="btn btn-add theme-color" value="Add" ng-click="addGuest(addGuestForm.$invalid);"/>
                 </div>
               </form>
             </div>

@@ -10,6 +10,7 @@ KyobeeControllers.controller('guestCtrl',
 
 					$scope.guestDTO = null;
 					$scope.guestPref = null;
+					$scope.errorMsg = null;
 					
 					$scope.init = function(){
 						$scope.guestDTO = {
@@ -21,11 +22,36 @@ KyobeeControllers.controller('guestCtrl',
 								sms : null,
 								optin : false
 						}
+						$scope.errorMsg = null;
 						$scope.guestPref = angular.copy($scope.seatPrefs);
 					}
 					
-					$scope.addGuest = function(){
+					$scope.hideErrorMsg = function(){
+						$scope.errorMsg = null;
+					}
+					
+					$scope.addGuest = function(invalid){
 						
+						$scope.errorMsg = null;
+						
+						if(invalid){
+							return;
+						}
+						
+						if($scope.guestDTO.prefType == null || $scope.guestDTO.prefType == 'undefined'){
+							$scope.errorMsg = "Please select sms or email";
+							return;
+						}
+						
+						if($scope.guestDTO.prefType == 'sms' && ($scope.guestDTO.sms == null || $scope.guestDTO.sms == 'undefined')){
+							$scope.errorMsg = "Please enter the contact no.";
+							return;
+						}
+						
+						if($scope.guestDTO.prefType == 'email' && ($scope.guestDTO.email == null || $scope.guestDTO.email == 'undefined')){
+							$scope.errorMsg = "Please enter the email";
+							return;
+						}
 						
 						var selectedGuestPref = [];
 						
