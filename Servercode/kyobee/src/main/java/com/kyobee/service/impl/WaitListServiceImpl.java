@@ -1189,7 +1189,7 @@ public class WaitListServiceImpl implements IWaitListService {
 	}
 
 	@Override
-	public WaitlistMetrics changeNotificationThreshold(int numberOfUsers,int perPartyWaitTime, Long orgid) {
+	public WaitlistMetrics changeNotificationThreshold(int numberOfUsers,int perPartyWaitTime, Long orgid) throws RsntException {
 		// TODO Auto-generated method stub
 		/*List<Object[]> resultList = null;
 		Object[] metricsArray = null;
@@ -1244,7 +1244,7 @@ public class WaitListServiceImpl implements IWaitListService {
 			});
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			throw new RsntException(e);
 		}
 		return oWaitlistMetrics;
 	}
@@ -1260,7 +1260,7 @@ public class WaitListServiceImpl implements IWaitListService {
 	}
 	@Override
 	public WaitlistMetrics changePerPartyWaitTime(int numberOfUsers,
-			int perPartyWaitTime, Long orgid) {
+			int perPartyWaitTime, Long orgid) throws RsntException {
 		WaitlistMetrics oWaitlistMetrics = new WaitlistMetrics();
 		//CallableStatement cStmt = null;
 		try {
@@ -1301,7 +1301,7 @@ public class WaitListServiceImpl implements IWaitListService {
 			});
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			throw new RsntException(e);
 		}
 		return oWaitlistMetrics;
 	}

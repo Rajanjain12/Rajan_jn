@@ -232,6 +232,62 @@ KyobeeControllers.controller('waitListCtrl',
 			                console.log('Error: ' + error);
 			            };
 					});
+					
+					$scope.$watch('notifyFirst', function(newValue,oldValue) {
+						if (newValue !== 'undefined' && newValue != null  && oldValue != newValue) {
+							if(oldValue != null){
+							 console.log("Watch New Value notifyFirst - " + newValue);
+							 $scope.changeNotificationThreshold(newValue, oldValue);
+							}
+						} 
+					});
+					
+					$scope.$watch('waitTime', function(newValue,oldValue) {
+						if (newValue !== 'undefined' && newValue != null  && oldValue != newValue) {
+							if(oldValue != null){
+							 console.log("Watch New Value waitTime - " + newValue);
+							 $scope.changePerPartyWaitTime(newValue, oldValue);
+							}
+						} 
+					});
+					
+					$scope.changePerPartyWaitTime = function(newTime, oldTime){
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/changePerPartyWaitTime?orgid=' + $scope.userDTO.organizationId + '&numberofusers='+$scope.notifyFirst + '&perPartyWaitTime='+ newTime;
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										$scope.totalWaitTime = data.serviceResult.ORG_TOTAL_WAIT_TIME;
+									} else if (data.status == "FAILURE") {
+										alert('Error while marking as seated.');
+									}
+								}, function(error) {
+									alert('Error while marking as seated');
+								});
+						
+					}
+					
+					$scope.changeNotificationThreshold = function(newTime, oldTime){
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/changeNotificationThreshold?orgid=' + $scope.userDTO.organizationId + '&numberofusers='+newTime + '&perPartyWaitTime='+ $scope.waitTime;
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										alert("The top " + newTime + " parties will be notified in the event of any change in status.");
+									} else if (data.status == "FAILURE") {
+										alert('Error while marking as seated.');
+									}
+								}, function(error) {
+									alert('Error while marking as seated');
+								});
+						
+					}
 						
 					
 					

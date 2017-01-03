@@ -178,16 +178,18 @@ public interface IWaitListService {
 	 * @param waitTime
 	 * @param orgid
 	 * @return
+	 * @throws RsntException 
 	 */
-	public WaitlistMetrics changeNotificationThreshold(int numberOfUsers,int waitTime, Long orgid);
+	public WaitlistMetrics changeNotificationThreshold(int numberOfUsers,int waitTime, Long orgid) throws RsntException;
 	/**
 	 * Change Per Party Wait Time
 	 * @param numberOfUsers
 	 * @param waitTime
 	 * @param orgid
 	 * @return
+	 * @throws RsntException 
 	 */
-	public WaitlistMetrics changePerPartyWaitTime(int numberOfUsers, int waitTime,Long orgid);
+	public WaitlistMetrics changePerPartyWaitTime(int numberOfUsers, int waitTime,Long orgid) throws RsntException;
 	/**
 	 * 
 	 * @param pLookupTypeId

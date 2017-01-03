@@ -43,6 +43,7 @@ import com.kyobee.util.AppInitializer;
 import com.kyobee.util.SessionContextUtil;
 import com.kyobee.util.common.CommonUtil;
 import com.kyobee.util.common.Constants;
+import com.kyobee.util.common.LoggerUtil;
 import com.kyobee.util.common.RealtimefameworkPusher;
 
 
@@ -814,25 +815,32 @@ public class WaitListRestAction {
 	//@GET
 	//@Path("/changeNotificationThreshold")
 	@RequestMapping(value = "/changeNotificationThreshold", method = RequestMethod.GET, produces = "application/json")
-	public String changeNotificationThreshold(@RequestParam("numberofusers")  int numberOfUsers,@RequestParam("perPartyWaitTime") int perPartyWaitTime, @RequestParam("orgid") Long orgid){
+	public Response<Map<String, Object>>  changeNotificationThreshold(@RequestParam("numberofusers")  int numberOfUsers,@RequestParam("perPartyWaitTime") int perPartyWaitTime, @RequestParam("orgid") Long orgid){
+		Response<Map<String, Object>>  response = new Response<Map<String,Object>>();
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
-		WaitlistMetrics oWaitlistMetrics = waitListService.changeNotificationThreshold(numberOfUsers,perPartyWaitTime, orgid);
+		
+		try{
+			WaitlistMetrics oWaitlistMetrics = waitListService.changeNotificationThreshold(numberOfUsers,perPartyWaitTime, orgid);
+	
+			rootMap.put(Constants.RSNT_NOW_SERVING_GUEST_ID, oWaitlistMetrics.getNowServingParty());
+			rootMap.put(Constants.RSNT_ORG_TOTAL_WAIT_TIME, oWaitlistMetrics.getTotalWaitTime());
+			rootMap.put(Constants.RSNT_NEXT_TO_NOTIFY_GUEST_ID, oWaitlistMetrics.getGuestToBeNotified());
+	
+			rootMap.put("OP", "NOTIFY_USER");
+			rootMap.put("FROM", "ADMIN");
+			rootMap.put("notifyUser", numberOfUsers);
+			rootMap.put("totalWaitTime", oWaitlistMetrics.getTotalWaitTime());
+			rootMap.put("orgid", orgid);
+			response.setServiceResult(rootMap);
+			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+			sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
+		} catch(RsntException e){
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - add Guest failed");
+			LoggerUtil.logError("Error while updating  notification threshold", e);
+		}
 
-		rootMap.put(Constants.RSNT_NOW_SERVING_GUEST_ID, oWaitlistMetrics.getNowServingParty());
-		rootMap.put(Constants.RSNT_ORG_TOTAL_WAIT_TIME, oWaitlistMetrics.getTotalWaitTime());
-		rootMap.put(Constants.RSNT_NEXT_TO_NOTIFY_GUEST_ID, oWaitlistMetrics.getGuestToBeNotified());
-
-		JSONObject jsonObject = JSONObject.fromObject(rootMap);
-
-		rootMap.put("OP", "NOTIFY_USER");
-		rootMap.put("FROM", "ADMIN");
-		rootMap.put("notifyUser", numberOfUsers);
-		rootMap.put("totalWaitTime", oWaitlistMetrics.getTotalWaitTime());
-		rootMap.put("orgid", orgid);
-
-		jsonObject = sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
-
-		return jsonObject.toString();
+		return response;
 	}
 
 	/** 
@@ -844,26 +852,35 @@ public class WaitListRestAction {
 	//@GET
 	//@Path("/changePerPartyWaitTime")
 	@RequestMapping(value = "/changePerPartyWaitTime", method = RequestMethod.GET, produces = "application/json")
-	public String changePerPartyWaitTime(@RequestParam("numberofusers")  int numberOfUsers, @RequestParam("perPartyWaitTime") int perPartyWaitTime,@RequestParam("orgid") Long orgid){
+	public Response<Map<String, Object>>  changePerPartyWaitTime(@RequestParam("numberofusers")  int numberOfUsers, @RequestParam("perPartyWaitTime") int perPartyWaitTime,@RequestParam("orgid") Long orgid){
+		Response<Map<String, Object>> response = new Response<Map<String,Object>>();
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
-		WaitlistMetrics oWaitlistMetrics = waitListService.changePerPartyWaitTime(numberOfUsers, perPartyWaitTime,orgid);
-
-		rootMap.put(Constants.RSNT_NOW_SERVING_GUEST_ID, oWaitlistMetrics.getNowServingParty());
-		rootMap.put(Constants.RSNT_ORG_TOTAL_WAIT_TIME, oWaitlistMetrics.getTotalWaitTime());
-		rootMap.put(Constants.RSNT_NEXT_TO_NOTIFY_GUEST_ID, oWaitlistMetrics.getGuestToBeNotified());
-
-		JSONObject jsonObject = JSONObject.fromObject(rootMap);
-
-		rootMap.put("OP", "PPT_CHG");
-		rootMap.put("FROM", "ADMIN");
-		rootMap.put("totalWaitTime", oWaitlistMetrics.getTotalWaitTime());
-		//rootMap.put("notifyUser", numberOfUsers);
-		rootMap.put("ppwt", perPartyWaitTime);
-		rootMap.put("orgid", orgid);
-		rootMap.put("nowServingParty", oWaitlistMetrics.getNowServingParty());
-
-		jsonObject = sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
-		return jsonObject.toString();
+		
+		try {
+			WaitlistMetrics oWaitlistMetrics = waitListService.changePerPartyWaitTime(numberOfUsers, perPartyWaitTime,orgid);
+	
+			rootMap.put(Constants.RSNT_NOW_SERVING_GUEST_ID, oWaitlistMetrics.getNowServingParty());
+			rootMap.put(Constants.RSNT_ORG_TOTAL_WAIT_TIME, oWaitlistMetrics.getTotalWaitTime());
+			rootMap.put(Constants.RSNT_NEXT_TO_NOTIFY_GUEST_ID, oWaitlistMetrics.getGuestToBeNotified());
+	
+			rootMap.put("OP", "PPT_CHG");
+			rootMap.put("FROM", "ADMIN");
+			rootMap.put("totalWaitTime", oWaitlistMetrics.getTotalWaitTime());
+			//rootMap.put("notifyUser", numberOfUsers);
+			rootMap.put("ppwt", perPartyWaitTime);
+			rootMap.put("orgid", orgid);
+			rootMap.put("nowServingParty", oWaitlistMetrics.getNowServingParty());
+			response.setServiceResult(rootMap);
+			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+			sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
+			
+		} catch(RsntException e){
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - add Guest failed");
+			LoggerUtil.logError("Error while updating party wait time", e);
+		}
+				
+		return response;
 	}
 
 	/**
