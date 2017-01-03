@@ -142,6 +142,7 @@ KyobeeControllers.controller('waitListCtrl',
 									if (data.status == "SUCCESS") {
 										$('#showpopup').simplePopup().hide();
 										$(".simplePopupBackground").fadeOut("fast");
+										$scope.loadWaitListGuests();
 										console.log(data);
 									} else if (data.status == "FAILURE") {
 										alert('Error while marking as seated.');
