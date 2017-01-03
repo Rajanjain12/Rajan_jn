@@ -148,7 +148,7 @@
                                 <td><a class="clickpopup" ng-click="showPopup(record);"><img src="assets/img/greenarrow.png"></a></td>
                                 <td>{{record.guestID}}</td>
                                 <td>
-                                	{{record.name}} &nbsp;
+                                	<a ng-click="moveToUpdateGuest(record.guestID)">{{record.name}}</a> &nbsp;
                                 	<span ng-show="record.calloutCount != null" ng-repeat="item in getArrayFromNum(record.calloutCount) track by $index">
                                 	<img src="assets/img/downhand.png"> &nbsp;
                                 	</span>

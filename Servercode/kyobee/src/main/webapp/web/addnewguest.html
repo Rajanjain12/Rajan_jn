@@ -6,7 +6,8 @@
     <div class="container">
        <div class="theme-color">
 
-            <h1 class="text-center addnew-color"><a ng-click="changeView('home')"><img src="assets/img/back.png" class="pull-left"></a>Add New Guest</h1>
+            <h1 class="text-center addnew-color" ng-show="!editMode"><a ng-click="changeView('home')"><img src="assets/img/back.png" class="pull-left"></a>Add New Guest</h1>
+            <h1 class="text-center addnew-color" ng-show="editMode"><a ng-click="changeView('home')"><img src="assets/img/back.png" class="pull-left"></a>Update Guest</h1>
 
         </div>
     </div>
@@ -38,17 +39,17 @@
                   
                <div class="form-group" ng-class="{'has-error' : addGuestForm.partyOf.$invalid && (!addGuestForm.partyOf.$pristine || addGuestForm.$submitted)}">
                     <select name="partyOf" class="form-control" ng-model="guestDTO.noOfPeople" required>
-                        <option value="">Party of:</option>
-                        <option value="1">Party 1</option>
-                        <option value="2">Party 2</option>
-                        <option value="3">Party 3</option>
-                        <option value="4">Party 4</option>
-                        <option value="5">Party 5</option>
-                        <option value="6">Party 6</option>
-                        <option value="7">Party 7</option>
-                        <option value="8">Party 9</option>
-                        <option value="9">Party 9</option>
-                        <option value="10">Party 10</option>
+                        <option value="" ng-selected="null == guestDTO.noOfPeople">Party of:</option>
+                        <option value="1" ng-selected="1 == guestDTO.noOfPeople">Party 1</option>
+                        <option value="2" ng-selected="2 == guestDTO.noOfPeople">Party 2</option>
+                        <option value="3" ng-selected="3 == guestDTO.noOfPeople">Party 3</option>
+                        <option value="4" ng-selected="4 == guestDTO.noOfPeople">Party 4</option>
+                        <option value="5" ng-selected="5 == guestDTO.noOfPeople">Party 5</option>
+                        <option value="6" ng-selected="6 == guestDTO.noOfPeople">Party 6</option>
+                        <option value="7" ng-selected="7 == guestDTO.noOfPeople">Party 7</option>
+                        <option value="8" ng-selected="8 == guestDTO.noOfPeople">Party 9</option>
+                        <option value="9" ng-selected="9 == guestDTO.noOfPeople">Party 9</option>
+                        <option value="10" ng-selected="10 == guestDTO.noOfPeople">Party 10</option>
                     </select>
                     <div ng-messages="addGuestForm.partyOf.$error" ng-show=" (!addGuestForm.partyOf.$pristine || addGuestForm.$submitted)" class="help-block">
 				        <div ng-message="required">Party of cannot be blank</div>
@@ -101,7 +102,8 @@
                 </div>
 
                 <div class="form-group text-center">
-                  <input type="submit" class="btn btn-add theme-color" value="Add" ng-click="addGuest(addGuestForm.$invalid);"/>
+                  <input type="submit" class="btn btn-add theme-color" ng-show="!editMode" value="Add" ng-click="addGuest(addGuestForm.$invalid);"/>
+                   <input type="submit" class="btn btn-add theme-color" ng-show="editMode" value="Update" ng-click="updateGuest(addGuestForm.$invalid);"/>
                 </div>
               </form>
             </div>

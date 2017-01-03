@@ -5,14 +5,16 @@ KyobeeControllers.controller('guestCtrl',
 				'$location',
 				'$timeout',
 				'$interval',
+				'$routeParams',
 				'KyobeeService',
-				function($scope, $location, $timeout, $interval, KyobeeService) {
+				function($scope, $location, $timeout, $interval, $routeParams, KyobeeService) {
 
 					$scope.guestDTO = null;
 					$scope.guestPref = null;
 					$scope.errorMsg = null;
+					$scope.editMode = false;					
 					
-					$scope.init = function(){
+					$scope.initAddGuest = function(){
 						$scope.guestDTO = {
 								name: null,
 								organizationID : $scope.userDTO.organizationId,
@@ -80,8 +82,100 @@ KyobeeControllers.controller('guestCtrl',
 						
 					}
 					
+					$scope.updateGuest = function(invalid){
+						
+						$scope.errorMsg = null;
+						
+						if(invalid){
+							return;
+						}
+						
+						if($scope.guestDTO.prefType == null || $scope.guestDTO.prefType == 'undefined'){
+							$scope.errorMsg = "Please select sms or email";
+							return;
+						}
+						
+						if($scope.guestDTO.prefType == 'sms' && ($scope.guestDTO.sms == null || $scope.guestDTO.sms == 'undefined')){
+							$scope.errorMsg = "Please enter the contact no.";
+							return;
+						}
+						
+						if($scope.guestDTO.prefType == 'email' && ($scope.guestDTO.email == null || $scope.guestDTO.email == 'undefined')){
+							$scope.errorMsg = "Please enter the email";
+							return;
+						}
+						
+						var selectedGuestPref = [];
+						
+						for(i=0;i<$scope.guestPref.length;i++){
+							if($scope.guestPref[i].selected){
+								selectedGuestPref.push($scope.guestPref[i]);
+							}
+						}
+						$scope.guestDTO.guestPreferences = selectedGuestPref;
+						console.log($scope.guestDTO);
+						
+						var postBody = $scope.guestDTO;
+						
+						var url = '/kyobee/web/rest/waitlistRestAction/updateGuestInfo';
+						KyobeeService.postDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										$scope.changeView('home');
+									} else if (data.status == "FAILURE") {
+										alert('Error while updating guest');
+									}
+								}, function(error) {
+									alert('Error while updating guest');
+								});
+						
+					}
 					
-					$scope.init();
+					$scope.loadGuestToUpdate = function(guestId) {
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/guest?guestid='+guestId;
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										$scope.guestDTO = data.serviceResult;
+										$scope.guestPref = angular.copy($scope.seatPrefs);
+										for(var i=0;i< $scope.guestDTO.guestPreferences.length;i++){
+											for(var j=0; j < $scope.guestPref.length ; j++){
+												if($scope.guestDTO.guestPreferences[i].prefValueId == $scope.guestPref[j].prefValueId){
+													$scope.guestPref[j].selected = true;
+													break;
+												}
+											}
+										}
+										if($scope.guestDTO.prefType == 'sms'){
+											$scope.guestDTO.sms = Number.parseInt($scope.guestDTO.sms);
+											showsms();
+										} else if($scope.guestDTO.prefType == 'email') {
+											showemail();
+										}
+									} else if (data.status == "FAILURE") {
+										alert('Error while fetching guest details. Please login again or contact support');
+										$scope.logout();
+									}
+								}, function(error) {
+									alert('Error while fetching guest details. Please login again or contact support');
+								});
+					};
+					
+					
+					if($routeParams.guestId == null || $routeParams.guestId == 'undefined'){
+						console.log('Load Add Guest');
+						$scope.initAddGuest();
+						$scope.editMode = false;
+					} else {
+						console.log('Load Update Guest');
+						$scope.loadGuestToUpdate($routeParams.guestId);
+						$scope.editMode = true;
+					}
 										
 
 				} ]);

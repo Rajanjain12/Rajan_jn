@@ -27,19 +27,28 @@ KyobeeControllers.controller('homeCtrl',
 						switch (view) {
 						case "home":
 							$location.path("/home");
+							$location.search({});
 							break;
 						case "addGuest":
 							$location.path("/addGuest");
+							$location.search({});
 							break;
 						case "logout":
 							$location.path("/logout");
+							$location.search({});
 							break;
 						default:
 							$location.path("/home");
+							$location.search({});
 							break;
 						}
 						;
 					};
+					
+					$scope.moveToUpdateGuest = function(guestId){
+						$location.path("/addGuest");
+						$location.search({"guestId":guestId});
+					}
 
 					$scope.fetchUserDetails = function() {
 						var postBody = {

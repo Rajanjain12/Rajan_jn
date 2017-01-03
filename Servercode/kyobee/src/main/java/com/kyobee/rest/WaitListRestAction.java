@@ -206,6 +206,7 @@ public class WaitListRestAction {
 						seatingPreference = seatingPreference + "," + o.getPrefValueId();
 			}
 			guestObj.setSeatingPreference(seatingPreference);
+			guest.setSeatingPreference(seatingPreference);
 		}
 		if(null != guest.getSeatingPreference())
 			guestObj.setSeatingPreference(guest.getSeatingPreference());
@@ -313,6 +314,82 @@ public class WaitListRestAction {
 		}
 		return guestObj;
 	}
+	
+	
+	public GuestDTO convertGuesEntityToDTO(Guest guest, Map<Integer, String> guestPreferenceMap){
+		GuestDTO guestObj = null;
+		try{
+			guestObj= new GuestDTO();
+			guestObj.setName(guest.getName());
+			guestObj.setNote(guest.getNote());
+			guestObj.setOrganizationID(guest.getOrganizationID());
+			guestObj.setEmail(guest.getEmail());
+			guestObj.setSms(guest.getSms());
+			guestObj.setOrganizationID(guest.getOrganizationID());
+			guestObj.setNoOfPeople(guest.getNoOfPeople());
+			guestObj.setOptin(guest.isOptin());
+			guestObj.setStatus(guest.getStatus());
+			guestObj.setPrefType(guest.getPrefType());
+			guestObj.setIncompleteParty(guest.getIncompleteParty());
+			/*if(null != guest.getGuestPreferences()) {
+			GuestPreferencesDTO guestPref = null;
+			List<GuestPreferencesDTO> guestPreferences = new ArrayList<GuestPreferencesDTO>(guest.getGuestPreferences().size());
+			for (GuestPreferences pref : guest.getGuestPreferences()) {
+				guestPref = new GuestPreferencesDTO();
+				guestPref.setGuestPrefId(pref.getGuestPrefId());
+				guestPref.setPrefValueId(pref.getPrefValueId());
+				System.out.println("pref.getPrefValue()"+pref.getPrefValue());
+				guestPref.setPrefValue(pref.getPrefValue());
+				//guestPref.setGuest(guestObj);
+				guestPreferences.add(guestPref);
+			}
+			guestObj.setGuestPreferences(guestPreferences);
+		}*/
+			String seatingPrefForDTO = "";
+			if(null != guest.getSeatingPreference() && !"".equals(guest.getSeatingPreference())) {
+				try {
+				String seatingPrefIdArr[] = guest.getSeatingPreference().split(",");
+				for(int i = 0; i < seatingPrefIdArr.length; ++i) {
+					String seatingPrefDesc = guestPreferenceMap.get(Integer.parseInt(seatingPrefIdArr[i]));
+					if(i == 0){
+						guestObj.setGuestPreferences(new ArrayList<GuestPreferencesDTO>());
+						GuestPreferencesDTO gPrefDTO = new GuestPreferencesDTO();
+						gPrefDTO.setPrefValueId(Long.parseLong(seatingPrefIdArr[i]));
+						gPrefDTO.setPrefValue(seatingPrefDesc);
+						guestObj.getGuestPreferences().add(gPrefDTO);
+					}
+					else {
+						GuestPreferencesDTO gPrefDTO = new GuestPreferencesDTO();
+						gPrefDTO.setPrefValueId(Long.parseLong(seatingPrefIdArr[i]));
+						gPrefDTO.setPrefValue(seatingPrefDesc);
+						guestObj.getGuestPreferences().add(gPrefDTO);
+					}
+				}
+				} catch ( NumberFormatException nfe) {
+					
+				}
+			}
+			guestObj.setSeatingPreference(seatingPrefForDTO);
+			if(null != guest && null != guest.getGuestID()) {
+				guestObj.setUpdatedTime(new Date());
+				guestObj.setUuid(guest.getUuid());
+				guestObj.setGuestID(guest.getGuestID());
+				guestObj.setRank(guest.getRank());
+				guestObj.setCalloutCount(guest.getCalloutCount());
+				guestObj.setIncompleteParty(guest.getIncompleteParty());
+
+			}else{
+				guestObj.setUuid(UUID.randomUUID().toString().substring(0, 8));
+				guestObj.setCreatedTime(new Date());
+				guestObj.setCheckinTime(new Date());
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		return guestObj;
+	}
+	
+	
 	/**
 	 * Notify top N guests by organization Id
 	 * @param numberOfUsers
@@ -466,28 +543,25 @@ public class WaitListRestAction {
 	//@Path("/guest")
 	//@Produces(MediaType.APPLICATION_JSON)
 	@RequestMapping(value = "/guest", method = RequestMethod.GET, produces = "application/json")
-	public String fetchGuestById(@RequestParam("guestid") int guestid){
+	public Response<GuestDTO> fetchGuestById(@RequestParam("guestid") int guestid){
 		log.info("Entering :: fetchGuestById :: guestId"+guestid);
-		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
-		final List<String> errorArray = new ArrayList<String>(0);
+		//final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
+		//final List<String> errorArray = new ArrayList<String>(0);
+		Response<GuestDTO> response = new Response<GuestDTO>();
 		Guest guestObject= null;
 		try {
+			Map<Integer, String> guestPreferenceMap = getGuestSeatingPrefMap();
 			guestObject = waitListService.getGuestById(guestid);
+			GuestDTO guestDTO = convertGuesEntityToDTO(guestObject, guestPreferenceMap);
+			response.setServiceResult(guestDTO);
+			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 			//nonCloseParent(guestObject.getGuestPreferences());
 		} catch (Exception e) {
-			e.printStackTrace();
 			log.error("fetchCheckinUsers() - failed:", e);
-			rootMap.put("id", -1);
-			rootMap.put(Constants.RSNT_ERROR, "System Error - fetchGuestById failed");
-			rootMap.put("fieldErrors", errorArray);
-			//nonCloseParent(guestObject.getGuestPreferences());
-			final JSONObject jsonObject = JSONObject.fromObject(rootMap);
-			return jsonObject.toString();
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - fetch Guest");
 		}
-		rootMap.put(Constants.RSNT_ERROR, "");
-		rootMap.put("guests",guestObject);
-		final JSONObject jsonObject = JSONObject.fromObject(rootMap);
-		return jsonObject.toString();
+		return response;
 	}
 	/**
 	 * Get the Unique Guest Detail by UUID
@@ -701,16 +775,17 @@ public class WaitListRestAction {
 	//@Produces(MediaType.APPLICATION_JSON)
 	//@Consumes(MediaType.APPLICATION_JSON)
 	@RequestMapping(value = "/updateGuestInfo", method = RequestMethod.POST, produces = "application/json")
-	public String updateGuestInfo (@RequestBody String guestJSONStr) {
+	public Response<Map<String, Object>> updateGuestInfo (@RequestBody GuestDTO guestDTO) {
 		log.info("Entering into updateGuestInfo");
-		ObjectMapper objectMapper = new ObjectMapper();
-		GuestDTO guestDTO = null;
+		//ObjectMapper objectMapper = new ObjectMapper();
+		//GuestDTO guestDTO = null;
+		Response<Map<String, Object>> response = new Response<Map<String, Object>>();
 		Guest guest = null;
-		JSONObject jsonObject = null;
+		//JSONObject jsonObject = null;
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 		WaitlistMetrics oWaitlistMetrics = null;
 		try {
-			guestDTO = objectMapper.readValue(guestJSONStr, GuestDTO.class);
+			//guestDTO = objectMapper.readValue(guestJSONStr, GuestDTO.class);
 			guest = convertGuesVoToEntity(guestDTO);
 			oWaitlistMetrics = waitListService.updateGuestInfo(guest, Constants.WAITLIST_UPDATE_GUEST);
 
@@ -719,18 +794,14 @@ public class WaitListRestAction {
 			rootMap.put(Constants.RSNT_NEXT_TO_NOTIFY_GUEST_ID, oWaitlistMetrics.getGuestToBeNotified());
 
 			guest.setRank(Long.parseLong(oWaitlistMetrics.getGuestId()+""));
-
-			jsonObject = JSONObject.fromObject(rootMap);
-
-		} catch (JsonParseException e) {
-			log.error("Error :: saveOrUpdateGuest ", e);
-		} catch (JsonMappingException e) {
-			log.error("Error :: saveOrUpdateGuest ", e);
-		} catch (IOException e) {
-			log.error("Error :: saveOrUpdateGuest ", e);
-		}
-		catch (Exception e) {
+			response.setServiceResult(rootMap);
+			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+			//jsonObject = JSONObject.fromObject(rootMap);
+			
+		}catch (Exception e) {
 			e.printStackTrace();
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - add Guest failed");
 		}
 		//Issue 29: changed OP=UPD to OP=UpdateGuestInfo to block subscription on guest check in page. Because guest check in page subscribes on UPD status.
 		rootMap.put("OP", "UpdageGuestInfo");
@@ -744,9 +815,9 @@ public class WaitListRestAction {
 		
 		//sendNotification(guest, guestCount, totalWaitTime);
 
-		jsonObject = sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
+		sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
 
-		return jsonObject.toString();
+		return response;
 	}
 
 
