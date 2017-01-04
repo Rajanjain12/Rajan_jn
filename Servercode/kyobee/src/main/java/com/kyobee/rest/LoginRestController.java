@@ -39,7 +39,7 @@ public class LoginRestController {
 		User loginUser = null;
 		try {
 			if (credenitals != null && credenitals.getUsername() != null && credenitals.getPassword() != null) {
-				loginUser = securityService.getSecurityUserDetails(credenitals.getUsername());
+				loginUser = securityService.loginAndFetchUser(credenitals.getUsername(), credenitals.getPassword());
 
 				if (loginUser != null) {
 

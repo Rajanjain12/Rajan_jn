@@ -16,6 +16,7 @@ import com.kyobee.exception.RsntException;
 import com.kyobee.service.ISecurityService;
 import com.kyobee.util.AppTransactional;
 import com.kyobee.util.SessionContextUtil;
+import com.kyobee.util.common.CommonUtil;
 import com.kyobee.util.common.Constants;
 import com.kyobee.util.common.NativeQueryConstants;
 
@@ -39,10 +40,11 @@ public class SecurityServiceImpl implements ISecurityService {
      * @param userLogin
      * @return SecurityUserLoad associated with userLogin
      */
-    public User getSecurityUserDetails(final String userLogin) throws RsntException {
+    public User loginAndFetchUser(final String userLogin, final String password) throws RsntException {
     	try{
-    		return (User) sessionFactory.getCurrentSession().getNamedQuery(User.GET_PROFILE_BY_USERLOGIN)
-            .setParameter("username", userLogin.toLowerCase()).uniqueResult();
+			return (User) sessionFactory.getCurrentSession().getNamedQuery(User.GET_PROFILE_BY_USERLOGIN)
+					.setParameter("username", userLogin.toLowerCase())
+					.setParameter("password", CommonUtil.encryptPassword(password)).uniqueResult();
 
     	}
     	catch(Exception e){

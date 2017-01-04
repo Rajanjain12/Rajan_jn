@@ -13,7 +13,7 @@ public interface ISecurityService {
 
 	
 
-	 public User getSecurityUserDetails(final String userLogin) throws RsntException;
+	 public User loginAndFetchUser(final String userLogin, final String password) throws RsntException;
 	 
 	 public Long getUserRoleDetail(final String userLogin) throws RsntException;
 	 
