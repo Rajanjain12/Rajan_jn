@@ -200,4 +200,6 @@ public interface IWaitListService {
 
 	//public void sendNotificationToGuestForSeated(GuestNotificationBean guestNotificationBean);
 	public List<Guest> loadGuestsHistoryByOrgRecords(Long orgid, int recordsPerPage, int pageNumber)throws RsntException;
+
+	Long getAllCheckinUsersCount(Long orgid) throws RsntException;
 }

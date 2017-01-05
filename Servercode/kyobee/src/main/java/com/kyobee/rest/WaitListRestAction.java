@@ -33,6 +33,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kyobee.dto.GuestDTO;
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.WaitlistMetrics;
+import com.kyobee.dto.common.PaginatedResponse;
+import com.kyobee.dto.common.PaginationReqParam;
 import com.kyobee.dto.common.Response;
 import com.kyobee.entity.Guest;
 import com.kyobee.entity.GuestNotificationBean;
@@ -493,26 +495,36 @@ public class WaitListRestAction {
 	//@Path("/checkinusers")
 	//@Produces(MediaType.APPLICATION_JSON)
 	@RequestMapping(value = "/checkinusers", method = RequestMethod.GET, produces = "application/json")
-	public Response<List<GuestDTO>> fetchCheckinUsers(@RequestParam("orgid") Long orgid, 
-			@RequestParam("recordsPerPage") int recordsPerPage, @RequestParam("pageNumber") int pageNumber){
+	public Response<PaginatedResponse<GuestDTO>> fetchCheckinUsers(@RequestParam("orgid") Long orgid, 
+			@RequestParam String pagerReqParam){
 		log.info("Entering :: fetchCheckinUsers --OrgId::"+orgid);
-		Response<List<GuestDTO>> response = new Response<List<GuestDTO>>();
+		Response<PaginatedResponse<GuestDTO>> response = new Response<PaginatedResponse<GuestDTO>>();
 		List<GuestDTO> guestDTOs = null;
+		PaginatedResponse<GuestDTO> paginatedResponse = new PaginatedResponse<GuestDTO>();
 		//final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 		//final List<String> errorArray = new ArrayList<String>(0);
 		Map<Integer, String> guestPreferenceMap;
 		List<Guest> guests;
+		
+		
+		
 		try {
-
+			ObjectMapper mapper = new ObjectMapper();
+			PaginationReqParam paginationReqParam = mapper.readValue(pagerReqParam, PaginationReqParam.class);
 			guestPreferenceMap = getGuestSeatingPrefMap();
 
-			guests = waitListService.loadAllCheckinUsers(orgid, recordsPerPage, pageNumber);
+			guests = waitListService.loadAllCheckinUsers(orgid, paginationReqParam.getPageSize(), paginationReqParam.getPageNo());
+			Long guestsTotalCount = waitListService.getAllCheckinUsersCount(orgid);
 			if(null != guests && guests.size()>0){
 				guestDTOs = new ArrayList<GuestDTO>(guests.size());
 				for (Guest guest : guests) {
 					guestDTOs.add(convertGuesEntityToVo(guest, guestPreferenceMap));
 				}
-				response.setServiceResult(guestDTOs);
+				
+				paginatedResponse.setRecords(guestDTOs);
+				paginatedResponse.setPageNo(paginationReqParam.getPageNo());
+				paginatedResponse.setTotalRecords(guestsTotalCount.intValue());
+				response.setServiceResult(paginatedResponse);
 				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 
 			}
@@ -520,15 +532,14 @@ public class WaitListRestAction {
 		} catch (RsntException e) {
 			e.printStackTrace();
 			log.error("fetchCheckinUsers() - failed:", e);
-			//rootMap.put("id", -1);
-			//rootMap.put(Constants.RSNT_ERROR, "System Error - fetchCheckinUsers failed");
-			//rootMap.put("fieldErrors", errorArray);
-			
-			//final JSONObject jsonObject = JSONObject.fromObject(rootMap);
-			//return jsonObject.toString();
 			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
 					"System Error - fetchCheckinUsers failed");
-		}
+		} catch (Exception  e) {
+			e.printStackTrace();
+			log.error("fetchCheckinUsers() - failed:", e);
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - fetchCheckinUsers failed");
+		} 
 		//rootMap.put(Constants.RSNT_ERROR, "");
 		//rootMap.put("guests",guestDTOs);
 		//final JSONObject jsonObject = JSONObject.fromObject(rootMap);

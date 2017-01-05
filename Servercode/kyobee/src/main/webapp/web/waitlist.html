@@ -67,7 +67,7 @@
        <div class="table-wrap">
 
                          
-                    <div class="dropdown">
+                   <!--  <div class="dropdown">
                       <a class="dropbtn"><i class="fa fa-th fa-2x" aria-hidden="true"></i></a>
                       <div class="dropdown-content">
                         <div class="checkbox checkbox-success">
@@ -100,7 +100,7 @@
                         </div>
                         <div class="default-1"><a href="">Default</a></div>
                       </div>                
-                    </div>
+                    </div> -->
                 
                 <div id="showpopup" class="simplePopup border-color">
 	              <div class="confirm-table-wrap text-center">
@@ -164,9 +164,9 @@
             <div class="clearfix"></div>
                  <div class="paginations">
                 
-                   <div class="pagination-inner">Page<span>1</span>of 10 
-                       <a href="" class="priv"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-                       <a href="" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                   <div class="pagination-inner">Page<span>{{pager.currentPage}}</span>of {{pager.totalPages}} 
+                       <a ng-click="loadWaitListPage(pager.currentPage-1)" class="priv"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+                       <a ng-click="loadWaitListPage(pager.currentPage+1)" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
                     </div>
                                     
                 </div>   

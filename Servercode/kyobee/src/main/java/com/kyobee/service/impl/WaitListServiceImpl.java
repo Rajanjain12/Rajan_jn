@@ -241,6 +241,21 @@ public class WaitListServiceImpl implements IWaitListService {
 		}
 
 	}
+	
+	/**
+	 * Fetch Guests with Status is CHECKIN Users
+	 */
+	@Override
+	public Long getAllCheckinUsersCount(Long orgid) throws RsntException{
+		try {
+			return (Long) sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUESTS_COUNT_CHECKIN_BY_ORG)
+					.setParameter(Constants.RSNT_ORG_ID,orgid).uniqueResult();
+		} catch (Exception e) {
+			log.error("loadAllCheckinUsers()", e);
+			throw new RsntException(e);
+		}
+
+	}
 	/**
 	 * Fetch guests history by orgId
 	 */

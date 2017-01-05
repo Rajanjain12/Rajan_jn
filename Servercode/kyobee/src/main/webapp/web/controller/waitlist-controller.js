@@ -15,6 +15,10 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.selectedGuest = null;
 					$scope.client = null;
 					$scope.countMsgChannel = 0;
+					
+					$scope.pager = {};
+					$scope.pagerRequest = null;
+					$scope.pageSize = 10;
 		            
 		            
 		            $scope.loadOrgMetricks = function() {
@@ -37,17 +41,38 @@ KyobeeControllers.controller('waitListCtrl',
 								});
 					};
 					
-					$scope.loadWaitListGuests = function() {
+					$scope.loadWaitListPage = function(pageNo){
+						if (pageNo < 1 || pageNo > $scope.pager.totalPages) {
+				            return;
+				        }
+						$scope.loadWaitListGuests(pageNo);
+					}
+					
+					$scope.loadWaitListGuests = function(pageNo) {
+						
+						$scope.pagerRequest = {
+								filters : null,
+								sort : null,
+								sortOrder: null,
+								pageSize : $scope.pageSize,
+								pageNo : pageNo
+						}
+						
 						var postBody = {
-
+								orgid : $scope.userDTO.organizationId,
+								pagerReqParam : $scope.pagerRequest
 						};
+						
 						$scope.loadOrgMetricks();
-						var url = '/kyobee/web/rest/waitlistRestAction/checkinusers?orgid=' + $scope.userDTO.organizationId + '&recordsPerPage=50&pageNumber=1';
+						var url = '/kyobee/web/rest/waitlistRestAction/checkinusers';
 						KyobeeService.getDataService(url, '').query(postBody,
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
-										$scope.guestWaitList = data.serviceResult;
+										var paginatedResponse = data.serviceResult;
+										$scope.guestWaitList = paginatedResponse.records;
+										$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, pageNo, $scope.pageSize);
+										console.log($scope.pager);
 									} else if (data.status == "FAILURE") {
 										alert('Error while fetching wait times.');
 									}
@@ -293,7 +318,7 @@ KyobeeControllers.controller('waitListCtrl',
 					
 					
 					//$scope.loadOrtcFactory();
-					$scope.loadWaitListGuests();
+					$scope.loadWaitListGuests(1);
 										
 
 				} ]);
