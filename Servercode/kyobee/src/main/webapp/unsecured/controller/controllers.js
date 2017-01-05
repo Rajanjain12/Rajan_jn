@@ -17,6 +17,9 @@ KyobeeUnSecuredController.controller('homeCtrl',
 					$scope.username=null;
 					$scope.password=null;
 					$scope.errorMsg = null;
+					$scope.logoImgSrc = logoImgSrc;
+					
+					console.log('src' + $scope.logoImgSrc);
 					
 					$scope.changeView = function(view) {
 						switch (view) {
