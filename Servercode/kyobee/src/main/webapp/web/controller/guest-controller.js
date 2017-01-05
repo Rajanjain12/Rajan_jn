@@ -45,12 +45,12 @@ KyobeeControllers.controller('guestCtrl',
 							return;
 						}
 						
-						if($scope.guestDTO.prefType == 'sms' && ($scope.guestDTO.sms == null || $scope.guestDTO.sms == 'undefined')){
+						if(($scope.guestDTO.prefType == 'sms' || $scope.guestDTO.prefType == 'SMS') && ($scope.guestDTO.sms == null || $scope.guestDTO.sms == 'undefined')){
 							$scope.errorMsg = "Please enter the contact no.";
 							return;
 						}
 						
-						if($scope.guestDTO.prefType == 'email' && ($scope.guestDTO.email == null || $scope.guestDTO.email == 'undefined')){
+						if(($scope.guestDTO.prefType == 'email' || $scope.guestDTO.prefType == 'EMAIL') && ($scope.guestDTO.email == null || $scope.guestDTO.email == 'undefined')){
 							$scope.errorMsg = "Please enter the email";
 							return;
 						}
@@ -95,12 +95,12 @@ KyobeeControllers.controller('guestCtrl',
 							return;
 						}
 						
-						if($scope.guestDTO.prefType == 'sms' && ($scope.guestDTO.sms == null || $scope.guestDTO.sms == 'undefined')){
+						if(($scope.guestDTO.prefType == 'sms' || $scope.guestDTO.prefType == 'SMS') && ($scope.guestDTO.sms == null || $scope.guestDTO.sms == 'undefined')){
 							$scope.errorMsg = "Please enter the contact no.";
 							return;
 						}
 						
-						if($scope.guestDTO.prefType == 'email' && ($scope.guestDTO.email == null || $scope.guestDTO.email == 'undefined')){
+						if(($scope.guestDTO.prefType == 'email' || $scope.guestDTO.prefType == 'EMAIL') && ($scope.guestDTO.email == null || $scope.guestDTO.email == 'undefined')){
 							$scope.errorMsg = "Please enter the email";
 							return;
 						}
@@ -151,10 +151,10 @@ KyobeeControllers.controller('guestCtrl',
 												}
 											}
 										}
-										if($scope.guestDTO.prefType == 'sms'){
+										if($scope.guestDTO.prefType == 'sms' || $scope.guestDTO.prefType == 'SMS'){
 											$scope.guestDTO.sms = Number.parseInt($scope.guestDTO.sms);
 											showsms();
-										} else if($scope.guestDTO.prefType == 'email') {
+										} else if($scope.guestDTO.prefType == 'email' || $scope.guestDTO.prefType == 'EMAIL') {
 											showemail();
 										}
 									} else if (data.status == "FAILURE") {

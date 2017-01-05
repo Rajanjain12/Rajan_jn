@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.kyobee.entity.GuestNotificationBean;
 import com.kyobee.exception.RsntException;
+import com.kyobee.util.EmailUtil;
 import com.kyobee.util.common.Constants;
 import com.kyobee.util.pusher.IPusher;
 import com.kyobee.util.pusher.factory.PusherFactory;
@@ -26,6 +27,9 @@ public class NotificationMessageReceiver implements MessageListener{
 
 	@Autowired
 	PusherFactory pusherFactory;
+	
+	@Autowired
+	EmailUtil emailUtil;
 	
 	@Value("${sms.api.key}")
 	private String smsApiKey;
@@ -93,9 +97,6 @@ public class NotificationMessageReceiver implements MessageListener{
 		} catch (JMSException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (RsntException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -109,10 +110,13 @@ public class NotificationMessageReceiver implements MessageListener{
 	 * @param msg
 	 * @param subject
 	 * @throws IOException 
+	 * @throws RsntException 
 	 */
 
-	public void sendMail(String to,String msg,String subject) throws IOException{
+	public void sendMail(String to,String msg,String subject) throws RsntException{
 
+		emailUtil.sendEmail(to, subject, msg);
+		
 		/*
 		  TODO - Uncomment below code and make it working - rohit
 		 * Thread t1 = null;

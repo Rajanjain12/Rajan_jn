@@ -18,7 +18,7 @@ KyobeeControllers.controller('waitListCtrl',
 					
 					$scope.pager = {};
 					$scope.pagerRequest = null;
-					$scope.pageSize = 10;
+					$scope.pageSize = 25;
 		            
 		            
 		            $scope.loadOrgMetricks = function() {
@@ -167,7 +167,7 @@ KyobeeControllers.controller('waitListCtrl',
 									if (data.status == "SUCCESS") {
 										$('#showpopup').simplePopup().hide();
 										$(".simplePopupBackground").fadeOut("fast");
-										$scope.loadWaitListGuests();
+										$scope.loadWaitListPage(1);
 										console.log(data);
 									} else if (data.status == "FAILURE") {
 										alert('Error while marking as seated.');
@@ -189,7 +189,7 @@ KyobeeControllers.controller('waitListCtrl',
 									if (data.status == "SUCCESS") {
 										$('#deletePopup').simplePopup().hide();
 										$(".simplePopupBackground").fadeOut("fast");
-										$scope.loadWaitListGuests();
+										$scope.loadWaitListPage(1);
 									} else if (data.status == "FAILURE") {
 										alert('Error while deleting guest.');
 									}
@@ -235,7 +235,7 @@ KyobeeControllers.controller('waitListCtrl',
 			                    	//$jquery("#guestIdToBeNotifiedNext").val(m.guestIdToBeNotifiedNext);
 			                    	//$jquery("#notifynusers").val(m.notifyUser);
 			                    	if(m.OP != "NOTIFY_USER")
-			                    	{ $scope.loadWaitListGuests();}
+			                    	{ $scope.loadWaitListPage(1);}
 			                    }
 			                });
 			            };
@@ -318,7 +318,7 @@ KyobeeControllers.controller('waitListCtrl',
 					
 					
 					//$scope.loadOrtcFactory();
-					$scope.loadWaitListGuests(1);
+					$scope.loadWaitListPage(1);
 										
 
 				} ]);

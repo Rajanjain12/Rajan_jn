@@ -93,11 +93,11 @@
         <property name="maxUploadSize" value="100000000" />
     </bean> -->
     
-    <!-- <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="${mail.server.name}" />
-		<property name="port" value="${mail.server.port}" />
-		<property name="username" value="${mail.username}" />
-		<property name="password" value="${mail.password}" />
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${rsnt.mail.smtp.host}" />
+		<property name="port" value="${rsnt.mail.smtp.port}" />
+		<property name="username" value="${rsnt.mail.username}" />
+		<property name="password" value="${rsnt.mail.password}" />
 
 		<property name="javaMailProperties">
 			<props>
@@ -105,7 +105,7 @@
 				<prop key="mail.smtp.starttls.enable">true</prop>
 			</props>
 		</property>
-	</bean> -->
+	</bean>
 
 	<!-- <bean id="EmailUtility" class="com.beeya.util.EmailUtil">
 		<property name="mailSender" ref="mailSender" />

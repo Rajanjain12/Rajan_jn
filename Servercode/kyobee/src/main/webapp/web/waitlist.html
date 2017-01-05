@@ -153,8 +153,8 @@
                                 	<img src="assets/img/downhand.png"> &nbsp;
                                 	</span>
                                 </td>
-                                <td ng-show="prefType='SMS'">{{record.sms}}</td>
-                                <td ng-show="prefType!='SMS'">{{record.email}}</td>
+                                <td ng-show="record.prefType == 'sms' || record.prefType == 'SMS'">{{record.sms}}</td>
+                                <td ng-show="record.prefType != 'sms' && record.prefType != 'SMS'">{{record.email}}</td>
                                 <td><img src="assets/img/roundarrow.png"></td>
                                 <td><a ng-click="showDeletePopup(record);"><img src="assets/img/delete.png"></a></td>
                                 
