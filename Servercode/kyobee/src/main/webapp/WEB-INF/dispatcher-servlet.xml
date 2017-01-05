@@ -87,7 +87,7 @@
 	    <property name="messageListener" ref="notificationMessageReceiver"/>
 	</bean>
 	
-	<bean id="notificationMessageReceiver" class="com.kyobee.util.jms.NotificationMessageReceiver"/>
+	<!-- <bean id="notificationMessageReceiver" class="com.kyobee.util.jms.NotificationMessageReceiver"/> -->
 	
 	<!-- <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="100000000" />

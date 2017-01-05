@@ -22,7 +22,7 @@ import com.telerivet.Project;
 import com.telerivet.TelerivetAPI;
 import com.telerivet.Util;
 
-@Component
+@Component(value = "notificationMessageReceiver")
 public class NotificationMessageReceiver implements MessageListener{
 
 	@Autowired
