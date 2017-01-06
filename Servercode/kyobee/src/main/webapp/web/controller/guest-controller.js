@@ -153,9 +153,11 @@ KyobeeControllers.controller('guestCtrl',
 										}
 										if($scope.guestDTO.prefType == 'sms' || $scope.guestDTO.prefType == 'SMS'){
 											$scope.guestDTO.sms = Number.parseInt($scope.guestDTO.sms);
+											$scope.guestDTO.prefType = 'sms';
 											showsms();
 										} else if($scope.guestDTO.prefType == 'email' || $scope.guestDTO.prefType == 'EMAIL') {
 											showemail();
+											$scope.guestDTO.prefType = 'email';
 										}
 									} else if (data.status == "FAILURE") {
 										alert('Error while fetching guest details. Please login again or contact support');

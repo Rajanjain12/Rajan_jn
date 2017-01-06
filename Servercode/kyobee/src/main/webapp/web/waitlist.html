@@ -145,18 +145,18 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="record in guestWaitList">
-                                <td><a class="clickpopup" ng-click="showPopup(record);"><img src="assets/img/greenarrow.png"></a></td>
+                                <td><a class="clickpopup" style="cursor:pointer" ng-click="showPopup(record);"><img src="../assets/img/greenarrow.png"></a></td>
                                 <td>{{record.guestID}}</td>
                                 <td>
-                                	<a ng-click="moveToUpdateGuest(record.guestID)">{{record.name}}</a> &nbsp;
+                                	<a ng-click="moveToUpdateGuest(record.guestID)" style="cursor:pointer">{{record.name}}</a> &nbsp;
                                 	<span ng-show="record.calloutCount != null" ng-repeat="item in getArrayFromNum(record.calloutCount) track by $index">
-                                	<img src="assets/img/downhand.png"> &nbsp;
+                                	<img src="../assets/img/downhand.png"> &nbsp;
                                 	</span>
                                 </td>
                                 <td ng-show="record.prefType == 'sms' || record.prefType == 'SMS'">{{record.sms}}</td>
                                 <td ng-show="record.prefType != 'sms' && record.prefType != 'SMS'">{{record.email}}</td>
-                                <td><img src="assets/img/roundarrow.png"></td>
-                                <td><a ng-click="showDeletePopup(record);"><img src="assets/img/delete.png"></a></td>
+                                <td><img src="../assets/img/roundarrow.png"></td>
+                                <td><a style="cursor:pointer" ng-click="showDeletePopup(record);"><img src="../assets/img/delete.png"></a></td>
                                 
                             </tr>
                        	</tbody>
@@ -165,8 +165,8 @@
                  <div class="paginations">
                 
                    <div class="pagination-inner">Page<span>{{pager.currentPage}}</span>of {{pager.totalPages}} 
-                       <a ng-click="loadWaitListPage(pager.currentPage-1)" class="priv"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-                       <a ng-click="loadWaitListPage(pager.currentPage+1)" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                       <a style="cursor:pointer" ng-click="loadWaitListPage(pager.currentPage-1)" class="priv"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+                       <a style="cursor:pointer" ng-click="loadWaitListPage(pager.currentPage+1)" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
                     </div>
                                     
                 </div>   
