@@ -20,7 +20,7 @@
     
         
     <!--   Readyb main stylesheet    -->
-    <!-- <link href="assets/css/theme-main.css" rel="stylesheet" />    --> 
+    <link href="assets/css/theme-main.css" rel="stylesheet" /> 
     
     <script>
     	// Loading resrouces based on url 
@@ -35,10 +35,10 @@
     	var title="";
     	
     	if(subdomain.includes("localhost:8080")){
-    		cssFile = "assets/css/theme-advantech.css";
-    		logoImgSrc = "assets/img/advantechlogo.png";
-    		faciconLogoSrc = "assets/img/favicon-advantech.png"
-        	title = "Welcome to Advantech";
+    		cssFile = "assets/css/theme-kyobee.css";
+    		logoImgSrc = "assets/img/kyobeelogo.png";
+    		faciconLogoSrc = "assets/img/favicon.png"
+    		title = "Welcome to Kyobee";
     	} else {
     		if(subdomain != null && subdomain != 'undefined' && subdomain != 'admin'){
         		cssFile = "assets/css/theme-" + subdomain + ".css";
@@ -46,7 +46,7 @@
         		faciconLogoSrc = "assets/img/favicon-" + subdomain + ".png"
         		title = "Welcome to  " + subdomain;
         	} else {
-        		cssFile = "assets/css/theme-main.css";
+        		cssFile = "assets/css/theme-kyobee.css";
         		logoImgSrc = "assets/img/kyobeelogo.png";
         		faciconLogoSrc = "assets/img/favicon.png"
         		title = "Welcome to Kyobee";
