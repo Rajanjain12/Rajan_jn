@@ -16,9 +16,6 @@ KyobeeControllers.controller('homeCtrl',
 				function($scope, $location, $timeout, $interval, KyobeeService) {
 
 					$scope.userDTO = null;
-					$scope.appKey = null;
-		            $scope.privateKey = null;
-		            $scope.channel = null;
 		            $scope.seatPrefs = null;
 		            $scope.authToken = 'Unno1adyiSooIAkAEt';
 		            $scope.connectionUrl = 'https://ortc-developers.realtime.co/server/2.1';
@@ -70,26 +67,7 @@ KyobeeControllers.controller('homeCtrl',
 								});
 					};
 					
-					$scope.loadInfo = function() {
-						var postBody = {
-
-						};
-						var url = '/kyobee/web/rest/waitlistRestAction/pusgerinformation';
-						KyobeeService.getDataService(url, '').query(postBody,
-								function(data) {
-									console.log(data);
-									if (data.status == "SUCCESS") {
-										$scope.appKey = data.serviceResult.REALTIME_APPLICATION_KEY;
-										$scope.privateKey = data.serviceResult.REALTIME_PRIVATE_KEY;
-										$scope.channel = data.serviceResult.pusherChannelEnv;
-									} else if (data.status == "FAILURE") {
-										alert('Error while fetching user details. Please login again or contact support');
-										$scope.logout();
-									}
-								}, function(error) {
-									alert('Error while fetching user details. Please login again or contact support');
-								});
-					};
+					
 					
 					
 					
@@ -137,6 +115,6 @@ KyobeeControllers.controller('homeCtrl',
 					}
 					
 					$scope.fetchUserDetails();
-					$scope.loadInfo();
+					//$scope.loadInfo();
 
 				} ]);

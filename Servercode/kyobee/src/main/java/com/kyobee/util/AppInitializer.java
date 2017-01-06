@@ -6,6 +6,9 @@ import java.util.Properties;
 import javax.annotation.PostConstruct;
 
 import org.jboss.logging.Logger;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
 
 import com.kyobee.exception.RsntException;
 
@@ -13,6 +16,8 @@ import com.kyobee.exception.RsntException;
  * 
  */
 // TODO - this method needs to be called after the deployment to setup props - Rohit
+@Component
+@Scope(value = "singleton")
 public class AppInitializer {
 	
 /*	@Logger
@@ -106,10 +111,10 @@ public class AppInitializer {
 
     public void loadVersionProps() {
         try {
-            Properties properties = new Properties();
+            //Properties properties = new Properties();
             Properties extProperties = new Properties();
             Properties loadToJvm = new Properties();
-            properties.load(this.getClass().getClassLoader().getResourceAsStream("appVersion.properties"));
+            //properties.load(this.getClass().getClassLoader().getResourceAsStream("appVersion.properties"));
             
             extProperties.load(this.getClass().getClassLoader().getResourceAsStream("rsnt.properties"));
             
@@ -119,9 +124,9 @@ public class AppInitializer {
             sysProps.load(this.getClass().getClassLoader().getResourceAsStream("waitlist.properties"));
 			System.setProperties(sysProps);
 			System.getProperties().list(System.out);
-            appVersion = properties.getProperty("majorBuildNo");
-            appVersion = appVersion + properties.getProperty("minorBuildNo");
-            maxLayoutMarkers = new Integer(properties.getProperty("maxLayoutMarkers"));
+            //appVersion = properties.getProperty("majorBuildNo");
+            //appVersion = appVersion + properties.getProperty("minorBuildNo");
+            //maxLayoutMarkers = new Integer(properties.getProperty("maxLayoutMarkers"));
             
             pusherChannelEnv = extProperties.getProperty("pusherChannelEnv");
             dashBoardChannel = extProperties.getProperty("dashBoardChannel");

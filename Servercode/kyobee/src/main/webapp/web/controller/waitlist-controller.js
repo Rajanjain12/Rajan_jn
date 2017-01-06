@@ -16,6 +16,10 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.client = null;
 					$scope.countMsgChannel = 0;
 					
+					$scope.appKey = null;
+		            $scope.privateKey = null;
+		            $scope.channel = null;
+					
 					$scope.pager = {};
 					$scope.pagerRequest = null;
 					$scope.pageSize = 25;
@@ -38,6 +42,28 @@ KyobeeControllers.controller('waitListCtrl',
 									}
 								}, function(error) {
 									alert('Error while fetching wait times.. Please login again or contact support');
+								});
+					};
+					
+					$scope.loadInfo = function() {
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/pusgerinformation';
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										$scope.appKey = data.serviceResult.REALTIME_APPLICATION_KEY;
+										$scope.privateKey = data.serviceResult.REALTIME_PRIVATE_KEY;
+										$scope.channel = data.serviceResult.pusherChannelEnv;
+										$scope.loadFactory();
+									} else if (data.status == "FAILURE") {
+										alert('Error while fetching user details. Please login again or contact support');
+										$scope.logout();
+									}
+								}, function(error) {
+									alert('Error while fetching user details. Please login again or contact support');
 								});
 					};
 					
@@ -205,59 +231,62 @@ KyobeeControllers.controller('waitListCtrl',
 						$scope.selectedGuest = null;
 					}
 					
-					$scope.loadOrtcFactory = loadOrtcFactory(IbtRealTimeSJType, function(factory, error) {
-						$scope.client = factory.createClient();
-						$scope.client.setClusterUrl($scope.connectionUrl);
-						$scope.client.setConnectionMetadata('UserConnectionMetadata');
-						$scope.client.onConnected = clientConnected;
-						$scope.client.onSubscribed = clientSubscribed;
-			            //client.onUnsubscribed = clientUnsubscribed;
-						$scope.client.onReconnecting = clientReconnecting;
-						$scope.client.onReconnected = clientReconnected;
-						$scope.client.onDisconnected = clientDisconnected;
-						$scope.client.onException = clientException;
-						$scope.client.connect($scope.appKey, $scope.authToken);
-			            function clientConnected(ortc) {
-			                console.log('Connected to: ' + ortc.getUrl());
-			                console.log('Subscribe to channel: ' + $scope.channel);
-			                if ($scope.client.getIsConnected() == false) {
-			                	$scope.client.connect($scope.appKey, $scope.authToken);
-			                }
-			                // Subscribe channel
-			                ortc.subscribe($scope.channel, true, function onMessage(ortc, channel, message) {
-			                	$scope.countMsgChannel++;
-			                	$scope.countMsgChannel++;
-			                    console.log('Received (' + $scope.countMsgChannel + '): ' + message + ' at channel: ' + channel);
-			                    var m = jQuery.parseJSON(message);
-			                    if (m.orgid == $scope.userDTO.organizationId) {
-			                    	//$jquery("#totalParties").val(m.totalParties);
-			                    	$scope.totalWaitTime = m.totalWaitTime;
-			                    	//$jquery("#guestIdToBeNotifiedNext").val(m.guestIdToBeNotifiedNext);
-			                    	//$jquery("#notifynusers").val(m.notifyUser);
-			                    	if(m.OP != "NOTIFY_USER")
-			                    	{ $scope.loadWaitListPage(1);}
-			                    }
-			                });
-			            };
-			            function clientSubscribed(ortc, channel) {
-			                console.log('Subscribed to channel: ' + channel);
-			            };
-			            function clientUnsubscribed(ortc, channel) {
-			                console.log('Unsubscribed from channel: ' + channel);
-			            };
-			            function clientReconnecting(ortc) {
-			                console.log('Reconnecting to ' + connectionUrl);
-			            };
-			            function clientReconnected(ortc) {
-			                console.log('Reconnected to: ' + ortc.getUrl());
-			            };
-			            function clientDisconnected(ortc) {
-			                console.log('Disconnected', 'disconnected');
-			            };
-			            function clientException(ortc, error) {
-			                console.log('Error: ' + error);
-			            };
-					});
+					$scope.loadFactory = function(){
+					
+						$scope.loadOrtcFactory = loadOrtcFactory(IbtRealTimeSJType, function(factory, error) {
+							$scope.client = factory.createClient();
+							$scope.client.setClusterUrl($scope.connectionUrl);
+							$scope.client.setConnectionMetadata('UserConnectionMetadata');
+							$scope.client.onConnected = clientConnected;
+							$scope.client.onSubscribed = clientSubscribed;
+				            //client.onUnsubscribed = clientUnsubscribed;
+							$scope.client.onReconnecting = clientReconnecting;
+							$scope.client.onReconnected = clientReconnected;
+							$scope.client.onDisconnected = clientDisconnected;
+							$scope.client.onException = clientException;
+							$scope.client.connect($scope.appKey, $scope.authToken);
+				            function clientConnected(ortc) {
+				                console.log('Connected to: ' + ortc.getUrl());
+				                console.log('Subscribe to channel: ' + $scope.channel);
+				                if ($scope.client.getIsConnected() == false) {
+				                	$scope.client.connect($scope.appKey, $scope.authToken);
+				                }
+				                // Subscribe channel
+				                ortc.subscribe($scope.channel, true, function onMessage(ortc, channel, message) {
+				                	$scope.countMsgChannel++;
+				                	$scope.countMsgChannel++;
+				                    console.log('Received (' + $scope.countMsgChannel + '): ' + message + ' at channel: ' + channel);
+				                    var m = jQuery.parseJSON(message);
+				                    if (m.orgid == $scope.userDTO.organizationId) {
+				                    	//$jquery("#totalParties").val(m.totalParties);
+				                    	$scope.totalWaitTime = m.totalWaitTime;
+				                    	//$jquery("#guestIdToBeNotifiedNext").val(m.guestIdToBeNotifiedNext);
+				                    	//$jquery("#notifynusers").val(m.notifyUser);
+				                    	if(m.OP != "NOTIFY_USER")
+				                    	{ $scope.loadWaitListPage(1);}
+				                    }
+				                });
+				            };
+				            function clientSubscribed(ortc, channel) {
+				                console.log('Subscribed to channel: ' + channel);
+				            };
+				            function clientUnsubscribed(ortc, channel) {
+				                console.log('Unsubscribed from channel: ' + channel);
+				            };
+				            function clientReconnecting(ortc) {
+				                console.log('Reconnecting to ' + connectionUrl);
+				            };
+				            function clientReconnected(ortc) {
+				                console.log('Reconnected to: ' + ortc.getUrl());
+				            };
+				            function clientDisconnected(ortc) {
+				                console.log('Disconnected', 'disconnected');
+				            };
+				            function clientException(ortc, error) {
+				                console.log('Error: ' + error);
+				            };
+						});
+					}
 					
 					$scope.$watch('notifyFirst', function(newValue,oldValue) {
 						if (newValue !== 'undefined' && newValue != null  && oldValue != newValue) {
@@ -317,7 +346,7 @@ KyobeeControllers.controller('waitListCtrl',
 						
 					
 					
-					//$scope.loadOrtcFactory();
+					$scope.loadInfo();
 					$scope.loadWaitListPage(1);
 										
 
