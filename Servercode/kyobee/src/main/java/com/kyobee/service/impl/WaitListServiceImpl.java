@@ -657,7 +657,7 @@ public class WaitListServiceImpl implements IWaitListService {
 		}
 	}*/
 
-	@Override
+	/*@Override
 	public void sendWaitListBackupEmail(Long guestId, boolean isUpdate){
 		Guest guest = (Guest) sessionFactory.getCurrentSession().get(Guest.class,guestId);
 		Organization organization =(Organization) sessionFactory.getCurrentSession().get(Organization.class, guest.getOrganizationID());
@@ -668,7 +668,7 @@ public class WaitListServiceImpl implements IWaitListService {
 		if(null != organization.getWaitListBackupEmail() && !organization.getWaitListBackupEmail().equals("")){
 			sendMail(organization.getWaitListBackupEmail(), message, subject);
 		}
-	}
+	}*/
 
 	/**
 	 * Send  Table ready Notification to guest

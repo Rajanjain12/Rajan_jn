@@ -89,11 +89,11 @@ public class WaitListRestAction {
 	 */
 	//@GET
 	//@Path("/waitingListBackupUpdate")
-	@RequestMapping(value = "/waitingListBackupUpdate", method = RequestMethod.GET, produces = "application/json")
+	/*@RequestMapping(value = "/waitingListBackupUpdate", method = RequestMethod.GET, produces = "application/json")
 	public String waitingListBackupUpdate(@RequestParam("guestid") Long guestId){
 		waitListService.sendWaitListBackupEmail(guestId, true);
 		return Constants.RSNT_GUEST_SUCCESS;
-	}
+	}*/
 
 	/**
 	 * Send Notification to guests by user preferences
@@ -102,11 +102,11 @@ public class WaitListRestAction {
 	 */
 	//@GET
 	//@Path("/waitingListBackup")
-	@RequestMapping(value = "/waitingListBackup", method = RequestMethod.GET, produces = "application/json")
+	/*@RequestMapping(value = "/waitingListBackup", method = RequestMethod.GET, produces = "application/json")
 	public String waitingListBackup(@RequestParam("guestid") Long guestId){
 		waitListService.sendWaitListBackupEmail(guestId, false);
 		return Constants.RSNT_GUEST_SUCCESS;
-	}
+	}*/
 
 	//@GET
 	//@Path("/getguestminrankbyorgid")

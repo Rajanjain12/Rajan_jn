@@ -1,7 +1,9 @@
 package com.kyobee.rest;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -10,18 +12,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.UserDTO;
 import com.kyobee.dto.common.Credential;
 import com.kyobee.dto.common.Response;
 import com.kyobee.entity.User;
 import com.kyobee.exception.RsntException;
 import com.kyobee.service.ISecurityService;
+import com.kyobee.service.IWaitListService;
 import com.kyobee.util.SessionContextUtil;
 import com.kyobee.util.common.CommonUtil;
 import com.kyobee.util.common.Constants;
 import com.kyobee.util.common.LoggerUtil;
+
+import net.sf.json.JSONObject;
 
 @RestController
 @RequestMapping("/rest")
@@ -29,6 +36,9 @@ public class LoginRestController {
 
 	@Autowired
 	ISecurityService securityService;
+	
+	@Autowired
+	private IWaitListService waitListService;
 	
 	@Autowired
 	SessionContextUtil sessionContextUtil;
@@ -75,6 +85,40 @@ public class LoginRestController {
 			LoggerUtil.logError("Error while login", e);
 		}
 		return response;
+	}
+	
+	@RequestMapping(value = "/loginCredAuth", method = RequestMethod.GET, produces = "application/json")
+	public String loginCredAuth(@RequestParam String username, @RequestParam String password){
+		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
+		List<Object[]>  result = securityService.loginCredAuth(username, password);
+   		Object[] loginDetail = result.get(0);
+   		
+		if(loginDetail[0].toString().equals(CommonUtil.encryptPassword(password))){
+			System.out.println("password--"+loginDetail[0].toString());
+			System.out.println("OrgId--"+loginDetail[1].toString());
+			System.out.println("logofile name--"+loginDetail[2].toString());
+			
+			rootMap.put("OrgId",loginDetail[1].toString());
+			rootMap.put("logofile name",loginDetail[2].toString());
+			rootMap.put("clientBase",loginDetail[3].toString());
+
+			List<GuestPreferencesDTO> searPref =  null;
+			try {
+				searPref=	waitListService.getOrganizationSeatingPref(Long.valueOf(loginDetail[1].toString()).longValue());
+				rootMap.put("success", "0");
+				rootMap.put("seatpref",searPref);
+			}catch(Exception e){
+				System.out.println(e);
+			}
+		}else{
+			rootMap.put("success", "-1");
+			rootMap.put(Constants.RSNT_ERROR, "Invalid Username or Password.");
+
+		}
+		
+		
+		final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+		return jsonObject.toString();
 	}
 	
 	@RequestMapping(value = "/userDetails", method = RequestMethod.GET, produces = "application/json")

@@ -185,6 +185,20 @@ public class SecurityServiceImpl implements ISecurityService {
 			throw new RsntException("SecurityServiceImpl.getSecurityUserDetails()", e);
     	}
      }
+    
+    @Override
+	public List<Object[]> loginCredAuth(String userName, String password) {
+		List<Object[]> result =  sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_USER_LOGIN_AUTH).setParameter("username", userName.toLowerCase()).list();
+   		Object[] loginDetail = result.get(0);
+   		
+		System.out.println(loginDetail[0].toString());
+		System.out.println(loginDetail[1].toString());
+		System.out.println(loginDetail[2].toString());
+		System.out.println(loginDetail[3].toString());
+		//new BigDecimal(fdbackQtnrData[1].toString()).longValue()
+		
+		return result;
+	}
 
     
 }

@@ -62,8 +62,8 @@ public class Organization extends BaseEntity {
 	@Column(name="Email")
 	private String email;
 	
-	@Column(name="WaitListBackupEmail")
-	private String waitListBackupEmail;
+	@Column(name="clientBase")
+	private String clientBase;
 	
 	@Column(name="LastPaymentTrxStatus")
 	private String lastPaymentTrxStatus;
@@ -214,17 +214,6 @@ public class Organization extends BaseEntity {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-
-	public String getWaitListBackupEmail() {
-		return waitListBackupEmail;
-	}
-
-
-	public void setWaitListBackupEmail(String waitListBackupEmail) {
-		this.waitListBackupEmail = waitListBackupEmail;
-	}
-
 
 	public boolean isActiveFlag() {
 		return activeFlag;
@@ -458,5 +447,17 @@ public class Organization extends BaseEntity {
 	public void setLogoFileName(String logoFileName) {
 		this.logoFileName = logoFileName;
 	}
+
+
+	public String getClientBase() {
+		return clientBase;
+	}
+
+
+	public void setClientBase(String clientBase) {
+		this.clientBase = clientBase;
+	}
+	
+	
 	
 }

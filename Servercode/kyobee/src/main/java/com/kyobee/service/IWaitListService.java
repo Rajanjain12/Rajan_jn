@@ -112,7 +112,7 @@ public interface IWaitListService {
 	 * special email configured in Organization level
 	 * @param guestId
 	 */
-	public void sendWaitListBackupEmail(Long guestId, boolean isUpdate);
+	//public void sendWaitListBackupEmail(Long guestId, boolean isUpdate);
 	
 	/**
 	 * Send Ready Notification to guest

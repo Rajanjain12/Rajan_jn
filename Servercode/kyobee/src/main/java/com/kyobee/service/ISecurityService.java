@@ -32,4 +32,6 @@ public interface ISecurityService {
 	 public void deleteRoleProtectedObjectMapping(Long roleId)  throws RsntException;
 	 
 	 public void addRoleProtectedObjMapping(Long roleId, List<String> protectedObjectList, String user)  throws RsntException;
+
+	List<Object[]> loginCredAuth(String userName, String password);
 }
