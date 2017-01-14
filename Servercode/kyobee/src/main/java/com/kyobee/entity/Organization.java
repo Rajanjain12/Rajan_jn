@@ -85,6 +85,9 @@ public class Organization extends BaseEntity {
 	@Column(name="logoFileName")
 	private String logoFileName;
 	
+	@Column(name="OrganizationPromotionalCode")
+	private String promotionalCode;
+	
 	@OneToMany(mappedBy="organization", fetch = FetchType.LAZY)
 	@org.hibernate.annotations.Cascade({ org.hibernate.annotations.CascadeType.ALL,
     org.hibernate.annotations.CascadeType.DELETE_ORPHAN })
@@ -457,7 +460,16 @@ public class Organization extends BaseEntity {
 	public void setClientBase(String clientBase) {
 		this.clientBase = clientBase;
 	}
-	
+
+
+	public String getPromotionalCode() {
+		return promotionalCode;
+	}
+
+
+	public void setPromotionalCode(String promotionalCode) {
+		this.promotionalCode = promotionalCode;
+	}
 	
 	
 }

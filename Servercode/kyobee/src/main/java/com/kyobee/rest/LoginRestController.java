@@ -164,5 +164,51 @@ public class LoginRestController {
 		}
 		return userDTO;
 	}
+	
+	@RequestMapping(value = "/signup", method = RequestMethod.POST, produces = "application/json")
+	public Response<Boolean> signup(Credential credentials) throws Exception {
+		Response<Boolean> userDetails = new Response<Boolean>();
+		try {
+
+			if (credentials.getCompanyName() != null && credentials.getCompanyPrimaryPhone() != null && 
+					credentials.getCompanyEmail() != null 
+					&& credentials.getFirstName() != null && credentials.getLastName() != null && credentials.getUsername() != null
+					&& credentials.getPassword() != null && credentials.getConfirmPassword() != null) {
+				
+				if(securityService.isDuplicateUser(credentials.getUsername())){
+					userDetails.setServiceResult(false);
+					CommonUtil.setWebserviceResponse(userDetails, Constants.FAILURE, "", "",
+							"Username/Email already exists. Please try a different one.");
+					return userDetails;
+				}
+				
+				if(securityService.isDuplicateOrganization(credentials.getCompanyName())){
+					userDetails.setServiceResult(false);
+					CommonUtil.setWebserviceResponse(userDetails, Constants.FAILURE, "", "",
+							"Company name already exists. Please try a different one.");
+					return userDetails;
+				}
+				
+				credentials.setPassword(CommonUtil.encryptPassword(credentials.getPassword()));
+				
+				User signedUpUser = securityService.signupUser(credentials);
+				
+				if (signedUpUser != null) {
+					userDetails.setServiceResult(true);
+					CommonUtil.setWebserviceResponse(userDetails, Constants.SUCCESS, "");
+				} else {
+					userDetails.setServiceResult(false);
+					CommonUtil.setWebserviceResponse(userDetails, Constants.FAILURE, "");
+				}
+			}
+		} catch (Exception e) {
+			LoggerUtil.logError("Error while login", e);
+			userDetails.setServiceResult(false);
+			CommonUtil.setWebserviceResponse(userDetails, Constants.FAILURE, "", "",
+					"Error occured while sign up. Please contact support");
+		}
+		return userDetails;
+	}
+
 
 }

@@ -2,6 +2,7 @@ package com.kyobee.service;
 
 import java.util.List;
 
+import com.kyobee.dto.common.Credential;
 import com.kyobee.entity.Organization;
 import com.kyobee.entity.User;
 import com.kyobee.exception.RsntException;
@@ -34,4 +35,10 @@ public interface ISecurityService {
 	 public void addRoleProtectedObjMapping(Long roleId, List<String> protectedObjectList, String user)  throws RsntException;
 
 	List<Object[]> loginCredAuth(String userName, String password);
+	
+	public Boolean isDuplicateUser(String userName) throws RsntException;
+
+	public User signupUser(Credential credentials) throws RsntException;
+
+	public Boolean isDuplicateOrganization(String userName) throws RsntException;
 }

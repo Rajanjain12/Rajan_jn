@@ -13,6 +13,17 @@ KyobeeUnsecuredService.factory('KyobeeUnsecuredService', [ '$resource', '$http',
 					isArray : false
 				}
 			});
+		}, getDataService : function(url, requestParams) {
+			return $resource(url, {}, {
+				query : {
+					method : 'POST',
+					params : requestParams,
+					headers : {
+						'Content-Type' : 'application/json'
+					},
+					isArray : false
+				}
+			});
 		},
 	};
 } ]);

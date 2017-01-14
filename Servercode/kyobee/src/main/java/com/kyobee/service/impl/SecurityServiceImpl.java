@@ -1,6 +1,8 @@
 package com.kyobee.service.impl;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,12 +11,18 @@ import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kyobee.dao.OrganizationDAO;
+import com.kyobee.dao.UserDAO;
+import com.kyobee.dto.common.Credential;
 import com.kyobee.entity.Organization;
+import com.kyobee.entity.OrganizationUser;
 import com.kyobee.entity.RoleProtectedObject;
 import com.kyobee.entity.User;
+import com.kyobee.entity.UserRole;
 import com.kyobee.exception.RsntException;
 import com.kyobee.service.ISecurityService;
 import com.kyobee.util.AppTransactional;
+import com.kyobee.util.EmailUtil;
 import com.kyobee.util.SessionContextUtil;
 import com.kyobee.util.common.CommonUtil;
 import com.kyobee.util.common.Constants;
@@ -29,7 +37,16 @@ public class SecurityServiceImpl implements ISecurityService {
 	
 	@Autowired
 	private SessionContextUtil sessionContextUtil;
+	
+	@Autowired
+	private UserDAO userDAO;
 
+	@Autowired 
+	private OrganizationDAO organizationDAO;
+	
+	@Autowired
+	EmailUtil emailUtil;
+	
 	/*@Logger
 	private Log log;*/
 	private Logger log = Logger.getLogger(SecurityServiceImpl.class);
@@ -119,7 +136,8 @@ public class SecurityServiceImpl implements ISecurityService {
 		}
 	}
 
-    public List<Object[]> getAllProtectedObject() throws RsntException{
+    @SuppressWarnings("unchecked")
+	public List<Object[]> getAllProtectedObject() throws RsntException{
 		
 		try{
 			return sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ALL_PROTECTED_OBJECT_DATA)
@@ -131,7 +149,8 @@ public class SecurityServiceImpl implements ISecurityService {
 		}
 	}
  
-    public List<Object[]> getRoleProtectedObjectForRole(Long roleId) throws RsntException{
+    @SuppressWarnings("unchecked")
+	public List<Object[]> getRoleProtectedObjectForRole(Long roleId) throws RsntException{
 		
 		try{
 			return sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ROLE_PROTECTED_OBJECT_DATA)
@@ -185,8 +204,9 @@ public class SecurityServiceImpl implements ISecurityService {
 			throw new RsntException("SecurityServiceImpl.getSecurityUserDetails()", e);
     	}
      }
-    
-    @Override
+
+    @SuppressWarnings("unchecked")
+	@Override
 	public List<Object[]> loginCredAuth(String userName, String password) {
 		List<Object[]> result =  sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_USER_LOGIN_AUTH).setParameter("username", userName.toLowerCase()).list();
    		Object[] loginDetail = result.get(0);
@@ -199,6 +219,87 @@ public class SecurityServiceImpl implements ISecurityService {
 		
 		return result;
 	}
-
+	
+	@Override
+	public Boolean isDuplicateUser(String userName) throws RsntException {
+		User user = userDAO.fetchUserByUserName(userName);
+		if (user != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public Boolean isDuplicateOrganization(String userName) throws RsntException {
+		Organization org = organizationDAO.fetchOrganization(userName);
+		if (org != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+    @Override
+	public User signupUser(Credential credentials) throws RsntException {
+		try {
+			// Creating User
+			User signUpUser = new User();
+			signUpUser.setUserName(credentials.getUsername());
+			signUpUser.setEmail(credentials.getUsername());
+			signUpUser.setPassword(credentials.getPassword());
+			signUpUser.setPrimaryContactNo(credentials.getCompanyPrimaryPhone());
+			signUpUser.setFirstName(credentials.getFirstName());
+			signUpUser.setLastName(credentials.getLastName());
+			signUpUser.setUserRole(new UserRole());
+			signUpUser.setActive(true);
+			//Audit User
+			signUpUser.setCreatedDate(new Date());
+			signUpUser.setModifiedDate(new Date());
+			signUpUser.setCreatedBy(signUpUser.getUserName());
+			signUpUser.setModifiedBy(signUpUser.getUserName());
+			
+			UserRole userRole = new UserRole();
+			userRole.setRoleId((long) Constants.CONT_LOOKUP_ROLE_RSNTADMIN);
+			userRole.setCreatedBy(credentials.getUsername());
+			userRole.setCreatedDate(new Date());
+			userRole.setUser(signUpUser);
+			signUpUser.setUserRole(userRole);
+			
+			Organization organization = new Organization();
+			organization.setOrganizationName(credentials.getCompanyName());
+			organization.setEmail(credentials.getCompanyEmail());
+			organization.setPromotionalCode(credentials.getPromotionalCode());
+			organization.setPrimaryPhone(Long.parseLong(credentials.getCompanyPrimaryPhone()));
+			organization.setActiveFlag(true);
+			organization.setOrganizationTypeId((long) Constants.CONST_ORG_TYPE_ID);
+			organization.setCreatedBy(credentials.getUsername());
+			organization.setCreatedDate(new Date());
+			
+			BigDecimal adsBalance = new BigDecimal(0);
+			organization.setAdsBalance(adsBalance);
+			
+			OrganizationUser organizationUser = new OrganizationUser();
+			organizationUser.setOrganization(organization);
+			organizationUser.setCreatedBy(credentials.getUsername());
+			organizationUser.setCreatedDate(new Date());
+			organizationUser.setUser(signUpUser);
+			List<OrganizationUser> organizationUserList = new ArrayList<>();
+			organizationUserList.add(organizationUser);
+			organization.setOrganizationUserList(organizationUserList);
+			signUpUser.setOrganizationUser(organizationUser);
+			
+			Long i = userDAO.save(signUpUser); 
+			
+			if (i != null) {
+				emailUtil.sendEmail(signUpUser.getUserName(), "Kyobee Successful Registration", "You have successfully signed into Kyobee!");
+				return signUpUser;
+			}
+			return null;
+		} catch(Exception e){
+    		log.error("SecurityServiceImpl.signupUser()", e);
+			throw new RsntException("SecurityServiceImpl.signupUser()", e);
+    	}
+	}
     
 }

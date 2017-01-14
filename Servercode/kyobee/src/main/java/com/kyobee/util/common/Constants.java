@@ -20,6 +20,8 @@ public class Constants {
 	public static final String CONST_ORGADSBALANCE = "orgAdsBalance";
 	public static final String CONST_USERROLEID = "userRoleId";
 	
+	public static final int CONST_ORG_TYPE_ID=1;
+	public static final int CONST_ORG_PLAN_SUBSCRIPTION_ID=1;
 	
 	public static final int CONST_LOOKUP_PLANTYPE_FREE = 7;
 	public static final int CONST_LOOKUP_PLANTYPE_PAID = 8;

@@ -2,7 +2,7 @@ package com.kyobee.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
+import org.hibernate.annotations.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +15,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Type;
 
 @Entity
@@ -69,11 +70,13 @@ public class User extends BaseEntity implements Serializable {
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean active;
 	
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "UserID", referencedColumnName="UserId")
+	@OneToOne(mappedBy="user", fetch = FetchType.LAZY)
+	@Cascade(CascadeType.ALL)
+	@JoinColumn(name = "UserID", referencedColumnName="UserID")
 	private OrganizationUser organizationUser;
 
-	@OneToOne(mappedBy="user", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REMOVE})
+	@OneToOne(mappedBy="user", fetch = FetchType.LAZY)
+	@Cascade(CascadeType.ALL)
 	@JoinColumn(name="UserID", referencedColumnName="UserID")
 	private UserRole userRole;
 	
@@ -144,6 +147,7 @@ public class User extends BaseEntity implements Serializable {
 		this.alternateContactNo = alternateContactNo;
 	}
 
+	@Cascade(CascadeType.SAVE_UPDATE)
 	public OrganizationUser getOrganizationUser() {
 		return organizationUser;
 	}
@@ -184,5 +188,4 @@ public class User extends BaseEntity implements Serializable {
 		this.password = password;
 	}
 
-	
 }

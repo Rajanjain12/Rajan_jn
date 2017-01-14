@@ -2,7 +2,6 @@ package com.kyobee.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.CascadeType;
+
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name="ORGANIZATIONUSER")
@@ -28,11 +30,12 @@ public class OrganizationUser extends BaseEntity implements Serializable{
 	private Long organizationUserId;
 	
 	@JoinColumn(name="OrganizationId")
-	@ManyToOne(fetch = FetchType.LAZY,cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+	@ManyToOne(fetch = FetchType.LAZY)
+	@Cascade(CascadeType.ALL)
 	private Organization organization;
 	
-	@OneToOne(fetch = FetchType.LAZY, 
-			 cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+	@OneToOne(fetch = FetchType.LAZY)
+	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "UserID")
 	private User user;
 

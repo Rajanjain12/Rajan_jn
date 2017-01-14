@@ -7,6 +7,9 @@ KyobeeAppUnsecured.config([ '$routeProvider', function($routeProvider) {
 		controller : 'homeCtrl'
 	}).when('/dashboard', {
 		templateUrl : 'app.html'
+	}).when('/signup', {
+		templateUrl : 'signup.html',
+		controller : 'homeCtrl'
 	}).otherwise({
 		redirectTo : '/login'
 	});

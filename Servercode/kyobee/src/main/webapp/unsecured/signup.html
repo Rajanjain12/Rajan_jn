@@ -1,0 +1,108 @@
+<!----------Waitlist-Section-------->
+
+<section class="theme-color">    
+    <div class="container theme-color">
+        
+        <div class="row">
+		
+			<div class="col-md-12">        
+			
+				<div class="signup-wrap">
+					<div class="login-title"><img ng-src="{{logoImgSrc}}"><h2>Waitlist</h2></div>
+				</div>
+				
+				<div class="alert alert-success kyobeeSuccessMessage" role="alert"
+							ng-show="successMsg != null && successMsg != ''">
+							<button type="button" class="close" ng-click="hideSuccessMsg();">&times;</button>
+							<strong>Done ! </strong>{{successMsg}}
+				</div>
+				
+				<div class="alert alert-danger" role="alert" ng-show="errorMsg != null && errorMsg != ''">
+							<button type="button" class="close" ng-click="hideErrorMsg();" >&times;</button>
+							<strong>Error ! </strong>{{errorMsg}}
+				</div>
+						
+					<form class="margin-top-20" name="regForm" novalidate="novalidate">				
+						 <div class="signup-box">                
+							<h2>Company Details:</h2>   
+							  	<div class="form-group">
+										<input type="text" name="cmpnyName" ng-model="signUpForm.companyName" class="form-control" placeholder="Company Name" required autofocus
+										ng-class="{'has-error' : regForm.cmpnyName.$invalid && (!regForm.cmpnyName.$pristine || regForm.$submitted)}">
+										<div ng-messages="regForm.cmpnyName.$error" ng-show=" (!regForm.cmpnyName.$pristine || regForm.$submitted)" class="help-block">
+								        <div ng-message="required" style="color:white; text-align: left">Company Name is required</div>
+								    </div>
+									</div>
+									<div class="form-group">
+										<input type="text" name="prmPhone" ng-model="signUpForm.companyPrimaryPhone" class="form-control" placeholder="Primary Phone" 
+										required autofocus ng-class="{'has-error' : regForm.prmPhone.$invalid && (!regForm.prmPhone.$pristine || regForm.$submitted)}">
+										<div ng-messages="regForm.prmPhone.$error" ng-show=" (!regForm.prmPhone.$pristine || regForm.$submitted)" class="help-block">
+								        <div ng-message="required" style="color:white; text-align: left">Company Primary Phone is required</div>
+									</div>
+									<div class="form-group">
+										<input type="email" name="companyEmailAdd" class="form-control" ng-model="signUpForm.companyEmail" placeholder="Email" required autofocus
+										ng-class="{'has-error' : regForm.companyEmailAdd.$invalid && (!regForm.companyEmailAdd.$pristine || regForm.$submitted)}">
+										<div ng-messages="regForm.companyEmailAdd.$error" ng-show=" (!regForm.companyEmailAdd.$pristine || regForm.$submitted)" class="help-block">
+										<div ng-message="required" style="color:white;">Company Email is required</div>
+										<div ng-message="email" style="color:white;">Please enter a valid Company Email</div>
+									</div>
+									<div class="form-group">
+										<input type="text" name="promoCode" class="form-control" ng-model="signUpForm.promotionalCode" placeholder="Promotional Code" autofocus>
+									</div>                        
+						 </div>
+						<div class="signup-box">
+							<h2>User Details:</h2>   
+								<div class="form-group">
+									<input type="text" name="fName" ng-model="signUpForm.firstName" class="form-control" placeholder="First Name" required autofocus
+									ng-class="{'has-error' : regForm.fName.$invalid && (!regForm.fName.$pristine || regForm.$submitted)}">
+									<div ng-messages="regForm.fName.$error" ng-show=" (!regForm.fName.$pristine || regForm.$submitted)" class="help-block">
+								        <div ng-message="required" style="color:white;" text-align: left">First Name is required</div>
+								</div>
+								<div class="form-group">
+									<input type="text" class="form-control" ng-model="signUpForm.lastName" name="lName" placeholder="Last Name" required autofocus
+									ng-class="{'has-error' : regForm.lName.$invalid && (!regForm.lName.$pristine || regForm.$submitted)}">
+									<div ng-messages="regForm.lName.$error" ng-show=" (!regForm.lName.$pristine || regForm.$submitted)" class="help-block">
+								        <div ng-message="required" style="color:white;" text-align: left">Last Name is required</div>
+								</div>
+								<div class="form-group">
+									<input type="email" class="form-control" ng-model="signUpForm.email" name="emailAdd" placeholder="Email" required autofocus
+									ng-class="{'has-error' : regForm.emailAdd.$invalid && (!regForm.emailAdd.$pristine || regForm.$submitted)}">
+									<div ng-messages="regForm.emailAdd.$error" ng-show=" (!regForm.emailAdd.$pristine || regForm.$submitted)" class="help-block">
+									<div ng-message="required" style="color:white;">Email is required</div>
+									<div ng-message="email" style="color:white;">Please enter a valid email</div>
+								</div>
+								<div class="form-group">
+									<input type="password" class="form-control" ng-model="signUpForm.password" name="pwd" placeholder="Password" required autofocus
+									ng-class="{'has-error' : regForm.pwd.$invalid && (!regForm.pwd.$pristine || regForm.$submitted)}"
+									ng-minlength="6" ng-maxlength="20" ng-pattern="/^(?=.*[a-zA-Z])(?=.*\d).*/">
+									<div ng-messages="regForm.pwd.$error" ng-show=" (!regForm.pwd.$pristine || regForm.$submitted)" class="help-block">
+									        <div ng-message="required" style="color:white;">Password is required</div>
+									        <div ng-message="minlength" style="color:white;">Password is too small. Should be min 6 character long</div>
+									        <div ng-message="maxlength" style="color:white;">Password is too long. Cannot be longer than 20 characters</div>
+									        <div ng-message="pattern" style="color:white;">Password should be combination of letter & number</div>
+									    </div>
+								</div>
+								<div class="form-group">
+									<input type="password" class="form-control" ng-model="signUpForm.confirmPassword" name="cnfPwd" placeholder="Confirm Password" required autofocus
+									ng-class="{'has-error' : regForm.cnfPwd.$invalid && (!regForm.cnfPwd.$pristine || regForm.$submitted)}">
+									<div ng-messages="regForm.cnfPwd.$error" ng-show=" (!regForm.cnfPwd.$pristine || regForm.$submitted)" class="help-block">
+								        <div ng-message="required" style="color:white; text-align: left">Confirm Password is required</div>
+								</div>
+								
+								<div class="form-group">
+									<div class="form-group">
+									<input type="text" style="font-weight: bold;" class="form-control" ng-model="mainCaptcha" name="mainCaptcha" disabled>
+									<p class="text-msg-pswd" style="color:white; text-align: left;">Kindly enter the Captcha in the field below.</p>
+									<input type="text" class="form-control" ng-model="signUpForm.inputCaptcha" name="iCaptcha" >
+								</div>
+		
+								<button type="submit" ng-click="signup(regForm.$invalid);" class="btn btn-lg btn-primary btn-block btn-sign-in" >Sign Up</button>  
+								
+						</div>
+					</form>
+				 </div>
+            </div>
+        </div>
+    </div>    
+</section>
+    
+<!----------End Waitlist-Section-------->    

@@ -888,3 +888,42 @@ z-index: 3;
     margin-right: 10px;
 }
 
+/************** Signup Page ******************/
+
+
+.signup-box h2 {
+    font-size: 20px;
+    color: #fff;
+    border-bottom: 1px solid #fff;
+    padding-bottom: 10px;
+}
+
+.signup-wrap {
+    margin: 5% auto 0 auto;
+    position: relative;
+    text-align: center;
+}
+.captcha img {
+    display: inline-block;
+}
+.captcha img {
+    display: inline-block;
+    width: 14%;
+}
+.signup-box input {
+    height: 40px;
+    margin-bottom: 25px;
+}
+.captcha input {
+    display: inline-block;
+    width: 85%;
+    float: right;
+}
+
+.kyobeeSuccessMessage{
+    padding: 8px;
+    background-color: #dff0d8 !important;
+    border-color: #d6e9c6;
+    color: #3c763d !important;
+    border-radius: 5px;
+}
