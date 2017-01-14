@@ -32,20 +32,25 @@
     	var title="";
     	
     	if(subdomain.includes("localhost:8080")){
-    		cssFile = "../assets/css/theme-kyobee.css";
-    		logoImgSrc = "../assets/img/kyobeelogo.png";
-    		faciconLogoSrc = "../assets/img/favicon.png"
+    		cssFile = "../assets/css/theme-admin.css";
+    		logoImgSrc = "../assets/img/adminlogo.png";
+    		faciconLogoSrc = "../assets/img/favicon-admin.png";
     		title = "Kyobee";
     	} else {
-    		if(subdomain != null && subdomain != 'undefined' && subdomain != 'admin'){
+    		if(subdomain != null && subdomain != 'undefined'){
         		cssFile = "../assets/css/theme-" + subdomain + ".css";
         		logoImgSrc = "../assets/img/" + subdomain + "logo.png";
         		faciconLogoSrc = "../assets/img/favicon-" + subdomain + ".png"
-        		title = subdomain;
+        		
+        		if(subdomain == 'admin'){
+        			title = "Kyobee";		
+        		} else {
+        			title = subdomain;	
+        		}
         	} else {
-        		cssFile = "../assets/css/theme-kyobee.css";
-        		logoImgSrc = "../assets/img/kyobeelogo.png";
-        		faciconLogoSrc = "../assets/img/favicon.png"
+        		cssFile = "../assets/css/theme-admin.css";
+        		logoImgSrc = "../assets/img/adminlogo.png";
+        		faciconLogoSrc = "../assets/img/favicon-admin.png";
         		title = "Kyobee";
         	}	
     	}
