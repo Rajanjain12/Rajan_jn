@@ -11,8 +11,6 @@ import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kyobee.dao.OrganizationDAO;
-import com.kyobee.dao.UserDAO;
 import com.kyobee.dto.common.Credential;
 import com.kyobee.entity.Organization;
 import com.kyobee.entity.OrganizationUser;
@@ -37,12 +35,6 @@ public class SecurityServiceImpl implements ISecurityService {
 	
 	@Autowired
 	private SessionContextUtil sessionContextUtil;
-	
-	@Autowired
-	private UserDAO userDAO;
-
-	@Autowired 
-	private OrganizationDAO organizationDAO;
 	
 	@Autowired
 	EmailUtil emailUtil;
@@ -222,7 +214,8 @@ public class SecurityServiceImpl implements ISecurityService {
 	
 	@Override
 	public Boolean isDuplicateUser(String userName) throws RsntException {
-		User user = userDAO.fetchUserByUserName(userName);
+		User user = (User) sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.CHECK_USER_IF_EXISTS)
+				.setParameter("userName", userName).uniqueResult();
 		if (user != null) {
 			return true;
 		} else {
@@ -231,13 +224,12 @@ public class SecurityServiceImpl implements ISecurityService {
 	}
 	
 	@Override
-	public Boolean isDuplicateOrganization(String userName) throws RsntException {
-		Organization org = organizationDAO.fetchOrganization(userName);
-		if (org != null) {
+	public Boolean isDuplicateOrganization(String orgName) throws RsntException {
+		Organization org = (Organization) sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.CHECK_ORGANIZATION_IF_EXISTS)
+		.setParameter("orgName", orgName).uniqueResult();
+		if(org != null) {
 			return true;
-		} else {
-			return false;
-		}
+		} else return false;
 	}
 	
     @Override
@@ -289,10 +281,11 @@ public class SecurityServiceImpl implements ISecurityService {
 			organization.setOrganizationUserList(organizationUserList);
 			signUpUser.setOrganizationUser(organizationUser);
 			
-			Long i = userDAO.save(signUpUser); 
+			Long i = (Long) sessionFactory.getCurrentSession().save(signUpUser); 
 			
 			if (i != null) {
-				emailUtil.sendEmail(signUpUser.getUserName(), "Kyobee Successful Registration", "You have successfully signed into Kyobee!");
+				emailUtil.sendEmail(signUpUser.getUserName(), "Kyobee Successful Registration", "You have successfully signed into Kyobee!");	
+
 				return signUpUser;
 			}
 			return null;
