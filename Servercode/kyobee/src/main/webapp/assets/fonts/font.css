@@ -1,0 +1,18 @@
+@font-face {
+  font-family: 'SanFranciscoDisplay-Semibold';
+  src: url('SanFranciscoDisplay-Semibold.woff') format('woff'),
+       url('SanFranciscoDisplay-Semibold.ttf') format('truetype'),
+       url('SanFranciscoDisplay-Semibold.svg#SanFranciscoDisplay-Semibold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'sanfranciscodisplay-semibold-webfont';
+  src: url('sanfranciscodisplay-semibold-webfont.eot');
+  src: url('sanfranciscodisplay-semibold-webfont.woff2') format('woff2'),
+       url('sanfranciscodisplay-semibold-webfont.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+

@@ -21,6 +21,8 @@ h4, .h4 {
 
 .hbgcolor { background: #111e47;}
 
+.graycolor{color: #797979;}
+
 .rbboldfontp { color: #292929; font-size: 1.3em;}
 
 .tmboldfont{ font-family: 'GothamBold';}
@@ -97,6 +99,8 @@ h4, .h4 {
 	padding-top: 40px;
 	padding-bottom: 40px;
 }
+
+
 
 .content-sm {
 	padding-top: 60px;

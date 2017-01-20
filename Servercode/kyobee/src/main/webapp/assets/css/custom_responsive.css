@@ -51,6 +51,18 @@
 .dropdown {  margin-top: -40px;}        
 a.headersh {display: block;font-size: 35px; color: #dd4124; text-align: center;}    
 .header-waitlist { display: none;}    
+
+.login-title img { float: none;}
+.login-title h2 {float: none; margin-top: 15px;}
+    
+#footer-logo p { text-align: center !important;}    
+  #footer-logo {
+    text-align: center;
+}
+#footer-logo h1 { display: block;    }
+#footer-logo img { display: inline-block; float: none;}
+
+.fontsize1 { margin: 20px 0;   }
     
     
 }

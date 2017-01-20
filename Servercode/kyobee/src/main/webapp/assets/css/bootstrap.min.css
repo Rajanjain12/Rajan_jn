@@ -625,9 +625,9 @@ pre code {
 }
 }
 @media (min-width:1200px) {
-/*.container {
+.container {
 	width: 1170px
-}*/
+}
 }
 @media (min-width:1600px) {
 /*.container {

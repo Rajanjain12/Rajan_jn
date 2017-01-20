@@ -1,9 +1,7 @@
-
-
-/**  Marketing Home Page  **/
-
-/** ======================================================== **/
-
+/*
+ * Template Name: Kyobee - Custom Stylesheet
+ * Developer: Jaimin 
+*/
 
 /* Preloader */
 #preloader {
@@ -303,8 +301,7 @@
       padding-left: 3px;      
       font-size: 14px;
       color: #555555; }
-.checkbox input[type="checkbox"] {
-    opacity: 0; }
+
 .checkbox input[type="checkbox"]:focus + label::before {
       outline: thin dotted;
       outline: 5px auto -webkit-focus-ring-color;
@@ -812,11 +809,10 @@ z-index: 3;
     color: #bbbbbb;
 }
 
-.well-guest input, select {
+.well-guest .form-control {
     font-size: 18px !important;
     height: 45px !important;
 }
-
 .well-guest textarea{
     font-size: 18px !important;    
 }
@@ -888,6 +884,8 @@ z-index: 3;
     margin-right: 10px;
 }
 
+
+
 /************** Signup Page ******************/
 
 
@@ -920,10 +918,127 @@ z-index: 3;
     float: right;
 }
 
-.kyobeeSuccessMessage{
-    padding: 8px;
-    background-color: #dff0d8 !important;
-    border-color: #d6e9c6;
-    color: #3c763d !important;
-    border-radius: 5px;
+
+
+
+
+/********************** Guest Check In *********************/
+.fontsize1 { font-size: 3.2vmin;}
+.fontpsize { font-size: 3.5vmin;}
+.fontsize1 h3 { font-size: 14vmin;}
+#footer-logo img{display: inline-block;float: left;}
+#footer-logo p{color: #FFF;padding: 32px 0px;margin: 0px;  text-align: right;}
+#footer-logo h1 {
+    color: #FFF;
+    margin: 0px 0 0 0;
+    display: inline-block;
+    line-height: 40px;
+    font-size: 3.9em;
+    margin-left: 16px;
+    font-weight: 200;
 }
+
+
+#waitlist-box h2,h3,p {
+    font-family: 'SanFranciscoDisplay-Semibold';
+}
+
+#smshide1{display: none;}
+/*#emailhide1{display: none;}*/
+
+.btn-rfw {
+    padding: 5px 0;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 22px;
+    text-transform: uppercase;
+    width: 95%;
+    display: inherit;
+}
+.addf5 .radio {
+        margin: 0 10px 0 0;
+    display: inline-block;
+}
+
+.guest_check .checkbox {
+    margin: 0;
+}
+
+.ui-multiselect button {
+    background: #ffffff none repeat scroll 0 0;
+    border: 1px solid #dddddd;
+    box-shadow: 0 0 10px #dddddd inset;
+    color: #a9a9a9;
+    font-size: 22px !important;
+    padding: 9px 4px 9px 10px !important;
+}
+.ui-multiselect.ui-widget.ui-state-default.ui-corner-all { min-width: 198px; width: 100% !important; }
+
+
+.btn-multiselect {
+    height: 45px;
+    padding: 6px 12px;
+    font-size: 18px;
+    line-height: 1.42857143;
+    color: #9e9e9e;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: left;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+.btn-multiselect .caret{float: right;margin: 10px;}
+
+.multipaleselect>.dropdown-menu>.active>a, .dropdown-menu>.active>a:hover, .dropdown-menu>.active>a:focus {
+    background-color: #e5e5e5 !important;
+    color: #8d8d8d;
+    text-decoration: none;
+    outline: 0;
+    
+}
+.multipaleselect>.dropdown-menu>.active>a, .dropdown-menu>.active>a:hover, .dropdown-menu>.active>a:focus {    
+    text-decoration: none;
+    outline: 0;
+    background-color: #e5e5e5 !important;
+    color: #8d8d8d;
+}
+.multipaleselect>.dropdown-menu>.active>a, .dropdown-menu>.active>a:hover, .dropdown-menu>.active>a:focus {
+   
+    text-decoration: none;
+    outline: 0;
+    background-color: #e5e5e5 !important;
+    color: #8d8d8d;
+}
+.multipaleselect>.dropdown-menu>.active>a, .dropdown-menu>.active>a:hover, .dropdown-menu>.active>a:focus {
+    background-color: #e5e5e5 !important;
+    color: #8d8d8d !important;
+    text-decoration: none;
+    outline: 0;
+    
+}
+.multipaleselect>.active>a, .dropdown-menu>.active>a:hover, .dropdown-menu>.active>a:focus {
+   background-color: #e5e5e5 !important;
+    color: #8d8d8d !important;
+    text-decoration: none;
+    outline: 0;
+}
+
+.multipaleselect1 .dropdown-menu>.active>a, .dropdown-menu>.active>a:hover, .dropdown-menu>.active>a:focus {
+    background-color: #e5e5e5 !important;
+    color: #8d8d8d !important;
+}
+.multipaleselect1  .dropdown-menu { left: 15px !important; }
+.addf5 label {
+    color: #797979;
+    font-size: 18px;
+    line-height: 20px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+.font-color-fix label{color: #797979;
+    font-size: 18px;font-weight: 600;}
