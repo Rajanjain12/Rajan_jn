@@ -534,9 +534,9 @@ public class WaitListServiceImpl implements IWaitListService {
 	public Map<String, String> getGuesteMetrics(Long guestId,Long orgId) {
 		// TODO Auto-generated method stub
 		HashMap<String, String> metricks =  new HashMap<String, String>();
-		Object orgwaitTimeObj = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_WAIT_TIME).setParameter(1, orgId).uniqueResult();
-		Object guestCountobj = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_GUEST_AHEAD_COUNT).setParameter(1, guestId).setParameter(2, orgId).uniqueResult();
-		Object countObj4 = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_GUEST_MIN_CHECKIN_RANK).setParameter(1, orgId).uniqueResult();
+		Object orgwaitTimeObj = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_WAIT_TIME).setParameter("orgId", orgId).uniqueResult();
+		Object guestCountobj = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_GUEST_AHEAD_COUNT).setParameter("guestId", guestId).setParameter("orgId", orgId).uniqueResult();
+		Object countObj4 = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_GUEST_MIN_CHECKIN_RANK).setParameter("orgId", orgId).uniqueResult();
 		metricks.put(Constants.RSNT_GUEST_RANK_MIN, countObj4.toString());
 		int orgwaitTime = Integer.parseInt(orgwaitTimeObj.toString());
 		int guestCount = Integer.parseInt(guestCountobj.toString());

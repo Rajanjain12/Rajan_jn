@@ -55,15 +55,15 @@
                           
                           <div class="col-md-5 text-center fontsize1 theme-fontcolor">
                             <h2>Now Serving</h2>
-                            <h3>#3</h3>
+                            <h3>#{{guestRankMin}}</h3>
                           </div>
                           <div class="col-md-2 text-center fontsize1 graycolor no-padding">
-                            <h2>( 2 )</h2>
+                            <h2>( {{guestAheadCount}} )</h2>
                             <p class="fontpsize">Parties Waiting</p>
                           </div>
                           <div class="col-md-5 text-center fontsize1 theme-fontcolor">
                             <h2>Est. Wait Time</h2>
-                            <h3>02:18</h3>
+                            <h3>{{totalWaitTime}}</h3>
                           </div>
                         
                       </div>
@@ -77,30 +77,30 @@
 
                             <div class="form-group col-md-6">
                             <label class="control-label"></label>
-                            <input type="text" name="field1" class="form-control" placeholder="James" />
+                            <input type="text" name="field1" class="form-control" ng-model="guest.name"/>
                             </div>
 
                             <div class="form-group col-md-6">
                             <label class="control-label"></label>
-                            <input type="text" name="field1" class="form-control" placeholder="1" />
+                            <input type="text" name="field1" class="form-control" ng-model="guest.noOfPeople" />
                             </div>
 
 
                             <div class="form-group addf5 col-md-6"> 
                                 <div class="radio radio-danger">
-                                    <input type="radio" name="radio1" onchange="showsms1();" id="smsshow1" value="option1" >
+                                    <input type="radio" name="radio1" onchange="showsms1();" id="smsshow1" ng-model="guest.prefType" value="sms" >
                                     <label for="smsshow1">SMS</label>
                                 </div>
                                 <div class="radio radio-danger">
-                                    <input type="radio" name="radio1" onchange="showemail1();" id="emailshow1" value="option2" >
+                                    <input type="radio" name="radio1" onchange="showemail1();" id="emailshow1" ng-model="guest.prefType" value="email">
                                     <label for="emailshow1">E-Mail</label>
                                 </div>
                                  <div class="addf3input">
                                      <div id="smshide1">
-                                        <input type="number" name="field2" placeholder="(___) ___-____ *" class="form-control" />
+                                        <input type="number" name="field2" ng-model="guest.sms" placeholder="(___) ___-____ *" class="form-control" />
                                     </div>
                                      <div id="emailhide1">
-                                        <input type="text" name="field2" placeholder="james@gmail.com" class="form-control" />
+                                        <input type="text" name="field2" ng-model="guest.email" placeholder="abc@gmail.com" class="form-control" />
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@
                     <div class="form-group col-md-12 font-color-fix">
 
                         <div class="checkbox radio-danger">
-                            <input type="checkbox" name="radio1" id="optionin" value="" >
+                            <input type="checkbox" name="radio1" id="optionin" ng-model='guest.optin'>
                             <label for="optionin">(Opt-in to receive promotions/special)</label>
                         </div>
 
@@ -150,7 +150,7 @@
         <div class="container" id="footer-logo">
             <div class="content-xs col-md-6 col-xs-12">
             
-                <img src="assets/img/kyobeelogo.png"><h1>Waitlist</h1>
+                <img src="../assets/img/adminlogo.png"><h1>Waitlist</h1>
                 
             </div>
         
@@ -168,38 +168,8 @@
 </section>
     
     
-<!----------End Waitlist-Section-------->    
-    
-    <script>
-       /*$(document).ready(function() {
-            $(window).resize(function() {
-                
-                var viewportWidth = $(window).width();    
-                if (viewportWidth < 767) {
-                        $(".header-waitlist").addClass("hideheader");
-
-                }else{
-                        $(".header-waitlist").removeClass("hideheader");
-                }   
-
-            });            
-         });   
-       */
-    </script>
-
-<!-- Custom Scritp Area -->
-<script type="text/javascript">
-
-    
-var toggle  = document.getElementById("noteshow");
-var content = document.getElementById("notehide");
-
-toggle.addEventListener("click", function(){
-  content.style.display = (content.dataset.toggled ^= 1) ? "block" : "none";
-}, false);
-
-</script>   
-    
+<!----------End Waitlist-Section-------->        
+     
 <script type="text/javascript">
 
 function showsms1(){
@@ -213,37 +183,4 @@ function showemail1(){
     
 }       
 
-</script>   
-    
-    
- 
-        
-<script>
-        
-$(document).ready(function() {
-    $('.headersh').click(function() {
-    $('.header-waitlist').toggle('slow');
-    });
-});        
-
-</script>
-
-    
-    
-    
-    <!-- Custom Scritp Area -->
-    
-	
-	<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
-		
-    <script src="assets/js/jquery.sticky.js" type="text/javascript"></script>
-
-    <script src="assets/js/jquery.simplePopup.js" type="text/javascript"></script>
-    
-    <script src="assets/js/bootstrap-multiselect.js" type="text/javascript"></script>
-    
-    <script src="assets/js/custom_script.js" type="text/javascript"></script>
-    
-    
-  
-
+</script>  

@@ -78,9 +78,11 @@ public class AuthenticationFilter implements Filter {
 			
 			
 			if(requestURI.contains("kyobee/web/")){
-				UserDTO userDTO = (UserDTO) httpReq.getSession().getAttribute(Constants.USER_OBJ);
-				if(userDTO == null ){				
-					httpRes.sendRedirect(httpReq.getContextPath()+ "/unsecured/index.html");
+				if (!byPassURL(requestURI)) {
+					UserDTO userDTO = (UserDTO) httpReq.getSession().getAttribute(Constants.USER_OBJ);
+					if (userDTO == null) {
+						httpRes.sendRedirect(httpReq.getContextPath() + "/unsecured/index.html");
+					}
 				}
 			}
 			
@@ -95,7 +97,15 @@ public class AuthenticationFilter implements Filter {
 	}
 
 	
-	
+	private boolean byPassURL(String url) {
+		if (url.contains("/guestuuid") || url.contains("/orgseatpref") || url.contains("/usermetricks")
+				|| url.contains("/pusgerinformation")) {
+			System.out.println("URL Bypassed : " + url);
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 	
 	

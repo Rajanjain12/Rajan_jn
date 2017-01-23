@@ -451,10 +451,18 @@ public class WaitListRestAction {
 	//@GET
 	//@Path("/usermetricks")
 	@RequestMapping(value = "/usermetricks", method = RequestMethod.GET, produces = "application/json")
-	public String getGuestWaitTimeMetricks(@RequestParam("guest") Long guestId,@RequestParam("orgid") Long orgid){
-		Map<String, String> metrciks = waitListService.getGuesteMetrics(guestId,orgid);
-		final JSONObject jsonObject = JSONObject.fromObject(metrciks);
-		return jsonObject.toString();
+	public Response<Map<String, String>> getGuestWaitTimeMetricks(@RequestParam("guest") Long guestId,@RequestParam("orgid") Long orgid){
+		Response<Map<String, String>> response = new Response<Map<String,String>>();
+		
+		try {
+			Map<String, String> metrciks = waitListService.getGuesteMetrics(guestId,orgid);
+			response.setServiceResult(metrciks);
+			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+		} catch (Exception e){
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - usermetriks failed");
+		}
+		return response;
 	}
 	/*	*//**
 	 * Delete Guest By User
@@ -583,27 +591,27 @@ public class WaitListRestAction {
 	//@Path("/guestuuid")
 	//@Produces(MediaType.APPLICATION_JSON)
 	@RequestMapping(value = "/guestuuid", method = RequestMethod.GET, produces = "application/json")
-	public String fetchGuestByUUID(@RequestParam("uuid") String uuid){
+	public Response<Guest> fetchGuestByUUID(@RequestParam("uuid") String uuid){
 		log.info("Entering fetchGuestByUUID ::UUID::"+uuid);
-		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
-		final List<String> errorArray = new ArrayList<String>(0);
+		Response<Guest> response = new Response<Guest>();
 		Guest guestObject= null;
 		try {
 			guestObject = waitListService.getGuestByUUID(uuid);
+			response.setServiceResult(guestObject);
+			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 			//nonCloseParent(guestObject.getGuestPreferences());
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.error("fetchGuestByUUID() - failed:", e);
-			rootMap.put("id", -1);
-			rootMap.put(Constants.RSNT_ERROR, "System Error - fetchCheckinUsers failed");
-			rootMap.put("fieldErrors", errorArray);
-			final JSONObject jsonObject = JSONObject.fromObject(rootMap);
-			return jsonObject.toString();
+			//rootMap.put("id", -1);
+			//rootMap.put(Constants.RSNT_ERROR, "System Error - fetchCheckinUsers failed");
+			//rootMap.put("fieldErrors", errorArray);
+			//final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+			//return jsonObject.toString();
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - fetch Guest");
 		}
-		rootMap.put(Constants.RSNT_ERROR, "");
-		rootMap.put("guests",guestObject);
-		final JSONObject jsonObject = JSONObject.fromObject(rootMap);
-		return jsonObject.toString();
+		return response;
 	}
 	/**
 	 * Get the Guests History by organizationId

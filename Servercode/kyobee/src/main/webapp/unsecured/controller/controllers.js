@@ -183,7 +183,7 @@ KyobeeUnSecuredController.controller('homeCtrl',
 						var postBody = $scope.signUpForm;
 						var url = "/kyobee/rest/signup"
 						 
-						KyobeeUnsecuredService.getDataService(url , postBody)
+						KyobeeUnsecuredService.postService(url , postBody)
 							.query(postBody, function(data) {
 								console.log(data);
 								if (data.status == "SUCCESS") {

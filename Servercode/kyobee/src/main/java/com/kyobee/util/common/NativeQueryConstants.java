@@ -411,10 +411,10 @@ public class NativeQueryConstants {
 	public static final String UPDATE_ORG_NOTIFY_COUNT = "UPDATE ORGANIZATION SET notifyUserCount=?1 where OrganizationID =?2";
 
 	public static final String DELETE_GUEST_BY_ID = "UPDATE GUEST SET status='REMOVED' where guestID=?1";
-	public static final String GET_ORG_WAIT_TIME = "SELECT waitTime FROM ORGANIZATION where  OrganizationID =?1";
+	public static final String GET_ORG_WAIT_TIME = "SELECT waitTime FROM ORGANIZATION where  OrganizationID =:orgId";
 	public static final String GET_ORG_NOTIFY_COUNT = "SELECT notifyUserCount FROM ORGANIZATION where  OrganizationID =?1";
 	public static final String GET_GUEST_CHECKIN_COUNT = "SELECT count(*) FROM GUEST where  STATUS='CHECKIN' and resetTime is  null and calloutCount is null and incompleteParty is null and OrganizationID =?1 ";
-	public static final String GET_GUEST_AHEAD_COUNT = "SELECT count(*) FROM GUEST where  STATUS='CHECKIN' and resetTime is  null and calloutCount is null and incompleteParty is null and guestID<?1 and OrganizationID =?2";
+	public static final String GET_GUEST_AHEAD_COUNT = "SELECT count(*) FROM GUEST where  STATUS='CHECKIN' and resetTime is  null and calloutCount is null and incompleteParty is null and guestID<:guestId and OrganizationID =:orgId";
 	public static final String GET_ORG_NAME_BY_ID = "SELECT OrganizationName FROM ORGANIZATION where OrganizationId=?1";
 	public static final String GET_ORG_GUEST_MAX_RANK = "SELECT IF(max(rank) IS NULL ,0,max(rank))  from GUEST WHERE OrganizationID =?1 and status in('CHECKIN','SEATED','DELETED','REMOVED') and resetTime is null";
 	
@@ -431,7 +431,7 @@ public class NativeQueryConstants {
 	//public static final String HQL_DELETE_GUESTS_PREFERENCES = "DELETE FROM GuestPreferences";
 
 	public static final String GET_ALL_ORG = "select OrganizationID from ORGANIZATION";
-	public static final String GET_ORG_GUEST_MIN_CHECKIN_RANK = "SELECT IF(min(rank) IS NULL ,0,min(rank))  from GUEST WHERE calloutCount is null and incompleteParty is null and OrganizationID =?1 and status in('CHECKIN') and resetTime is null";
+	public static final String GET_ORG_GUEST_MIN_CHECKIN_RANK = "SELECT IF(min(rank) IS NULL ,0,min(rank))  from GUEST WHERE calloutCount is null and incompleteParty is null and OrganizationID =:orgId and status in('CHECKIN') and resetTime is null";
 	
 	
 	public static final String HQL_GET_ORGANIZATION = "from Organization where organizationId = ?1";

@@ -16,7 +16,7 @@ KyobeeUnsecuredService.factory('KyobeeUnsecuredService', [ '$resource', '$http',
 		}, getDataService : function(url, requestParams) {
 			return $resource(url, {}, {
 				query : {
-					method : 'POST',
+					method : 'GET',
 					params : requestParams,
 					headers : {
 						'Content-Type' : 'application/json'

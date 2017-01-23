@@ -1,0 +1,265 @@
+KyobeeUnSecuredController.controller('guestDetailCtrl',
+		[
+				'$scope',
+				'$location',
+				'$timeout',
+				'$interval',
+				'$routeParams',
+				'KyobeeUnsecuredService',
+				function($scope, $location, $timeout, $interval, $routeParams, KyobeeUnsecuredService) {
+					
+					$scope.guest = null;
+					$scope.tid = null;
+					$scope.seatPrefs = null;
+					$scope.totalWaitTime = null;
+					$scope.guestRankMin = null;
+					$scope.guestAheadCount = null;
+					
+					$scope.appKey = null;
+					$scope.privateKey = null;
+					$scope.channel = null;
+					$scope.authToken = 'Unno1adyiSooIAkAEt';
+					$scope.connectionUrl = 'https://ortc-developers.realtime.co/server/2.1';
+					$scope.client = null;
+					$scope.authenticationRequired = false;
+					$scope.isCluster = true;
+					$scope.countMsgChannel = 0;
+					
+					$scope.loadGuestPage = function(){
+						
+						var postBody = {};
+						var url = "/kyobee/web/rest/waitlistRestAction/guestuuid?uuid="+$scope.tid;
+						 
+						KyobeeUnsecuredService.getDataService(url , postBody)
+							.query(postBody, function(data) {
+								console.log(data);
+								if (data.status == "SUCCESS") {
+									$scope.guest = data.serviceResult;
+									$scope.loadSeatingPref($scope.guest.organizationID);
+									$scope.loadUserMetricks($scope.guest.organizationID, $scope.guest.guestID);
+								} else if (data.status == "FAILURE") {
+									console.log(data.serviceResult);
+								}
+							}, function(error) {
+								console.log(error);
+							});
+						
+					}
+					
+					$scope.loadSeatingPref = function(orgId) {
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/orgseatpref?orgid=' + orgId;
+						KyobeeUnsecuredService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										$scope.seatPrefs = data.serviceResult;
+									} else if (data.status == "FAILURE") {
+										alert('Error while fetching user details. Please login again or contact support');
+										$scope.logout();
+									}
+								}, function(error) {
+									alert('Error while fetching user details. Please login again or contact support');
+								});
+					};
+					
+					$scope.loadUserMetricks = function(orgId, guestId) {
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/usermetricks?guest='+guestId+'&orgid='+orgId;
+						KyobeeUnsecuredService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										$scope.totalWaitTime = data.serviceResult.TOTAL_WAIT_TIME;
+										$scope.guestRankMin = data.serviceResult.GUEST_RANK_MIN;
+										$scope.guestAheadCount = data.serviceResult.GUEST_AHEAD_COUNT;
+									} else if (data.status == "FAILURE") {
+										alert('Error while fetching user details. Please login again or contact support');
+										$scope.logout();
+									}
+								}, function(error) {
+									alert('Error while fetching user details. Please login again or contact support');
+								});
+					};
+					
+					$scope.init = function(){
+						
+						if ($routeParams.tid != null && $routeParams.tid != 'undefined'){
+							$scope.tid = $routeParams.tid;
+							$scope.loadGuestPage();
+						}
+						
+						$scope.loadInfo();
+						
+					}
+					
+					$scope.loadInfo = function() {
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/pusgerinformation';
+						KyobeeUnsecuredService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										$scope.appKey = data.serviceResult.REALTIME_APPLICATION_KEY;
+										$scope.privateKey = data.serviceResult.REALTIME_PRIVATE_KEY;
+										$scope.channel = data.serviceResult.pusherChannelEnv;
+										$scope.loadFactory();
+									} else if (data.status == "FAILURE") {
+										alert('Error while fetching user details. Please login again or contact support');
+										$scope.logout();
+									}
+								}, function(error) {
+									alert('Error while fetching user details. Please login again or contact support');
+								});
+					};
+					
+					$scope.loadFactory = function(){
+						
+						$scope.loadOrtcFactory = loadOrtcFactory(IbtRealTimeSJType, function (factory, error){
+							$scope.client = factory.createClient();
+							$scope.client.setClusterUrl($scope.connectionUrl);
+							$scope.client.setConnectionMetadata('UserConnectionMetadata');
+
+							$scope.client.onConnected = clientConnected;
+							$scope.client.onSubscribed = clientSubscribed;
+							//client.onUnsubscribed = clientUnsubscribed;
+							$scope.client.onReconnecting = clientReconnecting;
+							$scope.client.onReconnected = clientReconnected;
+							$scope.client.onDisconnected = clientDisconnected;
+							$scope.client.onException = clientException;
+							$scope.client.connect($scope.appKey, $scope.authToken);
+							if($scope.authenticationRequired){
+							// Enable presence data for MyChannel
+								$scope.client.enablePresence({
+									applicationKey : $scope.appKey,
+									channel : $scope.channel, 
+									privateKey : $scope.privateKey, 
+									url : $scope.connectionUrl,
+									isCluster : $scope.isCluster,
+									metadata : 1
+								},
+								function(error,result){
+									if(error){
+										console.log('Enable presence error: ' + error);  
+									}else{
+										console.log('Presence enable: ' + result);              
+									}
+								});
+							}
+
+							/* 
+							* Function connected to realtime.co framework and it is the main function for developers  
+							* 
+							*/
+
+							function clientConnected(ortc) {
+								console.log('Connected to: ' + ortc.getUrl());
+								console.log('Subscribe to channel: ' + $scope.channel);
+	
+	
+								if ($scope.client.getIsConnected() == false) {
+								    $scope.client.connect($scope.appKey, $scope.authToken);
+								 }
+								// Subscribe channel
+								ortc.subscribe($scope.channel, true, function onMessage(ortc, channel, message) {
+								    $scope.countMsgChannel++;
+								    console.log('Received (' + countMsgChannel + '): ' + message+ ' at channel: ' + channel);
+									var m = jQuery.parseJSON(message);
+									
+									if(m.orgid == $("#orgid").val()){ 
+										
+										if(m.OP=='DEL'){
+								    		alert($("#guestIdVAL").val());
+										    //if($("#guestIdVAL").val()>m.guestObj){
+										    	var nbp = parseInt($("#numberofparties").html());
+												$("#numberofparties").html(nbp-1);
+												var ppwt = parseInt(m.ppwt);
+												$("#totalWaitTime").html(ppwt*(nbp-1)+parseInt(ppwt))
+												
+								      			var twt = (ppwt*(nbp-1))+parseInt(ppwt);
+								    			console.log(twt);
+								    			var h = Math.floor(twt/60);	
+								    			var hour = h.toString().length == 1 ? (0+h.toString()) : h ;
+								    			var m = twt%60;
+								   	    	 	var min = m.toString().length == 1 ? (0+m.toString()) : m ;
+								      	    	  $("#hour").html(hour);
+								      	    	  $("#min").html(min);
+											     //}
+										    }
+									    if(m.OP=='PPT_CHG'){
+									    	var nbp = parseInt($("#numberofparties").html());
+											$("#numberofparties").html(nbp);
+											$("#ppwtime").val(m.ppwt);
+											var ppwt = parseInt(m.ppwt);
+											$("#totalWaitTime").html((ppwt*nbp)+parseInt(ppwt));
+											var twt = (ppwt*nbp)+parseInt(ppwt);
+											var h = Math.floor(twt/60);	
+											var hour = h.toString().length == 1 ? (0+h.toString()) : h ;
+											var m = twt%60;
+									    	 	var min = m.toString().length == 1 ? (0+m.toString()) : m ;
+								  	     	$("#hour").html(hour);
+								  	    	$("#min").html(min);
+										    }
+									    if(m.OP=='RESET'){ 
+									    	location.reload();
+										    }
+									    if(m.OP=='MINRANK'){ 
+									    	 $("#guestRankMin").html(m.guminrank);
+											 //Start for Prefix
+									    	 if($.query.get("orgid") == 15){
+									 			 var grmin = parseInt($("#guestRankMin").html());
+									  			  	$("#guestRankMin").html("A"+grmin);
+										      	}
+										     //End for prefix
+										    }
+									    if(m.OP=='UPD'){
+								            console.log("update received from Guest")
+								        }
+	
+								    }								
+								});
+							};
+
+							function clientSubscribed(ortc, channel) {
+							console.log('Subscribed to channel: ' + channel);
+							};
+
+							function clientUnsubscribed(ortc, channel) {
+							console.log('Unsubscribed from channel: ' + channel);
+							};
+
+							function clientReconnecting(ortc) {
+							console.log('Reconnecting to ' + connectionUrl);
+							};
+
+							function clientReconnected(ortc) {
+							console.log('Reconnected to: ' + ortc.getUrl());
+							};
+
+							function clientDisconnected(ortc) {
+							console.log('Disconnected');
+							};
+
+							function clientException(ortc, error) {
+							console.log('Error: ' + error);
+							};
+							console.log('Connecting to ' + $scope.connectionUrl);
+							// Connect to the Realtime Framework cluster
+							//$scope.client.connect($scope.appKey, $scope.authToken);
+
+
+							});
+					}
+					
+					
+					$scope.init();
+					
+					
+
+				} ]);
