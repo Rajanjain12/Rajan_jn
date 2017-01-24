@@ -25,6 +25,8 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					$scope.isCluster = true;
 					$scope.countMsgChannel = 0;
 					
+					$scope.selectedSeatPref = [];
+					
 					$scope.loadGuestPage = function(){
 						
 						var postBody = {};
@@ -35,6 +37,13 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								console.log(data);
 								if (data.status == "SUCCESS") {
 									$scope.guest = data.serviceResult;
+									var seatingPrefs = $scope.guest.seatingPreference.split(',');
+									if(seatingPrefs != null && seatingPrefs != 'undefined'){
+										for(var i=0; i<seatingPrefs.length; i++){
+											$scope.selectedSeatPref.push(seatingPrefs[i]);
+										}
+									}
+									console.log($scope.selectedSeatPref);
 									$scope.loadSeatingPref($scope.guest.organizationID);
 									$scope.loadUserMetricks($scope.guest.organizationID, $scope.guest.guestID);
 								} else if (data.status == "FAILURE") {

@@ -108,12 +108,8 @@
 
                             <div class="form-group col-md-6 multipaleselect1 font-color-fix">
                                     <label class="control-label">Seating Preference</label>
-                                    <select id="example-multiple-selected" multiple="multiple">
-                                        <option value="1">Patio</option>
-                                        <option value="2">Bar</option>
-                                        <option value="3">First Available</option>
-                                        <option value="4">Booth</option>
-                                        <option value="5">Table</option>    
+                                    <select id="example-multiple-selected" multiple="multiple" ng-model="selectedSeatPref">
+                                    	<option ng-repeat="opt in seatPrefs" ng-value="opt.prefValueId">{{opt.prefValue}}</option>
                                     </select>
                             </div>
                     </div>
