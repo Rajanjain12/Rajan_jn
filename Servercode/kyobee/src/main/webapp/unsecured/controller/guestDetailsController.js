@@ -14,6 +14,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					$scope.totalWaitTime = null;
 					$scope.guestRankMin = null;
 					$scope.guestAheadCount = null;
+					$scope.orgWaitTime = null;
 					
 					$scope.appKey = null;
 					$scope.privateKey = null;
@@ -74,6 +75,74 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								});
 					};
 					
+					$scope.updateGuest = function(){
+						
+						$scope.errorMsg = null;
+						
+						/*if(!invalid){
+							return;
+						}*/
+						
+						if($scope.guest.prefType == null || $scope.guest.prefType == 'undefined'){
+							$scope.errorMsg = "Please select sms or email";
+							return;
+						}
+						
+						if(($scope.guest.prefType == 'sms' || $scope.guest.prefType == 'SMS') && ($scope.guest.sms == null || $scope.guest.sms == 'undefined')){
+							$scope.errorMsg = "Please enter the contact no.";
+							return;
+						}
+						
+						if(($scope.guest.prefType == 'email' || $scope.guest.prefType == 'EMAIL') && ($scope.guest.email == null || $scope.guest.email == 'undefined')){
+							$scope.errorMsg = "Please enter the email";
+							return;
+						}
+						
+						var selectedGuestPref = [];
+						
+						for(i=0;i<$scope.seatPrefs.length;i++){
+							for(j=0; j<$scope.selectedSeatPref.length;j++){
+								if($scope.seatPrefs[i].prefValueId == $scope.selectedSeatPref[j]){
+									selectedGuestPref.push($scope.seatPrefs[i]);
+									break;
+								}
+							}
+							
+						}
+						
+						var postBody = {
+								'name' : 	$scope.guest.name,
+								'guestID' : $scope.guest.guestID,
+								'organizationID' : $scope.guest.OrganizationID,
+								'noOfPeople' : $scope.guest.noOfPeople,
+								'prefType' : $scope.guest.prefType,
+								'sms' : $scope.guest.sms,
+								'email' : $scope.guest.email,
+								'optin' : $scope.guest.optin,
+								'status': 'CHECKIN',
+								'guestPreferences' : selectedGuestPref
+						}
+						
+						var url = '/kyobee/web/rest/waitlistRestAction/updateGuestInfo';
+						KyobeeUnsecuredService.postService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										if ($scope.client.getIsConnected() == false) {
+											$scope.client.connect($scope.appKey, $scope.authToken);
+					                     }
+					   	    		    var message = JSON.stringify({"OP":"UpdageGuestInfo","guestObj":data.serviceResult.updguest.guestID,"updguest":data.serviceResult.guest,"FROM":"USER","ppwt":$scope.orgWaitTime ,"orgid":$scope.guest.organizationID});
+					                    $scope.client.send($scope.channel, message);
+							            console.log('Sending from updateguest: ' + message + ' to channel: ' + $scope.channel);
+										alert('Guest Inforation updated successfully');
+									} else if (data.status == "FAILURE") {
+										alert('Error while updating guest');
+									}
+								}, function(error) {
+									alert('Error while updating guest');
+								});
+					}
+					
 					$scope.loadUserMetricks = function(orgId, guestId) {
 						var postBody = {
 
@@ -86,6 +155,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 										$scope.totalWaitTime = data.serviceResult.TOTAL_WAIT_TIME;
 										$scope.guestRankMin = data.serviceResult.GUEST_RANK_MIN;
 										$scope.guestAheadCount = data.serviceResult.GUEST_AHEAD_COUNT;
+										$scope.orgWaitTime = data.serviceResult.ORG_WAIT_TIME;
 									} else if (data.status == "FAILURE") {
 										alert('Error while fetching user details. Please login again or contact support');
 										$scope.logout();
