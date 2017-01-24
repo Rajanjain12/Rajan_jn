@@ -77,7 +77,7 @@ public class AuthenticationFilter implements Filter {
 			}
 			
 			
-			if(requestURI.contains("kyobee/web/")){
+			if(requestURI.contains("kyobee/web/") && !requestURI.contains("kyobee/web/rest")){
 				if (!byPassURL(requestURI)) {
 					UserDTO userDTO = (UserDTO) httpReq.getSession().getAttribute(Constants.USER_OBJ);
 					if (userDTO == null) {
