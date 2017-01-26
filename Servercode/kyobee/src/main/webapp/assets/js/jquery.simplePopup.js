@@ -53,7 +53,7 @@
 		}
 
 		if(object.find('.simplePopupClose').length === 0) {
-		    var close = '<div class="simplePopupClose"><img src="assets/img/close.png"/></div>';
+		    var close = '<div class="simplePopupClose"><img src="../assets/img/close.png"/></div>';
 		    object.prepend(close);
 		}
 	    },

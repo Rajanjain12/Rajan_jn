@@ -38,13 +38,16 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								console.log(data);
 								if (data.status == "SUCCESS") {
 									$scope.guest = data.serviceResult;
-									var seatingPrefs = $scope.guest.seatingPreference.split(',');
-									if(seatingPrefs != null && seatingPrefs != 'undefined'){
-										for(var i=0; i<seatingPrefs.length; i++){
-											$scope.selectedSeatPref.push(seatingPrefs[i]);
+									$scope.selectedSeatPref = [];
+									if($scope.guest.seatingPreference != null && $scope.guest.seatingPreference != 'undefined'){
+										var seatingPrefs = $scope.guest.seatingPreference.split(',');
+										if(seatingPrefs != null && seatingPrefs != 'undefined'){
+											for(var i=0; i<seatingPrefs.length; i++){
+												$scope.selectedSeatPref.push(seatingPrefs[i]);
+											}
 										}
+										console.log($scope.selectedSeatPref);
 									}
-									console.log($scope.selectedSeatPref);
 									$scope.loadSeatingPref($scope.guest.organizationID);
 									$scope.loadUserMetricks($scope.guest.organizationID, $scope.guest.guestID);
 								} else if (data.status == "FAILURE") {
@@ -141,6 +144,45 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								}, function(error) {
 									alert('Error while updating guest');
 								});
+					}
+					
+					$scope.deleteGuest = function(){
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/deleteGuest?orgId=' + $scope.guest.organizationID + '&guestId='+$scope.guest.guestID;
+						KyobeeUnsecuredService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										if ($scope.client.getIsConnected() == false) {
+											$scope.client.connect($scope.appKey, $scope.authToken);
+					                     }
+					   	    		    var message = JSON.stringify( {"OP":"DEL","guestObj":$scope.guest.guestID,"FROM":"USER","ppwt":$scope.orgWaitTime,"orgid":$scope.guest.organizationID});
+					   	    		    $scope.client.send($scope.channel, message);
+							            console.log('Sending from deleteguest: ' + message + ' to channel: ' + $scope.channel);
+						   	    	 	//$('#deletemsg').addClass('is-visible');
+						   	    	 
+										$('#deletePopup').simplePopup().hide();
+										$(".simplePopupBackground").fadeOut("fast");
+										$scope.guest = null;
+										//$scope.loadWaitListPage(1);
+									} else if (data.status == "FAILURE") {
+										alert('Error while deleting guest.');
+									}
+								}, function(error) {
+									alert('Error while deleting guest.');
+								});
+						
+					}
+					
+					$scope.showDeletePopup = function(){
+						$('#deletePopup').simplePopup();
+					}
+					
+					$scope.cancelDelete = function(){
+						$('#deletePopup').simplePopup().hide();
+						$(".simplePopupBackground").fadeOut("fast");
 					}
 					
 					$scope.loadUserMetricks = function(orgId, guestId) {
@@ -248,42 +290,47 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								// Subscribe channel
 								ortc.subscribe($scope.channel, true, function onMessage(ortc, channel, message) {
 								    $scope.countMsgChannel++;
-								    console.log('Received (' + countMsgChannel + '): ' + message+ ' at channel: ' + channel);
+								    console.log('Received (' + $scope.countMsgChannel + '): ' + message+ ' at channel: ' + channel);
 									var m = jQuery.parseJSON(message);
 									
-									if(m.orgid == $("#orgid").val()){ 
+									if(m.orgid == $scope.guest.organizationID){ 
 										
 										if(m.OP=='DEL'){
-								    		alert($("#guestIdVAL").val());
+								    		//alert($("#guestIdVAL").val());
 										    //if($("#guestIdVAL").val()>m.guestObj){
-										    	var nbp = parseInt($("#numberofparties").html());
-												$("#numberofparties").html(nbp-1);
-												var ppwt = parseInt(m.ppwt);
-												$("#totalWaitTime").html(ppwt*(nbp-1)+parseInt(ppwt))
-												
-								      			var twt = (ppwt*(nbp-1))+parseInt(ppwt);
-								    			console.log(twt);
-								    			var h = Math.floor(twt/60);	
-								    			var hour = h.toString().length == 1 ? (0+h.toString()) : h ;
-								    			var m = twt%60;
-								   	    	 	var min = m.toString().length == 1 ? (0+m.toString()) : m ;
-								      	    	  $("#hour").html(hour);
-								      	    	  $("#min").html(min);
+										    	var nbp = $scope.guestAheadCount;
+												//$("#numberofparties").html(nbp-1);
+										    	$scope.guestAheadCount = $scope.guestAheadCount - 1;
+												var ppwt = $scope.orgWaitTime;
+												//$("#totalWaitTime").html(ppwt*(nbp-1)+parseInt(ppwt))
+												$scope.totalWaitTime = ppwt*(nbp-1) + parseInt(ppwt);
+												$scope.$apply();
+								      			//var twt = (ppwt*(nbp-1))+parseInt(ppwt);
+								    			//console.log(twt);
+								    			//var h = Math.floor(twt/60);	
+								    			//var hour = h.toString().length == 1 ? (0+h.toString()) : h ;
+								    			//var m = twt%60;
+								   	    	 	//var min = m.toString().length == 1 ? (0+m.toString()) : m ;
+								      	    	//  $("#hour").html(hour);
+								      	    	//  $("#min").html(min);
 											     //}
 										    }
 									    if(m.OP=='PPT_CHG'){
-									    	var nbp = parseInt($("#numberofparties").html());
-											$("#numberofparties").html(nbp);
-											$("#ppwtime").val(m.ppwt);
+									    	var nbp = $scope.guestAheadCount;
+									    	//var nbp = parseInt($("#numberofparties").html());
+											//$("#numberofparties").html(nbp);
+											//$("#ppwtime").val(m.ppwt);
 											var ppwt = parseInt(m.ppwt);
-											$("#totalWaitTime").html((ppwt*nbp)+parseInt(ppwt));
-											var twt = (ppwt*nbp)+parseInt(ppwt);
-											var h = Math.floor(twt/60);	
-											var hour = h.toString().length == 1 ? (0+h.toString()) : h ;
-											var m = twt%60;
-									    	 	var min = m.toString().length == 1 ? (0+m.toString()) : m ;
-								  	     	$("#hour").html(hour);
-								  	    	$("#min").html(min);
+											//$("#totalWaitTime").html((ppwt*nbp)+parseInt(ppwt));
+											$scope.totalWaitTime = (ppwt*nbp)+parseInt(ppwt);
+											$scope.$apply();
+											//var twt = (ppwt*nbp)+parseInt(ppwt);
+											//var h = Math.floor(twt/60);	
+											//var hour = h.toString().length == 1 ? (0+h.toString()) : h ;
+											//var m = twt%60;
+									    	// 	var min = m.toString().length == 1 ? (0+m.toString()) : m ;
+								  	     	//$("#hour").html(hour);
+								  	    	//$("#min").html(min);
 										    }
 									    if(m.OP=='RESET'){ 
 									    	location.reload();
