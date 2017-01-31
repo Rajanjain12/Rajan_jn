@@ -37,8 +37,14 @@ public class NotificationMessageReceiver implements MessageListener{
 	@Value("${sms.project.id}")
 	private String smsProjectId;
 	
-	@Value("${rsnt.base.upadteguest.url}")
-	private String baseUrl;
+	//@Value("${rsnt.base.upadteguest.url}")
+	//private String baseUrl;
+	
+	@Value("${rsnt.base.upadteguest.url.initial}")
+	private String urlInitial;
+	
+	@Value("${rsnt.base.upadteguest.url.suffix}")
+	private String urlSuffix;
 	
 	@Override
 	public void onMessage(Message message) {
@@ -50,8 +56,10 @@ public class NotificationMessageReceiver implements MessageListener{
 		try {
 			GuestNotificationBean guestNotificationBean = (GuestNotificationBean) objectMessage.getObject();
 			String msg1 = "Guest #"+guestNotificationBean.getRank()+": There are "+ (guestNotificationBean.getGuestCount()-1)+" parties ahead of you w/ approx. wait-time of "+					guestNotificationBean.getTotalWaitTime()+" min. ";
+			/*String msg2 = "For LIVE updates: "+
+					baseUrl + guestNotificationBean.getUuid()+"\n\n"+ "- Sent by " + guestNotificationBean.getSmsSignature();*/
 			String msg2 = "For LIVE updates: "+
-					baseUrl + guestNotificationBean.getUuid()+"\n\n"+ "- Sent by " + guestNotificationBean.getSmsSignature();
+					urlInitial + guestNotificationBean.getClientBase() + "." + urlSuffix + guestNotificationBean.getUuid()+"\n\n"+ "- Sent by " + guestNotificationBean.getSmsSignature();
 			
 			String subject = "Your estimated wait time ";
 			//Wrapper for Marked as Seated
@@ -67,7 +75,8 @@ public class NotificationMessageReceiver implements MessageListener{
 				}
 			}
 			else if (Constants.NOTIF_THRESHOLD_ENTERED.equals(guestNotificationBean.getNotificationFlag())) {
-				msg1 = "Guest #"+guestNotificationBean.getRank()+": Your Table is ALMOST ready. Please make your way back to the restaurant with your entire party and wait for your number to be called. Click for updates: "+baseUrl+guestNotificationBean.getUuid();
+				msg1 = "Guest #"+guestNotificationBean.getRank()+": Your Table is ALMOST ready. Please make your way back to the restaurant with your entire party and "
+						+ "wait for your number to be called. Click for updates: " + urlInitial + guestNotificationBean.getClientBase() + "." + urlSuffix + guestNotificationBean.getUuid();
 				msg2 = "\n"+"- Sent by " + guestNotificationBean.getSmsSignature()+"\n";
 				subject = "Your estimated wait time";
 			}

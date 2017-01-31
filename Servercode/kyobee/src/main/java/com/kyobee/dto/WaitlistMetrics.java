@@ -9,6 +9,7 @@ public class WaitlistMetrics {
 	private int noOfPartiesAhead;
 	private int guestRank;
 	private int guestNotifiedWaitTime;
+	private String clientBase;
 	
 	public int getGuestId() {
 		return guestId;
@@ -57,6 +58,12 @@ public class WaitlistMetrics {
 	}
 	public void setGuestNotifiedWaitTime(int guestNotifiedWaitTime) {
 		this.guestNotifiedWaitTime = guestNotifiedWaitTime;
+	}
+	public String getClientBase() {
+		return clientBase;
+	}
+	public void setClientBase(String clientBase) {
+		this.clientBase = clientBase;
 	}
 	
 }

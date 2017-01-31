@@ -1262,6 +1262,7 @@ public class WaitListRestAction {
 		guestNotificationBean.setDeviceId(guestToNotify.getDeviceId());
 		guestNotificationBean.setDeviceType(guestToNotify.getDeviceType());
 		guestNotificationBean.setOrgId(guestToNotify.getOrganizationID());
+		guestNotificationBean.setClientBase(oWaitlistMetrics.getClientBase());
 		waitListService.sendNotificationToGuest(guestNotificationBean);
 	}
 	

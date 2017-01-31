@@ -461,7 +461,7 @@ public class WaitListServiceImpl implements IWaitListService {
 				
 				@Override
 				public HashMap<String, String>  execute(Connection connection) throws SQLException {
-					CallableStatement cStmt = connection.prepareCall("{call CALCHEADERMETRICS(?, ?, ?, ?, ?, ?, ?, ?, ?)}");  
+					CallableStatement cStmt = connection.prepareCall("{call CALCHEADERMETRICS(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");  
 					HashMap<String, String> metricks =  new HashMap<String, String>();
 					try {
 					cStmt.setLong(1,orgId);
@@ -473,6 +473,7 @@ public class WaitListServiceImpl implements IWaitListService {
 					cStmt.registerOutParameter(7, Types.INTEGER);
 					cStmt.registerOutParameter(8, Types.INTEGER);
 					cStmt.registerOutParameter(9, Types.INTEGER);
+					cStmt.registerOutParameter(10, Types.VARCHAR);
 				
 					
 					cStmt.execute();
@@ -488,6 +489,7 @@ public class WaitListServiceImpl implements IWaitListService {
 					metricks.put("OP_GUESTTOBENOTIFIED", String.valueOf(cStmt.getInt(6)));//OP_GUESTTOBENOTIFIED
 					metricks.put("OP_GUESTNOTIFIEDWAITTIME", String.valueOf(cStmt.getInt(7)));//OP_GUESTNOTIFIEDWAITTIME
 					metricks.put("OP_NOTIFYUSERCOUNT", String.valueOf(cStmt.getInt(9)));//OP_NOTIFYUSERCOUNT
+					metricks.put("CLIENT_BASE", cStmt.getString(10));
 					metricks.put("success", "0");
 					} finally {
 						if(cStmt != null){
@@ -1058,7 +1060,7 @@ public class WaitListServiceImpl implements IWaitListService {
 				public WaitlistMetrics execute(Connection connection) throws SQLException {
 					CallableStatement cStmt = connection.prepareCall("{call addGuest(?, ?, ?, "
 							+ "?, ?, ?, ?, ?, ?, ?, "
-							+ "?, ?, ?, ?, ?, ?, ?, ?, ?)}");  
+							+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");  
 					WaitlistMetrics oWaitlistMetrics = new WaitlistMetrics();
 					
 					try {
@@ -1081,6 +1083,7 @@ public class WaitListServiceImpl implements IWaitListService {
 						cStmt.registerOutParameter(17, Types.INTEGER);
 						cStmt.registerOutParameter(18, Types.VARCHAR);
 						cStmt.registerOutParameter(19, Types.INTEGER);
+						cStmt.registerOutParameter(20, Types.VARCHAR);
 						cStmt.execute();
 
 						oWaitlistMetrics.setGuestId(cStmt.getInt(13));
@@ -1090,6 +1093,7 @@ public class WaitListServiceImpl implements IWaitListService {
 						oWaitlistMetrics.setTotalWaitTime(cStmt.getInt(17));
 						oWaitlistMetrics.setNoOfPartiesAhead(cStmt.getInt(18));
 						oWaitlistMetrics.setGuestToBeNotified(cStmt.getInt(19));
+						oWaitlistMetrics.setClientBase(cStmt.getString(20));
 					} finally {
 						if (cStmt != null) {
 							cStmt.close();
@@ -1160,7 +1164,7 @@ public class WaitListServiceImpl implements IWaitListService {
 				public WaitlistMetrics execute(Connection connection) throws SQLException {
 					CallableStatement cStmt = connection.prepareCall("{call UPDATEGUEST(?, ?, ?, "
 							+ "?, ?, ?, ?, ?, ?, ?, ?,"
-			 				+ "?, ?, ?, ?, ?, ?, ?, ?, ?)}");  
+			 				+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");  
 					WaitlistMetrics oWaitlistMetrics = new WaitlistMetrics();
 					try {
 						cStmt.setLong(1, guestObj.getOrganizationID() != null ? guestObj.getOrganizationID() : 0);
@@ -1184,6 +1188,7 @@ public class WaitListServiceImpl implements IWaitListService {
 						cStmt.registerOutParameter(18, Types.VARCHAR);
 						cStmt.registerOutParameter(19, Types.INTEGER);
 						cStmt.registerOutParameter(20, Types.INTEGER);
+						cStmt.registerOutParameter(21, Types.VARCHAR);
 						cStmt.execute();
 
 						oWaitlistMetrics.setNowServingParty(cStmt.getInt(15));
@@ -1192,6 +1197,7 @@ public class WaitListServiceImpl implements IWaitListService {
 						oWaitlistMetrics.setNoOfPartiesAhead(cStmt.getInt(18));
 						oWaitlistMetrics.setGuestToBeNotified(cStmt.getInt(19));
 						oWaitlistMetrics.setGuestNotifiedWaitTime(cStmt.getInt(20));
+						oWaitlistMetrics.setClientBase(cStmt.getString(21));
 					} finally {
 						if (cStmt != null) {
 							cStmt.close();
@@ -1266,7 +1272,7 @@ public class WaitListServiceImpl implements IWaitListService {
 				
 				@Override
 				public WaitlistMetrics execute(Connection connection) throws SQLException {
-					CallableStatement cStmt = connection.prepareCall("{call UPDATEHEADERMETRICS(?, ?, ?, ?, ?, ?)}");  
+					CallableStatement cStmt = connection.prepareCall("{call UPDATEHEADERMETRICS(?, ?, ?, ?, ?, ?, ?)}");  
 					WaitlistMetrics oWaitlistMetrics = new WaitlistMetrics();
 					
 					try {
@@ -1276,11 +1282,13 @@ public class WaitListServiceImpl implements IWaitListService {
 						cStmt.registerOutParameter(4, Types.INTEGER);
 						cStmt.registerOutParameter(5, Types.INTEGER);
 						cStmt.registerOutParameter(6, Types.INTEGER);
+						cStmt.registerOutParameter(7, Types.VARCHAR);
 						cStmt.execute();
 
 						oWaitlistMetrics.setNowServingParty(cStmt.getInt(4));
 						oWaitlistMetrics.setTotalWaitingGuest(cStmt.getInt(5));
 						oWaitlistMetrics.setTotalWaitTime(cStmt.getInt(6));
+						oWaitlistMetrics.setClientBase(cStmt.getString(7));
 					} finally {
 						if (cStmt != null) {
 							cStmt.close();
@@ -1332,18 +1340,20 @@ public class WaitListServiceImpl implements IWaitListService {
 				
 				@Override
 				public void execute(Connection connection) throws SQLException {
-					CallableStatement cStmt = connection.prepareCall("{call UPDATEHEADERMETRICS(?, ?, ?, ?, ?, ?)}");  
+					CallableStatement cStmt = connection.prepareCall("{call UPDATEHEADERMETRICS(?, ?, ?, ?, ?, ?, ?)}");  
 					cStmt.setLong(1,orgid);
 					cStmt.setLong(2,perPartyWaitTime);
 					cStmt.setLong(3,numberOfUsers);
 					cStmt.registerOutParameter(4, Types.INTEGER);
 					cStmt.registerOutParameter(5, Types.INTEGER);
 					cStmt.registerOutParameter(6, Types.INTEGER);
+					cStmt.registerOutParameter(7, Types.VARCHAR);
 					cStmt.execute();
 					
 					oWaitlistMetrics.setNowServingParty(cStmt.getInt(4));
 					oWaitlistMetrics.setTotalWaitingGuest(cStmt.getInt(5));
 					oWaitlistMetrics.setTotalWaitTime(cStmt.getInt(6));
+					oWaitlistMetrics.setClientBase(cStmt.getString(7));
 					
 				}
 			});

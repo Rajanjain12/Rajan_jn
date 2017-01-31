@@ -24,6 +24,7 @@ public class GuestNotificationBean implements Serializable{
 	private Long orgId;
 	private String smsSignature;
 	private String smsRoute;
+	private String clientBase;
 
 	public String getSmsSignature() {
 		return smsSignature;
@@ -118,4 +119,11 @@ public class GuestNotificationBean implements Serializable{
 	public void setGuestNotifiedWaitTime(Long guestNotifiedWaitTime) {
 		this.guestNotifiedWaitTime = guestNotifiedWaitTime;
 	}
+	public String getClientBase() {
+		return clientBase;
+	}
+	public void setClientBase(String clientBase) {
+		this.clientBase = clientBase;
+	}
+	
 }
