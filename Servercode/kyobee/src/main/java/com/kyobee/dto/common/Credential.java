@@ -18,6 +18,7 @@ public class Credential implements Serializable {
 	private String firstName;
 	private String lastName;
 	private String confirmPassword;
+	private String clientBase;
 
 	public String getUsername() {
 		return username;
@@ -89,5 +90,13 @@ public class Credential implements Serializable {
 
 	public void setCompanyEmail(String companyEmail) {
 		this.companyEmail = companyEmail;
+	}
+
+	public String getClientBase() {
+		return clientBase;
+	}
+
+	public void setClientBase(String clientBase) {
+		this.clientBase = clientBase;
 	}
 }

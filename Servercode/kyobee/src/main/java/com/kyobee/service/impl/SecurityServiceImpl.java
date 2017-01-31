@@ -267,6 +267,7 @@ public class SecurityServiceImpl implements ISecurityService {
 			organization.setOrganizationTypeId((long) Constants.CONST_ORG_TYPE_ID);
 			organization.setCreatedBy(credentials.getUsername());
 			organization.setCreatedDate(new Date());
+			organization.setClientBase(credentials.getClientBase());
 			
 			BigDecimal adsBalance = new BigDecimal(0);
 			organization.setAdsBalance(adsBalance);

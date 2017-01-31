@@ -29,7 +29,8 @@ KyobeeUnSecuredController.controller('homeCtrl',
 							password : null,
 							confirmPassword : null,
 							mainCaptcha : null,
-							inputCaptcha : null
+							inputCaptcha : null,
+							clientBase : subdomain
 						};
 					
 					console.log('src' + $scope.logoImgSrc);

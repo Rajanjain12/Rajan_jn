@@ -166,7 +166,7 @@ public class LoginRestController {
 	}
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.POST, produces = "application/json")
-	public Response<Boolean> signup(Credential credentials) throws Exception {
+	public Response<Boolean> signup(@RequestBody Credential credentials) throws Exception {
 		Response<Boolean> userDetails = new Response<Boolean>();
 		try {
 
