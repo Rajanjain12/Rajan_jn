@@ -20,7 +20,7 @@ import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name="USER")
-@NamedQueries({@NamedQuery(name=User.GET_PROFILE_BY_USERLOGIN,query="Select u from User u where lower(u.userName)=:username and u.password =:password"),
+@NamedQueries({@NamedQuery(name=User.GET_PROFILE_BY_USERLOGIN,query="Select u from User u join u.organizationUser ou join ou.organization o where lower(u.userName)=:username and u.password =:password and o.clientBase =:clientBase"),
 	@NamedQuery(name=User.GET_USER_ORGANIZATION,
 			query="Select user.organizationUser.organization from User user join user.organizationUser where user.userId=:userId"),
 			@NamedQuery(name=User.GET_USER_BY_USERNAME_ONLY,query="Select u from User u where lower(u.userName)=?1 "),

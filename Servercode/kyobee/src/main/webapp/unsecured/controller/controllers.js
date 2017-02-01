@@ -67,7 +67,8 @@ KyobeeUnSecuredController.controller('homeCtrl',
 						
 						var postBody = {
 								 username: $scope.username,
-							     password: $scope.password
+							     password: $scope.password,
+							     clientBase : subdomain
 						};
 						
 						var url = '/kyobee/rest/login';

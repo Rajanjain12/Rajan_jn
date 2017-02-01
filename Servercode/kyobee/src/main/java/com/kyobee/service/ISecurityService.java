@@ -14,7 +14,7 @@ public interface ISecurityService {
 
 	
 
-	 public User loginAndFetchUser(final String userLogin, final String password) throws RsntException;
+	 public User loginAndFetchUser(final String userLogin, final String password, final String clientBase) throws RsntException;
 	 
 	 public Long getUserRoleDetail(final String userLogin) throws RsntException;
 	 

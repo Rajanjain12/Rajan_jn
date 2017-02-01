@@ -48,8 +48,9 @@ public class LoginRestController {
 		Response<UserDTO> response = new Response<UserDTO>();
 		User loginUser = null;
 		try {
-			if (credenitals != null && credenitals.getUsername() != null && credenitals.getPassword() != null) {
-				loginUser = securityService.loginAndFetchUser(credenitals.getUsername(), credenitals.getPassword());
+			if (credenitals != null && credenitals.getUsername() != null && credenitals.getPassword() != null && credenitals.getClientBase() != null) {
+				loginUser = securityService.loginAndFetchUser(credenitals.getUsername(), credenitals.getPassword(),
+						credenitals.getClientBase());
 
 				if (loginUser != null) {
 

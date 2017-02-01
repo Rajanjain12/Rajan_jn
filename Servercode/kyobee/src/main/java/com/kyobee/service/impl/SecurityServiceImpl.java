@@ -49,11 +49,12 @@ public class SecurityServiceImpl implements ISecurityService {
      * @param userLogin
      * @return SecurityUserLoad associated with userLogin
      */
-    public User loginAndFetchUser(final String userLogin, final String password) throws RsntException {
+    public User loginAndFetchUser(final String userLogin, final String password, final String clientBase) throws RsntException {
     	try{
 			return (User) sessionFactory.getCurrentSession().getNamedQuery(User.GET_PROFILE_BY_USERLOGIN)
 					.setParameter("username", userLogin.toLowerCase())
-					.setParameter("password", CommonUtil.encryptPassword(password)).uniqueResult();
+					.setParameter("password", CommonUtil.encryptPassword(password))
+					.setParameter("clientBase", clientBase).uniqueResult();
 
     	}
     	catch(Exception e){
