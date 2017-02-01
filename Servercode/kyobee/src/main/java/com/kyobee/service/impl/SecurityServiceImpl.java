@@ -285,9 +285,8 @@ public class SecurityServiceImpl implements ISecurityService {
 			
 			Long i = (Long) sessionFactory.getCurrentSession().save(signUpUser); 
 			
-			if (i != null) {
-				emailUtil.sendEmail(signUpUser.getUserName(), "Kyobee Successful Registration", "You have successfully signed into Kyobee!");	
-
+			if (i != null) {	
+				emailUtil.sendWelcomeEmail(signUpUser.getUserName(), signUpUser.getFirstName() + " " + signUpUser.getLastName());
 				return signUpUser;
 			}
 			return null;
