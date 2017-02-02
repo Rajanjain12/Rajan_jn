@@ -1042,3 +1042,7 @@ z-index: 3;
 }
 .font-color-fix label{color: #797979;
     font-size: 18px;font-weight: 600;}
+    
+.hightlight{
+	background-color: yellow;
+}

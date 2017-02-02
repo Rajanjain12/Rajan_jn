@@ -1099,10 +1099,12 @@ public class WaitListRestAction {
 			}
 		}
 		
+		sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
+		
 		return response;
-		/*jsonObject = sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
+		
 
-		return jsonObject.toString();*/
+		//return jsonObject.toString();
 	}
 
 	/**
@@ -1161,6 +1163,9 @@ public class WaitListRestAction {
 				sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED);
 			}
 		}
+		
+		sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
+		
 		return response;
 	}
 	
