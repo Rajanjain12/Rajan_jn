@@ -45,7 +45,12 @@
     
     <div class="container"> 
         <div class="col-md-10 marginauto">
-            <div class="guest_list_wrap content-sm row">
+        	
+        	<div ng-show="guest == null" style="height:80%" class="guest_list_wrap content-sm row">
+        		<h4>The requested guest doesn't exist anymore.</h4>
+        	</div>
+        	
+            <div ng-show="guest != null" class="guest_list_wrap content-sm row">
 
                 <div class="fontpopup section">
 

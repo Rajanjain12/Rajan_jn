@@ -38,6 +38,9 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								console.log(data);
 								if (data.status == "SUCCESS") {
 									$scope.guest = data.serviceResult;
+									if($scope.guest == null || $scope.guest == 'undefined'){
+										return;
+									}
 									$scope.selectedSeatPref = [];
 									if($scope.guest.seatingPreference != null && $scope.guest.seatingPreference != 'undefined'){
 										var seatingPrefs = $scope.guest.seatingPreference.split(',');
