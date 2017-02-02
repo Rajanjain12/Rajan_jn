@@ -51,7 +51,7 @@
                     <div class="col-md-4 col-sm-4 text-center">
                         <label class="theme-fontcolor">Total Wait Time</label>
                         <div class="time-x">
-                        	<h2 class="border-color">{{totalWaitTime}}</h2>
+                        	<h2 class="border-color">{{convertMinstoMMHH(totalWaitTime)}}</h2>
                         </div>
                         <label class="sm-txt">Hour:Minute</label>
                         
@@ -106,7 +106,7 @@
 	              <div class="confirm-table-wrap text-center">
 	                    <h2 class="theme-fontcolor">Confirm Table Ready For</h2>
 	                    <div class="guest-name">
-	                        <h1>{{selectedGuest.guestID}}</h1>
+	                        <h1>{{selectedGuest.rank}}</h1>
 	                        <h1>{{selectedGuest.name}}</h1>
 	                    </div>
 	                    <div class="btn-guest border-top">
@@ -121,7 +121,7 @@
 	              <div class="confirm-table-wrap text-center">
 	                    <h2 class="theme-fontcolor">Confirm Delete Guest</h2>
 	                    <div class="guest-name">
-	                        <h1>{{selectedGuest.guestID}}</h1>
+	                        <h1>{{selectedGuest.rank}}</h1>
 	                        <h1>{{selectedGuest.name}}</h1>
 	                    </div>
 	                    <div class="btn-guest border-top">
@@ -146,7 +146,7 @@
                         <tbody>
                             <tr ng-repeat="record in guestWaitList">
                                 <td><a class="clickpopup" style="cursor:pointer" ng-click="showPopup(record);"><img src="../assets/img/greenarrow.png"></a></td>
-                                <td>{{record.guestID}}</td>
+                                <td>{{record.rank}}</td>
                                 <td>
                                 	<a ng-click="moveToUpdateGuest(record.guestID)" style="cursor:pointer">{{record.name}}</a> &nbsp;
                                 	<span ng-show="record.calloutCount != null" ng-repeat="item in getArrayFromNum(record.calloutCount) track by $index">

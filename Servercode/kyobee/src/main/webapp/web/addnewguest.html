@@ -87,8 +87,8 @@
                     </div>
                     <div class="addf2">
                     <div class="checkbox checkbox-success checkbox-inline" ng-repeat="sPerf in guestPref">
-                        <input type="checkbox"  ng-model="sPerf.selected" >
-                        <label>{{sPerf.prefValue}}</label>
+                        <input type="checkbox" id="pref{{sPerf.prefValueId}}"  ng-model="sPerf.selected" >
+                        <label for="pref{{sPerf.prefValueId}}">{{sPerf.prefValue}}</label>
                     </div>
                     </div>
                 </div>

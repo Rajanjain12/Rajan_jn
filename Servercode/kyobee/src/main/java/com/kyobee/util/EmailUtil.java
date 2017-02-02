@@ -36,7 +36,7 @@ public class EmailUtil {
 		this.mailSender = mailSender;
 	}
 
-	/*public void sendEmail(String to, String subject, String content) throws RsntException {
+	public void sendEmail(String to, String subject, String content) throws RsntException {
 		try {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
@@ -49,7 +49,7 @@ public class EmailUtil {
 		} catch (Exception e) {
 			throw new RsntException(e);
 		}
-	}*/
+	}
 	
 	public void sendWelcomeEmail(String emailTo, String name) throws RsntException {
 		try {

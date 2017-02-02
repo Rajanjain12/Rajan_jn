@@ -63,7 +63,7 @@
                           </div>
                           <div class="col-md-5 text-center fontsize1 theme-fontcolor">
                             <h2>Est. Wait Time</h2>
-                            <h3>{{totalWaitTime}}</h3>
+                            <h3>{{convertMinstoMMHH(totalWaitTime)}}</h3>
                           </div>
                         
                       </div>
@@ -167,7 +167,7 @@
     <div class="confirm-table-wrap text-center">
           <h2 class="theme-fontcolor">Confirm Delete Guest</h2>
           <div class="guest-name">
-              <h1>{{guest.guestID}}</h1>
+              <h1>{{guest.rank}}</h1>
               <h1>{{guest.name}}</h1>
           </div>
           <div class="btn-guest border-top">

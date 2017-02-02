@@ -213,6 +213,14 @@ KyobeeUnSecuredController.controller('homeCtrl',
 						$('html, body').animate({scrollTop: offsetTop}, 500, 'linear');
 					}
 					
+					$scope.convertMinstoMMHH = function(min){
+						var h = Math.floor(min/60);
+						h = h.toString().length == 1 ? (0+h.toString()) : h ;
+						var m = min%60;
+						m = m.toString().length == 1 ? (0+m.toString()) : m ;
+						return h + ":" + m;
+					}
+					
 					$scope.initCaptcha = function() {
 						var alpha = new Array('A', 'B', 'C', 'D', 'E',
 								'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
