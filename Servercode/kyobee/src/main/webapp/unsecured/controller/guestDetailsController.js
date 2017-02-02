@@ -159,8 +159,8 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 											$scope.client.connect($scope.appKey, $scope.authToken);
 					                     }
 					   	    		    var message = JSON.stringify( {"OP":"DEL","guestObj":$scope.guest.guestID,"FROM":"USER","ppwt":$scope.orgWaitTime,"orgid":$scope.guest.organizationID});
-					   	    		    $scope.client.send($scope.channel, message);
-							            console.log('Sending from deleteguest: ' + message + ' to channel: ' + $scope.channel);
+					   	    		    //$scope.client.send($scope.channel, message);
+							            //console.log('Sending from deleteguest: ' + message + ' to channel: ' + $scope.channel);
 						   	    	 	//$('#deletemsg').addClass('is-visible');
 						   	    	 
 										$('#deletePopup').simplePopup().hide();
@@ -296,41 +296,17 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 									if(m.orgid == $scope.guest.organizationID){ 
 										
 										if(m.OP=='DEL'){
-								    		//alert($("#guestIdVAL").val());
-										    //if($("#guestIdVAL").val()>m.guestObj){
 										    	var nbp = $scope.guestAheadCount;
-												//$("#numberofparties").html(nbp-1);
 										    	$scope.guestAheadCount = $scope.guestAheadCount - 1;
 												var ppwt = $scope.orgWaitTime;
-												//$("#totalWaitTime").html(ppwt*(nbp-1)+parseInt(ppwt))
 												$scope.totalWaitTime = ppwt*(nbp-1) + parseInt(ppwt);
 												$scope.$apply();
-								      			//var twt = (ppwt*(nbp-1))+parseInt(ppwt);
-								    			//console.log(twt);
-								    			//var h = Math.floor(twt/60);	
-								    			//var hour = h.toString().length == 1 ? (0+h.toString()) : h ;
-								    			//var m = twt%60;
-								   	    	 	//var min = m.toString().length == 1 ? (0+m.toString()) : m ;
-								      	    	//  $("#hour").html(hour);
-								      	    	//  $("#min").html(min);
-											     //}
 										    }
 									    if(m.OP=='PPT_CHG'){
 									    	var nbp = $scope.guestAheadCount;
-									    	//var nbp = parseInt($("#numberofparties").html());
-											//$("#numberofparties").html(nbp);
-											//$("#ppwtime").val(m.ppwt);
 											var ppwt = parseInt(m.ppwt);
-											//$("#totalWaitTime").html((ppwt*nbp)+parseInt(ppwt));
 											$scope.totalWaitTime = (ppwt*nbp)+parseInt(ppwt);
 											$scope.$apply();
-											//var twt = (ppwt*nbp)+parseInt(ppwt);
-											//var h = Math.floor(twt/60);	
-											//var hour = h.toString().length == 1 ? (0+h.toString()) : h ;
-											//var m = twt%60;
-									    	// 	var min = m.toString().length == 1 ? (0+m.toString()) : m ;
-								  	     	//$("#hour").html(hour);
-								  	    	//$("#min").html(min);
 										    }
 									    if(m.OP=='RESET'){ 
 									    	location.reload();
