@@ -733,9 +733,9 @@ public class WaitListRestAction {
 	//@Produces(MediaType.APPLICATION_JSON)
 	//@Consumes(MediaType.APPLICATION_JSON)
 	@RequestMapping(value = "/addGuest", method = RequestMethod.POST, produces = "application/json")
-	public Response<String> addGuest (@RequestBody GuestDTO guestDTO) {
+	public Response<Map<String, Object>> addGuest (@RequestBody GuestDTO guestDTO) {
 		log.info("Entering into addGuest");
-		Response<String> response = new Response<String>();
+		Response<Map<String, Object>> response = new Response<Map<String, Object>>();
 		Guest guest = null;
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 		WaitlistMetrics oWaitlistMetrics = null;
@@ -763,7 +763,7 @@ public class WaitListRestAction {
 
 			sendNotification(guest, oWaitlistMetrics, "NORMAL");
 			sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
-			response.setServiceResult("");
+			response.setServiceResult(rootMap);
 			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 
 		} catch (Exception e) {
