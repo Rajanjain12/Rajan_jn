@@ -138,8 +138,8 @@
                                 <th>Seat</th>
                                 <th>No</th>
                                 <th>Name</th>
-                                <th>SME/E-Mail</th>
-                                <th>Seating</th>
+                                <th>Seating Preferences</th>
+                                <th>Opt-In</th>
                                 <th>Delete</th>                                 
                             </tr>
                         </thead>
@@ -153,9 +153,8 @@
                                 	<img src="../assets/img/downhand.png"> &nbsp;
                                 	</span>
                                 </td>
-                                <td ng-show="record.prefType == 'sms' || record.prefType == 'SMS'">{{record.sms}}</td>
-                                <td ng-show="record.prefType != 'sms' && record.prefType != 'SMS'">{{record.email}}</td>
-                                <td><img src="../assets/img/roundarrow.png"></td>
+                                <td>{{record.seatingPreference}}</td>
+                                <td><img ng-show="record.optin == true" src="../assets/img/roundarrow.png"></td>
                                 <td><a style="cursor:pointer" ng-click="showDeletePopup(record);"><img src="../assets/img/delete.png"></a></td>
                                 
                             </tr>
