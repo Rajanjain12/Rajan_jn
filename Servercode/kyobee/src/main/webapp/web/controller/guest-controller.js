@@ -25,8 +25,36 @@ KyobeeControllers.controller('guestCtrl',
 								optin : false
 						}
 						$scope.errorMsg = null;
-						$scope.guestPref = angular.copy($scope.seatPrefs);
+						
+						// we have loaded the seat prefs in main controller to avoid loading again & again on child controller. 
+						//But if user refreshes page or directly goes to add page via url, 
+						//then parent controller seat prefs are not available. Thus fetching them explicitly on those scenarios.
+						if($scope.seatPrefs == null || $scope.seatPrefs == undefined){
+							$scope.loadSeatingPref();
+						} else {
+							$scope.guestPref = angular.copy($scope.seatPrefs);
+						}
+						
 					}
+					
+					$scope.loadSeatingPref = function() {
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/orgseatpref?orgid=' + $scope.userDTO.organizationId;;
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										$scope.guestPref = data.serviceResult;
+									} else if (data.status == "FAILURE") {
+										alert('Error while fetching user details. Please login again or contact support');
+										$scope.logout();
+									}
+								}, function(error) {
+									alert('Error while fetching user details. Please login again or contact support');
+								});
+					};
 					
 					$scope.hideErrorMsg = function(){
 						$scope.errorMsg = null;
