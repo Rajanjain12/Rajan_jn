@@ -40,10 +40,10 @@ public class NotificationMessageReceiver implements MessageListener{
 	//@Value("${rsnt.base.upadteguest.url}")
 	//private String baseUrl;
 	
-	@Value("${rsnt.base.upadteguest.url.initial}")
+	@Value("${rsnt.base.updateguest.url.initial}")
 	private String urlInitial;
 	
-	@Value("${rsnt.base.upadteguest.url.suffix}")
+	@Value("${rsnt.base.updateguest.url.suffix}")
 	private String urlSuffix;
 	
 	@Override
