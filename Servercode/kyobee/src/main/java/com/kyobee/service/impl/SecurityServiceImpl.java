@@ -3,6 +3,7 @@ package com.kyobee.service.impl;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,10 @@ import org.springframework.stereotype.Repository;
 
 import com.kyobee.dto.common.Credential;
 import com.kyobee.entity.Organization;
+import com.kyobee.entity.OrganizationCategory;
+import com.kyobee.entity.OrganizationPlanSubscription;
 import com.kyobee.entity.OrganizationUser;
+import com.kyobee.entity.Plan;
 import com.kyobee.entity.RoleProtectedObject;
 import com.kyobee.entity.User;
 import com.kyobee.entity.UserRole;
@@ -269,6 +273,41 @@ public class SecurityServiceImpl implements ISecurityService {
 			organization.setCreatedBy(credentials.getUsername());
 			organization.setCreatedDate(new Date());
 			organization.setClientBase(credentials.getClientBase());
+			
+			OrganizationPlanSubscription organizationPlanSubscription = new OrganizationPlanSubscription();
+			organizationPlanSubscription.setAmountPerUnit(new BigDecimal(0.0));
+			organizationPlanSubscription.setCostPerAd(new BigDecimal(0.0));
+			organizationPlanSubscription.setCreatedBy(credentials.getUsername());
+			organizationPlanSubscription.setCreatedDate(new Date());
+			organizationPlanSubscription.setCurrencyId(11L);
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(new Date());
+			cal.add(Calendar.MONTH, 1);
+			organizationPlanSubscription.setEndDate(cal.getTime());
+			organizationPlanSubscription.setModifiedBy(credentials.getUsername());
+			organizationPlanSubscription.setModifiedDate(new Date());
+			organizationPlanSubscription.setNoOfAdsPerUnit(0L);
+			organizationPlanSubscription.setNumberOfUnits(0L);
+			organizationPlanSubscription.setOrganization(organization);
+			Plan plan = new Plan();
+			plan.setPlanId(3L);
+			organizationPlanSubscription.setPlan(plan);
+			organizationPlanSubscription.setStartDate(new Date());
+			organizationPlanSubscription.setTerminateDate(null);
+			organizationPlanSubscription.setTotalAmount(new BigDecimal(0.0));
+			organizationPlanSubscription.setUnitId(9L);
+			organization.setActiveOrgPlanSubscription(organizationPlanSubscription);
+			organization.setOrganizationPlanSubscriptionList(new ArrayList<>());
+			organization.getOrganizationPlanSubscriptionList().add(organizationPlanSubscription);
+			
+			organization.setOrganizationCategoryList(new ArrayList<>());
+			for(long i=39; i<=43; i++){
+				OrganizationCategory orgCat = new OrganizationCategory();
+				orgCat.setOrganization(organization);
+				orgCat.setCategoryTypeId(18L);
+				orgCat.setCategoryValueId(i);
+				organization.getOrganizationCategoryList().add(orgCat);
+			}
 			
 			BigDecimal adsBalance = new BigDecimal(0);
 			organization.setAdsBalance(adsBalance);
