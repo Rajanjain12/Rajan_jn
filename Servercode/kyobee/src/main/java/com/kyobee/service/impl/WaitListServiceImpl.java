@@ -1382,5 +1382,17 @@ public class WaitListServiceImpl implements IWaitListService {
 	 			throw new RsntException(e);
 	 		}
 	 	}
+	 	
+	 	@Override
+		public Long getHistoryUsersCountForOrg(Long orgid) throws RsntException{
+			try {
+				return (Long) sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUESTS_COUNT_HISTORY)
+						.setParameter(Constants.RSNT_ORG_ID,orgid).uniqueResult();
+			} catch (Exception e) {
+				log.error("loadAllCheckinUsers()", e);
+				throw new RsntException(e);
+			}
+
+		}
 	
 }

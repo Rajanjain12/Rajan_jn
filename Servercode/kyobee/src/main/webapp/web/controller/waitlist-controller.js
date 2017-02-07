@@ -23,6 +23,20 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.pager = {};
 					$scope.pagerRequest = null;
 					$scope.pageSize = 25;
+					
+					$scope.showHistory = false;
+					
+					$scope.toggleShowHistory = function(){
+						if($scope.showHistory){
+							$scope.showHistory = false;
+							// load normal waitlist
+							$scope.loadWaitListPage(1);
+						}else {
+							$scope.showHistory = true;
+							$scope.loadHistoryPage(1);
+							// Load History
+						}						
+					}
 		            
 		            
 		            $scope.loadOrgMetricks = function() {
@@ -101,6 +115,39 @@ KyobeeControllers.controller('waitListCtrl',
 										console.log($scope.pager);
 									} else if (data.status == "FAILURE") {
 										alert('Error while fetching wait times.');
+									}
+								}, function(error) {
+									alert('Error while fetching wait times.. Please login again or contact support');
+								});
+					};
+					
+					$scope.loadHistoryPage = function(pageNo) {
+						
+						$scope.pagerRequest = {
+								filters : null,
+								sort : null,
+								sortOrder: null,
+								pageSize : $scope.pageSize,
+								pageNo : pageNo
+						}
+						
+						var postBody = {
+								orgid : $scope.userDTO.organizationId,
+								pagerReqParam : $scope.pagerRequest
+						};
+						
+						//$scope.loadOrgMetricks();
+						var url = '/kyobee/web/rest/waitlistRestAction/history';
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										var paginatedResponse = data.serviceResult;
+										$scope.guestWaitList = paginatedResponse.records;
+										$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, pageNo, $scope.pageSize);
+										console.log($scope.pager);
+									} else if (data.status == "FAILURE") {
+										alert('Error while fetching history');
 									}
 								}, function(error) {
 									alert('Error while fetching wait times.. Please login again or contact support');

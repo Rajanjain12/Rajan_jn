@@ -624,40 +624,58 @@ public class WaitListRestAction {
 	@RequestMapping(value = "/history", method = RequestMethod.GET, produces = "application/json")
 	//changed for history pagination
 	//public String fetchGuestsHistory(@QueryParam("orgid") Long orgid){
-	public String fetchGuestsHistory(@RequestParam("orgid") Long orgid	, 
-			@RequestParam("recordsPerPage") int recordsPerPage, @RequestParam("pageNumber") int pageNumber) {
+	public Response<PaginatedResponse<GuestDTO>> fetchGuestsHistory(@RequestParam("orgid") Long orgid, @RequestParam String pagerReqParam) {
 		log.info("Entering :: fetchGuestsHistory ::orgid "+orgid);
+		
+		Response<PaginatedResponse<GuestDTO>> response = new Response<PaginatedResponse<GuestDTO>>();
 		List<GuestDTO> guestDTOs = null;
-		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
-		final List<String> errorArray = new ArrayList<String>(0);
+		PaginatedResponse<GuestDTO> paginatedResponse = new PaginatedResponse<GuestDTO>();
+		
+		//List<GuestDTO> guestDTOs = null;
+		//final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
+		//final List<String> errorArray = new ArrayList<String>(0);
 		List<Guest> guests;
 		Map<Integer, String> guestPreferenceMap;
 		try {
 			//changed for history pagination
 			//guests = waitListService.loadGuestsHistoryByOrg(orgid);
+			ObjectMapper mapper = new ObjectMapper();
+			PaginationReqParam paginationReqParam = mapper.readValue(pagerReqParam, PaginationReqParam.class);
 			guestPreferenceMap = getGuestSeatingPrefMap();
-			guests = waitListService.loadGuestsHistoryByOrgRecords(orgid,recordsPerPage, pageNumber);
+			guests = waitListService.loadGuestsHistoryByOrgRecords(orgid,paginationReqParam.getPageSize(), paginationReqParam.getPageNo());
+			
+			Long guestsTotalCount = waitListService.getHistoryUsersCountForOrg(orgid);
+			
 			if(null != guests && guests.size()>0){
 				guestDTOs = new ArrayList<GuestDTO>(guests.size());
 				for (Guest guest : guests) {
 					guestDTOs.add(convertGuesEntityToVo(guest, guestPreferenceMap));
 				}
+				paginatedResponse.setRecords(guestDTOs);
+				paginatedResponse.setPageNo(paginationReqParam.getPageNo());
+				paginatedResponse.setTotalRecords(guestsTotalCount.intValue());
+				response.setServiceResult(paginatedResponse);
+				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 
 			}
 
 		} catch (RsntException e) {
 			e.printStackTrace();
 			log.error("fetchGuestsHistory() - failed:", e);
-			rootMap.put("id", -1);
-			rootMap.put(Constants.RSNT_ERROR, "System Error - fetchCheckinUsers failed");
-			rootMap.put("fieldErrors", errorArray);
-			final JSONObject jsonObject = JSONObject.fromObject(rootMap);
-			return jsonObject.toString();
-		}
-		rootMap.put(Constants.RSNT_ERROR, "");
-		rootMap.put("guests",guestDTOs);
-		final JSONObject jsonObject = JSONObject.fromObject(rootMap);
-		return jsonObject.toString();
+			//rootMap.put("id", -1);
+			//rootMap.put(Constants.RSNT_ERROR, "System Error - fetchCheckinUsers failed");
+			//rootMap.put("fieldErrors", errorArray);
+			//final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+			//return jsonObject.toString();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		//rootMap.put(Constants.RSNT_ERROR, "");
+		//rootMap.put("guests",guestDTOs);
+		//final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+		//return jsonObject.toString();
+		return response;
 	}
 	/**
 	 * Get Event Listener Configuration details 

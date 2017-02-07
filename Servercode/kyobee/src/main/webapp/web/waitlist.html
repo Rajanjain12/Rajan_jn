@@ -130,9 +130,12 @@
 	                    </div>
 	              </div>
 	           </div>
-                
-                
-                 <table id="waitlisttable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+	           	 
+	           	<h5 ng-show="showHistory == false" style="margin-bottom:5px;"><a style="padding:10px; cursor:pointer; font-weight:bold; text-decoration: underline;" class="theme-fontcolor" ng-click="toggleShowHistory();">Show History</a></h5>
+	           	<h5 ng-show="showHistory == true" style="margin-bottom:5px;"><a style="padding:10px; cursor:pointer; font-weight:bold; text-decoration: underline;" class="theme-fontcolor" ng-click="toggleShowHistory();">Hide History</a></h5>
+	           	
+	           	<div ng-show="showHistory == false">
+	           		<table id="waitlisttable" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th>Seat</th>
@@ -159,16 +162,53 @@
                                 
                             </tr>
                        	</tbody>
-                </table>                
-            <div class="clearfix"></div>
-                 <div class="paginations">
-                
-                   <div class="pagination-inner">Page<span>{{pager.currentPage}}</span>of {{pager.totalPages}} 
-                       <a style="cursor:pointer" ng-click="loadWaitListPage(pager.currentPage-1)" class="priv"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-                       <a style="cursor:pointer" ng-click="loadWaitListPage(pager.currentPage+1)" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                    </div>
+                	</table>                
+            		<div class="clearfix"></div>
+                 	<div class="paginations">
+	                   	<div class="pagination-inner">Page<span>{{pager.currentPage}}</span>of {{pager.totalPages}} 
+	                       <a style="cursor:pointer" ng-click="loadWaitListPage(pager.currentPage-1)" class="priv"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+	                       <a style="cursor:pointer" ng-click="loadWaitListPage(pager.currentPage+1)" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+	                    </div>                                    
+               		</div>	 
+	           	 </div>
+	           	 
+	           	 <div ng-show="showHistory == true">
+	           	 	<table id="waitlisttable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Name</th>
+                                <th>Seating Preferences</th>
+                                <th>Opt-In</th>                              
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="record in guestWaitList">
+                                <td>{{record.rank}}</td>
+                                <td>
+                                	<a ng-click="moveToUpdateGuest(record.guestID)" ng-class="{'hightlight' : record.incompleteParty != null }" style="cursor:pointer">{{record.name}}</a> &nbsp;
+                                	<span ng-show="record.calloutCount != null" ng-repeat="item in getArrayFromNum(record.calloutCount) track by $index">
+                                	<img src="../assets/img/downhand.png"> &nbsp;
+                                	</span>
+                                </td>
+                                <td>{{record.seatingPreference}}</td>
+                                <td><img ng-show="record.optin == true" src="../assets/img/roundarrow.png"></td>
+                            </tr>
+                       	</tbody>
+                	</table>                
+            		<div class="clearfix"></div>
+                 	<div class="paginations">
+	                    <div class="pagination-inner">Page<span>{{pager.currentPage}}</span>of {{pager.totalPages}} 
+	                       <a style="cursor:pointer" ng-click="loadHistoryPage(pager.currentPage-1)" class="priv"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+	                       <a style="cursor:pointer" ng-click="loadHistoryPage(pager.currentPage+1)" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+	                    </div>
                                     
-                </div>   
+               		</div>
+	           	 </div>
+                
+                 
+                 
+                   
             
      </div>
 

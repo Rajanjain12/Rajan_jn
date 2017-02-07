@@ -202,4 +202,6 @@ public interface IWaitListService {
 	public List<Guest> loadGuestsHistoryByOrgRecords(Long orgid, int recordsPerPage, int pageNumber)throws RsntException;
 
 	Long getAllCheckinUsersCount(Long orgid) throws RsntException;
+
+	Long getHistoryUsersCountForOrg(Long orgid) throws RsntException;
 }
