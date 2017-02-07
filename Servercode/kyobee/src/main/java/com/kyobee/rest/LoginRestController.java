@@ -127,8 +127,14 @@ public class LoginRestController {
 		Response<UserDTO> userDetails = new Response<UserDTO>();
 		HttpSession sessionObj = request.getSession();
 		UserDTO userDTO = (UserDTO)sessionObj.getAttribute(Constants.USER_OBJ);
-		userDetails.setServiceResult(userDTO);
-		CommonUtil.setWebserviceResponse(userDetails, Constants.SUCCESS, "");
+		if(!CommonUtil.isNullOrEmpty(userDTO)){
+			userDetails.setServiceResult(userDTO);
+			CommonUtil.setWebserviceResponse(userDetails, Constants.SUCCESS, "");
+		} else {
+			userDetails.setServiceResult(null);
+			CommonUtil.setWebserviceResponse(userDetails, Constants.ERROR, null, null, null);
+		}
+		
 		return userDetails;
 	}
 	

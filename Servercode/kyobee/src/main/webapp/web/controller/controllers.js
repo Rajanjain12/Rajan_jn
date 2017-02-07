@@ -19,6 +19,7 @@ KyobeeControllers.controller('homeCtrl',
 		            $scope.seatPrefs = null;
 		            $scope.authToken = 'Unno1adyiSooIAkAEt';
 		            $scope.connectionUrl = 'https://ortc-developers.realtime.co/server/2.1';
+		            $scope.homeCtrlLoaded = null;
 					
 					$scope.changeView = function(view, searchParms) {
 						switch (view) {
@@ -52,19 +53,20 @@ KyobeeControllers.controller('homeCtrl',
 
 						};
 						var url = '/kyobee/rest/userDetails';
-						KyobeeService.getDataService(url, '').query(postBody,
+						$scope.homeCtrlLoaded = KyobeeService.getDataService(url, '').query(postBody,
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
 										$scope.userDTO = data.serviceResult;
 										$scope.loadDataForPage();
-									} else if (data.status == "FAILURE") {
+									} else if (data.status == "ERROR") {
 										alert('Error while fetching user details. Please login again or contact support');
 										$scope.logout();
 									}
 								}, function(error) {
 									alert('Error while fetching user details. Please login again or contact support');
 								});
+						//console.log('temp'+temp);
 					};
 					
 					

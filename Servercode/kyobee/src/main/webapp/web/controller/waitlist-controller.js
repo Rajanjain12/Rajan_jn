@@ -347,7 +347,10 @@ KyobeeControllers.controller('waitListCtrl',
 					
 					
 					$scope.loadInfo();
-					$scope.loadWaitListPage(1);
+					$scope.homeCtrlLoaded.$promise.then(function(){
+						$scope.loadWaitListPage(1);
+					});
+					
 										
 
 				} ]);
