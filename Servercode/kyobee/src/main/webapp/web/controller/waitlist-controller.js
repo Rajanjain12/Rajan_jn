@@ -26,6 +26,12 @@ KyobeeControllers.controller('waitListCtrl',
 					
 					$scope.showHistory = false;
 					
+					$scope.successMsg = null;
+					
+					$scope.hideSuccessMsg = function(){
+						$scope.successMsg = null;
+					};
+					
 					$scope.toggleShowHistory = function(){
 						if($scope.showHistory){
 							$scope.showHistory = false;
@@ -165,6 +171,7 @@ KyobeeControllers.controller('waitListCtrl',
 					}
 					
 					$scope.incrementCalloutCount = function(){
+						$scope.successMsg = null;
 						var postBody = $scope.selectedGuest;
 						
 						var url = '/kyobee/web/rest/waitlistRestAction/incrementCalloutCount';
@@ -197,6 +204,7 @@ KyobeeControllers.controller('waitListCtrl',
 					}
 					
 					$scope.markasIncomplete = function(){
+						$scope.successMsg = null;
 						var postBody = $scope.selectedGuest;
 						
 						var url = '/kyobee/web/rest/waitlistRestAction/markAsIncomplete';
@@ -230,6 +238,7 @@ KyobeeControllers.controller('waitListCtrl',
 					} 
 					
 					$scope.markasSeated = function(){
+						$scope.successMsg = null;
 						var postBody = {
 
 						};
@@ -252,6 +261,7 @@ KyobeeControllers.controller('waitListCtrl',
 					}
 					
 					$scope.deleteGuest = function(){
+						$scope.successMsg = null;
 						var postBody = {
 
 						};
@@ -263,6 +273,7 @@ KyobeeControllers.controller('waitListCtrl',
 										$('#deletePopup').simplePopup().hide();
 										$(".simplePopupBackground").fadeOut("fast");
 										$scope.loadWaitListPage(1);
+										$scope.successMsg = "Guest Deleted Successfully."
 									} else if (data.status == "FAILURE") {
 										alert('Error while deleting guest.');
 									}

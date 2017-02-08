@@ -10,6 +10,7 @@ import java.util.List;
 import org.hibernate.SessionFactory;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import com.kyobee.dto.common.Credential;
@@ -42,6 +43,9 @@ public class SecurityServiceImpl implements ISecurityService {
 	
 	@Autowired
 	EmailUtil emailUtil;
+	
+	@Value("${smsRouteId}")
+	private String smsRoute;
 	
 	/*@Logger
 	private Log log;*/
@@ -273,6 +277,8 @@ public class SecurityServiceImpl implements ISecurityService {
 			organization.setCreatedBy(credentials.getUsername());
 			organization.setCreatedDate(new Date());
 			organization.setClientBase(credentials.getClientBase());
+			organization.setSmsSignature(organization.getOrganizationName());
+			organization.setSmsRoute(smsRoute);
 			
 			OrganizationPlanSubscription organizationPlanSubscription = new OrganizationPlanSubscription();
 			organizationPlanSubscription.setAmountPerUnit(new BigDecimal(0.0));

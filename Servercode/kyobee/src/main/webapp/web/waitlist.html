@@ -131,6 +131,12 @@
 	              </div>
 	           </div>
 	           	 
+	           	<div class="alert alert-success" role="alert" style="margin-left: 10px; margin-right: 10px;" ng-show="successMsg != null && successMsg != ''">
+					<button type="button" class="close" ng-click="hideSuccessMsg();">&times;</button>
+					<strong>Done ! </strong>{{successMsg}}
+				</div>
+	           	
+	           	
 	           	<h5 ng-show="showHistory == false" style="margin-bottom:5px;"><a style="padding:10px; cursor:pointer; font-weight:bold; text-decoration: underline;" class="theme-fontcolor" ng-click="toggleShowHistory();">Show History</a></h5>
 	           	<h5 ng-show="showHistory == true" style="margin-bottom:5px;"><a style="padding:10px; cursor:pointer; font-weight:bold; text-decoration: underline;" class="theme-fontcolor" ng-click="toggleShowHistory();">Hide History</a></h5>
 	           	

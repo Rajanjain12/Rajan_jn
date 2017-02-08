@@ -55,11 +55,17 @@ public class NotificationMessageReceiver implements MessageListener{
 		objectMessage = (ObjectMessage) message;
 		try {
 			GuestNotificationBean guestNotificationBean = (GuestNotificationBean) objectMessage.getObject();
-			String msg1 = "Guest #"+guestNotificationBean.getRank()+": There are "+ (guestNotificationBean.getGuestCount()-1)+" parties ahead of you w/ approx. wait-time of "+					guestNotificationBean.getTotalWaitTime()+" min. ";
+			String msg1 = "Guest #"+guestNotificationBean.getRank()+": There are "+ (guestNotificationBean.getGuestCount()-1)+" parties ahead of you w/ approx. wait-time of ";
+			if (guestNotificationBean.getTotalWaitTime() > 60) {
+				int hr = (int) (guestNotificationBean.getTotalWaitTime() / 60L);
+				msg1 = msg1 + hr + " hr " + guestNotificationBean.getTotalWaitTime() % 60L + " min.";
+			} else {
+				msg1 = msg1 + guestNotificationBean.getTotalWaitTime() + " min. ";
+			}
 			/*String msg2 = "For LIVE updates: "+
 					baseUrl + guestNotificationBean.getUuid()+"\n\n"+ "- Sent by " + guestNotificationBean.getSmsSignature();*/
 			String msg2 = "For LIVE updates: "+
-					urlInitial + guestNotificationBean.getClientBase() + "." + urlSuffix + guestNotificationBean.getUuid()+"\n\n"+ "- Sent by " + guestNotificationBean.getSmsSignature();
+					buildURL(guestNotificationBean.getClientBase(), guestNotificationBean.getUuid()) +"\n\n"+ "- Sent by " + guestNotificationBean.getSmsSignature();
 			
 			String subject = "Your estimated wait time ";
 			//Wrapper for Marked as Seated
@@ -76,7 +82,7 @@ public class NotificationMessageReceiver implements MessageListener{
 			}
 			else if (Constants.NOTIF_THRESHOLD_ENTERED.equals(guestNotificationBean.getNotificationFlag())) {
 				msg1 = "Guest #"+guestNotificationBean.getRank()+": Your Table is ALMOST ready. Please make your way back to the restaurant with your entire party and "
-						+ "wait for your number to be called. Click for updates: " + urlInitial + guestNotificationBean.getClientBase() + "." + urlSuffix + guestNotificationBean.getUuid();
+						+ "wait for your number to be called. Click for updates: " + buildURL(guestNotificationBean.getClientBase(), guestNotificationBean.getUuid());
 				msg2 = "\n"+"- Sent by " + guestNotificationBean.getSmsSignature()+"\n";
 				subject = "Your estimated wait time";
 			}
@@ -197,6 +203,34 @@ public class NotificationMessageReceiver implements MessageListener{
 			e.printStackTrace();
 		}
 
+	}
+	
+	private String buildURL(String clientBase, String uuid){
+		String url = "";
+		
+		if(urlSuffix.contains("kyobee.com")){
+			// Prod
+			if("admin".equals(clientBase)){
+				url = "https://tinyurl.com/zrpro2s" + "/s?tid=" + uuid;
+			} else if ("advantech".equals(clientBase)){
+				url = "https://tinyurl.com/h5wmc2t" + "/s?tid=" + uuid;;
+			} else {
+				url = urlInitial + clientBase + "." + urlSuffix + uuid;
+			}
+		} else if (urlSuffix.contains("aksharnxdigital.com")){
+			// DEV or UAT
+			if("admin".equals(clientBase)){
+				url = "https://tinyurl.com/jnyg7lx" + "/s?tid=" + uuid;;
+			} else if ("advantech".equals(clientBase)){
+				url = "https://tinyurl.com/jp5gpm7" + "/s?tid=" + uuid;;
+			} else {
+				url = urlInitial + clientBase + "." + urlSuffix + uuid;
+			}
+		} else {
+			url = urlInitial + clientBase + "." + urlSuffix + uuid;
+		}
+				
+		return url;
 	}
 
 
