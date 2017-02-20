@@ -10,6 +10,9 @@ KyobeeApp.config([ '$routeProvider', function($routeProvider) {
 		controller : 'guestCtrl'
 	}).when('/logout', {
 		templateUrl : '../index.html'
+	}).when('/partyWaiting',{
+		templateUrl : 'partieswaiting.html',
+		controller : 'partyWaitingCtrl'
 	}).	otherwise({
 		redirectTo : '/home'
 	});

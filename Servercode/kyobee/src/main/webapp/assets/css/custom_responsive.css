@@ -5,18 +5,39 @@
 
 @media only screen and (max-width: 479px) {
 
-.simplePopup {width: 95%;top: 30% !important; left: 2% !important;}
+
 .btn-orange { width: 50%;}    
 .guest-name h1 {font-size: 25px;}
 .confirm-table-wrap h2 {font-size: 20px;}    
-    
-    
+
+.footer-link{bottom: -135px !important;}
+.footer-link li{padding: 10px 67px !important;} 
+.border{border-bottom: 4px solid #dc4123 !important;}
+#border{border-right: none;} 
+.h2-font{margin-bottom: 70px;}  
+
+.footer-link{
+  width: 100%;
+  background-color: #9e978e;
+  bottom: 0;
+}
+.footer-adjust {
+    display: inline-block;
+    width: 100%;
+    bottom: 0;
+    margin-bottom: -5px;
+}
+
 }
 
 
-@media only screen and (min-width: 480px) and (max-width: 767px) { 
+@media only screen and (min-width: 481px) and (max-width: 767px) { 
  
-
+.footer-link{
+  width: 100%;
+  background-color: #9e978e;
+  bottom: 0;
+}
 
     
 }
@@ -26,7 +47,7 @@
 @media only screen and (max-width: 767px) {
 
 
-.kw-dav-1 { width:60%; margin-left: 0%;}
+.kw-dav-1 { width:48%; margin-left: 0%;}
 .kw-dav-1 h1 {color: #FFF; margin: 0px 0 20px 0;display: inline-block;font-size: 2em;}
 .kw-dav-1 ul li {margin: 0 20px 0 10px;width: 100%;text-align: left;}
 .kw-dav-1 ul {margin: 0px 0 0 0;}
@@ -35,7 +56,7 @@
 .kw-dav-2 span { font-size: 15px;    margin: 10px 0 0 0;  display: inline-block;}
 .kw-dav-1 ul li a { color: #FFF; font-size: 16px;}
 
-.kw-dav-2 { float: right;  width: 40%;}
+.kw-dav-2 { float: right;  width: 52%;}
 .kw-dav-2 ul li a img { width: 75%;}
 .kw-dav-2 ul li { margin: 0 5px 0 0;}
 .kw-dav-2 span p { margin-left: 5px;}
@@ -64,7 +85,35 @@ a.headersh {display: block;font-size: 35px; color: #dd4124; text-align: center;}
 
 .fontsize1 { margin: 20px 0;   }
     
-    
+.footer-link li{padding: 10px 40px !important;}
+
+.border{border-bottom: 4px solid #dc4123 !important;}
+#border{border-right: none;} 
+.h2-font{margin-bottom: 70px;}
+
+
+.footer-link{
+  width: 100%;
+  background-color: #9e978e;
+  bottom: 0; 
+  margin-bottom: -5px;
+  /*position: absolute;*/
+}
+.footer-adjust {
+    display: inline-block;
+    width: 100%;
+    bottom: 0;
+    margin-bottom: -5px;
+}  
+  .simplePopup {
+    padding:0;
+    width:100%;
+    min-width:100%;
+  }  
+  .simplePopupClose {
+    right: 20px;
+    margin-right: 0;
+  }
 }
 
 
@@ -72,8 +121,8 @@ a.headersh {display: block;font-size: 35px; color: #dd4124; text-align: center;}
 
 @media only screen and (min-width: 768px) and (max-width: 980px) { 
 
-.kw-dav-1 { width: 55%; margin-left: 10%;}
-.kw-dav-2 {width: auto;}    
+.kw-dav-1 { width: 53%; margin-left: 5%;}
+.kw-dav-2 {width: 40%;}    
 .dropbtn { color: #dd4124;}
 .dropdown {  margin-top: -40px;}  
 /*popup*/    
@@ -81,21 +130,74 @@ a.headersh {display: block;font-size: 35px; color: #dd4124; text-align: center;}
 .confirm-table-wrap h2{font-size: 2em;}
 .guest-name h1 {font-size: 2em;}    
     
+.footer-link{
+  width: 100%;
+  background-color: #9e978e;
+  bottom: 0;
+  position: absolute; 
+}
+.footer-link li{padding: 10px 24px !important;}
+.account-table{
+  /*position: absolute;*/
+  width: 100%;
+  display: inline-block;
+  bottom: 0;
+}
+.footer-adjust {
+    position: absolute; 
+}
 }
 
 
 @media only screen and (min-width: 979px) and (max-width: 1200px) { 
-.kw-dav-1 { width: 43%;    margin-left: 23%;}
+.kw-dav-1 { width: 43%; margin-left: 23%;}
 .btn-orange { width: 30%; margin: 0 5px;}
-    
+  
+.account-table{
+  position: relative;
+  width: 100%;
+  display: inline-block;
+  bottom: 0;
+}
+
+.footer-link{
+  width: 100%;
+  background-color: #9e978e;
+  bottom: 0;
+  position: absolute; 
+}
+.footer-adjust { 
+    display: inline-block;
+    width: 100%;
+    bottom: 0;
+    margin-bottom: -5px;
+    position: absolute;
+}
 }
 
 @media only screen and (min-width: 1600px) and (max-width: 1920px) { 
 
-
+.footer-adjust {
+    position: absolute; 
+    display: inline-block;
+    width: 100%;
+    bottom: 0;
+    margin-bottom: -5px;
+  }
 
 }
 
-
+/*iphone6 plus*/
+@media only screen 
+and (min-device-width : 414px) 
+and (max-device-width : 736px) 
+and (orientation : portrait){ 
+  .footer-link{
+  width: 100%;
+  background-color: #9e978e;
+  bottom: 0;
+  position: absolute; 
+}
+}
 
 

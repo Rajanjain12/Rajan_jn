@@ -2,13 +2,15 @@
 KyobeeControllers.controller('guestCtrl',
 		[
 				'$scope',
+				'$rootScope',
 				'$location',
 				'$timeout',
 				'$interval',
 				'$routeParams',
 				'KyobeeService',
-				function($scope, $location, $timeout, $interval, $routeParams, KyobeeService) {
-
+				function($scope,$rootScope, $location, $timeout, $interval, $routeParams, KyobeeService) {
+					
+					$rootScope.hideHeader=false;//To hide show header in index.html
 					$scope.guestDTO = null;
 					$scope.guestPref = null;
 					$scope.errorMsg = null;
@@ -34,7 +36,7 @@ KyobeeControllers.controller('guestCtrl',
 						} else {
 							$scope.guestPref = angular.copy($scope.seatPrefs);
 						}
-						
+						console.log("GuestPRef popup : "+ JSON.stringify($scope.guestPref));
 					}
 					
 					$scope.loadSeatingPref = function() {
@@ -54,6 +56,7 @@ KyobeeControllers.controller('guestCtrl',
 								}, function(error) {
 									alert('Error while fetching user details. Please login again or contact support');
 								});
+						console.log("GuestPRef popup : "+ JSON.stringify($scope.guestPref));
 					};
 					
 					$scope.hideErrorMsg = function(){
@@ -200,6 +203,7 @@ KyobeeControllers.controller('guestCtrl',
 					if($routeParams.guestId == null || $routeParams.guestId == 'undefined'){
 						console.log('Load Add Guest');
 						$scope.initAddGuest();
+						
 						$scope.editMode = false;
 					} else {
 						console.log('Load Update Guest');

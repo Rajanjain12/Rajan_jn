@@ -19,7 +19,7 @@
     <link href="../assets/css/theme-main.css" rel="stylesheet" />
         
    
-    <script>
+    <script >
     	// Loading resrouces based on url 
     	var url = window.location.href;
     	//var url = "https://admin.kyobee.com";
@@ -92,12 +92,13 @@
 	<script src="controller/controllers.js"></script>
 	<script src="controller/waitlist-controller.js"></script>
 	<script src="controller/guest-controller.js"></script>
+	<script src="controller/parties-waiting.js"></script>
 
 </head>
 
 <body ng-controller="homeCtrl">
     
-    <section class="waitlist-wrap">
+    <section class="waitlist-wrap" ng-hide="hideHeader">
     
         <div class="header-waitlist theme-color">
             
@@ -126,6 +127,7 @@
                             <li><a href=""><i class="fa fa-user-plus" aria-hidden="true"></i></a></li>-->
                             <li><a href=""><img src="../assets/img/search.png"></a> </li>
                             <li><a style="cursor:pointer" ng-click="changeView('addGuest')"><img src="../assets/img/userpluse.png"></a> </li>
+                            <li><a style="cursor:pointer" ng-click="changeView('partyWaiting')" ><img src="../assets/img/check_in.png"></a> </li>
                         </ul>
                     </div>
 

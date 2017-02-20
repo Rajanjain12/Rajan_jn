@@ -9,12 +9,14 @@ var KyobeeControllers = angular.module('KyobeeControllers', []).factory(
 KyobeeControllers.controller('homeCtrl',
 		[
 				'$scope',
+				'$rootScope',
 				'$location',
 				'$timeout',
 				'$interval',
 				'KyobeeService',
-				function($scope, $location, $timeout, $interval, KyobeeService) {
+				function($scope,$rootScope, $location, $timeout, $interval, KyobeeService) {
 
+					$rootScope.hideHeader=false;//To hide show header in index.html
 					$scope.userDTO = null;
 		            $scope.seatPrefs = null;
 		            $scope.authToken = 'Unno1adyiSooIAkAEt';
@@ -33,6 +35,10 @@ KyobeeControllers.controller('homeCtrl',
 							break;
 						case "logout":
 							$location.path("/logout");
+							$location.search({});
+							break;
+						case "partyWaiting" :
+							$location.path("/partyWaiting");
 							$location.search({});
 							break;
 						default:

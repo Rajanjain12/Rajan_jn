@@ -37,7 +37,7 @@ public class NotificationMessageReceiver implements MessageListener{
 	@Value("${sms.project.id}")
 	private String smsProjectId;
 	
-	//@Value("${rsnt.base.upadteguest.url}")
+	//@Value("${rsnt.base.updateguest.url}")
 	//private String baseUrl;
 	
 	@Value("${rsnt.base.updateguest.url.initial}")
@@ -45,6 +45,13 @@ public class NotificationMessageReceiver implements MessageListener{
 	
 	@Value("${rsnt.base.updateguest.url.suffix}")
 	private String urlSuffix;
+	
+	@Value("${rsnt.base.url.admin}")
+	private String adminURL;
+	
+	@Value("${rsnt.base.url.advantech}")
+	private String advantechURL;
+	
 	
 	@Override
 	public void onMessage(Message message) {
@@ -208,7 +215,7 @@ public class NotificationMessageReceiver implements MessageListener{
 	private String buildURL(String clientBase, String uuid){
 		String url = "";
 		
-		if(urlSuffix.contains("kyobee.com")){
+		/*if(urlSuffix.contains("kyobee.com")){
 			// Prod
 			if("admin".equals(clientBase)){
 				url = "https://tinyurl.com/zrpro2s" + "/s?tid=" + uuid;
@@ -228,7 +235,16 @@ public class NotificationMessageReceiver implements MessageListener{
 			}
 		} else {
 			url = urlInitial + clientBase + "." + urlSuffix + uuid;
+		}*/
+		
+		if("admin".equals(clientBase)){
+			url = adminURL + "/s?tid=" + uuid;;
+		} else if ("advantech".equals(clientBase)){
+			url = advantechURL + "/s?tid=" + uuid;;
+		} else {
+			url = urlInitial + clientBase + "." + urlSuffix + uuid;
 		}
+		
 				
 		return url;
 	}

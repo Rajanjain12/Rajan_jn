@@ -3,6 +3,25 @@
  * Developer: Jaimin 
 */
 
+/** Change Theme by Color code **/
+
+.theme-color{background: #dd4124;}
+.theme-fontcolor{color: #dd4124;}
+.border-color{border: 1px solid #dd4124;}
+.border-top{border-top: 1px solid #dc4123;}
+
+/*.theme-color{background: #004b85;}
+.theme-fontcolor{color: #004b85;}
+.border-color{border: 1px solid #004b85;}
+.border-top{border-top: 1px solid #004b85;}*/
+/** End  Change Theme by Color code **/
+
+
+/**  Marketing Home Page  **/
+
+/** ======================================================== **/
+
+
 /* Preloader */
 #preloader {
 	position: fixed;
@@ -279,7 +298,7 @@
 .checkbox label::before {
       content: "";
       display: inline-block;
-      background: #fff;
+      background: #625656;
       position: absolute;
       width: 20px;
       height: 20px;
@@ -321,8 +340,8 @@
 
 
 
-.checkbox-success input[type="checkbox"]:checked + label::before {background-color: #fff;    border-color: #cccccc;}
-.checkbox-success input[type="checkbox"]:checked + label::after {color: #de4325;}
+.checkbox-success input[type="checkbox"]:checked + label::before {background-color: #625656;    border-color: #cccccc;}
+.checkbox-success input[type="checkbox"]:checked + label::after {color: #fff;}
 
 label.chexclr {color: #333 !Important;}
 
@@ -487,6 +506,49 @@ p.text-msg-pswd { color: #c9ced1; font-size: 16px;  text-align: left;    display
     border-bottom: 1px solid #bfb9b9;
 }
 
+.footer-wrap {
+    /*position: absolute;*/
+    bottom: 0;
+    width: 100%;
+}
+.account-table{
+  /*position: absolute;*/
+  width: 100%;
+  display: inline-block;
+  bottom: 0;
+}
+
+.footer-adjust {
+    /*position: absolute;*/ 
+    display: inline-block;
+    width: 100%;
+    bottom: 0;
+    margin-bottom: -5px;
+}
+
+.footer-link{
+  width: 100%;
+  background-color: #9e978e;
+  bottom: 0;
+  /*position: absolute; */
+}
+.footer-link ul{
+  list-style: none;
+  width: auto;
+  margin:0;
+  padding-left: 0;
+  text-align: center;
+}
+.footer-link li{
+  width: auto;
+  padding: 10px 50px;
+  list-style: none;
+  display: inline-block;
+}
+.footer-link a{
+  color: #fff;
+  font-weight: bold;
+}
 
 .paginations {
     position: relative;
@@ -637,17 +699,15 @@ a.headersh {display: none;}
 
 
 /*Pop Up CSS*/
-
+/*
 .simplePopup {
     display: none;
     position: fixed !important;    
     background: #fff;
     z-index: 999;    
     width: 45%;
-    border-radius: 10px;
     top: 30% !important;
-    left: 28% !important;
-    
+    left: 28% !important;   
 }
 
 .simplePopupClose {
@@ -665,7 +725,7 @@ width:100%;
 top:0;
 left:0;
 z-index: 3;
-}
+}*/
 
 
 /*** Radio button section ****/
@@ -686,7 +746,7 @@ z-index: 3;
      border-radius: 2px;
       margin-left: -20px;
       border: 1px solid #cdcdcd;      
-      background-color: #fff;
+      background-color: #625656;
       -webkit-transition: border 0.15s ease-in-out;
       -o-transition: border 0.15s ease-in-out;
       transition: border 0.15s ease-in-out; }
@@ -700,7 +760,7 @@ z-index: 3;
         top: 6px;
         margin-left: -19px;
         border-radius: 50%;
-        background-color: #dd4124;
+        background-color: #fff;
         -webkit-transform: scale(0, 0);
         -ms-transform: scale(0, 0);
         -o-transform: scale(0, 0);
@@ -742,6 +802,8 @@ z-index: 3;
     -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inse;
     padding: 0 10px;
+    background-color: #fff;
+    border:4px solid #dd4124;
 }
 .well-guest .form-group {
     margin-bottom: 25px;
@@ -752,14 +814,14 @@ z-index: 3;
     margin-top: 30px;
 }
 .addnew-color a img {
-    padding-left: 5px;
+    padding-right: 10px;
 }
 .btn-add {
     color: #fff;
 }
 .btn-add {
     color: #fff;
-    width: 120px;
+    width: 150px;
     font-size: 22px;
     margin-bottom: 15px;
 }
@@ -821,10 +883,63 @@ z-index: 3;
 #smshide{display: none;}
 #emailhide{display: none;}
 
+/*-- guest thank you--*/
+.para{
+  font-size: 24px;
+  color: #bbbbbb;
+}
+.guest-h1{
+  font-weight: bold;
+  font-size: 130px;
+  color: #510c07;
+}
+.h4-font{
+  font-weight: bold;
+  font-size: 30px;
+}
 
+/*-- parties waiting --*/
+.parties-h1{
+  font-size: 100px;
+  color: #dc4123;
+}
+.para-color{
+  font-size: 30px;
+  color: #dc4123;
+  font-weight: bold;
+}
+.btn-checkin{
+    color: #fff;
+    font-size: 22px;
+    margin-bottom: 15px;
+    width: 300px;
+    font-family: 'SanFranciscoDisplay-Semibold';
+}
 
+.btn-addwaitlist{
+    color: #fff;
+    font-size: 22px;
+    margin-bottom: 15px;
+    width: 260px;
+    font-family: 'SanFranciscoDisplay-Semibold';
+}
+.h3-font{
+  font-weight: bold;
+  font-size: 50px;
+  color: #dc4123;
+}
 
+.h2-font{
+  font-weight: bold;
+  font-size: 100px;
+  color: #dc4123;
+  margin-bottom: 0;
+  font-family: 'SanFranciscoDisplay-Semibold';
+}
 
+#border{
+  border-right: 4px solid #dc4123;
+}
 
 
 
@@ -938,6 +1053,9 @@ z-index: 3;
     font-weight: 200;
 }
 
+.waitlist-wrap{
+  flex: 1;
+}
 
 #waitlist-box h2,h3,p {
     font-family: 'SanFranciscoDisplay-Semibold';
@@ -1042,7 +1160,49 @@ z-index: 3;
 }
 .font-color-fix label{color: #797979;
     font-size: 18px;font-weight: 600;}
-    
-.hightlight{
-	background-color: yellow;
+
+
+/*--  popup css  --*/
+
+.simplePopup {
+display:none;
+position:fixed;
+z-index:3;
+padding:12px;
+width:70%;
+min-width:70%;
+}
+
+.simplePopupClose {
+right:62px;
+cursor:pointer;
+margin-right: 50px;
+margin-top: 40px;
+z-index: 2;
+position: absolute;
+}
+
+.simplePopupBackground {
+display:none;
+background:#000;
+position:fixed;
+height:100%;
+width:100%;
+top:0;
+left:0;
+z-index:1;
+}
+
+
+/* .welcome{
+  margin-top: 52px;
+} */
+.welcome h4{
+  font-size: 26px;
+  color: #dd4124;
+  font-weight: 700;
+}
+
+.thankyou_bg {
+    background: #fff;
 }

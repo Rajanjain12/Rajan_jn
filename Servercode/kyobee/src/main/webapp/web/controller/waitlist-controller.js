@@ -2,12 +2,14 @@
 KyobeeControllers.controller('waitListCtrl',
 		[
 				'$scope',
+				'$rootScope',
 				'$location',
 				'$timeout',
 				'$interval',
 				'KyobeeService',
-				function($scope, $location, $timeout, $interval, KyobeeService) {
-
+				function($scope, $rootScope,$location, $timeout, $interval, KyobeeService) {
+					
+					$rootScope.hideHeader=false;//To hide show header in index.html
 					$scope.waitTime = null;
 					$scope.notifyFirst = null;
 					$scope.totalWaitTime = null;

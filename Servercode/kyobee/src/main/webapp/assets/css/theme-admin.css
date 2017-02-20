@@ -6,5 +6,6 @@
 .theme-color{background: #dd4124;}
 .theme-fontcolor{color: #dd4124;}
 .border-color{border: 1px solid #dd4124;}
+.border-color-3{border: 3px solid #dd4124; border-radius:4px; }
 .border-top{border-top: 1px solid #dc4123;}
 
