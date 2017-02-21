@@ -65,7 +65,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 					$scope.hidePopup = function() {
 						$('#pop2').simplePopup().hide();
 						$(".simplePopupBackground").fadeOut("fast");
-						$scope.changeView('home');
+						//$scope.changeView('home');
 					}
 					
 					

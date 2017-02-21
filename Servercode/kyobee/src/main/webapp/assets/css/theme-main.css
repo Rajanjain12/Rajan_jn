@@ -885,8 +885,9 @@ z-index: 3;
 
 /*-- guest thank you--*/
 .para{
-  font-size: 24px;
+  font-size: 20px;
   color: #bbbbbb;
+  padding: 15px 0;
 }
 .guest-h1{
   font-weight: bold;
@@ -895,7 +896,7 @@ z-index: 3;
 }
 .h4-font{
   font-weight: bold;
-  font-size: 30px;
+  font-size: 24px;
 }
 
 /*-- parties waiting --*/
@@ -913,6 +914,7 @@ z-index: 3;
     font-size: 22px;
     margin-bottom: 15px;
     width: 300px;
+   border-radius: 7px;
     font-family: 'SanFranciscoDisplay-Semibold';
 }
 
@@ -1171,6 +1173,10 @@ z-index:3;
 padding:12px;
 width:70%;
 min-width:70%;
+}
+
+#showpopup{
+	background-color:#fff;
 }
 
 .simplePopupClose {

@@ -65,7 +65,7 @@ public class NotificationMessageReceiver implements MessageListener{
 			String msg1 = "Guest #"+guestNotificationBean.getRank()+": There are "+ (guestNotificationBean.getGuestCount()-1)+" parties ahead of you w/ approx. wait-time of ";
 			if (guestNotificationBean.getTotalWaitTime() > 60) {
 				int hr = (int) (guestNotificationBean.getTotalWaitTime() / 60L);
-				msg1 = msg1 + hr + " hr " + guestNotificationBean.getTotalWaitTime() % 60L + " min.";
+				msg1 = msg1 + hr + " hr " + guestNotificationBean.getTotalWaitTime() % 60L + " min. ";
 			} else {
 				msg1 = msg1 + guestNotificationBean.getTotalWaitTime() + " min. ";
 			}
