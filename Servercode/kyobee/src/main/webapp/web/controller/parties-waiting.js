@@ -15,6 +15,8 @@ KyobeeControllers.controller('partyWaitingCtrl',
 					$scope.OrgGuestCount=0;
 					$scope.guestRankMin=0;
 					$scope.OrgTotalWaitTime=null;
+					$scope.hour=0;
+					$scope.min=0;
 					
 					$scope.guestDTO = {
 							name: null,
@@ -43,6 +45,14 @@ KyobeeControllers.controller('partyWaitingCtrl',
 										$scope.OrgGuestCount=data.serviceResult.ORG_GUEST_COUNT;
 										$scope.guestRankMin=data.serviceResult.GUEST_RANK_MIN;
 										$scope.OrgTotalWaitTime=data.serviceResult.ORG_TOTAL_WAIT_TIME;
+										var min=$scope.OrgTotalWaitTime;
+										var h = Math.floor(min/60);
+										h = h.toString().length == 1 ? (0+h.toString()) : h ;
+										$scope.hour=h;
+										var m = min%60;
+										m = m.toString().length == 1 ? (0+m.toString()) : m ;
+										$scope.min=m;
+										//return h + ":" + m;
 									} else if (data.status == "FAILURE") {
 										alert('Error while fetching details.');
 										$scope.logout();
@@ -62,7 +72,22 @@ KyobeeControllers.controller('partyWaitingCtrl',
 						console.log("GuestPRef popup : "+ JSON.stringify($scope.guestPref));
 					}
 					
-					$scope.hidePopup = function() {
+					$scope.hidePopup = function() {		
+						//document.getElementById("addGuestForm").reset();
+						$scope.guestDTO = {
+								name: null,
+								organizationID : $scope.userDTO.organizationId,
+								noOfPeople : null,
+								prefType : null,
+								email : null,
+								sms : null,
+								optin : false
+						};
+						 $('#emailhide').hide();
+						 $('#smshide').hide();
+						 $scope.loadSeatingPref();
+						$scope.addGuestForm.$setPristine();
+						$scope.addGuestForm.$setUntouched();
 						$('#pop2').simplePopup().hide();
 						$(".simplePopupBackground").fadeOut("fast");
 						//$scope.changeView('home');
@@ -97,6 +122,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 									console.log("orgseatpref"+data);
 									if (data.status == "SUCCESS") {
 										$scope.guestPref = data.serviceResult;
+										$scope.seatPrefs = data.serviceResult;
 										console.log("GuestPRef : "+ $scope.guestPref);
 									} else if (data.status == "FAILURE") {
 										alert('Error while fetching user details. Please login again or contact support');
@@ -164,8 +190,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 									alert('Error while adding guest to waitlist');
 								});
 						
-						$('#pop1').simplePopup().hide();
-						
+						$('#pop1').simplePopup().hide();					
 						
 					}
 					

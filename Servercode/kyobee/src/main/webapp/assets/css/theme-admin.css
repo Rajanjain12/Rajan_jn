@@ -7,5 +7,7 @@
 .theme-fontcolor{color: #dd4124;}
 .border-color{border: 1px solid #dd4124;}
 .border-color-3{border: 3px solid #dd4124; border-radius:4px; }
-.border-top{border-top: 1px solid #dc4123;}
+.border-top{border-top: 1px solid #dc4124;}
+.border-right{border-right: 4px solid #dc4124;}
+.close-theme{color:#dd4124; right: 40px; top: 30px; cursor: pointer; z-index: 2; position: absolute; font-size: 18px;}
 

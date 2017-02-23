@@ -11,11 +11,11 @@
 					<div class="login-title"><img ng-src="{{logoImgSrc}}"><h2>Waitlist</h2></div>
 				</div>
 				
-				<div class="alert alert-success kyobeeSuccessMessage" role="alert"
+				<!-- <div class="alert alert-success kyobeeSuccessMessage" role="alert"
 							ng-show="successMsg != null && successMsg != ''">
 							<button type="button" class="close" ng-click="hideSuccessMsg();">&times;</button>
 							<strong>Done ! </strong>{{successMsg}}
-				</div>
+				</div> -->
 				
 				<div class="alert alert-danger" role="alert" ng-show="errorMsg != null && errorMsg != ''">
 							<button type="button" class="close" ng-click="hideErrorMsg();" >&times;</button>
@@ -95,14 +95,30 @@
 									<input type="text" class="form-control" ng-model="signUpForm.inputCaptcha" name="iCaptcha" >
 								</div>
 		
-								<button type="submit" ng-click="signup(regForm.$invalid);" class="btn btn-lg btn-primary btn-block btn-sign-in" >Sign Up</button>  
+								<button type="submit" ng-click="signup(regForm.$invalid);" class="btn btn-lg btn-block btn-sign-in" >Sign Up</button>  
 								
 						</div>
 					</form>
 				 </div>
             </div>
         </div>
-    </div>    
+    </div> 
+    
+    <div id="thankYouPopup" class="simplePopup"> 
+        <!-- <div class="new_guest_wrap"> -->
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 text-center thankyou_bg border-color-3">
+                <p class="content para">{{successMsg}}</p>
+                
+                <div class="form-group">
+                  <input type="submit" class="btn btn-add theme-color" value="OK" ng-click="changeView('login')"/>
+                </div>
+            </div>
+        </div>
+        
+	</div>
+    
+       
 </section>
     
 <!----------End Waitlist-Section-------->    

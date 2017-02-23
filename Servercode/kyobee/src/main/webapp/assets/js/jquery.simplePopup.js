@@ -9,6 +9,20 @@
 * http://www.opensource.org/licenses/mit-license.php
 */
 
+function colorToHex(color) {
+    if (color.substr(0, 1) === '#') {
+        return color;
+    }
+    var digits = /(.*?)rgb\((\d+), (\d+), (\d+)\)/.exec(color);
+    
+    var red = parseInt(digits[2]);
+    var green = parseInt(digits[3]);
+    var blue = parseInt(digits[4]);
+    
+    var rgb = blue | (green << 8) | (red << 16);
+    return digits[1] + '#' + rgb.toString(16);
+};
+
 (function ($) {
 
     $.fn.simplePopup = function (options) {
@@ -47,15 +61,22 @@
 	    appendHTML: function() {
 
 		// if this has already been added we don't need to add it again
-		if ($('.simplePopupBackground').length === 0) {
-		    var background = '<div class="simplePopupBackground"></div>';
+                if ($('.simplePopupBackground').length === 0) {
+	    	var background = '<div class="simplePopupBackground"></div>';
 		    $('body').prepend(background);
-		}
-
-		if(object.find('.simplePopupClose').length === 0) {
-		    var close = '<div class="simplePopupClose"><img src="../assets/img/back.png" /></</div>';
+                }   
+		    //red
+		    var close = '<div class="close-theme"><i class="fa fa-reply" aria-hidden="true"></i></</div>';
 		    object.prepend(close);
-		}
+	    	
+		    
+		    /*var bgcolor = $('.theme-color').css("background-color");
+		    //#dd4124
+		  if(colorToHex(bgcolor) == '#dd4124'){alert('yes');}else{alert('no');}*/
+		   
+		    
+		    
+		
 	    },
 
 	    /******************************
@@ -64,7 +85,7 @@
 
 	    setEventHandlers: function() {
 
-		$(".simplePopupClose, .simplePopupBackground").on("click", function (event) {
+		$(".simplePopupClose, .simplePopupBackground, .close-theme").on("click", function (event) {
 		    methods.hidePopup();
 		});
 
@@ -78,7 +99,7 @@
 	    },
 
             removeEventListners: function() {
-		$(".simplePopupClose, .simplePopupBackground").off("click");                
+		$(".simplePopupClose, .simplePopupBackground, .close-theme").off("click");                
             },
 
 	    showPopup: function() {

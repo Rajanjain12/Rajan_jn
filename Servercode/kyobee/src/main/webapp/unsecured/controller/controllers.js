@@ -191,7 +191,8 @@ KyobeeUnSecuredController.controller('homeCtrl',
 								if (data.status == "SUCCESS") {
 									$scope.success = true;
 									//$('#signupSuccessModal').modal('show');
-									$scope.successMsg = 'You have successfully signed into Kyobee! You would have received an email.';
+									$scope.successMsg = 'You have successfully signed into Kyobee! You would have received an email.';									
+									$('#thankYouPopup').simplePopup();
 									$scope.scrollToTop();
 									//$scope.changeView('login');
 								} else if (data.status == "FAILURE") {

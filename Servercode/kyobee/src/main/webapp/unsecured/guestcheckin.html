@@ -47,11 +47,12 @@
         <div class="col-md-10 marginauto">
         	
         	<div ng-show="guest == null" style="height:80%" class="guest_list_wrap content-sm row">
+        	<!-- <div  style="height:80%" class="guest_list_wrap content-sm row"> -->
         		<h4>The requested guest doesn't exist anymore.</h4>
         	</div>
         	
             <div ng-show="guest != null" class="guest_list_wrap content-sm row">
-
+			<!-- <div class="guest_list_wrap content-sm row"> -->
                 <div class="fontpopup section">
 
                     <div class="row">
@@ -85,9 +86,31 @@
                             <input type="text" name="field1" class="form-control" ng-model="guest.name"/>
                             </div>
 
+							<!--   <div class="form-group col-md-6" >
+							   <label class="control-label"></label>
+			                    <select name="field1" class="form-control" ng-model="guest.noOfPeople" required>
+			                        <option value="" ng-selected="null == guest.noOfPeople">Party of:</option>
+			                        <option value="1" ng-selected="1 == guest.noOfPeople">Party 1</option>
+			                        <option value="2" ng-selected="2 == guest.noOfPeople">Party 2</option>
+			                        <option value="3" ng-selected="3 == guest.noOfPeople">Party 3</option>
+			                        <option value="4" ng-selected="4 == guest.noOfPeople">Party 4</option>
+			                        <option value="5" ng-selected="5 == guest.noOfPeople">Party 5</option>
+			                        <option value="6" ng-selected="6 == guest.noOfPeople">Party 6</option>
+			                        <option value="7" ng-selected="7 == guest.noOfPeople">Party 7</option>
+			                        <option value="8" ng-selected="8 == guest.noOfPeople">Party 9</option>
+			                        <option value="9" ng-selected="9 == guest.noOfPeople">Party 9</option>
+			                        <option value="10" ng-selected="10 == guest.noOfPeople">Party 10</option>
+			                    </select>
+			                    <div ng-messages="addGuestForm.partyOf.$error" ng-show=" (!addGuestForm.partyOf.$pristine || addGuestForm.$submitted)" class="help-block">
+							        <div ng-message="required">Party of cannot be blank</div>
+							  </div>
+			                </div> -->
+                  
+
                             <div class="form-group col-md-6">
                             <label class="control-label"></label>
                             <input type="text" name="field1" class="form-control" ng-model="guest.noOfPeople" />
+                            
                             </div>
 
 
@@ -158,7 +181,7 @@
         
             <div class="col-md-6 col-xs-12">
             
-                <p class="">Copyright KYOBEE. All Rights Reserved - Version 2.2 - 08/31/2016 7:00 AM</p>
+                <p class="">Copyright KYOBEE. All Rights Reserved - Version 2.2</p>
                 
             </div>
         </div>

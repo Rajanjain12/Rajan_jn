@@ -10,3 +10,5 @@
 .border-color{border: 1px solid #004b85;}
 .border-color-3{border: 3px solid #004b85; border-radius:4px; }
 .border-top{border-top: 1px solid #004b85;}
+.border-right{border-right: 4px solid #004b85;}
+.close-theme{color:#004b85; right: 40px; top: 30px; cursor: pointer; z-index: 2; position: absolute; font-size: 18px;}

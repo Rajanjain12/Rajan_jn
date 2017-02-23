@@ -38,22 +38,28 @@ public class EmailUtil {
 
 	public void sendEmail(String to, String subject, String content) throws RsntException {
 		try {
+			System.out.println("Inside send email");
+			System.out.println("TO : "+ to );
+			System.out.println("from : "+ from );
+			System.out.println("content : "+ content );	
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
+			mimeMessage.setFrom(new InternetAddress(from));
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 			helper.setTo(to);
 			helper.setFrom(from);
-			helper.setText(content);
-			helper.setSubject(subject);
-			helper.setSentDate(new Date());
+			helper.setText("ABC",true);
+			helper.setSubject("ABC");
+			helper.setSentDate(new Date());			
 			mailSender.send(mimeMessage);
 		} catch (Exception e) {
+			System.out.println("Exception: ==>>> " + e);
 			throw new RsntException(e);
 		}
 	}
 	
 	public void sendWelcomeEmail(String emailTo, String name) throws RsntException {
 		try {
-			MimeMessage mimeMessage = mailSender.createMimeMessage();
+			MimeMessage mimeMessage = mailSender.createMimeMessage();				
 			mimeMessage.setFrom(new InternetAddress(from));
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 			helper.setTo(emailTo);
