@@ -41,14 +41,16 @@ public class EmailUtil {
 			System.out.println("Inside send email");
 			System.out.println("TO : "+ to );
 			System.out.println("from : "+ from );
+			System.out.println("Start----");
 			System.out.println("content : "+ content );	
+			System.out.println("---Stop");
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			mimeMessage.setFrom(new InternetAddress(from));
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 			helper.setTo(to);
 			helper.setFrom(from);
-			helper.setText("ABC",true);
-			helper.setSubject("ABC");
+			helper.setText(content,false);
+			helper.setSubject(subject);
 			helper.setSentDate(new Date());			
 			mailSender.send(mimeMessage);
 		} catch (Exception e) {
