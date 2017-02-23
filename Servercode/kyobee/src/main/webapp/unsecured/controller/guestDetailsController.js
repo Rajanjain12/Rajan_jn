@@ -51,6 +51,16 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 										}
 										console.log($scope.selectedSeatPref);
 									}
+									
+									if($scope.guest.prefType == 'sms' || $scope.guest.prefType == 'SMS'){
+										$scope.guest.sms = Number.parseInt($scope.guest.sms);
+										$scope.guest.prefType = 'sms';
+										showsms1();
+									} else if($scope.guest.prefType == 'email' || $scope.guest.prefType == 'EMAIL') {
+										showemail1();
+										$scope.guest.prefType = 'email';
+									}
+									
 									$scope.loadSeatingPref($scope.guest.organizationID);
 									$scope.loadUserMetricks($scope.guest.organizationID, $scope.guest.guestID);
 								} else if (data.status == "FAILURE") {
