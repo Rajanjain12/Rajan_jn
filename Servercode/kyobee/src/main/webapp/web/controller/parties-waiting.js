@@ -349,6 +349,15 @@ KyobeeControllers.controller('partyWaitingCtrl',
 					
 					
 					$scope.loadInfo();
+					//To hide popup on esc key
+					$scope.hideOnKeyPress = function(keyEvent) {
+						if (keyEvent.which === 27) {											
+							$('#pop1').simplePopup().hide();
+							$scope.hidePopup();
+							$(".simplePopupBackground").fadeOut("fast");
+							
+						}
+					}
 					/*$scope.init = function(){
 						$scope.getData();
 					};

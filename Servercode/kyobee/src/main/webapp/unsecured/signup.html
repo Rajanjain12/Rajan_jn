@@ -1,8 +1,8 @@
 <!----------Waitlist-Section-------->
 
-<section class="theme-color">    
-    <div class="container theme-color">
-        
+<section class="theme-color">  
+
+    <div class="container theme-color">		          
         <div class="row">
 		
 			<div class="col-md-9 marginauto">     
@@ -104,21 +104,31 @@
         </div>
     </div> 
     
+    
+    
     <div id="thankYouPopup" class="simplePopup"> 
         <!-- <div class="new_guest_wrap"> -->
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12 text-center thankyou_bg border-color-3">
-                <p class="content para">{{successMsg}}</p>
+                <p class="content para margin-top-20 ng-binding">{{successMsg}}</p>
                 
                 <div class="form-group">
-                  <input type="submit" class="btn btn-add theme-color" value="OK" ng-click="changeView('login')"/>
+                  <input type="submit" class="btn btn-add theme-color" value="OK" ng-click="goToSignin()"/>
                 </div>
             </div>
         </div>
         
 	</div>
-    
-       
+    <div class="loader" ng-if="loading"></div>
 </section>
+
+<!-- <script type="text/javascript">
+    //paste this code under head tag or in a seperate js file.
+    // Wait for window load
+  //  jQuery(window).load(function () {
+        // Animate loader off screen
+    //    jQuery(".loader").fadeOut('slow');
+    });
+</script> -->
     
 <!----------End Waitlist-Section-------->    

@@ -17,6 +17,7 @@ KyobeeUnSecuredController.controller('homeCtrl',
 					$scope.username=null;
 					$scope.password=null;
 					$scope.errorMsg = null;
+					$scope.loading=false;
 					$scope.logoImgSrc = logoImgSrc;
 					$scope.signUpForm =  {
 							companyName : null,
@@ -32,6 +33,8 @@ KyobeeUnSecuredController.controller('homeCtrl',
 							inputCaptcha : null,
 							clientBase : subdomain
 						};
+					
+					
 					
 					console.log('src' + $scope.logoImgSrc);
 					
@@ -101,10 +104,13 @@ KyobeeUnSecuredController.controller('homeCtrl',
 						
 						$scope.successMsg = null;
 						$scope.errorMsg = null;
+						$scope.loading=true;
+						
 						
 						if($scope.signUpForm.inputCaptcha == null ){
 							$scope.errorMsg = "Kindly enter the captcha.";
 							$scope.scrollToTop();
+							$scope.loading=false;
 							return;
 						}
 						
@@ -115,42 +121,49 @@ KyobeeUnSecuredController.controller('homeCtrl',
 							$scope.signUpForm.inputCaptcha = '';
 							$scope.initCaptcha();
 							$scope.scrollToTop();
+							$scope.loading=false;
 							return;
 						}
 						
 						if($scope.signUpForm.companyName == null){
 							$scope.errorMsg = "Company Name is required";
 							$scope.scrollToTop();
+							$scope.loading=false;
 							return;
 						}
 						
 						if($scope.signUpForm.companyPrimaryPhone == null){
 							$scope.errorMsg = "Company Primary Phone is required";
 							$scope.scrollToTop();
+							$scope.loading=false;
 							return;
 						}
 						
 						if($scope.signUpForm.companyEmail == null){
 							$scope.errorMsg = "Company Email Address is required";
 							$scope.scrollToTop();
+							$scope.loading=false;
 							return;
 						}
 						
 						if($scope.signUpForm.firstName == null){
 							$scope.errorMsg = "First Name is required";
 							$scope.scrollToTop();
+							$scope.loading=false;
 							return;
 						}
 						
 						if($scope.signUpForm.lastName == null){
 							$scope.errorMsg = "Last Name is required";
 							$scope.scrollToTop();
+							$scope.loading=false;
 							return;
 						}
 						
 						if($scope.signUpForm.email == null){
 							$scope.errorMsg = "Email Address is required";
 							$scope.scrollToTop();
+							$scope.loading=false;
 							return;
 						} else {
 							$scope.signUpForm.username = $scope.signUpForm.email
@@ -159,18 +172,21 @@ KyobeeUnSecuredController.controller('homeCtrl',
 						if($scope.signUpForm.password == null){
 							$scope.errorMsg = "Password is required";
 							$scope.scrollToTop();
+							$scope.loading=false;
 							return;
 						}
 						
 						if($scope.signUpForm.confirmPassword == null){
 							$scope.errorMsg = "Confirm Password is required";
 							$scope.scrollToTop();
+							$scope.loading=false;
 							return;
 						}
 						
 						if($scope.signUpForm.confirmPassword != $scope.signUpForm.password){
 							$scope.errorMsg = "Password does not match with the Confirm Password";
 							$scope.scrollToTop();
+							$scope.loading=false;
 							return;
 						}
 						
@@ -188,10 +204,12 @@ KyobeeUnSecuredController.controller('homeCtrl',
 						KyobeeUnsecuredService.postService(url , postBody)
 							.query(postBody, function(data) {
 								console.log(data);
+								//jQuery(".loader").fadeOut('slow');
 								if (data.status == "SUCCESS") {
 									$scope.success = true;
 									//$('#signupSuccessModal').modal('show');
-									$scope.successMsg = 'You have successfully signed into Kyobee! You would have received an email.';									
+									$scope.successMsg = 'You have successfully signed into Kyobee! You would have received an email.';
+									$scope.loading=false;
 									$('#thankYouPopup').simplePopup();
 									$scope.scrollToTop();
 									//$scope.changeView('login');
@@ -199,10 +217,12 @@ KyobeeUnSecuredController.controller('homeCtrl',
 									$scope.success = false;
 									$scope.errorMsg = data.errorDescription;
 									$scope.scrollToTop();
+									$scope.loading=false;
 								}
 							}, function(error) {
 								$scope.success = false;
 								$scope.errorMsg = "Error occured while activation. Please contact support or try again later";
+								$scope.loading=false;
 							});
 					};
 					
@@ -253,4 +273,19 @@ KyobeeUnSecuredController.controller('homeCtrl',
 					removeSpaces = function (string) {
 						return string.split(' ').join('');
 					}
+					
+					$scope.hideSuccessMsg = function(){
+						$scope.successMsg = null;
+					};
+					
+					$scope.hideErrorMsg = function(){
+						$scope.errorMsg = null;
+					};					
+					
+					$scope.goToSignin = function() {
+						$('#thankYouPopup').simplePopup().hide();
+						$(".simplePopupBackground").fadeOut("fast");
+						$scope.changeView('login');
+					};
+					
 				} ]);

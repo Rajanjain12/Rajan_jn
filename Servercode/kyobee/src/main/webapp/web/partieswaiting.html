@@ -21,13 +21,13 @@
        
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-6 col-sm-6 col-xs-12 text-center content">
-                <div class="border">
-                    <h3 class="h3-font theme-fontcolor border-right">Now Serving</h3>
-                    <h2 class="h2-font theme-fontcolor border-right">#{{guestRankMin}}</h2>
+                <div class="col-md-6 col-sm-6 col-xs-6 text-center content">
+<!--                <div class="border_right">-->
+                    <h3 class="h3-font theme-fontcolor" id="border-right">Now Serving</h3>
+                    <h2 class="h2-font theme-fontcolor" id="border-right">#{{guestRankMin}}</h2>
+<!--                </div>-->
                 </div>
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-12 text-center content">
+                <div class="col-md-6 col-sm-6 col-xs-6 text-center content">
                 
                     <h3 class="h3-font theme-fontcolor">Est. Wait Time</h3>
                    <!--  <h2 class="h2-font theme-fontcolor">{{convertMinstoMMHH(OrgTotalWaitTime)}}</h2> -->
@@ -47,7 +47,7 @@
 
 </section>
 
-<div id="pop1" class="simplePopup">
+<div id="pop1" class="simplePopup" ng-keydown="hideOnKeyPress($event)">
    
 <!--        <div class="col-md-12 marginauto">-->
            <div class="theme-color">
@@ -169,7 +169,7 @@
 </div>
 
 <!-- Thank you Popup  -->
-<div id="pop2" class="simplePopup"> 
+<div id="pop2" class="simplePopup" ng-keydown="hideOnKeyPress($event)"> 
         <!-- <div class="new_guest_wrap"> -->
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12 text-center thankyou_bg border-color-3">

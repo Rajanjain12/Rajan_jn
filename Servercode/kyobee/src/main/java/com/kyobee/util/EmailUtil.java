@@ -44,6 +44,7 @@ public class EmailUtil {
 			System.out.println("Start----");
 			System.out.println("content : "+ content );	
 			System.out.println("---Stop");
+			System.out.println("Subject : "+ subject);
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			mimeMessage.setFrom(new InternetAddress(from));
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);

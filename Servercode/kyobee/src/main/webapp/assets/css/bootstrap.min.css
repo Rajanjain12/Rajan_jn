@@ -1856,6 +1856,7 @@ textarea.input-lg, select[multiple].input-lg {
 	/*outline: thin dotted;
 	outline: 5px auto -webkit-focus-ring-color;
 	outline-offset: -2px*/
+	    outline: none;
 }
 .btn:hover, .btn:focus, .btn.focus {
 	/*color: #333;*/
