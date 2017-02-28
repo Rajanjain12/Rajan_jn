@@ -37,8 +37,8 @@ public class NotificationMessageReceiver implements MessageListener{
 	@Value("${sms.project.id}")
 	private String smsProjectId;
 	
-	//@Value("${rsnt.base.updateguest.url}")
-	//private String baseUrl;
+	@Value("${rsnt.base.updateguest.url}")
+	private String baseUrl;
 	
 	@Value("${rsnt.base.updateguest.url.initial}")
 	private String urlInitial;
@@ -69,8 +69,13 @@ public class NotificationMessageReceiver implements MessageListener{
 			} else {
 				msg1 = msg1 + guestNotificationBean.getTotalWaitTime() + " min. ";
 			}
-			/*String msg2 = "For LIVE updates: "+
-					baseUrl + guestNotificationBean.getUuid()+"\n\n"+ "- Sent by " + guestNotificationBean.getSmsSignature();*/
+			
+			/*
+			 * emailMsg2 has been added for testing purpose of Email issue not working properly on dev server 
+			 * Changed By Vruddhi 
+			 */
+			String emailMsg2 = "For LIVE updates: "+
+					baseUrl + guestNotificationBean.getUuid()+"\n\n"+ "- Sent by " + guestNotificationBean.getSmsSignature();
 			String msg2 = "For LIVE updates: "+
 					buildURL(guestNotificationBean.getClientBase(), guestNotificationBean.getUuid()) +"\n\n"+ "- Sent by " + guestNotificationBean.getSmsSignature();
 			
@@ -100,7 +105,7 @@ public class NotificationMessageReceiver implements MessageListener{
 				sendSMStoGuest(guestNotificationBean.getSms(), guestNotificationBean.getUuid(),msg1 + msg2, guestNotificationBean.getOrgId(),guestNotificationBean.getSmsRoute());
 				//sendSMStoGuest(guest.getSms(), guest.getUuid(),msg2);
 			}else if(guestNotificationBean.getPrefType().equalsIgnoreCase("email")){
-				sendMail(guestNotificationBean.getEmail(), msg1+msg2,subject);
+				sendMail(guestNotificationBean.getEmail(), msg1+emailMsg2,subject);//changed from msg2 to emailMsg2
 			}else if (guestNotificationBean.getPrefType().equalsIgnoreCase("PUSH")){
 				
 				if(guestNotificationBean.getDeviceId()!=null && guestNotificationBean.getDeviceType()!=null){

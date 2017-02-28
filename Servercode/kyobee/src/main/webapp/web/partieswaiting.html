@@ -115,11 +115,19 @@
                         </div>
                          <div class="addf3input">
                              <div id="smshide">
-                                <input type="number" name="field2" ng-model="guestDTO.sms"  placeholder="(___) ___-____ *" class="form-control" />
+                                <input type="number" id="field2SMS" name="field2SMS" ng-model="guestDTO.sms" required ng-minlength="10" ng-maxlength="10" placeholder="(___) ___-____" class="form-control input-no-spinner"
+                                 ng-pattern="phnRegex" ng-required="guestDTO.prefType == 'sms'" ng-class="{'has-error' : addGuestForm.field2SMS.$invalid && (!addGuestForm.field2SMS.$pristine || addGuestForm.$submitted)}" />
+                                 <div ng-messages="addGuestForm.field2SMS.$error" ng-show="(!addGuestForm.field2SMS.$pristine || addGuestForm.$submitted)" class="help-block">
+                                 		<div ng-message="required">Phone number cannot be blank</div>									
+										<div ng-message="pattern" >Please enter a valid phone number</div>
+										<div ng-message="minlength" >Minimum length for phone number is 10</div>
+										<div ng-message="maxlength" >Maximum length for phone number is 10</div>
+									</div>
+                                
                             </div>
                              <div id="emailhide">
-                                <input type="email" name="field2" ng-model="guestDTO.email"  placeholder="emailid@gmail.com" class="form-control" 
-                                ng-class="{'has-error' : addGuestForm.field2.$invalid && (!addGuestForm.field2.$pristine || addGuestForm.$submitted)}" />
+                                <input type="email" id="field2" name="field2" ng-model="guestDTO.email"  placeholder="emailid@gmail.com" class="form-control" 
+                                ng-required="guestDTO.prefType == 'email'" ng-class="{'has-error' : addGuestForm.field2.$invalid && (!addGuestForm.field2.$pristine || addGuestForm.$submitted)}" />
 									<div ng-messages="addGuestForm.field2.$error" ng-show=" (!addGuestForm.field2.$pristine || addGuestForm.$submitted)" class="help-block">									
 										<div ng-message="email" style="color:white;">Please enter a valid email</div>
 									</div>
@@ -260,6 +268,7 @@ toggle.addEventListener("click", function(){
 function showsms(){
     $('#smshide').show();
     $('#emailhide').hide();
+    
 }
     
 function showemail(){

@@ -1182,7 +1182,7 @@ min-width:70%;
 
 #pop1{
 	width:90%;
-	left:42px !important;
+/*	left:42px !important;*/
 	top:82px !important;
 }
 
@@ -1253,4 +1253,9 @@ background-color: yellow;
  z-index: 9999;
  background: url('../../assets/img/ajax-loader.gif') center no-repeat #000;
   opacity: 0.8;
+}
+
+.input-no-spinner::-webkit-outer-spin-button, .input-no-spinner::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

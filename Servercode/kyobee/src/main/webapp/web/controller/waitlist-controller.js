@@ -90,6 +90,8 @@ KyobeeControllers.controller('waitListCtrl',
 					};
 					
 					$scope.loadWaitListPage = function(pageNo){
+						debugger;
+						console.log(pageNo);
 						if (pageNo < 1 || pageNo > $scope.pager.totalPages) {
 				            return;
 				        }
@@ -121,7 +123,10 @@ KyobeeControllers.controller('waitListCtrl',
 										$scope.guestWaitList = paginatedResponse.records;
 										$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, pageNo, $scope.pageSize);
 										console.log($scope.pager);
-									} else if (data.status == "FAILURE") {
+									}else if(data.status == null) {
+										$scope.guestWaitList = null;
+										$scope.pager = {};
+									}else if (data.status == "FAILURE") {
 										alert('Error while fetching wait times.');
 									}
 								}, function(error) {

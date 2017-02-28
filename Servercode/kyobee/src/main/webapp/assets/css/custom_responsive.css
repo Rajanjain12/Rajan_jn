@@ -192,10 +192,14 @@ a.headersh {display: block;font-size: 35px; color: #dd4124; text-align: center;}
     position: absolute; 
 }
 .h2-font{
-  font-size: 118px;
+  font-size: 116px;
 }
 .h3-font{
   font-size: 53px;
+}
+.btn-checkin{
+	width:450px;
+	font-size:34px;	
 }
 #thankYouPopup {
     left: 120px !important;
@@ -232,6 +236,12 @@ a.headersh {display: block;font-size: 35px; color: #dd4124; text-align: center;}
 }
 .h3-font{
   font-size: 53px;
+}
+.para-color{
+    font-size:40px;
+}
+.parties-h1 {
+    font-size: 100px;
 }
 }
 

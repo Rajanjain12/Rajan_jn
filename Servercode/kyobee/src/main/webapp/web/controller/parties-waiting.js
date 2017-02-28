@@ -17,6 +17,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 					$scope.OrgTotalWaitTime=null;
 					$scope.hour=0;
 					$scope.min=0;
+					$scope.phnRegex="^([0-9]{3}|[0-9]{3})[0-9]{3}[0-9]{4}$";
 					
 					$scope.guestDTO = {
 							name: null,
@@ -62,6 +63,19 @@ KyobeeControllers.controller('partyWaitingCtrl',
 								});
 						
 					};
+					
+					$scope.getHours = function(min) {
+						var h = Math.floor(min/60);
+						h = h.toString().length == 1 ? (0+h.toString()) : h ;
+						return h;
+					}
+					
+					$scope.getMinutes = function(min) {
+						var m = min%60;
+						m = m.toString().length == 1 ? (0+m.toString()) : m ;
+						return m;
+					}
+					
 					
 					$scope.getData();
 					
@@ -285,28 +299,36 @@ KyobeeControllers.controller('partyWaitingCtrl',
 									
 									
 								switch(m.OP) {
-							        case "DEL":
+							        case "DEL":							        	
 							        	$scope.OrgGuestCount=m.numberofparties;
 										$scope.guestRankMin=m.nowServingParty;
 										$scope.OrgTotalWaitTime=m.ORG_TOTAL_WAIT_TIME;
+										$scope.hour=$scope.getHours($scope.OrgTotalWaitTime);
+										$scope.min=$scope.getMinutes($scope.OrgTotalWaitTime);
 										$scope.$apply();
 										break;
 							        case "ADD":
 							        	$scope.OrgGuestCount=m.totalPartiesWaiting;
 										$scope.guestRankMin=m.nowServingParty;
 										$scope.OrgTotalWaitTime=m.ORG_TOTAL_WAIT_TIME;
+										$scope.hour=$scope.getHours($scope.OrgTotalWaitTime);
+										$scope.min=$scope.getMinutes($scope.OrgTotalWaitTime);
 										$scope.$apply();
 								        break;
 							        case "UPD":
 							        	$scope.OrgGuestCount=m.ORG_GUEST_COUNT;
 										$scope.guestRankMin=m.NOW_SERVING_GUEST_ID;
 										$scope.OrgTotalWaitTime=m.ORG_TOTAL_WAIT_TIME;
+										$scope.hour=$scope.getHours($scope.OrgTotalWaitTime);
+										$scope.min=$scope.getMinutes($scope.OrgTotalWaitTime);
 										$scope.$apply();
 							        	break;
 							        case "MARK_AS_SEATED":
 							        	$scope.OrgGuestCount=m.ORG_GUEST_COUNT;
 										$scope.guestRankMin=m.nowServingParty;
 										$scope.OrgTotalWaitTime=m.ORG_TOTAL_WAIT_TIME;
+										$scope.hour=$scope.getHours($scope.OrgTotalWaitTime);
+										$scope.min=$scope.getMinutes($scope.OrgTotalWaitTime);
 										$scope.$apply();
 							        	break;
 							        default:

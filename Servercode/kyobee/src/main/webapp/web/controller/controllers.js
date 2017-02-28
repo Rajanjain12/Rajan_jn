@@ -22,7 +22,8 @@ KyobeeControllers.controller('homeCtrl',
 		            $scope.authToken = 'Unno1adyiSooIAkAEt';
 		            $scope.connectionUrl = 'https://ortc-developers.realtime.co/server/2.1';
 		            $scope.homeCtrlLoaded = null;
-		            $scope.logoImgSrc = logoImgSrc;
+		            $scope.logoImgSrc = logoImgSrc;		            
+		            
 		        	console.log('src' + $scope.logoImgSrc);
 					$scope.changeView = function(view, searchParms) {
 						switch (view) {
@@ -133,5 +134,5 @@ KyobeeControllers.controller('homeCtrl',
 					
 					$scope.fetchUserDetails();
 					//$scope.loadInfo();
-
+					
 				} ]);
