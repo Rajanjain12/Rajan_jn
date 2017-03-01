@@ -59,10 +59,19 @@ public class SecurityServiceImpl implements ISecurityService {
      */
     public User loginAndFetchUser(final String userLogin, final String password, final String clientBase) throws RsntException {
     	try{
+    		if(!clientBase.equals("api")) {
+    		
 			return (User) sessionFactory.getCurrentSession().getNamedQuery(User.GET_PROFILE_BY_USERLOGIN)
 					.setParameter("username", userLogin.toLowerCase())
 					.setParameter("password", CommonUtil.encryptPassword(password))
 					.setParameter("clientBase", clientBase).uniqueResult();
+    		}
+    		else {
+    			return (User) sessionFactory.getCurrentSession().getNamedQuery(User.GET_PROFILE_BY_USERLOGINAPI)
+    					.setParameter("username", userLogin.toLowerCase())
+    					.setParameter("password", CommonUtil.encryptPassword(password))
+    					.uniqueResult();
+    		}
 
     	}
     	catch(Exception e){

@@ -21,6 +21,7 @@ import org.hibernate.annotations.Type;
 @Entity
 @Table(name="USER")
 @NamedQueries({@NamedQuery(name=User.GET_PROFILE_BY_USERLOGIN,query="Select u from User u join u.organizationUser ou join ou.organization o where lower(u.userName)=:username and u.password =:password and o.clientBase =:clientBase"),
+	@NamedQuery(name=User.GET_PROFILE_BY_USERLOGINAPI,query="Select u from User u join u.organizationUser ou join ou.organization o where lower(u.userName)=:username and u.password =:password"),
 	@NamedQuery(name=User.GET_USER_ORGANIZATION,
 			query="Select user.organizationUser.organization from User user join user.organizationUser where user.userId=:userId"),
 			@NamedQuery(name=User.GET_USER_BY_USERNAME_ONLY,query="Select u from User u where lower(u.userName)=?1 "),
@@ -32,6 +33,7 @@ public class User extends BaseEntity implements Serializable {
 	
 	private static final long serialVersionUID = 4651563203184196025L;
 	public static final String GET_PROFILE_BY_USERLOGIN = "getProfileByUserLogin";
+	public static final String GET_PROFILE_BY_USERLOGINAPI="getProfileByUserLoginAPI";
 	public static final String GET_USER_ORGANIZATION = "getUserOrganization";
 	public static final String GET_USER_BY_USERNAME = "getUserByUserName";
 	public static final String GET_USER_BY_USERNAME_ONLY = "getUserByUserNameOnly";
