@@ -88,6 +88,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 					
 					$scope.hidePopup = function() {		
 						//document.getElementById("addGuestForm").reset();
+						debugger;
 						$scope.guestDTO = {
 								name: null,
 								organizationID : $scope.userDTO.organizationId,

@@ -43,6 +43,10 @@ public class LoginRestController {
 	@Autowired
 	SessionContextUtil sessionContextUtil;
 
+	
+	/*
+	 * This api is used only for browser and it is validated as per clientbase as of 2-Mar-2017
+	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
 	public Response<UserDTO> login(@RequestBody Credential credenitals, HttpServletRequest request) {
 		Response<UserDTO> response = new Response<UserDTO>();
@@ -88,6 +92,9 @@ public class LoginRestController {
 		return response;
 	}
 	
+	/*
+	 * This api is used by app(iOS/Android) clientbase doesnot affect here as of 2-Mar-2017
+	 */
 	@RequestMapping(value = "/loginCredAuth", method = RequestMethod.GET, produces = "application/json")
 	public String loginCredAuth(@RequestParam String username, @RequestParam String password){
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();

@@ -62,6 +62,7 @@ public class NotificationMessageReceiver implements MessageListener{
 		objectMessage = (ObjectMessage) message;
 		try {
 			GuestNotificationBean guestNotificationBean = (GuestNotificationBean) objectMessage.getObject();
+			String emailUrl=urlInitial + guestNotificationBean.getClientBase() + "." + urlSuffix + guestNotificationBean.getUuid();//Added LAter
 			String msg1 = "Guest #"+guestNotificationBean.getRank()+": There are "+ (guestNotificationBean.getGuestCount()-1)+" parties ahead of you w/ approx. wait-time of ";
 			if (guestNotificationBean.getTotalWaitTime() > 60) {
 				int hr = (int) (guestNotificationBean.getTotalWaitTime() / 60L);
@@ -75,7 +76,7 @@ public class NotificationMessageReceiver implements MessageListener{
 			 * Changed By Vruddhi 
 			 */
 			String emailMsg2 = "For LIVE updates: "+
-					baseUrl + guestNotificationBean.getUuid()+"\n\n"+ "- Sent by " + guestNotificationBean.getSmsSignature();
+					emailUrl +"\n\n"+ "- Sent by " + guestNotificationBean.getSmsSignature();
 			String msg2 = "For LIVE updates: "+
 					buildURL(guestNotificationBean.getClientBase(), guestNotificationBean.getUuid()) +"\n\n"+ "- Sent by " + guestNotificationBean.getSmsSignature();
 			
@@ -85,16 +86,24 @@ public class NotificationMessageReceiver implements MessageListener{
 				if(guestNotificationBean.getPrefType().equalsIgnoreCase(Constants.RSNT_SMS)){
 					msg1 = "Your table is ready! Thank you for your patience. Please return to the host area with all your party members, so you may be seated shortly. We hope you enjoy your visit and thank you for using wait-list service by KYOBEE.com";
 					msg2 = "";
+					emailMsg2="";
 					subject = "Your table is ready!";
 				} else {
 					subject = "Your table is ready!";
 					msg1 = "Thank you for your patience. Please return to the host area with all your party members, so you may be seated shortly. We hope you enjoy your visit and thank you for using wait-list service by KYOBEE.com";
 					msg2 = "";
+					emailMsg2="";
 				}
 			}
 			else if (Constants.NOTIF_THRESHOLD_ENTERED.equals(guestNotificationBean.getNotificationFlag())) {
-				msg1 = "Guest #"+guestNotificationBean.getRank()+": Your Table is ALMOST ready. Please make your way back to the restaurant with your entire party and "
+				if(guestNotificationBean.getPrefType().equalsIgnoreCase("email")) {					
+					msg1 = "Guest #"+guestNotificationBean.getRank()+": Your Table is ALMOST ready. Please make your way back to the restaurant with your entire party and "
+							+ "wait for your number to be called. Click for updates: " + emailUrl;
+					emailMsg2="\n"+"- Sent by " + guestNotificationBean.getSmsSignature()+"\n";
+				}else {				
+					msg1 = "Guest #"+guestNotificationBean.getRank()+": Your Table is ALMOST ready. Please make your way back to the restaurant with your entire party and "
 						+ "wait for your number to be called. Click for updates: " + buildURL(guestNotificationBean.getClientBase(), guestNotificationBean.getUuid());
+				}
 				msg2 = "\n"+"- Sent by " + guestNotificationBean.getSmsSignature()+"\n";
 				subject = "Your estimated wait time";
 			}

@@ -59,6 +59,9 @@ public class SecurityServiceImpl implements ISecurityService {
      */
     public User loginAndFetchUser(final String userLogin, final String password, final String clientBase) throws RsntException {
     	try{
+    		/*
+    		 * ClientBase api validation was added later but not used as of now 2-Mar-2017
+    		 */
     		if(!clientBase.equals("api")) {
     		
 			return (User) sessionFactory.getCurrentSession().getNamedQuery(User.GET_PROFILE_BY_USERLOGIN)

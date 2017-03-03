@@ -51,7 +51,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 										}
 										console.log($scope.selectedSeatPref);
 									}
-									
+
 									if($scope.guest.prefType == 'sms' || $scope.guest.prefType == 'SMS'){
 										$scope.guest.sms = Number.parseInt($scope.guest.sms);
 										$scope.guest.prefType = 'sms';

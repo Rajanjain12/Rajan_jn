@@ -14,7 +14,8 @@ KyobeeControllers.controller('guestCtrl',
 					$scope.guestDTO = null;
 					$scope.guestPref = null;
 					$scope.errorMsg = null;
-					$scope.editMode = false;					
+					$scope.editMode = false;	
+					$scope.phnRegex="^([0-9]{3}|[0-9]{3})[0-9]{3}[0-9]{4}$";
 					
 					$scope.initAddGuest = function(){
 						$scope.guestDTO = {

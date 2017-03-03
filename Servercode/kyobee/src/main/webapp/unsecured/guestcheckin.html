@@ -77,7 +77,7 @@
                 </div>
                 
                 <div class="fontpopup1">
-                    <form class="guest_check well-guest">
+                    <form class="guest_check well-guest" name="addGuestForm">
                         
                         <div class="col-md-12">
 
@@ -123,7 +123,16 @@
                                 </div>
                                  <div class="addf3input">
                                      <div id="smshide1">
-                                        <input type="number" name="field2" ng-model="guest.sms" placeholder="(___) ___-____ *" class="form-control" />
+                                        <input type="number" name="field2SMS" ng-model="guest.sms" placeholder="(___) ___-____ *" 
+                                        required ng-minlength="10" ng-maxlength="10" min="0"  class="form-control input-no-spinner"
+                                 ng-required="guest.prefType == 'sms'" ng-class="{'has-error' : addGuestForm.field2SMS.$invalid && (!addGuestForm.field2SMS.$pristine || addGuestForm.$submitted)}" />
+                                 <div ng-messages="addGuestForm.field2SMS.$error" ng-show="(!addGuestForm.field2SMS.$pristine || addGuestForm.$submitted)" class="help-block">
+                                 		<div ng-message="required">Phone number cannot be blank</div>									
+										<div ng-message="pattern" >Please enter a valid phone number</div>
+										<div ng-message="minlength" >Minimum length for phone number is 10</div>
+										<div ng-message="maxlength" >Maximum length for phone number is 10</div>
+									</div>
+                                        
                                     </div>
                                      <div id="emailhide1">
                                         <input type="text" name="field2" ng-model="guest.email" placeholder="abc@gmail.com" class="form-control" />

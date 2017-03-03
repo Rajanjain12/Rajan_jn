@@ -1,7 +1,7 @@
 <!----------Login-Section-1-------->
 
 
-<section class="login-outer theme-color">
+<section class="login-outer background">
     
         <div class="container">
             
@@ -10,7 +10,7 @@
 				<div class="logo-wrap-change">
                     <div class="login-title">
                     	<img ng-src="{{logoImgSrc}}">
-                    	<h2>Waitlist</h2>
+                    	<h2 class="theme-fontcolor">Waitlist</h2>
                     </div>
                 </div>
                 
@@ -44,9 +44,9 @@
                                     <label for="inlineCheckbox1">Remember Me</label>
                                 </div>                       
 
-                                <button ng-click="login(loginForm.$invalid)" class="btn btn-lg btn-block btn-sign-in" type="submit">Login</button>
+                                <button ng-click="login(loginForm.$invalid)" class="btn btn-lg btn-block btn-sign-in theme-color" type="submit">Login</button>
 
-								<button ng-click="changeView('signup');" class="btn btn-lg btn-block btn-sign-in" type="submit">Sign Up</button>
+								<button ng-click="changeView('signup');" class="btn btn-lg btn-block btn-sign-in theme-color" type="submit">Sign Up</button>
 								
                                 <!-- <div class="sign-up text-center"> 
                                    <a href="javascript:void(0);" class="need-help" id="emailshow" style="">Forgot Password?</a>
