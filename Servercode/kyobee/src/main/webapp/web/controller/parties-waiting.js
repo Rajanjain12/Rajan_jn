@@ -18,6 +18,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 					$scope.hour=0;
 					$scope.min=0;
 					$scope.phnRegex="^([0-9]{3}|[0-9]{3})[0-9]{3}[0-9]{4}$";
+					$scope.footerMsg="Copyright KYOBEE. All Rights Reserved";
 					
 					$scope.guestDTO = {
 							name: null,
@@ -63,7 +64,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 								});
 						
 					};
-					
+				
 					$scope.getHours = function(min) {
 						var h = Math.floor(min/60);
 						h = h.toString().length == 1 ? (0+h.toString()) : h ;
@@ -232,6 +233,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 										$scope.appKey = data.serviceResult.REALTIME_APPLICATION_KEY;
 										$scope.privateKey = data.serviceResult.REALTIME_PRIVATE_KEY;
 										$scope.channel = data.serviceResult.pusherChannelEnv;
+										$scope.footerMsg=data.serviceResult.footerMsg;
 										$scope.loadFactory();
 									} else if (data.status == "FAILURE") {
 										alert('Error while fetching user details. Please login again or contact support');
