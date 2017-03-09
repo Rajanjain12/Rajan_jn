@@ -1,0 +1,3 @@
+target 'Kyobee' do
+    pod 'RealtimeMessaging-iOS'
+end
