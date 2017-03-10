@@ -19,6 +19,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 					$scope.min=0;
 					$scope.phnRegex="^([0-9]{3}|[0-9]{3})[0-9]{3}[0-9]{4}$";
 					$scope.footerMsg="Copyright KYOBEE. All Rights Reserved";
+					$scope.loading=false;
 					
 					$scope.guestDTO = {
 							name: null,
@@ -27,7 +28,8 @@ KyobeeControllers.controller('partyWaitingCtrl',
 							prefType : null,
 							email : null,
 							sms : null,
-							optin : false
+							optin : false,
+							note : null
 					};
 					$scope.guestRank=0;
 					$scope.guestPref = null;
@@ -97,7 +99,8 @@ KyobeeControllers.controller('partyWaitingCtrl',
 								prefType : null,
 								email : null,
 								sms : null,
-								optin : false
+								optin : false,
+								note : null
 						};
 						 $('#emailhide').hide();
 						 $('#smshide').hide();
@@ -158,23 +161,28 @@ KyobeeControllers.controller('partyWaitingCtrl',
 					$scope.addGuest = function(invalid){
 						
 						$scope.errorMsg = null;
+						$scope.loading=true;
 						
 						if(invalid){
+							$scope.loading=false;
 							return;
 						}
 						
 						if($scope.guestDTO.prefType == null || $scope.guestDTO.prefType == 'undefined'){
 							$scope.errorMsg = "Please select sms or email";
+							$scope.loading=false;
 							return;
 						}
 						
 						if(($scope.guestDTO.prefType == 'sms' || $scope.guestDTO.prefType == 'SMS') && ($scope.guestDTO.sms == null || $scope.guestDTO.sms == 'undefined')){
 							$scope.errorMsg = "Please enter the contact no.";
+							$scope.loading=false;
 							return;
 						}
 						
 						if(($scope.guestDTO.prefType == 'email' || $scope.guestDTO.prefType == 'EMAIL') && ($scope.guestDTO.email == null || $scope.guestDTO.email == 'undefined')){
 							$scope.errorMsg = "Please enter the email";
+							$scope.loading=false;
 							return;
 						}
 						
@@ -193,11 +201,12 @@ KyobeeControllers.controller('partyWaitingCtrl',
 						var url = '/kyobee/web/rest/waitlistRestAction/addGuest';
 						KyobeeService.postDataService(url, '').query(postBody,
 								function(data) {
-									console.log(data);
+									console.log("Submitted data for add guest : "+JSON.stringify(data));
 									if (data.status == "SUCCESS") {
 										//$scope.changeView('home');
 										$('#pop1').simplePopup().hide();
 										$scope.guestRank=data.serviceResult.guestRank;
+										$scope.loading=false;
 										$('#pop2').simplePopup();
 									} else if (data.status == "FAILURE") {
 										alert('Error while adding guest to waitlist');

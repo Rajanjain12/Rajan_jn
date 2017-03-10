@@ -25,7 +25,8 @@ KyobeeControllers.controller('guestCtrl',
 								prefType : null,
 								email : null,
 								sms : null,
-								optin : false
+								optin : false,
+								note : null
 						}
 						$scope.errorMsg = null;
 						
@@ -171,10 +172,11 @@ KyobeeControllers.controller('guestCtrl',
 						var url = '/kyobee/web/rest/waitlistRestAction/guest?guestid='+guestId;
 						KyobeeService.getDataService(url, '').query(postBody,
 								function(data) {
-									console.log(data);
+									console.log("Updated data "+JSON.stringify(data));
 									if (data.status == "SUCCESS") {
 										$scope.guestDTO = data.serviceResult;
 										$scope.guestPref = angular.copy($scope.seatPrefs);
+										if($scope.guestDTO.guestPreferences!=null)
 										for(var i=0;i< $scope.guestDTO.guestPreferences.length;i++){
 											for(var j=0; j < $scope.guestPref.length ; j++){
 												if($scope.guestDTO.guestPreferences[i].prefValueId == $scope.guestPref[j].prefValueId){
