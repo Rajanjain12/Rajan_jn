@@ -148,6 +148,7 @@
                                 <th>No</th>
                                 <th>Name</th>
                                 <th>Seating Preferences</th>
+                                <th>No Of Party</th>
                                 <th>Opt-In</th>
                                 <th>Delete</th>                                 
                             </tr>
@@ -163,6 +164,7 @@
                                 	</span>
                                 </td>
                                 <td>{{record.seatingPreference}}</td>
+                                <td>{{record.noOfPeople}}</td>
                                 <td><img ng-show="record.optin == true" src="../assets/img/roundarrow.png"></td>
                                 <td><a style="cursor:pointer" ng-click="showDeletePopup(record);"><img src="../assets/img/delete.png"></a></td>
                                 
@@ -225,12 +227,6 @@
 
 
 <script>
-
-$(document).ready(function() {
-    $('.headersh').click(function() {
-    $('.header-waitlist').toggle('slow');
-    });
-});        
 
 
 $('.btn-number').click(function(e){
