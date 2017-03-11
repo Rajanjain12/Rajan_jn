@@ -31,6 +31,20 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tj7-bp-h3e">
+                    <rect key="frame" x="25" y="7" width="150" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="150" id="o7g-o3-rdL"/>
+                        <constraint firstAttribute="height" constant="60" id="teG-xW-5iG"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="23"/>
+                    <state key="normal">
+                        <color key="titleColor" red="0.36078431370000003" green="0.36862745099999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="btnLogout_clicked:" destination="-1" eventType="touchUpInside" id="2YI-sL-qS9"/>
+                    </connections>
+                </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RestoImage.png" translatesAutoresizingMaskIntoConstraints="NO" id="jre-aH-2Q2">
                     <rect key="frame" x="402" y="5" width="220" height="65"/>
                     <constraints>
@@ -117,6 +131,20 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bEz-z6-l2i">
+                    <rect key="frame" x="25" y="708" width="150" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="9Wt-h4-agu"/>
+                        <constraint firstAttribute="width" constant="150" id="hT5-fl-Kx1"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="23"/>
+                    <state key="normal">
+                        <color key="titleColor" red="0.36078431370000003" green="0.36862745099999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="btnLogout_clicked:" destination="-1" eventType="touchUpInside" id="9kv-r9-Ihh"/>
+                    </connections>
+                </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright KYOBEE Waitlist All Rights Reserved - Version 1.0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pJL-nS-RDi">
                     <rect key="frame" x="509" y="742" width="500" height="21"/>
                     <constraints>
@@ -157,12 +185,14 @@
                 <constraint firstItem="fzP-aX-TmY" firstAttribute="top" secondItem="NiY-il-arZ" secondAttribute="bottom" constant="15" id="IAb-Zg-Zfl"/>
                 <constraint firstAttribute="trailing" secondItem="VGO-4t-MxC" secondAttribute="trailing" constant="25" id="IQr-Tz-ZxG"/>
                 <constraint firstAttribute="trailing" secondItem="uoe-K6-fHd" secondAttribute="trailing" constant="15" id="MXr-zz-mhP"/>
+                <constraint firstItem="Tj7-bp-h3e" firstAttribute="leading" secondItem="SzY-Vj-ZOT" secondAttribute="leading" constant="25" id="MdM-0F-HjC"/>
                 <constraint firstItem="iKc-6B-6AN" firstAttribute="top" secondItem="ZJb-Lp-Vjx" secondAttribute="bottom" id="Nh0-Z2-cAy"/>
                 <constraint firstItem="jre-aH-2Q2" firstAttribute="centerY" secondItem="NiY-il-arZ" secondAttribute="centerY" id="O4T-aR-xu7"/>
                 <constraint firstItem="NiY-il-arZ" firstAttribute="leading" secondItem="SzY-Vj-ZOT" secondAttribute="leading" id="OHF-x7-pd3"/>
                 <constraint firstItem="uoe-K6-fHd" firstAttribute="top" secondItem="NiY-il-arZ" secondAttribute="bottom" constant="15" id="P25-SY-aIT"/>
                 <constraint firstItem="XHA-oW-qFj" firstAttribute="top" secondItem="SzY-Vj-ZOT" secondAttribute="top" constant="20" id="Phg-Qt-TAx"/>
                 <constraint firstAttribute="bottom" secondItem="VGO-4t-MxC" secondAttribute="bottom" id="UJp-6n-PFY"/>
+                <constraint firstItem="Tj7-bp-h3e" firstAttribute="top" secondItem="SzY-Vj-ZOT" secondAttribute="top" constant="7" id="ZH4-H9-GyL"/>
                 <constraint firstAttribute="trailing" secondItem="pJL-nS-RDi" secondAttribute="trailing" constant="15" id="blM-Xi-ktf"/>
                 <constraint firstAttribute="trailing" secondItem="XHA-oW-qFj" secondAttribute="trailing" constant="50" id="do7-Po-Ulb"/>
                 <constraint firstItem="3JJ-QP-v4h" firstAttribute="top" secondItem="NiY-il-arZ" secondAttribute="bottom" constant="15" id="gJf-UG-aDW"/>
@@ -171,12 +201,14 @@
                 <constraint firstItem="ZJb-Lp-Vjx" firstAttribute="leading" secondItem="SzY-Vj-ZOT" secondAttribute="leading" id="iGi-sO-yJn"/>
                 <constraint firstItem="fzP-aX-TmY" firstAttribute="leading" secondItem="3JJ-QP-v4h" secondAttribute="trailing" constant="120" id="leA-dA-7wM"/>
                 <constraint firstItem="3JJ-QP-v4h" firstAttribute="leading" secondItem="SzY-Vj-ZOT" secondAttribute="leading" constant="50" id="lpQ-aU-A8L"/>
+                <constraint firstItem="bEz-z6-l2i" firstAttribute="leading" secondItem="SzY-Vj-ZOT" secondAttribute="leading" constant="25" id="mff-N2-zG0"/>
                 <constraint firstItem="IK2-25-qOt" firstAttribute="top" secondItem="iKc-6B-6AN" secondAttribute="bottom" id="oFZ-C0-x8B"/>
+                <constraint firstAttribute="bottom" secondItem="bEz-z6-l2i" secondAttribute="bottom" id="sHX-Bu-pzB"/>
                 <constraint firstItem="ZJb-Lp-Vjx" firstAttribute="top" secondItem="NiY-il-arZ" secondAttribute="bottom" id="vYw-Pe-j5J"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="166" y="28"/>
+            <point key="canvasLocation" x="-30" y="-12"/>
         </view>
     </objects>
     <resources>
