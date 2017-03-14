@@ -6,7 +6,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) { 
 
 .footer-wrap {
-    /*position: absolute;*/
+/*    position: absolute;*/
     bottom: 0;    
 }
 
@@ -166,6 +166,10 @@ a.headersh {display: block;font-size: 35px; color: #dd4124; text-align: center;}
 
 @media only screen and (min-width: 768px) and (max-width: 980px) { 
 
+/*.login-outer{position: absolute;}*/
+.login-outer {
+    padding: 147px 0;
+}
 .kw-dav-1 { width: 53%; margin-left: 5%;}
 .kw-dav-2 {width: 40%;}    
 .dropbtn { color: #dd4124;}
@@ -188,8 +192,15 @@ a.headersh {display: block;font-size: 35px; color: #dd4124; text-align: center;}
   display: inline-block;
   bottom: 0;
 }
+.table-wrap {
+    width: 100%;
+/*    float: left;*/
+    height: 371px;
+    overflow-y: scroll;
+/*    overflow-x: scroll;*/
+}
 .footer-adjust {
-    position: absolute; 
+/*    position: absolute; */
 }
 .h2-font{
   font-size: 116px;
@@ -208,6 +219,14 @@ a.headersh {display: block;font-size: 35px; color: #dd4124; text-align: center;}
 
 
 @media only screen and (min-width: 979px) and (max-width: 1200px) { 
+/*    .login-outer{position: absolute;}*/
+.logo-wrap-change {
+    margin: 14% auto 0 auto;
+}
+.welcome img {
+    height: 120px;
+    width:auto;
+}
 .kw-dav-1 { width: 43%; margin-left: 23%;}
 .btn-orange { width: 30%; margin: 0 5px;}
   
@@ -217,7 +236,13 @@ a.headersh {display: block;font-size: 35px; color: #dd4124; text-align: center;}
   display: inline-block;
   bottom: 0;
 }
-
+.table-wrap {
+    width: 100%;
+    float: left;
+    height: 261px;
+    overflow-y: scroll;
+/*    overflow-x: scroll;*/
+}
 .footer-link{
   width: 100%;
   background-color: #9e978e;
@@ -229,7 +254,7 @@ a.headersh {display: block;font-size: 35px; color: #dd4124; text-align: center;}
     width: 100%;
     bottom: 0;
     margin-bottom: -5px;
-    position: absolute;
+/*    position: absolute;*/
 }
 .h2-font{
   font-size: 140px;

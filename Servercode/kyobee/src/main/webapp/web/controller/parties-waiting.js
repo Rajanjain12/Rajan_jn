@@ -15,6 +15,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 					$scope.OrgGuestCount=0;
 					$scope.guestRankMin=0;
 					$scope.OrgTotalWaitTime=null;
+					$scope.imageOrgPath=null;
 					$scope.hour=0;
 					$scope.min=0;
 					$scope.phnRegex="^([0-9]{3}|[0-9]{3})[0-9]{3}[0-9]{4}$";
@@ -46,6 +47,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 									console.log(data);
 									if (data.status == "SUCCESS") {
 										//$scope.metricsDTO = data.serviceResult;
+										$scope.imageOrgPath=data.serviceResult.imageOrgPath;
 										$scope.OrgGuestCount=data.serviceResult.ORG_GUEST_COUNT;
 										$scope.guestRankMin=data.serviceResult.GUEST_RANK_MIN;
 										$scope.OrgTotalWaitTime=data.serviceResult.ORG_TOTAL_WAIT_TIME;
