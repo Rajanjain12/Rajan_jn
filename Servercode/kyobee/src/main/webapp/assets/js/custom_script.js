@@ -34,13 +34,15 @@ $(window).scroll(function() {
 //Added By Ruchi for removing adding of numbers in field on arrow keys in input type=number        
 var number = document.getElementById('number');
 
-  number.onkeydown = function(e) {
+	 if(number!=null) {
+	 number.onkeydown = function(e) {
      if(!((e.keyCode > 95 && e.keyCode < 106)
        || (e.keyCode > 47 && e.keyCode < 58) 
        || e.keyCode == 8)) {
          return false;
      }
- }
+	 }
+	 }
         
   
 $(window).load(function(){

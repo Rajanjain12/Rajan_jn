@@ -171,13 +171,13 @@
                             </tr>
                        	</tbody>
                 	</table>                
-            		<div class="clearfix"></div>
-                 	<div class="paginations">
+            	<div class="clearfix"></div>
+<!--                 	<div class="paginations">
 	                   	<div class="pagination-inner">Page<span>{{pager.currentPage}}</span>of {{pager.totalPages}} 
 	                       <a style="cursor:pointer" ng-click="loadWaitListPage(pager.currentPage-1)" class="priv"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
 	                       <a style="cursor:pointer" ng-click="loadWaitListPage(pager.currentPage+1)" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
 	                    </div>                                    
-               		</div>	 
+               		</div>	 -->
 	           	 </div>
 	           	 
 	           	 <div ng-show="showHistory == true">
@@ -187,6 +187,7 @@
                                 <th>No</th>
                                 <th>Name</th>
                                 <th>Seating Preferences</th>
+                                <th>No Of Party</th>
                                 <th>Opt-In</th>                              
                             </tr>
                         </thead>
@@ -200,27 +201,31 @@
                                 	</span>
                                 </td>
                                 <td>{{record.seatingPreference}}</td>
+                                <td>{{record.noOfPeople}}</td>
                                 <td><img ng-show="record.optin == true" src="../assets/img/roundarrow.png"></td>
                             </tr>
                        	</tbody>
                 	</table>                
-            		<div class="clearfix"></div>
-                 	<div class="paginations">
-	                    <div class="pagination-inner">Page<span>{{pager.currentPage}}</span>of {{pager.totalPages}} 
+<!--            		<div class="clearfix"></div>-->
+                 	
+	           	 </div>
+                        
+     </div>
+<!--       <div class="clearfix"></div>-->
+       <div class="pagination-block">
+<!--                        <div class="col-md-12 col-sm-12 col-xs-12">-->
+                        <div class="paginations">
+	                   <div class="pagination-inner">Page<span>{{pager.currentPage}}</span>of {{pager.totalPages}} 
 	                       <a style="cursor:pointer" ng-click="loadHistoryPage(pager.currentPage-1)" class="priv"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
 	                       <a style="cursor:pointer" ng-click="loadHistoryPage(pager.currentPage+1)" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
 	                    </div>
                                     
                		</div>
-	           	 </div>
-                
-                 
-                 
-                   
-            
-     </div>
-
+<!--                        </div>-->
+                        </div>
+       
 </section>
+
 
 
 

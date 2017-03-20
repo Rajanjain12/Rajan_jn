@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="68dp"
+              android:id="@+id/linearCheckBox"
+              android:gravity="center_vertical"
+    >
+    <CheckBox
+        android:id="@+id/chkSeating"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:button="@null"
+        android:clickable="false"
+        android:background="@drawable/custom_check_box"
+        />
+
+    <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
+        android:id="@+id/txtSeating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/colorLightBrown"
+        android:textSize="26sp"
+        />
+
+
+
+</LinearLayout>

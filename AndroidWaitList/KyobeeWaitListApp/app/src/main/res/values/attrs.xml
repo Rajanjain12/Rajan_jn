@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CircleCheckbox">
+        <attr name="showOuterCircle" format="boolean" />
+
+        <attr name="tickColor" format="string"/>
+        <attr name="outerCircleColor" format="string"/>
+        <attr name="innerCircleColor" format="string"/>
+        <attr name="textColor" format="string"/>
+        <attr name="circleBorderColor" format="string"/>
+
+        <attr name="outerCircleRadius" format="dimension"/>
+        <attr name="innerCircleRadius" format="dimension"/>
+        <attr name="textSize" format="dimension"/>
+        <attr name="borderThickness" format="dimension"/>
+        <attr name="tickThickness" format="dimension"/>
+
+        <attr name="textLeftPadding" format="dimension"/>
+        <attr name="text" format="string"/>
+
+    </declare-styleable>
+
+    <!-- Defines the custom XML attributes supported for a HorizontalListView -->
+    <declare-styleable name="HorizontalListView">
+        <attr name="dividerWidth" format="dimension" />
+        <attr name="android:divider" />
+        <attr name="android:requiresFadingEdge" />
+        <attr name="android:fadingEdgeLength" />
+    </declare-styleable>
+
+
+
+</resources>
