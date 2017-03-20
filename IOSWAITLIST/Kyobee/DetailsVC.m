@@ -2346,7 +2346,11 @@ replacementString:(NSString *)string
                          //NSString *timeString = [NSString stringWithFormat:@"%.2d⁚%02d", hour, min];
                          
                          
-                         [Img_User_Logo sd_setImageWithURL:[NSURL URLWithString:[[json valueForKey:@"serviceResult"]valueForKey:@"imageOrgPath"]] placeholderImage:[UIImage imageNamed:@"RestoImage"]];
+                         //[Img_User_Logo sd_setImageWithURL:[NSURL URLWithString:[[json valueForKey:@"serviceResult"]valueForKey:@"imageOrgPath"]] placeholderImage:[UIImage imageNamed:@"RestoImage"]];
+                         
+                         [Img_User_Logo sd_setImageWithURL:[NSURL URLWithString:[[json valueForKey:@"serviceResult"]valueForKey:@"imageOrgPath"]]
+                                         placeholderImage:[UIImage imageNamed:@"RestoImage"]
+                                                  options:SDWebImageRefreshCached];
                      }
                      else if([[json valueForKey:@"success"] isEqualToString:@"-1"])
                      {
