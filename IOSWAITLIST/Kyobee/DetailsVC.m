@@ -28,6 +28,7 @@
 
 @property (nonatomic) IBInspectable CGFloat padding;
 
+
 @end
 
 @implementation MyTextFieldDetails
@@ -47,6 +48,8 @@
 
 @interface DetailsVC ()
 
+@property (nonatomic,strong) UILongPressGestureRecognizer *lpgr;
+
 @end
 
 @implementation DetailsVC
@@ -54,6 +57,18 @@
 - (void)viewDidLoad
 {
     appDelegate =(AppDelegate*)[[UIApplication sharedApplication]delegate];
+    
+    
+    self.lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGestures:)];
+    self.lpgr.minimumPressDuration = 5.0f;
+    self.lpgr.numberOfTouchesRequired = 2;
+    self.lpgr.allowableMovement = 100.0f;
+    
+    //[btnLogout addGestureRecognizer:self.lpgr];
+    [btnTopLeft addGestureRecognizer:self.lpgr];
+    //[btnTopRight addGestureRecognizer:self.lpgr];
+    //[btnBottomLeft addGestureRecognizer:self.lpgr];
+    
     
     seatPrefArray = [[NSMutableArray alloc] initWithCapacity:0];
     selectedPref = [[NSMutableArray alloc] initWithCapacity:0];
@@ -105,6 +120,23 @@
     
     
     [self addHorizontalTable];
+}
+
+- (void)handleLongPressGestures:(UILongPressGestureRecognizer *)sender
+{
+    if ([sender isEqual:self.lpgr])
+    {
+        if (sender.state == UIGestureRecognizerStateBegan)
+        {
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"rememberMe"];
+            
+            [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"checkinmodeselected"];
+            
+            [[NSUserDefaults standardUserDefaults]synchronize];
+            
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+    }
 }
 
 - (void)addHorizontalTable

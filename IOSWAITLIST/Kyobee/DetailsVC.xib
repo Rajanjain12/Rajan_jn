@@ -49,10 +49,13 @@
                 <outlet property="Lbl_waiting" destination="DX3-qw-esr" id="IWp-z8-aAE"/>
                 <outlet property="Thank_View" destination="6pa-ym-G3T" id="4z4-pZ-hI7"/>
                 <outlet property="_tableViewWB" destination="Adq-bx-qX6" id="yhL-Ua-VLN"/>
+                <outlet property="btnBottomLeft" destination="I2a-vd-gRQ" id="O9S-2r-was"/>
                 <outlet property="btnCheckinToBottom" destination="Qt8-lf-hPl" id="Cyr-G4-e2s"/>
                 <outlet property="btnCheckinToTop" destination="WyW-Ye-1WJ" id="QD3-n4-oct"/>
                 <outlet property="btnInternetConnection" destination="rsg-5f-8uw" id="7PV-z1-Zlj"/>
                 <outlet property="btnLogout" destination="xfW-j3-Cei" id="qle-cN-2f7"/>
+                <outlet property="btnTopLeft" destination="rAJ-HG-IuO" id="m1a-Z3-meh"/>
+                <outlet property="btnTopRight" destination="vjS-NO-DGX" id="2Zw-Ef-YGn"/>
                 <outlet property="btn_Cell_Phone" destination="8Ek-Lf-igd" id="zNA-tL-7Vd"/>
                 <outlet property="btn_Email" destination="ttD-Ny-H2H" id="Knl-Wa-bhW"/>
                 <outlet property="estTimeToValue" destination="6GK-2d-kIM" id="tfv-hb-doD"/>
@@ -98,9 +101,6 @@
                             <state key="normal">
                                 <color key="titleColor" red="0.36078431370000003" green="0.36862745099999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
-                            <connections>
-                                <action selector="btnLogout_clicked:" destination="-1" eventType="touchUpInside" id="C7o-aX-TGe"/>
-                            </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome To" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nco-WE-crv">
                             <rect key="frame" x="849" y="18" width="140" height="28"/>
@@ -244,9 +244,6 @@
                             <state key="normal">
                                 <color key="titleColor" red="0.36078431370000003" green="0.36862745099999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
-                            <connections>
-                                <action selector="btnLogout_clicked:" destination="-1" eventType="touchUpInside" id="H6J-VX-hHd"/>
-                            </connections>
                         </button>
                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rsg-5f-8uw">
                             <rect key="frame" x="362" y="708" width="300" height="30"/>
@@ -260,7 +257,7 @@
                                 <action selector="btnInternetConnection_clicked:" destination="-1" eventType="touchUpInside" id="tX4-2F-akf"/>
                             </connections>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright KYOBEE Waitlist All Rights Reserved - Version 1.0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jua-wK-Lfh">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright KYOBEE. All Rights Reserved - Version 1.0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jua-wK-Lfh">
                             <rect key="frame" x="509" y="742" width="500" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="T3H-5q-szX"/>
@@ -300,9 +297,6 @@
                             <state key="normal">
                                 <color key="titleColor" red="0.36078431370000003" green="0.36862745099999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
-                            <connections>
-                                <action selector="btnLogout_clicked:" destination="-1" eventType="touchUpInside" id="Jry-g1-kg1"/>
-                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vjS-NO-DGX">
                             <rect key="frame" x="849" y="10" width="150" height="60"/>
@@ -314,9 +308,6 @@
                             <state key="normal">
                                 <color key="titleColor" red="0.36078431370000003" green="0.36862745099999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
-                            <connections>
-                                <action selector="btnLogout_clicked:" destination="-1" eventType="touchUpInside" id="wbt-Qz-vkg"/>
-                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

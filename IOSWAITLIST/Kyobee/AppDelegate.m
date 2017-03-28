@@ -14,6 +14,9 @@
 
 #import "GuestListVC.h"
 
+
+#import "KyobeeGuestList.h"
+
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
@@ -60,8 +63,13 @@
             }
             if([[NSUserDefaults standardUserDefaults] boolForKey:@"displaymodeselected"] == YES)
             {
-                GuestListVC *guestListVC = [[GuestListVC alloc] initWithNibName:@"GuestListVC" bundle:nil];
-                [self.navController pushViewController:guestListVC animated:YES];
+                
+                
+                /*GuestListVC *guestListVC = [[GuestListVC alloc] initWithNibName:@"GuestListVC" bundle:nil];
+                [self.navController pushViewController:guestListVC animated:YES];*/
+                
+                KyobeeGuestList *kyobeeGuestList = [[KyobeeGuestList alloc] initWithNibName:@"KyobeeGuestList" bundle:nil];
+                [self.navController pushViewController:kyobeeGuestList animated:YES];
             }
             
             

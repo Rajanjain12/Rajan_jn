@@ -79,5 +79,17 @@
 	<array>
 		<string>com.kyobee.waitlist</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>SFDisplay-Black.otf</string>
+		<string>SFDisplay-Bold.otf</string>
+		<string>SFDisplay-Heavy.otf</string>
+		<string>SFDisplay-Medium.otf</string>
+		<string>SFDisplay-Light.otf</string>
+		<string>SFDisplay-Regular.otf</string>
+		<string>SFDisplay-Semibold.otf</string>
+		<string>SFDisplay-Thin.otf</string>
+		<string>SFDisplay-Ultralight.otf</string>
+	</array>
 </dict>
 </plist>

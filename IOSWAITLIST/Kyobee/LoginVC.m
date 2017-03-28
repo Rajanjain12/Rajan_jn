@@ -9,6 +9,7 @@
 #import "LoginVC.h"
 #import "DetailsVC.h"
 
+#import "KyobeeGuestList.h"
 
 #import "GuestListVC.h"
 
@@ -425,8 +426,11 @@ replacementString:(NSString *)string
     [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"displaymodeselected"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    GuestListVC *guestListVC = [[GuestListVC alloc] initWithNibName:@"GuestListVC" bundle:nil];
-    [self.navigationController pushViewController:guestListVC animated:YES];
+    /*GuestListVC *guestListVC = [[GuestListVC alloc] initWithNibName:@"GuestListVC" bundle:nil];
+    [self.navigationController pushViewController:guestListVC animated:YES];*/
+    
+    KyobeeGuestList *kyobeeGuestList = [[KyobeeGuestList alloc] initWithNibName:@"KyobeeGuestList" bundle:nil];
+    [self.navigationController pushViewController:kyobeeGuestList animated:YES];
 }
 
 - (IBAction)btnPrivacyPolicy_clicked:(id)sender
