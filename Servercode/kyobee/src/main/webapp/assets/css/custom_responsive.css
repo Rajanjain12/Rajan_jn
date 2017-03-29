@@ -272,13 +272,13 @@ a.headersh {display: block;font-size: 35px; color: #dd4124; text-align: center;}
 
 @media only screen and (min-width: 1600px) and (max-width: 1920px) { 
 
-.footer-adjust {
+/* .footer-adjust {
     position: absolute; 
     display: inline-block;
     width: 100%;
     bottom: 0;
     margin-bottom: -5px;
-  }
+  } */
 
 }
 

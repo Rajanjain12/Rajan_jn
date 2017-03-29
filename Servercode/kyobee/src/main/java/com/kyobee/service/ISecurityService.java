@@ -2,6 +2,7 @@ package com.kyobee.service;
 
 import java.util.List;
 
+import com.kyobee.dto.UserDTO;
 import com.kyobee.dto.common.Credential;
 import com.kyobee.entity.Organization;
 import com.kyobee.entity.User;

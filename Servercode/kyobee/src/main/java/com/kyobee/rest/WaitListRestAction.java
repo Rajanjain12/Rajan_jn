@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kyobee.dto.GuestDTO;
 import com.kyobee.dto.GuestPreferencesDTO;
+import com.kyobee.dto.GuestWrapper;
 import com.kyobee.dto.WaitlistMetrics;
 import com.kyobee.dto.common.PaginatedResponse;
 import com.kyobee.dto.common.PaginationReqParam;
@@ -503,17 +504,17 @@ public class WaitListRestAction {
 	//@Path("/checkinusers")
 	//@Produces(MediaType.APPLICATION_JSON)
 	@RequestMapping(value = "/checkinusers", method = RequestMethod.GET, produces = "application/json")
-	public Response<PaginatedResponse<GuestDTO>> fetchCheckinUsers(@RequestParam("orgid") Long orgid, 
+	public Response<PaginatedResponse<GuestWrapper>> fetchCheckinUsers(@RequestParam("orgid") Long orgid, 
 			@RequestParam String pagerReqParam){
 		log.info("Entering :: fetchCheckinUsers --OrgId::"+orgid);
-		Response<PaginatedResponse<GuestDTO>> response = new Response<PaginatedResponse<GuestDTO>>();
+		Response<PaginatedResponse<GuestWrapper>> response = new Response<PaginatedResponse<GuestWrapper>>();
 		List<GuestDTO> guestDTOs = null;
-		PaginatedResponse<GuestDTO> paginatedResponse = new PaginatedResponse<GuestDTO>();
+		PaginatedResponse<GuestWrapper> paginatedResponse = new PaginatedResponse<GuestWrapper>();
 		//final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 		//final List<String> errorArray = new ArrayList<String>(0);
 		Map<Integer, String> guestPreferenceMap;
 		List<Guest> guests;
-		
+		List<GuestWrapper> guestsWrapper=new ArrayList<GuestWrapper>();
 		
 		
 		try {
@@ -521,15 +522,15 @@ public class WaitListRestAction {
 			PaginationReqParam paginationReqParam = mapper.readValue(pagerReqParam, PaginationReqParam.class);
 			guestPreferenceMap = getGuestSeatingPrefMap();
 
-			guests = waitListService.loadAllCheckinUsers(orgid, paginationReqParam.getPageSize(), paginationReqParam.getPageNo());
+			guestsWrapper = waitListService.loadAllCheckinUsers(orgid, paginationReqParam.getPageSize(), paginationReqParam.getPageNo());
 			Long guestsTotalCount = waitListService.getAllCheckinUsersCount(orgid);
-			if(null != guests && guests.size()>0){
-				guestDTOs = new ArrayList<GuestDTO>(guests.size());
+			if(null != guestsWrapper && guestsWrapper.size()>0){
+				/*guestDTOs = new ArrayList<GuestDTO>(guests.size());
 				for (Guest guest : guests) {
 					guestDTOs.add(convertGuesEntityToVo(guest, guestPreferenceMap));
-				}
+				}*/
 				
-				paginatedResponse.setRecords(guestDTOs);
+				paginatedResponse.setRecords(guestsWrapper);
 				paginatedResponse.setPageNo(paginationReqParam.getPageNo());
 				paginatedResponse.setTotalRecords(guestsTotalCount.intValue());
 				response.setServiceResult(paginatedResponse);
@@ -777,9 +778,11 @@ public class WaitListRestAction {
 			rootMap.put("orgid", guest.getOrganizationID());
 			rootMap.put("addedGuestId", oWaitlistMetrics.getGuestId());
 			rootMap.put("guestUUID", guest.getUuid());
-			rootMap.put("guestRank", oWaitlistMetrics.getGuestRank());
-
-			sendNotification(guest, oWaitlistMetrics, "NORMAL");
+			rootMap.put("guestRank", oWaitlistMetrics.getGuestRank());			
+			
+			if(guestDTO.getPrefType() != null)
+				sendNotification(guest, oWaitlistMetrics, "NORMAL");
+			
 			sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
 			response.setServiceResult(rootMap);
 			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);

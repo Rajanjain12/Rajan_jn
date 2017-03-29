@@ -117,6 +117,7 @@ KyobeeControllers.controller('waitListCtrl',
 						var url = '/kyobee/web/rest/waitlistRestAction/checkinusers';
 						KyobeeService.getDataService(url, '').query(postBody,
 								function(data) {
+									console.log("Postbody "+JSON.stringify(postBody));
 									console.log("Waitlist Grid data : "+ JSON.stringify(data));
 									if (data.status == "SUCCESS") {
 										var paginatedResponse = data.serviceResult;

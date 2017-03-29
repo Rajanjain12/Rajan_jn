@@ -25,6 +25,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.jdbc.ReturningWork;
@@ -34,6 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kyobee.dto.GuestPreferencesDTO;
+import com.kyobee.dto.GuestWrapper;
 import com.kyobee.dto.WaitlistMetrics;
 import com.kyobee.entity.Guest;
 import com.kyobee.entity.GuestNotificationBean;
@@ -228,11 +230,15 @@ public class WaitListServiceImpl implements IWaitListService {
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Guest> loadAllCheckinUsers(Long orgid, int recordsPerPage, int pageNumber) throws RsntException{
+	public List<GuestWrapper> loadAllCheckinUsers(Long orgid, int recordsPerPage, int pageNumber) throws RsntException{
 		try {
 			int firstPage = (pageNumber == 1) ? 0 : (recordsPerPage*(pageNumber-1));
-			return sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUESTS_CHECKIN_BY_ORG)
-					.setParameter(Constants.RSNT_ORG_ID,orgid).setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
+			SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_GUESTS_CHECKIN_BY_ORG);			
+			query.setParameter(Constants.RSNT_ORG_ID,orgid).setFirstResult(firstPage).setMaxResults(recordsPerPage);
+			query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+			return query.list();
+			/*return sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_GUESTS_CHECKIN_BY_ORG)
+					.setParameter(Constants.RSNT_ORG_ID,orgid).setFirstResult(firstPage).setMaxResults(recordsPerPage).list();*/
 		} catch (Exception e) {
 			log.error("loadAllCheckinUsers()", e);
 			throw new RsntException(e);
