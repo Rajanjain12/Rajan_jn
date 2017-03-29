@@ -247,6 +247,19 @@
 {
     [super viewWillAppear:YES];
     
+    
+    if([[[NSUserDefaults standardUserDefaults] valueForKey:@"smsRoute"]  isEqualToString:@""])
+    {
+        txt_Phone_Or_Mail.placeholder = @"+1 (___) ____-______ (Optional)";
+        txt_Phone_Or_Mail.text = @"";
+    }
+    else
+    {
+        txt_Phone_Or_Mail.placeholder = @"+1 (___) ____-______*";
+        txt_Phone_Or_Mail.text = @"";
+    }
+    
+    
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     
     if([[[NSUserDefaults standardUserDefaults] valueForKey:@"clientBase"]  isEqual:@"admin"])
@@ -668,8 +681,18 @@
         btn_Cell_Phone.selected = TRUE;
         btn_Email.selected = FALSE;
         
-        txt_Phone_Or_Mail.placeholder = @"+1 (___) ____-______*";
-        txt_Phone_Or_Mail.text = @"";
+        if([[[NSUserDefaults standardUserDefaults] valueForKey:@"smsRoute"]  isEqualToString:@""])
+        {
+            txt_Phone_Or_Mail.placeholder = @"+1 (___) ____-______ (Optional)";
+            txt_Phone_Or_Mail.text = @"";
+        }
+        else
+        {
+            txt_Phone_Or_Mail.placeholder = @"+1 (___) ____-______*";
+            txt_Phone_Or_Mail.text = @"";
+        }
+        
+        
         
         
         txt_Phone_Or_Mail.keyboardType = UIKeyboardTypePhonePad;
@@ -683,8 +706,18 @@
         btn_Cell_Phone.selected = FALSE;
         btn_Email.selected = TRUE;
         
-        txt_Phone_Or_Mail.placeholder = @"E-Mail*";
-        txt_Phone_Or_Mail.text = @"";
+        if([[[NSUserDefaults standardUserDefaults] valueForKey:@"smsRoute"]  isEqualToString:@""])
+        {
+            txt_Phone_Or_Mail.placeholder = @"E-Mail (Optional)";
+            txt_Phone_Or_Mail.text = @"";
+        }
+        else
+        {
+            txt_Phone_Or_Mail.placeholder = @"E-Mail*";
+            txt_Phone_Or_Mail.text = @"";
+        }
+        
+        
         
         txt_Phone_Or_Mail.keyboardType = UIKeyboardTypeEmailAddress;
         txt_Phone_Or_Mail.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -713,6 +746,19 @@
     Btn_Promotions_Specials.selected = false;
     
     btn_Cell_Phone.selected = true;
+    
+    if([[[NSUserDefaults standardUserDefaults] valueForKey:@"smsRoute"]  isEqualToString:@""])
+    {
+        txt_Phone_Or_Mail.placeholder = @"+1 (___) ____-______ (Optional)";
+        txt_Phone_Or_Mail.text = @"";
+    }
+    else
+    {
+        txt_Phone_Or_Mail.placeholder = @"+1 (___) ____-______*";
+        txt_Phone_Or_Mail.text = @"";
+    }
+    
+    
     btn_Email.selected = false;
     
     if(selectedPref.count > 0)
@@ -1485,9 +1531,30 @@
     
     if(appDelegate.isInternetReachble)
     {
-        if(![txt_Name.text isEqualToString:@""] & ![txt_Phone_Or_Mail.text isEqualToString:@""] & ![txt_your_party.text isEqualToString:@""])
+        //if(![txt_Name.text isEqualToString:@""] & ![txt_Phone_Or_Mail.text isEqualToString:@""] & ![txt_your_party.text isEqualToString:@""])
+        if(![txt_Name.text isEqualToString:@""] & ![txt_your_party.text isEqualToString:@""])
         {
             ///
+            
+            if([[[NSUserDefaults standardUserDefaults] valueForKey:@"smsRoute"]  isEqualToString:@""])
+            {
+                
+            }
+            else
+            {
+                if([txt_Phone_Or_Mail.text isEqualToString:@""])
+                {
+                    [txt_Phone_Or_Mail.layer setBorderWidth:1.5];
+                    [txt_Phone_Or_Mail.layer setBorderColor:[UIColor redColor].CGColor];
+                    
+                    return;
+                }
+                else
+                {
+                    [txt_Phone_Or_Mail.layer setBorderWidth:1.5];
+                    [txt_Phone_Or_Mail.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+                }
+            }
             
             Lbl_Required.hidden = false;
             Btn_Close.hidden = false;
@@ -1566,8 +1633,8 @@
                 //convert object to data
                 jsonDataReq = [NSJSONSerialization dataWithJSONObject:newDatasetInfo options:kNilOptions error:&error];
                 
-                //NSString *htmlSTR = [[NSString alloc] initWithData:jsonDataReq encoding:NSUTF8StringEncoding];
-                //NSLog(@"%@",htmlSTR);
+                NSString *htmlSTR = [[NSString alloc] initWithData:jsonDataReq encoding:NSUTF8StringEncoding];
+                NSLog(@"%@",htmlSTR);
             }
             
             
@@ -1662,15 +1729,23 @@
                 [txt_Name.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
             }
             
-            if([txt_Phone_Or_Mail.text isEqualToString:@""])
+            if([[[NSUserDefaults standardUserDefaults] valueForKey:@"smsRoute"]  isEqualToString:@""])
             {
-                [txt_Phone_Or_Mail.layer setBorderWidth:1.5];
-                [txt_Phone_Or_Mail.layer setBorderColor:[UIColor redColor].CGColor];
+                
+                
             }
             else
             {
-                [txt_Phone_Or_Mail.layer setBorderWidth:1.5];
-                [txt_Phone_Or_Mail.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+                if([txt_Phone_Or_Mail.text isEqualToString:@""])
+                {
+                    [txt_Phone_Or_Mail.layer setBorderWidth:1.5];
+                    [txt_Phone_Or_Mail.layer setBorderColor:[UIColor redColor].CGColor];
+                }
+                else
+                {
+                    [txt_Phone_Or_Mail.layer setBorderWidth:1.5];
+                    [txt_Phone_Or_Mail.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+                }
             }
             
             if([txt_your_party.text isEqualToString:@""])

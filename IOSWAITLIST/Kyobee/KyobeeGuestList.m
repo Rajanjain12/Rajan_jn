@@ -30,6 +30,10 @@
     
     guestArray = [[NSMutableArray alloc] initWithCapacity:0];
     
+    arrayLess30 = [[NSMutableArray alloc] initWithCapacity:0];
+    arrayLess60 = [[NSMutableArray alloc] initWithCapacity:0];
+    arrayLess90 = [[NSMutableArray alloc] initWithCapacity:0];
+    
     // Realtime
     _ortcClient = [OrtcClient ortcClientWithConfig:self];
     [_ortcClient setClusterUrl:@"https://ortc-developers.realtime.co/server/ssl/2.1"];
@@ -186,9 +190,87 @@
                                  
                                  [guestArray addObjectsFromArray:guestList];
                                  
-                                 [tblView30 reloadData];
-                                 [tblView60 reloadData];
-                                 [tblView90 reloadData];
+                                 if(arrayLess30.count > 0)
+                                 {
+                                     [arrayLess30 removeAllObjects];
+                                 }
+                                 if(arrayLess60.count > 0)
+                                 {
+                                     [arrayLess60 removeAllObjects];
+                                 }
+                                 if(arrayLess90.count > 0)
+                                 {
+                                     [arrayLess90 removeAllObjects];
+                                 }
+                                 
+                                 // For Less Than 30
+                                 for(int i = 0; i < [guestArray count]; i++)
+                                 {
+                                     if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 30)
+                                     {
+                                         [arrayLess30 addObject:[guestArray objectAtIndex:i]];
+                                     }
+                                 }
+                                 
+                                 if(arrayLess30.count > 0)
+                                 {
+                                     [tblView30 reloadData];
+                                     
+                                     lblNoUser30.hidden = true;
+                                 }
+                                 else
+                                 {
+                                     lblNoUser30.hidden = false;
+                                 }
+                                 //
+                                 
+                                 
+                                 
+                                 // For Less Than 60
+                                 for(int i = 0; i < [guestArray count]; i++)
+                                 {
+                                     if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] > 30 & [[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 60)
+                                     //if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 60)
+                                     {
+                                         [arrayLess60 addObject:[guestArray objectAtIndex:i]];
+                                     }
+                                 }
+                                 
+                                 if(arrayLess60.count > 0)
+                                 {
+                                     [tblView60 reloadData];
+                                     
+                                     lblNoUser60.hidden = true;
+                                 }
+                                 else
+                                 {
+                                     lblNoUser60.hidden = false;
+                                 }
+                                 //
+                                 
+                                 
+                                 // For Less Than 90
+                                 for(int i = 0; i < [guestArray count]; i++)
+                                 {
+                                     if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] > 60 & [[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 90)
+                                     //if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 90)
+                                     {
+                                         [arrayLess90 addObject:[guestArray objectAtIndex:i]];
+                                     }
+                                 }
+                                 
+                                 if(arrayLess90.count > 0)
+                                 {
+                                     [tblView90 reloadData];
+                                     
+                                     lblNoUser90.hidden = true;
+                                 }
+                                 else
+                                 {
+                                     lblNoUser90.hidden = false;
+                                 }
+                                 //
+                                 
                              }
                              else
                              {
@@ -227,9 +309,17 @@
                  }
                  else
                  {
-                     if(guestArray.count > 0)
+                     if(arrayLess30.count > 0)
                      {
-                         [guestArray removeAllObjects];
+                         [arrayLess30 removeAllObjects];
+                     }
+                     if(arrayLess60.count > 0)
+                     {
+                         [arrayLess60 removeAllObjects];
+                     }
+                     if(arrayLess90.count > 0)
+                     {
+                         [arrayLess90 removeAllObjects];
                      }
                      
                      [tblView30 reloadData];
@@ -268,7 +358,20 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return guestArray.count;
+    if(tableView == tblView30)
+    {
+        return arrayLess30.count;
+    }
+    else if (tableView == tblView60)
+    {
+        return arrayLess60.count;
+    }
+    else
+    {
+        return arrayLess90.count;
+    }
+    
+    //return guestArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -290,8 +393,8 @@
             cell = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([GuestListCell class]) owner:nil options:nil] lastObject];
         }
         
-        cell.lblRank.text = [NSString stringWithFormat:@"%@",[[guestArray objectAtIndex:indexPath.row] valueForKey:@"rank"]];
-        cell.lblName.text = [NSString stringWithFormat:@"%@",[[guestArray objectAtIndex:indexPath.row] valueForKey:@"name"]];
+        cell.lblRank.text = [NSString stringWithFormat:@"%@",[[arrayLess30 objectAtIndex:indexPath.row] valueForKey:@"rank"]];
+        cell.lblName.text = [NSString stringWithFormat:@"%@",[[arrayLess30 objectAtIndex:indexPath.row] valueForKey:@"name"]];
         
         
         cell.backgroundColor = [UIColor clearColor];
@@ -310,8 +413,8 @@
             cell = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([GuestListCell class]) owner:nil options:nil] lastObject];
         }
         
-        cell.lblRank.text = [NSString stringWithFormat:@"%@",[[guestArray objectAtIndex:indexPath.row] valueForKey:@"rank"]];
-        cell.lblName.text = [NSString stringWithFormat:@"%@",[[guestArray objectAtIndex:indexPath.row] valueForKey:@"name"]];
+        cell.lblRank.text = [NSString stringWithFormat:@"%@",[[arrayLess60 objectAtIndex:indexPath.row] valueForKey:@"rank"]];
+        cell.lblName.text = [NSString stringWithFormat:@"%@",[[arrayLess60 objectAtIndex:indexPath.row] valueForKey:@"name"]];
         
         
         cell.backgroundColor = [UIColor clearColor];
@@ -330,8 +433,8 @@
             cell = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([GuestListCell class]) owner:nil options:nil] lastObject];
         }
         
-        cell.lblRank.text = [NSString stringWithFormat:@"%@",[[guestArray objectAtIndex:indexPath.row] valueForKey:@"rank"]];
-        cell.lblName.text = [NSString stringWithFormat:@"%@",[[guestArray objectAtIndex:indexPath.row] valueForKey:@"name"]];
+        cell.lblRank.text = [NSString stringWithFormat:@"%@",[[arrayLess90 objectAtIndex:indexPath.row] valueForKey:@"rank"]];
+        cell.lblName.text = [NSString stringWithFormat:@"%@",[[arrayLess90 objectAtIndex:indexPath.row] valueForKey:@"name"]];
         
         
         cell.backgroundColor = [UIColor clearColor];
@@ -395,9 +498,10 @@
          }
          else if([[json valueForKey:@"OP"] isEqualToString:@"UpdageGuestInfo"])
          {
-             for(int i = 0; i<[guestArray count]; i++)
+             // from less 30
+             for(int i = 0; i<[arrayLess30 count]; i++)
              {
-                 if([[[guestArray objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+                 if([[[arrayLess30 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
                  {
                      //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
                      //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
@@ -405,7 +509,32 @@
                      //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
                      
                      
-                     NSDictionary *aDictionary = [guestArray objectAtIndex: i];
+                     NSDictionary *aDictionary = [arrayLess30 objectAtIndex: i];
+                     //Make a mutable copy of each dictionary in the array.
+                     NSMutableDictionary *mDict = [aDictionary mutableCopy];
+                     
+                     //Replace the value at key @"key" with some new value @"new value"
+                     mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
+                     mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
+
+                     [arrayLess30 replaceObjectAtIndex:i withObject:mDict];
+                     
+                     [tblView30 reloadData];
+                 }
+             }
+             
+             // from less 60
+             for(int i = 0; i<[arrayLess60 count]; i++)
+             {
+                 if([[[arrayLess60 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+                 {
+                     //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+                     //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+                     
+                     //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
+                     
+                     
+                     NSDictionary *aDictionary = [arrayLess60 objectAtIndex: i];
                      //Make a mutable copy of each dictionary in the array.
                      NSMutableDictionary *mDict = [aDictionary mutableCopy];
                      
@@ -413,13 +542,34 @@
                      mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
                      mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
                      
+                     [arrayLess60 replaceObjectAtIndex:i withObject:mDict];
                      
-                     
-                     
-                     [guestArray replaceObjectAtIndex:i withObject:mDict];
-                     
-                     [tblView30 reloadData];
                      [tblView60 reloadData];
+                 }
+             }
+             
+             
+             // from less 90
+             for(int i = 0; i<[arrayLess90 count]; i++)
+             {
+                 if([[[arrayLess90 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+                 {
+                     //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+                     //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+                     
+                     //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
+                     
+                     
+                     NSDictionary *aDictionary = [arrayLess90 objectAtIndex: i];
+                     //Make a mutable copy of each dictionary in the array.
+                     NSMutableDictionary *mDict = [aDictionary mutableCopy];
+                     
+                     //Replace the value at key @"key" with some new value @"new value"
+                     mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
+                     mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
+                     
+                     [arrayLess90 replaceObjectAtIndex:i withObject:mDict];
+                     
                      [tblView90 reloadData];
                  }
              }
@@ -429,10 +579,10 @@
              
              jsonForNotPresentAndIcomplete = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
              
-             
-             for(int i = 0; i<[guestArray count]; i++)
+             // from less 30
+             for(int i = 0; i<[arrayLess30 count]; i++)
              {
-                 if([[[guestArray objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+                 if([[[arrayLess30 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
                  {
                      //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
                      //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
@@ -440,7 +590,7 @@
                      //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
                      
                      
-                     NSDictionary *aDictionary = [guestArray objectAtIndex: i];
+                     NSDictionary *aDictionary = [arrayLess30 objectAtIndex: i];
                      //Make a mutable copy of each dictionary in the array.
                      NSMutableDictionary *mDict = [aDictionary mutableCopy];
                      
@@ -458,10 +608,82 @@
                          mDict[@"incompleteParty"] = [[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"];
                      }
                      
-                     [guestArray replaceObjectAtIndex:i withObject:mDict];
+                     [arrayLess30 replaceObjectAtIndex:i withObject:mDict];
                      
                      [tblView30 reloadData];
+                     
+                     
+                 }
+             }
+             
+             // from less 60
+             for(int i = 0; i<[arrayLess60 count]; i++)
+             {
+                 if([[[arrayLess60 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+                 {
+                     //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+                     //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+                     
+                     //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
+                     
+                     
+                     NSDictionary *aDictionary = [arrayLess60 objectAtIndex: i];
+                     //Make a mutable copy of each dictionary in the array.
+                     NSMutableDictionary *mDict = [aDictionary mutableCopy];
+                     
+                     //Replace the value at key @"key" with some new value @"new value"
+                     //mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
+                     mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
+                     
+                     if(![[[json valueForKey:@"updguest"] valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+                     {
+                         mDict[@"calloutCount"] = [[json valueForKey:@"updguest"] valueForKey:@"calloutCount"];
+                     }
+                     
+                     if(![[[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+                     {
+                         mDict[@"incompleteParty"] = [[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"];
+                     }
+                     
+                     [arrayLess60 replaceObjectAtIndex:i withObject:mDict];
+                     
                      [tblView60 reloadData];
+                     
+                     
+                 }
+             }
+             
+             // from less 90
+             for(int i = 0; i<[arrayLess90 count]; i++)
+             {
+                 if([[[arrayLess90 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+                 {
+                     //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+                     //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+                     
+                     //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
+                     
+                     
+                     NSDictionary *aDictionary = [arrayLess90 objectAtIndex: i];
+                     //Make a mutable copy of each dictionary in the array.
+                     NSMutableDictionary *mDict = [aDictionary mutableCopy];
+                     
+                     //Replace the value at key @"key" with some new value @"new value"
+                     //mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
+                     mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
+                     
+                     if(![[[json valueForKey:@"updguest"] valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+                     {
+                         mDict[@"calloutCount"] = [[json valueForKey:@"updguest"] valueForKey:@"calloutCount"];
+                     }
+                     
+                     if(![[[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+                     {
+                         mDict[@"incompleteParty"] = [[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"];
+                     }
+                     
+                     [arrayLess90 replaceObjectAtIndex:i withObject:mDict];
+                     
                      [tblView90 reloadData];
                      
                      
@@ -470,77 +692,54 @@
          }
          else if([[json valueForKey:@"OP"] isEqualToString:@"MARK_AS_SEATED"])
          {
-             for(int i = 0; i<[guestArray count]; i++)
+             [self fetchList];
+             
+             /*
+             // from less 30
+             for(int i = 0; i<[arrayLess30 count]; i++)
              {
-                 if([[[guestArray objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+                 if([[[arrayLess30 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
                  {
                      //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
                      //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
                      
-                     [guestArray removeObjectAtIndex:i];
+                     [arrayLess30 removeObjectAtIndex:i];
                      
                      [tblView30 reloadData];
+                 }
+             }
+             
+             // from less 60
+             for(int i = 0; i<[arrayLess60 count]; i++)
+             {
+                 if([[[arrayLess60 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+                 {
+                     //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+                     //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+                     
+                     [arrayLess60 removeObjectAtIndex:i];
+                     
                      [tblView60 reloadData];
+                 }
+             }
+             
+             // from less 90
+             for(int i = 0; i<[arrayLess90 count]; i++)
+             {
+                 if([[[arrayLess90 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+                 {
+                     //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+                     //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+                     
+                     [arrayLess90 removeObjectAtIndex:i];
+                     
                      [tblView90 reloadData];
                  }
              }
+             */
+             
+             
          }
-         /*else if([[json valueForKey:@"OP"] isEqualToString:@"NOT_PRESENT"])
-          {
-          for(int i = 0; i<[guestArray count]; i++)
-          {
-          if([[[guestArray objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[jsonForNotPresentAndIcomplete valueForKey:@"guestObj"]])
-          {
-          
-          NSDictionary *aDictionary = [guestArray objectAtIndex: i];
-          //Make a mutable copy of each dictionary in the array.
-          NSMutableDictionary *mDict = [aDictionary mutableCopy];
-          
-          //Replace the value at key @"key" with some new value @"new value"
-          //mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
-          mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
-          
-          if(![[[json valueForKey:@"updguest"] valueForKey:@"calloutCount"] isEqual:[NSNull null]])
-          {
-          mDict[@"calloutCount"] = [[json valueForKey:@"updguest"] valueForKey:@"calloutCount"];
-          }
-          
-          [guestArray replaceObjectAtIndex:i withObject:mDict];
-          
-          [tblViewGuestList reloadData];
-          
-          
-          }
-          }
-          }
-          else if([[json valueForKey:@"OP"] isEqualToString:@"INCOMPLETE"])
-          {
-          for(int i = 0; i<[guestArray count]; i++)
-          {
-          if([[[guestArray objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[jsonForNotPresentAndIcomplete valueForKey:@"guestObj"]])
-          {
-          
-          NSDictionary *aDictionary = [guestArray objectAtIndex: i];
-          //Make a mutable copy of each dictionary in the array.
-          NSMutableDictionary *mDict = [aDictionary mutableCopy];
-          
-          //Replace the value at key @"key" with some new value @"new value"
-          //mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
-          mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
-          
-          if(![[[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
-          {
-          mDict[@"incompleteParty"] = [[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"];
-          }
-          
-          [guestArray replaceObjectAtIndex:i withObject:mDict];
-          
-          [tblViewGuestList reloadData];
-          
-          
-          }
-          }
-          }*/
          
      }];
 }
@@ -606,9 +805,86 @@
                                  
                                  [guestArray addObjectsFromArray:guestList];
                                  
-                                 [tblView30 reloadData];
-                                 [tblView60 reloadData];
-                                 [tblView90 reloadData];
+                                 if(arrayLess30.count > 0)
+                                 {
+                                     [arrayLess30 removeAllObjects];
+                                 }
+                                 if(arrayLess60.count > 0)
+                                 {
+                                     [arrayLess60 removeAllObjects];
+                                 }
+                                 if(arrayLess90.count > 0)
+                                 {
+                                     [arrayLess90 removeAllObjects];
+                                 }
+                                 
+                                 // For Less Than 30
+                                 for(int i = 0; i < [guestArray count]; i++)
+                                 {
+                                     if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 30)
+                                     {
+                                         [arrayLess30 addObject:[guestArray objectAtIndex:i]];
+                                     }
+                                 }
+                                 
+                                 if(arrayLess30.count > 0)
+                                 {
+                                     [tblView30 reloadData];
+                                     
+                                     lblNoUser30.hidden = true;
+                                 }
+                                 else
+                                 {
+                                     lblNoUser30.hidden = false;
+                                 }
+                                 //
+                                 
+                                 
+                                 
+                                 // For Less Than 60
+                                 for(int i = 0; i < [guestArray count]; i++)
+                                 {
+                                     if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] > 30 & [[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 60)
+                                         //if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 60)
+                                     {
+                                         [arrayLess60 addObject:[guestArray objectAtIndex:i]];
+                                     }
+                                 }
+                                 
+                                 if(arrayLess60.count > 0)
+                                 {
+                                     [tblView60 reloadData];
+                                     
+                                     lblNoUser60.hidden = true;
+                                 }
+                                 else
+                                 {
+                                     lblNoUser60.hidden = false;
+                                 }
+                                 //
+                                 
+                                 
+                                 // For Less Than 90
+                                 for(int i = 0; i < [guestArray count]; i++)
+                                 {
+                                     if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] > 60 & [[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 90)
+                                         //if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 90)
+                                     {
+                                         [arrayLess90 addObject:[guestArray objectAtIndex:i]];
+                                     }
+                                 }
+                                 
+                                 if(arrayLess90.count > 0)
+                                 {
+                                     [tblView90 reloadData];
+                                     
+                                     lblNoUser90.hidden = true;
+                                 }
+                                 else
+                                 {
+                                     lblNoUser90.hidden = false;
+                                 }
+                                 //
                              }
                              else
                              {
@@ -647,9 +923,17 @@
                  }
                  else
                  {
-                     if(guestArray.count > 0)
+                     if(arrayLess30.count > 0)
                      {
-                         [guestArray removeAllObjects];
+                         [arrayLess30 removeAllObjects];
+                     }
+                     if(arrayLess60.count > 0)
+                     {
+                         [arrayLess60 removeAllObjects];
+                     }
+                     if(arrayLess90.count > 0)
+                     {
+                         [arrayLess90 removeAllObjects];
                      }
                      
                      [tblView30 reloadData];

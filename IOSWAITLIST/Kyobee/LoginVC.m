@@ -292,6 +292,14 @@ replacementString:(NSString *)string
                              [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"logofile name"];
                          }
                          
+                         if(![[json valueForKey:@"smsRoute"] isEqual:[NSNull null]])
+                         {
+                             [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"smsRoute"] forKey:@"smsRoute"];
+                         }
+                         else
+                         {
+                             [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"smsRoute"];
+                         }
                          
                          
                          NSArray *seatArray = [json valueForKey:@"seatpref"];

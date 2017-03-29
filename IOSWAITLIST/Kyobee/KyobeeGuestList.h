@@ -19,11 +19,20 @@
     
     NSMutableArray *guestArray;
     
+    NSMutableArray *arrayLess30;
+    NSMutableArray *arrayLess60;
+    NSMutableArray *arrayLess90;
+    
     IBOutlet UIImageView *imgResto;
     
     IBOutlet UITableView *tblView30;
     IBOutlet UITableView *tblView60;
     IBOutlet UITableView *tblView90;
+    
+    IBOutlet UILabel *lblNoUser30;
+    IBOutlet UILabel *lblNoUser60;
+    IBOutlet UILabel *lblNoUser90;
+    
     
     IBOutlet UILabel *lblCopyright;
     
