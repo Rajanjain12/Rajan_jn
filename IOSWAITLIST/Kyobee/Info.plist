@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.1</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -55,6 +55,18 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>SFDisplay-Black.otf</string>
+		<string>SFDisplay-Bold.otf</string>
+		<string>SFDisplay-Heavy.otf</string>
+		<string>SFDisplay-Medium.otf</string>
+		<string>SFDisplay-Light.otf</string>
+		<string>SFDisplay-Regular.otf</string>
+		<string>SFDisplay-Semibold.otf</string>
+		<string>SFDisplay-Thin.otf</string>
+		<string>SFDisplay-Ultralight.otf</string>
+	</array>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -78,18 +90,6 @@
 	<key>autonomousSingleAppModePermittedAppIDs</key>
 	<array>
 		<string>com.kyobee.waitlist</string>
-	</array>
-	<key>UIAppFonts</key>
-	<array>
-		<string>SFDisplay-Black.otf</string>
-		<string>SFDisplay-Bold.otf</string>
-		<string>SFDisplay-Heavy.otf</string>
-		<string>SFDisplay-Medium.otf</string>
-		<string>SFDisplay-Light.otf</string>
-		<string>SFDisplay-Regular.otf</string>
-		<string>SFDisplay-Semibold.otf</string>
-		<string>SFDisplay-Thin.otf</string>
-		<string>SFDisplay-Ultralight.otf</string>
 	</array>
 </dict>
 </plist>
