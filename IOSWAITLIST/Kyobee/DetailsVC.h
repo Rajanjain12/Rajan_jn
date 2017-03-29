@@ -23,6 +23,9 @@
     IBOutlet UIView *First_View;
     
     IBOutlet UIButton *btnLogout;// Mayur
+    IBOutlet UIButton *btnTopLeft;
+    IBOutlet UIButton *btnBottomLeft;
+    IBOutlet UIButton *btnTopRight;
     
     //WBTableView * _tableViewWB;
     IBOutlet WBTableView *_tableViewWB;

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="com.kyobee.waitlist.activity.LoginActivity">
+
+    <RelativeLayout
+        android:id="@+id/relativeTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        >
+
+        <com.kyobee.waitlist.customcontrol.CustomTextViewBold
+            android:id="@+id/txtWelcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/welcome"
+            android:textColor="@color/colorRed"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            />
+
+
+        <com.kyobee.waitlist.customcontrol.CustomTextViewBold
+            android:id="@+id/txtWaiting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtWelcome"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
+            android:text=""
+            android:textColor="@color/colorRed"
+            android:textSize="100sp"
+            android:textStyle="bold"
+            />
+
+        <com.kyobee.waitlist.customcontrol.CustomTextViewBold
+            android:id="@+id/txtParties"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtWaiting"
+            android:layout_centerHorizontal="true"
+            android:text="@string/parties"
+            android:textColor="@color/colorRed"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            />
+
+
+        <ImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@+id/txtWelcome"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@id/txtWaiting"
+            />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearBottom"
+        android:layout_below="@+id/relativeTop"
+        android:orientation="vertical"
+        android:weightSum="10"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7"
+            android:orientation="horizontal"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+
+                <com.kyobee.waitlist.customcontrol.CustomTextViewBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/now_serving"
+                    android:textColor="@color/colorRed"
+                    android:textSize="40sp"
+                    android:textStyle="bold"
+                    />
+
+                <com.kyobee.waitlist.customcontrol.CustomTextViewBold
+                    android:id="@+id/txtNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/colorRed"
+                    android:textSize="70sp"
+                    android:textStyle="bold"
+                    />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="180dp"
+                android:background="@color/colorRed"
+                android:layout_gravity="center_vertical"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+
+                <com.kyobee.waitlist.customcontrol.CustomTextViewBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/est_wait_time"
+                    android:textColor="@color/colorRed"
+                    android:textSize="40sp"
+                    android:textStyle="bold"
+                    />
+
+                <com.kyobee.waitlist.customcontrol.CustomTextViewBold
+                    android:id="@+id/txtTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/colorRed"
+                    android:textSize="70sp"
+                    android:textStyle="bold"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:gravity="center"
+            >
+
+            <com.kyobee.waitlist.customcontrol.CustomButtonBold
+                android:id="@+id/btnCheckIn"
+                android:layout_width="400dp"
+                android:layout_height="60dp"
+                android:background="@drawable/round_button_red"
+                android:text="@string/press_here"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
+
+        <include
+            layout="@layout/include_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </LinearLayout>
+</RelativeLayout>

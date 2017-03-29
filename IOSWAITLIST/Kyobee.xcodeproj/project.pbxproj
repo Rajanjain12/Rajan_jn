@@ -8,6 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		480FB7E51E684FDA003546E2 /* PTEHorizontalTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 480FB7E41E684FDA003546E2 /* PTEHorizontalTableView.m */; };
+		48114DC71E8A702500597496 /* KyobeeGuestList.m in Sources */ = {isa = PBXBuildFile; fileRef = 48114DC51E8A702500597496 /* KyobeeGuestList.m */; };
+		48114DC81E8A702500597496 /* KyobeeGuestList.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48114DC61E8A702500597496 /* KyobeeGuestList.xib */; };
+		48114DD31E8A751800597496 /* SFDisplay-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 48114DCA1E8A751800597496 /* SFDisplay-Black.otf */; };
+		48114DD41E8A751800597496 /* SFDisplay-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 48114DCB1E8A751800597496 /* SFDisplay-Bold.otf */; };
+		48114DD51E8A751800597496 /* SFDisplay-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 48114DCC1E8A751800597496 /* SFDisplay-Heavy.otf */; };
+		48114DD61E8A751800597496 /* SFDisplay-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 48114DCD1E8A751800597496 /* SFDisplay-Light.otf */; };
+		48114DD71E8A751800597496 /* SFDisplay-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 48114DCE1E8A751800597496 /* SFDisplay-Medium.otf */; };
+		48114DD81E8A751800597496 /* SFDisplay-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 48114DCF1E8A751800597496 /* SFDisplay-Regular.otf */; };
+		48114DD91E8A751800597496 /* SFDisplay-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 48114DD01E8A751800597496 /* SFDisplay-Semibold.otf */; };
+		48114DDA1E8A751800597496 /* SFDisplay-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 48114DD11E8A751800597496 /* SFDisplay-Thin.otf */; };
+		48114DDB1E8A751800597496 /* SFDisplay-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 48114DD21E8A751800597496 /* SFDisplay-Ultralight.otf */; };
+		48114DDF1E8A7FE900597496 /* GuestListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 48114DDD1E8A7FE900597496 /* GuestListCell.m */; };
+		48114DE01E8A7FE900597496 /* GuestListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48114DDE1E8A7FE900597496 /* GuestListCell.xib */; };
 		48473EB61E1D580C00D52C15 /* WBTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 48473EB31E1D580C00D52C15 /* WBTableView.m */; };
 		48473EB71E1D580C00D52C15 /* WBTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 48473EB51E1D580C00D52C15 /* WBTableViewCell.m */; };
 		48624B2D1DDB6D0D00EF9C34 /* SeatPrefCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 48624B2B1DDB6D0D00EF9C34 /* SeatPrefCell.m */; };
@@ -118,6 +131,21 @@
 		1956CF9B8355EAE15E6D3DE4 /* libPods-Kyobee.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Kyobee.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		480FB7E31E684FDA003546E2 /* PTEHorizontalTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTEHorizontalTableView.h; sourceTree = "<group>"; };
 		480FB7E41E684FDA003546E2 /* PTEHorizontalTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTEHorizontalTableView.m; sourceTree = "<group>"; };
+		48114DC41E8A702500597496 /* KyobeeGuestList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KyobeeGuestList.h; sourceTree = "<group>"; };
+		48114DC51E8A702500597496 /* KyobeeGuestList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KyobeeGuestList.m; sourceTree = "<group>"; };
+		48114DC61E8A702500597496 /* KyobeeGuestList.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KyobeeGuestList.xib; sourceTree = "<group>"; };
+		48114DCA1E8A751800597496 /* SFDisplay-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFDisplay-Black.otf"; sourceTree = "<group>"; };
+		48114DCB1E8A751800597496 /* SFDisplay-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFDisplay-Bold.otf"; sourceTree = "<group>"; };
+		48114DCC1E8A751800597496 /* SFDisplay-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFDisplay-Heavy.otf"; sourceTree = "<group>"; };
+		48114DCD1E8A751800597496 /* SFDisplay-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFDisplay-Light.otf"; sourceTree = "<group>"; };
+		48114DCE1E8A751800597496 /* SFDisplay-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFDisplay-Medium.otf"; sourceTree = "<group>"; };
+		48114DCF1E8A751800597496 /* SFDisplay-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFDisplay-Regular.otf"; sourceTree = "<group>"; };
+		48114DD01E8A751800597496 /* SFDisplay-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFDisplay-Semibold.otf"; sourceTree = "<group>"; };
+		48114DD11E8A751800597496 /* SFDisplay-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFDisplay-Thin.otf"; sourceTree = "<group>"; };
+		48114DD21E8A751800597496 /* SFDisplay-Ultralight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFDisplay-Ultralight.otf"; sourceTree = "<group>"; };
+		48114DDC1E8A7FE900597496 /* GuestListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuestListCell.h; sourceTree = "<group>"; };
+		48114DDD1E8A7FE900597496 /* GuestListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuestListCell.m; sourceTree = "<group>"; };
+		48114DDE1E8A7FE900597496 /* GuestListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GuestListCell.xib; sourceTree = "<group>"; };
 		48473EB21E1D580C00D52C15 /* WBTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTableView.h; sourceTree = "<group>"; };
 		48473EB31E1D580C00D52C15 /* WBTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTableView.m; sourceTree = "<group>"; };
 		48473EB41E1D580C00D52C15 /* WBTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTableViewCell.h; sourceTree = "<group>"; };
@@ -289,6 +317,35 @@
 			name = PTEHorizontalTableView;
 			sourceTree = "<group>";
 		};
+		48114DC31E8A6FD600597496 /* KyobeeGuestList */ = {
+			isa = PBXGroup;
+			children = (
+				48114DC41E8A702500597496 /* KyobeeGuestList.h */,
+				48114DC51E8A702500597496 /* KyobeeGuestList.m */,
+				48114DC61E8A702500597496 /* KyobeeGuestList.xib */,
+				48114DDC1E8A7FE900597496 /* GuestListCell.h */,
+				48114DDD1E8A7FE900597496 /* GuestListCell.m */,
+				48114DDE1E8A7FE900597496 /* GuestListCell.xib */,
+			);
+			name = KyobeeGuestList;
+			sourceTree = "<group>";
+		};
+		48114DC91E8A750900597496 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				48114DCA1E8A751800597496 /* SFDisplay-Black.otf */,
+				48114DCB1E8A751800597496 /* SFDisplay-Bold.otf */,
+				48114DCC1E8A751800597496 /* SFDisplay-Heavy.otf */,
+				48114DCD1E8A751800597496 /* SFDisplay-Light.otf */,
+				48114DCE1E8A751800597496 /* SFDisplay-Medium.otf */,
+				48114DCF1E8A751800597496 /* SFDisplay-Regular.otf */,
+				48114DD01E8A751800597496 /* SFDisplay-Semibold.otf */,
+				48114DD11E8A751800597496 /* SFDisplay-Thin.otf */,
+				48114DD21E8A751800597496 /* SFDisplay-Ultralight.otf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
 		48473EB11E1D57E300D52C15 /* WBTableView */ = {
 			isa = PBXGroup;
 			children = (
@@ -437,6 +494,7 @@
 		7ABB2FA51D8C1BE3000882B1 /* Kyobee */ = {
 			isa = PBXGroup;
 			children = (
+				48114DC91E8A750900597496 /* Fonts */,
 				480FB7E21E684FAD003546E2 /* PTEHorizontalTableView */,
 				48473EB11E1D57E300D52C15 /* WBTableView */,
 				48F5EE2D1DE0B61C00F44EC9 /* SDWebImage */,
@@ -449,6 +507,7 @@
 				4877FDF71DB8ECED00D64D93 /* LoginVC */,
 				4877FDF81DB8ED0100D64D93 /* DetailsVC */,
 				486AB0F31E4F415C00F8A415 /* GuestListVC */,
+				48114DC31E8A6FD600597496 /* KyobeeGuestList */,
 				7ABB2FAF1D8C1BE3000882B1 /* Main.storyboard */,
 				7ABB2FB21D8C1BE3000882B1 /* Assets.xcassets */,
 				7ABB2FB41D8C1BE3000882B1 /* LaunchScreen.storyboard */,
@@ -624,6 +683,7 @@
 				7ABB30231D8C1F62000882B1 /* Img_logo@2x.png in Resources */,
 				48B907EC1E52151000AFD2A9 /* imgRefresh@3x.png in Resources */,
 				48F5EE2C1DE0B5AA00F44EC9 /* RestoImage.png in Resources */,
+				48114DE01E8A7FE900597496 /* GuestListCell.xib in Resources */,
 				7ABB30001D8C1F62000882B1 /* btn_login.png in Resources */,
 				7ABB2FFE1D8C1F62000882B1 /* btn_check_Remember_me.png in Resources */,
 				48F5E2F11E23FADF006B4AEC /* imgRememberUnSel@3x.png in Resources */,
@@ -635,9 +695,11 @@
 				7ABB300B1D8C1F62000882B1 /* Img_login_popup_box.png in Resources */,
 				7ABB30241D8C1F62000882B1 /* img_popup_bg_blure@2x.png in Resources */,
 				7ABB2FB31D8C1BE3000882B1 /* Assets.xcassets in Resources */,
+				48114DD91E8A751800597496 /* SFDisplay-Semibold.otf in Resources */,
 				7ABB300A1D8C1F62000882B1 /* img_login_field.png in Resources */,
 				7ABB2FC41D8C1C7C000882B1 /* LoginVC.xib in Resources */,
 				7ABB2FFB1D8C1F62000882B1 /* login screen1.jpg in Resources */,
+				48114DDA1E8A751800597496 /* SFDisplay-Thin.otf in Resources */,
 				486AB0F81E4F41A100F8A415 /* GuestListVC.xib in Resources */,
 				7ABB300F1D8C1F62000882B1 /* Img_Required_filed.png in Resources */,
 				7ABB30091D8C1F62000882B1 /* img_kula_logo.png in Resources */,
@@ -645,6 +707,8 @@
 				7ABB30011D8C1F62000882B1 /* btn_ok.png in Resources */,
 				7ABB2FFA1D8C1F62000882B1 /* login screen(keys).jpg in Resources */,
 				48F5E2EC1E23FADF006B4AEC /* imgRememberSel.png in Resources */,
+				48114DC81E8A702500597496 /* KyobeeGuestList.xib in Resources */,
+				48114DDB1E8A751800597496 /* SFDisplay-Ultralight.otf in Resources */,
 				48F5E2EE1E23FADF006B4AEC /* imgRememberSel@3x.png in Resources */,
 				7ABB30121D8C1F62000882B1 /* Required1.jpg in Resources */,
 				7ABB30031D8C1F62000882B1 /* btn_selected_checkbox.png in Resources */,
@@ -656,13 +720,17 @@
 				7ABB30061D8C1F62000882B1 /* btn_unselected_checkbox.png in Resources */,
 				7ABB30161D8C1F62000882B1 /* btn_Close@2x.png in Resources */,
 				7ABB30101D8C1F62000882B1 /* Img_stand_line.png in Resources */,
+				48114DD71E8A751800597496 /* SFDisplay-Medium.otf in Resources */,
 				7ABB300E1D8C1F62000882B1 /* img_Required_bg.png in Resources */,
 				7ABB2FFF1D8C1F62000882B1 /* btn_Close.png in Resources */,
 				7ABB30271D8C1F62000882B1 /* Img_stand_line@2x.png in Resources */,
+				48114DD81E8A751800597496 /* SFDisplay-Regular.otf in Resources */,
+				48114DD51E8A751800597496 /* SFDisplay-Heavy.otf in Resources */,
 				7ABB30191D8C1F62000882B1 /* Btn_Press_here@2x.png in Resources */,
 				7ABB30041D8C1F62000882B1 /* btn_Uncheck_radio.png in Resources */,
 				7ABB2FB11D8C1BE3000882B1 /* Main.storyboard in Resources */,
 				48F5E2F01E23FADF006B4AEC /* imgRememberUnSel@2x.png in Resources */,
+				48114DD31E8A751800597496 /* SFDisplay-Black.otf in Resources */,
 				4884B7821E37C05C00868199 /* btnBackWhite@2x.png in Resources */,
 				7ABB30071D8C1F62000882B1 /* img_cell_phone_field.png in Resources */,
 				7ABB2FFC1D8C1F62000882B1 /* btn_add_me.png in Resources */,
@@ -671,6 +739,7 @@
 				7ABB30111D8C1F62000882B1 /* Img_Thanks_bg.png in Resources */,
 				7ABB301C1D8C1F62000882B1 /* btn_Uncheck_Remember_me@2x.png in Resources */,
 				7ABB30131D8C1F62000882B1 /* btn_add_me@2x.png in Resources */,
+				48114DD41E8A751800597496 /* SFDisplay-Bold.otf in Resources */,
 				7ABB301F1D8C1F62000882B1 /* Img_footer_bg@2x.png in Resources */,
 				48624B2E1DDB6D0D00EF9C34 /* SeatPrefCell.xib in Resources */,
 				4884B7811E37C05B00868199 /* btnBackWhite.png in Resources */,
@@ -679,6 +748,7 @@
 				7ABB30251D8C1F62000882B1 /* img_Required_bg@2x.png in Resources */,
 				7ABB300C1D8C1F62000882B1 /* Img_logo.png in Resources */,
 				7ABB30051D8C1F62000882B1 /* btn_Uncheck_Remember_me.png in Resources */,
+				48114DD61E8A751800597496 /* SFDisplay-Light.otf in Resources */,
 				7ABB30201D8C1F62000882B1 /* img_kula_logo@2x.png in Resources */,
 				7ABB301D1D8C1F62000882B1 /* btn_unselected_checkbox@2x.png in Resources */,
 				48B907EB1E52151000AFD2A9 /* imgRefresh@2x.png in Resources */,
@@ -773,7 +843,9 @@
 				48F5EE5B1DE0B64300F44EC9 /* UIImage+WebP.m in Sources */,
 				7ABB2FAE1D8C1BE3000882B1 /* ViewController.m in Sources */,
 				48F5EE5C1DE0B64300F44EC9 /* UIImageView+HighlightedWebCache.m in Sources */,
+				48114DC71E8A702500597496 /* KyobeeGuestList.m in Sources */,
 				7ABB2FAB1D8C1BE3000882B1 /* AppDelegate.m in Sources */,
+				48114DDF1E8A7FE900597496 /* GuestListCell.m in Sources */,
 				7ABB2FC31D8C1C7C000882B1 /* LoginVC.m in Sources */,
 				48F5EE581DE0B64300F44EC9 /* UIButton+WebCache.m in Sources */,
 				48473EB71E1D580C00D52C15 /* WBTableViewCell.m in Sources */,
