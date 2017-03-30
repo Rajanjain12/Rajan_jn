@@ -73,7 +73,7 @@ KyobeeControllers.controller('guestCtrl',
 							return;
 						}
 						
-						if($scope.guestDTO.prefType == null || $scope.guestDTO.prefType == 'undefined'){
+						if( $scope.userDTO.smsRoute != '' && ( $scope.guestDTO.prefType == null || $scope.guestDTO.prefType == 'undefined' )){
 							$scope.errorMsg = "Please select sms or email";
 							return;
 						}

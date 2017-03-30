@@ -33,6 +33,8 @@ public class UserDTO {
 	private String activationId;
 
 	private Long organizationId;
+	//Added Later
+	private String smsRoute;
 
 	public Long getUserId() {
 		return userId;
@@ -128,6 +130,14 @@ public class UserDTO {
 
 	public void setOrganizationId(Long organizationId) {
 		this.organizationId = organizationId;
+	}
+
+	public String getSmsRoute() {
+		return smsRoute;
+	}
+
+	public void setSmsRoute(String smsRoute) {
+		this.smsRoute = smsRoute;
 	}
 
 }

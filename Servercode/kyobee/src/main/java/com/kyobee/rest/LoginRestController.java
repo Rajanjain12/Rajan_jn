@@ -19,8 +19,10 @@ import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.UserDTO;
 import com.kyobee.dto.common.Credential;
 import com.kyobee.dto.common.Response;
+import com.kyobee.entity.Organization;
 import com.kyobee.entity.User;
 import com.kyobee.exception.RsntException;
+import com.kyobee.service.IOrganizationService;
 import com.kyobee.service.ISecurityService;
 import com.kyobee.service.IWaitListService;
 import com.kyobee.util.SessionContextUtil;
@@ -39,6 +41,9 @@ public class LoginRestController {
 	
 	@Autowired
 	private IWaitListService waitListService;
+	
+	@Autowired
+	IOrganizationService orgService;
 	
 	@Autowired
 	SessionContextUtil sessionContextUtil;
@@ -105,10 +110,12 @@ public class LoginRestController {
 			System.out.println("password--"+loginDetail[0].toString());
 			System.out.println("OrgId--"+loginDetail[1].toString());
 			System.out.println("logofile name--"+loginDetail[2].toString());
+			System.out.println("sms route--"+loginDetail[4].toString());
 			
 			rootMap.put("OrgId",loginDetail[1].toString());
 			rootMap.put("logofile name",loginDetail[2].toString());
 			rootMap.put("clientBase",loginDetail[3].toString());
+			rootMap.put("smsRoute", loginDetail[4].toString());
 
 			List<GuestPreferencesDTO> searPref =  null;
 			try {
@@ -170,6 +177,8 @@ public class LoginRestController {
 		userDTO.setActive(loginUser.isActive());
 		userDTO.setPermissionList(new ArrayList<String>());
 		userDTO.setOrganizationId((Long) sessionContextUtil.get(Constants.CONST_ORGID));
+		Organization org=orgService.getOrganizationById((Long) sessionContextUtil.get(Constants.CONST_ORGID));
+		userDTO.setSmsRoute(org.getSmsRoute());
 		final List<String> userPermissions = securityService.getUserPermissions(loginUser.getUserId());
 		if (userPermissions != null && !userPermissions.isEmpty()) {
 			for (final String permission : userPermissions) {

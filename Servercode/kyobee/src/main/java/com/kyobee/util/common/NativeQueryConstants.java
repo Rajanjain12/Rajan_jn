@@ -419,6 +419,8 @@ public class NativeQueryConstants {
 	public static final String GET_ORG_GUEST_MAX_RANK = "SELECT IF(max(rank) IS NULL ,0,max(rank))  from GUEST WHERE OrganizationID =?1 and status in('CHECKIN','SEATED','DELETED','REMOVED') and resetTime is null";
 	
 	public static final String HQL_GET_GUESTS_CHECKIN_BY_ORG = "FROM Guest g WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId order by g.rank asc";
+	//Added Later for Gen enhancement
+	public static final String GET_GUESTS_CHECKIN_BY_ORG = "Select @row \\:= @row + 1 AS row, g.* , ( @row * oo.waitTime) WaitTime FROM GUEST g, (SELECT @row \\:= 0) x , ORGANIZATION oo WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId and oo.OrganizationID=:orgId order by g.rank asc";
 	public static final String HQL_GET_GUESTS_COUNT_CHECKIN_BY_ORG = "select count(*) FROM Guest g WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId";
 	public static final String HQL_GET_GUESTS_HISTORY = "FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN') and g.OrganizationID=:orgId order by g.rank asc";
 	public static final String HQL_GET_GUESTS_COUNT_HISTORY = "select count(*) FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN') and g.OrganizationID=:orgId order by g.rank asc";
@@ -442,7 +444,7 @@ public class NativeQueryConstants {
 	public static final String UPDATE_ORG_TOTAL_WAITTIME_INCREMENT = "update ORGANIZATION set TotalWaitTime = TotalWaitTime +  waitTime where organizationId = ?1";
 	public static final String UPDATE_ORG_TOTAL_WAITTIME_DECREMENT = "update ORGANIZATION set TotalWaitTime = TotalWaitTime -  waitTime where organizationId = ?1";
 	public static final String HQL_GET_TOP_GUEST_DETAILS_NOTMARKED = "from Guest WHERE status='CHECKIN' AND incompleteParty is NULL AND calloutCount is NULL AND resetTime is null AND OrganizationID =?1";
-	public static final String GET_USER_LOGIN_AUTH = "SELECT PASSWORD, ORGUSR.ORGANIZATIONID, ORG.logoFileName, ORG.clientBase FROM USER U INNER JOIN ORGANIZATIONUSER ORGUSR ON U.USERID = ORGUSR.USERID INNER JOIN ORGANIZATION ORG ON ORGUSR.ORGANIZATIONID = ORG.ORGANIZATIONID AND ORG.ACTIVEORGANIZATIONPLANID IS NOT NULL WHERE U.USERNAME=:username AND U.ACTIVE=1";
+	public static final String GET_USER_LOGIN_AUTH = "SELECT PASSWORD, ORGUSR.ORGANIZATIONID, ORG.logoFileName, ORG.clientBase , ORG.smsRoute FROM USER U INNER JOIN ORGANIZATIONUSER ORGUSR ON U.USERID = ORGUSR.USERID INNER JOIN ORGANIZATION ORG ON ORGUSR.ORGANIZATIONID = ORG.ORGANIZATIONID AND ORG.ACTIVEORGANIZATIONPLANID IS NOT NULL WHERE U.USERNAME=:username AND U.ACTIVE=1";
 	
 	public static final String CHECK_ORGANIZATION_IF_EXISTS = "FROM Organization u WHERE u.organizationName=:orgName";
 	public static final String CHECK_USER_IF_EXISTS = "FROM User u WHERE u.userName=:userName";

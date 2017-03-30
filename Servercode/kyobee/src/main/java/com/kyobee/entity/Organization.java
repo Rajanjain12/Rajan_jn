@@ -28,12 +28,15 @@ import org.hibernate.annotations.Type;
 			" left  join fetch o.feedbackQuestionaire feedbackQuestionaire where o.organizationId=?1"),
 	@NamedQuery(name=Organization.GET_ORGANIZATIONAL_CAT_DETAIL,query="Select o from Organization o  " +
 			" left join fetch o.organizationCategoryList organizationCategoryList " +
-			"  where o.organizationId=?1")
+			"  where o.organizationId=?1"),
+	@NamedQuery(name=Organization.GET_ORGANIZATION_BY_ID,query="Select o from Organization o  " +			
+			"  where o.organizationId=:organizationId")
 })
 public class Organization extends BaseEntity {
 
 	public static final String GET_ORGANIZATIONAL_DETAIL = "getOrganizationalDetail";
 	public static final String GET_ORGANIZATIONAL_CAT_DETAIL = "getOrganizationalCatDetail";
+	public static final String GET_ORGANIZATION_BY_ID = "getOrganizationById";
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
