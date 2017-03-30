@@ -60,18 +60,18 @@
                     </constraints>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oSf-iQ-Qew">
-                    <rect key="frame" x="25" y="13" width="35" height="35"/>
+                    <rect key="frame" x="25" y="20" width="25" height="25"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="35" id="Nbb-1C-6GY"/>
-                        <constraint firstAttribute="width" constant="35" id="jef-g1-JbZ"/>
+                        <constraint firstAttribute="height" constant="25" id="Nbb-1C-6GY"/>
+                        <constraint firstAttribute="width" constant="25" id="jef-g1-JbZ"/>
                     </constraints>
-                    <state key="normal" image="imgRefresh.png"/>
+                    <state key="normal" image="imgRefreshGray.png"/>
                     <connections>
                         <action selector="btnRefresh_clicked:" destination="-1" eventType="touchUpInside" id="VnC-4N-w0X"/>
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright KYOBEE. All Rights Reserved - Version 1.0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qSe-iH-snY">
-                    <rect key="frame" x="5" y="54" width="300" height="18"/>
+                    <rect key="frame" x="5" y="51" width="300" height="18"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="18" id="c68-C4-Nky"/>
                         <constraint firstAttribute="width" constant="300" id="f3v-vF-QYf"/>
@@ -357,7 +357,7 @@
                 <constraint firstItem="Bgh-qr-apB" firstAttribute="trailing" secondItem="EJh-S9-hRZ" secondAttribute="trailing" constant="-20" id="fXM-lQ-YwU"/>
                 <constraint firstItem="Vig-2j-Jo5" firstAttribute="top" secondItem="RGk-qV-yH7" secondAttribute="top" constant="35" id="gCe-6c-pWt"/>
                 <constraint firstAttribute="trailing" secondItem="r9X-ra-yRo" secondAttribute="trailing" id="ibb-iP-ccs"/>
-                <constraint firstItem="oSf-iQ-Qew" firstAttribute="top" secondItem="RGk-qV-yH7" secondAttribute="top" constant="13" id="ilq-5p-5Is"/>
+                <constraint firstItem="oSf-iQ-Qew" firstAttribute="top" secondItem="RGk-qV-yH7" secondAttribute="top" constant="20" id="ilq-5p-5Is"/>
                 <constraint firstItem="Vat-aK-P3I" firstAttribute="centerX" secondItem="46F-ws-Ko9" secondAttribute="centerX" id="j3d-g3-Zih"/>
                 <constraint firstItem="3yc-Ih-oUE" firstAttribute="top" secondItem="r9X-ra-yRo" secondAttribute="bottom" id="jLV-eP-fUx"/>
                 <constraint firstItem="EJh-S9-hRZ" firstAttribute="leading" secondItem="nae-0r-jS4" secondAttribute="trailing" id="kEu-uL-s6b"/>
@@ -386,6 +386,6 @@
     </objects>
     <resources>
         <image name="RestoImage.png" width="150" height="117"/>
-        <image name="imgRefresh.png" width="60" height="60"/>
+        <image name="imgRefreshGray.png" width="60" height="60"/>
     </resources>
 </document>
