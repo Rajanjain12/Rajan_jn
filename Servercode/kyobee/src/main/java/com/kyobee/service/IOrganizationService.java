@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kyobee.dto.GuestPreferencesDTO;
-import com.kyobee.dto.GuestWrapper;
+
 import com.kyobee.dto.WaitlistMetrics;
 import com.kyobee.entity.Guest;
 import com.kyobee.entity.GuestNotificationBean;
