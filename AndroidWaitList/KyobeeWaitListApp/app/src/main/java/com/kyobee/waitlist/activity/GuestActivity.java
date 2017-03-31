@@ -2,10 +2,12 @@ package com.kyobee.waitlist.activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -15,6 +17,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -72,10 +75,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GuestActivity extends AppCompatActivity implements RealTimePush.RealTimeListener,ConnectivityReceiver.ConnectivityReceiverListener{
+public class GuestActivity extends AppCompatActivity implements RealTimePush.RealTimeListener, ConnectivityReceiver.ConnectivityReceiverListener{
 
     public static String LOGTAG = GuestActivity.class.getSimpleName ();
     CustomTextViewRegular txtCopyRight;
+    CustomTextViewBold txtWelcome;
     CustomButtonBold btnCheckIn;
     CustomTextViewBold txtWaiting, txtNumber, txtTime;
     AppCompatActivity activity;
@@ -90,6 +94,34 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
     RealTimePush realTimePush;
     AlertDialog alertDialog;
     private APIService mAPIService;
+    View view;
+    boolean validateEmailPhone=false;
+
+
+    CountDownTimer cTimer = null;
+    //start timer function
+    public void startTimer (){
+        cTimer = new CountDownTimer (3000, 1000){
+            public void onTick (long millisUntilFinished){
+            }
+
+            public void onFinish (){
+                cancelTimer ();
+                Kyobee.getInstance ().logout ();
+                startActivity (new Intent (activity, LoginActivity.class));
+                finish ();
+                //CustomDialog.logoutDialog (activity, activity.getString (R.string.kyobee), activity.getString (R.string.logout));
+
+            }
+        };
+        cTimer.start ();
+    }
+
+    //cancel timer
+    public void cancelTimer (){
+        if (cTimer != null)
+            cTimer.cancel ();
+    }
 
     @Override
     public void onCreate (Bundle savedInstanceState){
@@ -97,6 +129,13 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
         setContentView (R.layout.activity_guest);
         activity = this;
         login = GSONGetSet.getLogin ();
+        //login.setSmsRoute (null);
+        if(login.getSmsRoute ()==null || login.getSmsRoute ().equalsIgnoreCase ("")){
+            validateEmailPhone=false;
+        }else{
+            validateEmailPhone=true;
+        }
+
         realTimePush = new RealTimePush (activity, login);
 
         orgId = Kyobee.getInstance ().getOrgId ();
@@ -107,11 +146,12 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
         txtWaiting = (CustomTextViewBold) findViewById (R.id.txtWaiting);
         txtNumber = (CustomTextViewBold) findViewById (R.id.txtNumber);
         txtTime = (CustomTextViewBold) findViewById (R.id.txtTime);
-
+        txtWelcome=(CustomTextViewBold)findViewById (R.id.txtWelcome);
         txtCopyRight = (CustomTextViewRegular) findViewById (R.id.txtCopyRight);
         String version = getString (R.string.copyright) + " " + AppInfo.getAppVersionName (this);
         txtCopyRight.setText (version);
 
+        view=(View)findViewById (R.id.myView);
         imgPath = General.IMAGE + login.getLogofileName ();
 
         btnCheckIn.setOnClickListener (new View.OnClickListener (){
@@ -129,7 +169,25 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
             @Override
             public void onClick (View v){
 
-                CustomDialog.logoutDialog (activity, activity.getString (R.string.kyobee), activity.getString (R.string.logout));
+              //  CustomDialog.logoutDialog (activity, activity.getString (R.string.kyobee), activity.getString (R.string.logout));
+            }
+        });
+
+
+        view.setOnTouchListener (new View.OnTouchListener (){
+            @Override
+            public boolean onTouch (View v, MotionEvent event){
+                int pointerIndex = ((event.getAction () & MotionEvent.ACTION_POINTER_ID_MASK) >> MotionEvent.ACTION_POINTER_ID_SHIFT);
+                int action = event.getAction () & MotionEvent.ACTION_MASK;
+                int pointerId = event.getPointerId (pointerIndex);
+                Log.i ("", "Pointer ID = " + pointerId);
+                switch (action){
+                    case MotionEvent.ACTION_POINTER_UP:{
+                        startTimer ();
+                        break;
+                    }
+                }
+                return true;
             }
         });
 
@@ -138,7 +196,7 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
 
     @Override
     public void onNetworkConnectionChanged (boolean isConnected){
-        if(isConnected)
+        if (isConnected)
             callWaiting (false);
     }
 
@@ -194,7 +252,6 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
         final CheckBox chkReceive = (CheckBox) view.findViewById (R.id.chkReceive);
         CustomButtonRegular btnAddMe = (CustomButtonRegular) view.findViewById (R.id.btnAddMe);
         LinearLayout linearReceive = (LinearLayout) view.findViewById (R.id.linearReceive);
-
 
         spnrPeople.setOnItemSelectedListener (new AdapterView.OnItemSelectedListener (){
             @Override
@@ -343,11 +400,11 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
                     else
                         requestAddGuest.setOptin ("false");
 
-                    if (radioEmail.isChecked ()){
+                    if (radioEmail.isChecked () && validateEmailPhone){
                         requestAddGuest.setPrefType ("email");
                         requestAddGuest.setEmail (edtEmail.getText ().toString ());
                         requestAddGuest.setSms ("");
-                    } else if (radioPhone.isChecked ()){
+                    } else if (radioPhone.isChecked () && validateEmailPhone){
                         String digits = edtPhone.getText ().toString ().replaceAll ("[^0-9.]", "");
                         requestAddGuest.setPrefType ("SMS");
                         requestAddGuest.setSms (digits);
@@ -364,20 +421,28 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
 
                     if (requestAddGuest.getName ().equalsIgnoreCase ("") && (requestAddGuest.getSms ().equalsIgnoreCase ("") && requestAddGuest.getEmail ().equalsIgnoreCase ("")) && requestAddGuest.getNoOfPeople ().equalsIgnoreCase ("0")){
                         edtName.setBackgroundResource (R.drawable.wrong_border);
-                        edtEmail.setBackgroundResource (R.drawable.wrong_border);
-                        edtPhone.setBackgroundResource (R.drawable.wrong_border);
+                        if (validateEmailPhone){
+                            edtEmail.setBackgroundResource (R.drawable.wrong_border);
+                            edtPhone.setBackgroundResource (R.drawable.wrong_border);
+                        }
                         spnrPeople.setBackgroundResource (R.drawable.wrong_border);
+
                     } else if (requestAddGuest.getName ().equalsIgnoreCase ("")){
                         edtName.setBackgroundResource (R.drawable.wrong_border);
-                    } else if (requestAddGuest.getSms ().equalsIgnoreCase ("") && requestAddGuest.getEmail ().equalsIgnoreCase ("")){
+
+                    } else if (requestAddGuest.getSms ().equalsIgnoreCase ("") && requestAddGuest.getEmail ().equalsIgnoreCase ("")&& validateEmailPhone){
                         edtEmail.setBackgroundResource (R.drawable.wrong_border);
                         edtPhone.setBackgroundResource (R.drawable.wrong_border);
-                    } else if (requestAddGuest.getSms ().equalsIgnoreCase ("") && !Validation.emailValidator (requestAddGuest.getEmail ())){
+
+                    } else if (requestAddGuest.getSms ().equalsIgnoreCase ("") && !Validation.emailValidator (requestAddGuest.getEmail ()) && validateEmailPhone){
                         edtEmail.setBackgroundResource (R.drawable.wrong_border);
-                    } else if (!Validation.phoneValidator (edtPhone.getText ().toString ()) && requestAddGuest.getEmail ().toString ().equalsIgnoreCase ("")){
+
+                    } else if (!Validation.phoneValidator (edtPhone.getText ().toString ()) && requestAddGuest.getEmail ().toString ().equalsIgnoreCase ("") && validateEmailPhone){
                         edtPhone.setBackgroundResource (R.drawable.wrong_border);
+
                     } else if (requestAddGuest.getNoOfPeople ().equalsIgnoreCase ("0")){
                         spnrPeople.setBackgroundResource (R.drawable.wrong_border);
+
                     } else if (requestAddGuest.getGuestPreferences ().size () < 1){
                         CustomDialog.showAlertDialog (activity, activity.getString (R.string.kyobee), activity.getString (R.string.please_select));
                     } else{
@@ -482,10 +547,11 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
         } else{
             width = displayMetrics.widthPixels;
         }
-        Window window = alertDialog.getWindow ();
-        window.setGravity (Gravity.CENTER);
-        window.setLayout ((width * 95) / 100, WindowManager.LayoutParams.WRAP_CONTENT);
-
+        if (alertDialog != null){
+            Window window = alertDialog.getWindow ();
+            window.setGravity (Gravity.CENTER);
+            window.setLayout ((width * 95) / 100, WindowManager.LayoutParams.WRAP_CONTENT);
+        }
     }
 
     public void callWaiting (boolean progress){
@@ -573,7 +639,6 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
     public void onConfigurationChanged (Configuration newConfig){
         super.onConfigurationChanged (newConfig);
         updateDialogSize ();
-
     }
 
     @Override

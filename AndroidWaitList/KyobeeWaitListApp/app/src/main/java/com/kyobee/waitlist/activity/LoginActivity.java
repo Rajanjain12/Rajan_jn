@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity{
                     startActivity (new Intent (activity, GuestActivity.class));
                     finish ();
                 } else if (Kyobee.getInstance ().getLoginMode () == DISPLAY_MODE){
-                    startActivity (new Intent (activity, DisplayActivity.class));
+                    startActivity (new Intent (activity, DisplayMultiActivity.class));
                     finish ();
                 }
             } else{
@@ -163,10 +163,10 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     public void validation (){
-        //username = edtUsername.getText ().toString ();
-        //password = edtPassword.getText ().toString ();
-        username = "jkim@kyobee.com";
-        password = "jaekim";
+        username = edtUsername.getText ().toString ();
+        password = edtPassword.getText ().toString ();
+        //username = "jkim@kyobee.com";
+        //password = "jaekim";
         if (username.equalsIgnoreCase ("")){
             CustomDialog.showAlertDialog (LoginActivity.this, "Kyobee", "All fields are mandatory.");
         } else if (password.equalsIgnoreCase ("")){
@@ -241,7 +241,7 @@ public class LoginActivity extends AppCompatActivity{
             @Override
             public void onClick (View v){
                 Kyobee.getInstance ().setLoginMode (DISPLAY_MODE);
-                startActivity (new Intent (activity, DisplayActivity.class));
+                startActivity (new Intent (activity, DisplayMultiActivity.class));
                 finish ();
             }
         });
@@ -264,10 +264,11 @@ public class LoginActivity extends AppCompatActivity{
         } else{
             width = displayMetrics.widthPixels;
         }
-        Window window = alertDialog.getWindow ();
-        window.setGravity (Gravity.CENTER);
-        window.setLayout (width, WindowManager.LayoutParams.WRAP_CONTENT);
-
+        if(alertDialog!=null){
+            Window window = alertDialog.getWindow ();
+            window.setGravity (Gravity.CENTER);
+            window.setLayout (width, WindowManager.LayoutParams.WRAP_CONTENT);
+        }
     }
 
 

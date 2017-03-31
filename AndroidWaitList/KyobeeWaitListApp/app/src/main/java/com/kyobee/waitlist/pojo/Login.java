@@ -16,6 +16,11 @@ public class Login{
     @SerializedName("seatpref")
     @Expose
     private List<Seatpref> seatpref = null;
+
+    @SerializedName("smsRoute")
+    @Expose
+    private String smsRoute="";
+
     @SerializedName("success")
     @Expose
     private String success;
@@ -74,4 +79,13 @@ public class Login{
     public void setError (String error){
         this.error = error;
     }
+
+    public String getSmsRoute() {
+        return smsRoute;
+    }
+
+    public void setSmsRoute(String smsRoute) {
+        this.smsRoute = smsRoute;
+    }
+
 }
