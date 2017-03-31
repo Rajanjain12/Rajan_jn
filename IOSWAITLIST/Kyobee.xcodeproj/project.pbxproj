@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4804D0DE1E8E65ED0092180E /* imgDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 4804D0DB1E8E65ED0092180E /* imgDown.png */; };
+		4804D0DF1E8E65ED0092180E /* imgDown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4804D0DC1E8E65ED0092180E /* imgDown@2x.png */; };
+		4804D0E01E8E65ED0092180E /* imgDown@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4804D0DD1E8E65ED0092180E /* imgDown@3x.png */; };
 		480FB7E51E684FDA003546E2 /* PTEHorizontalTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 480FB7E41E684FDA003546E2 /* PTEHorizontalTableView.m */; };
 		48114DC71E8A702500597496 /* KyobeeGuestList.m in Sources */ = {isa = PBXBuildFile; fileRef = 48114DC51E8A702500597496 /* KyobeeGuestList.m */; };
 		48114DC81E8A702500597496 /* KyobeeGuestList.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48114DC61E8A702500597496 /* KyobeeGuestList.xib */; };
@@ -135,6 +138,9 @@
 
 /* Begin PBXFileReference section */
 		1956CF9B8355EAE15E6D3DE4 /* libPods-Kyobee.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Kyobee.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4804D0DB1E8E65ED0092180E /* imgDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imgDown.png; sourceTree = "<group>"; };
+		4804D0DC1E8E65ED0092180E /* imgDown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "imgDown@2x.png"; sourceTree = "<group>"; };
+		4804D0DD1E8E65ED0092180E /* imgDown@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "imgDown@3x.png"; sourceTree = "<group>"; };
 		480FB7E31E684FDA003546E2 /* PTEHorizontalTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTEHorizontalTableView.h; sourceTree = "<group>"; };
 		480FB7E41E684FDA003546E2 /* PTEHorizontalTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTEHorizontalTableView.m; sourceTree = "<group>"; };
 		48114DC41E8A702500597496 /* KyobeeGuestList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KyobeeGuestList.h; sourceTree = "<group>"; };
@@ -541,6 +547,9 @@
 		7ABB2FC51D8C1F62000882B1 /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				4804D0DB1E8E65ED0092180E /* imgDown.png */,
+				4804D0DC1E8E65ED0092180E /* imgDown@2x.png */,
+				4804D0DD1E8E65ED0092180E /* imgDown@3x.png */,
 				48434DF91E8D117F009A82A7 /* imgRefreshGray.png */,
 				48434DFA1E8D117F009A82A7 /* imgRefreshGray@2x.png */,
 				48434DFB1E8D117F009A82A7 /* imgRefreshGray@3x.png */,
@@ -701,6 +710,7 @@
 				7ABB30231D8C1F62000882B1 /* Img_logo@2x.png in Resources */,
 				48B907EC1E52151000AFD2A9 /* imgRefresh@3x.png in Resources */,
 				48F5EE2C1DE0B5AA00F44EC9 /* RestoImage.png in Resources */,
+				4804D0DE1E8E65ED0092180E /* imgDown.png in Resources */,
 				48114DE01E8A7FE900597496 /* GuestListCell.xib in Resources */,
 				7ABB30001D8C1F62000882B1 /* btn_login.png in Resources */,
 				7ABB2FFE1D8C1F62000882B1 /* btn_check_Remember_me.png in Resources */,
@@ -723,6 +733,7 @@
 				48114DDA1E8A751800597496 /* SFDisplay-Thin.otf in Resources */,
 				486AB0F81E4F41A100F8A415 /* GuestListVC.xib in Resources */,
 				48434DFD1E8D117F009A82A7 /* imgRefreshGray@2x.png in Resources */,
+				4804D0DF1E8E65ED0092180E /* imgDown@2x.png in Resources */,
 				7ABB300F1D8C1F62000882B1 /* Img_Required_filed.png in Resources */,
 				7ABB30091D8C1F62000882B1 /* img_kula_logo.png in Resources */,
 				7ABB301A1D8C1F62000882B1 /* btn_selected_checkbox@2x.png in Resources */,
@@ -757,6 +768,7 @@
 				48114DD31E8A751800597496 /* SFDisplay-Black.otf in Resources */,
 				4884B7821E37C05C00868199 /* btnBackWhite@2x.png in Resources */,
 				7ABB30071D8C1F62000882B1 /* img_cell_phone_field.png in Resources */,
+				4804D0E01E8E65ED0092180E /* imgDown@3x.png in Resources */,
 				7ABB2FFC1D8C1F62000882B1 /* btn_add_me.png in Resources */,
 				7ABB2FFD1D8C1F62000882B1 /* btn_Check_radio.png in Resources */,
 				7ABB300D1D8C1F62000882B1 /* img_popup_bg_blure.png in Resources */,

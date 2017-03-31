@@ -13,6 +13,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *lblRank;
 @property (strong, nonatomic) IBOutlet UILabel *lblName;
 @property (strong, nonatomic) IBOutlet UILabel *lblSeparator;
+@property (strong, nonatomic) IBOutlet UIImageView *imgThumb;
 
 
 @end

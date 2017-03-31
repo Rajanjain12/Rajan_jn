@@ -190,6 +190,7 @@
                                  
                                  [guestArray addObjectsFromArray:guestList];
                                  
+                                 
                                  if(arrayLess30.count > 0)
                                  {
                                      [arrayLess30 removeAllObjects];
@@ -204,11 +205,22 @@
                                  }
                                  
                                  // For Less Than 30
-                                 for(int i = 0; i < [guestArray count]; i++)
+                                 /*for(int i = 0; i < [guestArray count]; i++)
                                  {
                                      if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 30)
                                      {
                                          [arrayLess30 addObject:[guestArray objectAtIndex:i]];
+                                     }
+                                 }*/
+                                 
+                                 for(int i = 0; i < [guestArray count]; i++)
+                                 {
+                                     
+                                     [arrayLess30 addObject:[guestArray objectAtIndex:i]];
+                                     
+                                     if(i == 24)
+                                     {
+                                         break;
                                      }
                                  }
                                  
@@ -227,13 +239,26 @@
                                  
                                  
                                  // For Less Than 60
-                                 for(int i = 0; i < [guestArray count]; i++)
+                                 /*for(int i = 0; i < [guestArray count]; i++)
                                  {
                                      if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] > 30 & [[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 60)
                                      //if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 60)
                                      {
                                          [arrayLess60 addObject:[guestArray objectAtIndex:i]];
                                      }
+                                 }*/
+                                 
+                                 
+                                 for(int i = 25; i < [guestArray count]; i++)
+                                 {
+                                     
+                                    [arrayLess60 addObject:[guestArray objectAtIndex:i]];
+                                     
+                                     if(i == 49)
+                                     {
+                                         break;
+                                     }
+                                     
                                  }
                                  
                                  if(arrayLess60.count > 0)
@@ -250,13 +275,24 @@
                                  
                                  
                                  // For Less Than 90
-                                 for(int i = 0; i < [guestArray count]; i++)
+                                 /*for(int i = 0; i < [guestArray count]; i++)
                                  {
                                      if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] > 60 & [[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 90)
                                      //if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 90)
                                      {
                                          [arrayLess90 addObject:[guestArray objectAtIndex:i]];
                                      }
+                                 }*/
+                                 
+                                 for(int i = 50; i < [guestArray count]; i++)
+                                 {
+                                    [arrayLess90 addObject:[guestArray objectAtIndex:i]];
+                                     
+                                     if(i == 74)
+                                     {
+                                         break;
+                                     }
+                                     
                                  }
                                  
                                  if(arrayLess90.count > 0)
@@ -396,8 +432,21 @@
         cell.lblRank.text = [NSString stringWithFormat:@"%@",[[arrayLess30 objectAtIndex:indexPath.row] valueForKey:@"rank"]];
         cell.lblName.text = [NSString stringWithFormat:@"%@",[[arrayLess30 objectAtIndex:indexPath.row] valueForKey:@"name"]];
         
+        if (![[[arrayLess30 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+        {
+            cell.imgThumb.hidden = false;
+        }
         
-        cell.backgroundColor = [UIColor clearColor];
+        if (![[[arrayLess30 objectAtIndex:indexPath.row]valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+        {
+            cell.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
+        }
+        else
+        {
+            cell.backgroundColor = [UIColor clearColor];
+        }
+        
+        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         return cell;
@@ -417,7 +466,21 @@
         cell.lblName.text = [NSString stringWithFormat:@"%@",[[arrayLess60 objectAtIndex:indexPath.row] valueForKey:@"name"]];
         
         
-        cell.backgroundColor = [UIColor clearColor];
+        
+        if (![[[arrayLess60 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+        {
+            cell.imgThumb.hidden = false;
+        }
+        
+        if (![[[arrayLess60 objectAtIndex:indexPath.row]valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+        {
+            cell.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
+        }
+        else
+        {
+            cell.backgroundColor = [UIColor clearColor];
+        }
+        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         return cell;
@@ -437,7 +500,22 @@
         cell.lblName.text = [NSString stringWithFormat:@"%@",[[arrayLess90 objectAtIndex:indexPath.row] valueForKey:@"name"]];
         
         
-        cell.backgroundColor = [UIColor clearColor];
+        
+        
+        if (![[[arrayLess90 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+        {
+            cell.imgThumb.hidden = false;
+        }
+        
+        if (![[[arrayLess90 objectAtIndex:indexPath.row]valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+        {
+            cell.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:0.0/255.0 alpha:1.0];
+        }
+        else
+        {
+            cell.backgroundColor = [UIColor clearColor];
+        }
+        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         return cell;
@@ -498,6 +576,11 @@
          }
          else if([[json valueForKey:@"OP"] isEqualToString:@"UpdageGuestInfo"])
          {
+             
+             [self fetchList];
+             
+             /*
+             
              // from less 30
              for(int i = 0; i<[arrayLess30 count]; i++)
              {
@@ -573,10 +656,14 @@
                      [tblView90 reloadData];
                  }
              }
+             
+             */
          }
          else if([[json valueForKey:@"OP"] isEqualToString:@"UPD"])
          {
+             [self fetchList];
              
+             /*
              jsonForNotPresentAndIcomplete = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
              
              // from less 30
@@ -689,6 +776,8 @@
                      
                  }
              }
+             
+             */
          }
          else if([[json valueForKey:@"OP"] isEqualToString:@"MARK_AS_SEATED"])
          {
@@ -819,13 +908,24 @@
                                  }
                                  
                                  // For Less Than 30
-                                 for(int i = 0; i < [guestArray count]; i++)
+                                 /*for(int i = 0; i < [guestArray count]; i++)
                                  {
                                      if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 30)
                                      {
                                          [arrayLess30 addObject:[guestArray objectAtIndex:i]];
                                      }
+                                 }*/
+                                 for(int i = 0; i < [guestArray count]; i++)
+                                 {
+                                     
+                                     [arrayLess30 addObject:[guestArray objectAtIndex:i]];
+                                     
+                                     if(i == 24)
+                                     {
+                                         break;
+                                     }
                                  }
+                                 
                                  
                                  if(arrayLess30.count > 0)
                                  {
@@ -842,14 +942,27 @@
                                  
                                  
                                  // For Less Than 60
-                                 for(int i = 0; i < [guestArray count]; i++)
+                                 /*for(int i = 0; i < [guestArray count]; i++)
                                  {
                                      if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] > 30 & [[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 60)
                                          //if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 60)
                                      {
                                          [arrayLess60 addObject:[guestArray objectAtIndex:i]];
                                      }
+                                 }*/
+                                 
+                                 for(int i = 25; i < [guestArray count]; i++)
+                                 {
+                                     
+                                     [arrayLess60 addObject:[guestArray objectAtIndex:i]];
+                                     
+                                     if(i == 49)
+                                     {
+                                         break;
+                                     }
+                                     
                                  }
+                                 
                                  
                                  if(arrayLess60.count > 0)
                                  {
@@ -865,13 +978,24 @@
                                  
                                  
                                  // For Less Than 90
-                                 for(int i = 0; i < [guestArray count]; i++)
+                                 /*for(int i = 0; i < [guestArray count]; i++)
                                  {
                                      if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] > 60 & [[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 90)
                                          //if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 90)
                                      {
                                          [arrayLess90 addObject:[guestArray objectAtIndex:i]];
                                      }
+                                 }*/
+                                 
+                                 for(int i = 50; i < [guestArray count]; i++)
+                                 {
+                                     [arrayLess90 addObject:[guestArray objectAtIndex:i]];
+                                     
+                                     if(i == 74)
+                                     {
+                                         break;
+                                     }
+                                     
                                  }
                                  
                                  if(arrayLess90.count > 0)

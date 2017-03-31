@@ -34,13 +34,20 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GUEST NAME" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LqQ-T0-ZuK">
-                        <rect key="frame" x="120" y="2" width="210" height="20"/>
+                        <rect key="frame" x="120" y="2" width="182" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="JzS-nP-I9K"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="15"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imgDown.png" translatesAutoresizingMaskIntoConstraints="NO" id="h29-GV-jeA">
+                        <rect key="frame" x="314" y="2" width="18" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="18" id="ghL-sp-SKJ"/>
+                            <constraint firstAttribute="height" constant="21" id="jkB-ZI-Y1m"/>
+                        </constraints>
+                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="deI-j5-Wgc">
                         <rect key="frame" x="0.0" y="23" width="340" height="1"/>
                         <color key="backgroundColor" red="0.61960784313725492" green="0.59215686274509804" blue="0.55294117647058827" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -53,17 +60,20 @@
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="trailingMargin" secondItem="h29-GV-jeA" secondAttribute="trailing" id="8MH-tD-6Re"/>
                     <constraint firstAttribute="bottomMargin" secondItem="deI-j5-Wgc" secondAttribute="bottom" constant="-8" id="Ceq-Rj-KNp"/>
                     <constraint firstItem="deI-j5-Wgc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-8" id="OoY-Uh-kMd"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="LqQ-T0-ZuK" secondAttribute="trailing" constant="2" id="TmT-Rv-gbh"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="LqQ-T0-ZuK" secondAttribute="trailing" constant="30" id="TmT-Rv-gbh"/>
                     <constraint firstItem="Ybe-So-ApF" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="UPD-dC-0YZ"/>
                     <constraint firstItem="Ybe-So-ApF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="12" id="gUM-XJ-CIs"/>
                     <constraint firstAttribute="trailingMargin" secondItem="deI-j5-Wgc" secondAttribute="trailing" constant="-8" id="hKt-03-O5H"/>
                     <constraint firstItem="LqQ-T0-ZuK" firstAttribute="leading" secondItem="Ybe-So-ApF" secondAttribute="trailing" constant="25" id="hnu-eI-IEE"/>
                     <constraint firstItem="LqQ-T0-ZuK" firstAttribute="centerY" secondItem="Ybe-So-ApF" secondAttribute="centerY" id="rhp-WE-LCf"/>
+                    <constraint firstItem="h29-GV-jeA" firstAttribute="centerY" secondItem="LqQ-T0-ZuK" secondAttribute="centerY" id="rxY-v2-5zs"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="imgThumb" destination="h29-GV-jeA" id="47V-2v-u0D"/>
                 <outlet property="lblName" destination="LqQ-T0-ZuK" id="18r-Gb-8aZ"/>
                 <outlet property="lblRank" destination="Ybe-So-ApF" id="BSE-EV-kws"/>
                 <outlet property="lblSeparator" destination="deI-j5-Wgc" id="iZJ-0y-PDC"/>
@@ -71,4 +81,7 @@
             <point key="canvasLocation" x="35" y="51.5"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="imgDown.png" width="20" height="23"/>
+    </resources>
 </document>
