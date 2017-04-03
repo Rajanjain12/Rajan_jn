@@ -17,6 +17,15 @@
         android:paddingTop="5dp"
         >
 
+        <RelativeLayout
+            android:id="@+id/reltiveSettings"
+            android:layout_width="200dp"
+            android:layout_height="110dp"
+            android:layout_alignParentLeft="true"
+            >
+
+        </RelativeLayout>
+
         <ImageView
             android:id="@+id/imgRefresh"
             android:layout_width="42dp"
@@ -25,6 +34,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:src="@drawable/ic_refresh_gray"
+            android:visibility="gone"
             />
 
         <ImageView
@@ -111,6 +121,7 @@
             android:layout_below="@+id/relativeTop"
             android:gravity="center"
             android:orientation="horizontal"
+            android:visibility="gone"
             >
 
             <ImageView
@@ -254,6 +265,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
                         android:layout_centerInParent="true"
+                        android:visibility="gone"
                         />
 
                 </RelativeLayout>
@@ -358,6 +370,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
                         android:layout_centerInParent="true"
+                        android:visibility="gone"
                         />
 
                 </RelativeLayout>
@@ -460,6 +473,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
                         android:layout_centerInParent="true"
+                        android:visibility="gone"
                         />
 
                 </RelativeLayout>

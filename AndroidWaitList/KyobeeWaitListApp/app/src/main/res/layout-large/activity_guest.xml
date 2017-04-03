@@ -16,14 +16,23 @@
         >
 
         <View
-            android:id="@+id/myView"
+            android:id="@+id/viewLogout"
             android:layout_width="200dp"
             android:layout_height="70dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_centerVertical="true"
-
             />
+
+        <View
+            android:id="@+id/viewSetting"
+            android:layout_width="200dp"
+            android:layout_height="70dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            />
+
 
         <com.kyobee.waitlist.customcontrol.CustomTextViewBold
             android:id="@+id/txtWelcome"

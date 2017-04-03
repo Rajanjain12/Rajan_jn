@@ -17,6 +17,15 @@
         android:paddingTop="5dp"
         >
 
+        <RelativeLayout
+            android:id="@+id/reltiveSettings"
+            android:layout_width="200dp"
+            android:layout_height="110dp"
+            android:layout_alignParentLeft="true"
+            >
+
+        </RelativeLayout>
+
         <ImageView
             android:id="@+id/imgRefresh"
             android:layout_width="40dp"
@@ -25,6 +34,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:src="@drawable/ic_refresh"
+            android:visibility="gone"
             />
 
         <ImageView
@@ -110,6 +120,7 @@
             android:layout_height="45dp"
             android:gravity="center"
             android:orientation="horizontal"
+            android:visibility="gone"
             >
 
             <ImageView
@@ -250,13 +261,14 @@
                         android:id="@+id/txtNodata1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:gravity="center"
                         android:text="@string/no_guest_checked"
                         android:textColor="@android:color/black"
                         android:textSize="12sp"
-                        android:gravity="center"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_centerInParent="true"
+                        android:visibility="gone"
                         />
 
                 </RelativeLayout>
@@ -352,13 +364,14 @@
                         android:id="@+id/txtNodata2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:gravity="center"
                         android:text="@string/no_guest_checked"
                         android:textColor="@android:color/black"
                         android:textSize="12sp"
-                        android:gravity="center"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_centerInParent="true"
+                        android:visibility="gone"
                         />
 
                 </RelativeLayout>
@@ -453,13 +466,14 @@
                         android:id="@+id/txtNodata3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:gravity="center"
                         android:text="@string/no_guest_checked"
                         android:textColor="@android:color/black"
                         android:textSize="12sp"
-                        android:gravity="center"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_centerInParent="true"
+                        android:visibility="gone"
                         />
 
                 </RelativeLayout>

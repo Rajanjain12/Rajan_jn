@@ -51,4 +51,9 @@
     <string name="in_complete"> : Incomplete</string>
     <string name="no_guest_checked">There is no guest checked in yet for this period.</string>
 
+
+     <string name="back">Go to back</string>
+     <string name="refresh">Refresh</string>
+     <string name="settings">Settings</string>
+
 </resources>

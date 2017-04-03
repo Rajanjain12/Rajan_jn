@@ -2,20 +2,32 @@ package com.kyobee.waitlist.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
@@ -25,6 +37,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.kyobee.waitlist.Kyobee;
 import com.kyobee.waitlist.R;
+import com.kyobee.waitlist.customcontrol.CustomButtonRegular;
 import com.kyobee.waitlist.customcontrol.CustomDialog;
 import com.kyobee.waitlist.customcontrol.CustomTextViewRegular;
 import com.kyobee.waitlist.customcontrol.CustomTextViewSemiBold;
@@ -39,6 +52,7 @@ import com.kyobee.waitlist.utils.AppInfo;
 import com.kyobee.waitlist.utils.GSONGetSet;
 import com.kyobee.waitlist.utils.General;
 import com.kyobee.waitlist.utils.RealTimePush;
+import com.kyobee.waitlist.utils.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,13 +62,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ibt.ortc.extensibility.OrtcClient;
+import it.sephiroth.android.library.uigestures.UIGestureRecognizer;
+import it.sephiroth.android.library.uigestures.UIGestureRecognizerDelegate;
+import it.sephiroth.android.library.uigestures.UILongPressGestureRecognizer;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static org.apache.commons.lang3.CharEncoding.UTF_8;
 
-public class DisplayMultiActivity extends AppCompatActivity implements RealTimePush.RealTimeListener, ConnectivityReceiver.ConnectivityReceiverListener{
+public class DisplayMultiActivity extends AppCompatActivity implements
+        RealTimePush.RealTimeListener, ConnectivityReceiver.ConnectivityReceiverListener, UILongPressGestureRecognizer.OnActionListener, UIGestureRecognizerDelegate.Callback{
 
     public static String LOGTAG = DisplayMultiActivity.class.getSimpleName ();
     CustomTextViewRegular txtVersion;
@@ -74,14 +92,16 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
     RealTimePush realTimePush;
     /*** override recycleview scroll ***/
     int viewIsScrolling = 1;
-    RelativeLayout reltiveLogout;
+    RelativeLayout reltiveLogout,relativeSettings;
     //Declare timer
     CountDownTimer cTimer = null;
     int rowLimit = 25;
+    AlertDialog alertDialog;
+    UIGestureRecognizerDelegate delegate;
     private APIService mAPIService;
 
     //start timer function
-    public void startTimer (){
+    /*public void startTimer (){
         cTimer = new CountDownTimer (3000, 1000){
             public void onTick (long millisUntilFinished){
             }
@@ -91,8 +111,6 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
                 Kyobee.getInstance ().logout ();
                 startActivity (new Intent (activity, LoginActivity.class));
                 finish ();
-                //CustomDialog.logoutDialog (activity, activity.getString (R.string.kyobee), activity.getString (R.string.logout));
-
             }
         };
         cTimer.start ();
@@ -102,7 +120,12 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
     public void cancelTimer (){
         if (cTimer != null)
             cTimer.cancel ();
-    }
+    }*/
+
+    private static final int LOGOUT=1;
+    private static final int SETTINGS=0;
+    int operation=-1;
+
 
     @Override
     public void onCreate (Bundle savedInstanceState){
@@ -121,7 +144,7 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
         recycle90 = (RecyclerView) findViewById (R.id.recycle90);
 
         reltiveLogout = (RelativeLayout) findViewById (R.id.reltiveLogout);
-
+        relativeSettings=(RelativeLayout)findViewById (R.id.reltiveSettings);
         RecyclerView.LayoutManager layoutManager30 = new LinearLayoutManager (activity);
         RecyclerView.LayoutManager layoutManager60 = new LinearLayoutManager (activity);
         RecyclerView.LayoutManager layoutManager90 = new LinearLayoutManager (activity);
@@ -148,22 +171,33 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
         Glide.with (activity).load (imgPath).diskCacheStrategy (DiskCacheStrategy.ALL).into (imgLogo);
         callCheckInUsers (login.getOrgId (), true);
 
-        imgRefresh.setOnClickListener (new View.OnClickListener (){
-            @Override
-            public void onClick (View v){
-                callCheckInUsers (login.getOrgId (), true);
-            }
-        });
-
-        txtVersion.setOnClickListener (new View.OnClickListener (){
-            @Override
-            public void onClick (View v){
-                //  CustomDialog.logoutDialog (activity, activity.getString (R.string.kyobee), activity.getString (R.string.logout));
-            }
-        });
-
+        delegate = new UIGestureRecognizerDelegate (this);
+        UILongPressGestureRecognizer longPress = new UILongPressGestureRecognizer (this);
+        longPress.setTag ("double-long-press");
+        longPress.setNumberOfTouchesRequired (2);
+        longPress.setNumberOfTapsRequired (0);
+        longPress.setMinimumPressDuration (2000);
+        longPress.setActionListener (this);
+        delegate.addGestureRecognizer (longPress);
 
         reltiveLogout.setOnTouchListener (new View.OnTouchListener (){
+            @Override
+            public boolean onTouch (View v, MotionEvent event){
+                operation=LOGOUT;
+                return delegate.onTouchEvent (v, event);
+            }
+        });
+
+        relativeSettings.setOnTouchListener (new View.OnTouchListener (){
+            @Override
+            public boolean onTouch (View v, MotionEvent event){
+                operation=SETTINGS;
+                return delegate.onTouchEvent (v, event);
+            }
+        });
+
+
+       /* reltiveLogout.setOnTouchListener (new View.OnTouchListener (){
             @Override
             public boolean onTouch (View v, MotionEvent event){
                 int pointerIndex = ((event.getAction () & MotionEvent.ACTION_POINTER_ID_MASK) >> MotionEvent.ACTION_POINTER_ID_SHIFT);
@@ -179,7 +213,42 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
                 return true;
             }
         });
+*/
 
+    }
+
+
+    // ui gesture recognizer event callback
+    @Override
+    public void onGestureRecognized (@NonNull final UIGestureRecognizer recognizer){
+        //Log.d (getClass ().getSimpleName (), "onGestureRecognized(" + recognizer + "). state: " + recognizer.getState ());
+
+        if(operation==LOGOUT){
+            Kyobee.getInstance ().logout ();
+            startActivity (new Intent (activity, LoginActivity.class));
+            finish ();
+        }else if(operation == SETTINGS){
+            popUpCheckinDisplay ();
+        }
+    }
+
+
+    @Override
+    public boolean shouldBegin (final UIGestureRecognizer recognizer){
+        Log.d (LOGTAG, "shouldBegin");
+        return true;
+    }
+
+    @Override
+    public boolean shouldRecognizeSimultaneouslyWithGestureRecognizer (final UIGestureRecognizer current, final UIGestureRecognizer recognizer){
+        Log.d (LOGTAG, "shouldRecognizeSimultaneouslyWithGestureRecognizer");
+        return true;
+    }
+
+    @Override
+    public boolean shouldReceiveTouch (final UIGestureRecognizer recognizer){
+        Log.d (LOGTAG, "shouldReceiveTouch");
+        return true;
     }
 
     public void callCheckInUsers (String orgId, boolean progress){
@@ -197,7 +266,6 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
                 public void onResponse (Call<ResponseGen> call, Response<ResponseGen> response){
                     CustomDialog.dismissProgressDialog ();
                     Log.d (LOGTAG, response.toString ());
-
                     ResponseGen responseGen = response.body ();
                     if (responseGen.getStatus ().equalsIgnoreCase (General.SUCCESS)){
                         listRecords.addAll (responseGen.getServiceResult ().getRecords ());
@@ -322,27 +390,27 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
 
             displayRCLAdapter = new DisplayRCLAdapter (activity, listRecords30);
             recycle30.setAdapter (displayRCLAdapter);
-            if (listRecords30.size () > 0){
+            /*if (listRecords30.size () > 0){
                 txtNodata1.setVisibility (View.GONE);
             } else{
                 txtNodata1.setVisibility (View.VISIBLE);
-            }
+            }*/
 
             displayRCLAdapter = new DisplayRCLAdapter (activity, listRecords60);
             recycle60.setAdapter (displayRCLAdapter);
-            if (listRecords60.size () > 0){
+            /*if (listRecords60.size () > 0){
                 txtNodata2.setVisibility (View.GONE);
             } else{
                 txtNodata2.setVisibility (View.VISIBLE);
-            }
+            }*/
 
             displayRCLAdapter = new DisplayRCLAdapter (activity, listRecords90);
             recycle90.setAdapter (displayRCLAdapter);
-            if (listRecords90.size () > 0){
+            /*if (listRecords90.size () > 0){
                 txtNodata3.setVisibility (View.GONE);
             } else{
                 txtNodata3.setVisibility (View.VISIBLE);
-            }
+            }*/
 
             displayRCLAdapter.notifyDataSetChanged ();
         }
@@ -351,6 +419,109 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
     @Override
     public void onSubscribeChannel (OrtcClient sender, String channel){
         Log.d (LOGTAG, "Subscribe Sender - " + sender + " Channel - " + channel);
+    }
+
+    @Override
+    public void onConfigurationChanged (Configuration newConfig){
+        super.onConfigurationChanged (newConfig);
+        updateDialogSize ();
+    }
+
+    public void updateDialogSize (){
+        DisplayMetrics displayMetrics = new DisplayMetrics ();
+        getWindowManager ().getDefaultDisplay ().getMetrics (displayMetrics);
+        int width = 0;//displayMetrics.widthPixels;
+        if (Utils.getScreenOrientation (activity) == 1){
+            width = displayMetrics.widthPixels;//displayMetrics.heightPixels;
+        } else{
+            width = displayMetrics.widthPixels;
+        }
+        if (alertDialog != null){
+            Window window = alertDialog.getWindow ();
+            window.setGravity (Gravity.CENTER);
+            window.setLayout (width, WindowManager.LayoutParams.WRAP_CONTENT);
+        }
+    }
+
+    public void popUpCheckinDisplay (){
+        DisplayMetrics displayMetrics = new DisplayMetrics ();
+        getWindowManager ().getDefaultDisplay ().getMetrics (displayMetrics);
+        int width = 0;//displayMetrics.widthPixels;
+        if (Utils.getScreenOrientation (activity) == 1){
+            width = (displayMetrics.widthPixels * 80) / 100;//displayMetrics.heightPixels;
+        } else{
+            width = (displayMetrics.widthPixels * 95) / 100;
+        }
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder (activity);
+        LayoutInflater layout = (LayoutInflater) getSystemService (Context.LAYOUT_INFLATER_SERVICE);
+        final View view = layout.inflate (R.layout.popup_choose_operation, (ViewGroup) findViewById (R.id.popUpGuestMode));
+        alertDialogBuilder.setView (view);
+        alertDialogBuilder.setCancelable (true);
+        // create alert dialog
+        alertDialog = alertDialogBuilder.create ();
+        alertDialog.show ();
+
+        alertDialog.getWindow ().setBackgroundDrawable (new ColorDrawable (Color.TRANSPARENT));
+
+        Window window = alertDialog.getWindow ();
+        window.setGravity (Gravity.CENTER);
+        window.setLayout (width, WindowManager.LayoutParams.WRAP_CONTENT);
+
+        LinearLayout linearPopup = (LinearLayout) view.findViewById (R.id.linearPopup);
+
+        RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams ((width * 80) / 100, ViewGroup.LayoutParams.WRAP_CONTENT);
+        relativeParams.addRule (RelativeLayout.CENTER_IN_PARENT);
+        // linearPopup.setLayoutParams (relativeParams);
+
+        //    LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams (500, WindowManager.LayoutParams.WRAP_CONTENT);
+        //    layoutParams.gravity=Gravity.CENTER;
+        //    linearPopup.setLayoutParams (layoutParams);
+
+        final CustomButtonRegular btnBack = (CustomButtonRegular) view.findViewById (R.id.btnBack);
+        final CustomButtonRegular btnRefresh = (CustomButtonRegular) view.findViewById (R.id.btnRefresh);
+        final CustomButtonRegular btnSettings = (CustomButtonRegular) view.findViewById (R.id.btnSettings);
+
+        btnBack.setOnClickListener (new View.OnClickListener (){
+            @Override
+            public void onClick (View v){
+                alertDialog.dismiss ();
+                startActivity (new Intent (activity, LoginActivity.class).putExtra (General.OP, Kyobee.getInstance ().getLoginMode ()));
+                finish ();
+            }
+        });
+
+        btnRefresh.setOnClickListener (new View.OnClickListener (){
+            @Override
+            public void onClick (View v){
+                alertDialog.dismiss ();
+                callCheckInUsers (login.getOrgId (), true);
+            }
+        });
+
+        btnSettings.setOnClickListener (new View.OnClickListener (){
+            @Override
+            public void onClick (View v){
+                /*Kyobee.getInstance ().setLoginMode (DISPLAY_MODE);
+                startActivity (new Intent (activity, DisplayMultiActivity.class));
+                finish ();*/
+            }
+        });
+
+        dismissPopUp (alertDialog);
+    }
+
+    private void dismissPopUp (final AlertDialog alert){
+        alert.setOnKeyListener (new DialogInterface.OnKeyListener (){
+            @Override
+            public boolean onKey (DialogInterface dialogInterface, int keyCode, KeyEvent keyEvent){
+                if (keyCode == KeyEvent.KEYCODE_BACK){
+                    alert.dismiss ();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     public class DisplayRCLAdapter extends RecyclerView.Adapter<DisplayRCLAdapter.DisplayViewHolder>{
@@ -422,5 +593,8 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
         }
     }
 
+    /*@Override
+    public void onBackPressed (){
 
+    }*/
 }
