@@ -55,6 +55,8 @@
     IBOutlet UILabel *lblFooter;
     
     
+    IBOutlet UIButton *btnForOptions;
+    
     
     
     IBOutlet UIView *form_View;

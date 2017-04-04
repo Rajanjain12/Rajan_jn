@@ -10,6 +10,8 @@
 #import "DetailsVC.h"
 
 #import "KyobeeGuestList.h"
+#import "GuestListTwoColumn.h"
+#import "GuestListOneColumn.h"
 
 #import "GuestListVC.h"
 
@@ -89,6 +91,16 @@
     
     viewSelectGuestMode.hidden = true;
     [viewSelectGuestMode setBackgroundColor:[[UIColor colorWithRed:199/255.0 green:196/255.0 blue:198/255.0 alpha:0.8] colorWithAlphaComponent:0.5]];
+    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"fromBack"] == YES)
+    {
+        viewSelectGuestMode.hidden = false;
+    }
+    else
+    {
+        btn_Remember.selected = false;
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -333,7 +345,17 @@ replacementString:(NSString *)string
                          {
                              [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"clientBase"];
                          }
-                          
+                         
+                         
+                         //**
+                         
+                         [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"numberOfColumns"];
+                         [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"numberOfRows"];
+                         [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"columnOneName"];
+                         [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"columnTwoName"];
+                         [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"columnThreeName"];
+                         
+                         //**
                          
                          //[[NSUserDefaults standardUserDefaults] setValue:@"1" forKey:@"userthemepref"];
                          
@@ -423,6 +445,7 @@ replacementString:(NSString *)string
 - (IBAction)btnCheckinMode_clicked:(id)sender
 {
     [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"checkinmodeselected"];
+    [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"displaymodeselected"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     DetailsVC *objDVC = [[DetailsVC alloc] initWithNibName:@"DetailsVC" bundle:nil];
@@ -432,13 +455,45 @@ replacementString:(NSString *)string
 - (IBAction)btnDisplayMode_clicked:(id)sender
 {
     [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"displaymodeselected"];
+    [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"checkinmodeselected"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     /*GuestListVC *guestListVC = [[GuestListVC alloc] initWithNibName:@"GuestListVC" bundle:nil];
     [self.navigationController pushViewController:guestListVC animated:YES];*/
     
-    KyobeeGuestList *kyobeeGuestList = [[KyobeeGuestList alloc] initWithNibName:@"KyobeeGuestList" bundle:nil];
-    [self.navigationController pushViewController:kyobeeGuestList animated:YES];
+    /*KyobeeGuestList *kyobeeGuestList = [[KyobeeGuestList alloc] initWithNibName:@"KyobeeGuestList" bundle:nil];
+    [self.navigationController pushViewController:kyobeeGuestList animated:YES];*/
+   
+    /*GuestListTwoColumn *guestListTwoColumn = [[GuestListTwoColumn alloc] initWithNibName:@"GuestListTwoColumn" bundle:nil];
+    [self.navigationController pushViewController:guestListTwoColumn animated:YES];*/
+    
+    /*GuestListOneColumn *guestListOneColumn = [[GuestListOneColumn alloc] initWithNibName:@"GuestListOneColumn" bundle:nil];
+    [self.navigationController pushViewController:guestListOneColumn animated:YES];*/
+    
+    if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfColumns"] isEqualToString:@""])
+    {
+        if([[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfColumns"] isEqualToString:@"1"])
+        {
+            GuestListOneColumn *guestListOneColumn = [[GuestListOneColumn alloc] initWithNibName:@"GuestListOneColumn" bundle:nil];
+            [self.navigationController pushViewController:guestListOneColumn animated:YES];
+        }
+        if([[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfColumns"] isEqualToString:@"2"])
+        {
+            GuestListTwoColumn *guestListTwoColumn = [[GuestListTwoColumn alloc] initWithNibName:@"GuestListTwoColumn" bundle:nil];
+            [self.navigationController pushViewController:guestListTwoColumn animated:YES];
+        }
+        if([[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfColumns"] isEqualToString:@"3"])
+        {
+            KyobeeGuestList *kyobeeGuestList = [[KyobeeGuestList alloc] initWithNibName:@"KyobeeGuestList" bundle:nil];
+            [self.navigationController pushViewController:kyobeeGuestList animated:YES];
+        }
+        
+    }
+    else
+    {
+        KyobeeGuestList *kyobeeGuestList = [[KyobeeGuestList alloc] initWithNibName:@"KyobeeGuestList" bundle:nil];
+        [self.navigationController pushViewController:kyobeeGuestList animated:YES];
+    }
 }
 
 - (IBAction)btnPrivacyPolicy_clicked:(id)sender

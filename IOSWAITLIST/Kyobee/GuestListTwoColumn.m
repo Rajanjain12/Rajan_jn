@@ -1,14 +1,15 @@
 //
-//  KyobeeGuestList.m
+//  GuestListTwoColumn.m
 //  Kyobee
 //
-//  Created by Mayur Pandya on 28/03/17.
+//  Created by Mayur Pandya on 03/04/17.
 //
 //
+
+#import "GuestListTwoColumn.h"
 
 #import "KyobeeGuestList.h"
 
-#import "GuestListTwoColumn.h"
 #import "GuestListOneColumn.h"
 
 #import "GuestListCell.h"
@@ -17,7 +18,7 @@
 #import "UIImageView+WebCache.h"
 //****
 
-@interface KyobeeGuestList ()
+@interface GuestListTwoColumn ()
 
 @property (nonatomic,strong) UILongPressGestureRecognizer *lpgrLogOut;
 
@@ -25,7 +26,7 @@
 
 @end
 
-@implementation KyobeeGuestList
+@implementation GuestListTwoColumn
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,14 +38,13 @@
     
     arrayLess30 = [[NSMutableArray alloc] initWithCapacity:0];
     arrayLess60 = [[NSMutableArray alloc] initWithCapacity:0];
-    arrayLess90 = [[NSMutableArray alloc] initWithCapacity:0];
     
     // Realtime
     _ortcClient = [OrtcClient ortcClientWithConfig:self];
     [_ortcClient setClusterUrl:@"https://ortc-developers.realtime.co/server/ssl/2.1"];
     [_ortcClient connect:@"j9MLMa" authenticationToken:@"testToken"];
     //
-
+    
     self.lpgrLogOut = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGestures:)];
     self.lpgrLogOut.minimumPressDuration = 5.0f;
     self.lpgrLogOut.numberOfTouchesRequired = 1;
@@ -68,8 +68,6 @@
     rowsArray = [[NSMutableArray alloc] initWithCapacity:0];
     NSArray *rwArray = [NSArray arrayWithObjects:@"25",@"30",@"35",@"40",@"45",@"50",@"55",@"60",@"65",@"70",@"75",@"80",@"85",@"90",@"95",@"100", nil];
     [rowsArray addObjectsFromArray:rwArray];
-    
-    
 }
 
 - (void)handleLongPressGestures:(UILongPressGestureRecognizer *)sender
@@ -85,7 +83,6 @@
             [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"checkinmodeselected"];
             
             [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"fromBack"];
-            
             
             //**
             
@@ -155,7 +152,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(orientationChanged:)    name:UIDeviceOrientationDidChangeNotification  object:nil];
     
     
-    
     [txtColumns.layer setBorderWidth:1.5];
     [txtColumns.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
     
@@ -178,7 +174,6 @@
     [tblViewColumnsAndRows.layer setBorderWidth:1.5];
     [tblViewColumnsAndRows.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
     
-    
     if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"columnOneName"] isEqualToString:@""])
     {
         lblColumnOneName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnOneName"];
@@ -188,10 +183,6 @@
     {
         lblColumnTwoName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnTwoName"];
         
-    }
-    if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"columnThreeName"] isEqualToString:@""])
-    {
-        lblColumnThreeName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnThreeName"];
     }
 }
 
@@ -220,7 +211,7 @@
     {
         lblCopyright.font = [UIFont systemFontOfSize:10.0];
     }
-
+    
     [self.view setNeedsUpdateConstraints];
     
     [UIView animateWithDuration:0.40f animations:^{
@@ -309,980 +300,7 @@
                                  {
                                      [arrayLess60 removeAllObjects];
                                  }
-                                 if(arrayLess90.count > 0)
-                                 {
-                                     [arrayLess90 removeAllObjects];
-                                 }
                                  
-                                 // For Less Than 30
-                                 /*for(int i = 0; i < [guestArray count]; i++)
-                                 {
-                                     if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 30)
-                                     {
-                                         [arrayLess30 addObject:[guestArray objectAtIndex:i]];
-                                     }
-                                 }*/
-                                 
-                                 
-                                 if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] isEqualToString:@""])
-                                 {
-                                     int numberOfRows = [[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] intValue];
-                                     
-                                     for(int i = 0; i < [guestArray count]; i++)
-                                     {
-                                         
-                                         [arrayLess30 addObject:[guestArray objectAtIndex:i]];
-                                         
-                                         
-                                         if([arrayLess30 count] == numberOfRows)
-                                         {
-                                             break;
-                                         }
-                                     }
-                                 }
-                                 else
-                                 {
-                                     for(int i = 0; i < [guestArray count]; i++)
-                                     {
-                                         
-                                         [arrayLess30 addObject:[guestArray objectAtIndex:i]];
-                                         
-                                         if(i == 24)
-                                         {
-                                             break;
-                                         }
-                                     }
-                                 }
-                                 
-                                 /*for(int i = 0; i < [guestArray count]; i++)
-                                 {
-                                     
-                                     [arrayLess30 addObject:[guestArray objectAtIndex:i]];
-                                     
-                                     if(i == 24)
-                                     {
-                                         break;
-                                     }
-                                 }*/
-                                 
-                                 if(arrayLess30.count > 0)
-                                 {
-                                     [tblView30 reloadData];
-                                     
-                                     lblNoUser30.hidden = true;
-                                 }
-                                 else
-                                 {
-                                     lblNoUser30.hidden = true;
-                                 }
-                                 //
-                                 
-                                 
-                                 
-                                 // For Less Than 60
-                                 /*for(int i = 0; i < [guestArray count]; i++)
-                                 {
-                                     if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] > 30 & [[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 60)
-                                     //if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 60)
-                                     {
-                                         [arrayLess60 addObject:[guestArray objectAtIndex:i]];
-                                     }
-                                 }*/
-                                 
-                                 if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] isEqualToString:@""])
-                                 {
-                                     int numberOfRows = [[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] intValue];
-                                     
-                                     int rows = (int)[arrayLess30 count];
-                                     
-                                     for(int i = rows; i < [guestArray count]; i++)
-                                     {
-                                         
-                                         [arrayLess60 addObject:[guestArray objectAtIndex:i]];
-                                         
-                                         if([arrayLess60 count] == numberOfRows)
-                                         {
-                                             break;
-                                         }
-                                         
-                                     }
-                                 }
-                                 else
-                                 {
-                                     for(int i = 25; i < [guestArray count]; i++)
-                                     {
-                                         
-                                         [arrayLess60 addObject:[guestArray objectAtIndex:i]];
-                                         
-                                         if(i == 49)
-                                         {
-                                             break;
-                                         }
-                                         
-                                     }
-                                 }
-                                 
-                                 /*for(int i = 25; i < [guestArray count]; i++)
-                                 {
-                                     
-                                    [arrayLess60 addObject:[guestArray objectAtIndex:i]];
-                                     
-                                     if(i == 49)
-                                     {
-                                         break;
-                                     }
-                                     
-                                 }*/
-                                 
-                                 if(arrayLess60.count > 0)
-                                 {
-                                     [tblView60 reloadData];
-                                     
-                                     lblNoUser60.hidden = true;
-                                 }
-                                 else
-                                 {
-                                     lblNoUser60.hidden = true;
-                                 }
-                                 //
-                                 
-                                 
-                                 // For Less Than 90
-                                 /*for(int i = 0; i < [guestArray count]; i++)
-                                 {
-                                     if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] > 60 & [[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 90)
-                                     //if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 90)
-                                     {
-                                         [arrayLess90 addObject:[guestArray objectAtIndex:i]];
-                                     }
-                                 }*/
-                                 
-                                 
-                                 if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] isEqualToString:@""])
-                                 {
-                                     int numberOfRows = [[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] intValue];
-                                     
-                                     int rows1 = (int)[arrayLess30 count];
-                                     int rows2 = (int)[arrayLess60 count];
-                                     
-                                     int row = rows1 + rows2;
-                                     
-                                     for(int i = row; i < [guestArray count]; i++)
-                                     {
-                                         [arrayLess90 addObject:[guestArray objectAtIndex:i]];
-                                         
-                                         if([arrayLess90 count] == numberOfRows)
-                                         {
-                                             break;
-                                         }
-                                         
-                                     }
-                                 }
-                                 else
-                                 {
-                                     for(int i = 50; i < [guestArray count]; i++)
-                                     {
-                                         [arrayLess90 addObject:[guestArray objectAtIndex:i]];
-                                         
-                                         if(i == 74)
-                                         {
-                                             break;
-                                         }
-                                         
-                                     }
-                                 }
-                                 
-                                 /*for(int i = 50; i < [guestArray count]; i++)
-                                 {
-                                    [arrayLess90 addObject:[guestArray objectAtIndex:i]];
-                                     
-                                     if(i == 74)
-                                     {
-                                         break;
-                                     }
-                                     
-                                 }*/
-                                 
-                                 if(arrayLess90.count > 0)
-                                 {
-                                     [tblView90 reloadData];
-                                     
-                                     lblNoUser90.hidden = true;
-                                 }
-                                 else
-                                 {
-                                     lblNoUser90.hidden = true;
-                                 }
-                                 //
-                                 
-                                 [tblView30 reloadData];
-                                 [tblView60 reloadData];
-                                 [tblView90 reloadData];
-                                 
-                             }
-                             else
-                             {
-                                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"There is no guest checked in yet." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                                 
-                                 [alert show];
-                             }
-                         }
-                         else
-                         {
-                             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"There is no guest checked in yet." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                             
-                             [alert show];
-                         }
-                         
-                         //[imgResto sd_setImageWithURL:[NSURL URLWithString:[[json valueForKey:@"serviceResult"]valueForKey:@"imageOrgPath"]] placeholderImage:[UIImage imageNamed:@"RestoImage"]];
-                     }
-                     else if([[json valueForKey:@"success"] isEqualToString:@"-1"])
-                     {
-                         /*UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:[json valueForKey:@"error"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                          
-                          [alert show];*/
-                     }
-                     else if([[json valueForKey:@"success"] isEqualToNumber:[NSNumber numberWithInt:2]])
-                     {
-                         /*UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:[json valueForKey:@"message"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                          
-                          [alert show];*/
-                     }
-                     else if([[json valueForKey:@"success"] isEqualToNumber:[NSNumber numberWithInt:-2]])
-                     {
-                         /*UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:[json valueForKey:@"message"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                          
-                          [alert show];*/
-                     }
-                 }
-                 else
-                 {
-                     if(arrayLess30.count > 0)
-                     {
-                         [arrayLess30 removeAllObjects];
-                     }
-                     if(arrayLess60.count > 0)
-                     {
-                         [arrayLess60 removeAllObjects];
-                     }
-                     if(arrayLess90.count > 0)
-                     {
-                         [arrayLess90 removeAllObjects];
-                     }
-                     
-                     [tblView30 reloadData];
-                     [tblView60 reloadData];
-                     [tblView90 reloadData];
-                 }
-             }
-         }];
-    }
-    else
-    {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please check your internet connection." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        
-        [alert show];
-    }
-    
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
-#pragma mark - UITableViewDataSource
-
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    if(viewSettings.hidden == true)
-    {
-        
-        if(tableView == tblView30)
-        {
-            return arrayLess30.count;
-        }
-        else if (tableView == tblView60)
-        {
-            return arrayLess60.count;
-        }
-        else
-        {
-            return arrayLess90.count;
-        }
-    }
-    else
-    {
-        if(btnColumns.selected == true)
-        {
-            return columnsArray.count + 1;
-        }
-        else
-        {
-            return rowsArray.count + 1;
-        }
-    }
-    
-    //return guestArray.count;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 25;
-}
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if(viewSettings.hidden == true)
-    {
-        
-        if(tableView == tblView30)
-        {
-            static NSString *CellIdentifier = @"Cell";
-            
-            GuestListCell *cell = (GuestListCell *)[tblView30 dequeueReusableCellWithIdentifier:CellIdentifier];
-            
-            if (cell == nil)
-            {
-                cell = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([GuestListCell class]) owner:nil options:nil] lastObject];
-            }
-            
-            cell.lblRank.text = [NSString stringWithFormat:@"%@",[[arrayLess30 objectAtIndex:indexPath.row] valueForKey:@"rank"]];
-            cell.lblName.text = [NSString stringWithFormat:@"%@",[[arrayLess30 objectAtIndex:indexPath.row] valueForKey:@"name"]];
-            
-            if (![[[arrayLess30 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
-            {
-                cell.imgThumb.hidden = false;
-            }
-            
-            if (![[[arrayLess30 objectAtIndex:indexPath.row]valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
-            {
-                cell.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
-            }
-            else
-            {
-                cell.backgroundColor = [UIColor clearColor];
-            }
-            
-            
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            
-            return cell;
-        }
-        else if(tableView == tblView60)
-        {
-            static NSString *CellIdentifier = @"Cell";
-            
-            GuestListCell *cell = (GuestListCell *)[tblView30 dequeueReusableCellWithIdentifier:CellIdentifier];
-            
-            if (cell == nil)
-            {
-                cell = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([GuestListCell class]) owner:nil options:nil] lastObject];
-            }
-            
-            cell.lblRank.text = [NSString stringWithFormat:@"%@",[[arrayLess60 objectAtIndex:indexPath.row] valueForKey:@"rank"]];
-            cell.lblName.text = [NSString stringWithFormat:@"%@",[[arrayLess60 objectAtIndex:indexPath.row] valueForKey:@"name"]];
-            
-            
-            
-            if (![[[arrayLess60 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
-            {
-                cell.imgThumb.hidden = false;
-            }
-            
-            if (![[[arrayLess60 objectAtIndex:indexPath.row]valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
-            {
-                cell.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
-            }
-            else
-            {
-                cell.backgroundColor = [UIColor clearColor];
-            }
-            
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            
-            return cell;
-        }
-        else
-        {
-            static NSString *CellIdentifier = @"Cell";
-            
-            GuestListCell *cell = (GuestListCell *)[tblView90 dequeueReusableCellWithIdentifier:CellIdentifier];
-            
-            if (cell == nil)
-            {
-                cell = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([GuestListCell class]) owner:nil options:nil] lastObject];
-            }
-            
-            cell.lblRank.text = [NSString stringWithFormat:@"%@",[[arrayLess90 objectAtIndex:indexPath.row] valueForKey:@"rank"]];
-            cell.lblName.text = [NSString stringWithFormat:@"%@",[[arrayLess90 objectAtIndex:indexPath.row] valueForKey:@"name"]];
-            
-            
-            
-            
-            if (![[[arrayLess90 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
-            {
-                cell.imgThumb.hidden = false;
-            }
-            
-            if (![[[arrayLess90 objectAtIndex:indexPath.row]valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
-            {
-                cell.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:0.0/255.0 alpha:1.0];
-            }
-            else
-            {
-                cell.backgroundColor = [UIColor clearColor];
-            }
-            
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            
-            return cell;
-        }
-    }
-    else
-    {
-        if(btnColumns.selected == true)
-        {
-            static NSString *cellIdentifier = @"Cell";
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-            if (!cell)
-            {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-            }
-            
-            if(indexPath.row == 0)
-            {
-                cell.textLabel.text =[NSString stringWithFormat:@"# of columns*"];
-            }
-            else
-            {
-                cell.textLabel.text =[NSString stringWithFormat:@"%@",[columnsArray objectAtIndex:indexPath.row-1]];
-            }
-            
-            cell.backgroundColor = [UIColor clearColor];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.textLabel.textColor = [UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0];
-            cell.textLabel.font = [UIFont boldSystemFontOfSize:20.0];
-            
-            return cell;
-        }
-        else
-        {
-            static NSString *cellIdentifier = @"Cell";
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-            if (!cell)
-            {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-            }
-            
-            if(indexPath.row == 0)
-            {
-                cell.textLabel.text =[NSString stringWithFormat:@"# of rows per column*"];
-            }
-            else
-            {
-                cell.textLabel.text =[NSString stringWithFormat:@"%@",[rowsArray objectAtIndex:indexPath.row-1]] ;
-            }
-            cell.backgroundColor = [UIColor clearColor];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.textLabel.textColor = [UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0];
-            cell.textLabel.font = [UIFont boldSystemFontOfSize:20.0];
-            
-            return cell;
-        }
-    }
-    
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if(tableView == tblViewColumnsAndRows)
-    {
-    
-        if(indexPath.row > 0)
-        {
-            if(btnColumns.selected == true)
-            {
-                txtColumns.text = [NSString stringWithFormat:@"%@",[columnsArray objectAtIndex:indexPath.row-1]];
-                [tblViewColumnsAndRows setHidden:true];
-                
-                if(indexPath.row == 1)
-                {
-                    _heightViewSubSettings.constant = 498;
-                    
-                    txtColumnOne.hidden = false;
-                    txtColumnTwo.hidden = true;
-                    txtColumnThree.hidden = true;
-                    
-                    txtColumnOne.placeholder = @"Enter first column name*";
-                    
-                    
-                    [self.view setNeedsUpdateConstraints];
-                    
-                    [UIView animateWithDuration:0.40f animations:^{
-                        
-                        [self.view layoutIfNeeded];
-                    }];
-                }
-                
-                if(indexPath.row == 2)
-                {
-                    _heightViewSubSettings.constant = 578;
-                    
-                    txtColumnOne.hidden = false;
-                    txtColumnTwo.hidden = false;
-                    txtColumnThree.hidden = true;
-                    
-                    txtColumnOne.placeholder = @"Enter first column name*";
-                    txtColumnTwo.placeholder = @"Enter second column name*";
-                    
-                    
-                    [self.view setNeedsUpdateConstraints];
-                    
-                    [UIView animateWithDuration:0.40f animations:^{
-                        
-                        [self.view layoutIfNeeded];
-                    }];
-                }
-                
-                if(indexPath.row == 3)
-                {
-                    _heightViewSubSettings.constant = 658;
-                    
-                    txtColumnOne.hidden = false;
-                    txtColumnTwo.hidden = false;
-                    txtColumnThree.hidden = false;
-                    
-                    txtColumnOne.placeholder = @"Enter first column name*";
-                    txtColumnTwo.placeholder = @"Enter second column name*";
-                    txtColumnThree.placeholder = @"Enter third column name*";
-                    
-                    [self.view setNeedsUpdateConstraints];
-                    
-                    [UIView animateWithDuration:0.40f animations:^{
-                        
-                        [self.view layoutIfNeeded];
-                    }];
-                }
-                
-                [txtColumns.layer setBorderWidth:1.5];
-                [txtColumns.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
-            }
-            else
-            {
-                txtRows.text = [NSString stringWithFormat:@"%@",[rowsArray objectAtIndex:indexPath.row-1]];
-                [tblViewColumnsAndRows setHidden:true];
-                
-                
-                [txtRows.layer setBorderWidth:1.5];
-                [txtRows.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
-            }
-            
-            /*txt_your_party.text = [NSString stringWithFormat:@"%ld",indexPath.row];
-            [tblViewParties setHidden:true];
-            [tblViewSeatPref reloadData];
-            
-            [txt_your_party.layer setBorderWidth:1.5];
-            [txt_your_party.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];*/
-        }
-    }
-}
-
-- (IBAction)btnRefresh_clicked:(id)sender
-{
-    [self fetchGuestList];
-}
-
-
-
-
-# pragma mark -
-# pragma mark - Realtime Delegate
-
-// For Remain methods, look at ortcClient.h file
-
-- (void) onConnected:(OrtcClient*) ortc
-{
-    NSString *strChannel = [NSString stringWithFormat:@"RSNT_GUEST_DEV_%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"]];
-    
-    [_ortcClient subscribe:strChannel subscribeOnReconnected:YES onMessage:^(OrtcClient* ortc, NSString* channel, NSString* message)
-     {
-         NSLog(@"Received at %@: %@", channel, message);
-         
-         NSData *data = [message dataUsingEncoding:NSUTF8StringEncoding];
-         id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-         
-         id jsonForNotPresentAndIcomplete;
-         
-         if([[json valueForKey:@"OP"] isEqualToString:@"ADD"])
-         {
-             
-             [self fetchList];
-             //Lbl_Number.text = [NSString stringWithFormat:@"#%@",[json valueForKey:@"guestRank"]];
-             
-         }
-         else if([[json valueForKey:@"OP"] isEqualToString:@"DEL"])
-         {
-             [self fetchList];
-             
-             /*for(int i = 0; i<[guestArray count]; i++)
-              {
-              if([[[guestArray objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
-              {
-              NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
-              NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
-              
-              [guestArray removeObjectAtIndex:i];
-              
-              [tblViewGuestList reloadData];
-              }
-              }*/
-         }
-         else if([[json valueForKey:@"OP"] isEqualToString:@"UpdageGuestInfo"])
-         {
-             
-             [self fetchList];
-             
-             /*
-             
-             // from less 30
-             for(int i = 0; i<[arrayLess30 count]; i++)
-             {
-                 if([[[arrayLess30 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
-                 {
-                     //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
-                     //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
-                     
-                     //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
-                     
-                     
-                     NSDictionary *aDictionary = [arrayLess30 objectAtIndex: i];
-                     //Make a mutable copy of each dictionary in the array.
-                     NSMutableDictionary *mDict = [aDictionary mutableCopy];
-                     
-                     //Replace the value at key @"key" with some new value @"new value"
-                     mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
-                     mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
-
-                     [arrayLess30 replaceObjectAtIndex:i withObject:mDict];
-                     
-                     [tblView30 reloadData];
-                 }
-             }
-             
-             // from less 60
-             for(int i = 0; i<[arrayLess60 count]; i++)
-             {
-                 if([[[arrayLess60 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
-                 {
-                     //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
-                     //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
-                     
-                     //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
-                     
-                     
-                     NSDictionary *aDictionary = [arrayLess60 objectAtIndex: i];
-                     //Make a mutable copy of each dictionary in the array.
-                     NSMutableDictionary *mDict = [aDictionary mutableCopy];
-                     
-                     //Replace the value at key @"key" with some new value @"new value"
-                     mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
-                     mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
-                     
-                     [arrayLess60 replaceObjectAtIndex:i withObject:mDict];
-                     
-                     [tblView60 reloadData];
-                 }
-             }
-             
-             
-             // from less 90
-             for(int i = 0; i<[arrayLess90 count]; i++)
-             {
-                 if([[[arrayLess90 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
-                 {
-                     //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
-                     //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
-                     
-                     //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
-                     
-                     
-                     NSDictionary *aDictionary = [arrayLess90 objectAtIndex: i];
-                     //Make a mutable copy of each dictionary in the array.
-                     NSMutableDictionary *mDict = [aDictionary mutableCopy];
-                     
-                     //Replace the value at key @"key" with some new value @"new value"
-                     mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
-                     mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
-                     
-                     [arrayLess90 replaceObjectAtIndex:i withObject:mDict];
-                     
-                     [tblView90 reloadData];
-                 }
-             }
-             
-             */
-         }
-         else if([[json valueForKey:@"OP"] isEqualToString:@"UPD"])
-         {
-             [self fetchList];
-             
-             /*
-             jsonForNotPresentAndIcomplete = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-             
-             // from less 30
-             for(int i = 0; i<[arrayLess30 count]; i++)
-             {
-                 if([[[arrayLess30 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
-                 {
-                     //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
-                     //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
-                     
-                     //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
-                     
-                     
-                     NSDictionary *aDictionary = [arrayLess30 objectAtIndex: i];
-                     //Make a mutable copy of each dictionary in the array.
-                     NSMutableDictionary *mDict = [aDictionary mutableCopy];
-                     
-                     //Replace the value at key @"key" with some new value @"new value"
-                     //mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
-                     mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
-                     
-                     if(![[[json valueForKey:@"updguest"] valueForKey:@"calloutCount"] isEqual:[NSNull null]])
-                     {
-                         mDict[@"calloutCount"] = [[json valueForKey:@"updguest"] valueForKey:@"calloutCount"];
-                     }
-                     
-                     if(![[[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
-                     {
-                         mDict[@"incompleteParty"] = [[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"];
-                     }
-                     
-                     [arrayLess30 replaceObjectAtIndex:i withObject:mDict];
-                     
-                     [tblView30 reloadData];
-                     
-                     
-                 }
-             }
-             
-             // from less 60
-             for(int i = 0; i<[arrayLess60 count]; i++)
-             {
-                 if([[[arrayLess60 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
-                 {
-                     //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
-                     //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
-                     
-                     //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
-                     
-                     
-                     NSDictionary *aDictionary = [arrayLess60 objectAtIndex: i];
-                     //Make a mutable copy of each dictionary in the array.
-                     NSMutableDictionary *mDict = [aDictionary mutableCopy];
-                     
-                     //Replace the value at key @"key" with some new value @"new value"
-                     //mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
-                     mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
-                     
-                     if(![[[json valueForKey:@"updguest"] valueForKey:@"calloutCount"] isEqual:[NSNull null]])
-                     {
-                         mDict[@"calloutCount"] = [[json valueForKey:@"updguest"] valueForKey:@"calloutCount"];
-                     }
-                     
-                     if(![[[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
-                     {
-                         mDict[@"incompleteParty"] = [[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"];
-                     }
-                     
-                     [arrayLess60 replaceObjectAtIndex:i withObject:mDict];
-                     
-                     [tblView60 reloadData];
-                     
-                     
-                 }
-             }
-             
-             // from less 90
-             for(int i = 0; i<[arrayLess90 count]; i++)
-             {
-                 if([[[arrayLess90 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
-                 {
-                     //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
-                     //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
-                     
-                     //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
-                     
-                     
-                     NSDictionary *aDictionary = [arrayLess90 objectAtIndex: i];
-                     //Make a mutable copy of each dictionary in the array.
-                     NSMutableDictionary *mDict = [aDictionary mutableCopy];
-                     
-                     //Replace the value at key @"key" with some new value @"new value"
-                     //mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
-                     mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
-                     
-                     if(![[[json valueForKey:@"updguest"] valueForKey:@"calloutCount"] isEqual:[NSNull null]])
-                     {
-                         mDict[@"calloutCount"] = [[json valueForKey:@"updguest"] valueForKey:@"calloutCount"];
-                     }
-                     
-                     if(![[[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
-                     {
-                         mDict[@"incompleteParty"] = [[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"];
-                     }
-                     
-                     [arrayLess90 replaceObjectAtIndex:i withObject:mDict];
-                     
-                     [tblView90 reloadData];
-                     
-                     
-                 }
-             }
-             
-             */
-         }
-         else if([[json valueForKey:@"OP"] isEqualToString:@"MARK_AS_SEATED"])
-         {
-             [self fetchList];
-             
-             /*
-             // from less 30
-             for(int i = 0; i<[arrayLess30 count]; i++)
-             {
-                 if([[[arrayLess30 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
-                 {
-                     //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
-                     //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
-                     
-                     [arrayLess30 removeObjectAtIndex:i];
-                     
-                     [tblView30 reloadData];
-                 }
-             }
-             
-             // from less 60
-             for(int i = 0; i<[arrayLess60 count]; i++)
-             {
-                 if([[[arrayLess60 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
-                 {
-                     //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
-                     //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
-                     
-                     [arrayLess60 removeObjectAtIndex:i];
-                     
-                     [tblView60 reloadData];
-                 }
-             }
-             
-             // from less 90
-             for(int i = 0; i<[arrayLess90 count]; i++)
-             {
-                 if([[[arrayLess90 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
-                 {
-                     //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
-                     //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
-                     
-                     [arrayLess90 removeObjectAtIndex:i];
-                     
-                     [tblView90 reloadData];
-                 }
-             }
-             */
-             
-             
-         }
-         
-     }];
-}
-
-
-- (void)fetchList
-{
-    if(appDelegate.isInternetReachble)
-    {
-        
-        
-        
-        //{"filters":null,"sort":null,"sortOrder":null,"pageSize":500,"pageNo":1}
-        
-        //NSError *jsonError;
-        NSData *objectData = [@"{\"filters\":null,\"sort\":null,\"sortOrder\":null,\"pageSize\":500,\"pageNo\":1}" dataUsingEncoding:NSUTF8StringEncoding];
-        
-        
-        NSString *jsonString = [[NSString alloc] initWithData:objectData encoding:NSUTF8StringEncoding];
-        
-        /*NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-         id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];*/
-        
-        
-        //NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers error:&jsonError];
-        
-        NSString *urlStr = [NSString stringWithFormat:@"http://jbossdev-kyobee.rhcloud.com/kyobee/web/rest/waitlistRestAction/checkinusers?orgid=%@&pagerReqParam=%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"],jsonString];
-        
-        NSString *escapedPath = [urlStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-        
-        NSURL *url = [NSURL URLWithString:escapedPath];
-        NSURLRequest *request = [NSURLRequest requestWithURL:url];
-        
-        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
-         {
-             
-             
-             if(data != nil)
-             {
-                 NSString *htmlSTR = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                 //NSLog(@"%@",htmlSTR);
-                 
-                 NSData *data = [htmlSTR dataUsingEncoding:NSUTF8StringEncoding];
-                 id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                 
-                 //NSDictionary *jsonObject=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-                 
-                 //if([[json valueForKey:@"success"] isEqualToString:@"1"])
-                 if(![[json valueForKey:@"status"] isEqual:[NSNull null]])
-                 {
-                     if([[json valueForKey:@"status"] isEqualToString:@"SUCCESS"])
-                     {
-                         if(![[json valueForKey:@"serviceResult"] isEqual:[NSNull null]])
-                         {
-                             NSArray *guestList = [[json valueForKey:@"serviceResult"] valueForKey:@"records"];
-                             
-                             if(guestList.count > 0)
-                             {
-                                 if(guestArray.count > 0)
-                                 {
-                                     [guestArray removeAllObjects];
-                                 }
-                                 
-                                 [guestArray addObjectsFromArray:guestList];
-                                 
-                                 
-                                 if(arrayLess30.count > 0)
-                                 {
-                                     [arrayLess30 removeAllObjects];
-                                 }
-                                 if(arrayLess60.count > 0)
-                                 {
-                                     [arrayLess60 removeAllObjects];
-                                 }
-                                 if(arrayLess90.count > 0)
-                                 {
-                                     [arrayLess90 removeAllObjects];
-                                 }
                                  
                                  // For Less Than 30
                                  /*for(int i = 0; i < [guestArray count]; i++)
@@ -1417,13 +435,733 @@
                                  //
                                  
                                  
-                                 // For Less Than 90
+                                 [tblView30 reloadData];
+                                 [tblView60 reloadData];
+                                 
+                             }
+                             else
+                             {
+                                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"There is no guest checked in yet." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                                 
+                                 [alert show];
+                             }
+                         }
+                         else
+                         {
+                             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"There is no guest checked in yet." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                             
+                             [alert show];
+                         }
+                         
+                         //[imgResto sd_setImageWithURL:[NSURL URLWithString:[[json valueForKey:@"serviceResult"]valueForKey:@"imageOrgPath"]] placeholderImage:[UIImage imageNamed:@"RestoImage"]];
+                     }
+                     else if([[json valueForKey:@"success"] isEqualToString:@"-1"])
+                     {
+                         /*UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:[json valueForKey:@"error"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                          
+                          [alert show];*/
+                     }
+                     else if([[json valueForKey:@"success"] isEqualToNumber:[NSNumber numberWithInt:2]])
+                     {
+                         /*UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:[json valueForKey:@"message"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                          
+                          [alert show];*/
+                     }
+                     else if([[json valueForKey:@"success"] isEqualToNumber:[NSNumber numberWithInt:-2]])
+                     {
+                         /*UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:[json valueForKey:@"message"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                          
+                          [alert show];*/
+                     }
+                 }
+                 else
+                 {
+                     if(arrayLess30.count > 0)
+                     {
+                         [arrayLess30 removeAllObjects];
+                     }
+                     if(arrayLess60.count > 0)
+                     {
+                         [arrayLess60 removeAllObjects];
+                     }
+                     
+                     
+                     [tblView30 reloadData];
+                     [tblView60 reloadData];
+                 }
+             }
+         }];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please check your internet connection." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [alert show];
+    }
+    
+}
+
+/*
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
+
+#pragma mark - UITableViewDataSource
+
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if(viewSettings.hidden == true)
+    {
+        if(tableView == tblView30)
+        {
+            return arrayLess30.count;
+        }
+        else
+        {
+            return arrayLess60.count;
+        }
+    }
+    else
+    {
+        if(btnColumns.selected == true)
+        {
+            return columnsArray.count + 1;
+        }
+        else
+        {
+            return rowsArray.count + 1;
+        }
+    }
+    
+    
+    //return guestArray.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 25;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(viewSettings.hidden == true)
+    {
+        
+        if(tableView == tblView30)
+        {
+            static NSString *CellIdentifier = @"Cell";
+            
+            GuestListCell *cell = (GuestListCell *)[tblView30 dequeueReusableCellWithIdentifier:CellIdentifier];
+            
+            if (cell == nil)
+            {
+                cell = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([GuestListCell class]) owner:nil options:nil] lastObject];
+            }
+            
+            cell.lblRank.text = [NSString stringWithFormat:@"%@",[[arrayLess30 objectAtIndex:indexPath.row] valueForKey:@"rank"]];
+            cell.lblName.text = [NSString stringWithFormat:@"%@",[[arrayLess30 objectAtIndex:indexPath.row] valueForKey:@"name"]];
+            
+            if (![[[arrayLess30 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+            {
+                cell.imgThumb.hidden = false;
+            }
+            
+            if (![[[arrayLess30 objectAtIndex:indexPath.row]valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+            {
+                cell.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
+            }
+            else
+            {
+                cell.backgroundColor = [UIColor clearColor];
+            }
+            
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            return cell;
+        }
+        else
+        {
+            static NSString *CellIdentifier = @"Cell";
+            
+            GuestListCell *cell = (GuestListCell *)[tblView30 dequeueReusableCellWithIdentifier:CellIdentifier];
+            
+            if (cell == nil)
+            {
+                cell = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([GuestListCell class]) owner:nil options:nil] lastObject];
+            }
+            
+            cell.lblRank.text = [NSString stringWithFormat:@"%@",[[arrayLess60 objectAtIndex:indexPath.row] valueForKey:@"rank"]];
+            cell.lblName.text = [NSString stringWithFormat:@"%@",[[arrayLess60 objectAtIndex:indexPath.row] valueForKey:@"name"]];
+            
+            
+            
+            if (![[[arrayLess60 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+            {
+                cell.imgThumb.hidden = false;
+            }
+            
+            if (![[[arrayLess60 objectAtIndex:indexPath.row]valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+            {
+                cell.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
+            }
+            else
+            {
+                cell.backgroundColor = [UIColor clearColor];
+            }
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            return cell;
+        }
+    }
+    else
+    {
+        if(btnColumns.selected == true)
+        {
+            static NSString *cellIdentifier = @"Cell";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+            if (!cell)
+            {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+            }
+            
+            if(indexPath.row == 0)
+            {
+                cell.textLabel.text =[NSString stringWithFormat:@"# of columns*"];
+            }
+            else
+            {
+                cell.textLabel.text =[NSString stringWithFormat:@"%@",[columnsArray objectAtIndex:indexPath.row-1]];
+            }
+            
+            cell.backgroundColor = [UIColor clearColor];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.textColor = [UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0];
+            cell.textLabel.font = [UIFont boldSystemFontOfSize:20.0];
+            
+            return cell;
+        }
+        else
+        {
+            static NSString *cellIdentifier = @"Cell";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+            if (!cell)
+            {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+            }
+            
+            if(indexPath.row == 0)
+            {
+                cell.textLabel.text =[NSString stringWithFormat:@"# of rows per column*"];
+            }
+            else
+            {
+                cell.textLabel.text =[NSString stringWithFormat:@"%@",[rowsArray objectAtIndex:indexPath.row-1]] ;
+            }
+            cell.backgroundColor = [UIColor clearColor];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.textColor = [UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0];
+            cell.textLabel.font = [UIFont boldSystemFontOfSize:20.0];
+            
+            return cell;
+        }
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(tableView == tblViewColumnsAndRows)
+    {
+        
+        if(indexPath.row > 0)
+        {
+            if(btnColumns.selected == true)
+            {
+                txtColumns.text = [NSString stringWithFormat:@"%@",[columnsArray objectAtIndex:indexPath.row-1]];
+                [tblViewColumnsAndRows setHidden:true];
+                
+                if(indexPath.row == 1)
+                {
+                    _heightViewSubSettings.constant = 498;
+                    
+                    txtColumnOne.hidden = false;
+                    txtColumnTwo.hidden = true;
+                    txtColumnThree.hidden = true;
+                    
+                    txtColumnOne.placeholder = @"Enter first column name*";
+                    
+                    
+                    [self.view setNeedsUpdateConstraints];
+                    
+                    [UIView animateWithDuration:0.40f animations:^{
+                        
+                        [self.view layoutIfNeeded];
+                    }];
+                }
+                
+                if(indexPath.row == 2)
+                {
+                    _heightViewSubSettings.constant = 578;
+                    
+                    txtColumnOne.hidden = false;
+                    txtColumnTwo.hidden = false;
+                    txtColumnThree.hidden = true;
+                    
+                    txtColumnOne.placeholder = @"Enter first column name*";
+                    txtColumnTwo.placeholder = @"Enter second column name*";
+                    
+                    
+                    [self.view setNeedsUpdateConstraints];
+                    
+                    [UIView animateWithDuration:0.40f animations:^{
+                        
+                        [self.view layoutIfNeeded];
+                    }];
+                }
+                
+                if(indexPath.row == 3)
+                {
+                    _heightViewSubSettings.constant = 658;
+                    
+                    txtColumnOne.hidden = false;
+                    txtColumnTwo.hidden = false;
+                    txtColumnThree.hidden = false;
+                    
+                    txtColumnOne.placeholder = @"Enter first column name*";
+                    txtColumnTwo.placeholder = @"Enter second column name*";
+                    txtColumnThree.placeholder = @"Enter third column name*";
+                    
+                    [self.view setNeedsUpdateConstraints];
+                    
+                    [UIView animateWithDuration:0.40f animations:^{
+                        
+                        [self.view layoutIfNeeded];
+                    }];
+                }
+                
+                [txtColumns.layer setBorderWidth:1.5];
+                [txtColumns.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+            }
+            else
+            {
+                txtRows.text = [NSString stringWithFormat:@"%@",[rowsArray objectAtIndex:indexPath.row-1]];
+                [tblViewColumnsAndRows setHidden:true];
+                
+                
+                [txtRows.layer setBorderWidth:1.5];
+                [txtRows.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+            }
+            
+            /*txt_your_party.text = [NSString stringWithFormat:@"%ld",indexPath.row];
+             [tblViewParties setHidden:true];
+             [tblViewSeatPref reloadData];
+             
+             [txt_your_party.layer setBorderWidth:1.5];
+             [txt_your_party.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];*/
+        }
+    }
+}
+
+- (IBAction)btnRefresh_clicked:(id)sender
+{
+    [self fetchGuestList];
+}
+
+
+
+
+# pragma mark -
+# pragma mark - Realtime Delegate
+
+// For Remain methods, look at ortcClient.h file
+
+- (void) onConnected:(OrtcClient*) ortc
+{
+    NSString *strChannel = [NSString stringWithFormat:@"RSNT_GUEST_DEV_%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"]];
+    
+    [_ortcClient subscribe:strChannel subscribeOnReconnected:YES onMessage:^(OrtcClient* ortc, NSString* channel, NSString* message)
+     {
+         NSLog(@"Received at %@: %@", channel, message);
+         
+         NSData *data = [message dataUsingEncoding:NSUTF8StringEncoding];
+         id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+         
+         id jsonForNotPresentAndIcomplete;
+         
+         if([[json valueForKey:@"OP"] isEqualToString:@"ADD"])
+         {
+             
+             [self fetchList];
+             //Lbl_Number.text = [NSString stringWithFormat:@"#%@",[json valueForKey:@"guestRank"]];
+             
+         }
+         else if([[json valueForKey:@"OP"] isEqualToString:@"DEL"])
+         {
+             [self fetchList];
+             
+             /*for(int i = 0; i<[guestArray count]; i++)
+              {
+              if([[[guestArray objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+              {
+              NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+              NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+              
+              [guestArray removeObjectAtIndex:i];
+              
+              [tblViewGuestList reloadData];
+              }
+              }*/
+         }
+         else if([[json valueForKey:@"OP"] isEqualToString:@"UpdageGuestInfo"])
+         {
+             
+             [self fetchList];
+             
+             /*
+              
+              // from less 30
+              for(int i = 0; i<[arrayLess30 count]; i++)
+              {
+              if([[[arrayLess30 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+              {
+              //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+              //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+              
+              //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
+              
+              
+              NSDictionary *aDictionary = [arrayLess30 objectAtIndex: i];
+              //Make a mutable copy of each dictionary in the array.
+              NSMutableDictionary *mDict = [aDictionary mutableCopy];
+              
+              //Replace the value at key @"key" with some new value @"new value"
+              mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
+              mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
+              
+              [arrayLess30 replaceObjectAtIndex:i withObject:mDict];
+              
+              [tblView30 reloadData];
+              }
+              }
+              
+              // from less 60
+              for(int i = 0; i<[arrayLess60 count]; i++)
+              {
+              if([[[arrayLess60 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+              {
+              //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+              //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+              
+              //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
+              
+              
+              NSDictionary *aDictionary = [arrayLess60 objectAtIndex: i];
+              //Make a mutable copy of each dictionary in the array.
+              NSMutableDictionary *mDict = [aDictionary mutableCopy];
+              
+              //Replace the value at key @"key" with some new value @"new value"
+              mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
+              mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
+              
+              [arrayLess60 replaceObjectAtIndex:i withObject:mDict];
+              
+              [tblView60 reloadData];
+              }
+              }
+              
+              
+              // from less 90
+              for(int i = 0; i<[arrayLess90 count]; i++)
+              {
+              if([[[arrayLess90 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+              {
+              //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+              //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+              
+              //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
+              
+              
+              NSDictionary *aDictionary = [arrayLess90 objectAtIndex: i];
+              //Make a mutable copy of each dictionary in the array.
+              NSMutableDictionary *mDict = [aDictionary mutableCopy];
+              
+              //Replace the value at key @"key" with some new value @"new value"
+              mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
+              mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
+              
+              [arrayLess90 replaceObjectAtIndex:i withObject:mDict];
+              
+              [tblView90 reloadData];
+              }
+              }
+              
+              */
+         }
+         else if([[json valueForKey:@"OP"] isEqualToString:@"UPD"])
+         {
+             [self fetchList];
+             
+             /*
+              jsonForNotPresentAndIcomplete = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+              
+              // from less 30
+              for(int i = 0; i<[arrayLess30 count]; i++)
+              {
+              if([[[arrayLess30 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+              {
+              //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+              //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+              
+              //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
+              
+              
+              NSDictionary *aDictionary = [arrayLess30 objectAtIndex: i];
+              //Make a mutable copy of each dictionary in the array.
+              NSMutableDictionary *mDict = [aDictionary mutableCopy];
+              
+              //Replace the value at key @"key" with some new value @"new value"
+              //mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
+              mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
+              
+              if(![[[json valueForKey:@"updguest"] valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+              {
+              mDict[@"calloutCount"] = [[json valueForKey:@"updguest"] valueForKey:@"calloutCount"];
+              }
+              
+              if(![[[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+              {
+              mDict[@"incompleteParty"] = [[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"];
+              }
+              
+              [arrayLess30 replaceObjectAtIndex:i withObject:mDict];
+              
+              [tblView30 reloadData];
+              
+              
+              }
+              }
+              
+              // from less 60
+              for(int i = 0; i<[arrayLess60 count]; i++)
+              {
+              if([[[arrayLess60 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+              {
+              //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+              //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+              
+              //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
+              
+              
+              NSDictionary *aDictionary = [arrayLess60 objectAtIndex: i];
+              //Make a mutable copy of each dictionary in the array.
+              NSMutableDictionary *mDict = [aDictionary mutableCopy];
+              
+              //Replace the value at key @"key" with some new value @"new value"
+              //mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
+              mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
+              
+              if(![[[json valueForKey:@"updguest"] valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+              {
+              mDict[@"calloutCount"] = [[json valueForKey:@"updguest"] valueForKey:@"calloutCount"];
+              }
+              
+              if(![[[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+              {
+              mDict[@"incompleteParty"] = [[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"];
+              }
+              
+              [arrayLess60 replaceObjectAtIndex:i withObject:mDict];
+              
+              [tblView60 reloadData];
+              
+              
+              }
+              }
+              
+              // from less 90
+              for(int i = 0; i<[arrayLess90 count]; i++)
+              {
+              if([[[arrayLess90 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+              {
+              //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+              //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+              
+              //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
+              
+              
+              NSDictionary *aDictionary = [arrayLess90 objectAtIndex: i];
+              //Make a mutable copy of each dictionary in the array.
+              NSMutableDictionary *mDict = [aDictionary mutableCopy];
+              
+              //Replace the value at key @"key" with some new value @"new value"
+              //mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
+              mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
+              
+              if(![[[json valueForKey:@"updguest"] valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+              {
+              mDict[@"calloutCount"] = [[json valueForKey:@"updguest"] valueForKey:@"calloutCount"];
+              }
+              
+              if(![[[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+              {
+              mDict[@"incompleteParty"] = [[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"];
+              }
+              
+              [arrayLess90 replaceObjectAtIndex:i withObject:mDict];
+              
+              [tblView90 reloadData];
+              
+              
+              }
+              }
+              
+              */
+         }
+         else if([[json valueForKey:@"OP"] isEqualToString:@"MARK_AS_SEATED"])
+         {
+             [self fetchList];
+             
+             /*
+              // from less 30
+              for(int i = 0; i<[arrayLess30 count]; i++)
+              {
+              if([[[arrayLess30 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+              {
+              //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+              //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+              
+              [arrayLess30 removeObjectAtIndex:i];
+              
+              [tblView30 reloadData];
+              }
+              }
+              
+              // from less 60
+              for(int i = 0; i<[arrayLess60 count]; i++)
+              {
+              if([[[arrayLess60 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+              {
+              //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+              //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+              
+              [arrayLess60 removeObjectAtIndex:i];
+              
+              [tblView60 reloadData];
+              }
+              }
+              
+              // from less 90
+              for(int i = 0; i<[arrayLess90 count]; i++)
+              {
+              if([[[arrayLess90 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+              {
+              //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+              //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+              
+              [arrayLess90 removeObjectAtIndex:i];
+              
+              [tblView90 reloadData];
+              }
+              }
+              */
+             
+             
+         }
+         
+     }];
+}
+
+
+- (void)fetchList
+{
+    if(appDelegate.isInternetReachble)
+    {
+        
+        
+        
+        //{"filters":null,"sort":null,"sortOrder":null,"pageSize":500,"pageNo":1}
+        
+        //NSError *jsonError;
+        NSData *objectData = [@"{\"filters\":null,\"sort\":null,\"sortOrder\":null,\"pageSize\":500,\"pageNo\":1}" dataUsingEncoding:NSUTF8StringEncoding];
+        
+        
+        NSString *jsonString = [[NSString alloc] initWithData:objectData encoding:NSUTF8StringEncoding];
+        
+        /*NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+         id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];*/
+        
+        
+        //NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers error:&jsonError];
+        
+        NSString *urlStr = [NSString stringWithFormat:@"http://jbossdev-kyobee.rhcloud.com/kyobee/web/rest/waitlistRestAction/checkinusers?orgid=%@&pagerReqParam=%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"],jsonString];
+        
+        NSString *escapedPath = [urlStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+        
+        NSURL *url = [NSURL URLWithString:escapedPath];
+        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+        
+        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
+         {
+             
+             
+             if(data != nil)
+             {
+                 NSString *htmlSTR = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                 //NSLog(@"%@",htmlSTR);
+                 
+                 NSData *data = [htmlSTR dataUsingEncoding:NSUTF8StringEncoding];
+                 id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                 
+                 //NSDictionary *jsonObject=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+                 
+                 //if([[json valueForKey:@"success"] isEqualToString:@"1"])
+                 if(![[json valueForKey:@"status"] isEqual:[NSNull null]])
+                 {
+                     if([[json valueForKey:@"status"] isEqualToString:@"SUCCESS"])
+                     {
+                         if(![[json valueForKey:@"serviceResult"] isEqual:[NSNull null]])
+                         {
+                             NSArray *guestList = [[json valueForKey:@"serviceResult"] valueForKey:@"records"];
+                             
+                             if(guestList.count > 0)
+                             {
+                                 if(guestArray.count > 0)
+                                 {
+                                     [guestArray removeAllObjects];
+                                 }
+                                 
+                                 [guestArray addObjectsFromArray:guestList];
+                                 
+                                 
+                                 if(arrayLess30.count > 0)
+                                 {
+                                     [arrayLess30 removeAllObjects];
+                                 }
+                                 if(arrayLess60.count > 0)
+                                 {
+                                     [arrayLess60 removeAllObjects];
+                                 }
+                                 
+                                 
+                                 // For Less Than 30
                                  /*for(int i = 0; i < [guestArray count]; i++)
                                   {
-                                  if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] > 60 & [[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 90)
-                                  //if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 90)
+                                  if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 30)
                                   {
-                                  [arrayLess90 addObject:[guestArray objectAtIndex:i]];
+                                  [arrayLess30 addObject:[guestArray objectAtIndex:i]];
                                   }
                                   }*/
                                  
@@ -1432,16 +1170,79 @@
                                  {
                                      int numberOfRows = [[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] intValue];
                                      
-                                     int rows1 = (int)[arrayLess30 count];
-                                     int rows2 = (int)[arrayLess60 count];
-                                     
-                                     int row = rows1 + rows2;
-                                     
-                                     for(int i = row; i < [guestArray count]; i++)
+                                     for(int i = 0; i < [guestArray count]; i++)
                                      {
-                                         [arrayLess90 addObject:[guestArray objectAtIndex:i]];
                                          
-                                         if([arrayLess90 count] == numberOfRows)
+                                         [arrayLess30 addObject:[guestArray objectAtIndex:i]];
+                                         
+                                         
+                                         if([arrayLess30 count] == numberOfRows)
+                                         {
+                                             break;
+                                         }
+                                     }
+                                 }
+                                 else
+                                 {
+                                     for(int i = 0; i < [guestArray count]; i++)
+                                     {
+                                         
+                                         [arrayLess30 addObject:[guestArray objectAtIndex:i]];
+                                         
+                                         if(i == 24)
+                                         {
+                                             break;
+                                         }
+                                     }
+                                 }
+                                 
+                                 /*for(int i = 0; i < [guestArray count]; i++)
+                                  {
+                                  
+                                  [arrayLess30 addObject:[guestArray objectAtIndex:i]];
+                                  
+                                  if(i == 24)
+                                  {
+                                  break;
+                                  }
+                                  }*/
+                                 
+                                 if(arrayLess30.count > 0)
+                                 {
+                                     [tblView30 reloadData];
+                                     
+                                     lblNoUser30.hidden = true;
+                                 }
+                                 else
+                                 {
+                                     lblNoUser30.hidden = true;
+                                 }
+                                 //
+                                 
+                                 
+                                 
+                                 // For Less Than 60
+                                 /*for(int i = 0; i < [guestArray count]; i++)
+                                  {
+                                  if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] > 30 & [[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 60)
+                                  //if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 60)
+                                  {
+                                  [arrayLess60 addObject:[guestArray objectAtIndex:i]];
+                                  }
+                                  }*/
+                                 
+                                 if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] isEqualToString:@""])
+                                 {
+                                     int numberOfRows = [[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] intValue];
+                                     
+                                     int rows = (int)[arrayLess30 count];
+                                     
+                                     for(int i = rows; i < [guestArray count]; i++)
+                                     {
+                                         
+                                         [arrayLess60 addObject:[guestArray objectAtIndex:i]];
+                                         
+                                         if([arrayLess60 count] == numberOfRows)
                                          {
                                              break;
                                          }
@@ -1450,11 +1251,12 @@
                                  }
                                  else
                                  {
-                                     for(int i = 50; i < [guestArray count]; i++)
+                                     for(int i = 25; i < [guestArray count]; i++)
                                      {
-                                         [arrayLess90 addObject:[guestArray objectAtIndex:i]];
                                          
-                                         if(i == 74)
+                                         [arrayLess60 addObject:[guestArray objectAtIndex:i]];
+                                         
+                                         if(i == 49)
                                          {
                                              break;
                                          }
@@ -1462,32 +1264,33 @@
                                      }
                                  }
                                  
-                                 /*for(int i = 50; i < [guestArray count]; i++)
+                                 /*for(int i = 25; i < [guestArray count]; i++)
                                   {
-                                  [arrayLess90 addObject:[guestArray objectAtIndex:i]];
                                   
-                                  if(i == 74)
+                                  [arrayLess60 addObject:[guestArray objectAtIndex:i]];
+                                  
+                                  if(i == 49)
                                   {
                                   break;
                                   }
                                   
                                   }*/
                                  
-                                 if(arrayLess90.count > 0)
+                                 if(arrayLess60.count > 0)
                                  {
-                                     [tblView90 reloadData];
+                                     [tblView60 reloadData];
                                      
-                                     lblNoUser90.hidden = true;
+                                     lblNoUser60.hidden = true;
                                  }
                                  else
                                  {
-                                     lblNoUser90.hidden = true;
+                                     lblNoUser60.hidden = true;
                                  }
                                  //
-                                 
+                              
                                  [tblView30 reloadData];
                                  [tblView60 reloadData];
-                                 [tblView90 reloadData];
+                                 
                              }
                              else
                              {
@@ -1534,14 +1337,10 @@
                      {
                          [arrayLess60 removeAllObjects];
                      }
-                     if(arrayLess90.count > 0)
-                     {
-                         [arrayLess90 removeAllObjects];
-                     }
+                     
                      
                      [tblView30 reloadData];
                      [tblView60 reloadData];
-                     [tblView90 reloadData];
                  }
              }
          }];
@@ -1639,7 +1438,6 @@
     
     [tblView30 reloadData];
     [tblView60 reloadData];
-    [tblView90 reloadData];
 }
 
 - (IBAction)btnColumns_clicked:(id)sender
@@ -1695,7 +1493,6 @@
                 
                 lblColumnOneName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnOneName"];
                 lblColumnTwoName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnTwoName"];
-                lblColumnThreeName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnThreeName"];
                 
                 viewSettings.hidden = true;
                 
@@ -1747,14 +1544,15 @@
                 
                 lblColumnOneName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnOneName"];
                 lblColumnTwoName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnTwoName"];
-                lblColumnThreeName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnThreeName"];
                 
                 viewSettings.hidden = true;
                 
                 [txtFieldRef resignFirstResponder];
                 
-                GuestListTwoColumn *guestListTwoColumn = [[GuestListTwoColumn alloc] initWithNibName:@"GuestListTwoColumn" bundle:nil];
-                [self.navigationController pushViewController:guestListTwoColumn animated:NO];
+                [self fetchGuestList];
+                
+                /*GuestListTwoColumn *guestListTwoColumn = [[GuestListTwoColumn alloc] initWithNibName:@"GuestListTwoColumn" bundle:nil];
+                [self.navigationController pushViewController:guestListTwoColumn animated:NO];*/
             }
             else
             {
@@ -1796,7 +1594,7 @@
                 
                 NSString *columnThreeName = [txtColumnThree.text uppercaseString];
                 txtColumnThree.text =  columnThreeName;
-               
+                
                 [[NSUserDefaults standardUserDefaults] setValue:txtColumns.text forKey:@"numberOfColumns"];
                 [[NSUserDefaults standardUserDefaults] setValue:txtRows.text forKey:@"numberOfRows"];
                 [[NSUserDefaults standardUserDefaults] setValue:txtColumnOne.text forKey:@"columnOneName"];
@@ -1808,13 +1606,13 @@
                 
                 lblColumnOneName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnOneName"];
                 lblColumnTwoName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnTwoName"];
-                lblColumnThreeName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnThreeName"];
                 
                 viewSettings.hidden = true;
                 
                 [txtFieldRef resignFirstResponder];
                 
-                [self fetchGuestList];
+                KyobeeGuestList *kyobeeGuestList = [[KyobeeGuestList alloc] initWithNibName:@"KyobeeGuestList" bundle:nil];
+                [self.navigationController pushViewController:kyobeeGuestList animated:NO];
                 
             }
             else
@@ -1942,7 +1740,7 @@ replacementString:(NSString *)string
         
         
         return YES;
-       
+        
     }
     else if (textField == txtColumnTwo)
     {
@@ -2081,7 +1879,5 @@ replacementString:(NSString *)string
         [self.view layoutIfNeeded];
     }];
 }
-
-
 
 @end

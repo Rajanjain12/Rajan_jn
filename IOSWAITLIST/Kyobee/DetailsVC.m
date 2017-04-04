@@ -48,7 +48,9 @@
 
 @interface DetailsVC ()
 
-@property (nonatomic,strong) UILongPressGestureRecognizer *lpgr;
+@property (nonatomic,strong) UILongPressGestureRecognizer *lpgrLogOut;
+
+@property (nonatomic,strong) UILongPressGestureRecognizer *lpgrForOptions;
 
 @end
 
@@ -59,15 +61,25 @@
     appDelegate =(AppDelegate*)[[UIApplication sharedApplication]delegate];
     
     
-    self.lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGestures:)];
-    self.lpgr.minimumPressDuration = 5.0f;
-    self.lpgr.numberOfTouchesRequired = 2;
-    self.lpgr.allowableMovement = 100.0f;
+    self.lpgrLogOut = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGestures:)];
+    self.lpgrLogOut.minimumPressDuration = 5.0f;
+    self.lpgrLogOut.numberOfTouchesRequired = 2;
+    self.lpgrLogOut.allowableMovement = 100.0f;
     
     //[btnLogout addGestureRecognizer:self.lpgr];
-    [btnTopLeft addGestureRecognizer:self.lpgr];
+    [btnTopLeft addGestureRecognizer:self.lpgrLogOut];
     //[btnTopRight addGestureRecognizer:self.lpgr];
     //[btnBottomLeft addGestureRecognizer:self.lpgr];
+    
+    
+    
+    // For Options
+    self.lpgrForOptions = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGestures:)];
+    self.lpgrForOptions.minimumPressDuration = 5.0f;
+    self.lpgrForOptions.numberOfTouchesRequired = 1;
+    self.lpgrForOptions.allowableMovement = 100.0f;
+    
+    [btnForOptions addGestureRecognizer:self.lpgrForOptions];
     
     
     seatPrefArray = [[NSMutableArray alloc] initWithCapacity:0];
@@ -120,11 +132,13 @@
     
     
     [self addHorizontalTable];
+    
+    
 }
 
 - (void)handleLongPressGestures:(UILongPressGestureRecognizer *)sender
 {
-    if ([sender isEqual:self.lpgr])
+    if ([sender isEqual:self.lpgrLogOut])
     {
         if (sender.state == UIGestureRecognizerStateBegan)
         {
@@ -132,7 +146,33 @@
             
             [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"checkinmodeselected"];
             
+            [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"displaymodeselected"];
+            
+            [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"fromBack"];
+            
+            
+            //**
+            
+            [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"numberOfColumns"];
+            [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"numberOfRows"];
+            [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"columnOneName"];
+            [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"columnTwoName"];
+            [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"columnThreeName"];
+            
+            //**
+            
             [[NSUserDefaults standardUserDefaults]synchronize];
+            
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+    }
+    
+    if ([sender isEqual:self.lpgrForOptions])
+    {
+        if (sender.state == UIGestureRecognizerStateBegan)
+        {
+            [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"fromBack"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
             
             [self.navigationController popToRootViewControllerAnimated:YES];
         }

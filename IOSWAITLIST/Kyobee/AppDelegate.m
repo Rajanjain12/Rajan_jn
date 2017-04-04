@@ -14,7 +14,8 @@
 
 #import "GuestListVC.h"
 
-
+#import "GuestListTwoColumn.h"
+#import "GuestListOneColumn.h"
 #import "KyobeeGuestList.h"
 
 #import <Fabric/Fabric.h>
@@ -53,23 +54,68 @@
             [self.navController pushViewController:detailsVC animated:YES];
         }*/
         
+        
         if([[NSUserDefaults standardUserDefaults] boolForKey:@"rememberMe"] == YES)
         {
             
             if([[NSUserDefaults standardUserDefaults] boolForKey:@"checkinmodeselected"] == YES)
             {
                 DetailsVC *detailsVC = [[DetailsVC alloc] initWithNibName:@"DetailsVC" bundle:nil];
+                
+                
+                [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"fromBack"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
                 [self.navController pushViewController:detailsVC animated:YES];
             }
             if([[NSUserDefaults standardUserDefaults] boolForKey:@"displaymodeselected"] == YES)
             {
                 
+                if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfColumns"] isEqualToString:@""])
+                {
+                    if([[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfColumns"] isEqualToString:@"1"])
+                    {
+                        GuestListOneColumn *guestListOneColumn = [[GuestListOneColumn alloc] initWithNibName:@"GuestListOneColumn" bundle:nil];
+                        
+                        [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"fromBack"];
+                        [[NSUserDefaults standardUserDefaults] synchronize];
+                        
+                        [self.navController pushViewController:guestListOneColumn animated:YES];
+                    }
+                    if([[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfColumns"] isEqualToString:@"2"])
+                    {
+                        GuestListTwoColumn *guestListTwoColumn = [[GuestListTwoColumn alloc] initWithNibName:@"GuestListTwoColumn" bundle:nil];
+                        
+                        [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"fromBack"];
+                        [[NSUserDefaults standardUserDefaults] synchronize];
+                        
+                        [self.navController pushViewController:guestListTwoColumn animated:YES];
+                    }
+                    if([[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfColumns"] isEqualToString:@"3"])
+                    {
+                        KyobeeGuestList *kyobeeGuestList = [[KyobeeGuestList alloc] initWithNibName:@"KyobeeGuestList" bundle:nil];
+                        
+                        [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"fromBack"];
+                        [[NSUserDefaults standardUserDefaults] synchronize];
+                        
+                        [self.navController pushViewController:kyobeeGuestList animated:YES];
+                    }
+                    
+                }
+                else
+                {
+                    KyobeeGuestList *kyobeeGuestList = [[KyobeeGuestList alloc] initWithNibName:@"KyobeeGuestList" bundle:nil];
+                    
+                    [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"fromBack"];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                    
+                    [self.navController pushViewController:kyobeeGuestList animated:YES];
+                }
                 
                 /*GuestListVC *guestListVC = [[GuestListVC alloc] initWithNibName:@"GuestListVC" bundle:nil];
                 [self.navController pushViewController:guestListVC animated:YES];*/
                 
-                KyobeeGuestList *kyobeeGuestList = [[KyobeeGuestList alloc] initWithNibName:@"KyobeeGuestList" bundle:nil];
-                [self.navController pushViewController:kyobeeGuestList animated:YES];
+                
             }
             
             

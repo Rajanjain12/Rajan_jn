@@ -52,6 +52,7 @@
                 <outlet property="btnBottomLeft" destination="I2a-vd-gRQ" id="O9S-2r-was"/>
                 <outlet property="btnCheckinToBottom" destination="Qt8-lf-hPl" id="Cyr-G4-e2s"/>
                 <outlet property="btnCheckinToTop" destination="WyW-Ye-1WJ" id="QD3-n4-oct"/>
+                <outlet property="btnForOptions" destination="KD8-4W-az0" id="Jth-uq-gut"/>
                 <outlet property="btnInternetConnection" destination="rsg-5f-8uw" id="7PV-z1-Zlj"/>
                 <outlet property="btnLogout" destination="xfW-j3-Cei" id="qle-cN-2f7"/>
                 <outlet property="btnTopLeft" destination="rAJ-HG-IuO" id="m1a-Z3-meh"/>
@@ -90,6 +91,17 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fT1-kc-VlF">
                     <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                     <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KD8-4W-az0">
+                            <rect key="frame" x="0.0" y="0.0" width="230" height="75"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="230" id="96s-uY-Qud"/>
+                                <constraint firstAttribute="height" constant="75" id="mj9-Uq-Lax"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="23"/>
+                            <state key="normal">
+                                <color key="titleColor" red="0.36078431370000003" green="0.36862745099999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                        </button>
                         <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome To" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nco-WE-crv">
                             <rect key="frame" x="849" y="18" width="140" height="28"/>
                             <constraints>
@@ -321,6 +333,7 @@
                         <constraint firstAttribute="bottom" secondItem="i7z-nN-Vfl" secondAttribute="bottom" constant="94" id="Qt8-lf-hPl"/>
                         <constraint firstAttribute="trailing" secondItem="KWv-Gp-XGi" secondAttribute="trailing" constant="36" id="TJE-Wa-e7d"/>
                         <constraint firstAttribute="trailing" secondItem="Nco-WE-crv" secondAttribute="trailing" constant="35" id="U0w-dB-91U"/>
+                        <constraint firstItem="KD8-4W-az0" firstAttribute="top" secondItem="fT1-kc-VlF" secondAttribute="top" id="U0z-Tw-hGF"/>
                         <constraint firstItem="rsg-5f-8uw" firstAttribute="centerX" secondItem="fT1-kc-VlF" secondAttribute="centerX" id="VvL-kM-ih7"/>
                         <constraint firstItem="i7z-nN-Vfl" firstAttribute="top" secondItem="Vd7-dp-UW2" secondAttribute="bottom" constant="49" id="WyW-Ye-1WJ"/>
                         <constraint firstItem="Vd7-dp-UW2" firstAttribute="leading" secondItem="wpv-G4-568" secondAttribute="trailing" constant="72" id="XZa-nO-D7d"/>
@@ -333,6 +346,7 @@
                         <constraint firstAttribute="bottom" secondItem="TVX-Ou-B36" secondAttribute="bottom" constant="11" id="dwJ-aD-ph4"/>
                         <constraint firstItem="wpv-G4-568" firstAttribute="top" secondItem="Vd7-dp-UW2" secondAttribute="top" constant="-57" id="f0V-PF-go6"/>
                         <constraint firstItem="kkj-pG-VXR" firstAttribute="top" secondItem="kyB-rw-GWX" secondAttribute="top" id="fg3-7q-OSD"/>
+                        <constraint firstItem="KD8-4W-az0" firstAttribute="leading" secondItem="fT1-kc-VlF" secondAttribute="leading" id="h4j-Pu-eoj"/>
                         <constraint firstAttribute="trailing" secondItem="kyB-rw-GWX" secondAttribute="trailing" id="hbE-p9-yJS"/>
                         <constraint firstItem="TVX-Ou-B36" firstAttribute="leading" secondItem="fT1-kc-VlF" secondAttribute="leading" constant="35" id="iPM-aH-63y"/>
                         <constraint firstItem="wpv-G4-568" firstAttribute="leading" secondItem="fT1-kc-VlF" secondAttribute="leading" constant="70" id="iR9-5S-1PT"/>

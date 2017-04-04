@@ -1,8 +1,8 @@
 //
-//  KyobeeGuestList.h
+//  GuestListOneColumn.h
 //  Kyobee
 //
-//  Created by Mayur Pandya on 28/03/17.
+//  Created by Mayur Pandya on 03/04/17.
 //
 //
 
@@ -12,7 +12,7 @@
 
 #import "AppDelegate.h"
 
-@interface KyobeeGuestList : UIViewController<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate,OrtcClientDelegate>
+@interface GuestListOneColumn : UIViewController<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate,OrtcClientDelegate>
 {
     
     AppDelegate *appDelegate;
@@ -20,18 +20,12 @@
     NSMutableArray *guestArray;
     
     NSMutableArray *arrayLess30;
-    NSMutableArray *arrayLess60;
-    NSMutableArray *arrayLess90;
     
     IBOutlet UIImageView *imgResto;
     
     IBOutlet UITableView *tblView30;
-    IBOutlet UITableView *tblView60;
-    IBOutlet UITableView *tblView90;
     
     IBOutlet UILabel *lblNoUser30;
-    IBOutlet UILabel *lblNoUser60;
-    IBOutlet UILabel *lblNoUser90;
     
     
     IBOutlet UILabel *lblCopyright;
@@ -39,12 +33,9 @@
     IBOutlet UIButton *btnLogoutFromLongPress;
     IBOutlet UIButton *btnForOptions;
     
-    
     //*** For Seetings View
     
     IBOutlet UILabel *lblColumnOneName;
-    IBOutlet UILabel *lblColumnTwoName;
-    IBOutlet UILabel *lblColumnThreeName;
     
     
     IBOutlet UIView *viewSettings;
