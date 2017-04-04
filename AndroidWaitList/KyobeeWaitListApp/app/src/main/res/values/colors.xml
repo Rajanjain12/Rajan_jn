@@ -6,5 +6,16 @@
 
     <color name="colorLightBrown">#9e978e</color>
     <color name="colorRed">#dc4123</color>
+    <color name="colorBlack">#000000</color>
+
+    <color name="colorGreen">#88b14b</color>
+    <color name="colorGreenLight">#e1ebd2</color>
+    <color name="colorGrayColumn">#9e978d</color>
+    <color name="colorGrayLight">#e6e5e3</color>
+    <color name="colorSky">#93a9d2</color>
+    <color name="colorSkyLight">#e5e9f4</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorYellow">#FFFF00</color>
+    <color name="colorTransparent">#00000000</color>
 
 </resources>

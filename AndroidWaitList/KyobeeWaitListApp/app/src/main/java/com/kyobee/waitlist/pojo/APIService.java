@@ -1,5 +1,6 @@
 package com.kyobee.waitlist.pojo;
 
+import com.kyobee.waitlist.pojo.Response.ResponseGen;
 import com.kyobee.waitlist.utils.General;
 
 import retrofit2.Call;
@@ -25,6 +26,10 @@ public interface APIService{
     @GET(General.CHECK_IN_USERS)
     @Headers("Content-Type: application/x-www-form-urlencoded")
     Call<CheckInUsers> checkInUsers (@Query(ORG_ID) String orgId, @Query(value = PAGER_REQ_PARAM, encoded = true) String pagerReqParam);
+
+    @GET(General.CHECK_IN_USERS)
+    @Headers("Content-Type: application/x-www-form-urlencoded")
+    Call<ResponseGen> genCheckInUsers (@Query(ORG_ID) String orgId, @Query(value = PAGER_REQ_PARAM, encoded = true) String pagerReqParam);
 
     @GET(General.WAIT_LIST_REST_ACTION)
     Call<Display> waiting (@Query(ORG_ID) String orgId);

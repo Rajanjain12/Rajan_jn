@@ -87,7 +87,6 @@ public class RealTimePush{
 
     public interface RealTimeListener{
         void onReceivedResponse (String channel, String message);
-
         void onSubscribeChannel (OrtcClient sender, String channel);
     }
 }

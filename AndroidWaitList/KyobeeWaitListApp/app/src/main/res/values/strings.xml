@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">KyobeeWaitList</string>
     <string name="waitlist_app">Waitlist App</string>
-    <string name="copyright">Copyright KYOBEE Waitlist All Rights Reserved - Version </string>
+    <string name="copyright">Copyright KYOBEE. All Rights Reserved - Version </string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="remember">Keep me logged in</string>
@@ -35,11 +35,25 @@
 
     <string name="thankyou">Thank you! Your customer number is:</string>
     <string name="applogize">We apologize for any inconvenience,but anyone not ready with their entire party will net be seated.</string>
-<string name="thankyou_understanding">Thank you for your understanding and cooperation!</string>
+    <string name="thankyou_understanding">Thank you for your understanding and cooperation!</string>
     <string name="ok">OK</string>
 
     <string name="please_select">Please select seating preference.</string>
     <string name="kyobee">Kyobee</string>
     <string name="yes">YES</string>
     <string name="logout">Are you sure you want to logout?</string>
+
+    <string name="approx_30_min">APPROX. 30 MIN. OR LESS</string>
+    <string name="approx_60_min">APPROX. 60 MIN. OR LESS</string>
+    <string name="approx_90_min">APPROX. 90 MIN. OR LESS</string>
+
+    <string name="not_present"> : Not Present</string>
+    <string name="in_complete"> : Incomplete</string>
+    <string name="no_guest_checked">There is no guest checked in yet for this period.</string>
+
+
+     <string name="back">Go to back</string>
+     <string name="refresh">Refresh</string>
+     <string name="settings">Settings</string>
+
 </resources>

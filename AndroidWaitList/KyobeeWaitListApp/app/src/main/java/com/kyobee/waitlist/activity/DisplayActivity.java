@@ -125,7 +125,7 @@ public class DisplayActivity extends AppCompatActivity implements RealTimePush.R
                         listRecords.addAll (checkInUsers.getServiceResult ().getRecords ());
                         callAdapter ();
                     } else{
-                        CustomDialog.showAlertDialog (DisplayActivity.this, "Error", checkInUsers.getErrorDescription ());
+                        CustomDialog.showAlertDialog (activity, "Error", checkInUsers.getErrorDescription ());
                     }
                 }
 

@@ -16,6 +16,8 @@ import com.kyobee.waitlist.customcontrol.CustomDialog;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Utils{
 
@@ -100,5 +102,12 @@ public class Utils{
                 return 1;//"android reverse landscape screen";
         }
     }
+
+    public static String getCurrentDateTime (){
+        SimpleDateFormat sdf = new SimpleDateFormat ("MM/d/yyyy h:mm:a");
+        String currentDate = sdf.format (new Date ());
+        return currentDate;
+    }
+
 
 }

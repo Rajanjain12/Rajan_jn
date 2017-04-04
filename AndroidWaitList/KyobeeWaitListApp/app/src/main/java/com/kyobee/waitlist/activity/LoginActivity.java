@@ -29,7 +29,6 @@ import com.kyobee.waitlist.customcontrol.CustomDialog;
 import com.kyobee.waitlist.customcontrol.CustomEditTextRegular;
 import com.kyobee.waitlist.customcontrol.CustomTextViewRegular;
 import com.kyobee.waitlist.net.Connection;
-import com.kyobee.waitlist.net.ConnectivityReceiver;
 import com.kyobee.waitlist.pojo.APIService;
 import com.kyobee.waitlist.pojo.Login;
 import com.kyobee.waitlist.utils.AppInfo;
@@ -56,28 +55,36 @@ public class LoginActivity extends AppCompatActivity{
     boolean remember = false;
     AlertDialog alertDialog;
     AppCompatActivity activity;
+    int operation = -1;
     private APIService mAPIService;
-    ConnectivityReceiver.ConnectivityReceiverListener connectivityReceiverListener;
+
     @Override
     public void onCreate (Bundle savedInstanceState){
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_login);
         activity = this;
 
-        if (Kyobee.getInstance ().isLoggedIn () && Kyobee.getInstance ().isRemember ()){
+
+        if (getIntent ().hasExtra (General.OP)){
+            operation = getIntent ().getIntExtra (General.OP, -1);
+        }
+
+        if (operation > -1){
+            popUpCheckinDisplay ();
+        } else if (Kyobee.getInstance ().isLoggedIn () && Kyobee.getInstance ().isRemember ()){
             // if user logged in but selected any mode or not
             if (Kyobee.getInstance ().isModeSelected ()){
                 if (Kyobee.getInstance ().getLoginMode () == GUEST_MODE){
                     startActivity (new Intent (activity, GuestActivity.class));
                     finish ();
                 } else if (Kyobee.getInstance ().getLoginMode () == DISPLAY_MODE){
-                    startActivity (new Intent (activity, DisplayActivity.class));
+                    startActivity (new Intent (activity, DisplayMultiActivity.class));
                     finish ();
                 }
             } else{
                 popUpCheckinDisplay ();
             }
-        }else{
+        } else{
             Kyobee.getInstance ().logout ();
         }
 
@@ -163,10 +170,10 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     public void validation (){
-        //username = edtUsername.getText ().toString ();
-        //password = edtPassword.getText ().toString ();
-        username = "jkim@kyobee.com";
-        password = "jaekim";
+        username = edtUsername.getText ().toString ();
+        password = edtPassword.getText ().toString ();
+       // username = "jkim@kyobee.com";
+       // password = "jaekim";
         if (username.equalsIgnoreCase ("")){
             CustomDialog.showAlertDialog (LoginActivity.this, "Kyobee", "All fields are mandatory.");
         } else if (password.equalsIgnoreCase ("")){
@@ -181,13 +188,6 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     public void popUpCheckinDisplay (){
-       /* LayoutInflater layout = (LayoutInflater) getApplicationContext ().getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-        View view = layout.inflate (R.layout.popup_guest_mode, (ViewGroup) findViewById (R.id.popUpGuestMode));
-        popupWindow = new PopupWindow (view, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT, true);
-        // popupWindow.setAnimationStyle (R.style.AnimationPopup);
-        popupWindow.showAtLocation (view, Gravity.CENTER, 0, 0);
-        popupWindow.setOutsideTouchable (true);*/
-
         DisplayMetrics displayMetrics = new DisplayMetrics ();
         getWindowManager ().getDefaultDisplay ().getMetrics (displayMetrics);
         int width = 0;//displayMetrics.widthPixels;
@@ -200,9 +200,6 @@ public class LoginActivity extends AppCompatActivity{
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder (LoginActivity.this);
         LayoutInflater layout = (LayoutInflater) getSystemService (Context.LAYOUT_INFLATER_SERVICE);
         final View view = layout.inflate (R.layout.popup_guest_mode, (ViewGroup) findViewById (R.id.popUpGuestMode));
-        //
-        //view.setLayoutParams (layoutParams);
-
         alertDialogBuilder.setView (view);
         alertDialogBuilder.setCancelable (false);
         // create alert dialog
@@ -219,7 +216,7 @@ public class LoginActivity extends AppCompatActivity{
 
         RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams ((width * 80) / 100, ViewGroup.LayoutParams.WRAP_CONTENT);
         relativeParams.addRule (RelativeLayout.CENTER_IN_PARENT);
-       // linearPopup.setLayoutParams (relativeParams);
+        // linearPopup.setLayoutParams (relativeParams);
 
         //    LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams (500, WindowManager.LayoutParams.WRAP_CONTENT);
         //    layoutParams.gravity=Gravity.CENTER;
@@ -241,7 +238,7 @@ public class LoginActivity extends AppCompatActivity{
             @Override
             public void onClick (View v){
                 Kyobee.getInstance ().setLoginMode (DISPLAY_MODE);
-                startActivity (new Intent (activity, DisplayActivity.class));
+                startActivity (new Intent (activity, DisplayMultiActivity.class));
                 finish ();
             }
         });
@@ -252,7 +249,7 @@ public class LoginActivity extends AppCompatActivity{
     @Override
     public void onConfigurationChanged (Configuration newConfig){
         super.onConfigurationChanged (newConfig);
-        updateDialogSize();
+        updateDialogSize ();
     }
 
     public void updateDialogSize (){
@@ -264,12 +261,12 @@ public class LoginActivity extends AppCompatActivity{
         } else{
             width = displayMetrics.widthPixels;
         }
-        Window window = alertDialog.getWindow ();
-        window.setGravity (Gravity.CENTER);
-        window.setLayout (width, WindowManager.LayoutParams.WRAP_CONTENT);
-
+        if (alertDialog != null){
+            Window window = alertDialog.getWindow ();
+            window.setGravity (Gravity.CENTER);
+            window.setLayout (width, WindowManager.LayoutParams.WRAP_CONTENT);
+        }
     }
-
 
     private void dismissPopUp (final AlertDialog alert){
         alert.setOnKeyListener (new DialogInterface.OnKeyListener (){
