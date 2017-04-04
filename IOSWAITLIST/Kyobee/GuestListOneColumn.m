@@ -1,0 +1,1683 @@
+//
+//  GuestListOneColumn.m
+//  Kyobee
+//
+//  Created by Mayur Pandya on 03/04/17.
+//
+//
+
+#import "GuestListOneColumn.h"
+
+#import "KyobeeGuestList.h"
+
+#import "GuestListTwoColumn.h"
+
+#import "GuestListCell.h"
+
+///*** web image
+#import "UIImageView+WebCache.h"
+//****
+
+@interface GuestListOneColumn ()
+
+@property (nonatomic,strong) UILongPressGestureRecognizer *lpgrLogOut;
+
+@property (nonatomic,strong) UILongPressGestureRecognizer *lpgrForOptions;
+
+@end
+
+@implementation GuestListOneColumn
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view from its nib.
+    
+    appDelegate =(AppDelegate*)[[UIApplication sharedApplication]delegate];
+    
+    guestArray = [[NSMutableArray alloc] initWithCapacity:0];
+    
+    arrayLess30 = [[NSMutableArray alloc] initWithCapacity:0];
+    
+    // Realtime
+    _ortcClient = [OrtcClient ortcClientWithConfig:self];
+    [_ortcClient setClusterUrl:@"https://ortc-developers.realtime.co/server/ssl/2.1"];
+    [_ortcClient connect:@"j9MLMa" authenticationToken:@"testToken"];
+    //
+    
+    self.lpgrLogOut = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGestures:)];
+    self.lpgrLogOut.minimumPressDuration = 5.0f;
+    self.lpgrLogOut.numberOfTouchesRequired = 1;
+    self.lpgrLogOut.allowableMovement = 100.0f;
+    
+    [btnLogoutFromLongPress addGestureRecognizer:self.lpgrLogOut];
+    
+    // For Options
+    self.lpgrForOptions = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGestures:)];
+    self.lpgrForOptions.minimumPressDuration = 1.0f;
+    self.lpgrForOptions.numberOfTouchesRequired = 1;
+    self.lpgrForOptions.allowableMovement = 100.0f;
+    
+    [btnForOptions addGestureRecognizer:self.lpgrForOptions];
+    
+    columnsArray = [[NSMutableArray alloc] initWithCapacity:0];
+    NSArray *colArray = [NSArray arrayWithObjects:@"1",@"2",@"3", nil];
+    [columnsArray addObjectsFromArray:colArray];
+    
+    
+    rowsArray = [[NSMutableArray alloc] initWithCapacity:0];
+    NSArray *rwArray = [NSArray arrayWithObjects:@"25",@"30",@"35",@"40",@"45",@"50",@"55",@"60",@"65",@"70",@"75",@"80",@"85",@"90",@"95",@"100", nil];
+    [rowsArray addObjectsFromArray:rwArray];
+}
+
+- (void)handleLongPressGestures:(UILongPressGestureRecognizer *)sender
+{
+    if ([sender isEqual:self.lpgrLogOut])
+    {
+        if (sender.state == UIGestureRecognizerStateBegan)
+        {
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"rememberMe"];
+            
+            [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"displaymodeselected"];
+            
+            [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"checkinmodeselected"];
+            
+            [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"fromBack"];
+            
+            //**
+            
+            [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"numberOfColumns"];
+            [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"numberOfRows"];
+            [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"columnOneName"];
+            [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"columnTwoName"];
+            [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"columnThreeName"];
+            
+            //**
+            
+            [[NSUserDefaults standardUserDefaults]synchronize];
+            
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+    }
+    
+    if ([sender isEqual:self.lpgrForOptions])
+    {
+        if (sender.state == UIGestureRecognizerStateBegan)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Options :" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Go to back",@"Refresh",@"Settings", nil];
+            
+            /*UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Options :" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Go to back",@"Refresh", nil];*/
+            
+            alert.tag = 101;
+            
+            [alert show];
+        }
+    }
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    
+    [UIApplication sharedApplication].idleTimerDisabled = YES;
+    
+    [self fetchGuestList];
+    
+    //[self loadTimeMatrics];
+    
+    //NSLog(@"Logo FileName : %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"logofile name"]);
+    
+    if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"logofile name"] isEqualToString:@""])
+    {
+        //http://jbossdev-kyobee.rhcloud.com/static/orglogos/2.png
+        //[imgResto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://jbossdev-kyobee.rhcloud.com/static/orglogos/%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"logofile name"]]] placeholderImage:[UIImage imageNamed:@"RestoImage"]];
+        
+        //NSLog(@"Logo FileName : %@", [NSString stringWithFormat:@"http://jbossdev-kyobee.rhcloud.com/static/orglogos/%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"logofile name"]]);
+        
+        [imgResto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://jbossdev-kyobee.rhcloud.com/static/orglogos/%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"logofile name"]]] placeholderImage:[UIImage imageNamed:@"RestoImage"] options:SDWebImageRefreshCached];
+    }
+    
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    if (UIInterfaceOrientationIsLandscape(orientation))
+    {
+        lblCopyright.font = [UIFont systemFontOfSize:12.0];
+    }
+    else
+    {
+        lblCopyright.font = [UIFont systemFontOfSize:10.0];
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(orientationChanged:)    name:UIDeviceOrientationDidChangeNotification  object:nil];
+    
+    [txtColumns.layer setBorderWidth:1.5];
+    [txtColumns.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    
+    [txtRows.layer setBorderWidth:1.5];
+    [txtRows.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    
+    [txtColumnOne.layer setBorderWidth:1.5];
+    [txtColumnOne.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    
+    [txtColumnTwo.layer setBorderWidth:1.5];
+    [txtColumnTwo.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    
+    [txtColumnThree.layer setBorderWidth:1.5];
+    [txtColumnThree.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    
+    [viewSubSettings.layer setCornerRadius:3.0];
+    
+    [btnSettingsOK.layer setCornerRadius:3.0];
+    
+    [tblViewColumnsAndRows.layer setBorderWidth:1.5];
+    [tblViewColumnsAndRows.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    
+    if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"columnOneName"] isEqualToString:@""])
+    {
+        lblColumnOneName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnOneName"];
+        
+    }
+}
+
+- (void)orientationChanged:(NSNotification *)notification
+{
+    [self adjustViewsForOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+}
+
+- (void) adjustViewsForOrientation:(UIInterfaceOrientation) orientation
+{
+    
+    [txtFieldRef resignFirstResponder];
+    
+    txtColumns.hidden = false;
+    btnColumns.hidden = false;
+    txtRows.hidden = false;
+    btnRows.hidden = false;
+    
+    _txtColToTop.constant = 25;
+    
+    if (UIInterfaceOrientationIsLandscape(orientation))
+    {
+        lblCopyright.font = [UIFont systemFontOfSize:12.0];
+    }
+    else
+    {
+        lblCopyright.font = [UIFont systemFontOfSize:10.0];
+    }
+    
+    [self.view setNeedsUpdateConstraints];
+    
+    [UIView animateWithDuration:0.40f animations:^{
+        [self.view layoutIfNeeded];
+    }];
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void)fetchGuestList
+{
+    if(appDelegate.isInternetReachble)
+    {
+        
+        [appDelegate startActivityIndicator:self.view];
+        self.view.userInteractionEnabled = TRUE;
+        
+        //{"filters":null,"sort":null,"sortOrder":null,"pageSize":500,"pageNo":1}
+        
+        //NSError *jsonError;
+        NSData *objectData = [@"{\"filters\":null,\"sort\":null,\"sortOrder\":null,\"pageSize\":500,\"pageNo\":1}" dataUsingEncoding:NSUTF8StringEncoding];
+        
+        
+        NSString *jsonString = [[NSString alloc] initWithData:objectData encoding:NSUTF8StringEncoding];
+        
+        /*NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+         id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];*/
+        
+        
+        //NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers error:&jsonError];
+        
+        NSString *urlStr = [NSString stringWithFormat:@"http://jbossdev-kyobee.rhcloud.com/kyobee/web/rest/waitlistRestAction/checkinusers?orgid=%@&pagerReqParam=%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"],jsonString];
+        
+        NSString *escapedPath = [urlStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+        
+        NSURL *url = [NSURL URLWithString:escapedPath];
+        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+        
+        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
+         {
+             self.view.userInteractionEnabled = TRUE;
+             [appDelegate stopActivityIndicator];
+             
+             if(data != nil)
+             {
+                 NSString *htmlSTR = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                 //NSLog(@"%@",htmlSTR);
+                 
+                 NSData *data = [htmlSTR dataUsingEncoding:NSUTF8StringEncoding];
+                 id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                 
+                 //NSDictionary *jsonObject=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+                 
+                 //if([[json valueForKey:@"success"] isEqualToString:@"1"])
+                 if(![[json valueForKey:@"status"] isEqual:[NSNull null]])
+                 {
+                     if([[json valueForKey:@"status"] isEqualToString:@"SUCCESS"])
+                     {
+                         if(![[json valueForKey:@"serviceResult"] isEqual:[NSNull null]])
+                         {
+                             NSArray *guestList = [[json valueForKey:@"serviceResult"] valueForKey:@"records"];
+                             
+                             if(guestList.count > 0)
+                             {
+                                 if(guestArray.count > 0)
+                                 {
+                                     [guestArray removeAllObjects];
+                                 }
+                                 
+                                 [guestArray addObjectsFromArray:guestList];
+                                 
+                                 
+                                 if(arrayLess30.count > 0)
+                                 {
+                                     [arrayLess30 removeAllObjects];
+                                 }
+                                 
+                                 
+                                 
+                                 // For Less Than 30
+                                 /*for(int i = 0; i < [guestArray count]; i++)
+                                  {
+                                  if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 30)
+                                  {
+                                  [arrayLess30 addObject:[guestArray objectAtIndex:i]];
+                                  }
+                                  }*/
+                                 
+                                 
+                                 if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] isEqualToString:@""])
+                                 {
+                                     int numberOfRows = [[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] intValue];
+                                     
+                                     for(int i = 0; i < [guestArray count]; i++)
+                                     {
+                                         
+                                         [arrayLess30 addObject:[guestArray objectAtIndex:i]];
+                                         
+                                         
+                                         if([arrayLess30 count] == numberOfRows)
+                                         {
+                                             break;
+                                         }
+                                     }
+                                 }
+                                 else
+                                 {
+                                     for(int i = 0; i < [guestArray count]; i++)
+                                     {
+                                         
+                                         [arrayLess30 addObject:[guestArray objectAtIndex:i]];
+                                         
+                                         if(i == 24)
+                                         {
+                                             break;
+                                         }
+                                     }
+                                 }
+                                 
+                                 /*for(int i = 0; i < [guestArray count]; i++)
+                                  {
+                                  
+                                  [arrayLess30 addObject:[guestArray objectAtIndex:i]];
+                                  
+                                  if(i == 24)
+                                  {
+                                  break;
+                                  }
+                                  }*/
+                                 
+                                 if(arrayLess30.count > 0)
+                                 {
+                                     [tblView30 reloadData];
+                                     
+                                     lblNoUser30.hidden = true;
+                                 }
+                                 else
+                                 {
+                                     lblNoUser30.hidden = true;
+                                 }
+                                 //
+                                 
+                                 
+                                 
+                                 [tblView30 reloadData];
+                                 
+                                 
+                                 
+                                 
+                                 
+                             }
+                             else
+                             {
+                                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"There is no guest checked in yet." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                                 
+                                 [alert show];
+                             }
+                         }
+                         else
+                         {
+                             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"There is no guest checked in yet." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                             
+                             [alert show];
+                         }
+                         
+                         //[imgResto sd_setImageWithURL:[NSURL URLWithString:[[json valueForKey:@"serviceResult"]valueForKey:@"imageOrgPath"]] placeholderImage:[UIImage imageNamed:@"RestoImage"]];
+                     }
+                     else if([[json valueForKey:@"success"] isEqualToString:@"-1"])
+                     {
+                         /*UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:[json valueForKey:@"error"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                          
+                          [alert show];*/
+                     }
+                     else if([[json valueForKey:@"success"] isEqualToNumber:[NSNumber numberWithInt:2]])
+                     {
+                         /*UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:[json valueForKey:@"message"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                          
+                          [alert show];*/
+                     }
+                     else if([[json valueForKey:@"success"] isEqualToNumber:[NSNumber numberWithInt:-2]])
+                     {
+                         /*UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:[json valueForKey:@"message"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                          
+                          [alert show];*/
+                     }
+                 }
+                 else
+                 {
+                     if(arrayLess30.count > 0)
+                     {
+                         [arrayLess30 removeAllObjects];
+                     }
+                     
+                     
+                     
+                     [tblView30 reloadData];
+                 }
+             }
+         }];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please check your internet connection." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [alert show];
+    }
+    
+}
+
+/*
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
+
+#pragma mark - UITableViewDataSource
+
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    
+    if(viewSettings.hidden == true)
+    {
+        return arrayLess30.count;
+    }
+    else
+    {
+        if(btnColumns.selected == true)
+        {
+            return columnsArray.count + 1;
+        }
+        else
+        {
+            return rowsArray.count + 1;
+        }
+    }
+
+    //return guestArray.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 25;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(viewSettings.hidden == true)
+    {
+        static NSString *CellIdentifier = @"Cell";
+        
+        GuestListCell *cell = (GuestListCell *)[tblView30 dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        if (cell == nil)
+        {
+            cell = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([GuestListCell class]) owner:nil options:nil] lastObject];
+        }
+        
+        cell.lblRank.text = [NSString stringWithFormat:@"%@",[[arrayLess30 objectAtIndex:indexPath.row] valueForKey:@"rank"]];
+        cell.lblName.text = [NSString stringWithFormat:@"%@",[[arrayLess30 objectAtIndex:indexPath.row] valueForKey:@"name"]];
+        
+        if (![[[arrayLess30 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+        {
+            cell.imgThumb.hidden = false;
+        }
+        
+        if (![[[arrayLess30 objectAtIndex:indexPath.row]valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+        {
+            cell.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
+        }
+        else
+        {
+            cell.backgroundColor = [UIColor clearColor];
+        }
+        
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        return cell;
+    
+    }
+    else
+    {
+        if(btnColumns.selected == true)
+        {
+            static NSString *cellIdentifier = @"Cell";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+            if (!cell)
+            {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+            }
+            
+            if(indexPath.row == 0)
+            {
+                cell.textLabel.text =[NSString stringWithFormat:@"# of columns*"];
+            }
+            else
+            {
+                cell.textLabel.text =[NSString stringWithFormat:@"%@",[columnsArray objectAtIndex:indexPath.row-1]];
+            }
+            
+            cell.backgroundColor = [UIColor clearColor];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.textColor = [UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0];
+            cell.textLabel.font = [UIFont boldSystemFontOfSize:20.0];
+            
+            return cell;
+        }
+        else
+        {
+            static NSString *cellIdentifier = @"Cell";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+            if (!cell)
+            {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+            }
+            
+            if(indexPath.row == 0)
+            {
+                cell.textLabel.text =[NSString stringWithFormat:@"# of rows per column*"];
+            }
+            else
+            {
+                cell.textLabel.text =[NSString stringWithFormat:@"%@",[rowsArray objectAtIndex:indexPath.row-1]] ;
+            }
+            cell.backgroundColor = [UIColor clearColor];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.textColor = [UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0];
+            cell.textLabel.font = [UIFont boldSystemFontOfSize:20.0];
+            
+            return cell;
+        }
+    }
+    
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(tableView == tblViewColumnsAndRows)
+    {
+        
+        if(indexPath.row > 0)
+        {
+            if(btnColumns.selected == true)
+            {
+                txtColumns.text = [NSString stringWithFormat:@"%@",[columnsArray objectAtIndex:indexPath.row-1]];
+                [tblViewColumnsAndRows setHidden:true];
+                
+                if(indexPath.row == 1)
+                {
+                    _heightViewSubSettings.constant = 498;
+                    
+                    txtColumnOne.hidden = false;
+                    txtColumnTwo.hidden = true;
+                    txtColumnThree.hidden = true;
+                    
+                    txtColumnOne.placeholder = @"Enter first column name*";
+                    
+                    
+                    [self.view setNeedsUpdateConstraints];
+                    
+                    [UIView animateWithDuration:0.40f animations:^{
+                        
+                        [self.view layoutIfNeeded];
+                    }];
+                }
+                
+                if(indexPath.row == 2)
+                {
+                    _heightViewSubSettings.constant = 578;
+                    
+                    txtColumnOne.hidden = false;
+                    txtColumnTwo.hidden = false;
+                    txtColumnThree.hidden = true;
+                    
+                    txtColumnOne.placeholder = @"Enter first column name*";
+                    txtColumnTwo.placeholder = @"Enter second column name*";
+                    
+                    
+                    [self.view setNeedsUpdateConstraints];
+                    
+                    [UIView animateWithDuration:0.40f animations:^{
+                        
+                        [self.view layoutIfNeeded];
+                    }];
+                }
+                
+                if(indexPath.row == 3)
+                {
+                    _heightViewSubSettings.constant = 658;
+                    
+                    txtColumnOne.hidden = false;
+                    txtColumnTwo.hidden = false;
+                    txtColumnThree.hidden = false;
+                    
+                    txtColumnOne.placeholder = @"Enter first column name*";
+                    txtColumnTwo.placeholder = @"Enter second column name*";
+                    txtColumnThree.placeholder = @"Enter third column name*";
+                    
+                    [self.view setNeedsUpdateConstraints];
+                    
+                    [UIView animateWithDuration:0.40f animations:^{
+                        
+                        [self.view layoutIfNeeded];
+                    }];
+                }
+                
+                [txtColumns.layer setBorderWidth:1.5];
+                [txtColumns.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+            }
+            else
+            {
+                txtRows.text = [NSString stringWithFormat:@"%@",[rowsArray objectAtIndex:indexPath.row-1]];
+                [tblViewColumnsAndRows setHidden:true];
+                
+                
+                [txtRows.layer setBorderWidth:1.5];
+                [txtRows.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+            }
+            
+            /*txt_your_party.text = [NSString stringWithFormat:@"%ld",indexPath.row];
+             [tblViewParties setHidden:true];
+             [tblViewSeatPref reloadData];
+             
+             [txt_your_party.layer setBorderWidth:1.5];
+             [txt_your_party.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];*/
+        }
+    }
+}
+
+- (IBAction)btnRefresh_clicked:(id)sender
+{
+    [self fetchGuestList];
+}
+
+
+
+
+# pragma mark -
+# pragma mark - Realtime Delegate
+
+// For Remain methods, look at ortcClient.h file
+
+- (void) onConnected:(OrtcClient*) ortc
+{
+    NSString *strChannel = [NSString stringWithFormat:@"RSNT_GUEST_DEV_%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"]];
+    
+    [_ortcClient subscribe:strChannel subscribeOnReconnected:YES onMessage:^(OrtcClient* ortc, NSString* channel, NSString* message)
+     {
+         NSLog(@"Received at %@: %@", channel, message);
+         
+         NSData *data = [message dataUsingEncoding:NSUTF8StringEncoding];
+         id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+         
+         id jsonForNotPresentAndIcomplete;
+         
+         if([[json valueForKey:@"OP"] isEqualToString:@"ADD"])
+         {
+             
+             [self fetchList];
+             //Lbl_Number.text = [NSString stringWithFormat:@"#%@",[json valueForKey:@"guestRank"]];
+             
+         }
+         else if([[json valueForKey:@"OP"] isEqualToString:@"DEL"])
+         {
+             [self fetchList];
+             
+             /*for(int i = 0; i<[guestArray count]; i++)
+              {
+              if([[[guestArray objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+              {
+              NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+              NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+              
+              [guestArray removeObjectAtIndex:i];
+              
+              [tblViewGuestList reloadData];
+              }
+              }*/
+         }
+         else if([[json valueForKey:@"OP"] isEqualToString:@"UpdageGuestInfo"])
+         {
+             
+             [self fetchList];
+             
+             /*
+              
+              // from less 30
+              for(int i = 0; i<[arrayLess30 count]; i++)
+              {
+              if([[[arrayLess30 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+              {
+              //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+              //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+              
+              //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
+              
+              
+              NSDictionary *aDictionary = [arrayLess30 objectAtIndex: i];
+              //Make a mutable copy of each dictionary in the array.
+              NSMutableDictionary *mDict = [aDictionary mutableCopy];
+              
+              //Replace the value at key @"key" with some new value @"new value"
+              mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
+              mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
+              
+              [arrayLess30 replaceObjectAtIndex:i withObject:mDict];
+              
+              [tblView30 reloadData];
+              }
+              }
+              
+              // from less 60
+              for(int i = 0; i<[arrayLess60 count]; i++)
+              {
+              if([[[arrayLess60 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+              {
+              //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+              //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+              
+              //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
+              
+              
+              NSDictionary *aDictionary = [arrayLess60 objectAtIndex: i];
+              //Make a mutable copy of each dictionary in the array.
+              NSMutableDictionary *mDict = [aDictionary mutableCopy];
+              
+              //Replace the value at key @"key" with some new value @"new value"
+              mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
+              mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
+              
+              [arrayLess60 replaceObjectAtIndex:i withObject:mDict];
+              
+              [tblView60 reloadData];
+              }
+              }
+              
+              
+              // from less 90
+              for(int i = 0; i<[arrayLess90 count]; i++)
+              {
+              if([[[arrayLess90 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+              {
+              //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+              //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+              
+              //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
+              
+              
+              NSDictionary *aDictionary = [arrayLess90 objectAtIndex: i];
+              //Make a mutable copy of each dictionary in the array.
+              NSMutableDictionary *mDict = [aDictionary mutableCopy];
+              
+              //Replace the value at key @"key" with some new value @"new value"
+              mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
+              mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
+              
+              [arrayLess90 replaceObjectAtIndex:i withObject:mDict];
+              
+              [tblView90 reloadData];
+              }
+              }
+              
+              */
+         }
+         else if([[json valueForKey:@"OP"] isEqualToString:@"UPD"])
+         {
+             [self fetchList];
+             
+             /*
+              jsonForNotPresentAndIcomplete = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+              
+              // from less 30
+              for(int i = 0; i<[arrayLess30 count]; i++)
+              {
+              if([[[arrayLess30 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+              {
+              //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+              //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+              
+              //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
+              
+              
+              NSDictionary *aDictionary = [arrayLess30 objectAtIndex: i];
+              //Make a mutable copy of each dictionary in the array.
+              NSMutableDictionary *mDict = [aDictionary mutableCopy];
+              
+              //Replace the value at key @"key" with some new value @"new value"
+              //mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
+              mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
+              
+              if(![[[json valueForKey:@"updguest"] valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+              {
+              mDict[@"calloutCount"] = [[json valueForKey:@"updguest"] valueForKey:@"calloutCount"];
+              }
+              
+              if(![[[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+              {
+              mDict[@"incompleteParty"] = [[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"];
+              }
+              
+              [arrayLess30 replaceObjectAtIndex:i withObject:mDict];
+              
+              [tblView30 reloadData];
+              
+              
+              }
+              }
+              
+              // from less 60
+              for(int i = 0; i<[arrayLess60 count]; i++)
+              {
+              if([[[arrayLess60 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+              {
+              //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+              //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+              
+              //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
+              
+              
+              NSDictionary *aDictionary = [arrayLess60 objectAtIndex: i];
+              //Make a mutable copy of each dictionary in the array.
+              NSMutableDictionary *mDict = [aDictionary mutableCopy];
+              
+              //Replace the value at key @"key" with some new value @"new value"
+              //mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
+              mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
+              
+              if(![[[json valueForKey:@"updguest"] valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+              {
+              mDict[@"calloutCount"] = [[json valueForKey:@"updguest"] valueForKey:@"calloutCount"];
+              }
+              
+              if(![[[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+              {
+              mDict[@"incompleteParty"] = [[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"];
+              }
+              
+              [arrayLess60 replaceObjectAtIndex:i withObject:mDict];
+              
+              [tblView60 reloadData];
+              
+              
+              }
+              }
+              
+              // from less 90
+              for(int i = 0; i<[arrayLess90 count]; i++)
+              {
+              if([[[arrayLess90 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+              {
+              //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+              //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+              
+              //NSLog(@"Name : %@", [[json valueForKey:@"updguest"] valueForKey:@"name"]);
+              
+              
+              NSDictionary *aDictionary = [arrayLess90 objectAtIndex: i];
+              //Make a mutable copy of each dictionary in the array.
+              NSMutableDictionary *mDict = [aDictionary mutableCopy];
+              
+              //Replace the value at key @"key" with some new value @"new value"
+              //mDict[@"name"] = [[json valueForKey:@"updguest"] valueForKey:@"name"]; //Replace this part as needed
+              mDict[@"status"] = [[json valueForKey:@"updguest"] valueForKey:@"status"]; //Replace this part as needed
+              
+              if(![[[json valueForKey:@"updguest"] valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+              {
+              mDict[@"calloutCount"] = [[json valueForKey:@"updguest"] valueForKey:@"calloutCount"];
+              }
+              
+              if(![[[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+              {
+              mDict[@"incompleteParty"] = [[json valueForKey:@"updguest"] valueForKey:@"incompleteParty"];
+              }
+              
+              [arrayLess90 replaceObjectAtIndex:i withObject:mDict];
+              
+              [tblView90 reloadData];
+              
+              
+              }
+              }
+              
+              */
+         }
+         else if([[json valueForKey:@"OP"] isEqualToString:@"MARK_AS_SEATED"])
+         {
+             [self fetchList];
+             
+             /*
+              // from less 30
+              for(int i = 0; i<[arrayLess30 count]; i++)
+              {
+              if([[[arrayLess30 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+              {
+              //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+              //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+              
+              [arrayLess30 removeObjectAtIndex:i];
+              
+              [tblView30 reloadData];
+              }
+              }
+              
+              // from less 60
+              for(int i = 0; i<[arrayLess60 count]; i++)
+              {
+              if([[[arrayLess60 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+              {
+              //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+              //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+              
+              [arrayLess60 removeObjectAtIndex:i];
+              
+              [tblView60 reloadData];
+              }
+              }
+              
+              // from less 90
+              for(int i = 0; i<[arrayLess90 count]; i++)
+              {
+              if([[[arrayLess90 objectAtIndex:i] valueForKey:@"guestID"] isEqualToNumber:[json valueForKey:@"guestObj"]])
+              {
+              //NSLog(@"GuestId : %@", [[guestArray objectAtIndex:i] valueForKey:@"guestID"]);
+              //NSLog(@"GuestId : %@", [json valueForKey:@"guestObj"]);
+              
+              [arrayLess90 removeObjectAtIndex:i];
+              
+              [tblView90 reloadData];
+              }
+              }
+              */
+             
+             
+         }
+         
+     }];
+}
+
+
+- (void)fetchList
+{
+    if(appDelegate.isInternetReachble)
+    {
+        
+        
+        
+        //{"filters":null,"sort":null,"sortOrder":null,"pageSize":500,"pageNo":1}
+        
+        //NSError *jsonError;
+        NSData *objectData = [@"{\"filters\":null,\"sort\":null,\"sortOrder\":null,\"pageSize\":500,\"pageNo\":1}" dataUsingEncoding:NSUTF8StringEncoding];
+        
+        
+        NSString *jsonString = [[NSString alloc] initWithData:objectData encoding:NSUTF8StringEncoding];
+        
+        /*NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+         id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];*/
+        
+        
+        //NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers error:&jsonError];
+        
+        NSString *urlStr = [NSString stringWithFormat:@"http://jbossdev-kyobee.rhcloud.com/kyobee/web/rest/waitlistRestAction/checkinusers?orgid=%@&pagerReqParam=%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"],jsonString];
+        
+        NSString *escapedPath = [urlStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+        
+        NSURL *url = [NSURL URLWithString:escapedPath];
+        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+        
+        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
+         {
+             
+             
+             if(data != nil)
+             {
+                 NSString *htmlSTR = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                 //NSLog(@"%@",htmlSTR);
+                 
+                 NSData *data = [htmlSTR dataUsingEncoding:NSUTF8StringEncoding];
+                 id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                 
+                 //NSDictionary *jsonObject=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+                 
+                 //if([[json valueForKey:@"success"] isEqualToString:@"1"])
+                 if(![[json valueForKey:@"status"] isEqual:[NSNull null]])
+                 {
+                     if([[json valueForKey:@"status"] isEqualToString:@"SUCCESS"])
+                     {
+                         if(![[json valueForKey:@"serviceResult"] isEqual:[NSNull null]])
+                         {
+                             NSArray *guestList = [[json valueForKey:@"serviceResult"] valueForKey:@"records"];
+                             
+                             if(guestList.count > 0)
+                             {
+                                 if(guestArray.count > 0)
+                                 {
+                                     [guestArray removeAllObjects];
+                                 }
+                                 
+                                 [guestArray addObjectsFromArray:guestList];
+                                 
+                                 
+                                 if(arrayLess30.count > 0)
+                                 {
+                                     [arrayLess30 removeAllObjects];
+                                 }
+                                
+                                 
+                                 
+                                 // For Less Than 30
+                                 /*for(int i = 0; i < [guestArray count]; i++)
+                                  {
+                                  if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 30)
+                                  {
+                                  [arrayLess30 addObject:[guestArray objectAtIndex:i]];
+                                  }
+                                  }*/
+                                 
+                                 
+                                 if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] isEqualToString:@""])
+                                 {
+                                     int numberOfRows = [[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] intValue];
+                                     
+                                     for(int i = 0; i < [guestArray count]; i++)
+                                     {
+                                         
+                                         [arrayLess30 addObject:[guestArray objectAtIndex:i]];
+                                         
+                                         
+                                         if([arrayLess30 count] == numberOfRows)
+                                         {
+                                             break;
+                                         }
+                                     }
+                                 }
+                                 else
+                                 {
+                                     for(int i = 0; i < [guestArray count]; i++)
+                                     {
+                                         
+                                         [arrayLess30 addObject:[guestArray objectAtIndex:i]];
+                                         
+                                         if(i == 24)
+                                         {
+                                             break;
+                                         }
+                                     }
+                                 }
+                                 
+                                 /*for(int i = 0; i < [guestArray count]; i++)
+                                  {
+                                  
+                                  [arrayLess30 addObject:[guestArray objectAtIndex:i]];
+                                  
+                                  if(i == 24)
+                                  {
+                                  break;
+                                  }
+                                  }*/
+                                 
+                                 if(arrayLess30.count > 0)
+                                 {
+                                     [tblView30 reloadData];
+                                     
+                                     lblNoUser30.hidden = true;
+                                 }
+                                 else
+                                 {
+                                     lblNoUser30.hidden = true;
+                                 }
+                                 //
+                                 
+                                 
+                                 [tblView30 reloadData];
+                                 
+                                 
+                             }
+                             else
+                             {
+                                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"There is no guest checked in yet." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                                 
+                                 [alert show];
+                             }
+                         }
+                         else
+                         {
+                             /*UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"There is no guest checked in yet." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                              
+                              [alert show];*/
+                         }
+                         
+                         //[imgResto sd_setImageWithURL:[NSURL URLWithString:[[json valueForKey:@"serviceResult"]valueForKey:@"imageOrgPath"]] placeholderImage:[UIImage imageNamed:@"RestoImage"]];
+                     }
+                     else if([[json valueForKey:@"success"] isEqualToString:@"-1"])
+                     {
+                         /*UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:[json valueForKey:@"error"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                          
+                          [alert show];*/
+                     }
+                     else if([[json valueForKey:@"success"] isEqualToNumber:[NSNumber numberWithInt:2]])
+                     {
+                         /*UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:[json valueForKey:@"message"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                          
+                          [alert show];*/
+                     }
+                     else if([[json valueForKey:@"success"] isEqualToNumber:[NSNumber numberWithInt:-2]])
+                     {
+                         /*UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:[json valueForKey:@"message"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                          
+                          [alert show];*/
+                     }
+                 }
+                 else
+                 {
+                     if(arrayLess30.count > 0)
+                     {
+                         [arrayLess30 removeAllObjects];
+                     }
+                     
+                     
+                     
+                     [tblView30 reloadData];
+                 }
+             }
+         }];
+    }
+    else
+    {
+        /*UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please check your internet connection." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+         
+         [alert show];*/
+    }
+    
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    
+    if (alertView.tag == 101)
+    {
+        if(buttonIndex == 1)
+        {
+            [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"fromBack"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+        
+        if(buttonIndex == 2)
+        {
+            [self fetchGuestList];
+        }
+        
+        if(buttonIndex == 3)
+        {
+            txtColumns.text = @"";
+            txtRows.text = @"";
+            txtColumnOne.text = @"";
+            txtColumnTwo.text = @"";
+            txtColumnThree.text = @"";
+            
+            _heightViewSubSettings.constant = 658;
+            
+            txtColumnOne.hidden = false;
+            txtColumnTwo.hidden = false;
+            txtColumnThree.hidden = false;
+            
+            txtColumns.hidden = false;
+            btnColumns.hidden = false;
+            txtRows.hidden = false;
+            btnRows.hidden = false;
+            
+            txtColumnOne.placeholder = @"Enter first column name";
+            txtColumnTwo.placeholder = @"Enter second column name";
+            txtColumnThree.placeholder = @"Enter third column name";
+            
+            
+            
+            if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfColumns"] isEqualToString:@""])
+            {
+                txtColumns.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfColumns"];
+                
+            }
+            if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] isEqualToString:@""])
+            {
+                txtRows.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"];
+                
+            }
+            if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"columnOneName"] isEqualToString:@""])
+            {
+                txtColumnOne.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnOneName"];
+                
+            }
+            if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"columnTwoName"] isEqualToString:@""])
+            {
+                txtColumnTwo.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnTwoName"];
+                
+            }
+            if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"columnThreeName"] isEqualToString:@""])
+            {
+                txtColumnThree.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnThreeName"];
+            }
+            
+            _txtColToTop.constant = 25;
+            
+            viewSettings.hidden = false;
+        }
+    }
+    
+}
+
+- (IBAction)btnCloseSettings_clicked:(id)sender
+{
+    viewSettings.hidden = true;
+    
+    [txtFieldRef resignFirstResponder];
+    
+    [tblView30 reloadData];
+}
+
+- (IBAction)btnColumns_clicked:(id)sender
+{
+    btnColumns.selected = true;
+    btnRows.selected = false;
+    
+    tblViewColumnsAndRows.hidden = false;
+    [tblViewColumnsAndRows reloadData];
+    
+    _tblColRowToTop.constant = 0;
+    _heightTblColRow.constant = 96 ;
+}
+
+- (IBAction)btnRows_clicked:(id)sender
+{
+    btnColumns.selected = false;
+    btnRows.selected = true;
+    
+    tblViewColumnsAndRows.hidden = false;
+    [tblViewColumnsAndRows reloadData];
+    
+    _tblColRowToTop.constant = 80;
+    _heightTblColRow.constant = 172;
+}
+
+- (IBAction)btnSettingsOK_clicked:(id)sender
+{
+    if(![txtColumns.text isEqualToString:@""] & ![txtRows.text isEqualToString:@""])
+    {
+        
+        if([txtColumns.text isEqualToString:@"1"])
+        {
+            if(![txtColumnOne.text isEqualToString:@""])
+            {
+                NSString *columnOneName = [txtColumnOne.text uppercaseString];
+                txtColumnOne.text =  columnOneName;
+                
+                NSString *columnTwoName = [txtColumnTwo.text uppercaseString];
+                txtColumnTwo.text =  columnTwoName;
+                
+                NSString *columnThreeName = [txtColumnThree.text uppercaseString];
+                txtColumnThree.text =  columnThreeName;
+                
+                [[NSUserDefaults standardUserDefaults] setValue:txtColumns.text forKey:@"numberOfColumns"];
+                [[NSUserDefaults standardUserDefaults] setValue:txtRows.text forKey:@"numberOfRows"];
+                [[NSUserDefaults standardUserDefaults] setValue:txtColumnOne.text forKey:@"columnOneName"];
+                [[NSUserDefaults standardUserDefaults] setValue:txtColumnTwo.text forKey:@"columnTwoName"];
+                [[NSUserDefaults standardUserDefaults] setValue:txtColumnThree.text forKey:@"columnThreeName"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
+                
+                
+                lblColumnOneName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnOneName"];
+                
+                viewSettings.hidden = true;
+                
+                [txtFieldRef resignFirstResponder];
+                
+                [self fetchGuestList];
+                
+                /*GuestListOneColumn *guestListOneColumn = [[GuestListOneColumn alloc] initWithNibName:@"GuestListOneColumn" bundle:nil];
+                [self.navigationController pushViewController:guestListOneColumn animated:NO];*/
+            }
+            else
+            {
+                
+                if([txtColumnOne.text isEqualToString:@""])
+                {
+                    [txtColumnOne.layer setBorderWidth:1.5];
+                    [txtColumnOne.layer setBorderColor:[UIColor redColor].CGColor];
+                }
+                else
+                {
+                    [txtColumnOne.layer setBorderWidth:1.5];
+                    [txtColumnOne.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+                }
+            }
+            
+        }
+        
+        if([txtColumns.text isEqualToString:@"2"])
+        {
+            
+            if(![txtColumnOne.text isEqualToString:@""] & ![txtColumnTwo.text isEqualToString:@""])
+            {
+                
+                NSString *columnOneName = [txtColumnOne.text uppercaseString];
+                txtColumnOne.text =  columnOneName;
+                
+                NSString *columnTwoName = [txtColumnTwo.text uppercaseString];
+                txtColumnTwo.text =  columnTwoName;
+                
+                NSString *columnThreeName = [txtColumnThree.text uppercaseString];
+                txtColumnThree.text =  columnThreeName;
+                
+                [[NSUserDefaults standardUserDefaults] setValue:txtColumns.text forKey:@"numberOfColumns"];
+                [[NSUserDefaults standardUserDefaults] setValue:txtRows.text forKey:@"numberOfRows"];
+                [[NSUserDefaults standardUserDefaults] setValue:txtColumnOne.text forKey:@"columnOneName"];
+                [[NSUserDefaults standardUserDefaults] setValue:txtColumnTwo.text forKey:@"columnTwoName"];
+                [[NSUserDefaults standardUserDefaults] setValue:txtColumnThree.text forKey:@"columnThreeName"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
+                
+                
+                lblColumnOneName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnOneName"];
+                
+                viewSettings.hidden = true;
+                
+                [txtFieldRef resignFirstResponder];
+                
+                GuestListTwoColumn *guestListTwoColumn = [[GuestListTwoColumn alloc] initWithNibName:@"GuestListTwoColumn" bundle:nil];
+                [self.navigationController pushViewController:guestListTwoColumn animated:NO];
+            }
+            else
+            {
+                if([txtColumnOne.text isEqualToString:@""])
+                {
+                    [txtColumnOne.layer setBorderWidth:1.5];
+                    [txtColumnOne.layer setBorderColor:[UIColor redColor].CGColor];
+                }
+                else
+                {
+                    [txtColumnOne.layer setBorderWidth:1.5];
+                    [txtColumnOne.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+                }
+                
+                if([txtColumnTwo.text isEqualToString:@""])
+                {
+                    [txtColumnTwo.layer setBorderWidth:1.5];
+                    [txtColumnTwo.layer setBorderColor:[UIColor redColor].CGColor];
+                }
+                else
+                {
+                    [txtColumnTwo.layer setBorderWidth:1.5];
+                    [txtColumnTwo.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+                }
+            }
+            
+        }
+        
+        if([txtColumns.text isEqualToString:@"3"])
+        {
+            if(![txtColumnOne.text isEqualToString:@""] & ![txtColumnTwo.text isEqualToString:@""] & ![txtColumnThree.text isEqualToString:@""])
+            {
+                
+                NSString *columnOneName = [txtColumnOne.text uppercaseString];
+                txtColumnOne.text =  columnOneName;
+                
+                NSString *columnTwoName = [txtColumnTwo.text uppercaseString];
+                txtColumnTwo.text =  columnTwoName;
+                
+                NSString *columnThreeName = [txtColumnThree.text uppercaseString];
+                txtColumnThree.text =  columnThreeName;
+                
+                [[NSUserDefaults standardUserDefaults] setValue:txtColumns.text forKey:@"numberOfColumns"];
+                [[NSUserDefaults standardUserDefaults] setValue:txtRows.text forKey:@"numberOfRows"];
+                [[NSUserDefaults standardUserDefaults] setValue:txtColumnOne.text forKey:@"columnOneName"];
+                [[NSUserDefaults standardUserDefaults] setValue:txtColumnTwo.text forKey:@"columnTwoName"];
+                [[NSUserDefaults standardUserDefaults] setValue:txtColumnThree.text forKey:@"columnThreeName"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
+                
+                
+                lblColumnOneName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnOneName"];
+                
+                viewSettings.hidden = true;
+                
+                [txtFieldRef resignFirstResponder];
+                
+                KyobeeGuestList *kyobeeGuestList = [[KyobeeGuestList alloc] initWithNibName:@"KyobeeGuestList" bundle:nil];
+                [self.navigationController pushViewController:kyobeeGuestList animated:NO];
+                
+            }
+            else
+            {
+                if([txtColumnOne.text isEqualToString:@""])
+                {
+                    [txtColumnOne.layer setBorderWidth:1.5];
+                    [txtColumnOne.layer setBorderColor:[UIColor redColor].CGColor];
+                }
+                else
+                {
+                    [txtColumnOne.layer setBorderWidth:1.5];
+                    [txtColumnOne.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+                }
+                
+                if([txtColumnTwo.text isEqualToString:@""])
+                {
+                    [txtColumnTwo.layer setBorderWidth:1.5];
+                    [txtColumnTwo.layer setBorderColor:[UIColor redColor].CGColor];
+                }
+                else
+                {
+                    [txtColumnTwo.layer setBorderWidth:1.5];
+                    [txtColumnTwo.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+                }
+                
+                if([txtColumnThree.text isEqualToString:@""])
+                {
+                    [txtColumnThree.layer setBorderWidth:1.5];
+                    [txtColumnThree.layer setBorderColor:[UIColor redColor].CGColor];
+                }
+                else
+                {
+                    [txtColumnThree.layer setBorderWidth:1.5];
+                    [txtColumnThree.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+                }
+            }
+            
+        }
+    }
+    else
+    {
+        
+        if([txtColumns.text isEqualToString:@""])
+        {
+            [txtColumns.layer setBorderWidth:1.5];
+            [txtColumns.layer setBorderColor:[UIColor redColor].CGColor];
+        }
+        else
+        {
+            [txtColumns.layer setBorderWidth:1.5];
+            [txtColumns.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+        }
+        
+        if([txtRows.text isEqualToString:@""])
+        {
+            [txtRows.layer setBorderWidth:1.5];
+            [txtRows.layer setBorderColor:[UIColor redColor].CGColor];
+        }
+        else
+        {
+            [txtRows.layer setBorderWidth:1.5];
+            [txtRows.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+        }
+    }
+}
+
+
+#pragma mark -
+#pragma mark - Text Field Delegate Methods
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    txtFieldRef = textField;
+    
+    tblViewColumnsAndRows.hidden = true;
+    
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    if (UIInterfaceOrientationIsLandscape(orientation))
+    {
+        txtColumns.hidden = true;
+        btnColumns.hidden = true;
+        txtRows.hidden = true;
+        btnRows.hidden = true;
+        
+        if(txtFieldRef == txtColumnOne)
+        {
+            _txtColToTop.constant = -140;
+        }
+        
+        if(txtFieldRef == txtColumnTwo)
+        {
+            _txtColToTop.constant = -140;
+        }
+        
+        if(txtFieldRef == txtColumnThree)
+        {
+            _txtColToTop.constant = -140;
+        }
+    }
+    else
+    {
+        
+    }
+    
+    [self.view setNeedsUpdateConstraints];
+    
+    [UIView animateWithDuration:0.40f animations:^{
+        
+        [self.view layoutIfNeeded];
+    }];
+    
+    return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range
+replacementString:(NSString *)string
+{
+    
+    if(textField == txtColumnOne)
+    {
+        [txtColumnOne.layer setBorderWidth:1.5];
+        [txtColumnOne.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+        
+        
+        return YES;
+        
+    }
+    else if (textField == txtColumnTwo)
+    {
+        [txtColumnTwo.layer setBorderWidth:1.5];
+        [txtColumnTwo.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+        
+        
+        
+        return YES;
+    }
+    else
+    {
+        [txtColumnThree.layer setBorderWidth:1.5];
+        [txtColumnThree.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+        
+        return YES;
+    }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    NSInteger nextTag = textField.tag + 1;
+    
+    UIResponder *nextResponder = [textField.superview viewWithTag:nextTag];
+    
+    if (nextResponder)
+    {
+        _txtColToTop.constant = 25;
+        
+        txtColumns.hidden = false;
+        btnColumns.hidden = false;
+        txtRows.hidden = false;
+        btnRows.hidden = false;
+        
+        CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+        
+        if(screenSize.height == 480.0f)
+        {
+            
+        }
+        else
+        {
+            
+        }
+        
+        [txtFieldRef becomeFirstResponder];
+        
+        [self.view setNeedsUpdateConstraints];
+        
+        [UIView animateWithDuration:0.40f animations:^{
+            [self.view layoutIfNeeded];
+        }];
+        
+        [nextResponder becomeFirstResponder];
+    }
+    else
+    {
+        
+        _txtColToTop.constant = 25;
+        
+        txtColumns.hidden = false;
+        btnColumns.hidden = false;
+        txtRows.hidden = false;
+        btnRows.hidden = false;
+        
+        CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+        
+        if(screenSize.height == 480.0f)
+        {
+            
+        }
+        else
+        {
+            
+        }
+        
+        [txtFieldRef resignFirstResponder];
+        
+        [self.view setNeedsUpdateConstraints];
+        
+        [UIView animateWithDuration:0.40f animations:^{
+            [self.view layoutIfNeeded];
+        }];
+        //lblMatchesFound.hidden= TRUE;
+        [textField resignFirstResponder];
+        return YES;
+    }
+    
+    return NO;
+}
+
+
+#pragma mark -
+#pragma mark - Custom Button Methods
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    for (UIView * txt in self.view.subviews){
+        if ([txt isKindOfClass:[UITextField class]] && [txt isFirstResponder]) {
+            [txt resignFirstResponder];
+        }
+    }
+    
+    
+    
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    
+    if(screenSize.height == 480.0f)
+    {
+        
+    }
+    else
+    {
+        
+    }
+    
+    txtColumns.hidden = false;
+    btnColumns.hidden = false;
+    txtRows.hidden = false;
+    btnRows.hidden = false;
+    
+    _txtColToTop.constant = 25;
+    
+    tblViewColumnsAndRows.hidden = true;
+    
+    [txtFieldRef resignFirstResponder];
+    
+    [self.view setNeedsUpdateConstraints];
+    
+    [UIView animateWithDuration:0.40f animations:^{
+        [self.view layoutIfNeeded];
+    }];
+}
+
+
+@end
