@@ -76,7 +76,7 @@
     // For Options
     self.lpgrForOptions = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGestures:)];
     self.lpgrForOptions.minimumPressDuration = 5.0f;
-    self.lpgrForOptions.numberOfTouchesRequired = 1;
+    self.lpgrForOptions.numberOfTouchesRequired = 2;
     self.lpgrForOptions.allowableMovement = 100.0f;
     
     [btnForOptions addGestureRecognizer:self.lpgrForOptions];
