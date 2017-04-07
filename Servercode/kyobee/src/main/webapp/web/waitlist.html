@@ -145,10 +145,10 @@
                         <thead>
                             <tr>
                                 <th>Seat</th>
-                                <th>No</th>
+                                <th>No.</th>
                                 <th>Name</th>
-                                <th>Seating Preferences</th>
-                                <th>No Of Party</th>
+                                <th>Seating Pref.</th>
+                                <th>No. Of Party</th>
                                 <th>Opt-In</th>
                                 <th>Note</th>
                                 <th>Delete</th>                                 
@@ -159,7 +159,7 @@
                                 <td><a class="clickpopup" style="cursor:pointer" ng-click="showPopup(record);"><img src="../assets/img/greenarrow.png"></a></td>
                                 <td>{{record.rank}}</td>
                                 <td>
-                                	<a ng-click="moveToUpdateGuest(record.guestID)" ng-class="{'hightlight' : record.incompleteParty != null }" style="cursor:pointer">{{record.name}}</a> &nbsp;
+                                	<a ng-click="moveToUpdateGuest(record.guestID)" ng-class="{'hightlight' : record.incompleteParty != null }" style="cursor:pointer"><u>{{record.name}}</u></a> &nbsp;
                                 	<span ng-show="record.calloutCount != null" ng-repeat="item in getArrayFromNum(record.calloutCount) track by $index">
                                 	<img src="../assets/img/downhand.png"> &nbsp;
                                 	</span>
@@ -186,19 +186,19 @@
 	           	 	<table id="waitlisttable" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th>No</th>
+                                <th>No.</th>
                                 <th>Name</th>
-                                <th>Seating Preferences</th>
-                                <th>No Of Party</th>
+                                <th>Seating Pref.</th>
+                                <th>No. Of Party</th>
                                 <th>Opt-In</th> 
-                                <th>Note</th>                             
+                                <th>Note</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="record in guestWaitList">
                                 <td>{{record.rank}}</td>
                                 <td>
-                                	<a ng-click="moveToUpdateGuest(record.guestID)" ng-class="{'hightlight' : record.incompleteParty != null }" style="cursor:pointer">{{record.name}}</a> &nbsp;
+                                	<a ng-click="moveToUpdateGuest(record.guestID)" ng-class="{'hightlight' : record.incompleteParty != null }" style="cursor:pointer"><u>{{record.name}}</u></a> &nbsp;
                                 	<span ng-show="record.calloutCount != null" ng-repeat="item in getArrayFromNum(record.calloutCount) track by $index">
                                 	<img src="../assets/img/downhand.png"> &nbsp;
                                 	</span>
@@ -225,7 +225,10 @@
                  	
 	           	 </div>
 	           	 
-	           	 <div class="pagination-block">
+	           	 
+                        
+     </div>
+    	 <div class="pagination-block">
 <!--                        <div class="col-md-12 col-sm-12 col-xs-12">-->
                        <div ng-show="showHistory == false" class="paginations">
 	                   <div class="pagination-inner">Page<span>{{pager.currentPage}}</span>of {{pager.totalPages}} 
@@ -244,8 +247,6 @@
                		 </div>
 
        			</div><!-- End of pagination block -->
-                        
-     </div>
 
        
 </section>

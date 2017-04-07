@@ -45,7 +45,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 						KyobeeService.getDataService(url, '').query(postBody,
 								function(data) {
 									console.log(data);
-									if (data.status == "SUCCESS") {
+									if (data.status == "SUCCESS") {										
 										//$scope.metricsDTO = data.serviceResult;
 										$scope.imageOrgPath=data.serviceResult.imageOrgPath;
 										$scope.OrgGuestCount=data.serviceResult.ORG_GUEST_COUNT;
@@ -170,7 +170,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 							return;
 						}
 						
-						if( $scope.userDTO.smsRoute != '' && ( $scope.guestDTO.prefType == null || $scope.guestDTO.prefType == 'undefined' )){
+						if($scope.userDTO.smsRoute != null && $scope.userDTO.smsRoute != '' && ( $scope.guestDTO.prefType == null || $scope.guestDTO.prefType == 'undefined' )){
 							$scope.errorMsg = "Please select sms or email";
 							$scope.loading=false;
 							return;

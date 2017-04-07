@@ -616,8 +616,7 @@ public class WaitListServiceImpl implements IWaitListService {
 			rootMap.put("smsSignature", smsSignature.toString());
 
 			String smsRoute = sessionFactory.getCurrentSession().createSQLQuery("SELECT smsRoute FROM ORGANIZATION where OrganizationID =:orgId").setParameter("orgId", orgID)
-					.uniqueResult().toString();	
-			System.out.println(smsRoute.toString());
+					.uniqueResult().toString();			
 			rootMap.put("smsRoute", smsRoute.toString());
 
 			
