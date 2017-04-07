@@ -257,7 +257,7 @@ replacementString:(NSString *)string
             
             
             
-            NSString *urlStr = [NSString stringWithFormat:@"http://jbossdev-kyobee.rhcloud.com/kyobee/rest/loginCredAuth?username=%@&password=%@",txt_UserName.text,txt_Password.text];
+            NSString *urlStr = [NSString stringWithFormat:@"%@rest/loginCredAuth?username=%@&password=%@",ServiceUrl,txt_UserName.text,txt_Password.text];
             
             //NSString *urlStr = [NSString stringWithFormat:@"http://advantech.aksharnxdigital.com/kyobee/rest/loginCredAuth?username=%@&password=%@",txt_UserName.text,txt_Password.text];
             

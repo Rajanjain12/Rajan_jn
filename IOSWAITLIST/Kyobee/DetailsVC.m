@@ -527,6 +527,12 @@
 
 - (void) adjustViewsForOrientation:(UIInterfaceOrientation) orientation
 {
+    [txtFieldRef resignFirstResponder];
+    
+    Lbl_Required.hidden = false;
+    Btn_Close.hidden = false;
+    _txtNameToTop.constant = -181;
+    tblViewParties.hidden = true;
     
     [tblViewSeatPref removeFromSuperview];
     
@@ -613,7 +619,7 @@
         
         //NSString *urlStr = [NSString stringWithFormat:@"http://jbossdev-kyobee.rhcloud.com/Rsnt/seam/resource/restv1/waitlistRestAction/totalwaittimemetricks"];
         
-        NSString *urlStr = [NSString stringWithFormat:@"http://jbossdev-kyobee.rhcloud.com/kyobee/rest/waitlistRestAction/totalwaittimemetricks"];
+        NSString *urlStr = [NSString stringWithFormat:@"%@rest/waitlistRestAction/totalwaittimemetricks",ServiceUrl];
         
         
         
@@ -1618,14 +1624,14 @@
             [txt_your_party.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
             
             
-            if(selectedPref.count == 0)
+            /*if(selectedPref.count == 0)
             {
                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please select seating preference." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
                 
                 [alert show];
                 
                 return;
-            }
+            }*/
             
             
             [appDelegate startActivityIndicator:self.view];
@@ -1680,7 +1686,7 @@
             
             //NSURL *aUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://jbossdev-kyobee.rhcloud.com/Rsnt/seam/resource/restv1/waitlistRestAction/addGuest"]];
             
-            NSURL *aUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://jbossdev-kyobee.rhcloud.com/kyobee/web/rest/waitlistRestAction/addGuest"]];
+            NSURL *aUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@web/rest/waitlistRestAction/addGuest",ServiceUrl]];
             
             
             
@@ -1882,7 +1888,7 @@
 
 - (void) onConnected:(OrtcClient*) ortc
 {
-    NSString *strChannel = [NSString stringWithFormat:@"RSNT_GUEST_DEV_%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"]];
+    NSString *strChannel = [NSString stringWithFormat:@"%@%@",ChannelName,[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"]];
     
     [_ortcClient subscribe:strChannel subscribeOnReconnected:YES onMessage:^(OrtcClient* ortc, NSString* channel, NSString* message)
     {
@@ -2425,7 +2431,7 @@ replacementString:(NSString *)string
             
             //NSString *urlStr = [NSString stringWithFormat:@"http://jbossdev-kyobee.rhcloud.com/Rsnt/seam/resource/restv1/waitlistRestAction/totalwaittimemetricks?orgid=%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"]];
             
-            NSString *urlStr = [NSString stringWithFormat:@"http://jbossdev-kyobee.rhcloud.com/kyobee/web/rest/waitlistRestAction/totalwaittimemetricks?orgid=%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"]];
+            NSString *urlStr = [NSString stringWithFormat:@"%@web/rest/waitlistRestAction/totalwaittimemetricks?orgid=%@",ServiceUrl,[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"]];
             
             
             NSURL *url = [NSURL URLWithString:urlStr];

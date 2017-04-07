@@ -134,7 +134,7 @@
         
         //NSLog(@"Logo FileName : %@", [NSString stringWithFormat:@"http://jbossdev-kyobee.rhcloud.com/static/orglogos/%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"logofile name"]]);
         
-        [imgResto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://jbossdev-kyobee.rhcloud.com/static/orglogos/%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"logofile name"]]] placeholderImage:[UIImage imageNamed:@"RestoImage"] options:SDWebImageRefreshCached];
+        [imgResto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",logoUrl,[[NSUserDefaults standardUserDefaults] valueForKey:@"logofile name"]]] placeholderImage:[UIImage imageNamed:@"RestoImage"] options:SDWebImageRefreshCached];
     }
     
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
@@ -244,7 +244,7 @@
         
         //NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers error:&jsonError];
         
-        NSString *urlStr = [NSString stringWithFormat:@"http://jbossdev-kyobee.rhcloud.com/kyobee/web/rest/waitlistRestAction/checkinusers?orgid=%@&pagerReqParam=%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"],jsonString];
+        NSString *urlStr = [NSString stringWithFormat:@"%@web/rest/waitlistRestAction/checkinusers?orgid=%@&pagerReqParam=%@",ServiceUrl,[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"],jsonString];
         
         NSString *escapedPath = [urlStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
         
@@ -668,7 +668,7 @@
 
 - (void) onConnected:(OrtcClient*) ortc
 {
-    NSString *strChannel = [NSString stringWithFormat:@"RSNT_GUEST_DEV_%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"]];
+    NSString *strChannel = [NSString stringWithFormat:@"%@%@",ChannelName,[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"]];
     
     [_ortcClient subscribe:strChannel subscribeOnReconnected:YES onMessage:^(OrtcClient* ortc, NSString* channel, NSString* message)
      {
@@ -984,7 +984,7 @@
         
         //NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers error:&jsonError];
         
-        NSString *urlStr = [NSString stringWithFormat:@"http://jbossdev-kyobee.rhcloud.com/kyobee/web/rest/waitlistRestAction/checkinusers?orgid=%@&pagerReqParam=%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"],jsonString];
+        NSString *urlStr = [NSString stringWithFormat:@"%@web/rest/waitlistRestAction/checkinusers?orgid=%@&pagerReqParam=%@",ServiceUrl,[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"],jsonString];
         
         NSString *escapedPath = [urlStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
         
