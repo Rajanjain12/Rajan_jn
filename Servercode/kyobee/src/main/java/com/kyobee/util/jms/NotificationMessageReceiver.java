@@ -2,6 +2,8 @@ package com.kyobee.util.jms;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -12,6 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.sns.AmazonSNSClient;
+import com.amazonaws.services.sns.model.MessageAttributeValue;
+import com.amazonaws.services.sns.model.PublishRequest;
+import com.amazonaws.services.sns.model.PublishResult;
 import com.kyobee.entity.GuestNotificationBean;
 import com.kyobee.exception.RsntException;
 import com.kyobee.util.EmailUtil;
@@ -210,23 +218,54 @@ public class NotificationMessageReceiver implements MessageListener{
 	public void sendSMStoGuest(String number, String uuid, String msg, Long orgID, String smsRoute) {
 		//String PROJECT_API_KEY = System.getProperty("sms.api.key");//"uCa1TCCMti3B9buAZGTIaBYGfOzb7C60";
 		//String PROJECT_ID = System.getProperty("sms.project.id");//"PJe726ee67deeb1949";
-		
-		try {
-			TelerivetAPI tr = new TelerivetAPI(smsApiKey);
-			Project project = tr.initProjectById(smsProjectId);
-			project.sendMessage(Util.options(
-					"to_number", number,
-					"content", msg,
-					"route_id", smsRoute
-					));				
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(smsRoute.equalsIgnoreCase("AWS"))
+			sendSMSToGuestViaAWS(number,msg);
+		else {
+			
+			try {
+				TelerivetAPI tr = new TelerivetAPI(smsApiKey);
+				Project project = tr.initProjectById(smsProjectId);
+				project.sendMessage(Util.options(
+						"to_number", number,
+						"content", msg,
+						"route_id", smsRoute
+						));				
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-
 	}
 	
+	
+	public void sendSMSToGuestViaAWS(String phoneNumber, String msg) {
+		// TODO Auto-generated method stub
+		
+		System.out.println(org.apache.http.conn.ssl.SSLConnectionSocketFactory.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		Map<String, MessageAttributeValue> smsAttributes =
+		        new HashMap<String, MessageAttributeValue>();
+		smsAttributes.put("AWS.SNS.SMS.SenderID", new MessageAttributeValue()
+		        .withStringValue("KYOBEE") //The sender ID shown on the device.
+		        .withDataType("String"));		
+		smsAttributes.put("AWS.SNS.SMS.SMSType", new MessageAttributeValue()
+		        .withStringValue("Transactional")
+		        .withDataType("String"));
+		AWSCredentials awsCredentials=new BasicAWSCredentials(Constants.AWS_ACCESS_KEY_ID, Constants.AWS_SECRET_KEY);
+		try {
+		// AmazonSNSClient snsClient = new AmazonSNSClient(awsCredential);
+			AmazonSNSClient snsClient=new AmazonSNSClient(awsCredentials);
+		 PublishResult result = snsClient.publish(( new PublishRequest()
+                 .withMessage(msg))
+                 .withPhoneNumber("+1"+phoneNumber)
+                 .withMessageAttributes(smsAttributes));
+		 
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+
 	private String buildURL(String clientBase, String uuid){
 		String url = "";
 		
@@ -264,6 +303,7 @@ public class NotificationMessageReceiver implements MessageListener{
 		return url;
 	}
 
+	
 
 	
 }

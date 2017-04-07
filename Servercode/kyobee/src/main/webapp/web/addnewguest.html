@@ -62,7 +62,7 @@
                   
                 
                   
-                 <div class="form-group panel-form addf3" ng-show="userDTO.smsRoute != ''" > 
+                 <div class="form-group panel-form addf3" ng-show="userDTO.smsRoute != null && userDTO.smsRoute != ''" > 
                         <div class="radio radio-danger">
                             <input type="radio" name="radio1" onchange="showsms();" id="smsshow" ng-model="guestDTO.prefType" value="sms" >
                             <label for="smsshow">SMS</label>
@@ -106,7 +106,7 @@
                 </div>
                   
                 <div class="addf4 panel-form-1">
-                      <a href="javascript:void(0);" id="noteshow">Note -</a>
+                      <a href="javascript:void(0);" id="noteshow"><u>Note</u> <img src="../assets/img/down-arrow.png"></a>
                       <div class="checkbox checkbox-success checkbox-inline">
                         <input type="checkbox" id="inlineCheckbox13" ng-model='guestDTO.optin'>
                         <label for="inlineCheckbox13">Opt-in</label>

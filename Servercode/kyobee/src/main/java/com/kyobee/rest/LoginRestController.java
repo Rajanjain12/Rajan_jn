@@ -110,13 +110,17 @@ public class LoginRestController {
 			System.out.println("password--"+loginDetail[0].toString());
 			System.out.println("OrgId--"+loginDetail[1].toString());
 			System.out.println("logofile name--"+loginDetail[2].toString());
-			System.out.println("sms route--"+loginDetail[4].toString());
+			if(loginDetail[4]!=null)
+				System.out.println("sms route--"+loginDetail[4].toString());
 			
 			rootMap.put("OrgId",loginDetail[1].toString());
 			rootMap.put("logofile name",loginDetail[2].toString());
 			rootMap.put("clientBase",loginDetail[3].toString());
-			rootMap.put("smsRoute", loginDetail[4].toString());
-
+			if(loginDetail[4]!=null)
+				rootMap.put("smsRoute", loginDetail[4].toString());
+			else
+				rootMap.put("smsRoute", loginDetail[4]);
+			
 			List<GuestPreferencesDTO> searPref =  null;
 			try {
 				searPref=	waitListService.getOrganizationSeatingPref(Long.valueOf(loginDetail[1].toString()).longValue());

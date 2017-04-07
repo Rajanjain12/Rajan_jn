@@ -133,4 +133,7 @@ public class Constants {
 	public static final int REALTIME_API_GET_SUCCESS_CODE = 200;
 	public static final int REALTIME_API_POST_SUCCESS_CODE = 201;
 	public static final String FOOTER_MSG = "footerMsg";
+	
+	public static final String AWS_ACCESS_KEY_ID="AKIAJQJN2NTV6IWMZXMQ";
+	public static final String AWS_SECRET_KEY="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";
 }
