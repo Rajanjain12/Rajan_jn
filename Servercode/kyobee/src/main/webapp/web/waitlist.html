@@ -167,7 +167,7 @@
                                 <td>{{record.seatingPreference}}</td>
                                 <td>{{record.noOfPeople}}</td>
                                 <td><img ng-show="record.optin == true" src="../assets/img/roundarrow.png"></td>
-                                <td><img ng-show="record.note != null" src="../assets/img/roundarrow.png"></td>
+                                <td><img ng-show="record.note != null && record.note !=''" src="../assets/img/roundarrow.png"></td>
                                 <td><a style="cursor:pointer" ng-click="showDeletePopup(record);"><img src="../assets/img/delete.png"></a></td>
                                 
                             </tr>
@@ -206,7 +206,7 @@
                                 <td>{{record.seatingPreference}}</td>
                                 <td>{{record.noOfPeople}}</td>
                                 <td><img ng-show="record.optin == true" src="../assets/img/roundarrow.png"></td>
-                                 <td><img ng-show="record.note != null" src="../assets/img/roundarrow.png"></td>
+                                 <td><img ng-show="record.note != null && record.note !=''" src="../assets/img/roundarrow.png"></td>
                             </tr>
                        	</tbody>
                 	</table>                
