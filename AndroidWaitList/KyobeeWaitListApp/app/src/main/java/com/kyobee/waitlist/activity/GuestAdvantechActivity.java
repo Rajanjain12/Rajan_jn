@@ -79,11 +79,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GuestActivity extends AppCompatActivity implements RealTimePush.RealTimeListener, ConnectivityReceiver.ConnectivityReceiverListener, UILongPressGestureRecognizer.OnActionListener, UIGestureRecognizerDelegate.Callback{
+public class GuestAdvantechActivity extends AppCompatActivity implements RealTimePush.RealTimeListener, ConnectivityReceiver.ConnectivityReceiverListener, UILongPressGestureRecognizer.OnActionListener, UIGestureRecognizerDelegate.Callback{
 
     private static final int LOGOUT = 1;
     private static final int SETTINGS = 0;
-    public static String LOGTAG = GuestActivity.class.getSimpleName ();
+    public static String LOGTAG = GuestAdvantechActivity.class.getSimpleName ();
     int operation = -1;
 
     CustomTextViewRegular txtCopyRight;
@@ -133,7 +133,7 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
     @Override
     public void onCreate (Bundle savedInstanceState){
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_guest);
+        setContentView (R.layout.activity_guest_blue);
         activity = this;
         login = GSONGetSet.getLogin ();
         //login.setSmsRoute (null);
@@ -254,12 +254,6 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
     }
 
     @Override
-    protected void onDestroy (){
-        super.onDestroy ();
-        realTimePush.disConnect ();
-    }
-
-    @Override
     public boolean shouldReceiveTouch (final UIGestureRecognizer recognizer){
         Log.d (LOGTAG, "shouldReceiveTouch");
         return true;
@@ -278,7 +272,7 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder (activity);
         LayoutInflater layout = (LayoutInflater) getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-        final View view = layout.inflate (R.layout.popup_add_new_guest, (ViewGroup) findViewById (R.id.pop_add_new_guest));
+        final View view = layout.inflate (R.layout.popup_add_new_guest_blue, (ViewGroup) findViewById (R.id.pop_add_new_guest));
         alertDialogBuilder.setView (view);
         alertDialogBuilder.setCancelable (false);
 
@@ -567,7 +561,7 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder (activity);
         LayoutInflater layout = (LayoutInflater) getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-        final View view = layout.inflate (R.layout.popup_response_add_guest, (ViewGroup) findViewById (R.id.popup_response_add_guest));
+        final View view = layout.inflate (R.layout.popup_response_add_guest_blue, (ViewGroup) findViewById (R.id.popup_response_add_guest));
         alertDialogBuilder.setView (view);
         alertDialogBuilder.setCancelable (false);
 
@@ -584,7 +578,7 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams ((width * 95) / 100, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.gravity = Gravity.CENTER;
 
-        LinearLayout linearPopup = (LinearLayout) view.findViewById (R.id.popup_response_add_guest);
+        LinearLayout linearPopup = (LinearLayout) view.findViewById (R.id.popup_response_add_guest_blue);
         //linearPopup.setLayoutParams (layoutParams);
 
         CustomTextViewBold txtNumber = (CustomTextViewBold) view.findViewById (R.id.txtNumber);
@@ -617,6 +611,12 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
             window.setGravity (Gravity.CENTER);
             window.setLayout ((width * 95) / 100, WindowManager.LayoutParams.WRAP_CONTENT);
         }
+    }
+
+    @Override
+    protected void onDestroy (){
+        super.onDestroy ();
+        realTimePush.disConnect ();
     }
 
     public void callWaiting (boolean progress){

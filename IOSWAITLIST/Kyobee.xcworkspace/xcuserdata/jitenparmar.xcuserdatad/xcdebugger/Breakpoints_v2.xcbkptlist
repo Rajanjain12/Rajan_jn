@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1784"
-            endingLineNumber = "1784"
+            startingLineNumber = "1790"
+            endingLineNumber = "1790"
             landmarkName = "-Btn_Add__me_wait_list_Clicked:"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1739"
-            endingLineNumber = "1739"
+            startingLineNumber = "1745"
+            endingLineNumber = "1745"
             landmarkName = "-Btn_Add__me_wait_list_Clicked:"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1740"
-            endingLineNumber = "1740"
+            startingLineNumber = "1746"
+            endingLineNumber = "1746"
             landmarkName = "-Btn_Add__me_wait_list_Clicked:"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "630"
-            endingLineNumber = "630"
+            startingLineNumber = "636"
+            endingLineNumber = "636"
             landmarkName = "-startSpeedConnection"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,23 +74,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "664"
-            endingLineNumber = "664"
-            landmarkName = "-startSpeedConnection"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "670"
@@ -106,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "688"
-            endingLineNumber = "688"
+            startingLineNumber = "676"
+            endingLineNumber = "676"
             landmarkName = "-startSpeedConnection"
             landmarkType = "7">
          </BreakpointContent>
@@ -122,11 +106,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "701"
-            endingLineNumber = "701"
+            startingLineNumber = "694"
+            endingLineNumber = "694"
+            landmarkName = "-startSpeedConnection"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Kyobee/DetailsVC.m"
+            timestampString = "513266826.881622"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "707"
+            endingLineNumber = "707"
             landmarkName = "-viewDidAppear:"
             landmarkType = "7">
          </BreakpointContent>
@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "739"
-            endingLineNumber = "739"
+            startingLineNumber = "745"
+            endingLineNumber = "745"
             landmarkName = "-btn_Phone_Or_Mail_Clicked:"
             landmarkType = "7">
          </BreakpointContent>
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "761"
-            endingLineNumber = "761"
+            startingLineNumber = "767"
+            endingLineNumber = "767"
             landmarkName = "-btn_Phone_Or_Mail_Clicked:"
             landmarkType = "7">
          </BreakpointContent>
@@ -170,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "807"
-            endingLineNumber = "807"
+            startingLineNumber = "813"
+            endingLineNumber = "813"
             landmarkName = "-Btn_Press_Here_Checkin_Clicked:"
             landmarkType = "7">
          </BreakpointContent>
@@ -186,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1757"
-            endingLineNumber = "1757"
+            startingLineNumber = "1763"
+            endingLineNumber = "1763"
             landmarkName = "-Btn_Add__me_wait_list_Clicked:"
             landmarkType = "7">
          </BreakpointContent>
@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "629"
-            endingLineNumber = "629"
+            startingLineNumber = "635"
+            endingLineNumber = "635"
             landmarkName = "-startSpeedConnection"
             landmarkType = "7">
          </BreakpointContent>
@@ -266,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2053"
-            endingLineNumber = "2053"
+            startingLineNumber = "2059"
+            endingLineNumber = "2059"
             landmarkName = "-textFieldShouldBeginEditing:"
             landmarkType = "7">
          </BreakpointContent>
@@ -282,11 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1897"
-            endingLineNumber = "1897"
+            startingLineNumber = "1903"
+            endingLineNumber = "1903"
             landmarkName = "-onConnected:"
             landmarkType = "7">
          </BreakpointContent>
@@ -314,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1496"
-            endingLineNumber = "1496"
+            startingLineNumber = "1502"
+            endingLineNumber = "1502"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -330,11 +330,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1525"
-            endingLineNumber = "1525"
+            startingLineNumber = "1531"
+            endingLineNumber = "1531"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "7">
             <Locations>
@@ -378,11 +378,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1498"
-            endingLineNumber = "1498"
+            startingLineNumber = "1504"
+            endingLineNumber = "1504"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -394,11 +394,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1608"
-            endingLineNumber = "1608"
+            startingLineNumber = "1614"
+            endingLineNumber = "1614"
             landmarkName = "-Btn_Add__me_wait_list_Clicked:"
             landmarkType = "7">
          </BreakpointContent>
@@ -410,11 +410,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1469"
-            endingLineNumber = "1469"
+            startingLineNumber = "1475"
+            endingLineNumber = "1475"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -426,11 +426,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2304"
-            endingLineNumber = "2304"
+            startingLineNumber = "2310"
+            endingLineNumber = "2310"
             landmarkName = "-touchesBegan:withEvent:"
             landmarkType = "7">
          </BreakpointContent>
@@ -442,11 +442,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1045"
-            endingLineNumber = "1045"
+            startingLineNumber = "1051"
+            endingLineNumber = "1051"
             landmarkName = "-tableView:didSelectItemAtIndex:"
             landmarkType = "7">
          </BreakpointContent>
@@ -458,11 +458,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1386"
-            endingLineNumber = "1386"
+            startingLineNumber = "1392"
+            endingLineNumber = "1392"
             landmarkName = "-tableView:heightForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -474,11 +474,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1103"
-            endingLineNumber = "1103"
+            startingLineNumber = "1109"
+            endingLineNumber = "1109"
             landmarkName = "-btnPressed:"
             landmarkType = "7">
          </BreakpointContent>
@@ -490,11 +490,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "956"
-            endingLineNumber = "956"
+            startingLineNumber = "962"
+            endingLineNumber = "962"
             landmarkName = "-tableView:cellForItemAtIndex:"
             landmarkType = "7">
          </BreakpointContent>
@@ -554,11 +554,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2453"
-            endingLineNumber = "2453"
+            startingLineNumber = "2459"
+            endingLineNumber = "2459"
             landmarkName = "-loadTimeMatrics"
             landmarkType = "7">
          </BreakpointContent>
@@ -570,12 +570,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2484"
-            endingLineNumber = "2484"
+            startingLineNumber = "2490"
+            endingLineNumber = "2490"
             landmarkName = "-loadTimeMatrics"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Kyobee/DetailsVC.m"
+            timestampString = "513266826.881622"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1733"
+            endingLineNumber = "1733"
+            landmarkName = "-Btn_Add__me_wait_list_Clicked:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -586,11 +602,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1727"
-            endingLineNumber = "1727"
+            startingLineNumber = "1711"
+            endingLineNumber = "1711"
             landmarkName = "-Btn_Add__me_wait_list_Clicked:"
             landmarkType = "7">
          </BreakpointContent>
@@ -602,27 +618,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1705"
-            endingLineNumber = "1705"
-            landmarkName = "-Btn_Add__me_wait_list_Clicked:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2501"
-            endingLineNumber = "2501"
+            startingLineNumber = "2507"
+            endingLineNumber = "2507"
             landmarkName = "-loadTimeMatrics"
             landmarkType = "7">
             <Locations>
@@ -662,15 +662,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1914"
-            endingLineNumber = "1914"
+            startingLineNumber = "1920"
+            endingLineNumber = "1920"
             landmarkName = "-onConnected:"
             landmarkType = "7">
          </BreakpointContent>
@@ -682,11 +682,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1933"
-            endingLineNumber = "1933"
+            startingLineNumber = "1939"
+            endingLineNumber = "1939"
             landmarkName = "-onConnected:"
             landmarkType = "7">
          </BreakpointContent>
@@ -698,11 +698,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1907"
-            endingLineNumber = "1907"
+            startingLineNumber = "1913"
+            endingLineNumber = "1913"
             landmarkName = "-onConnected:"
             landmarkType = "7">
          </BreakpointContent>
@@ -714,11 +714,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1980"
-            endingLineNumber = "1980"
+            startingLineNumber = "1986"
+            endingLineNumber = "1986"
             landmarkName = "-btnLogout_clicked:"
             landmarkType = "7">
          </BreakpointContent>
@@ -746,11 +746,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2462"
-            endingLineNumber = "2462"
+            startingLineNumber = "2468"
+            endingLineNumber = "2468"
             landmarkName = "-loadTimeMatrics"
             landmarkType = "7">
          </BreakpointContent>
@@ -762,11 +762,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1880"
-            endingLineNumber = "1880"
+            startingLineNumber = "1886"
+            endingLineNumber = "1886"
             landmarkName = "@implementation DetailsVC"
             landmarkType = "3">
          </BreakpointContent>
@@ -1094,15 +1094,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1654"
-            endingLineNumber = "1654"
+            startingLineNumber = "1660"
+            endingLineNumber = "1660"
             landmarkName = "-Btn_Add__me_wait_list_Clicked:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1194,7 +1194,7 @@
                   moduleName = "Kyobee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jitenparmar/Documents/RevisedKyobee/IOSWAITLIST/Kyobee/GuestListVC.m"
-                  timestampString = "513003754.558124"
+                  timestampString = "513266827.092187"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "553"
@@ -1205,11 +1205,11 @@
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_.255"
+                  symbolName = "__copy_helper_block_.259"
                   moduleName = "Kyobee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jitenparmar/Documents/RevisedKyobee/IOSWAITLIST/Kyobee/GuestListVC.m"
-                  timestampString = "513003754.5605"
+                  timestampString = "513266827.094617"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "553"
@@ -1220,11 +1220,11 @@
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_.256"
+                  symbolName = "__destroy_helper_block_.260"
                   moduleName = "Kyobee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jitenparmar/Documents/RevisedKyobee/IOSWAITLIST/Kyobee/GuestListVC.m"
-                  timestampString = "513003754.562802"
+                  timestampString = "513266827.097002"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "553"
@@ -1401,11 +1401,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1014"
-            endingLineNumber = "1014"
+            startingLineNumber = "1020"
+            endingLineNumber = "1020"
             landmarkName = "-tableView:cellForItemAtIndex:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1417,11 +1417,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1066"
-            endingLineNumber = "1066"
+            startingLineNumber = "1072"
+            endingLineNumber = "1072"
             landmarkName = "-tableView:didSelectItemAtIndex:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1449,11 +1449,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1353"
-            endingLineNumber = "1353"
+            startingLineNumber = "1359"
+            endingLineNumber = "1359"
             landmarkName = "-tableView:numberOfRowsInSection:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1529,11 +1529,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1142"
-            endingLineNumber = "1142"
+            startingLineNumber = "1148"
+            endingLineNumber = "1148"
             landmarkName = "@implementation DetailsVC"
             landmarkType = "3">
          </BreakpointContent>
@@ -1545,11 +1545,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1233"
-            endingLineNumber = "1233"
+            startingLineNumber = "1239"
+            endingLineNumber = "1239"
             landmarkName = "@implementation DetailsVC"
             landmarkType = "3">
          </BreakpointContent>
@@ -1561,11 +1561,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1266"
-            endingLineNumber = "1266"
+            startingLineNumber = "1272"
+            endingLineNumber = "1272"
             landmarkName = "@implementation DetailsVC"
             landmarkType = "3">
          </BreakpointContent>
@@ -1577,11 +1577,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2487"
-            endingLineNumber = "2487"
+            startingLineNumber = "2493"
+            endingLineNumber = "2493"
             landmarkName = "-loadTimeMatrics"
             landmarkType = "7">
          </BreakpointContent>
@@ -1621,31 +1621,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
+            timestampString = "513266826.881622"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1665"
-            endingLineNumber = "1665"
-            landmarkName = "-Btn_Add__me_wait_list_Clicked:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Kyobee/DetailsVC.m"
-            timestampString = "512917493.381317"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1694"
-            endingLineNumber = "1694"
+            startingLineNumber = "1671"
+            endingLineNumber = "1671"
             landmarkName = "-Btn_Add__me_wait_list_Clicked:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1982,6 +1966,70 @@
             startingLineNumber = "473"
             endingLineNumber = "473"
             landmarkName = "-btnDisplayMode_clicked:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Kyobee/DetailsVC.m"
+            timestampString = "513266826.881622"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1682"
+            endingLineNumber = "1682"
+            landmarkName = "-Btn_Add__me_wait_list_Clicked:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Kyobee/KyobeeGuestList.m"
+            timestampString = "513261572.096361"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "918"
+            endingLineNumber = "918"
+            landmarkName = "-onConnected:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Kyobee/KyobeeGuestList.m"
+            timestampString = "513261574.397557"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "924"
+            endingLineNumber = "924"
+            landmarkName = "-onConnected:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Kyobee/DetailsVC.m"
+            timestampString = "513266826.881622"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "531"
+            endingLineNumber = "531"
+            landmarkName = "-adjustViewsForOrientation:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

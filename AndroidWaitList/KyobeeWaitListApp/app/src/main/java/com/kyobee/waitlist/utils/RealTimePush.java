@@ -85,6 +85,11 @@ public class RealTimePush{
         }
     }
 
+    public void disConnect(){
+        client.disconnect ();
+    }
+
+
     public interface RealTimeListener{
         void onReceivedResponse (String channel, String message);
         void onSubscribeChannel (OrtcClient sender, String channel);

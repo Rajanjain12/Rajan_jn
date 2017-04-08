@@ -175,6 +175,7 @@
             >
 
             <LinearLayout
+                android:id="@+id/linearColumn1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -191,6 +192,7 @@
                     >
 
                     <com.kyobee.waitlist.customcontrol.CustomTextViewSemiBold
+                        android:id="@+id/txtColumn1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -279,6 +281,7 @@
                 android:background="@color/colorGrayColumn"/>
 
             <LinearLayout
+                android:id="@+id/linearColumn2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -295,6 +298,7 @@
                     >
 
                     <com.kyobee.waitlist.customcontrol.CustomTextViewSemiBold
+                        android:id="@+id/txtColumn2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -383,6 +387,7 @@
                 android:background="@color/colorGrayColumn"/>
 
             <LinearLayout
+                android:id="@+id/linearColumn3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -399,6 +404,7 @@
                     >
 
                     <com.kyobee.waitlist.customcontrol.CustomTextViewSemiBold
+                        android:id="@+id/txtColumn3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
