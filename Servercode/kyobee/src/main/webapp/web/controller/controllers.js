@@ -64,8 +64,9 @@ KyobeeControllers.controller('homeCtrl',
 						$scope.homeCtrlLoaded = KyobeeService.getDataService(url, '').query(postBody,
 								function(data) {
 									console.log(data);
-									if (data.status == "SUCCESS") {
+									if (data.status == "SUCCESS") {										
 										$scope.userDTO = data.serviceResult;
+										put("USER_OBJ",JSON.stringify(data.serviceResult));
 										$scope.loadDataForPage();
 									} else if (data.status == "ERROR") {
 										alert('Error while fetching user details. Please login again or contact support');
