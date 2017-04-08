@@ -76,11 +76,11 @@ import retrofit2.Response;
 
 import static org.apache.commons.lang3.CharEncoding.UTF_8;
 
-public class DisplayMultiActivity extends AppCompatActivity implements RealTimePush.RealTimeListener, ConnectivityReceiver.ConnectivityReceiverListener, UILongPressGestureRecognizer.OnActionListener, UIGestureRecognizerDelegate.Callback{
+public class DisplayMultiAdvantechActivity extends AppCompatActivity implements RealTimePush.RealTimeListener, ConnectivityReceiver.ConnectivityReceiverListener, UILongPressGestureRecognizer.OnActionListener, UIGestureRecognizerDelegate.Callback{
 
     private static final int LOGOUT = 1;
     private static final int SETTINGS = 0;
-    public static String LOGTAG = DisplayMultiActivity.class.getSimpleName ();
+    public static String LOGTAG = DisplayMultiAdvantechActivity.class.getSimpleName ();
     CustomTextViewRegular txtVersion;
     CustomTextViewSemiBold txtNodata1, txtNodata2, txtNodata3, txtColumn1, txtColumn2, txtColumn3;
     AppCompatActivity activity;
@@ -130,7 +130,7 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
     @Override
     public void onCreate (Bundle savedInstanceState){
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_display_multi);
+        setContentView (R.layout.activity_display_multi_blue);
         activity = this;
 
         login = GSONGetSet.getLogin ();
@@ -292,7 +292,7 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
                         listRecords.addAll (responseGen.getServiceResult ().getRecords ());
                         callAdapter ();
                     } else{
-                        CustomDialog.showAlertDialog (DisplayMultiActivity.this, "Error", responseGen.getErrorDescription ());
+                        CustomDialog.showAlertDialog (DisplayMultiAdvantechActivity.this, "Error", responseGen.getErrorDescription ());
                     }
                 }
 
@@ -318,12 +318,6 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
     public void onNetworkConnectionChanged (boolean isConnected){
         if (isConnected)
             callCheckInUsers (login.getOrgId (), false);
-    }
-
-    @Override
-    protected void onDestroy (){
-        super.onDestroy ();
-        realTimePush.disConnect ();
     }
 
     @Override
@@ -513,7 +507,7 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder (activity);
         LayoutInflater layout = (LayoutInflater) getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-        final View view = layout.inflate (R.layout.popup_choose_operation, (ViewGroup) findViewById (R.id.popUpGuestMode));
+        final View view = layout.inflate (R.layout.popup_choose_operation_blue, (ViewGroup) findViewById (R.id.popUpGuestModeBlue));
         alertDialogBuilder.setView (view);
         alertDialogBuilder.setCancelable (true);
         // create alert dialog
@@ -581,7 +575,7 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder (activity);
         LayoutInflater layout = (LayoutInflater) getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-        final View view = layout.inflate (R.layout.popup_settings, (ViewGroup) findViewById (R.id.pop_add_new_guest));
+        final View view = layout.inflate (R.layout.popup_settings_blue, (ViewGroup) findViewById (R.id.pop_add_new_guest));
         alertDialogBuilder.setView (view);
         alertDialogBuilder.setCancelable (false);
 

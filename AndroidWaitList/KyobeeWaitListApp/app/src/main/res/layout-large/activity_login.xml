@@ -18,13 +18,13 @@
         android:layout_marginTop="25dp"
         >
 
-        <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
+        <com.kyobee.waitlist.customcontrol.CustomTextViewUltralight
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/waitlist_app"
             android:textColor="@android:color/black"
-            android:textSize="50sp"/>
+            android:textSize="70sp"/>
 
         <com.kyobee.waitlist.customcontrol.CustomEditTextRegular
             android:id="@+id/edtUsername"
@@ -127,7 +127,7 @@
             android:textColor="@android:color/white"
             android:textAllCaps="false"
             />
-        
+
     </LinearLayout>
 
     <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
@@ -138,7 +138,7 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:textColor="@android:color/black"
-        android:textSize="18sp"
+        android:textSize="12sp"
         android:layout_marginBottom="10dp"
         />
 

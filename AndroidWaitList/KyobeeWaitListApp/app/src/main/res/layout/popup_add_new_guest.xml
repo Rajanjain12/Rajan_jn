@@ -57,7 +57,7 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/correct_border"
                     android:gravity="center_vertical"
-                    android:hint="@string/username"
+                    android:hint="@string/name"
                     android:inputType="textEmailAddress"
                     android:paddingLeft="15dp"
                     android:textColor="@color/colorLightBrown"

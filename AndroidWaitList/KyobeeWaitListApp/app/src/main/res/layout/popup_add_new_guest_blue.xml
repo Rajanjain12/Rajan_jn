@@ -5,38 +5,38 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-
     >
+
+
         <RelativeLayout
             android:id="@+id/relativeTop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorRed"
+            android:background="@color/colorBlue"
             >
 
             <com.kyobee.waitlist.customcontrol.CustomTextViewBold
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="45dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="5dp"
+                android:layout_margin="10dp"
                 android:gravity="center_vertical"
                 android:text="@string/add_new_guest"
                 android:textColor="@android:color/white"
                 android:textSize="32sp"
                 android:textStyle="bold"
                 />
-
             <ImageView
                 android:id="@+id/imgCancel"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:src="@drawable/ic_back"
                 />
 
@@ -47,13 +47,13 @@
                 android:layout_margin="4dp"
                 android:background="@android:color/white"
                 android:orientation="vertical"
-                android:padding="10dp"
+                android:padding="15dp"
                 >
 
                 <com.kyobee.waitlist.customcontrol.CustomEditTextRegular
                     android:id="@+id/edtName"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="55dp"
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/correct_border"
                     android:gravity="center_vertical"
@@ -69,7 +69,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:orientation="horizontal"
                     >
 
@@ -77,6 +77,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
+
                         >
 
                         <LinearLayout
@@ -87,8 +88,8 @@
 
                             <RadioButton
                                 android:id="@+id/radioPhone"
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
                                 android:layout_gravity="center_vertical"
                                 android:background="@drawable/custom_radio"
                                 android:button="@null"
@@ -125,8 +126,8 @@
 
                             <RadioButton
                                 android:id="@+id/radioEmail"
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
                                 android:layout_gravity="center_vertical"
                                 android:background="@drawable/custom_radio"
                                 android:button="@null"
@@ -145,11 +146,13 @@
                                 android:textSize="26sp"
                                 />
                         </LinearLayout>
+
                     </LinearLayout>
+
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="55dp"
                         android:layout_gravity="center_vertical"
                         >
 
@@ -172,7 +175,7 @@
                         <com.github.reinaldoarrosi.maskededittext.MaskedEditText
                             android:id="@+id/edtPhone"
                             android:layout_width="match_parent"
-                            android:layout_height="45dp"
+                            android:layout_height="55dp"
                             android:hint="@string/hint_phone"
                             android:inputType="phone"
                             android:layout_marginLeft="25dp"
@@ -183,24 +186,26 @@
                             android:textColorHint="@color/colorLightBrown"
                             android:textSize="26sp"
                             />
+
+
                     </RelativeLayout>
+
                 </LinearLayout>
 
                 <com.piotrek.customspinner.CustomSpinner
                     android:id="@+id/spnrPeople"
                     style="@style/mySpinnerItemStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginTop="10dp"
-                    android:padding="5dp"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="15dp"
                     android:background="@drawable/correct_border"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_gravity="center_vertical"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="15dp"
                     android:background="@drawable/correct_border"
+                    android:gravity="center_vertical"
                     >
 
                     <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
@@ -214,8 +219,8 @@
                         />
 
                     <View
-                        android:layout_width="1.5dp"
-                        android:layout_height="45dp"
+                        android:layout_width="1dp"
+                        android:layout_height="60dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
                         android:background="@color/colorLightBrown"
@@ -224,7 +229,7 @@
                     <com.kyobee.waitlist.customcontrol.HorizontalListView
                         android:id="@+id/horizontalList"
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
+                        android:layout_height="55dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="10dp"
                         />
@@ -236,14 +241,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:orientation="horizontal"
                     >
 
                     <CheckBox
                         android:id="@+id/chkReceive"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center_vertical"
                         android:button="@null"
                         android:background="@drawable/custom_check_box"
@@ -269,8 +274,8 @@
                     android:layout_marginBottom="15dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@color/colorRed"
+                    android:layout_marginTop="30dp"
+                    android:background="@color/colorBlue"
                     android:text="@string/add_me_wait_list"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white"
@@ -278,4 +283,5 @@
                     />
             </LinearLayout>
         </RelativeLayout>
+
 </LinearLayout>

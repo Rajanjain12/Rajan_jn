@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:maskededittext="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/pop_add_new_guest"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+    >
+
+
+        <RelativeLayout
+            android:id="@+id/relativeTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBlue"
+            >
+
+            <com.kyobee.waitlist.customcontrol.CustomTextViewBold
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dp"
+                android:gravity="center_vertical"
+                android:text="@string/settings"
+                android:textColor="@android:color/white"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                />
+
+            <ImageView
+                android:id="@+id/imgCancel"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/ic_back"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgCancel"
+                android:layout_margin="4dp"
+                android:background="@android:color/white"
+                android:orientation="vertical"
+                android:padding="15dp"
+                >
+
+
+                <com.piotrek.customspinner.CustomSpinner
+                    android:id="@+id/spnrColumn"
+                    style="@style/mySpinnerItemStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/correct_border"/>
+
+                <com.piotrek.customspinner.CustomSpinner
+                    android:id="@+id/spnrRow"
+                    style="@style/mySpinnerItemStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/correct_border"/>
+
+                <com.kyobee.waitlist.customcontrol.CustomEditTextRegular
+                    android:id="@+id/edtColumn1"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/correct_border"
+                    android:gravity="center_vertical"
+                    android:hint="@string/column_first"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="15dp"
+                    android:textColor="@color/colorLightBrown"
+                    android:textColorHint="@color/colorLightBrown"
+                    android:textSize="26sp"
+                    android:layout_marginTop="15dp"
+                    />
+
+                <com.kyobee.waitlist.customcontrol.CustomEditTextRegular
+                    android:id="@+id/edtColumn2"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/correct_border"
+                    android:gravity="center_vertical"
+                    android:hint="@string/column_second"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="15dp"
+                    android:textColor="@color/colorLightBrown"
+                    android:textColorHint="@color/colorLightBrown"
+                    android:textSize="26sp"
+                    android:layout_marginTop="15dp"
+                    />
+
+                <com.kyobee.waitlist.customcontrol.CustomEditTextRegular
+                    android:id="@+id/edtColumn3"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/correct_border"
+                    android:gravity="center_vertical"
+                    android:hint="@string/column_thired"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="15dp"
+                    android:textColor="@color/colorLightBrown"
+                    android:textColorHint="@color/colorLightBrown"
+                    android:textSize="26sp"
+                    android:layout_marginTop="15dp"
+                    />
+
+
+                <com.kyobee.waitlist.customcontrol.CustomButtonRegular
+                    android:id="@+id/btnOk"
+                    android:layout_width="400dp"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/colorBlue"
+                    android:text="@string/ok"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="30sp"
+                    />
+            </LinearLayout>
+        </RelativeLayout>
+
+</LinearLayout>

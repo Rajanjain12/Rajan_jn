@@ -6,14 +6,17 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kyobee.waitlist.net.ConnectivityReceiver;
 import com.kyobee.waitlist.pojo.Display;
+import com.kyobee.waitlist.pojo.MultiColumnSession;
 import com.kyobee.waitlist.utils.General;
 import com.kyobee.waitlist.utils.PreferenceHelper;
 import com.kyobee.waitlist.utils.RealTimePush;
 
 public class Kyobee extends Application{
 
+    public static final String MULTI_COLUMN="multiColumn";
     public static final String DISPLAY="display";
     public static final String LOGIN = "login";
+    public static final String LOGIN_ADMIN = "loginAdmin";
     public static final String ORG_ID="orgId";
     public static final String LOGIN_MODE="mode";
     public static final String USERNAME="username";
@@ -104,6 +107,16 @@ public class Kyobee extends Application{
         PreferenceHelper.putString (getApplicationContext (), General.KYOBEE_WAIT_LIST, LOGIN, login);
     }
 
+    // login class convert
+    public String getLoginAdmin (){
+        return PreferenceHelper.getString (getApplicationContext (), General.KYOBEE_WAIT_LIST, LOGIN_ADMIN);
+    }
+
+    public void setLoginAdmin (String login){
+        PreferenceHelper.putString (getApplicationContext (), General.KYOBEE_WAIT_LIST, LOGIN_ADMIN, login);
+    }
+
+
     public void logout(){
         PreferenceHelper.clear (getApplicationContext (), General.KYOBEE_WAIT_LIST);
     }
@@ -112,6 +125,19 @@ public class Kyobee extends Application{
         RealTimePush.realTimeListener = realTime;
     }
 
+
+    public MultiColumnSession getMultiColumnSession (){
+        String disp=PreferenceHelper.getString (getApplicationContext (),General.KYOBEE_WAIT_LIST,MULTI_COLUMN);
+        Gson gson=new GsonBuilder ().serializeNulls ().create ();
+        MultiColumnSession multi=gson.fromJson (disp,MultiColumnSession.class);
+        return multi;
+    }
+
+    public void setMultiColumnSession (MultiColumnSession multiColumnSession){
+        Gson gson=new GsonBuilder ().serializeNulls ().create ();
+        String multi=gson.toJson (multiColumnSession);
+        PreferenceHelper.putString (getApplicationContext (), General.KYOBEE_WAIT_LIST, MULTI_COLUMN, multi);
+    }
 
     public Display getDisplay (){
         String disp=PreferenceHelper.getString (getApplicationContext (),General.KYOBEE_WAIT_LIST,DISPLAY);
