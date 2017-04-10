@@ -161,8 +161,6 @@ public class LoginActivity extends AppCompatActivity{
 
             @Override
             public void onFailure (Call<Login> call, Throwable t){
-
-
                 CustomDialog.dismissProgressDialog ();
                 Log.d (LOGTAG, "Log In - " + t.getMessage ());
             }
@@ -172,12 +170,21 @@ public class LoginActivity extends AppCompatActivity{
     public void validation (){
         username = edtUsername.getText ().toString ();
         password = edtPassword.getText ().toString ();
-         // username = "meetjenis@gmail.com";
-         // password = "meetjenis";
 
-      //  username = "Gabriela.meza@advantech.com";
-      //  password = "advan0725*";
+        /* dev version  */
 
+       // username = "jkim@kyobee.com";
+       // password = "jaekim";
+        //username = "Gabriela.meza@advantech.com";
+        //password = "jaekim";
+
+        /* qa version
+        username = "meetjenis@gmail.com";
+        password = "meetjenis";
+
+        username = "Gabriela.meza@advantech.com";
+        password = "advan0725*";
+       */
 
         if (username.equalsIgnoreCase ("")){
             CustomDialog.showAlertDialog (LoginActivity.this, "Kyobee", "All fields are mandatory.");
@@ -241,7 +248,12 @@ public class LoginActivity extends AppCompatActivity{
         btnCheckIn.setOnClickListener (new View.OnClickListener (){
             @Override
             public void onClick (View v){
-                Login login = GSONGetSet.getLogin ();
+
+                Kyobee.getInstance ().setLoginMode (GUEST_MODE);
+                startActivity (new Intent (activity, GuestActivity.class));
+                finish ();
+
+                /*Login login = GSONGetSet.getLogin ();
                 if (login.getClientBase ().equalsIgnoreCase ("admin")){
                     Kyobee.getInstance ().setLoginMode (GUEST_MODE);
                     startActivity (new Intent (activity, GuestActivity.class));
@@ -250,7 +262,7 @@ public class LoginActivity extends AppCompatActivity{
                     Kyobee.getInstance ().setLoginMode (GUEST_MODE);
                     startActivity (new Intent (activity, GuestAdvantechActivity.class));
                     finish ();
-                }
+                }*/
 
             }
         });
