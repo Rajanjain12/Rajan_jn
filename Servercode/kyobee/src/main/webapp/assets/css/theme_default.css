@@ -501,9 +501,7 @@ h4, .h4 {
     }
 }
 @media (max-width: 768px){
-    .btn, .btn-morphing{
-        margin-bottom: 10px;
-    }
+  
     .parallax .motto{
         top: 170px;
         margin-top: 0;

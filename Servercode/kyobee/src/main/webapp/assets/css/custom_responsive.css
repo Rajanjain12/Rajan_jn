@@ -51,58 +51,10 @@
 .para-color{
     font-size:20px;
 }
+.lblres {
+    font-size: 11px;
+}
 
-/* Force table to not be like tables anymore */
-		table, thead, tbody, th, td, tr { 
-			display: block; 
-		}
-		
-/*		 Hide table headers (but not display: none;, for accessibility) */
-		thead tr { 
-			position: absolute;
-			top: -9999px;
-			left: -9999px;
-		}
-		
-		tr { border: 1px solid #ccc; }
-		
-		td { 
-/*			 Behave  like a "row" */
-			border: none;
-			border-bottom: 1px solid #eee; 
-			position: relative;
-			padding-left: 50%; 
-		}
-		
-		td:before { 
-/*			 Now like a table header */
-/*			position: absolute;
-			 Top/left values mimic padding 
-			top: 6px;
-			left: 6px;
-			width: 45%; 
-			padding-right: 10px; 
-			white-space: nowrap;*/
-                        position: absolute;
-                        top: 6px;
-                        left: 50px;
-                        width: 20%;
-                        padding-right: 10px;
-                        white-space: nowrap;
-                        text-align: left;
-		}
-		
-		
-/*		Label the data*/
-		td:before { content: attr(data-title); font-weight: 600;}
-/*		td:nth-of-type(1):before { content: "Seat"; font-weight: 600;}
-		td:nth-of-type(2):before { content: "No"; font-weight: 600;}
-		td:nth-of-type(3):before { content: "Name"; font-weight: 600;}
-		td:nth-of-type(4):before { content: "Seating Pref."; font-weight: 600;}
-		td:nth-of-type(5):before { content: "No of Party"; font-weight: 600;}
-		td:nth-of-type(6):before { content: "Opt-In"; font-weight: 600;}
-		td:nth-of-type(7):before { content: "Note"; font-weight: 600;}
-		td:nth-of-type(8):before { content: "Delete"; font-weight: 600;}*/
 }
 
 
@@ -236,32 +188,44 @@
 .kw-dav-2 ul li a img { width: 75%;}
 .kw-dav-2 ul li { margin: 0 5px 0 0;}
 .kw-dav-2 span p { margin-left: 5px;}
-.table-wrap {
-    width: 100%;
-    float: left;
-    height: 300px;
-    overflow-y: scroll;
-/*    overflow-x: scroll;*/
-    overflow-x: hidden;     
+.table-wrap {width: 100%; float: left; height: 300px;overflow-y: scroll;/*overflow-x: scroll;*/overflow-x: hidden;}
+ /*#waitlisttable td, #waitlisttable th { min-width: 530px; text-align: center;}    */
+ #waitlisttable td, #waitlisttable th {
+    width: 130px;
+    font-size: 11px;
+    padding: 3px 0 3px 0;
+    margin: 0;
+	    font-weight: normal;
 }
- #waitlisttable td, #waitlisttable th { min-width: 530px; text-align: center;}    
+ #waitlisttable td:nth-child(6n), #waitlisttable th:nth-child(6n){display:none;}
+ 
+ 
+  #waitlisttable td:nth-child(3n), #waitlisttable th:nth-child(3n){text-align:left;}
+ .btn-guest .btn {
+    margin-bottom: 10px;
+}
+img.downarrow {
+    width: 10px;
+}
+.waitlistbox2{padding:0px 0px;}
+
+ .time-x h2 {padding: 8px 0;}
+ 
 .dropbtn { color: #dd4124;}
 .dropdown {  margin-top: -40px;}        
-a.headersh {display: block;font-size: 35px; color: #dd4124; text-align: center;}    
+a.headersh {display: block;font-size: 35px; text-align: center;}    
 .header-waitlist { display: none;}    
+img.deleteimg { width: 14px;}
+img.roundarrow {width: 14px;}
 
 .login-title img { float: none;}
 .login-title h2 {float: none; margin-top: 15px;}
     
 #footer-logo p { text-align: center !important;}    
-  #footer-logo {
-    text-align: center;
-}
-#footer-logo h1 { display: block;    }
+  #footer-logo {text-align: center;}
+#footer-logo h1 { display: block; }
 #footer-logo img { display: inline-block; float: none;}
-
-.fontsize1 { margin: 20px 0;   }
-    
+.fontsize1 { margin: 20px 0; }    
 .footer-link li{padding: 10px 40px !important;}
 
 .border_right{border-bottom: 4px solid #dc4123 !important;}
@@ -298,6 +262,15 @@ a.headersh {display: block;font-size: 35px; color: #dd4124; text-align: center;}
 .h3-font{
     font-size:30px;
 }
+
+.time-x {width: auto;margin: 0 auto;}
+.countres {
+    width: 45% !important;
+    float: left;
+    padding: 0;
+    margin: 0 0 0 10px;
+}
+
 }
 
 
@@ -435,5 +408,6 @@ and (orientation : portrait){
   position: absolute; 
 }
 }
+
 
 
