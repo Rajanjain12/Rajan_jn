@@ -16,8 +16,8 @@
         >
         <View
             android:id="@+id/viewLogout"
-            android:layout_width="200dp"
-            android:layout_height="70dp"
+            android:layout_width="300dp"
+            android:layout_height="120dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_centerVertical="true"
@@ -25,8 +25,8 @@
 
         <View
             android:id="@+id/viewSetting"
-            android:layout_width="200dp"
-            android:layout_height="70dp"
+            android:layout_width="300dp"
+            android:layout_height="120dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_centerVertical="true"
@@ -114,6 +114,7 @@
                 >
 
                 <com.kyobee.waitlist.customcontrol.CustomTextViewBold
+                    android:id="@+id/txtServing"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/now_serving"
@@ -135,6 +136,7 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/viewSeperator"
                 android:layout_width="5dp"
                 android:layout_height="250dp"
                 android:background="@color/colorRed"
@@ -150,6 +152,7 @@
                 >
 
                 <com.kyobee.waitlist.customcontrol.CustomTextViewBold
+                    android:id="@+id/txtEstWaitTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/est_wait_time"

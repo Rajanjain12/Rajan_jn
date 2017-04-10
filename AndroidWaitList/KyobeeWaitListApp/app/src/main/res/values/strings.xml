@@ -26,7 +26,7 @@
     <string name="hint_name">Name*</string>
     <string name="cell_phone">Cell Phone</string>
     <string name="or">OR</string>
-    <string name="hint_phone">+1(___)___-____*</string>
+    <string name="hint_phone">(___)___-____*</string>
     <string name="email">E-Mail</string>
     <string name="hint_email">E-Mail*</string>
     <string name="people_party"># of people in your party*</string>
@@ -44,6 +44,7 @@
 
     <string name="please_select">Please select seating preference.</string>
     <string name="kyobee">Kyobee</string>
+    <string name="kyobee_caps">KYOBEE</string>
     <string name="advantech">ADVANTECH</string>
     <string name="yes">YES</string>
     <string name="logout">Are you sure you want to logout?</string>
@@ -66,4 +67,6 @@
     <string name="column_thired">Third column name</string>
 
     <string name="option">Option</string>
+
+    <string name="valid_phone">*VALID U.S. CELLUAR NUMBERS ONLY</string>
 </resources>

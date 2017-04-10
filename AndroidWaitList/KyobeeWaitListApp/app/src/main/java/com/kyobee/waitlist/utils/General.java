@@ -2,6 +2,13 @@ package com.kyobee.waitlist.utils;
 
 // webapi list used in clee app
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -30,8 +37,21 @@ public class General{
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient (){
+
+        Gson gson = new GsonBuilder ()
+                .setLenient()
+                .create();
+
+        //OkHttpClient okHttpClient = new OkHttpClient ().newBuilder ().connectTimeout (60, TimeUnit.SECONDS).readTimeout (60, TimeUnit.SECONDS).writeTimeout (60, TimeUnit.SECONDS).build ();
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        // set your desired log level
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient okHttpClient = new OkHttpClient ().newBuilder ().connectTimeout (10, TimeUnit.SECONDS).readTimeout (10,TimeUnit.SECONDS).writeTimeout (10,TimeUnit.SECONDS).addInterceptor (logging).build ();
+
         if (retrofit == null){
-            retrofit = new Retrofit.Builder ().baseUrl (URL).addCallAdapterFactory (RxJavaCallAdapterFactory.create ()).addConverterFactory (GsonConverterFactory.create ()).build ();
+            //retrofit = new Retrofit.Builder ().baseUrl (URL).addCallAdapterFactory (RxJavaCallAdapterFactory.create ()).addConverterFactory (GsonConverterFactory.create ()).build ();
+            retrofit = new Retrofit.Builder ().baseUrl (URL).client (okHttpClient).addCallAdapterFactory (RxJavaCallAdapterFactory.create ()).addConverterFactory (GsonConverterFactory.create (gson)).build ();
+
         }
         return retrofit;
     }
@@ -59,5 +79,8 @@ public class General{
     public static final String NOT_PRESENT="NOT_PRESENT";
     public static final String MARK_AS_SEATED="MARK_AS_SEATED";
     public static final String IN_COMPLETE="INCOMPLETE";
+
+    public static final String ADMIN="admin";
+    public static final String ADVANTECH="advantech";
 
 }
