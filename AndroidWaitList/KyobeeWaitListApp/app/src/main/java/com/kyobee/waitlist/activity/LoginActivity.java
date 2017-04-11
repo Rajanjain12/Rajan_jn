@@ -161,8 +161,6 @@ public class LoginActivity extends AppCompatActivity{
 
             @Override
             public void onFailure (Call<Login> call, Throwable t){
-
-
                 CustomDialog.dismissProgressDialog ();
                 Log.d (LOGTAG, "Log In - " + t.getMessage ());
             }
@@ -172,8 +170,22 @@ public class LoginActivity extends AppCompatActivity{
     public void validation (){
         username = edtUsername.getText ().toString ();
         password = edtPassword.getText ().toString ();
+
+        /* dev version  */
+
        // username = "jkim@kyobee.com";
        // password = "jaekim";
+        //username = "Gabriela.meza@advantech.com";
+        //password = "jaekim";
+
+        /* qa version
+        username = "meetjenis@gmail.com";
+        password = "meetjenis";
+
+        username = "Gabriela.meza@advantech.com";
+        password = "advan0725*";
+       */
+
         if (username.equalsIgnoreCase ("")){
             CustomDialog.showAlertDialog (LoginActivity.this, "Kyobee", "All fields are mandatory.");
         } else if (password.equalsIgnoreCase ("")){
@@ -199,7 +211,15 @@ public class LoginActivity extends AppCompatActivity{
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder (LoginActivity.this);
         LayoutInflater layout = (LayoutInflater) getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-        final View view = layout.inflate (R.layout.popup_guest_mode, (ViewGroup) findViewById (R.id.popUpGuestMode));
+        View  view = layout.inflate (R.layout.popup_guest_mode, (ViewGroup) findViewById (R.id.popUpGuestMode));
+        /* Login login = GSONGetSet.getLogin ();
+        if (login.getClientBase ().equalsIgnoreCase ("admin")){
+            view = layout.inflate (R.layout.popup_guest_mode, (ViewGroup) findViewById (R.id.popUpGuestMode));
+        } else{
+            view = layout.inflate (R.layout.popup_guest_mode_blue, (ViewGroup) findViewById (R.id.popUpGuestMode));
+
+        }*/
+
         alertDialogBuilder.setView (view);
         alertDialogBuilder.setCancelable (false);
         // create alert dialog
@@ -228,18 +248,44 @@ public class LoginActivity extends AppCompatActivity{
         btnCheckIn.setOnClickListener (new View.OnClickListener (){
             @Override
             public void onClick (View v){
+
                 Kyobee.getInstance ().setLoginMode (GUEST_MODE);
                 startActivity (new Intent (activity, GuestActivity.class));
                 finish ();
+
+                /*Login login = GSONGetSet.getLogin ();
+                if (login.getClientBase ().equalsIgnoreCase ("admin")){
+                    Kyobee.getInstance ().setLoginMode (GUEST_MODE);
+                    startActivity (new Intent (activity, GuestActivity.class));
+                    finish ();
+                } else{
+                    Kyobee.getInstance ().setLoginMode (GUEST_MODE);
+                    startActivity (new Intent (activity, GuestAdvantechActivity.class));
+                    finish ();
+                }*/
+
             }
         });
 
         btnDisplay.setOnClickListener (new View.OnClickListener (){
             @Override
             public void onClick (View v){
+
+
                 Kyobee.getInstance ().setLoginMode (DISPLAY_MODE);
                 startActivity (new Intent (activity, DisplayMultiActivity.class));
                 finish ();
+
+                /*Login login = GSONGetSet.getLogin ();
+                if (login.getClientBase ().equalsIgnoreCase ("admin")){
+                    Kyobee.getInstance ().setLoginMode (DISPLAY_MODE);
+                    startActivity (new Intent (activity, DisplayMultiActivity.class));
+                    finish ();
+                } else{
+                    Kyobee.getInstance ().setLoginMode (DISPLAY_MODE);
+                    startActivity (new Intent (activity, DisplayMultiAdvantechActivity.class));
+                    finish ();
+                }*/
             }
         });
 

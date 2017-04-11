@@ -63,7 +63,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,14 +76,14 @@ import retrofit2.Response;
 
 import static org.apache.commons.lang3.CharEncoding.UTF_8;
 
-public class DisplayMultiActivity extends AppCompatActivity implements RealTimePush.RealTimeListener, ConnectivityReceiver.ConnectivityReceiverListener, UILongPressGestureRecognizer.OnActionListener, UIGestureRecognizerDelegate.Callback{
+public class DisplayMultiAdvantechActivity extends AppCompatActivity implements RealTimePush.RealTimeListener, ConnectivityReceiver.ConnectivityReceiverListener, UILongPressGestureRecognizer.OnActionListener, UIGestureRecognizerDelegate.Callback{
 
     private static final int LOGOUT = 1;
     private static final int SETTINGS = 0;
-    public static String LOGTAG = DisplayMultiActivity.class.getSimpleName ();
+    public static String LOGTAG = DisplayMultiAdvantechActivity.class.getSimpleName ();
     CustomTextViewRegular txtVersion;
     CustomTextViewSemiBold txtNodata1, txtNodata2, txtNodata3, txtColumn1, txtColumn2, txtColumn3;
-    Activity activity;
+    AppCompatActivity activity;
     String reqParam = "{\"filters\":null,\"sort\":null,\"sortOrder\":null,\"pageSize\":500,\"pageNo\":1}";
     ImageView imgLogo, imgRefresh;
     String imgPath = "";
@@ -104,14 +103,34 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
 
     LinearLayout linearColumn1, linearColumn2, linearColumn3;
 
-    UIGestureRecognizerDelegate delegate;
+    //start timer function
+    /*public void startTimer (){
+        cTimer = new CountDownTimer (3000, 1000){
+            public void onTick (long millisUntilFinished){
+            }
+
+            public void onFinish (){
+                cancelTimer ();
+                Kyobee.getInstance ().logout ();
+                startActivity (new Intent (activity, LoginActivity.class));
+                finish ();
+            }
+        };
+        cTimer.start ();
+    }
+
+    //cancel timer
+    public void cancelTimer (){
+        if (cTimer != null)
+            cTimer.cancel ();
+    }*/ UIGestureRecognizerDelegate delegate;
     int operation = -1;
     private APIService mAPIService;
 
     @Override
     public void onCreate (Bundle savedInstanceState){
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_display_multi);
+        setContentView (R.layout.activity_display_multi_blue);
         activity = this;
 
         login = GSONGetSet.getLogin ();
@@ -160,6 +179,8 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
         Glide.with (activity).load (imgPath).diskCacheStrategy (DiskCacheStrategy.ALL).into (imgLogo);
         showHideColumn ();
 
+        callCheckInUsers (login.getOrgId (), true);
+
         delegate = new UIGestureRecognizerDelegate (this);
         UILongPressGestureRecognizer longPress = new UILongPressGestureRecognizer (this);
         longPress.setTag ("double-long-press");
@@ -185,11 +206,38 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
             }
         });
 
-        if (Connection.checkConnectionStatus (activity) > 0){
-            callCheckInUsers (login.getOrgId (), true);
-        } else{
-            Utils.noInternet (activity);
-        }
+        /*relativeSettings.setOnClickListener (new View.OnClickListener (){
+            @Override
+            public void onClick (View v){
+                popUpCheckinDisplay ();
+            }
+        });*/
+
+       /* imgLogo.setOnClickListener (new View.OnClickListener (){
+            @Override
+            public void onClick (View v){
+                popUpCheckinDisplay();
+            }
+        });*/
+
+
+       /* reltiveLogout.setOnTouchListener (new View.OnTouchListener (){
+            @Override
+            public boolean onTouch (View v, MotionEvent event){
+                int pointerIndex = ((event.getAction () & MotionEvent.ACTION_POINTER_ID_MASK) >> MotionEvent.ACTION_POINTER_ID_SHIFT);
+                int action = event.getAction () & MotionEvent.ACTION_MASK;
+                int pointerId = event.getPointerId (pointerIndex);
+                Log.i ("", "Pointer ID = " + pointerId);
+                switch (action){
+                    case MotionEvent.ACTION_POINTER_UP:{
+                        startTimer ();
+                        break;
+                    }
+                }
+                return true;
+            }
+        });
+*/
 
     }
 
@@ -244,16 +292,14 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
                         listRecords.addAll (responseGen.getServiceResult ().getRecords ());
                         callAdapter ();
                     } else{
-                        CustomDialog.showAlertDialog (DisplayMultiActivity.this, "Error", responseGen.getErrorDescription ());
+                        CustomDialog.showAlertDialog (DisplayMultiAdvantechActivity.this, "Error", responseGen.getErrorDescription ());
                     }
                 }
 
                 @Override
                 public void onFailure (Call<ResponseGen> call, Throwable t){
                     CustomDialog.dismissProgressDialog ();
-                    if(t instanceof UnknownHostException){
-                        Utils.noInternet (activity);
-                    }
+                    Log.d (LOGTAG, "Error " + t.toString ());
                 }
             });
         } catch (Exception e){
@@ -270,17 +316,8 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
 
     @Override
     public void onNetworkConnectionChanged (boolean isConnected){
-        if (isConnected){
+        if (isConnected)
             callCheckInUsers (login.getOrgId (), false);
-            Glide.with (activity).load (imgPath).diskCacheStrategy (DiskCacheStrategy.ALL).into (imgLogo);
-        }
-    }
-
-    @Override
-    protected void onDestroy (){
-        super.onDestroy ();
-        Login logIn=GSONGetSet.getLogin ();
-        realTimePush.disConnect (logIn);
     }
 
     @Override
@@ -295,10 +332,8 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
             JSONObject jsonObject = new JSONObject (message);
             String op = jsonObject.getString (General.OP);
             if (op.equalsIgnoreCase (General.ADD)){
-                listRecords.clear ();
                 callCheckInUsers (login.getOrgId (), false);
             } else if (op.equalsIgnoreCase (General.DEL)){
-                listRecords.clear ();
                 callCheckInUsers (login.getOrgId (), false);
             } else if (op.equalsIgnoreCase (General.UPDATE_GUEST_INFO)){
                 UpdateGuest updateGuest = gson.fromJson (message, UpdateGuest.class);
@@ -317,14 +352,11 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
                 updateAdapter ();
                 Log.d (LOGTAG, General.UPDATE_GUEST_INFO + " - - " + updateGuest.getUpdguest ().getName ());
             } else if (op.equalsIgnoreCase (General.UPDATE)){
-                listRecords.clear ();
-                callCheckInUsers (login.getOrgId (), false);
+
             } else if (op.equalsIgnoreCase (General.NOT_PRESENT)){
-                listRecords.clear ();
                 //NotPresent notPresent= gson.fromJson (message, NotPresent.class);
                 callCheckInUsers (login.getOrgId (), false);
             } else if (op.equalsIgnoreCase (General.IN_COMPLETE)){
-                listRecords.clear ();
                 callCheckInUsers (login.getOrgId (), false);
             } else if (op.equalsIgnoreCase (General.MARK_AS_SEATED)){
                 UpdateGuest updateGuest = gson.fromJson (message, UpdateGuest.class);
@@ -475,7 +507,7 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder (activity);
         LayoutInflater layout = (LayoutInflater) getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-        final View view = layout.inflate (R.layout.popup_choose_operation, (ViewGroup) findViewById (R.id.popUpGuestMode));
+        final View view = layout.inflate (R.layout.popup_choose_operation_blue, (ViewGroup) findViewById (R.id.popUpGuestModeBlue));
         alertDialogBuilder.setView (view);
         alertDialogBuilder.setCancelable (true);
         // create alert dialog
@@ -543,7 +575,7 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder (activity);
         LayoutInflater layout = (LayoutInflater) getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-        final View view = layout.inflate (R.layout.popup_settings, (ViewGroup) findViewById (R.id.pop_add_new_guest));
+        final View view = layout.inflate (R.layout.popup_settings_blue, (ViewGroup) findViewById (R.id.pop_add_new_guest));
         alertDialogBuilder.setView (view);
         alertDialogBuilder.setCancelable (false);
 

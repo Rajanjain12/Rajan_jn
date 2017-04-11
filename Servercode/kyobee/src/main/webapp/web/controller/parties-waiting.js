@@ -11,7 +11,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 
 					$rootScope.hideHeader=true;//To hide show header in index.html
 					console.log("Parties Watiing..");
-					
+					$scope.userDTO=JSON.parse(get("USER_OBJ"));
 					$scope.OrgGuestCount=0;
 					$scope.guestRankMin=0;
 					$scope.OrgTotalWaitTime=null;
@@ -92,8 +92,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 					}
 					
 					$scope.hidePopup = function() {		
-						//document.getElementById("addGuestForm").reset();
-						debugger;
+						//document.getElementById("addGuestForm").reset();						
 						$scope.guestDTO = {
 								name: null,
 								organizationID : $scope.userDTO.organizationId,
@@ -233,6 +232,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 					// For realtime 
 					
 					$scope.loadInfo = function() {
+						
 						var postBody = {
 
 						};

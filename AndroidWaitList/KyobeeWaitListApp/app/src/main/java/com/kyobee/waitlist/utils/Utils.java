@@ -16,6 +16,8 @@ import com.kyobee.waitlist.customcontrol.CustomDialog;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -28,10 +30,8 @@ public class Utils{
         Glide.with (activity).load (uri).diskCacheStrategy (DiskCacheStrategy.NONE).skipMemoryCache (true).into (imageView);
     }
 
-    public static void noInternet(Activity activity){
-        CustomDialog.showAlertDialog (activity,
-                activity.getString (R.string.kyobee),
-                activity.getString (R.string.no_internet));
+    public static void noInternet (Activity activity){
+        CustomDialog.showAlertDialog (activity, activity.getString (R.string.kyobee), activity.getString (R.string.no_internet));
     }
 
     public static void setGifWithCatch (Activity activity, String uri, ImageView imageView){
@@ -75,23 +75,23 @@ public class Utils{
         return returnString.toString ();
     }
 
-    public static String timeConversion(String total) {
+    public static String timeConversion (String total){
 
-        int totalSeconds=Integer.parseInt (total);
+        int totalSeconds = Integer.parseInt (total);
         final int MINUTES_IN_AN_HOUR = 60;
         final int SECONDS_IN_A_MINUTE = 60;
 
         int seconds = totalSeconds % SECONDS_IN_A_MINUTE;
         int totalMinutes = totalSeconds / SECONDS_IN_A_MINUTE;
         int minutes = totalMinutes % MINUTES_IN_AN_HOUR;
-       // int hours = totalMinutes / MINUTES_IN_AN_HOUR;
+        // int hours = totalMinutes / MINUTES_IN_AN_HOUR;
 
-        return   String.format("%02d:%02d",minutes, seconds);
+        return String.format ("%02d:%02d", minutes, seconds);
     }
 
-    public static int getScreenOrientation(Context context){
-        final int screenOrientation = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getOrientation();
-        switch (screenOrientation) {
+    public static int getScreenOrientation (Context context){
+        final int screenOrientation = ((WindowManager) context.getSystemService (Context.WINDOW_SERVICE)).getDefaultDisplay ().getOrientation ();
+        switch (screenOrientation){
             case Surface.ROTATION_0:
                 return 0;//"android portrait screen";
             case Surface.ROTATION_90:
@@ -101,6 +101,30 @@ public class Utils{
             default:
                 return 1;//"android reverse landscape screen";
         }
+    }
+
+    public static void checkConnection (Activity activity,Throwable error){
+
+        String message = "";
+        if (error instanceof SocketTimeoutException){
+            message = "Poor internet connection detected, Please try again.";
+            CustomDialog.showAlertDialog (activity,"",message);
+        }else if(error instanceof UnknownHostException){
+            noInternet (activity);
+        }
+
+        /*else if (error instanceof ServerError){
+            message = "The server could not be found. Please try again after some time!!";
+        } else if (error instanceof AuthFailureError){
+            message = "Cannot connect to Internet...Please check your connection!";
+        } else if (error instanceof ParseError){
+            message = "Parsing error! Please try again after some time!!";
+        } else if (error instanceof NoConnectionError){
+            message = "Cannot connect to Internet...Please check your connection!";
+        } else if (error instanceof TimeoutError){
+            message = "Connection TimeOut! Please check your internet connection.";
+        }*/
+
     }
 
     public static String getCurrentDateTime (){

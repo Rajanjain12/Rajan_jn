@@ -8,18 +8,17 @@
     <RelativeLayout
         android:id="@+id/relativeBottom"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@color/colorRed"
+        android:layout_height="70dp"
+        android:background="@color/colorBlue"
         >
 
         <com.kyobee.waitlist.customcontrol.CustomTextViewKyobee
-            android:id="@+id/txtName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="25dp"
-            android:text="KYOBEE"
+            android:text="@string/advantech"
             android:textColor="@android:color/white"
             android:textSize="50sp"
             android:textStyle="bold"
@@ -28,7 +27,7 @@
         <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
             android:id="@+id/txtCopyRight"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="25dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="8dp"
@@ -36,8 +35,9 @@
             android:gravity="right|bottom"
             android:text="@string/copyright"
             android:textColor="@android:color/white"
-            android:textSize="21sp"
+            android:textSize="15sp"
             />
+
 
     </RelativeLayout>
 

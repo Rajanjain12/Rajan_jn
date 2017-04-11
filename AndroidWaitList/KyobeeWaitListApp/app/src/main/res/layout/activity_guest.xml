@@ -18,7 +18,7 @@
         <View
             android:id="@+id/viewLogout"
             android:layout_width="200dp"
-            android:layout_height="50dp"
+            android:layout_height="80dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_centerVertical="true"
@@ -27,7 +27,7 @@
         <View
             android:id="@+id/viewSetting"
             android:layout_width="200dp"
-            android:layout_height="50dp"
+            android:layout_height="80dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_centerVertical="true"
@@ -81,10 +81,10 @@
         <ImageView
             android:id="@+id/imgLogo"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="100dp"
             android:layout_below="@+id/txtWelcome"
             android:layout_marginLeft="50dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginRight="5dp"
             android:layout_toRightOf="@id/txtWaiting"
             />
 
@@ -115,6 +115,7 @@
                 >
 
                 <com.kyobee.waitlist.customcontrol.CustomTextViewBold
+                    android:id="@+id/txtServing"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/now_serving"
@@ -136,6 +137,7 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/viewSeperator"
                 android:layout_width="4dp"
                 android:layout_height="180dp"
                 android:background="@color/colorRed"
@@ -151,6 +153,7 @@
                 >
 
                 <com.kyobee.waitlist.customcontrol.CustomTextViewBold
+                    android:id="@+id/txtEstWaitim"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/est_wait_time"

@@ -1,6 +1,5 @@
 package com.kyobee.waitlist.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,8 +7,8 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -44,7 +43,6 @@ import com.kyobee.waitlist.customcontrol.CustomButtonRegular;
 import com.kyobee.waitlist.customcontrol.CustomDialog;
 import com.kyobee.waitlist.customcontrol.CustomEditTextRegular;
 import com.kyobee.waitlist.customcontrol.CustomTextViewBold;
-import com.kyobee.waitlist.customcontrol.CustomTextViewKyobee;
 import com.kyobee.waitlist.customcontrol.CustomTextViewRegular;
 import com.kyobee.waitlist.customcontrol.HorizontalListView;
 import com.kyobee.waitlist.net.Connection;
@@ -70,7 +68,6 @@ import com.piotrek.customspinner.CustomSpinner;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,21 +79,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GuestActivity extends AppCompatActivity implements RealTimePush.RealTimeListener, ConnectivityReceiver.ConnectivityReceiverListener, UILongPressGestureRecognizer.OnActionListener, UIGestureRecognizerDelegate.Callback{
+public class GuestAdvantechActivity extends AppCompatActivity implements RealTimePush.RealTimeListener, ConnectivityReceiver.ConnectivityReceiverListener, UILongPressGestureRecognizer.OnActionListener, UIGestureRecognizerDelegate.Callback{
 
     private static final int LOGOUT = 1;
     private static final int SETTINGS = 0;
-    public static String LOGTAG = GuestActivity.class.getSimpleName ();
+    public static String LOGTAG = GuestAdvantechActivity.class.getSimpleName ();
     int operation = -1;
 
     CustomTextViewRegular txtCopyRight;
     CustomTextViewBold txtWelcome;
     CustomButtonBold btnCheckIn;
-    CustomTextViewBold txtWaiting, txtParties, txtNumber, txtTime, txtServing, txtEstWaitTime;
-    CustomTextViewKyobee txtName;
-    RelativeLayout relativeBottom;
-    View viewSeperator;
-    Activity activity;
+    CustomTextViewBold txtWaiting, txtNumber, txtTime;
+    AppCompatActivity activity;
 
     ImageView imgLogo;
     String imgPath = "";
@@ -109,15 +103,40 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
     AlertDialog alertDialog;
     View viewLogout, viewSettting;
     boolean validateEmailPhone = false;
+    CountDownTimer cTimer = null;
     UIGestureRecognizerDelegate delegate;
     private APIService mAPIService;
 
+    /* //start timer function
+     public void startTimer (){
+         cTimer = new CountDownTimer (3000, 1000){
+             public void onTick (long millisUntilFinished){
+             }
+
+             public void onFinish (){
+                 cancelTimer ();
+                 Kyobee.getInstance ().logout ();
+                 startActivity (new Intent (activity, LoginActivity.class));
+                 finish ();
+
+             }
+         };
+         cTimer.start ();
+     }
+
+     //cancel timer
+     public void cancelTimer (){
+         if (cTimer != null)
+             cTimer.cancel ();
+     }
+ */
     @Override
     public void onCreate (Bundle savedInstanceState){
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_guest);
+        setContentView (R.layout.activity_guest_blue);
         activity = this;
         login = GSONGetSet.getLogin ();
+        //login.setSmsRoute (null);
         if (login.getSmsRoute () == null || login.getSmsRoute ().equalsIgnoreCase ("")){
             validateEmailPhone = false;
         } else{
@@ -131,15 +150,7 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
 
         btnCheckIn = (CustomButtonBold) findViewById (R.id.btnCheckIn);
 
-
-        relativeBottom = (RelativeLayout) findViewById (R.id.relativeBottom);
-        viewSeperator = (View) findViewById (R.id.viewSeperator);
-
-        txtName = (CustomTextViewKyobee) findViewById (R.id.txtName);
-        txtEstWaitTime = (CustomTextViewBold) findViewById (R.id.txtEstWaitTime);
-        txtServing = (CustomTextViewBold) findViewById (R.id.txtServing);
         txtWaiting = (CustomTextViewBold) findViewById (R.id.txtWaiting);
-        txtParties = (CustomTextViewBold) findViewById (R.id.txtParties);
         txtNumber = (CustomTextViewBold) findViewById (R.id.txtNumber);
         txtTime = (CustomTextViewBold) findViewById (R.id.txtTime);
         txtWelcome = (CustomTextViewBold) findViewById (R.id.txtWelcome);
@@ -189,25 +200,30 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
             }
         });
 
-        UIElements ();
-
-        if (Connection.checkConnectionStatus (activity) > 0){
-            callWaiting (true);
-        } else{
-            Utils.noInternet (activity);
-        }
-
+        /*view.setOnTouchListener (new View.OnTouchListener (){
+            @Override
+            public boolean onTouch (View v, MotionEvent event){
+                int pointerIndex = ((event.getAction () & MotionEvent.ACTION_POINTER_ID_MASK) >> MotionEvent.ACTION_POINTER_ID_SHIFT);
+                int action = event.getAction () & MotionEvent.ACTION_MASK;
+                int pointerId = event.getPointerId (pointerIndex);
+                Log.i ("", "Pointer ID = " + pointerId);
+                switch (action){
+                    case MotionEvent.ACTION_POINTER_UP:{
+                        startTimer ();
+                        break;
+                    }
+                }
+                return true;
+            }
+        });
+*/
+        callWaiting (true);
     }
 
     @Override
     public void onNetworkConnectionChanged (boolean isConnected){
-        if (isConnected){
-            if (Connection.checkConnectionStatus (activity) > 0){
-                callWaiting (false);
-            } else{
-                Utils.noInternet (activity);
-            }
-        }
+        if (isConnected)
+            callWaiting (false);
     }
 
     // ui gesture recognizer event callback
@@ -225,38 +241,6 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
         }
     }
 
-    public void UIElements (){
-
-        Login login = GSONGetSet.getLogin ();
-
-        if (login.getClientBase ().equalsIgnoreCase (General.ADMIN)){
-            txtWaiting.setTextColor (ContextCompat.getColor (activity, R.color.colorRed));
-            txtParties.setTextColor (ContextCompat.getColor (activity, R.color.colorRed));
-            txtServing.setTextColor (ContextCompat.getColor (activity, R.color.colorRed));
-            txtNumber.setTextColor (ContextCompat.getColor (activity, R.color.colorRed));
-            viewSeperator.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorRed));
-            txtEstWaitTime.setTextColor (ContextCompat.getColor (activity, R.color.colorRed));
-            txtTime.setTextColor (ContextCompat.getColor (activity, R.color.colorRed));
-            btnCheckIn.setBackgroundResource (R.drawable.round_button_red);
-            relativeBottom.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorRed));
-            txtName.setText (activity.getString (R.string.kyobee_caps));
-            //  txtCopyRight.setTextColor (ContextCompat.getColor (activity, R.color.colorRed));
-        } else{
-            txtWaiting.setTextColor (ContextCompat.getColor (activity, R.color.colorBlue));
-            txtParties.setTextColor (ContextCompat.getColor (activity, R.color.colorBlue));
-            txtServing.setTextColor (ContextCompat.getColor (activity, R.color.colorBlue));
-            txtNumber.setTextColor (ContextCompat.getColor (activity, R.color.colorBlue));
-            viewSeperator.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorBlue));
-            txtEstWaitTime.setTextColor (ContextCompat.getColor (activity, R.color.colorBlue));
-            txtTime.setTextColor (ContextCompat.getColor (activity, R.color.colorBlue));
-            btnCheckIn.setBackgroundResource (R.drawable.round_button_blue);
-            relativeBottom.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorBlue));
-            txtName.setText (activity.getString (R.string.advantech));
-            //txtCopyRight.setTextColor (ContextCompat.getColor (activity, R.color.colorBlue));
-        }
-
-    }
-
     @Override
     public boolean shouldBegin (final UIGestureRecognizer recognizer){
         Log.d (LOGTAG, "shouldBegin");
@@ -267,13 +251,6 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
     public boolean shouldRecognizeSimultaneouslyWithGestureRecognizer (final UIGestureRecognizer current, final UIGestureRecognizer recognizer){
         Log.d (LOGTAG, "shouldRecognizeSimultaneouslyWithGestureRecognizer");
         return true;
-    }
-
-    @Override
-    protected void onDestroy (){
-        super.onDestroy ();
-        Login logIn = GSONGetSet.getLogin ();
-        realTimePush.disConnect (logIn);
     }
 
     @Override
@@ -295,7 +272,7 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder (activity);
         LayoutInflater layout = (LayoutInflater) getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-        final View view = layout.inflate (R.layout.popup_add_new_guest, (ViewGroup) findViewById (R.id.pop_add_new_guest));
+        final View view = layout.inflate (R.layout.popup_add_new_guest_blue, (ViewGroup) findViewById (R.id.pop_add_new_guest));
         alertDialogBuilder.setView (view);
         alertDialogBuilder.setCancelable (false);
 
@@ -313,23 +290,19 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
         layoutParams.gravity = Gravity.CENTER;
 
         RelativeLayout relativeTop = (RelativeLayout) view.findViewById (R.id.relativeTop);
+        //  relativeTop.setLayoutParams (layoutParams);
 
         ImageView imgCancel = (ImageView) view.findViewById (R.id.imgCancel);
         final CustomEditTextRegular edtName = (CustomEditTextRegular) view.findViewById (R.id.edtName);
         final RadioButton radioPhone = (RadioButton) view.findViewById (R.id.radioPhone);
         final RadioButton radioEmail = (RadioButton) view.findViewById (R.id.radioEmail);
         final CustomEditTextRegular edtEmail = (CustomEditTextRegular) view.findViewById (R.id.edtEmail);
+
         final MaskedEditText edtPhone = (MaskedEditText) view.findViewById (R.id.edtPhone);
-        final CustomTextViewRegular txtValidPhone = (CustomTextViewRegular) view.findViewById (R.id.txtValidEmail);
+
         final CustomSpinner spnrPeople = (CustomSpinner) view.findViewById (R.id.spnrPeople);
         String[] types = getResources ().getStringArray (R.array.number_array);
         spnrPeople.initializeStringValues (types, getString (R.string.people_party));
-
-        /*if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
-
-        }else{
-
-        }*/
 
         final HorizontalListView horizontalListView = (HorizontalListView) view.findViewById (R.id.horizontalList);
         GuestHorizontalListAdapter listAdapter = new GuestHorizontalListAdapter ();
@@ -338,16 +311,6 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
         final CheckBox chkReceive = (CheckBox) view.findViewById (R.id.chkReceive);
         CustomButtonRegular btnAddMe = (CustomButtonRegular) view.findViewById (R.id.btnAddMe);
         LinearLayout linearReceive = (LinearLayout) view.findViewById (R.id.linearReceive);
-
-        Login logins = GSONGetSet.getLogin ();
-        if (logins.getClientBase ().equalsIgnoreCase (General.ADMIN)){
-            relativeTop.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorRed));
-            btnAddMe.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorRed));
-        } else{
-            relativeTop.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorBlue));
-            btnAddMe.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorBlue));
-        }
-
 
         spnrPeople.setOnItemSelectedListener (new AdapterView.OnItemSelectedListener (){
             @Override
@@ -404,7 +367,6 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
                 edtPhone.setText ("");
                 edtPhone.setVisibility (View.INVISIBLE);
                 edtEmail.setVisibility (View.VISIBLE);
-                txtValidPhone.setVisibility (View.GONE);
             }
         });
 
@@ -416,7 +378,6 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
                 edtEmail.setText ("");
                 edtEmail.setVisibility (View.INVISIBLE);
                 edtPhone.setVisibility (View.VISIBLE);
-                txtValidPhone.setVisibility (View.VISIBLE);
             }
         });
 
@@ -487,6 +448,8 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
             public void onClick (View v){
 
                 if (Connection.checkConnectionStatus (activity) > 0){
+
+
                     requestAddGuest.setStatus ("CHECKIN");
                     requestAddGuest.setOrganizationID (orgId);
                     requestAddGuest.setNote ("test");
@@ -598,7 +561,7 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder (activity);
         LayoutInflater layout = (LayoutInflater) getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-        final View view = layout.inflate (R.layout.popup_response_add_guest, (ViewGroup) findViewById (R.id.popup_response_add_guest));
+        final View view = layout.inflate (R.layout.popup_response_add_guest_blue, (ViewGroup) findViewById (R.id.popup_response_add_guest));
         alertDialogBuilder.setView (view);
         alertDialogBuilder.setCancelable (false);
 
@@ -615,25 +578,13 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams ((width * 95) / 100, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.gravity = Gravity.CENTER;
 
-        LinearLayout linearPopup = (LinearLayout) view.findViewById (R.id.popup_response_add_guest);
+        LinearLayout linearPopup = (LinearLayout) view.findViewById (R.id.popup_response_add_guest_blue);
         //linearPopup.setLayoutParams (layoutParams);
 
         CustomTextViewBold txtNumber = (CustomTextViewBold) view.findViewById (R.id.txtNumber);
         txtNumber.setText (String.valueOf ("#" + responseAddGuest.getServiceResultAdd ().getGuestRank ()));
 
         CustomButtonRegular btnOk = (CustomButtonRegular) view.findViewById (R.id.btnOk);
-
-        Login login = GSONGetSet.getLogin ();
-        if (login.getClientBase ().equalsIgnoreCase (General.ADMIN)){
-            linearPopup.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorRed));
-            txtNumber.setTextColor (ContextCompat.getColor (activity, R.color.colorRed));
-            btnOk.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorRed));
-        } else if (login.getClientBase ().equalsIgnoreCase (General.ADVANTECH)){
-            linearPopup.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorBlue));
-            txtNumber.setTextColor (ContextCompat.getColor (activity, R.color.colorBlue));
-            btnOk.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorBlue));
-        }
-
 
         btnOk.setOnClickListener (new View.OnClickListener (){
             @Override
@@ -662,6 +613,12 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
         }
     }
 
+    @Override
+    protected void onDestroy (){
+        super.onDestroy ();
+        realTimePush.disConnect ();
+    }
+
     public void callWaiting (boolean progress){
         if (progress)
             CustomDialog.showProgressDialog (activity, "", getString (R.string.please_wait));
@@ -685,9 +642,8 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
             @Override
             public void onFailure (Call<Display> call, Throwable t){
                 CustomDialog.dismissProgressDialog ();
-                if (t instanceof UnknownHostException){
-                    Utils.noInternet (activity);
-                }
+                Log.d (LOGTAG, t.getMessage ());
+
             }
         });
         Log.d (LOGTAG, "Guest Url " + waiting.request ().url ());
@@ -733,7 +689,6 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
             @Override
             public void onFailure (Call<ResponseAddGuest> call, Throwable t){
                 CustomDialog.dismissProgressDialog ();
-                Utils.checkConnection (activity, t);
             }
         });
     }
@@ -783,13 +738,13 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
                 update (message);
             } else if (op.equalsIgnoreCase (General.MARK_AS_SEATED)){
                 update (message);
-            } else if (op.equalsIgnoreCase (General.UPDATE_GUEST_INFO)){
-                callWaiting (false);
+            }/* else if (op.equalsIgnoreCase (General.UPDATE_GUEST_INFO)){
+
             } else if (op.equalsIgnoreCase (General.NOT_PRESENT)){
-                callWaiting (false);
+
             } else if (op.equalsIgnoreCase (General.IN_COMPLETE)){
-                callWaiting (false);
-            }
+
+            }*/
         } catch (JsonSyntaxException e){
             Log.d (LOGTAG, "JsonSyntaxException" + e.getMessage ());
 
@@ -813,6 +768,11 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
         Kyobee.getInstance ().setDisplay (disp);
         updateGuestThread (disp);
     }
+
+   /* @Override
+    public void onBackPressed (){
+
+    }*/
 
     public class GuestHorizontalListAdapter extends BaseAdapter{
 

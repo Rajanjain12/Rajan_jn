@@ -16,7 +16,7 @@ KyobeeControllers.controller('guestCtrl',
 					$scope.errorMsg = null;
 					$scope.editMode = false;	
 					$scope.phnRegex="^([0-9]{3}|[0-9]{3})[0-9]{3}[0-9]{4}$";
-					
+					$scope.loading=false;
 					$scope.initAddGuest = function(){
 						$scope.guestDTO = {
 								name: null,
@@ -66,25 +66,29 @@ KyobeeControllers.controller('guestCtrl',
 					}
 					
 					$scope.addGuest = function(invalid){
-						
+						$scope.loading=true;
 						$scope.errorMsg = null;
 						
 						if(invalid){
+							$scope.loading=false;
 							return;
 						}
 						
 						if( $scope.userDTO.smsRoute != null && $scope.userDTO.smsRoute != '' && ( $scope.guestDTO.prefType == null || $scope.guestDTO.prefType == 'undefined' )){
 							$scope.errorMsg = "Please select sms or email";
+							$scope.loading=false;
 							return;
 						}
 						
 						if(($scope.guestDTO.prefType == 'sms' || $scope.guestDTO.prefType == 'SMS') && ($scope.guestDTO.sms == null || $scope.guestDTO.sms == 'undefined')){
 							$scope.errorMsg = "Please enter the contact no.";
+							$scope.loading=false;
 							return;
 						}
 						
 						if(($scope.guestDTO.prefType == 'email' || $scope.guestDTO.prefType == 'EMAIL') && ($scope.guestDTO.email == null || $scope.guestDTO.email == 'undefined')){
 							$scope.errorMsg = "Please enter the email";
+							$scope.loading=false;
 							return;
 						}
 						
@@ -105,7 +109,8 @@ KyobeeControllers.controller('guestCtrl',
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
-										$scope.changeView('home');
+										$scope.loading=false;
+										$scope.changeView('home');										
 									} else if (data.status == "FAILURE") {
 										alert('Error while adding guest to waitlist');
 									}
@@ -116,25 +121,29 @@ KyobeeControllers.controller('guestCtrl',
 					}
 					
 					$scope.updateGuest = function(invalid){
-						
+						$scope.loading=true;
 						$scope.errorMsg = null;
 						
 						if(invalid){
+							$scope.loading=false;
 							return;
 						}
 						
 						if($scope.guestDTO.prefType == null || $scope.guestDTO.prefType == 'undefined'){
 							$scope.errorMsg = "Please select sms or email";
+							$scope.loading=false;
 							return;
 						}
 						
 						if(($scope.guestDTO.prefType == 'sms' || $scope.guestDTO.prefType == 'SMS') && ($scope.guestDTO.sms == null || $scope.guestDTO.sms == 'undefined')){
 							$scope.errorMsg = "Please enter the contact no.";
+							$scope.loading=false;
 							return;
 						}
 						
 						if(($scope.guestDTO.prefType == 'email' || $scope.guestDTO.prefType == 'EMAIL') && ($scope.guestDTO.email == null || $scope.guestDTO.email == 'undefined')){
 							$scope.errorMsg = "Please enter the email";
+							$scope.loading=false;
 							return;
 						}
 						
@@ -155,12 +164,14 @@ KyobeeControllers.controller('guestCtrl',
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
-										$scope.changeView('home');
+										$scope.loading=false;
+										$scope.changeView('home');										
 									} else if (data.status == "FAILURE") {
 										alert('Error while updating guest');
 									}
 								}, function(error) {
 									alert('Error while updating guest');
+									$scope.loading=false;
 								});
 						
 					}

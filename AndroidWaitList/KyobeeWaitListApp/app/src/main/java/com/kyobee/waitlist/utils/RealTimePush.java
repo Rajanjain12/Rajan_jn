@@ -1,6 +1,6 @@
 package com.kyobee.waitlist.utils;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.util.Log;
 
 import com.kyobee.waitlist.pojo.Login;
@@ -24,9 +24,9 @@ public class RealTimePush{
     OrtcClient client;
     Ortc ortc;
 
-    AppCompatActivity activity;
+    Activity activity;
 
-    public RealTimePush (AppCompatActivity activity, Login login){
+    public RealTimePush (Activity activity, Login login){
         this.activity = activity;
         ortc = new Ortc ();
         realTime (login);
@@ -73,9 +73,6 @@ public class RealTimePush{
                 }
             };
 
-
-
-
         } catch (InstantiationException e){
 
         } catch (IllegalAccessException e){
@@ -84,6 +81,13 @@ public class RealTimePush{
 
         }
     }
+
+    public void disConnect(Login login){
+        String channel = General.CHANNEL_DEV + login.getOrgId ();
+        client.unsubscribe (channel);
+        client.disconnect ();
+    }
+
 
     public interface RealTimeListener{
         void onReceivedResponse (String channel, String message);

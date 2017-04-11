@@ -24,7 +24,7 @@ KyobeeControllers.controller('waitListCtrl',
 					
 					$scope.pager = {};
 					$scope.pagerRequest = null;
-					$scope.pageSize = 25;
+					$scope.pageSize = 100;
 					
 					$scope.showHistory = false;
 					
@@ -89,8 +89,7 @@ KyobeeControllers.controller('waitListCtrl',
 								});
 					};
 					
-					$scope.loadWaitListPage = function(pageNo){
-						debugger;
+					$scope.loadWaitListPage = function(pageNo){						
 						console.log(pageNo);
 						if (pageNo < 1 || pageNo > $scope.pager.totalPages) {
 				            return;

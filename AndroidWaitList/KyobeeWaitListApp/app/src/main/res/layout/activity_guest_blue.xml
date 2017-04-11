@@ -14,10 +14,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         >
+
         <View
             android:id="@+id/viewLogout"
-            android:layout_width="300dp"
-            android:layout_height="120dp"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_centerVertical="true"
@@ -25,8 +26,8 @@
 
         <View
             android:id="@+id/viewSetting"
-            android:layout_width="300dp"
-            android:layout_height="120dp"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_centerVertical="true"
@@ -44,8 +45,8 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
             android:text="@string/welcome"
-            android:textColor="@color/colorRed"
-            android:textSize="35sp"
+            android:textColor="@color/colorBlue"
+            android:textSize="32sp"
             android:textStyle="bold"
             android:visibility="invisible"
             />
@@ -59,7 +60,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:text=""
-            android:textColor="@color/colorRed"
+            android:textColor="@color/colorBlue"
             android:textSize="100sp"
             android:textStyle="bold"
             />
@@ -71,8 +72,8 @@
             android:layout_below="@+id/txtWaiting"
             android:layout_centerHorizontal="true"
             android:text="@string/parties"
-            android:textColor="@color/colorRed"
-            android:textSize="35sp"
+            android:textColor="@color/colorBlue"
+            android:textSize="32sp"
             android:textStyle="bold"
             />
 
@@ -114,11 +115,10 @@
                 >
 
                 <com.kyobee.waitlist.customcontrol.CustomTextViewBold
-                    android:id="@+id/txtServing"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/now_serving"
-                    android:textColor="@color/colorRed"
+                    android:textColor="@color/colorBlue"
                     android:textSize="40sp"
                     android:textStyle="bold"
                     />
@@ -127,19 +127,18 @@
                     android:id="@+id/txtNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="#293"
-                    android:textColor="@color/colorRed"
-                    android:textSize="150sp"
+                    android:text=""
+                    android:textColor="@color/colorBlue"
+                    android:textSize="70sp"
                     android:textStyle="bold"
                     />
 
             </LinearLayout>
 
             <View
-                android:id="@+id/viewSeperator"
-                android:layout_width="5dp"
-                android:layout_height="250dp"
-                android:background="@color/colorRed"
+                android:layout_width="4dp"
+                android:layout_height="180dp"
+                android:background="@color/colorBlue"
                 android:layout_gravity="center_vertical"
                 />
 
@@ -152,11 +151,10 @@
                 >
 
                 <com.kyobee.waitlist.customcontrol.CustomTextViewBold
-                    android:id="@+id/txtEstWaitTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/est_wait_time"
-                    android:textColor="@color/colorRed"
+                    android:textColor="@color/colorBlue"
                     android:textSize="40sp"
                     android:textStyle="bold"
                     />
@@ -165,9 +163,9 @@
                     android:id="@+id/txtTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="02:30"
-                    android:textColor="@color/colorRed"
-                    android:textSize="150sp"
+                    android:text=""
+                    android:textColor="@color/colorBlue"
+                    android:textSize="70sp"
                     android:textStyle="bold"
                     />
 
@@ -184,13 +182,13 @@
 
             <com.kyobee.waitlist.customcontrol.CustomButtonBold
                 android:id="@+id/btnCheckIn"
-                android:layout_width="450dp"
-                android:layout_height="90dp"
-                android:background="@drawable/round_button_red"
+                android:layout_width="400dp"
+                android:layout_height="70dp"
+                android:background="@drawable/round_button_blue"
                 android:text="@string/press_here"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:textStyle="bold"
                 />
 
@@ -207,7 +205,7 @@
         >
 
         <include
-            layout="@layout/include_bottom"
+            layout="@layout/include_bottom_blue"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />

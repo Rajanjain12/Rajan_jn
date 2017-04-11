@@ -8,10 +8,10 @@
                 
             <div class="container">
             
-                <div class="row content">
+                <div class="row waitlistbox2">
 
-                    <div class="col-md-4 col-sm-4 text-center">
-                        <label class="theme-fontcolor">Approximate Wait Time</label>
+                    <div class="col-md-4 col-sm-4 text-center countres">
+                        <label class="theme-fontcolor lblres">Approximate Wait Time</label>
                         <div class="input-group time-x">
                               <span class="input-group-btn">
                                   <button type="button" class="btn btn-red btn-number theme-color"  data-type="minus" data-field="quant[1]">
@@ -29,8 +29,8 @@
                         
                     </div>
                     
-                    <div class="col-md-4 col-sm-4 text-center">
-                        <label class="theme-fontcolor">Notify First</label>
+                    <div class="col-md-4 col-sm-4 col-xs-12 text-center countres">
+                        <label class="theme-fontcolor lblres">Notify First</label>
                         <div class="input-group time-x">
                               <span class="input-group-btn">
                                   <button type="button" class="btn btn-red btn-number theme-color" data-type="minus" data-field="quant[2]">
@@ -48,7 +48,7 @@
                     </div> 
                     
                     
-                    <div class="col-md-4 col-sm-4 text-center">
+                    <div class="col-md-4 col-sm-4 col-xs-12 text-center">
                         <label class="theme-fontcolor">Total Wait Time</label>
                         <div class="time-x">
                         	<h2 class="border-color">{{convertMinstoMMHH(totalWaitTime)}}</h2>
@@ -144,31 +144,31 @@
 	           		<table id="waitlisttable" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th>Seat</th>
-                                <th>No.</th>
-                                <th>Name</th>
-                                <th>Seating Pref.</th>
-                                <th>No. Of Party</th>
-                                <th>Opt-In</th>
-                                <th>Note</th>
-                                <th>Delete</th>                                 
+                                <th class="numeric">Seat</th>
+                                <th class="numeric">No.</th>
+                                <th class="numeric">Name</th>
+                                <th class="numeric">Seating Pref.</th>
+                                <th class="numeric">No. Of Party</th>
+                                <th class="numeric">Opt-In</th>
+                                <th class="numeric">Note</th>
+                                <th class="numeric">Delete</th>                                 
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="record in guestWaitList">
-                                <td><a class="clickpopup" style="cursor:pointer" ng-click="showPopup(record);"><img src="../assets/img/greenarrow.png"></a></td>
-                                <td>{{record.rank}}</td>
-                                <td>
+                                <td data-title="Seat" class="numeric"><a class="clickpopup" style="cursor:pointer" ng-click="showPopup(record);"><img src="../assets/img/greenarrow.png"></a></td>
+                                <td data-title="No." class="numeric">{{record.rank}}</td>
+                                <td data-title="Name" class="numeric">
                                 	<a ng-click="moveToUpdateGuest(record.guestID)" ng-class="{'hightlight' : record.incompleteParty != null }" style="cursor:pointer"><u>{{record.name}}</u></a> &nbsp;
                                 	<span ng-show="record.calloutCount != null" ng-repeat="item in getArrayFromNum(record.calloutCount) track by $index">
-                                	<img src="../assets/img/downhand.png"> &nbsp;
+                                	<img src="../assets/img/downhand.png" class="downarrow"> &nbsp;
                                 	</span>
                                 </td>
-                                <td>{{record.seatingPreference}}</td>
-                                <td>{{record.noOfPeople}}</td>
-                                <td><img ng-show="record.optin == true" src="../assets/img/roundarrow.png"></td>
-                                <td><img ng-show="record.note != null && record.note !=''" src="../assets/img/roundarrow.png"></td>
-                                <td><a style="cursor:pointer" ng-click="showDeletePopup(record);"><img src="../assets/img/delete.png"></a></td>
+                                <td data-title="Seating Pref." class="numeric"><span ng-show="record.seatingPreference==''">&nbsp;</span>{{record.seatingPreference}}</td>
+                                <td data-title="No.of Party" class="numeric">{{record.noOfPeople}}</td>
+                                <td data-title="Opt-In" class="numeric"><span ng-show="record.optin == false">&nbsp;</span><img ng-show="record.optin == true" src="../assets/img/roundarrow.png" class="roundarrow"></td>
+                                <td data-title="Note" class="numeric"><span ng-show="record.note == null || record.note ==''">&nbsp;</span><img ng-show="record.note != null && record.note !=''" src="../assets/img/roundarrow.png" class="roundarrow"></td>
+                                <td data-title="Delete" class="numeric"><a style="cursor:pointer" ng-click="showDeletePopup(record);"><img src="../assets/img/delete.png" class="deleteimg"></a></td>
                                 
                             </tr>
                        	</tbody>
@@ -186,27 +186,28 @@
 	           	 	<table id="waitlisttable" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th>No.</th>
-                                <th>Name</th>
-                                <th>Seating Pref.</th>
-                                <th>No. Of Party</th>
-                                <th>Opt-In</th> 
-                                <th>Note</th>
+                                <th class="numeric1">No.</th>
+                                <th class="numeric1">Name</th>
+                                <th class="numeric1">Seating Pref.</th>
+                                <th class="numeric1">No. Of Party</th>
+                                <th class="numeric1">Opt-In</th> 
+                                <th class="numeric1">Note</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="record in guestWaitList">
-                                <td>{{record.rank}}</td>
-                                <td>
+                                <td data-title="No." class="numeric1">{{record.rank}}</td>
+                                <td data-title="Name" class="numeric1">
                                 	<a ng-click="moveToUpdateGuest(record.guestID)" ng-class="{'hightlight' : record.incompleteParty != null }" style="cursor:pointer"><u>{{record.name}}</u></a> &nbsp;
                                 	<span ng-show="record.calloutCount != null" ng-repeat="item in getArrayFromNum(record.calloutCount) track by $index">
-                                	<img src="../assets/img/downhand.png"> &nbsp;
+                                	<img src="../assets/img/downhand.png" class="downarrow"> &nbsp;
                                 	</span>
                                 </td>
-                                <td>{{record.seatingPreference}}</td>
-                                <td>{{record.noOfPeople}}</td>
-                                <td><img ng-show="record.optin == true" src="../assets/img/roundarrow.png"></td>
-                                 <td><img ng-show="record.note != null && record.note !=''" src="../assets/img/roundarrow.png"></td>
+                                <td data-title="Seating Pref." class="numeric1"><span ng-show="record.seatingPreference==''">&nbsp;</span>{{record.seatingPreference}}</td>
+                                <td data-title="No.Of Party" class="numeric1">{{record.noOfPeople}}</td>
+                                <td data-title="Opt-In" class="numeric1"><span ng-show="record.optin == false">&nbsp;</span><img ng-show="record.optin == true" src="../assets/img/roundarrow.png" class="roundarrow"></td>
+                                 <td data-title="Note" class="numeric1"><span ng-show="record.note == null || record.note ==''">&nbsp;</span><img ng-show="record.note != null && record.note !=''" src="../assets/img/roundarrow.png" 
+								 class="roundarrow"></td>
                             </tr>
                        	</tbody>
                 	</table>                

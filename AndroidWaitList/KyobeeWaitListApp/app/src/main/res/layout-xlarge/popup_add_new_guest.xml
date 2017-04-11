@@ -4,8 +4,8 @@
               android:id="@+id/pop_add_new_guest"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical"
               android:layout_margin="20dp"
+              android:orientation="vertical"
     >
 
 
@@ -36,9 +36,9 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:src="@drawable/ic_back"
             />
 
@@ -59,7 +59,7 @@
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/correct_border"
                 android:gravity="center_vertical"
-                android:hint="@string/username"
+                android:hint="@string/name"
                 android:inputType="textEmailAddress"
                 android:paddingLeft="15dp"
                 android:textColor="@color/colorLightBrown"
@@ -154,14 +154,15 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     >
 
                     <com.kyobee.waitlist.customcontrol.CustomEditTextRegular
                         android:id="@+id/edtEmail"
                         android:layout_width="match_parent"
-                        android:layout_height="55dp"
+                        android:layout_height="70dp"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="25dp"
                         android:background="@drawable/correct_border"
                         android:gravity="center_vertical"
@@ -174,21 +175,42 @@
                         android:visibility="gone"
                         />
 
-                    <com.github.reinaldoarrosi.maskededittext.MaskedEditText
-                        android:id="@+id/edtPhone"
+                    <LinearLayout
+                        android:id="@+id/linearPhone"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
-                        android:layout_marginLeft="25dp"
-                        android:background="@drawable/correct_border"
-                        android:hint="@string/hint_phone"
-                        android:inputType="phone"
-                        android:paddingLeft="15dp"
-                        android:textColor="@color/colorLightBrown"
-                        android:textColorHint="@color/colorLightBrown"
-                        android:textSize="26sp"
-                        maskededittext:mask="(999)-999-9999"
-                        />
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical"
+                        >
 
+                        <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
+                            android:id="@+id/txtValidEmail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/edtPhone"
+                            android:layout_marginBottom="1dp"
+                            android:layout_marginLeft="25dp"
+                            android:text="@string/valid_phone"
+                            android:textColor="@color/colorRed"
+                            android:textSize="14sp"
+                            />
+
+                        <com.github.reinaldoarrosi.maskededittext.MaskedEditText
+                            android:id="@+id/edtPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="25dp"
+                            android:background="@drawable/correct_border"
+                            android:hint="@string/hint_phone"
+                            android:inputType="phone"
+                            android:paddingLeft="15dp"
+                            android:textColor="@color/colorLightBrown"
+                            android:textColorHint="@color/colorLightBrown"
+                            android:textSize="26sp"
+                            maskededittext:mask="(999)-999-9999"
+                            />
+                    </LinearLayout>
 
                 </RelativeLayout>
 
@@ -200,6 +222,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="15dp"
+                android:spinnerMode="dropdown"
+                android:dropDownVerticalOffset="-36dp"
                 android:background="@drawable/correct_border"/>
 
             <LinearLayout

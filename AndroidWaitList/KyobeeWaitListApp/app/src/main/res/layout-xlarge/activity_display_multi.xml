@@ -19,8 +19,8 @@
 
         <RelativeLayout
             android:id="@+id/reltiveSettings"
-            android:layout_width="200dp"
-            android:layout_height="110dp"
+            android:layout_width="300dp"
+            android:layout_height="120dp"
             android:layout_alignParentLeft="true"
             >
 
@@ -172,11 +172,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:orientation="horizontal"
             >
 
             <LinearLayout
+                android:id="@+id/linearColumn1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -193,6 +193,7 @@
                     >
 
                     <com.kyobee.waitlist.customcontrol.CustomTextViewSemiBold
+                        android:id="@+id/txtColumn1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -206,8 +207,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:layout_marginBottom="5dp"
+                        android:layout_marginTop="10dp"
                         android:gravity="bottom"
                         android:orientation="horizontal"
                         >
@@ -261,13 +262,13 @@
                         android:id="@+id/txtNodata1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:gravity="center"
                         android:text="@string/no_guest_checked"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
-                        android:gravity="center"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_centerInParent="true"
                         android:visibility="gone"
                         />
 
@@ -281,6 +282,7 @@
                 android:background="@color/colorGrayColumn"/>
 
             <LinearLayout
+                android:id="@+id/linearColumn2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -297,6 +299,7 @@
                     >
 
                     <com.kyobee.waitlist.customcontrol.CustomTextViewSemiBold
+                        android:id="@+id/txtColumn2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -310,8 +313,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:layout_marginBottom="5dp"
+                        android:layout_marginTop="10dp"
                         android:gravity="bottom"
                         android:orientation="horizontal"
                         >
@@ -364,13 +367,13 @@
                         android:id="@+id/txtNodata2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:gravity="center"
                         android:text="@string/no_guest_checked"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
-                        android:gravity="center"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_centerInParent="true"
                         android:visibility="gone"
                         />
 
@@ -383,6 +386,7 @@
                 android:background="@color/colorGrayColumn"/>
 
             <LinearLayout
+                android:id="@+id/linearColumn3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -399,6 +403,7 @@
                     >
 
                     <com.kyobee.waitlist.customcontrol.CustomTextViewSemiBold
+                        android:id="@+id/txtColumn3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -412,8 +417,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:layout_marginBottom="5dp"
+                        android:layout_marginTop="10dp"
                         android:gravity="bottom"
                         android:orientation="horizontal"
                         >
@@ -466,13 +471,13 @@
                         android:id="@+id/txtNodata3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:gravity="center"
                         android:text="@string/no_guest_checked"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
-                        android:gravity="center"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_centerInParent="true"
                         android:visibility="gone"
                         />
 

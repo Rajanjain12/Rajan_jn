@@ -39,6 +39,7 @@
 
         </activity>
 
+
         <activity
             android:name=".activity.DisplayMultiActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

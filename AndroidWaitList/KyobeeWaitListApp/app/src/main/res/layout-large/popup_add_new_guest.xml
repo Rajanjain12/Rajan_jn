@@ -7,275 +7,304 @@
               android:orientation="vertical"
 
     >
-        <RelativeLayout
-            android:id="@+id/relativeTop"
+
+    <RelativeLayout
+        android:id="@+id/relativeTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorRed"
+        >
+
+        <com.kyobee.waitlist.customcontrol.CustomTextViewBold
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:gravity="center_vertical"
+            android:text="@string/add_new_guest"
+            android:textColor="@android:color/white"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            />
+
+        <ImageView
+            android:id="@+id/imgCancel"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_back"
+            />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorRed"
+            android:layout_below="@+id/imgCancel"
+            android:layout_margin="4dp"
+            android:background="@android:color/white"
+            android:orientation="vertical"
+            android:padding="10dp"
             >
 
-            <com.kyobee.waitlist.customcontrol.CustomTextViewBold
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="5dp"
+            <com.kyobee.waitlist.customcontrol.CustomEditTextRegular
+                android:id="@+id/edtName"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/correct_border"
                 android:gravity="center_vertical"
-                android:text="@string/add_new_guest"
-                android:textColor="@android:color/white"
-                android:textSize="32sp"
-                android:textStyle="bold"
+                android:hint="@string/name"
+                android:inputType="textEmailAddress"
+                android:paddingLeft="15dp"
+                android:textColor="@color/colorLightBrown"
+                android:textColorHint="@color/colorLightBrown"
+                android:textSize="26sp"
                 />
 
-            <ImageView
-                android:id="@+id/imgCancel"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:src="@drawable/ic_back"
-                />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/imgCancel"
-                android:layout_margin="4dp"
-                android:background="@android:color/white"
-                android:orientation="vertical"
-                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
                 >
 
-                <com.kyobee.waitlist.customcontrol.CustomEditTextRegular
-                    android:id="@+id/edtName"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/correct_border"
-                    android:gravity="center_vertical"
-                    android:hint="@string/username"
-                    android:inputType="textEmailAddress"
-                    android:paddingLeft="15dp"
-                    android:textColor="@color/colorLightBrown"
-                    android:textColorHint="@color/colorLightBrown"
-                    android:textSize="26sp"
-                    />
-
-
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
                     >
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         >
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            >
-
-                            <RadioButton
-                                android:id="@+id/radioPhone"
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:layout_gravity="center_vertical"
-                                android:background="@drawable/custom_radio"
-                                android:button="@null"
-                                android:checked="true"
-                                android:text=""
-                                android:textColor="@color/colorLightBrown"
-                                />
-
-                            <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="10dp"
-                                android:text="@string/cell_phone"
-                                android:textColor="@color/colorLightBrown"
-                                android:textSize="26sp"
-                                />
-                        </LinearLayout>
+                        <RadioButton
+                            android:id="@+id/radioPhone"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/custom_radio"
+                            android:button="@null"
+                            android:checked="true"
+                            android:text=""
+                            android:textColor="@color/colorLightBrown"
+                            />
 
                         <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="40dp"
-                            android:text="@string/or"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:text="@string/cell_phone"
+                            android:textColor="@color/colorLightBrown"
+                            android:textSize="26sp"
+                            />
+                    </LinearLayout>
+
+                    <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:text="@string/or"
+                        android:textColor="@color/colorLightBrown"
+                        android:textSize="26sp"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        >
+
+                        <RadioButton
+                            android:id="@+id/radioEmail"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/custom_radio"
+                            android:button="@null"
+                            android:text=""
                             android:textColor="@color/colorLightBrown"
                             android:textSize="26sp"
                             />
 
-                        <LinearLayout
+                        <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            >
-
-                            <RadioButton
-                                android:id="@+id/radioEmail"
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:layout_gravity="center_vertical"
-                                android:background="@drawable/custom_radio"
-                                android:button="@null"
-                                android:text=""
-                                android:textColor="@color/colorLightBrown"
-                                android:textSize="26sp"
-                                />
-
-                            <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="10dp"
-                                android:text="@string/email"
-                                android:textColor="@color/colorLightBrown"
-                                android:textSize="26sp"
-                                />
-                        </LinearLayout>
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:text="@string/email"
+                            android:textColor="@color/colorLightBrown"
+                            android:textSize="26sp"
+                            />
                     </LinearLayout>
+                </LinearLayout>
 
-                    <RelativeLayout
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    >
+
+                    <com.kyobee.waitlist.customcontrol.CustomEditTextRegular
+                        android:id="@+id/edtEmail"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center_vertical"
+                        android:layout_height="45dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="25dp"
+                        android:background="@drawable/correct_border"
+                        android:gravity="center_vertical"
+                        android:hint="@string/hint_email"
+                        android:inputType="textEmailAddress"
+                        android:paddingLeft="15dp"
+                        android:textColor="@color/colorLightBrown"
+                        android:textColorHint="@color/colorLightBrown"
+                        android:textSize="26sp"
+                        android:visibility="gone"
+                        />
+
+
+                    <LinearLayout
+                        android:id="@+id/linearPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical"
                         >
 
-                        <com.kyobee.waitlist.customcontrol.CustomEditTextRegular
-                            android:id="@+id/edtEmail"
-                            android:layout_width="match_parent"
-                            android:layout_height="55dp"
+                        <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
+                            android:id="@+id/txtValidEmail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/edtPhone"
+                            android:layout_marginBottom="5dp"
                             android:layout_marginLeft="25dp"
-                            android:background="@drawable/correct_border"
-                            android:gravity="center_vertical"
-                            android:hint="@string/hint_email"
-                            android:inputType="textEmailAddress"
-                            android:paddingLeft="15dp"
-                            android:textColor="@color/colorLightBrown"
-                            android:textColorHint="@color/colorLightBrown"
-                            android:textSize="26sp"
-                            android:visibility="gone"
+                            android:text="@string/valid_phone"
+                            android:textColor="@color/colorRed"
+                            android:textSize="13sp"
                             />
 
                         <com.github.reinaldoarrosi.maskededittext.MaskedEditText
                             android:id="@+id/edtPhone"
                             android:layout_width="match_parent"
                             android:layout_height="45dp"
+                            android:layout_marginLeft="25dp"
+                            android:background="@drawable/correct_border"
                             android:hint="@string/hint_phone"
                             android:inputType="phone"
-                            android:layout_marginLeft="25dp"
-                            maskededittext:mask="(999)-999-9999"
-                            android:background="@drawable/correct_border"
                             android:paddingLeft="15dp"
                             android:textColor="@color/colorLightBrown"
                             android:textColorHint="@color/colorLightBrown"
                             android:textSize="26sp"
+                            maskededittext:mask="(999)-999-9999"
                             />
-                    </RelativeLayout>
-                </LinearLayout>
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
 
-                <com.piotrek.customspinner.CustomSpinner
-                    android:id="@+id/spnrPeople"
-                    style="@style/mySpinnerItemStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginTop="10dp"
-                    android:padding="5dp"
-                    android:background="@drawable/correct_border"/>
+            <com.piotrek.customspinner.CustomSpinner
+                android:id="@+id/spnrPeople"
+                style="@style/mySpinnerItemStyle"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:spinnerMode="dropdown"
+                android:dropDownVerticalOffset="-26dp"
+                android:background="@drawable/correct_border"
+                android:padding="5dp"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/correct_border"
-                    >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/correct_border"
+                >
 
-                    <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:text="@string/seating_preference"
-                        android:textColor="@color/colorLightBrown"
-                        android:textSize="26sp"
-                        />
-
-                    <View
-                        android:layout_width="1.5dp"
-                        android:layout_height="45dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:background="@color/colorLightBrown"
-                        />
-
-                    <com.kyobee.waitlist.customcontrol.HorizontalListView
-                        android:id="@+id/horizontalList"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="10dp"
-                        />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linearReceive"
+                <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    >
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/seating_preference"
+                    android:textColor="@color/colorLightBrown"
+                    android:textSize="26sp"
+                    />
 
-                    <CheckBox
-                        android:id="@+id/chkReceive"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_gravity="center_vertical"
-                        android:button="@null"
-                        android:background="@drawable/custom_check_box"
-                        android:textColor="@color/colorLightBrown"
-                        android:textSize="26sp"
-                        />
+                <View
+                    android:layout_width="1.5dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@color/colorLightBrown"
+                    />
 
-                    <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:text="@string/opt_in"
-                        android:textColor="@color/colorLightBrown"
-                        android:textSize="26sp"
-                        />
-                </LinearLayout>
-
-                <com.kyobee.waitlist.customcontrol.CustomButtonRegular
-                    android:id="@+id/btnAddMe"
+                <com.kyobee.waitlist.customcontrol.HorizontalListView
+                    android:id="@+id/horizontalList"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@color/colorRed"
-                    android:text="@string/add_me_wait_list"
-                    android:textAllCaps="false"
-                    android:textColor="@android:color/white"
-                    android:textSize="30sp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearReceive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                >
+
+                <CheckBox
+                    android:id="@+id/chkReceive"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/custom_check_box"
+                    android:button="@null"
+                    android:textColor="@color/colorLightBrown"
+                    android:textSize="26sp"
+                    />
+
+                <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/opt_in"
+                    android:textColor="@color/colorLightBrown"
+                    android:textSize="26sp"
                     />
             </LinearLayout>
-        </RelativeLayout>
+
+            <com.kyobee.waitlist.customcontrol.CustomButtonRegular
+                android:id="@+id/btnAddMe"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/colorRed"
+                android:text="@string/add_me_wait_list"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="30sp"
+                />
+        </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

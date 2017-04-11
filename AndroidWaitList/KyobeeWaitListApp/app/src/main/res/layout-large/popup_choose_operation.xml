@@ -26,7 +26,7 @@
 
             <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:gravity="center"
