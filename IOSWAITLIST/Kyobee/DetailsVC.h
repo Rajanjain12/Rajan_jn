@@ -91,6 +91,11 @@
     NSMutableArray *selectedPref;
     IBOutlet UITableView *tblViewParties;
     
+    IBOutlet UILabel *lblOnlyUSNumberValid;
+    IBOutlet UILabel *lblPoorInternet;
+    NSTimer *checkinTimerInternet;
+    NSTimer *hidePoorInternet;
+    
     
     IBOutlet UIView *Thank_View;
     IBOutlet UIImageView *Img_thank_you_Popup;
@@ -147,6 +152,7 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *formViewWidth;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *formViewCenter;
 
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *txtPhoneFieldCenter;
 
 //
 

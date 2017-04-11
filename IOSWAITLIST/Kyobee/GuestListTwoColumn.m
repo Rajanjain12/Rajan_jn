@@ -46,7 +46,7 @@
     //
     
     self.lpgrLogOut = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGestures:)];
-    self.lpgrLogOut.minimumPressDuration = 5.0f;
+    self.lpgrLogOut.minimumPressDuration = 2.0f;
     self.lpgrLogOut.numberOfTouchesRequired = 2;
     self.lpgrLogOut.allowableMovement = 100.0f;
     
@@ -54,7 +54,7 @@
     
     // For Options
     self.lpgrForOptions = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGestures:)];
-    self.lpgrForOptions.minimumPressDuration = 5.0f;
+    self.lpgrForOptions.minimumPressDuration = 2.0f;
     self.lpgrForOptions.numberOfTouchesRequired = 2;
     self.lpgrForOptions.allowableMovement = 100.0f;
     

@@ -12,6 +12,9 @@
         <array key="OpenSans-Regular.ttf">
             <string>OpenSans</string>
         </array>
+        <array key="SFDisplay-Ultralight.otf">
+            <string>SFUIDisplay-Ultralight</string>
+        </array>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginVC">
@@ -37,18 +40,21 @@
             <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Waitlist App" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CwH-Dq-H5f">
-                    <rect key="frame" x="322" y="70" width="380" height="60"/>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CwH-Dq-H5f">
+                    <rect key="frame" x="330" y="70" width="364" height="65"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="380" id="0aC-Ib-qaU"/>
-                        <constraint firstAttribute="height" constant="60" id="Bml-i2-Idr"/>
+                        <constraint firstAttribute="width" constant="364" id="0aC-Ib-qaU"/>
+                        <constraint firstAttribute="height" constant="65" id="Bml-i2-Idr"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="47"/>
+                    <fontDescription key="fontDescription" name="SFUIDisplay-Ultralight" family="SF UI Display" pointSize="75"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imgWaitlistApp.png" translatesAutoresizingMaskIntoConstraints="NO" id="xUt-KU-1Fq">
+                    <rect key="frame" x="330" y="70" width="364" height="65"/>
+                </imageView>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mdU-Uh-2em" customClass="MyTextFieldLogin">
-                    <rect key="frame" x="322" y="155" width="380" height="60"/>
+                    <rect key="frame" x="322" y="160" width="380" height="60"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="hyy-7U-6Rv"/>
@@ -67,7 +73,7 @@
                     </connections>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cbA-3g-hEI" customClass="MyTextFieldLogin">
-                    <rect key="frame" x="322" y="235" width="380" height="60"/>
+                    <rect key="frame" x="322" y="240" width="380" height="60"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <color key="textColor" red="0.62108451129999998" green="0.591719985" blue="0.55320227150000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
@@ -82,7 +88,7 @@
                     </connections>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZUj-lg-Tgn">
-                    <rect key="frame" x="422" y="320" width="17" height="17"/>
+                    <rect key="frame" x="422" y="325" width="17" height="17"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="17" id="0cS-am-QAR"/>
                         <constraint firstAttribute="height" constant="17" id="5jW-9H-5I4"/>
@@ -94,7 +100,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Keep me logged in" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BzO-pJ-bNh">
-                    <rect key="frame" x="444" y="316" width="210" height="25"/>
+                    <rect key="frame" x="444" y="321" width="210" height="25"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="210" id="4oo-xF-oaw"/>
                         <constraint firstAttribute="height" constant="25" id="Woo-No-mx4"/>
@@ -104,14 +110,14 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YwJ-bf-Nha">
-                    <rect key="frame" x="444" y="316" width="210" height="25"/>
+                    <rect key="frame" x="444" y="321" width="210" height="25"/>
                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                     <connections>
                         <action selector="btn_Remember_Clicked:" destination="-1" eventType="touchUpInside" id="uJJ-Kt-eDv"/>
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By clicking the 'Login' you stating that you have read and agreed to KYOBEE Waitlist Privacy &amp; Policy." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zmv-Dv-dOD">
-                    <rect key="frame" x="362" y="361" width="300" height="45"/>
+                    <rect key="frame" x="362" y="366" width="300" height="45"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="45" id="sfp-MM-BUG"/>
                         <constraint firstAttribute="width" constant="300" id="uMg-en-UEi"/>
@@ -121,13 +127,13 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Op-TF-7Ct">
-                    <rect key="frame" x="362" y="361" width="300" height="45"/>
+                    <rect key="frame" x="362" y="366" width="300" height="45"/>
                     <connections>
                         <action selector="btnPrivacyPolicy_clicked:" destination="-1" eventType="touchUpInside" id="mp4-Mz-ub6"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hcc-Gs-qJ4">
-                    <rect key="frame" x="322" y="412" width="380" height="70"/>
+                    <rect key="frame" x="322" y="417" width="380" height="70"/>
                     <color key="backgroundColor" red="0.62108451129999998" green="0.591719985" blue="0.55320227150000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="70" id="JYB-zj-XZL"/>
@@ -142,7 +148,7 @@
                     </connections>
                 </button>
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pJF-Bf-Xw1">
-                    <rect key="frame" x="422" y="502" width="180" height="25"/>
+                    <rect key="frame" x="422" y="507" width="180" height="25"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="180" id="guP-UU-ewz"/>
                         <constraint firstAttribute="height" constant="25" id="jD1-pi-anv"/>
@@ -156,7 +162,7 @@
                     </connections>
                 </button>
                 <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your e-mail address" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2aK-OM-vXM" customClass="MyTextFieldLogin">
-                    <rect key="frame" x="322" y="547" width="380" height="60"/>
+                    <rect key="frame" x="322" y="552" width="380" height="60"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <color key="textColor" red="0.62108451129999998" green="0.591719985" blue="0.55320227150000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
@@ -187,12 +193,12 @@
                         <constraint firstAttribute="width" constant="500" id="LDl-BK-SVi"/>
                         <constraint firstAttribute="height" constant="21" id="PV8-1R-kSc"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
                     <color key="textColor" red="0.0031640678644180298" green="0.0031695091165602207" blue="0.0031649100128561258" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Z4-FH-hVs">
-                    <rect key="frame" x="322" y="632" width="380" height="70"/>
+                    <rect key="frame" x="322" y="637" width="380" height="70"/>
                     <color key="backgroundColor" red="0.62108451129999998" green="0.591719985" blue="0.55320227150000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="70" id="IiS-Rc-NAa"/>
@@ -210,7 +216,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U2e-C5-Jdy">
-                            <rect key="frame" x="277" y="155" width="470" height="340"/>
+                            <rect key="frame" x="277" y="160" width="470" height="340"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please select guest mode : " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9mC-KT-FhE">
                                     <rect key="frame" x="48" y="20" width="375" height="35"/>
@@ -282,6 +288,7 @@
                 <constraint firstItem="2aK-OM-vXM" firstAttribute="width" secondItem="mdU-Uh-2em" secondAttribute="width" id="0eQ-4C-8pY"/>
                 <constraint firstItem="zmv-Dv-dOD" firstAttribute="centerX" secondItem="cbA-3g-hEI" secondAttribute="centerX" id="15G-4h-FsF"/>
                 <constraint firstItem="cbA-3g-hEI" firstAttribute="centerX" secondItem="mdU-Uh-2em" secondAttribute="centerX" id="1Gp-x3-ooo"/>
+                <constraint firstItem="xUt-KU-1Fq" firstAttribute="bottom" secondItem="CwH-Dq-H5f" secondAttribute="bottom" id="26Q-dL-WJy"/>
                 <constraint firstItem="3Z4-FH-hVs" firstAttribute="height" secondItem="hcc-Gs-qJ4" secondAttribute="height" id="3SP-xH-GxZ"/>
                 <constraint firstItem="3Z4-FH-hVs" firstAttribute="leading" secondItem="hcc-Gs-qJ4" secondAttribute="leading" id="3zp-7i-5Li"/>
                 <constraint firstAttribute="bottom" secondItem="kyB-rw-GWX" secondAttribute="bottom" id="4cS-TI-eRD"/>
@@ -303,12 +310,15 @@
                 <constraint firstItem="YwJ-bf-Nha" firstAttribute="trailing" secondItem="BzO-pJ-bNh" secondAttribute="trailing" id="Mdz-we-gis"/>
                 <constraint firstItem="2aK-OM-vXM" firstAttribute="top" secondItem="pJF-Bf-Xw1" secondAttribute="bottom" constant="20" id="N30-YT-hUl"/>
                 <constraint firstItem="3Z4-FH-hVs" firstAttribute="width" secondItem="hcc-Gs-qJ4" secondAttribute="width" id="P4f-FU-Mtt"/>
+                <constraint firstItem="xUt-KU-1Fq" firstAttribute="top" secondItem="CwH-Dq-H5f" secondAttribute="top" id="QGu-yP-JEv"/>
                 <constraint firstAttribute="bottom" secondItem="nhT-xp-Vjv" secondAttribute="bottom" constant="15" id="Rz0-1P-xnR"/>
                 <constraint firstItem="0Op-TF-7Ct" firstAttribute="top" secondItem="zmv-Dv-dOD" secondAttribute="top" id="T2x-pH-8gr"/>
                 <constraint firstItem="2aK-OM-vXM" firstAttribute="height" secondItem="mdU-Uh-2em" secondAttribute="height" id="UUG-He-ISZ"/>
                 <constraint firstItem="3Z4-FH-hVs" firstAttribute="top" secondItem="2aK-OM-vXM" secondAttribute="bottom" constant="25" id="Ust-T8-sR4"/>
                 <constraint firstItem="hcc-Gs-qJ4" firstAttribute="leading" secondItem="mdU-Uh-2em" secondAttribute="leading" id="WW4-jn-ssT"/>
+                <constraint firstItem="xUt-KU-1Fq" firstAttribute="leading" secondItem="CwH-Dq-H5f" secondAttribute="leading" id="Y3x-bR-Lcu"/>
                 <constraint firstItem="nhT-xp-Vjv" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="ZO3-kj-q0e"/>
+                <constraint firstItem="xUt-KU-1Fq" firstAttribute="trailing" secondItem="CwH-Dq-H5f" secondAttribute="trailing" id="atr-KM-oCI"/>
                 <constraint firstItem="kyB-rw-GWX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="b1P-oc-Yhm"/>
                 <constraint firstItem="YwJ-bf-Nha" firstAttribute="top" secondItem="BzO-pJ-bNh" secondAttribute="top" id="bCO-3S-h5M"/>
                 <constraint firstItem="BzO-pJ-bNh" firstAttribute="centerY" secondItem="ZUj-lg-Tgn" secondAttribute="centerY" id="bhT-k9-A3M"/>
@@ -337,5 +347,6 @@
         <image name="Img_logo.png" width="175" height="37"/>
         <image name="imgRememberSel.png" width="17" height="17"/>
         <image name="imgRememberUnSel.png" width="17" height="17"/>
+        <image name="imgWaitlistApp.png" width="364" height="65"/>
     </resources>
 </document>

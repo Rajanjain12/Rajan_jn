@@ -62,7 +62,7 @@
     
     
     self.lpgrLogOut = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGestures:)];
-    self.lpgrLogOut.minimumPressDuration = 5.0f;
+    self.lpgrLogOut.minimumPressDuration = 2.0f;
     self.lpgrLogOut.numberOfTouchesRequired = 2;
     self.lpgrLogOut.allowableMovement = 100.0f;
     
@@ -75,7 +75,7 @@
     
     // For Options
     self.lpgrForOptions = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGestures:)];
-    self.lpgrForOptions.minimumPressDuration = 5.0f;
+    self.lpgrForOptions.minimumPressDuration = 2.0f;
     self.lpgrForOptions.numberOfTouchesRequired = 2;
     self.lpgrForOptions.allowableMovement = 100.0f;
     
@@ -290,12 +290,12 @@
     
     if([[[NSUserDefaults standardUserDefaults] valueForKey:@"smsRoute"]  isEqualToString:@""])
     {
-        txt_Phone_Or_Mail.placeholder = @"+1 (___) ____-______ (Optional)";
+        txt_Phone_Or_Mail.placeholder = @"(___) ____-______ (Optional)";
         txt_Phone_Or_Mail.text = @"";
     }
     else
     {
-        txt_Phone_Or_Mail.placeholder = @"+1 (___) ____-______*";
+        txt_Phone_Or_Mail.placeholder = @"(___) ____-______*";
         txt_Phone_Or_Mail.text = @"";
     }
     
@@ -729,22 +729,25 @@
         
         if([[[NSUserDefaults standardUserDefaults] valueForKey:@"smsRoute"]  isEqualToString:@""])
         {
-            txt_Phone_Or_Mail.placeholder = @"+1 (___) ____-______ (Optional)";
+            txt_Phone_Or_Mail.placeholder = @"(___) ____-______ (Optional)";
             txt_Phone_Or_Mail.text = @"";
         }
         else
         {
-            txt_Phone_Or_Mail.placeholder = @"+1 (___) ____-______*";
+            txt_Phone_Or_Mail.placeholder = @"(___) ____-______*";
             txt_Phone_Or_Mail.text = @"";
         }
         
         
-        
+        lblOnlyUSNumberValid.hidden = false;
         
         txt_Phone_Or_Mail.keyboardType = UIKeyboardTypePhonePad;
         txt_Phone_Or_Mail.autocorrectionType = UITextAutocorrectionTypeNo;
         
         [txt_Phone_Or_Mail reloadInputViews];
+        
+        
+        _txtPhoneFieldCenter.constant = 23;
        
     }
     else
@@ -763,14 +766,22 @@
             txt_Phone_Or_Mail.text = @"";
         }
         
-        
+        lblOnlyUSNumberValid.hidden = true;
         
         txt_Phone_Or_Mail.keyboardType = UIKeyboardTypeEmailAddress;
         txt_Phone_Or_Mail.autocorrectionType = UITextAutocorrectionTypeNo;
         
         [txt_Phone_Or_Mail reloadInputViews];
+        
+        _txtPhoneFieldCenter.constant = 0;
     }
     
+    
+    [self.view setNeedsUpdateConstraints];
+    
+    [UIView animateWithDuration:0.40f animations:^{
+        [self.view layoutIfNeeded];
+    }];
     
 }
 
@@ -792,15 +803,18 @@
     Btn_Promotions_Specials.selected = false;
     
     btn_Cell_Phone.selected = true;
+    lblOnlyUSNumberValid.hidden = false;
+    
+    _txtPhoneFieldCenter.constant = 23;
     
     if([[[NSUserDefaults standardUserDefaults] valueForKey:@"smsRoute"]  isEqualToString:@""])
     {
-        txt_Phone_Or_Mail.placeholder = @"+1 (___) ____-______ (Optional)";
+        txt_Phone_Or_Mail.placeholder = @"(___) ____-______ (Optional)";
         txt_Phone_Or_Mail.text = @"";
     }
     else
     {
-        txt_Phone_Or_Mail.placeholder = @"+1 (___) ____-______*";
+        txt_Phone_Or_Mail.placeholder = @"(___) ____-______*";
         txt_Phone_Or_Mail.text = @"";
     }
     
@@ -898,6 +912,9 @@
     tblViewParties.hidden = false;
     [tblViewParties reloadData];
     
+    [form_View bringSubviewToFront:tblViewParties];
+    
+    [tblViewSeatPref bringSubviewToFront:tblViewParties];
     
     Lbl_Required.hidden = false;
     Btn_Close.hidden = false;
@@ -1577,6 +1594,11 @@
     
     if(appDelegate.isInternetReachble)
     {
+        lblPoorInternet.hidden = true;
+        
+        [hidePoorInternet invalidate];
+        hidePoorInternet = nil;
+        
         //if(![txt_Name.text isEqualToString:@""] & ![txt_Phone_Or_Mail.text isEqualToString:@""] & ![txt_your_party.text isEqualToString:@""])
         if(![txt_Name.text isEqualToString:@""] & ![txt_your_party.text isEqualToString:@""])
         {
@@ -1703,10 +1725,17 @@
             [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
             [request setHTTPBody:jsonDataReq];
             
+            checkinTimerInternet = [NSTimer timerWithTimeInterval:10.0 target:self selector:@selector(checkinInternetConnectionTest) userInfo:nil repeats:NO];
+            
+            [[NSRunLoop mainRunLoop] addTimer:checkinTimerInternet forMode:NSDefaultRunLoopMode];
+            
             [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError)
              {
                  self.view.userInteractionEnabled = TRUE;
                  [appDelegate stopActivityIndicator];
+                 
+                 [checkinTimerInternet invalidate];
+                 checkinTimerInternet = nil;
                  
                  if(data != nil)
                  {
@@ -1755,6 +1784,24 @@
                          
                          [alert show];
                      }
+                 }
+                 else
+                 {
+                     if(connectionError != nil)
+                     {
+                         NSLog(@"%ld",(long)connectionError.code);
+                         
+                         if(connectionError.code == -1009)
+                         {
+                             lblPoorInternet.hidden = false;
+                             
+                             hidePoorInternet = [NSTimer timerWithTimeInterval:10.0 target:self selector:@selector(hidePoorIntLabelAfter5Seconds) userInfo:nil repeats:NO];
+                             
+                             [[NSRunLoop mainRunLoop] addTimer:hidePoorInternet forMode:NSDefaultRunLoopMode];
+                         }
+                     }
+                     
+                     
                  }
              }];
         }
@@ -1814,6 +1861,23 @@
     }
     
     //[self performSelector:@selector(handleLockButton) withObject:nil afterDelay:1];
+}
+
+-(void)checkinInternetConnectionTest
+{
+    lblPoorInternet.hidden = false;
+    
+    self.view.userInteractionEnabled = TRUE;
+    [appDelegate stopActivityIndicator];
+    
+    hidePoorInternet = [NSTimer timerWithTimeInterval:10.0 target:self selector:@selector(hidePoorIntLabelAfter5Seconds) userInfo:nil repeats:NO];
+    
+    [[NSRunLoop mainRunLoop] addTimer:hidePoorInternet forMode:NSDefaultRunLoopMode];
+}
+
+- (void)hidePoorIntLabelAfter5Seconds
+{
+    lblPoorInternet.hidden = true;
 }
 
 -(NSString *)JSONString:(NSString *)aString
