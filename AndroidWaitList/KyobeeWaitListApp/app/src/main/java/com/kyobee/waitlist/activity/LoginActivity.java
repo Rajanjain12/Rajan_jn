@@ -31,6 +31,7 @@ import com.kyobee.waitlist.customcontrol.CustomTextViewRegular;
 import com.kyobee.waitlist.net.Connection;
 import com.kyobee.waitlist.pojo.APIService;
 import com.kyobee.waitlist.pojo.Login;
+import com.kyobee.waitlist.pojo.MultiColumnSession;
 import com.kyobee.waitlist.utils.AppInfo;
 import com.kyobee.waitlist.utils.GSONGetSet;
 import com.kyobee.waitlist.utils.General;
@@ -171,12 +172,13 @@ public class LoginActivity extends AppCompatActivity{
         username = edtUsername.getText ().toString ();
         password = edtPassword.getText ().toString ();
 
+
         /* dev version  */
 
        // username = "jkim@kyobee.com";
        // password = "jaekim";
-        //username = "Gabriela.meza@advantech.com";
-        //password = "jaekim";
+       // username = "Gabriela.meza@advantech.com";
+       // password = "jaekim";
 
         /* qa version
         username = "meetjenis@gmail.com";
@@ -271,7 +273,7 @@ public class LoginActivity extends AppCompatActivity{
             @Override
             public void onClick (View v){
 
-
+                Kyobee.getInstance ().setMultiColumnSession (new MultiColumnSession ());
                 Kyobee.getInstance ().setLoginMode (DISPLAY_MODE);
                 startActivity (new Intent (activity, DisplayMultiActivity.class));
                 finish ();

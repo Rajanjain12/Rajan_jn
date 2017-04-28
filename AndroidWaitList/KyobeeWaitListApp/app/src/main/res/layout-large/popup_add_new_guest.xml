@@ -51,6 +51,20 @@
             android:padding="10dp"
             >
 
+            <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
+                android:id="@+id/txtPoor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:gravity="center"
+                android:text="@string/poor_connection"
+                android:textColor="@color/colorRed"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                />
+
             <com.kyobee.waitlist.customcontrol.CustomEditTextRegular
                 android:id="@+id/edtName"
                 android:layout_width="match_parent"

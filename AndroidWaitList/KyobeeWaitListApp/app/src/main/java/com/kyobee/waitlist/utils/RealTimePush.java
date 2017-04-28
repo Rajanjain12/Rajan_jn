@@ -9,8 +9,10 @@ import org.apache.commons.lang3.StringEscapeUtils;
 
 import ibt.ortc.api.Ortc;
 import ibt.ortc.extensibility.OnConnected;
+import ibt.ortc.extensibility.OnDisconnected;
 import ibt.ortc.extensibility.OnMessage;
 import ibt.ortc.extensibility.OnSubscribed;
+import ibt.ortc.extensibility.OnUnsubscribed;
 import ibt.ortc.extensibility.OrtcClient;
 import ibt.ortc.extensibility.OrtcFactory;
 
@@ -39,39 +41,69 @@ public class RealTimePush{
 
             client.setClusterUrl ("http://ortc-developers.realtime.co/server/2.1/");
             client.setConnectionMetadata ("AndroidApp");
-            client.connect (General.APPLICATION_KEY, General.MY_TOKEN);
+
+            if (client != null){
+                try{
 
 
-            client.onConnected = new OnConnected (){
-                @Override
-                public void run (OrtcClient sender){
+                    if (client.getIsConnected ()){
+                        Log.d (LOGTAG, "Channel Connected Already");
+                    } else{
+                        Log.d (LOGTAG, "Channel New Connect");
+                        client.connect (General.APPLICATION_KEY, General.MY_TOKEN);
 
-                    Log.d (LOGTAG, "Connected - ");
 
-                    activity.runOnUiThread (new Runnable (){
-                        @Override
-                        public void run (){
-                            String channel = General.CHANNEL_DEV + login.getOrgId ();
-                            client.subscribe (channel, true, new OnMessage (){
-                                public void run (OrtcClient sender, final String channel, final String message){
-                                  //  Log.d (LOGTAG, "Receive Channel Before " + channel + " Message - " + message);
-                                     String message1 = StringEscapeUtils.unescapeJson (message);
-                                  //  Log.d (LOGTAG, "Receive Channel After- " + channel + " Message - " + message1);
-                                    realTimeListener.onReceivedResponse (channel, message1);        // Code here will run in UI thread
-                                }
-                            });
-                        }
-                    });
+                        client.onConnected = new OnConnected (){
+                            @Override
+                            public void run (OrtcClient sender){
+
+                                Log.d (LOGTAG, "Connected - ");
+
+                                activity.runOnUiThread (new Runnable (){
+                                    @Override
+                                    public void run (){
+                                        String channel = General.CHANNEL_DEV + login.getOrgId ();
+                                        client.subscribe (channel, true, new OnMessage (){
+                                            public void run (OrtcClient sender, final String channel, final String message){
+                                                //  Log.d (LOGTAG, "Receive Channel Before " + channel + " Message - " + message);
+                                                String message1 = StringEscapeUtils.unescapeJson (message);
+                                                //  Log.d (LOGTAG, "Receive Channel After- " + channel + " Message - " + message1);
+                                                realTimeListener.onReceivedResponse (channel, message1);        // Code here will run in UI thread
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        };
+
+                        client.onSubscribed = new OnSubscribed (){
+                            @Override
+                            public void run (OrtcClient sender, String channel){
+                                // if (realTimeListener != null)
+                                Log.d (LOGTAG, "Subscribed Channel : " + channel);
+                                realTimeListener.onSubscribeChannel (sender, channel);
+                            }
+                        };
+
+                        client.onDisconnected = new OnDisconnected (){
+                            @Override
+                            public void run (OrtcClient sender){
+                                Log.d (LOGTAG, "Disconnect Client");
+                            }
+                        };
+
+                        client.onUnsubscribed = new OnUnsubscribed (){
+                            @Override
+                            public void run (OrtcClient sender, String channel){
+                                Log.d (LOGTAG, "UnSubscribed Channel : " + channel);
+                                client.disconnect ();
+                            }
+                        };
+                    }
+                } catch (Exception e){
+
                 }
-            };
-
-            client.onSubscribed = new OnSubscribed (){
-                @Override
-                public void run (OrtcClient sender, String channel){
-                    // if (realTimeListener != null)
-                    realTimeListener.onSubscribeChannel (sender, channel);
-                }
-            };
+            }
 
         } catch (InstantiationException e){
 
@@ -82,15 +114,15 @@ public class RealTimePush{
         }
     }
 
-    public void disConnect(Login login){
+    public void disConnect (Login login){
         String channel = General.CHANNEL_DEV + login.getOrgId ();
+        //client.disconnect ();
         client.unsubscribe (channel);
-        client.disconnect ();
     }
-
 
     public interface RealTimeListener{
         void onReceivedResponse (String channel, String message);
+
         void onSubscribeChannel (OrtcClient sender, String channel);
     }
 }
