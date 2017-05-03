@@ -1,3 +1,5 @@
+
+
 /*
  * Template Name: Kyobee - Custom Stylesheet
  * Developer: Jaimin 
@@ -466,15 +468,20 @@ p.text-msg-pswd { color: #c9ced1; font-size: 16px;  text-align: left;    display
     /*background: #dd4124;*/
     color: #FFF;
     border-radius: 3px;
-    padding: 15px;
+    padding: 12px;
     font-size: 16px;
+	    border: 1px solid #fff;
 }
 .time-x input {
     text-align: center;
     font-size: 24px;
     font-weight: 600; 
-    padding: 26px 0;
+    padding: 23px 0;
         
+}
+.lblres {
+    color: #FFF;
+    font-weight: normal;
 }
 
 .time-x input:focus{
@@ -497,6 +504,8 @@ p.text-msg-pswd { color: #c9ced1; font-size: 16px;  text-align: left;    display
     font-weight: 600;
     padding: 13px 0;    
     border-radius: 3px;
+	    border: 1px solid #fff;
+    background: #FFF;
 }
 
 /***** Table  *****/
@@ -532,10 +541,10 @@ p.text-msg-pswd { color: #c9ced1; font-size: 16px;  text-align: left;    display
 }
 
 .footer-adjust {
-    /*position: absolute;*/ 
+    position: absolute; 
     display: inline-block;
-    width: 100%;
-    bottom: 0;
+    width: 100%;    
+	left: 0;
     margin-bottom: -5px;
 }
 
@@ -1057,7 +1066,7 @@ label#points {
 .fontpsize { font-size: 3.5vmin;}
 .fontsize1 h3 { font-size: 14vmin;}
 #footer-logo img{display: inline-block;float: left;}
-#footer-logo p{color: #FFF;padding: 40px 0px;margin: 0px;  text-align: right;}
+#footer-logo p{color: #FFF;margin: 0px;  text-align: right;}
 #footer-logo h1 {
     color: #FFF;
     margin: 0px 0 0 0;
@@ -1065,10 +1074,10 @@ label#points {
 /*    line-height: 40px;
     font-size: 3.9em;*/
     line-height: 30px;
-    font-size: 3.6em;
-    margin-left: 16px;
+    font-size: 3.2em;
+    margin-left: 10px;
     font-weight: 200;
-    margin-top: 12px;
+    margin-top: 13px;
 }
 
 .waitlist-wrap{
@@ -1284,4 +1293,20 @@ background-color: yellow;
 
 label.sm-txt {
     margin-top: 10px;
+}
+
+.footerleft {
+    padding: 15px 0;
+}
+
+.footerright {
+    padding: 30px 0;
+}
+.footerright a {
+    color: #FFF;
+}
+.showhidewrap {
+    margin: 15px 0px 10px 0;
+    display: inline-block;
+    width: 100%;
 }

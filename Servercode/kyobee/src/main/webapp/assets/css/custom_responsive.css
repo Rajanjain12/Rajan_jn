@@ -52,7 +52,10 @@
     font-size:20px;
 }
 .lblres {
-    font-size: 11px;
+	font-size: 11px;
+    color: #FFF;
+    font-weight: normal;	
+    margin-top: 10px;
 }
 
 }
@@ -83,9 +86,7 @@
     font-size:35px;
 }
 /* Force table to not be like tables anymore */
-		#no-more-tables table, thead, tbody, th, td, tr { 
-			display: block; 
-		}
+		
 		
 		/* Hide table headers (but not display: none;, for accessibility) */
 		#no-more-tables thead tr { 
@@ -123,11 +124,7 @@
                 
                 
                 
-                
-                #no-more-tables1 table, thead, tbody, th, td, tr { 
-			display: block; 
-		}
-		
+          
 		/* Hide table headers (but not display: none;, for accessibility) */
 		#no-more-tables1 thead tr { 
 			position: absolute;
@@ -188,15 +185,9 @@
 .kw-dav-2 ul li a img { width: 75%;}
 .kw-dav-2 ul li { margin: 0 5px 0 0;}
 .kw-dav-2 span p { margin-left: 5px;}
-.table-wrap {width: 100%; float: left; height: 300px;overflow-y: scroll;/*overflow-x: scroll;*/overflow-x: hidden;}
+.table-wrap {width: 100%; float: left;/*height: 300px;overflow-y: scroll;overflow-x: scroll;overflow-x: hidden;*/}
  /*#waitlisttable td, #waitlisttable th { min-width: 530px; text-align: center;}    */
- #waitlisttable td, #waitlisttable th {
-    width: 130px;
-    font-size: 11px;
-    padding: 3px 0 3px 0;
-    margin: 0;
-	    font-weight: normal;
-}
+ #waitlisttable td, #waitlisttable th {width: 130px;font-size: 11px;padding: 7px 0 7px 0; margin: 0;font-weight: normal;line-height: 20px;}
  #waitlisttable td:nth-child(6n), #waitlisttable th:nth-child(6n){display:none;}
  
  
@@ -209,7 +200,7 @@ img.downarrow {
 }
 .waitlistbox2{padding:0px 0px;}
 
- .time-x h2 {padding: 8px 0;}
+ .time-x h2 {padding: 8px 0; border: 1px solid #fff;    background: #FFF;}
  
 .dropbtn { color: #dd4124;}
 .dropdown {  margin-top: -40px;}        
@@ -246,11 +237,13 @@ img.roundarrow {width: 14px;}
     width: 100%;
     bottom: 0;
     margin-bottom: -5px;
+	position: relative;
 }  
   .simplePopup {
-    padding:0;
-    width:100%;
-    min-width:100%;
+    padding: 0;
+    width: 97%;
+    min-width: 97%;   
+    border-radius: 3px;
   }  
   .simplePopupClose {
     right: 20px;
@@ -263,13 +256,26 @@ img.roundarrow {width: 14px;}
     font-size:30px;
 }
 
-.time-x {width: auto;margin: 0 auto;}
+.time-x {    width: 80%;margin: 0 auto;}
 .countres {
     width: 45% !important;
     float: left;
     padding: 0;
     margin: 0 0 0 10px;
 }
+
+
+.footerleft {
+    padding: 0px 0;
+}
+.footerright {
+    padding: 10px 0;
+}
+.footerleft img {
+    width: 65%;
+}
+#footer-logo h1{    font-size: 2.5em;margin-left: 5px;    margin-top: 0;}
+.close-theme {right: 15px; top: 10px;}
 
 }
 
@@ -312,7 +318,11 @@ img.roundarrow {width: 14px;}
 /*    overflow-x: scroll;*/
 }
 .footer-adjust {
-/*    position: absolute; */
+    display: inline-block;
+    width: 100%;
+    bottom: 0;
+    margin-bottom: -5px;
+    position: relative;
 }
 .h2-font{
   font-size: 116px;
@@ -364,11 +374,11 @@ img.roundarrow {width: 14px;}
   position: absolute; 
 }
 .footer-adjust { 
-    display: inline-block;
+	display: inline-block;
     width: 100%;
     bottom: 0;
     margin-bottom: -5px;
-/*    position: absolute;*/
+    position: relative;
 }
 .h2-font{
   font-size: 140px;
@@ -383,6 +393,18 @@ img.roundarrow {width: 14px;}
     font-size: 100px;
 }
 }
+
+@media only screen and (min-width: 1201px) and (max-width: 1920px) { 
+.footer-adjust {
+	display: inline-block;
+    width: 100%;
+    margin-bottom: -5px;
+    position: relative;
+    bottom: 0;
+}
+
+}
+
 
 @media only screen and (min-width: 1600px) and (max-width: 1920px) { 
 

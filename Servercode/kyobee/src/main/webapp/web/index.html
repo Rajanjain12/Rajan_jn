@@ -140,26 +140,25 @@
         </section>
     
 	<div  ng-view></div>
-	
+	<div class="clearfix"></div>
 	<div class="footer-adjust"> 
 		<div class="theme-color footer-wrap">
-        <div class="container" id="footer-logo">
-             <div class="content-xs col-md-7 col-xs-12">
-           
-                <!-- <img src="../assets/img/kyobeelogo.png"><h1>Waitlist</h1> -->
-                <img ng-src="{{logoImgSrc}}"><h1>Waitlist</h1>
-            </div>
-        
-        
-            <div class="col-md-5 col-xs-12 pull-right">
-            	
-            	<p class="">Copyright KYOBEE. All Rights Reserved - Version 2.0 - 04/07/2017</p>
-                <!-- To be made dynamic using property footermsg 
-                <p class="">{{footerMsg}}</p> -->
-                
-            </div>
-        </div>
-    
+			<div class="container" id="footer-logo">
+				 <div class="col-md-7 col-xs-12 footerleft">
+			   
+					<!-- <img src="../assets/img/kyobeelogo.png"><h1>Waitlist</h1> -->
+					<img ng-src="{{logoImgSrc}}"><h1>Waitlist</h1>
+				</div>
+			
+			
+				<div class="col-md-5 col-xs-12 pull-right footerright">
+					
+					<p class="">Copyright KYOBEE. All Rights Reserved - Version 2.0 - 04/07/2017</p>
+					<!-- To be made dynamic using property footermsg 
+					<p class="">{{footerMsg}}</p> -->
+					
+				</div>
+			</div>    
    	 	</div>   
 	</div>
 	

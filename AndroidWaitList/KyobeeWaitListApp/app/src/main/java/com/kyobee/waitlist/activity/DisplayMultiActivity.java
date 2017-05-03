@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -191,6 +192,8 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
             Utils.noInternet (activity);
         }
 
+         //popUpSettings ();
+
     }
 
     // ui gesture recognizer event callback
@@ -198,6 +201,8 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
     public void onGestureRecognized (@NonNull final UIGestureRecognizer recognizer){
 
         if (operation == LOGOUT){
+            Login logIn = GSONGetSet.getLogin ();
+            realTimePush.disConnect (logIn);
             Kyobee.getInstance ().logout ();
             startActivity (new Intent (activity, LoginActivity.class));
             finish ();
@@ -241,6 +246,7 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
                     Log.d (LOGTAG, response.toString ());
                     ResponseGen responseGen = response.body ();
                     if (responseGen.getStatus ().equalsIgnoreCase (General.SUCCESS)){
+                        listRecords.clear ();
                         listRecords.addAll (responseGen.getServiceResult ().getRecords ());
                         callAdapter ();
                     } else{
@@ -251,7 +257,7 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
                 @Override
                 public void onFailure (Call<ResponseGen> call, Throwable t){
                     CustomDialog.dismissProgressDialog ();
-                    if(t instanceof UnknownHostException){
+                    if (t instanceof UnknownHostException){
                         Utils.noInternet (activity);
                     }
                 }
@@ -279,8 +285,12 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
     @Override
     protected void onDestroy (){
         super.onDestroy ();
-        Login logIn=GSONGetSet.getLogin ();
-        realTimePush.disConnect (logIn);
+
+        if (Kyobee.getInstance ().isLoggedIn ()){
+            Login logIn = GSONGetSet.getLogin ();
+            realTimePush.disConnect (logIn);
+        }
+
     }
 
     @Override
@@ -295,10 +305,8 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
             JSONObject jsonObject = new JSONObject (message);
             String op = jsonObject.getString (General.OP);
             if (op.equalsIgnoreCase (General.ADD)){
-                listRecords.clear ();
                 callCheckInUsers (login.getOrgId (), false);
             } else if (op.equalsIgnoreCase (General.DEL)){
-                listRecords.clear ();
                 callCheckInUsers (login.getOrgId (), false);
             } else if (op.equalsIgnoreCase (General.UPDATE_GUEST_INFO)){
                 UpdateGuest updateGuest = gson.fromJson (message, UpdateGuest.class);
@@ -360,7 +368,8 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
         MultiColumnSession multiColumnSession = Kyobee.getInstance ().getMultiColumnSession ();
 
         if (multiColumnSession == null){
-
+            // multiColumnSession=new MultiColumnSession ();
+            // Kyobee.getInstance ().setMultiColumnSession (multiColumnSession);
         } else if (multiColumnSession.getTotalColumn () == 1){
             linearColumn2.setVisibility (View.GONE);
             linearColumn3.setVisibility (View.GONE);
@@ -531,7 +540,7 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
     }
 
     public void popUpSettings (){
-        final MultiColumnSession multiColumnSession = new MultiColumnSession ();
+        final MultiColumnSession multiColumnSession = Kyobee.getInstance ().getMultiColumnSession ();//new MultiColumnSession ();
         DisplayMetrics displayMetrics = new DisplayMetrics ();
         getWindowManager ().getDefaultDisplay ().getMetrics (displayMetrics);
         int width = 0;//displayMetrics.widthPixels;
@@ -568,12 +577,16 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
         final CustomSpinner spnrColumn = (CustomSpinner) view.findViewById (R.id.spnrColumn);
         final String[] columns = getResources ().getStringArray (R.array.total_column);
         spnrColumn.initializeStringValues (columns, getString (R.string.total_column));
+        spnrColumn.setSelection (multiColumnSession.getTotalColumn ());
 
         final CustomSpinner spnrRow = (CustomSpinner) view.findViewById (R.id.spnrRow);
         final String[] rows = getResources ().getStringArray (R.array.total_row);
         spnrRow.initializeStringValues (rows, getString (R.string.total_row));
+        spnrRow.setSelection (multiColumnSession.getRowPosition ());
 
         CustomButtonRegular btnOk = (CustomButtonRegular) view.findViewById (R.id.btnOk);
+        final SwitchCompat switchNotPresent = (SwitchCompat) view.findViewById (R.id.switchNotPresent);
+        final SwitchCompat switchIncomplete = (SwitchCompat) view.findViewById (R.id.switchIncomplete);
 
         spnrColumn.setOnItemSelectedListener (new AdapterView.OnItemSelectedListener (){
             @Override
@@ -581,26 +594,42 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
                 Log.d (LOGTAG, "" + position);
                 spnrColumn.setBackgroundResource (R.drawable.correct_border);
                 multiColumnSession.setTotalColumn (position);
+
                 if (position == 1){
                     edtColumnTitle1.setVisibility (View.VISIBLE);
+                    //edtColumnTitle1.setText ("");
                     edtColumnTitle2.setVisibility (View.GONE);
                     edtColumnTitle3.setVisibility (View.GONE);
+                    spnrRow.setEnabled (true);
+                    spnrRow.setSelection (1);
+                    multiColumnSession.setRowPosition (1);
 
                 } else if (position == 2){
+
                     edtColumnTitle1.setVisibility (View.VISIBLE);
+                   // edtColumnTitle1.setText ("");
                     edtColumnTitle2.setVisibility (View.VISIBLE);
+                   // edtColumnTitle2.setText ("");
                     edtColumnTitle3.setVisibility (View.GONE);
+                    spnrRow.setSelection (1);
+                    spnrRow.setEnabled (false);
+                    multiColumnSession.setRowPosition (1);
 
                 } else if (position == 3){
                     edtColumnTitle1.setVisibility (View.VISIBLE);
+                  //  edtColumnTitle1.setText ("");
                     edtColumnTitle2.setVisibility (View.VISIBLE);
+                  //  edtColumnTitle2.setText ("");
                     edtColumnTitle3.setVisibility (View.VISIBLE);
+                  //  edtColumnTitle3.setText ("");
+                    spnrRow.setSelection (1);
+                    spnrRow.setEnabled (false);
+                    multiColumnSession.setRowPosition (1);
                 }
             }
-
             @Override
             public void onNothingSelected (AdapterView<?> parent){
-                Log.d (LOGTAG, "Nohing ");
+                Log.d (LOGTAG, "Nothing ");
             }
         });
 
@@ -612,6 +641,7 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
                 if (position > 0){
                     int row = Integer.parseInt (spnrRow.getSelectedItem ().toString ());
                     multiColumnSession.setTotalRows (row);
+                    multiColumnSession.setRowPosition (position);
                 }
             }
 
@@ -620,6 +650,21 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
                 Log.d (LOGTAG, "Nohing ");
             }
         });
+
+        switchIncomplete.setChecked (multiColumnSession.isInComplete ());
+        switchNotPresent.setChecked (multiColumnSession.isNotPresent ());
+
+
+        /*if (Kyobee.getInstance ().getMultiColumnSession () == null){
+            switchIncomplete.setChecked (true);
+            switchNotPresent.setChecked (true);
+
+        } else{
+            switchIncomplete.setChecked (Kyobee.getInstance ().getMultiColumnSession ().isInComplete ());
+            switchNotPresent.setChecked (Kyobee.getInstance ().getMultiColumnSession ().isNotPresent ());
+
+        }*/
+
 
         btnOk.setOnClickListener (new View.OnClickListener (){
             @Override
@@ -634,7 +679,7 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
                     if (multiColumnSession.getTotalColumn () == 0){
                         spnrColumn.setBackgroundResource (R.drawable.wrong_border);
 
-                    } else if (multiColumnSession.getTotalRows () <= 0){
+                    } else if (multiColumnSession.getRowPosition () == 0){
                         spnrRow.setBackgroundResource (R.drawable.wrong_border);
 
                     } else if (multiColumnSession.getColumnName1 ().equalsIgnoreCase ("")){
@@ -655,6 +700,8 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
                         edtColumnTitle3.setBackgroundResource (R.drawable.correct_border);
 
                         alertDialog.dismiss ();
+                        multiColumnSession.setNotPresent (switchNotPresent.isChecked ());
+                        multiColumnSession.setInComplete (switchIncomplete.isChecked ());
                         Kyobee.getInstance ().setMultiColumnSession (multiColumnSession);
                         callAdapter ();
                     }
@@ -670,6 +717,10 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
                 alertDialog.dismiss ();
             }
         });
+
+        edtColumnTitle1.setText (multiColumnSession.getColumnName1 ());
+        edtColumnTitle2.setText (multiColumnSession.getColumnName2 ());
+        edtColumnTitle3.setText (multiColumnSession.getColumnName3 ());
 
 
         dismissPopUp (alertDialog);
@@ -693,10 +744,19 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
         List<ResponseGen.Record> list = new ArrayList<> ();
         LayoutInflater inflater;
 
+        boolean notPresent = true;
+        boolean inComplete = true;
+
         public DisplayRCLAdapter (Activity activity, List<ResponseGen.Record> list){
             this.activity = activity;
             this.list = list;
             inflater = (LayoutInflater) activity.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
+
+            MultiColumnSession multiColumnSession = Kyobee.getInstance ().getMultiColumnSession ();
+            if (multiColumnSession != null){
+                notPresent = Kyobee.getInstance ().getMultiColumnSession ().isNotPresent ();
+                inComplete = Kyobee.getInstance ().getMultiColumnSession ().isInComplete ();
+            }
         }
 
         @Override
@@ -729,14 +789,37 @@ public class DisplayMultiActivity extends AppCompatActivity implements RealTimeP
                 holder.imgDown.setVisibility (View.GONE);
                 holder.relativeRow.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorTransparent));
             } else if (callCount >= 1 && inCompleteParty >= 1){
-                holder.imgDown.setVisibility (View.VISIBLE);
-                holder.relativeRow.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorYellow));
+
+                if (notPresent){
+                    holder.imgDown.setVisibility (View.VISIBLE);
+                } else{
+                    holder.imgDown.setVisibility (View.GONE);
+                }
+
+                if (inComplete){
+                    holder.relativeRow.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorYellow));
+                } else{
+                    holder.relativeRow.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorTransparent));
+                }
+
+
             } else if (callCount >= 1){
-                holder.imgDown.setVisibility (View.VISIBLE);
+                if (notPresent){
+                    holder.imgDown.setVisibility (View.VISIBLE);
+                } else{
+                    holder.imgDown.setVisibility (View.GONE);
+                }
                 holder.relativeRow.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorTransparent));
+                /*holder.imgDown.setVisibility (View.VISIBLE);
+                holder.relativeRow.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorTransparent));*/
             } else if (inCompleteParty >= 1){
                 holder.imgDown.setVisibility (View.GONE);
-                holder.relativeRow.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorYellow));
+                if (inComplete){
+                    holder.relativeRow.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorYellow));
+                } else{
+                    holder.relativeRow.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorTransparent));
+                }
+                //holder.relativeRow.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorYellow));
             }
 
         }

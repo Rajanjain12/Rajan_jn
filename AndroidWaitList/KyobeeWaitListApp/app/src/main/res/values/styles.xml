@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorLightBrown</item>
         <item name="colorAccent">@color/colorLightBrown</item>
         <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyle</item>
+
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -17,6 +18,20 @@
     <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
         <item name="android:textColor">@color/colorLightBrown</item>
         <item name="android:background">@android:color/white</item>
+    </style>
+
+    <style name="SCBSwitch" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">#dc4123</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">#9b9b9b
+        </item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">#9b9b9b
+        </item>
+
     </style>
 
 
