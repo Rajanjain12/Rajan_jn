@@ -280,6 +280,8 @@ replacementString:(NSString *)string
                  
                  if(data != nil)
                  {
+                     // {"success":"-1","error":"Invalid Username or Password."}
+                     
                      NSString *htmlSTR = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                      NSLog(@"%@",htmlSTR);
                      
