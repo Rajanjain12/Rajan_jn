@@ -363,6 +363,9 @@ replacementString:(NSString *)string
                          
                          //
                          
+                         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showNotPresent"];
+                         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showIncomplete"];
+                         
                          [[NSUserDefaults standardUserDefaults] synchronize];
                          
                          viewSelectGuestMode.hidden = false;

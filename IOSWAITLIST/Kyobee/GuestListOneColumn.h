@@ -50,6 +50,9 @@
     IBOutlet UITableView *tblViewColumnsAndRows;
     IBOutlet UIButton *btnSettingsOK;
     
+    IBOutlet UIButton *btnNotPresent;
+    IBOutlet UIButton *btnIncomplete;
+    
     
     NSMutableArray *columnsArray;
     NSMutableArray *rowsArray;
@@ -67,6 +70,9 @@
 - (IBAction)btnColumns_clicked:(id)sender;
 - (IBAction)btnRows_clicked:(id)sender;
 - (IBAction)btnSettingsOK_clicked:(id)sender;
+
+- (IBAction)btnNotPresent_clicked:(id)sender;
+- (IBAction)btnIncomplete_clicked:(id)sender;
 
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *tblColRowToTop;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *heightTblColRow;
