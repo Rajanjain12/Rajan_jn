@@ -909,8 +909,11 @@
 
 - (IBAction)btnParties_clicked:(id)sender
 {
+    [tblViewParties scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    
     tblViewParties.hidden = false;
     [tblViewParties reloadData];
+    
     
     [form_View bringSubviewToFront:tblViewParties];
     
@@ -1685,7 +1688,7 @@
             
             if(btn_Cell_Phone.selected)
             {
-                NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"test", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"SMS", @"prefType",number, @"sms",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences", nil];
+                NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"SMS", @"prefType",number, @"sms",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences", nil];
                 
                 //convert object to data
                 jsonDataReq = [NSJSONSerialization dataWithJSONObject:newDatasetInfo options:kNilOptions error:&error];
@@ -1696,7 +1699,7 @@
             else
             {
                 
-                NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"test", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"EMAIL", @"prefType",txt_Phone_Or_Mail.text, @"email",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences", nil];
+                NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"EMAIL", @"prefType",txt_Phone_Or_Mail.text, @"email",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences", nil];
                 
                 //convert object to data
                 jsonDataReq = [NSJSONSerialization dataWithJSONObject:newDatasetInfo options:kNilOptions error:&error];

@@ -70,6 +70,7 @@ import com.piotrek.customspinner.CustomSpinner;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
@@ -196,7 +197,6 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
         } else{
             Utils.noInternet (activity);
         }
-
     }
 
     @Override
@@ -216,6 +216,8 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
         //Log.d (getClass ().getSimpleName (), "onGestureRecognized(" + recognizer + "). state: " + recognizer.getState ());
 
         if (operation == LOGOUT){
+            Login logIn = GSONGetSet.getLogin ();
+            realTimePush.disConnect (logIn);
             Kyobee.getInstance ().logout ();
             startActivity (new Intent (activity, LoginActivity.class));
             finish ();
@@ -272,8 +274,10 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
     @Override
     protected void onDestroy (){
         super.onDestroy ();
-        Login logIn = GSONGetSet.getLogin ();
-        realTimePush.disConnect (logIn);
+        if (Kyobee.getInstance ().isLoggedIn ()){
+            Login logIn = GSONGetSet.getLogin ();
+            realTimePush.disConnect (logIn);
+        }
     }
 
     @Override
@@ -338,7 +342,8 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
         final CheckBox chkReceive = (CheckBox) view.findViewById (R.id.chkReceive);
         CustomButtonRegular btnAddMe = (CustomButtonRegular) view.findViewById (R.id.btnAddMe);
         LinearLayout linearReceive = (LinearLayout) view.findViewById (R.id.linearReceive);
-
+        final CustomTextViewRegular txtPoor = (CustomTextViewRegular) view.findViewById (R.id.txtPoor);
+        txtPoor.setVisibility (View.GONE);
         Login logins = GSONGetSet.getLogin ();
         if (logins.getClientBase ().equalsIgnoreCase (General.ADMIN)){
             relativeTop.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorRed));
@@ -551,8 +556,9 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
                         // String json = gson.toJson (requestAddGuest);
                         // Log.d (LOGTAG, "JSON " + json);
 
-                        callAddGuest ();
-                        alertDialog.dismiss ();
+                        txtPoor.setVisibility (View.GONE);
+                        callAddGuest (txtPoor, alertDialog);
+                        //alertDialog.dismiss ();
                     }
 
                 } else{
@@ -710,7 +716,7 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
         Utils.setImageWithCatch (activity, display.getServiceResultGuest ().getImageOrgPath (), imgLogo);
     }
 
-    public void callAddGuest (){
+    public void callAddGuest (final CustomTextViewRegular txtPoorConn, final AlertDialog alertDialog){
         CustomDialog.showProgressDialog (activity, "", getString (R.string.please_wait));
         mAPIService = General.getClient ().create (APIService.class);
         Call<ResponseAddGuest> addGuest = mAPIService.addGuest (requestAddGuest);
@@ -724,6 +730,7 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
                 //  Log.d (LOGTAG, "JSON " + json);
 
                 if (responseAddGuest.getStatus ().equalsIgnoreCase (General.SUCCESS)){
+                    alertDialog.dismiss ();
                     popUpResponse (responseAddGuest);
                 } else{
                     CustomDialog.showAlertDialog (activity, "Error", responseAddGuest.getErrorDescription ());
@@ -731,9 +738,18 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
             }
 
             @Override
-            public void onFailure (Call<ResponseAddGuest> call, Throwable t){
+            public void onFailure (Call<ResponseAddGuest> call, Throwable error){
                 CustomDialog.dismissProgressDialog ();
-                Utils.checkConnection (activity, t);
+                String message = "";
+                if (error instanceof SocketTimeoutException){
+                    message = "Poor internet connection detected, Please try again.";
+                    txtPoorConn.setVisibility (View.VISIBLE);
+                    txtPoorConn.setText (message);
+                } else if (error instanceof UnknownHostException){
+                    message = activity.getString (R.string.no_internet);
+                    txtPoorConn.setVisibility (View.VISIBLE);
+                    txtPoorConn.setText (message);
+                }
             }
         });
     }

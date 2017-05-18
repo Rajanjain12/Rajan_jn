@@ -69,4 +69,9 @@
     <string name="option">Option</string>
 
     <string name="valid_phone">*VALID U.S. CELLUAR NUMBERS ONLY</string>
+    <string name="poor_connection">Poor internet connection detected, Please try again.</string>
+
+    <string name="not_present_status">Not Present</string>
+    <string name="in_complete_status">Incomplete</string>
+
 </resources>

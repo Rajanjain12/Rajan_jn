@@ -66,10 +66,12 @@
     
     
     rowsArray = [[NSMutableArray alloc] initWithCapacity:0];
-    NSArray *rwArray = [NSArray arrayWithObjects:@"25",@"30",@"35",@"40",@"45",@"50",@"55",@"60",@"65",@"70",@"75",@"80",@"85",@"90",@"95",@"100", nil];
-    [rowsArray addObjectsFromArray:rwArray];
+   /* NSArray *rwArray = [NSArray arrayWithObjects:@"25",@"30",@"35",@"40",@"45",@"50",@"55",@"60",@"65",@"70",@"75",@"80",@"85",@"90",@"95",@"100", nil];
+    [rowsArray addObjectsFromArray:rwArray];*/
     
-    
+    tblView30.userInteractionEnabled = false;
+    tblView60.userInteractionEnabled = false;
+    tblView90.userInteractionEnabled = false;
 }
 
 - (void)handleLongPressGestures:(UILongPressGestureRecognizer *)sender
@@ -193,6 +195,26 @@
     {
         lblColumnThreeName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnThreeName"];
     }
+    
+    
+    btnNotPresent.clipsToBounds = YES;
+    [btnNotPresent.layer setBorderWidth:2.0];
+    [btnNotPresent.layer setBorderColor:[UIColor colorWithRed:173.0/255.0 green:22.0/255.0 blue:45.0/255.0 alpha:1.0].CGColor];
+    [self setRoundedView:btnNotPresent toDiameter:40.0];
+    
+    btnIncomplete.clipsToBounds = YES;
+    [btnIncomplete.layer setBorderWidth:2.0];
+    [btnIncomplete.layer setBorderColor:[UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0].CGColor];
+    [self setRoundedView:btnIncomplete toDiameter:40.0];
+}
+
+-(void)setRoundedView:(UIButton *)roundedView toDiameter:(float)newSize;
+{
+    CGPoint saveCenter = roundedView.center;
+    CGRect newFrame = CGRectMake(roundedView.frame.origin.x, roundedView.frame.origin.y, newSize, newSize);
+    roundedView.frame = newFrame;
+    roundedView.layer.cornerRadius = newSize / 2.0;
+    roundedView.center = saveCenter;
 }
 
 - (void)orientationChanged:(NSNotification *)notification
@@ -662,7 +684,7 @@
             cell.lblRank.text = [NSString stringWithFormat:@"%@",[[arrayLess30 objectAtIndex:indexPath.row] valueForKey:@"rank"]];
             cell.lblName.text = [NSString stringWithFormat:@"%@",[[arrayLess30 objectAtIndex:indexPath.row] valueForKey:@"name"]];
             
-            if (![[[arrayLess30 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+            /*if (![[[arrayLess30 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
             {
                 cell.imgThumb.hidden = false;
             }
@@ -674,6 +696,44 @@
             else
             {
                 cell.backgroundColor = [UIColor clearColor];
+            }*/
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showNotPresent"] == YES)
+            {
+                if (![[[arrayLess30 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+                {
+                    cell.imgThumb.hidden = false;
+                }
+                else
+                {
+                    cell.imgThumb.hidden = true;
+                }
+            }
+            else
+            {
+                cell.imgThumb.hidden = true;
+            }
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showIncomplete"] == YES)
+            {
+                if (![[[arrayLess30 objectAtIndex:indexPath.row]valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+                {
+                    cell.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
+                    
+                    cell.contentView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
+                }
+                else
+                {
+                    cell.backgroundColor = [UIColor clearColor];
+                    
+                    cell.contentView.backgroundColor = [UIColor clearColor];
+                }
+            }
+            else
+            {
+                cell.backgroundColor = [UIColor clearColor];
+                
+                cell.contentView.backgroundColor = [UIColor clearColor];
             }
             
             
@@ -697,7 +757,7 @@
             
             
             
-            if (![[[arrayLess60 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+            /*if (![[[arrayLess60 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
             {
                 cell.imgThumb.hidden = false;
             }
@@ -709,6 +769,37 @@
             else
             {
                 cell.backgroundColor = [UIColor clearColor];
+            }*/
+            
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showNotPresent"] == true)
+            {
+                if (![[[arrayLess60 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+                {
+                    cell.imgThumb.hidden = false;
+                }
+            }
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showIncomplete"] == true)
+            {
+                if (![[[arrayLess60 objectAtIndex:indexPath.row]valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+                {
+                    cell.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
+                    
+                    cell.contentView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
+                }
+                else
+                {
+                    cell.backgroundColor = [UIColor clearColor];
+                    
+                    cell.contentView.backgroundColor = [UIColor clearColor];
+                }
+            }
+            else
+            {
+                cell.backgroundColor = [UIColor clearColor];
+                
+                cell.contentView.backgroundColor = [UIColor clearColor];
             }
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -732,7 +823,7 @@
             
             
             
-            if (![[[arrayLess90 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+            /*if (![[[arrayLess90 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
             {
                 cell.imgThumb.hidden = false;
             }
@@ -744,6 +835,36 @@
             else
             {
                 cell.backgroundColor = [UIColor clearColor];
+            }*/
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showNotPresent"] == true)
+            {
+                if (![[[arrayLess90 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+                {
+                    cell.imgThumb.hidden = false;
+                }
+            }
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showIncomplete"] == true)
+            {
+                if (![[[arrayLess90 objectAtIndex:indexPath.row]valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+                {
+                    cell.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
+                    
+                    cell.contentView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
+                }
+                else
+                {
+                    cell.backgroundColor = [UIColor clearColor];
+                    
+                    cell.contentView.backgroundColor = [UIColor clearColor];
+                }
+            }
+            else
+            {
+                cell.backgroundColor = [UIColor clearColor];
+                
+                cell.contentView.backgroundColor = [UIColor clearColor];
             }
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -822,6 +943,15 @@
                 {
                     _heightViewSubSettings.constant = 498;
                     
+                    NSArray *rwArray = [NSArray arrayWithObjects:@"25",@"30",@"35",@"40",@"45",@"50",@"55",@"60",@"65",@"70",@"75",@"80",@"85",@"90",@"95",@"100", nil];
+                    
+                    if(rowsArray.count > 0)
+                        [rowsArray removeAllObjects];
+                    
+                    [rowsArray addObjectsFromArray:rwArray];
+                    
+                    txtRows.text = @"";
+                    
                     txtColumnOne.hidden = false;
                     txtColumnTwo.hidden = true;
                     txtColumnThree.hidden = true;
@@ -840,6 +970,15 @@
                 if(indexPath.row == 2)
                 {
                     _heightViewSubSettings.constant = 578;
+                    
+                    NSArray *rwArray = [NSArray arrayWithObjects:@"25", nil];
+                    
+                    if(rowsArray.count > 0)
+                        [rowsArray removeAllObjects];
+                    
+                    [rowsArray addObjectsFromArray:rwArray];
+                    
+                    txtRows.text = @"";
                     
                     txtColumnOne.hidden = false;
                     txtColumnTwo.hidden = false;
@@ -860,6 +999,15 @@
                 if(indexPath.row == 3)
                 {
                     _heightViewSubSettings.constant = 658;
+                    
+                    NSArray *rwArray = [NSArray arrayWithObjects:@"25", nil];
+                    
+                    if(rowsArray.count > 0)
+                        [rowsArray removeAllObjects];
+                    
+                    [rowsArray addObjectsFromArray:rwArray];
+                    
+                    txtRows.text = @"";
                     
                     txtColumnOne.hidden = false;
                     txtColumnTwo.hidden = false;
@@ -1575,6 +1723,23 @@
         
         if(buttonIndex == 3)
         {
+            
+            [txtColumns.layer setBorderWidth:1.5];
+            [txtColumns.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+            
+            [txtRows.layer setBorderWidth:1.5];
+            [txtRows.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+            
+            [txtColumnOne.layer setBorderWidth:1.5];
+            [txtColumnOne.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+            
+            [txtColumnTwo.layer setBorderWidth:1.5];
+            [txtColumnTwo.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+            
+            [txtColumnThree.layer setBorderWidth:1.5];
+            [txtColumnThree.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+            
+            
             txtColumns.text = @"";
             txtRows.text = @"";
             txtColumnOne.text = @"";
@@ -1596,9 +1761,13 @@
             txtColumnTwo.placeholder = @"Enter second column name";
             txtColumnThree.placeholder = @"Enter third column name";
             
+            [[NSUserDefaults standardUserDefaults] setValue:lblColumnOneName.text forKey:@"columnOneName"];
+            [[NSUserDefaults standardUserDefaults] setValue:lblColumnTwoName.text forKey:@"columnTwoName"];
+            [[NSUserDefaults standardUserDefaults] setValue:lblColumnThreeName.text forKey:@"columnThreeName"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
             
             
-            if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfColumns"] isEqualToString:@""])
+            /*if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfColumns"] isEqualToString:@""])
             {
                 txtColumns.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfColumns"];
                 
@@ -1607,7 +1776,8 @@
             {
                 txtRows.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"];
                 
-            }
+            }*/
+            
             if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"columnOneName"] isEqualToString:@""])
             {
                 txtColumnOne.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnOneName"];
@@ -1624,6 +1794,28 @@
             }
             
             _txtColToTop.constant = 25;
+            
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showNotPresent"] == YES)
+            {
+                btnNotPresent.selected = YES;
+                [btnNotPresent setBackgroundColor:[UIColor colorWithRed:173.0/255.0 green:22.0/255.0 blue:45.0/255.0 alpha:1.0]];
+            }
+            else
+            {
+                [btnNotPresent setBackgroundColor:[UIColor whiteColor]];
+            }
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showIncomplete"] == YES)
+            {
+                btnIncomplete.selected = YES;
+                [btnIncomplete setBackgroundColor:[UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0]];
+            }
+            else
+            {
+                [btnIncomplete setBackgroundColor:[UIColor whiteColor]];
+            }
+            
             
             viewSettings.hidden = false;
         }
@@ -1642,6 +1834,7 @@
     [tblView90 reloadData];
 }
 
+
 - (IBAction)btnColumns_clicked:(id)sender
 {
     btnColumns.selected = true;
@@ -1656,15 +1849,35 @@
 
 - (IBAction)btnRows_clicked:(id)sender
 {
-    btnColumns.selected = false;
-    btnRows.selected = true;
+    if(![txtColumns.text isEqualToString:@""])
+    {
+        btnColumns.selected = false;
+        btnRows.selected = true;
+        
+        tblViewColumnsAndRows.hidden = false;
+        [tblViewColumnsAndRows reloadData];
+        
+        _tblColRowToTop.constant = 80;
+        _heightTblColRow.constant = 172;
+    }
+    else
+    {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Kyobee"
+                                                                       message:@"Please select number of columns."
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {}];
+        
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
     
-    tblViewColumnsAndRows.hidden = false;
-    [tblViewColumnsAndRows reloadData];
     
-    _tblColRowToTop.constant = 80;
-    _heightTblColRow.constant = 172;
 }
+
+
 
 - (IBAction)btnSettingsOK_clicked:(id)sender
 {
@@ -1882,6 +2095,50 @@
     }
 }
 
+- (IBAction)btnNotPresent_clicked:(id)sender
+{
+    btnNotPresent.selected = !btnNotPresent.selected;
+    
+    if(btnNotPresent.selected)
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showNotPresent"];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+        
+        [btnNotPresent setBackgroundColor:[UIColor colorWithRed:173.0/255.0 green:22.0/255.0 blue:45.0/255.0 alpha:1.0]];
+        
+        //[btn_Remember.layer setBorderColor:[UIColor colorWithRed:158.0/255.0 green:151.0/255.0 blue:141.0/255.0 alpha:1.0].CGColor];
+    }
+    else
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showNotPresent"];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+        
+        [btnNotPresent setBackgroundColor:[UIColor whiteColor]];
+    }
+}
+
+- (IBAction)btnIncomplete_clicked:(id)sender
+{
+    btnIncomplete.selected = !btnIncomplete.selected;
+    
+    if(btnIncomplete.selected)
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showIncomplete"];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+        
+        [btnIncomplete setBackgroundColor:[UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0]];
+        
+        //[btn_Remember.layer setBorderColor:[UIColor colorWithRed:158.0/255.0 green:151.0/255.0 blue:141.0/255.0 alpha:1.0].CGColor];
+    }
+    else
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showIncomplete"];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+        
+        [btnIncomplete setBackgroundColor:[UIColor whiteColor]];
+    }
+    
+}
 
 #pragma mark -
 #pragma mark - Text Field Delegate Methods

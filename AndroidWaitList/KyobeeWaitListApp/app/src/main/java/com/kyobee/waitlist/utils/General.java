@@ -32,7 +32,7 @@ public class General{
     public static final String WAIT_LIST_REST_ACTION = "kyobee/web/rest/waitlistRestAction/totalwaittimemetricks";
     public static final String ADD_GUEST = "kyobee/web/rest/waitlistRestAction/addGuest";
     public static final String CHECK_IN_USERS = "kyobee/web/rest/waitlistRestAction/checkinusers";
-    public static final String IMAGE="http://jbossdev-kyobee.rhcloud.com/static/orglogos/";
+    public static final String IMAGE=URL+"static/orglogos/";
 
     private static Retrofit retrofit = null;
 
@@ -70,7 +70,6 @@ public class General{
 
 
     // channel name
-
     public static final String OP="OP";
     public static final String ADD="ADD";
     public static final String DEL="DEL";

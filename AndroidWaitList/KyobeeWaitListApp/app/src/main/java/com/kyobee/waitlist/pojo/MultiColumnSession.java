@@ -6,12 +6,17 @@ package com.kyobee.waitlist.pojo;
 
 public class MultiColumnSession{
 
-    int totalColumn=-1;
-    int totalRows=-1;
+    int totalColumn=3;
+    int totalRows=25;
+    int rowPosition=1;
 
-    String columnName1="";
-    String columnName2="";
-    String columnName3="";
+    String columnName1="APPROX. 30 MIN. OR LESS";
+    String columnName2="APPROX. 60 MIN. OR LESS";
+    String columnName3="APPROX. 90 MIN. OR LESS";
+
+    boolean notPresent=true;
+    boolean inComplete=true;
+
 
     public int getTotalColumn (){
         return totalColumn;
@@ -51,5 +56,29 @@ public class MultiColumnSession{
 
     public void setColumnName3 (String columnName3){
         this.columnName3 = columnName3;
+    }
+
+    public boolean isNotPresent (){
+        return notPresent;
+    }
+
+    public void setNotPresent (boolean notPresent){
+        this.notPresent = notPresent;
+    }
+
+    public boolean isInComplete (){
+        return inComplete;
+    }
+
+    public void setInComplete (boolean inComplete){
+        this.inComplete = inComplete;
+    }
+
+    public int getRowPosition (){
+        return rowPosition;
+    }
+
+    public void setRowPosition (int rowPosition){
+        this.rowPosition = rowPosition;
     }
 }

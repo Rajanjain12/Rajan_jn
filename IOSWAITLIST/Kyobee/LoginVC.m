@@ -280,6 +280,8 @@ replacementString:(NSString *)string
                  
                  if(data != nil)
                  {
+                     // {"success":"-1","error":"Invalid Username or Password."}
+                     
                      NSString *htmlSTR = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                      NSLog(@"%@",htmlSTR);
                      
@@ -360,6 +362,9 @@ replacementString:(NSString *)string
                          //[[NSUserDefaults standardUserDefaults] setValue:@"1" forKey:@"userthemepref"];
                          
                          //
+                         
+                         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showNotPresent"];
+                         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showIncomplete"];
                          
                          [[NSUserDefaults standardUserDefaults] synchronize];
                          
