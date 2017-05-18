@@ -84,7 +84,8 @@
                 </div>
                   
                <div class="form-group" ng-class="{'has-error' : addGuestForm.partyOf.$invalid && (!addGuestForm.partyOf.$pristine || addGuestForm.$submitted)}">
-                    <select name="partyOf" class="form-control" ng-model="guestDTO.noOfPeople" required>
+               		<input type="number" class="form-control" placeholder="Party of." min=1 max=100 required ng-model="guestDTO.noOfPeople" name="partyOf" id="partyOf">
+                    <!-- <select name="partyOf" class="form-control" ng-model="guestDTO.noOfPeople" required>
                         <option value="" ng-selected="null == guestDTO.noOfPeople">Party of:</option>
                         <option value="1" ng-selected="1 == guestDTO.noOfPeople">Party 1</option>
                         <option value="2" ng-selected="2 == guestDTO.noOfPeople">Party 2</option>
@@ -93,10 +94,10 @@
                         <option value="5" ng-selected="5 == guestDTO.noOfPeople">Party 5</option>
                         <option value="6" ng-selected="6 == guestDTO.noOfPeople">Party 6</option>
                         <option value="7" ng-selected="7 == guestDTO.noOfPeople">Party 7</option>
-                        <option value="8" ng-selected="8 == guestDTO.noOfPeople">Party 9</option>
+                        <option value="8" ng-selected="8 == guestDTO.noOfPeople">Party 8</option>
                         <option value="9" ng-selected="9 == guestDTO.noOfPeople">Party 9</option>
                         <option value="10" ng-selected="10 == guestDTO.noOfPeople">Party 10</option>
-                    </select>
+                    </select> -->
                     <div ng-messages="addGuestForm.partyOf.$error" ng-show=" (!addGuestForm.partyOf.$pristine || addGuestForm.$submitted)" class="help-block">
 				        <div ng-message="required">Party of cannot be blank</div>
 				  </div>

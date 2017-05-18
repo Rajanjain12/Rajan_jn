@@ -152,6 +152,9 @@ public class Organization extends BaseEntity {
 	@Column(name="smsRoute")
 	private String smsRoute;
 	
+	@Column(name="smsRouteNo")
+	private String smsRouteNo;
+	
 	public String getSmsSignature() {
 		return smsSignature;
 	}
@@ -173,6 +176,16 @@ public class Organization extends BaseEntity {
 
 
 	
+	public String getSmsRouteNo() {
+		return smsRouteNo;
+	}
+
+
+	public void setSmsRouteNo(String smsRouteNo) {
+		this.smsRouteNo = smsRouteNo;
+	}
+
+
 	public Long getOrganizationId() {
 		return organizationId;
 	}

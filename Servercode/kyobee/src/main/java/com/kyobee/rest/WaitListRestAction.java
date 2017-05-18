@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bandwidth.sdk.model.events.SmsEvent;
 import com.kyobee.dto.GuestDTO;
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.WaitlistMetrics;
@@ -333,6 +334,7 @@ public class WaitListRestAction {
 			guestObj.setStatus(guest.getStatus());
 			guestObj.setPrefType(guest.getPrefType());
 			guestObj.setIncompleteParty(guest.getIncompleteParty());
+			guestObj.setCheckinTime(guest.getCheckinTime());
 			/*if(null != guest.getGuestPreferences()) {
 			GuestPreferencesDTO guestPref = null;
 			List<GuestPreferencesDTO> guestPreferences = new ArrayList<GuestPreferencesDTO>(guest.getGuestPreferences().size());
@@ -624,9 +626,11 @@ public class WaitListRestAction {
 	@RequestMapping(value = "/history", method = RequestMethod.GET, produces = "application/json")
 	//changed for history pagination
 	//public String fetchGuestsHistory(@QueryParam("orgid") Long orgid){
-	public Response<PaginatedResponse<GuestDTO>> fetchGuestsHistory(@RequestParam("orgid") Long orgid, @RequestParam String pagerReqParam) {
-		log.info("Entering :: fetchGuestsHistory ::orgid "+orgid);
-		
+	public Response<PaginatedResponse<GuestDTO>> fetchGuestsHistory(
+			@RequestParam("orgid") Long orgid,
+			@RequestParam("statusOption") String statusOption,
+			@RequestParam String pagerReqParam) {
+		log.info("Entering :: fetchGuestsHistory ::orgid "+orgid);		
 		Response<PaginatedResponse<GuestDTO>> response = new Response<PaginatedResponse<GuestDTO>>();
 		List<GuestDTO> guestDTOs = null;
 		PaginatedResponse<GuestDTO> paginatedResponse = new PaginatedResponse<GuestDTO>();
@@ -642,9 +646,9 @@ public class WaitListRestAction {
 			ObjectMapper mapper = new ObjectMapper();
 			PaginationReqParam paginationReqParam = mapper.readValue(pagerReqParam, PaginationReqParam.class);
 			guestPreferenceMap = getGuestSeatingPrefMap();
-			guests = waitListService.loadGuestsHistoryByOrgRecords(orgid,paginationReqParam.getPageSize(), paginationReqParam.getPageNo());
+			guests = waitListService.loadGuestsHistoryByOrgRecords(orgid,paginationReqParam.getPageSize(), paginationReqParam.getPageNo(),statusOption);
 			
-			Long guestsTotalCount = waitListService.getHistoryUsersCountForOrg(orgid);
+			Long guestsTotalCount = waitListService.getHistoryUsersCountForOrg(orgid,statusOption);
 			
 			if(null != guests && guests.size()>0){
 				guestDTOs = new ArrayList<GuestDTO>(guests.size());
@@ -1333,5 +1337,11 @@ public class WaitListRestAction {
 		}
 	}
 
-
+	@RequestMapping(value = "/callbackBW", method = RequestMethod.POST,consumes= "application/json")
+	public void callbackBW(
+			@RequestBody SmsEvent smsEvent) {
+		
+		System.out.println("callback test successful" + smsEvent.getMessageId());
+	}
+	
 }

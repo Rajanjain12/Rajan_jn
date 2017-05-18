@@ -24,6 +24,7 @@ public class GuestNotificationBean implements Serializable{
 	private Long orgId;
 	private String smsSignature;
 	private String smsRoute;
+	private String smsRouteNo;
 	private String clientBase;
 
 	public String getSmsSignature() {
@@ -39,6 +40,12 @@ public class GuestNotificationBean implements Serializable{
 		this.smsRoute = smsRoute;
 	}
 	
+	public String getSmsRouteNo() {
+		return smsRouteNo;
+	}
+	public void setSmsRouteNo(String smsRouteNo) {
+		this.smsRouteNo = smsRouteNo;
+	}
 	public Long getOrgId() {
 		return orgId;
 	}

@@ -74,7 +74,8 @@ KyobeeControllers.controller('guestCtrl',
 							return;
 						}
 						
-						if( $scope.userDTO.smsRoute != null && $scope.userDTO.smsRoute != '' && ( $scope.guestDTO.prefType == null || $scope.guestDTO.prefType == 'undefined' )){
+						//if( $scope.userDTO.smsRoute != null && $scope.userDTO.smsRoute != '' && ( $scope.guestDTO.prefType == null || $scope.guestDTO.prefType == 'undefined' )){
+						if($scope.userDTO.smsRoute != null && $scope.userDTO.smsRoute != '' && ( $scope.guestDTO.prefType == null || $scope.guestDTO.prefType == 'undefined' )){
 							$scope.errorMsg = "Please select sms or email";
 							$scope.loading=false;
 							return;
@@ -129,7 +130,8 @@ KyobeeControllers.controller('guestCtrl',
 							return;
 						}
 						
-						if($scope.guestDTO.prefType == null || $scope.guestDTO.prefType == 'undefined'){
+						//if($scope.guestDTO.prefType == null || $scope.guestDTO.prefType == 'undefined'){
+						if($scope.userDTO.smsRoute != null && $scope.userDTO.smsRoute != '' && ( $scope.guestDTO.prefType == null || $scope.guestDTO.prefType == 'undefined' )){
 							$scope.errorMsg = "Please select sms or email";
 							$scope.loading=false;
 							return;
@@ -186,6 +188,7 @@ KyobeeControllers.controller('guestCtrl',
 									console.log("Updated data "+JSON.stringify(data));
 									if (data.status == "SUCCESS") {
 										$scope.guestDTO = data.serviceResult;
+										console.log($scope.guestDTO);
 										$scope.guestPref = angular.copy($scope.seatPrefs);
 										if($scope.guestDTO.guestPreferences!=null)
 										for(var i=0;i< $scope.guestDTO.guestPreferences.length;i++){
