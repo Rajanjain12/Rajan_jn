@@ -18,6 +18,8 @@
 #import "GuestListOneColumn.h"
 #import "KyobeeGuestList.h"
 
+#import "GuestListFourthColumn.h"
+
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
@@ -99,6 +101,15 @@
                         [[NSUserDefaults standardUserDefaults] synchronize];
                         
                         [self.navController pushViewController:kyobeeGuestList animated:YES];
+                    }
+                    if([[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfColumns"] isEqualToString:@"4"])
+                    {
+                        GuestListFourthColumn *guestListFourthColumn = [[GuestListFourthColumn alloc] initWithNibName:@"GuestListFourthColumn" bundle:nil];
+                        
+                        [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"fromBack"];
+                        [[NSUserDefaults standardUserDefaults] synchronize];
+                        
+                        [self.navController pushViewController:guestListFourthColumn animated:YES];
                     }
                     
                 }

@@ -51,11 +51,20 @@
     IBOutlet UITextField *txtColumnOne;
     IBOutlet UITextField *txtColumnTwo;
     IBOutlet UITextField *txtColumnThree;
+    
+    IBOutlet UITextField *txtColumnFour;
+    
     IBOutlet UITableView *tblViewColumnsAndRows;
     IBOutlet UIButton *btnSettingsOK;
     
     IBOutlet UIButton *btnNotPresent;
     IBOutlet UIButton *btnIncomplete;
+    
+    IBOutlet UILabel *lblPartyOne;
+    IBOutlet UILabel *lblPartyTwo;
+    
+    IBOutlet UIButton *btnShowParty;
+    
     
     NSMutableArray *columnsArray;
     NSMutableArray *rowsArray;
@@ -76,6 +85,8 @@
 
 - (IBAction)btnNotPresent_clicked:(id)sender;
 - (IBAction)btnIncomplete_clicked:(id)sender;
+
+- (IBAction)btnShowParty_clicked:(id)sender;
 
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *tblColRowToTop;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *heightTblColRow;
