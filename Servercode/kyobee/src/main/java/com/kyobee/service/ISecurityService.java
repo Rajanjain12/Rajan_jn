@@ -6,6 +6,7 @@ import com.kyobee.dto.UserDTO;
 import com.kyobee.dto.common.Credential;
 import com.kyobee.entity.Organization;
 import com.kyobee.entity.User;
+import com.kyobee.exception.NoSuchUsernameException;
 import com.kyobee.exception.RsntException;
 
 public interface ISecurityService {
@@ -35,7 +36,7 @@ public interface ISecurityService {
 	 
 	 public void addRoleProtectedObjMapping(Long roleId, List<String> protectedObjectList, String user)  throws RsntException;
 
-	List<Object[]> loginCredAuth(String userName, String password);
+	List<Object[]> loginCredAuth(String userName, String password) throws NoSuchUsernameException;
 	
 	public Boolean isDuplicateUser(String userName) throws RsntException;
 

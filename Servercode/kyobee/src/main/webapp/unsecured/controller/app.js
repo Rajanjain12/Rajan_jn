@@ -10,8 +10,11 @@ KyobeeAppUnsecured.config([ '$routeProvider', function($routeProvider) {
 	}).when('/signup', {
 		templateUrl : 'signup.html',
 		controller : 'homeCtrl'
-	}).when('/s', {
-		templateUrl : 'guestcheckin.html',
+	}).when('/s/:tid', {
+		templateUrl : function(params) {
+			return 'guestcheckin.html?tid='+params.tid;
+		},
+		//templateUrl : 'guestcheckin.html',
 		controller : 'guestDetailCtrl'
 	}).otherwise({
 		redirectTo : '/login'

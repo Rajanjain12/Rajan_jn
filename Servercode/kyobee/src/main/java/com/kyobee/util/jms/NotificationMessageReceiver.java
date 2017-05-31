@@ -20,6 +20,8 @@ import com.amazonaws.services.sns.AmazonSNSClient;
 import com.amazonaws.services.sns.model.MessageAttributeValue;
 import com.amazonaws.services.sns.model.PublishRequest;
 import com.amazonaws.services.sns.model.PublishResult;
+import com.bandwidth.sdk.BandwidthClient;
+import com.bandwidth.sdk.model.ReceiptRequest;
 import com.kyobee.entity.GuestNotificationBean;
 import com.kyobee.exception.RsntException;
 import com.kyobee.util.EmailUtil;
@@ -29,6 +31,9 @@ import com.kyobee.util.pusher.factory.PusherFactory;
 import com.telerivet.Project;
 import com.telerivet.TelerivetAPI;
 import com.telerivet.Util;
+
+/*import com.bandwidth.sdk.*;*/
+
 
 @Component(value = "notificationMessageReceiver")
 public class NotificationMessageReceiver implements MessageListener{
@@ -120,7 +125,7 @@ public class NotificationMessageReceiver implements MessageListener{
 			System.out.println("+get pref type---"+guestNotificationBean.getPrefType());
 
 			if(guestNotificationBean.getPrefType().equalsIgnoreCase(Constants.RSNT_SMS)){
-				sendSMStoGuest(guestNotificationBean.getSms(), guestNotificationBean.getUuid(),msg1 + msg2, guestNotificationBean.getOrgId(),guestNotificationBean.getSmsRoute());
+				sendSMStoGuest(guestNotificationBean.getSms(), guestNotificationBean.getUuid(),msg1 + msg2, guestNotificationBean.getOrgId(),guestNotificationBean.getSmsRoute(),guestNotificationBean.getSmsRouteNo());
 				//sendSMStoGuest(guest.getSms(), guest.getUuid(),msg2);
 			}else if(guestNotificationBean.getPrefType().equalsIgnoreCase("email")){
 				sendMail(guestNotificationBean.getEmail(), msg1+emailMsg2,subject);//changed from msg2 to emailMsg2
@@ -215,11 +220,14 @@ public class NotificationMessageReceiver implements MessageListener{
 		}*/
 	}
 
-	public void sendSMStoGuest(String number, String uuid, String msg, Long orgID, String smsRoute) {
+	public void sendSMStoGuest(String number, String uuid, String msg, Long orgID, String smsRoute,String smsRouteNo) {
 		//String PROJECT_API_KEY = System.getProperty("sms.api.key");//"uCa1TCCMti3B9buAZGTIaBYGfOzb7C60";
 		//String PROJECT_ID = System.getProperty("sms.project.id");//"PJe726ee67deeb1949";
 		if(smsRoute.equalsIgnoreCase("AWS"))
 			sendSMSToGuestViaAWS(number,msg);
+		else if(smsRoute.equalsIgnoreCase("Bandwidth")) {
+			sendSMSToGuestViaBW(number,msg,smsRouteNo);
+		}
 		else {
 			
 			try {
@@ -238,6 +246,21 @@ public class NotificationMessageReceiver implements MessageListener{
 		}
 	}
 	
+	
+	private void sendSMSToGuestViaBW(String toNumber,String msg,String smsRouteNo) {
+		// TODO Auto-generated method stub		
+		try {
+			BandwidthClient.getInstance().setCredentials("u-64pesbby7g33ad5n7zl3pli", "t-b7p63jg2qqalyjdcmu2xlea", "bgcrgrjx2kuhu44vspfe2mc4ozmaodem7dd7a3q");
+			ReceiptRequest receiptRequest = ReceiptRequest.ALL;
+			
+			com.bandwidth.sdk.model.Message message = com.bandwidth.sdk.model.Message.create("+1"+toNumber, smsRouteNo, msg, receiptRequest);
+			System.out.println(message);
+			//com.bandwidth.sdk.model.Message message = com.bandwidth.sdk.model.Message.create("+1"+toNumber, "+16573314616", msg);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	public void sendSMSToGuestViaAWS(String phoneNumber, String msg) {
 		// TODO Auto-generated method stub
@@ -292,9 +315,9 @@ public class NotificationMessageReceiver implements MessageListener{
 		}*/
 		
 		if("admin".equals(clientBase)){
-			url = adminURL + "/s?tid=" + uuid;;
+			url = adminURL + "/s/" + uuid;;
 		} else if ("advantech".equals(clientBase)){
-			url = advantechURL + "/s?tid=" + uuid;;
+			url = advantechURL + "/s/" + uuid;;
 		} else {
 			url = urlInitial + clientBase + "." + urlSuffix + uuid;
 		}

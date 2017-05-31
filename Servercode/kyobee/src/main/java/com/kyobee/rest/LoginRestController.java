@@ -21,6 +21,7 @@ import com.kyobee.dto.common.Credential;
 import com.kyobee.dto.common.Response;
 import com.kyobee.entity.Organization;
 import com.kyobee.entity.User;
+import com.kyobee.exception.NoSuchUsernameException;
 import com.kyobee.exception.RsntException;
 import com.kyobee.service.IOrganizationService;
 import com.kyobee.service.ISecurityService;
@@ -103,36 +104,45 @@ public class LoginRestController {
 	@RequestMapping(value = "/loginCredAuth", method = RequestMethod.GET, produces = "application/json")
 	public String loginCredAuth(@RequestParam String username, @RequestParam String password){
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
-		List<Object[]>  result = securityService.loginCredAuth(username, password);
-   		Object[] loginDetail = result.get(0);
-   		
-		if(loginDetail[0].toString().equals(CommonUtil.encryptPassword(password))){
-			System.out.println("password--"+loginDetail[0].toString());
-			System.out.println("OrgId--"+loginDetail[1].toString());
-			System.out.println("logofile name--"+loginDetail[2].toString());
-			if(loginDetail[4]!=null)
-				System.out.println("sms route--"+loginDetail[4].toString());
-			
-			rootMap.put("OrgId",loginDetail[1].toString());
-			rootMap.put("logofile name",loginDetail[2].toString());
-			rootMap.put("clientBase",loginDetail[3].toString());
-			if(loginDetail[4]!=null)
-				rootMap.put("smsRoute", loginDetail[4].toString());
-			else
-				rootMap.put("smsRoute", loginDetail[4]);
-			
-			List<GuestPreferencesDTO> searPref =  null;
-			try {
-				searPref=	waitListService.getOrganizationSeatingPref(Long.valueOf(loginDetail[1].toString()).longValue());
-				rootMap.put("success", "0");
-				rootMap.put("seatpref",searPref);
-			}catch(Exception e){
-				System.out.println(e);
-			}
-		}else{
-			rootMap.put("success", "-1");
-			rootMap.put(Constants.RSNT_ERROR, "Invalid Username or Password.");
+		try {
+			List<Object[]>  result = securityService.loginCredAuth(username, password);
+	   		Object[] loginDetail = result.get(0);
+	   		
+			if(loginDetail[0].toString().equals(CommonUtil.encryptPassword(password))){
+				/*System.out.println("password--"+loginDetail[0].toString());
+				System.out.println("OrgId--"+loginDetail[1].toString());
+				System.out.println("logofile name--"+loginDetail[2].toString());
+				if(loginDetail[4]!=null)
+					System.out.println("sms route--"+loginDetail[4].toString());*/
+				
+				rootMap.put("OrgId",loginDetail[1].toString());
+				rootMap.put("logofile name",loginDetail[2].toString());
+				rootMap.put("clientBase",loginDetail[3].toString());
+				if(loginDetail[4]!=null)
+					rootMap.put("smsRoute", loginDetail[4].toString());
+				else
+					rootMap.put("smsRoute", loginDetail[4]);
+				
+				List<GuestPreferencesDTO> searPref =  null;
+				try {
+					searPref=	waitListService.getOrganizationSeatingPref(Long.valueOf(loginDetail[1].toString()).longValue());
+					rootMap.put("success", "0");
+					rootMap.put("seatpref",searPref);
+				}catch(Exception e){
+					System.out.println(e);
+				}
+			}else{
+				rootMap.put("success", "-1");
+				rootMap.put(Constants.RSNT_ERROR, "Invalid Username or Password.");
 
+			}
+		}catch(NoSuchUsernameException ne) {
+			rootMap.put("success", "-1");
+			rootMap.put(Constants.RSNT_ERROR, ne.getMessage());
+		}catch(Exception e) {
+			rootMap.put("success", "-1");
+			rootMap.put(Constants.RSNT_ERROR, "Something wrong occurred");
+			System.out.println(e.getMessage());
 		}
 		
 		

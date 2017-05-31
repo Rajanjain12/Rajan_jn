@@ -1310,3 +1310,12 @@ label.sm-txt {
     display: inline-block;
     width: 100%;
 }
+/*
+For CheckinTime label on Add guest page 
+By : Ruchi Vakharia
+*/
+.user-checkin {
+    font-size: 17px;
+    font-weight: 100;
+    color: #bbb;
+}

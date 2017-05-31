@@ -7,10 +7,15 @@
 			<div class="pull-left">
 				<a href="javascript:void(0);" class="theme-fontcolor" id="waittimebtn" style="padding: 0 10px; cursor:pointer; font-weight:bold; text-decoration: underline;">Show Wait Time Settings</a>
 			</div>
-			
+									
 			<div class="pull-right">
 				<h5 ng-show="showHistory == false" style="margin-bottom:5px;"><a style="padding: 0 10px; cursor:pointer; font-weight:bold; text-decoration: underline;" class="theme-fontcolor" ng-click="toggleShowHistory();">Show History</a></h5>
 				<h5 ng-show="showHistory == true" style="margin-bottom:5px;"><a style="padding: 0 10px; cursor:pointer; font-weight:bold; text-decoration: underline;" class="theme-fontcolor" ng-click="toggleShowHistory();">Hide History</a></h5>
+			</div>
+			
+			<div class="col-md-2 col-md-offset-10 col-sm-2 col-sm-offset-10 col-xs-12" ng-show="showHistory == true">
+				<select name="statusOptions" ng-change="loadHistoryPage(1)" ng-model="selectedStatus" class="form-control" ng-model="" ng-options="status for status in statusOptions" required>
+                </select> 
 			</div>
 			
 		</div>

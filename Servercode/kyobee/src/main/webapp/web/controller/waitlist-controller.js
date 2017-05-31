@@ -30,6 +30,9 @@ KyobeeControllers.controller('waitListCtrl',
 					
 					$scope.successMsg = null;
 					
+					$scope.statusOptions=["All","Not Present","Incomplete"];
+					$scope.selectedStatus=$scope.statusOptions[0];
+					
 					$scope.hideSuccessMsg = function(){
 						$scope.successMsg = null;
 					};
@@ -41,6 +44,7 @@ KyobeeControllers.controller('waitListCtrl',
 							$scope.loadWaitListPage(1);
 						}else {
 							$scope.showHistory = true;
+							$scope.selectedStatus=$scope.statusOptions[0];
 							$scope.loadHistoryPage(1);
 							// Load History
 						}						
@@ -135,7 +139,7 @@ KyobeeControllers.controller('waitListCtrl',
 					};
 					
 					$scope.loadHistoryPage = function(pageNo) {
-						
+						debugger;
 						$scope.pagerRequest = {
 								filters : null,
 								sort : null,
@@ -144,8 +148,11 @@ KyobeeControllers.controller('waitListCtrl',
 								pageNo : pageNo
 						}
 						
+						console.log($scope.selectedStatus);
+						
 						var postBody = {
 								orgid : $scope.userDTO.organizationId,
+								statusOption: $scope.selectedStatus,
 								pagerReqParam : $scope.pagerRequest
 						};
 						

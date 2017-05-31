@@ -24,18 +24,21 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.swing.text.StyleContext.SmallAttributeSet;
 
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.jdbc.ReturningWork;
 import org.hibernate.jdbc.Work;
+import org.hibernate.transform.AliasToBeanResultTransformer;
+import org.hibernate.type.StringType;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kyobee.dto.GuestPreferencesDTO;
-
+import com.kyobee.dto.SMSDetailsWrapper;
 import com.kyobee.dto.WaitlistMetrics;
 import com.kyobee.entity.Guest;
 import com.kyobee.entity.GuestNotificationBean;
@@ -580,12 +583,13 @@ public class WaitListServiceImpl implements IWaitListService {
 					connection.createQueueSession(false, QueueSession.AUTO_ACKNOWLEDGE);
 			QueueSender sender = session.createSender(queue);*/
 			
-			Map<String, Object> rootMap =  getSMSDetail(guestNotificationBean.getOrgId());
-			guestNotificationBean.setSmsRoute(rootMap.get("smsRoute").toString());
-			guestNotificationBean.setSmsSignature(rootMap.get("smsSignature").toString());
-
-			System.out.println("-----------------------"+rootMap.get("smsRoute").toString());
-			System.out.println("-----------------------"+ rootMap.get("smsSignature"));
+			SMSDetailsWrapper smsDetails  =  getSMSDetail(guestNotificationBean.getOrgId());
+			guestNotificationBean.setSmsRoute(smsDetails.getSmsRoute());
+			guestNotificationBean.setSmsSignature(smsDetails.getSmsSignature());			
+			guestNotificationBean.setSmsRouteNo(smsDetails.getSmsRouteNo());
+				
+			System.out.println("-----------------------"+smsDetails.getSmsRoute());
+			System.out.println("-----------------------"+ smsDetails.getSmsSignature());
 
 			//ObjectMessage objectMessage = 
 			//		session.createObjectMessage(guestNotificationBean);
@@ -606,11 +610,24 @@ public class WaitListServiceImpl implements IWaitListService {
 		}
 	}
 	
-	public Map<String, Object> getSMSDetail(Long orgID){
-		Map<String, Object> rootMap = new LinkedHashMap<String, Object>();		
+	public SMSDetailsWrapper getSMSDetail(Long orgID){
+		/*Map<String, Object> rootMap = new LinkedHashMap<String, Object>();*/		
+		SMSDetailsWrapper smsDetails=null;
 		try{
-				
-			Object smsSignature = sessionFactory.getCurrentSession().createSQLQuery("SELECT smsSignature FROM ORGANIZATION where OrganizationID =:orgId").setParameter("orgId", orgID)
+			SQLQuery query =sessionFactory.getCurrentSession().createSQLQuery("SELECT smsSignature,smsRoute,smsRouteNo FROM ORGANIZATION where OrganizationID =:orgId");
+			query.setParameter("orgId", orgID);
+			query.addScalar("smsSignature", StringType.INSTANCE);
+			query.addScalar("smsRoute", StringType.INSTANCE);
+			query.addScalar("smsRouteNo", StringType.INSTANCE);
+			
+			smsDetails =  (SMSDetailsWrapper) (query.setResultTransformer(
+					new AliasToBeanResultTransformer(SMSDetailsWrapper.class)).uniqueResult());
+			System.out.println(smsDetails);
+			/*rootMap.put("smsSignature", smsDetails.getSmsSignature());
+			rootMap.put("smsRoute", smsDetails.getSmsRoute());
+			rootMap.put("smsRouteNo", smsDetails.getSmsRouteNo());*/
+			
+			/*Object smsSignature = sessionFactory.getCurrentSession().createSQLQuery("SELECT smsSignature FROM ORGANIZATION where OrganizationID =:orgId").setParameter("orgId", orgID)
 			.uniqueResult();
 			System.out.println(smsSignature.toString());
 			rootMap.put("smsSignature", smsSignature.toString());
@@ -618,12 +635,12 @@ public class WaitListServiceImpl implements IWaitListService {
 			String smsRoute = sessionFactory.getCurrentSession().createSQLQuery("SELECT smsRoute FROM ORGANIZATION where OrganizationID =:orgId").setParameter("orgId", orgID)
 					.uniqueResult().toString();			
 			rootMap.put("smsRoute", smsRoute.toString());
-
+*/
 			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		return rootMap;
+		return smsDetails;
 	}
 	
 	// TODO - Uncomment below method once JMS is configured. - rohit
@@ -1369,14 +1386,25 @@ public class WaitListServiceImpl implements IWaitListService {
 	 +	 * @see com.rsnt.service.IWaitListService#loadGuestsHistoryByOrgRecords(java.lang.Long, int, int)
 	 +	 *
 	 +	 *this method is load for get history with pagination create by ronak
+	 		HQL_GET_GUESTS_HISTORY was used before adding dropdown for All,callcount and incomplete
 	 +	 */
 	 	@SuppressWarnings("unchecked")
 	 	@Override
-	 	public List<Guest> loadGuestsHistoryByOrgRecords(Long orgid, int recordsPerPage, int pageNumber) throws RsntException {
+	 	public List<Guest> loadGuestsHistoryByOrgRecords(Long orgid, int recordsPerPage, int pageNumber,String statusOption) throws RsntException {
 	 		try {
 	 			int firstPage = (pageNumber == 1) ? 0 : (recordsPerPage*(pageNumber-1));
-	 
-	 			return sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUESTS_HISTORY)
+	 			StringBuffer query=new StringBuffer("FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
+	 					+ " and g.OrganizationID=:orgId");
+	 			if(statusOption.equals("Not Present")) {
+	 				query=query.append(" and calloutCount > 0");
+	 			}
+	 			if(statusOption.equals("Incomplete")) {
+	 				query=query.append(" and incompleteParty > 0");
+	 			}
+	 			query=query.append(" order by g.rank asc");
+	 			System.out.println("Query : "+ query);
+	 			//HQL_GET_GUESTS_HISTORY
+	 			return sessionFactory.getCurrentSession().createQuery(query.toString())
 	 					.setParameter(Constants.RSNT_ORG_ID,orgid).setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
 	 		} catch (Exception e) {
 	 			log.error("loadGuestsHistoryByOrg()", e);
@@ -1384,10 +1412,25 @@ public class WaitListServiceImpl implements IWaitListService {
 	 		}
 	 	}
 	 	
+	 	/*
+	 	 * (non-Javadoc)
+	 	 * @see com.kyobee.service.IWaitListService#getHistoryUsersCountForOrg(java.lang.Long, java.lang.String)
+	 	 *changed query from HQL_GET_GUESTS_COUNT_HISTORY as dropdown is needed for All,callcount and incomplete
+	 	 */
 	 	@Override
-		public Long getHistoryUsersCountForOrg(Long orgid) throws RsntException{
+		public Long getHistoryUsersCountForOrg(Long orgid,String statusOption) throws RsntException{
 			try {
-				return (Long) sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUESTS_COUNT_HISTORY)
+				StringBuffer query=new StringBuffer("select count(*) FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
+	 					+ " and g.OrganizationID=:orgId");
+	 			if(statusOption.equals("Not Present")) {
+	 				query=query.append(" and calloutCount > 0");
+	 			}
+	 			if(statusOption.equals("Incomplete")) {
+	 				query=query.append(" and incompleteParty > 0");
+	 			}
+	 			query=query.append(" order by g.rank asc");
+	 			System.out.println("Query : "+ query);
+				return (Long) sessionFactory.getCurrentSession().createQuery(query.toString())
 						.setParameter(Constants.RSNT_ORG_ID,orgid).uniqueResult();
 			} catch (Exception e) {
 				log.error("loadAllCheckinUsers()", e);
