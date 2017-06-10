@@ -1,8 +1,8 @@
 //
-//  KyobeeGuestList.h
+//  GuestListFourthColumn.h
 //  Kyobee
 //
-//  Created by Mayur Pandya on 28/03/17.
+//  Created by Mayur Pandya on 16/05/17.
 //
 //
 
@@ -12,7 +12,7 @@
 
 #import "AppDelegate.h"
 
-@interface KyobeeGuestList : UIViewController<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate,OrtcClientDelegate>
+@interface GuestListFourthColumn : UIViewController<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate,OrtcClientDelegate>
 {
     
     AppDelegate *appDelegate;
@@ -23,15 +23,17 @@
     NSMutableArray *arrayLess60;
     NSMutableArray *arrayLess90;
     
+    NSMutableArray *arrayLess120;
+    
     IBOutlet UIImageView *imgResto;
     
     IBOutlet UITableView *tblView30;
     IBOutlet UITableView *tblView60;
     IBOutlet UITableView *tblView90;
     
-    IBOutlet UILabel *lblNoUser30;
-    IBOutlet UILabel *lblNoUser60;
-    IBOutlet UILabel *lblNoUser90;
+    IBOutlet UITableView *tblView120;
+    
+    
     
     
     IBOutlet UILabel *lblCopyright;
@@ -45,6 +47,13 @@
     IBOutlet UILabel *lblColumnOneName;
     IBOutlet UILabel *lblColumnTwoName;
     IBOutlet UILabel *lblColumnThreeName;
+    
+    IBOutlet UILabel *lblColumnFourName;
+    
+    IBOutlet UILabel *lblGuestOne;
+    IBOutlet UILabel *lblGuestTwo;
+    IBOutlet UILabel *lblGuestThree;
+    IBOutlet UILabel *lblGuestFour;
     
     
     IBOutlet UIView *viewSettings;
@@ -68,6 +77,8 @@
     IBOutlet UILabel *lblPartyOne;
     IBOutlet UILabel *lblPartyTwo;
     IBOutlet UILabel *lblPartyThree;
+    
+    IBOutlet UILabel *lblPartyFour;
     
     IBOutlet UIButton *btnShowParty;
     
@@ -104,6 +115,12 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *colOneGuestLead;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *colTwoGuestLead;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *colThreeGuestLead;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *colFourGuestLead;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *partyOneLead;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *partyTwoLead;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *partyThreeLead;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *partyFourLead;
 
 //**
+
 @end

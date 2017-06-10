@@ -53,6 +53,8 @@
 		48B907EA1E52151000AFD2A9 /* imgRefresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 48B907E71E52150F00AFD2A9 /* imgRefresh.png */; };
 		48B907EB1E52151000AFD2A9 /* imgRefresh@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48B907E81E52151000AFD2A9 /* imgRefresh@2x.png */; };
 		48B907EC1E52151000AFD2A9 /* imgRefresh@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48B907E91E52151000AFD2A9 /* imgRefresh@3x.png */; };
+		48E4A7AA1ECAC74D00C69541 /* GuestListFourthColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = 48E4A7A81ECAC74D00C69541 /* GuestListFourthColumn.m */; };
+		48E4A7AB1ECAC74D00C69541 /* GuestListFourthColumn.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48E4A7A91ECAC74D00C69541 /* GuestListFourthColumn.xib */; };
 		48F5E2EC1E23FADF006B4AEC /* imgRememberSel.png in Resources */ = {isa = PBXBuildFile; fileRef = 48F5E2E61E23FADF006B4AEC /* imgRememberSel.png */; };
 		48F5E2ED1E23FADF006B4AEC /* imgRememberSel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48F5E2E71E23FADF006B4AEC /* imgRememberSel@2x.png */; };
 		48F5E2EE1E23FADF006B4AEC /* imgRememberSel@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 48F5E2E81E23FADF006B4AEC /* imgRememberSel@3x.png */; };
@@ -203,6 +205,9 @@
 		48B907E71E52150F00AFD2A9 /* imgRefresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imgRefresh.png; sourceTree = "<group>"; };
 		48B907E81E52151000AFD2A9 /* imgRefresh@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "imgRefresh@2x.png"; sourceTree = "<group>"; };
 		48B907E91E52151000AFD2A9 /* imgRefresh@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "imgRefresh@3x.png"; sourceTree = "<group>"; };
+		48E4A7A71ECAC74D00C69541 /* GuestListFourthColumn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuestListFourthColumn.h; sourceTree = "<group>"; };
+		48E4A7A81ECAC74D00C69541 /* GuestListFourthColumn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuestListFourthColumn.m; sourceTree = "<group>"; };
+		48E4A7A91ECAC74D00C69541 /* GuestListFourthColumn.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GuestListFourthColumn.xib; sourceTree = "<group>"; };
 		48F5E2E61E23FADF006B4AEC /* imgRememberSel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imgRememberSel.png; sourceTree = "<group>"; };
 		48F5E2E71E23FADF006B4AEC /* imgRememberSel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "imgRememberSel@2x.png"; sourceTree = "<group>"; };
 		48F5E2E81E23FADF006B4AEC /* imgRememberSel@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "imgRememberSel@3x.png"; sourceTree = "<group>"; };
@@ -482,6 +487,16 @@
 			name = GuestListOneColumn;
 			sourceTree = "<group>";
 		};
+		48E4A7A61ECAC70200C69541 /* GuestListFourthColumn */ = {
+			isa = PBXGroup;
+			children = (
+				48E4A7A71ECAC74D00C69541 /* GuestListFourthColumn.h */,
+				48E4A7A81ECAC74D00C69541 /* GuestListFourthColumn.m */,
+				48E4A7A91ECAC74D00C69541 /* GuestListFourthColumn.xib */,
+			);
+			name = GuestListFourthColumn;
+			sourceTree = "<group>";
+		};
 		48F5EE2D1DE0B61C00F44EC9 /* SDWebImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -564,6 +579,7 @@
 				48114DC31E8A6FD600597496 /* KyobeeGuestList */,
 				480B997D1E925CEF002EE9AA /* GuestListTwoColumn */,
 				48AE93701E92660400D0172A /* GuestListOneColumn */,
+				48E4A7A61ECAC70200C69541 /* GuestListFourthColumn */,
 				7ABB2FAF1D8C1BE3000882B1 /* Main.storyboard */,
 				7ABB2FB21D8C1BE3000882B1 /* Assets.xcassets */,
 				7ABB2FB41D8C1BE3000882B1 /* LaunchScreen.storyboard */,
@@ -768,6 +784,7 @@
 				48434DFE1E8D117F009A82A7 /* imgRefreshGray@3x.png in Resources */,
 				7ABB2FB31D8C1BE3000882B1 /* Assets.xcassets in Resources */,
 				48114DD91E8A751800597496 /* SFDisplay-Semibold.otf in Resources */,
+				48E4A7AB1ECAC74D00C69541 /* GuestListFourthColumn.xib in Resources */,
 				48434DF71E8D10A9009A82A7 /* imgRefreshGray1@2x.png in Resources */,
 				7ABB300A1D8C1F62000882B1 /* img_login_field.png in Resources */,
 				7ABB2FC41D8C1C7C000882B1 /* LoginVC.xib in Resources */,
@@ -922,6 +939,7 @@
 				48473EB61E1D580C00D52C15 /* WBTableView.m in Sources */,
 				486AB0FC1E4F4BB200F8A415 /* GuestListVCCell.m in Sources */,
 				48F5EE5E1DE0B64300F44EC9 /* UIView+WebCacheOperation.m in Sources */,
+				48E4A7AA1ECAC74D00C69541 /* GuestListFourthColumn.m in Sources */,
 				48F5EE5B1DE0B64300F44EC9 /* UIImage+WebP.m in Sources */,
 				7ABB2FAE1D8C1BE3000882B1 /* ViewController.m in Sources */,
 				48F5EE5C1DE0B64300F44EC9 /* UIImageView+HighlightedWebCache.m in Sources */,

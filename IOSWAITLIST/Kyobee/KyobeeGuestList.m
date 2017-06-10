@@ -13,6 +13,8 @@
 
 #import "GuestListCell.h"
 
+#import "GuestListFourthColumn.h"
+
 ///*** web image
 #import "UIImageView+WebCache.h"
 //****
@@ -61,7 +63,7 @@
     [btnForOptions addGestureRecognizer:self.lpgrForOptions];
     
     columnsArray = [[NSMutableArray alloc] initWithCapacity:0];
-    NSArray *colArray = [NSArray arrayWithObjects:@"1",@"2",@"3", nil];
+    NSArray *colArray = [NSArray arrayWithObjects:@"1",@"2",@"3",@"4", nil];
     [columnsArray addObjectsFromArray:colArray];
     
     
@@ -173,6 +175,9 @@
     [txtColumnThree.layer setBorderWidth:1.5];
     [txtColumnThree.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
     
+    [txtColumnFour.layer setBorderWidth:1.5];
+    [txtColumnFour.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    
     [viewSubSettings.layer setCornerRadius:3.0];
     
     [btnSettingsOK.layer setCornerRadius:3.0];
@@ -196,16 +201,41 @@
         lblColumnThreeName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnThreeName"];
     }
     
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"showParty"] == NO)
+    {
+        lblPartyOne.hidden = true;
+        lblPartyTwo.hidden = true;
+        lblPartyThree.hidden = true;
+        
+        _colOneGuestLead.constant = -25;
+        _colTwoGuestLead.constant = -25;
+        _colThreeGuestLead.constant = -25;
+    }
+    else
+    {
+        lblPartyOne.hidden = false;
+        lblPartyTwo.hidden = false;
+        lblPartyThree.hidden = false;
+        
+        _colOneGuestLead.constant = 25;
+        _colTwoGuestLead.constant = 25;
+        _colThreeGuestLead.constant = 25;
+    }
+    
+    btnShowParty.clipsToBounds = YES;
+    [btnShowParty.layer setBorderWidth:2.0];
+    [btnShowParty.layer setBorderColor:[UIColor darkGrayColor].CGColor];
+    [self setRoundedView:btnShowParty toDiameter:30.0];
     
     btnNotPresent.clipsToBounds = YES;
     [btnNotPresent.layer setBorderWidth:2.0];
     [btnNotPresent.layer setBorderColor:[UIColor colorWithRed:173.0/255.0 green:22.0/255.0 blue:45.0/255.0 alpha:1.0].CGColor];
-    [self setRoundedView:btnNotPresent toDiameter:40.0];
+    [self setRoundedView:btnNotPresent toDiameter:30.0];
     
     btnIncomplete.clipsToBounds = YES;
     [btnIncomplete.layer setBorderWidth:2.0];
     [btnIncomplete.layer setBorderColor:[UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0].CGColor];
-    [self setRoundedView:btnIncomplete toDiameter:40.0];
+    [self setRoundedView:btnIncomplete toDiameter:30.0];
 }
 
 -(void)setRoundedView:(UIButton *)roundedView toDiameter:(float)newSize;
@@ -321,6 +351,7 @@
                                  }
                                  
                                  [guestArray addObjectsFromArray:guestList];
+                                 
                                  
                                  
                                  if(arrayLess30.count > 0)
@@ -698,6 +729,17 @@
                 cell.backgroundColor = [UIColor clearColor];
             }*/
             
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showParty"] == NO)
+            {
+                cell.lblRank.hidden = true;
+                cell.lblNameLead.constant = -25;
+            }
+            else
+            {
+                cell.lblRank.hidden = false;
+                cell.lblNameLead.constant = 25;
+            }
+            
             if([[NSUserDefaults standardUserDefaults] boolForKey:@"showNotPresent"] == YES)
             {
                 if (![[[arrayLess30 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
@@ -772,6 +814,18 @@
             }*/
             
             
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showParty"] == NO)
+            {
+                cell.lblRank.hidden = true;
+                cell.lblNameLead.constant = -25;
+            }
+            else
+            {
+                cell.lblRank.hidden = false;
+                cell.lblNameLead.constant = 25;
+            }
+            
+            
             if([[NSUserDefaults standardUserDefaults] boolForKey:@"showNotPresent"] == true)
             {
                 if (![[[arrayLess60 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
@@ -836,6 +890,19 @@
             {
                 cell.backgroundColor = [UIColor clearColor];
             }*/
+            
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showParty"] == NO)
+            {
+                cell.lblRank.hidden = true;
+                cell.lblNameLead.constant = -25;
+            }
+            else
+            {
+                cell.lblRank.hidden = false;
+                cell.lblNameLead.constant = 25;
+            }
+            
             
             if([[NSUserDefaults standardUserDefaults] boolForKey:@"showNotPresent"] == true)
             {
@@ -955,6 +1022,7 @@
                     txtColumnOne.hidden = false;
                     txtColumnTwo.hidden = true;
                     txtColumnThree.hidden = true;
+                    txtColumnFour.hidden = true;
                     
                     txtColumnOne.placeholder = @"Enter first column name*";
                     
@@ -983,6 +1051,7 @@
                     txtColumnOne.hidden = false;
                     txtColumnTwo.hidden = false;
                     txtColumnThree.hidden = true;
+                    txtColumnFour.hidden = true;
                     
                     txtColumnOne.placeholder = @"Enter first column name*";
                     txtColumnTwo.placeholder = @"Enter second column name*";
@@ -1012,10 +1081,42 @@
                     txtColumnOne.hidden = false;
                     txtColumnTwo.hidden = false;
                     txtColumnThree.hidden = false;
+                    txtColumnFour.hidden = true;
                     
                     txtColumnOne.placeholder = @"Enter first column name*";
                     txtColumnTwo.placeholder = @"Enter second column name*";
                     txtColumnThree.placeholder = @"Enter third column name*";
+                    
+                    [self.view setNeedsUpdateConstraints];
+                    
+                    [UIView animateWithDuration:0.40f animations:^{
+                        
+                        [self.view layoutIfNeeded];
+                    }];
+                }
+                
+                if(indexPath.row == 4)
+                {
+                    _heightViewSubSettings.constant = 700;
+                    
+                    NSArray *rwArray = [NSArray arrayWithObjects:@"25", nil];
+                    
+                    if(rowsArray.count > 0)
+                        [rowsArray removeAllObjects];
+                    
+                    [rowsArray addObjectsFromArray:rwArray];
+                    
+                    txtRows.text = @"";
+                    
+                    txtColumnOne.hidden = false;
+                    txtColumnTwo.hidden = false;
+                    txtColumnThree.hidden = false;
+                    txtColumnFour.hidden = false;
+                    
+                    txtColumnOne.placeholder = @"Enter first column name*";
+                    txtColumnTwo.placeholder = @"Enter second column name*";
+                    txtColumnThree.placeholder = @"Enter third column name*";
+                    txtColumnFour.placeholder = @"Enter fourth column name*";
                     
                     [self.view setNeedsUpdateConstraints];
                     
@@ -1739,18 +1840,23 @@
             [txtColumnThree.layer setBorderWidth:1.5];
             [txtColumnThree.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
             
+            [txtColumnFour.layer setBorderWidth:1.5];
+            [txtColumnFour.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+            
             
             txtColumns.text = @"";
             txtRows.text = @"";
             txtColumnOne.text = @"";
             txtColumnTwo.text = @"";
             txtColumnThree.text = @"";
+            txtColumnFour.text = @"";
             
-            _heightViewSubSettings.constant = 658;
+            _heightViewSubSettings.constant = 700;
             
             txtColumnOne.hidden = false;
             txtColumnTwo.hidden = false;
             txtColumnThree.hidden = false;
+            txtColumnFour.hidden = false;
             
             txtColumns.hidden = false;
             btnColumns.hidden = false;
@@ -1760,6 +1866,7 @@
             txtColumnOne.placeholder = @"Enter first column name";
             txtColumnTwo.placeholder = @"Enter second column name";
             txtColumnThree.placeholder = @"Enter third column name";
+            txtColumnFour.placeholder = @"Enter fourth column name";
             
             [[NSUserDefaults standardUserDefaults] setValue:lblColumnOneName.text forKey:@"columnOneName"];
             [[NSUserDefaults standardUserDefaults] setValue:lblColumnTwoName.text forKey:@"columnTwoName"];
@@ -1792,6 +1899,10 @@
             {
                 txtColumnThree.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnThreeName"];
             }
+            if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"columnFourName"] isEqualToString:@""])
+            {
+                txtColumnFour.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnFourName"];
+            }
             
             _txtColToTop.constant = 25;
             
@@ -1816,6 +1927,15 @@
                 [btnIncomplete setBackgroundColor:[UIColor whiteColor]];
             }
             
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showParty"] == YES)
+            {
+                btnShowParty.selected = YES;
+                [btnShowParty setBackgroundColor:[UIColor darkGrayColor]];
+            }
+            else
+            {
+                [btnShowParty setBackgroundColor:[UIColor whiteColor]];
+            }
             
             viewSettings.hidden = false;
         }
@@ -2023,6 +2143,28 @@
                 lblColumnTwoName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnTwoName"];
                 lblColumnThreeName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnThreeName"];
                 
+                if([[NSUserDefaults standardUserDefaults] boolForKey:@"showParty"] == NO)
+                {
+                    lblPartyOne.hidden = true;
+                    lblPartyTwo.hidden = true;
+                    lblPartyThree.hidden = true;
+                    
+                    _colOneGuestLead.constant = -25;
+                    _colTwoGuestLead.constant = -25;
+                    _colThreeGuestLead.constant = -25;
+                }
+                else
+                {
+                    lblPartyOne.hidden = false;
+                    lblPartyTwo.hidden = false;
+                    lblPartyThree.hidden = false;
+                    
+                    _colOneGuestLead.constant = 25;
+                    _colTwoGuestLead.constant = 25;
+                    _colThreeGuestLead.constant = 25;
+                }
+                
+                
                 viewSettings.hidden = true;
                 
                 [txtFieldRef resignFirstResponder];
@@ -2063,6 +2205,99 @@
                 {
                     [txtColumnThree.layer setBorderWidth:1.5];
                     [txtColumnThree.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+                }
+            }
+            
+        }
+        
+        if([txtColumns.text isEqualToString:@"4"])
+        {
+            if(![txtColumnOne.text isEqualToString:@""] & ![txtColumnTwo.text isEqualToString:@""] & ![txtColumnThree.text isEqualToString:@""] & ![txtColumnFour.text isEqualToString:@""])
+            {
+                
+                NSString *columnOneName = [txtColumnOne.text uppercaseString];
+                txtColumnOne.text =  columnOneName;
+                
+                NSString *columnTwoName = [txtColumnTwo.text uppercaseString];
+                txtColumnTwo.text =  columnTwoName;
+                
+                NSString *columnThreeName = [txtColumnThree.text uppercaseString];
+                txtColumnThree.text =  columnThreeName;
+                
+                NSString *columnFourName = [txtColumnFour.text uppercaseString];
+                txtColumnFour.text =  columnFourName;
+                
+                
+                [[NSUserDefaults standardUserDefaults] setValue:txtColumns.text forKey:@"numberOfColumns"];
+                [[NSUserDefaults standardUserDefaults] setValue:txtRows.text forKey:@"numberOfRows"];
+                [[NSUserDefaults standardUserDefaults] setValue:txtColumnOne.text forKey:@"columnOneName"];
+                [[NSUserDefaults standardUserDefaults] setValue:txtColumnTwo.text forKey:@"columnTwoName"];
+                [[NSUserDefaults standardUserDefaults] setValue:txtColumnThree.text forKey:@"columnThreeName"];
+                [[NSUserDefaults standardUserDefaults] setValue:txtColumnFour.text forKey:@"columnFourName"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
+                
+                
+                lblColumnOneName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnOneName"];
+                lblColumnTwoName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnTwoName"];
+                lblColumnThreeName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnThreeName"];
+
+                
+                
+                viewSettings.hidden = true;
+                
+                [txtFieldRef resignFirstResponder];
+                
+                //[self fetchGuestList];
+                
+                GuestListFourthColumn *guestListFourthColumn = [[GuestListFourthColumn alloc] initWithNibName:@"GuestListFourthColumn" bundle:nil];
+                [self.navigationController pushViewController:guestListFourthColumn animated:NO];
+                
+            }
+            else
+            {
+                if([txtColumnOne.text isEqualToString:@""])
+                {
+                    [txtColumnOne.layer setBorderWidth:1.5];
+                    [txtColumnOne.layer setBorderColor:[UIColor redColor].CGColor];
+                }
+                else
+                {
+                    [txtColumnOne.layer setBorderWidth:1.5];
+                    [txtColumnOne.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+                }
+                
+                if([txtColumnTwo.text isEqualToString:@""])
+                {
+                    [txtColumnTwo.layer setBorderWidth:1.5];
+                    [txtColumnTwo.layer setBorderColor:[UIColor redColor].CGColor];
+                }
+                else
+                {
+                    [txtColumnTwo.layer setBorderWidth:1.5];
+                    [txtColumnTwo.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+                }
+                
+                if([txtColumnThree.text isEqualToString:@""])
+                {
+                    [txtColumnThree.layer setBorderWidth:1.5];
+                    [txtColumnThree.layer setBorderColor:[UIColor redColor].CGColor];
+                }
+                else
+                {
+                    [txtColumnThree.layer setBorderWidth:1.5];
+                    [txtColumnThree.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+                }
+                
+                if([txtColumnFour.text isEqualToString:@""])
+                {
+                    [txtColumnFour.layer setBorderWidth:1.5];
+                    [txtColumnFour.layer setBorderColor:[UIColor redColor].CGColor];
+                }
+                else
+                {
+                    [txtColumnFour.layer setBorderWidth:1.5];
+                    [txtColumnFour.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
                 }
             }
             
@@ -2140,6 +2375,28 @@
     
 }
 
+- (IBAction)btnShowParty_clicked:(id)sender
+{
+    btnShowParty.selected = !btnShowParty.selected;
+    
+    if(btnShowParty.selected)
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showParty"];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+        
+        [btnShowParty setBackgroundColor:[UIColor darkGrayColor]];
+        
+        //[btn_Remember.layer setBorderColor:[UIColor colorWithRed:158.0/255.0 green:151.0/255.0 blue:141.0/255.0 alpha:1.0].CGColor];
+    }
+    else
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showParty"];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+        
+        [btnShowParty setBackgroundColor:[UIColor whiteColor]];
+    }
+}
+
 #pragma mark -
 #pragma mark - Text Field Delegate Methods
 
@@ -2170,7 +2427,12 @@
         
         if(txtFieldRef == txtColumnThree)
         {
-            _txtColToTop.constant = -140;
+            _txtColToTop.constant = -220;
+        }
+        
+        if(txtFieldRef == txtColumnFour)
+        {
+            _txtColToTop.constant = -220;
         }
     }
     else

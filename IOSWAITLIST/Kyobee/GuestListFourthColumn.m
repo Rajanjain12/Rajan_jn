@@ -1,26 +1,27 @@
 //
-//  GuestListOneColumn.m
+//  GuestListFourthColumn.m
 //  Kyobee
 //
-//  Created by Mayur Pandya on 03/04/17.
+//  Created by Mayur Pandya on 16/05/17.
 //
 //
 
-#import "GuestListOneColumn.h"
+#import <CoreLocation/CoreLocation.h>
+
+#import "GuestListFourthColumn.h"
 
 #import "KyobeeGuestList.h"
 
 #import "GuestListTwoColumn.h"
+#import "GuestListOneColumn.h"
 
 #import "GuestListCell.h"
-
-#import "GuestListFourthColumn.h"
 
 ///*** web image
 #import "UIImageView+WebCache.h"
 //****
 
-@interface GuestListOneColumn ()
+@interface GuestListFourthColumn ()
 
 @property (nonatomic,strong) UILongPressGestureRecognizer *lpgrLogOut;
 
@@ -28,7 +29,7 @@
 
 @end
 
-@implementation GuestListOneColumn
+@implementation GuestListFourthColumn
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -39,6 +40,18 @@
     guestArray = [[NSMutableArray alloc] initWithCapacity:0];
     
     arrayLess30 = [[NSMutableArray alloc] initWithCapacity:0];
+    arrayLess60 = [[NSMutableArray alloc] initWithCapacity:0];
+    arrayLess90 = [[NSMutableArray alloc] initWithCapacity:0];
+    
+    arrayLess120 = [[NSMutableArray alloc] initWithCapacity:0];
+    
+    /*for (NSString *familyName in [UIFont familyNames])
+    {
+        for (NSString *fontName in [UIFont fontNamesForFamilyName:familyName])
+        {
+            NSLog(@"%@", fontName);
+        }
+    }*/
     
     // Realtime
     _ortcClient = [OrtcClient ortcClientWithConfig:self];
@@ -67,8 +80,13 @@
     
     
     rowsArray = [[NSMutableArray alloc] initWithCapacity:0];
-    /*NSArray *rwArray = [NSArray arrayWithObjects:@"25",@"30",@"35",@"40",@"45",@"50",@"55",@"60",@"65",@"70",@"75",@"80",@"85",@"90",@"95",@"100", nil];
-    [rowsArray addObjectsFromArray:rwArray];*/
+    /* NSArray *rwArray = [NSArray arrayWithObjects:@"25",@"30",@"35",@"40",@"45",@"50",@"55",@"60",@"65",@"70",@"75",@"80",@"85",@"90",@"95",@"100", nil];
+     [rowsArray addObjectsFromArray:rwArray];*/
+    
+    tblView30.userInteractionEnabled = false;
+    tblView60.userInteractionEnabled = false;
+    tblView90.userInteractionEnabled = false;
+    tblView120.userInteractionEnabled = false;
 }
 
 - (void)handleLongPressGestures:(UILongPressGestureRecognizer *)sender
@@ -84,6 +102,7 @@
             [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"checkinmodeselected"];
             
             [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"fromBack"];
+            
             
             //**
             
@@ -144,13 +163,35 @@
     if (UIInterfaceOrientationIsLandscape(orientation))
     {
         lblCopyright.font = [UIFont systemFontOfSize:12.0];
+        
+        lblColumnOneName.font = [UIFont fontWithName:@"SFUIDisplay-Semibold" size:20.0];
+        lblColumnTwoName.font = [UIFont fontWithName:@"SFUIDisplay-Semibold" size:20.0];
+        lblColumnThreeName.font = [UIFont fontWithName:@"SFUIDisplay-Semibold" size:20.0];
+        lblColumnFourName.font = [UIFont fontWithName:@"SFUIDisplay-Semibold" size:20.0];
+        
+        lblGuestOne.font = [UIFont fontWithName:@"SFUIDisplay-Regular" size:20.0];
+        lblGuestTwo.font = [UIFont fontWithName:@"SFUIDisplay-Regular" size:20.0];
+        lblGuestThree.font = [UIFont fontWithName:@"SFUIDisplay-Regular" size:20.0];
+        lblGuestFour.font = [UIFont fontWithName:@"SFUIDisplay-Regular" size:20.0];
     }
     else
     {
         lblCopyright.font = [UIFont systemFontOfSize:10.0];
+        
+        lblColumnOneName.font = [UIFont fontWithName:@"SFUIDisplay-Semibold" size:15.0];
+        lblColumnTwoName.font = [UIFont fontWithName:@"SFUIDisplay-Semibold" size:15.0];
+        lblColumnThreeName.font = [UIFont fontWithName:@"SFUIDisplay-Semibold" size:15.0];
+        lblColumnFourName.font = [UIFont fontWithName:@"SFUIDisplay-Semibold" size:15.0];
+        
+        lblGuestOne.font = [UIFont fontWithName:@"SFUIDisplay-Regular" size:15.0];
+        lblGuestTwo.font = [UIFont fontWithName:@"SFUIDisplay-Regular" size:15.0];
+        lblGuestThree.font = [UIFont fontWithName:@"SFUIDisplay-Regular" size:15.0];
+        lblGuestFour.font = [UIFont fontWithName:@"SFUIDisplay-Regular" size:15.0];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(orientationChanged:)    name:UIDeviceOrientationDidChangeNotification  object:nil];
+    
+    
     
     [txtColumns.layer setBorderWidth:1.5];
     [txtColumns.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
@@ -177,19 +218,66 @@
     [tblViewColumnsAndRows.layer setBorderWidth:1.5];
     [tblViewColumnsAndRows.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
     
+    
     if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"columnOneName"] isEqualToString:@""])
     {
         lblColumnOneName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnOneName"];
         
     }
+    if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"columnTwoName"] isEqualToString:@""])
+    {
+        lblColumnTwoName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnTwoName"];
+        
+    }
+    if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"columnThreeName"] isEqualToString:@""])
+    {
+        lblColumnThreeName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnThreeName"];
+    }
+    if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"columnFourName"] isEqualToString:@""])
+    {
+        lblColumnFourName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnFourName"];
+    }
     
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"showParty"] == NO)
     {
         lblPartyOne.hidden = true;
+        lblPartyTwo.hidden = true;
+        lblPartyThree.hidden = true;
+        lblPartyFour.hidden = true;
+        
+        _colOneGuestLead.constant = -50;
+        _colTwoGuestLead.constant = -50;
+        _colThreeGuestLead.constant = -50;
+        _colFourGuestLead.constant = -50;
     }
     else
     {
         lblPartyOne.hidden = false;
+        lblPartyTwo.hidden = false;
+        lblPartyThree.hidden = false;
+        lblPartyFour.hidden = false;
+        
+        
+        
+        _partyOneLead.constant = 0;
+        _partyTwoLead.constant = 0;
+        _partyThreeLead.constant = 0;
+        _partyFourLead.constant = 0;
+        
+        if (UIInterfaceOrientationIsLandscape(orientation))
+        {
+            _colOneGuestLead.constant = 15;
+            _colTwoGuestLead.constant = 15;
+            _colThreeGuestLead.constant = 15;
+            _colFourGuestLead.constant = 15;
+        }
+        else
+        {
+            _colOneGuestLead.constant = 5;
+            _colTwoGuestLead.constant = 5;
+            _colThreeGuestLead.constant = 5;
+            _colFourGuestLead.constant = 5;
+        }
     }
     
     btnShowParty.clipsToBounds = YES;
@@ -237,11 +325,78 @@
     if (UIInterfaceOrientationIsLandscape(orientation))
     {
         lblCopyright.font = [UIFont systemFontOfSize:12.0];
+        
+        lblColumnOneName.font = [UIFont fontWithName:@"SFUIDisplay-Semibold" size:20.0];
+        lblColumnTwoName.font = [UIFont fontWithName:@"SFUIDisplay-Semibold" size:20.0];
+        lblColumnThreeName.font = [UIFont fontWithName:@"SFUIDisplay-Semibold" size:20.0];
+        lblColumnFourName.font = [UIFont fontWithName:@"SFUIDisplay-Semibold" size:20.0];
+        
+        lblGuestOne.font = [UIFont fontWithName:@"SFUIDisplay-Regular" size:20.0];
+        lblGuestTwo.font = [UIFont fontWithName:@"SFUIDisplay-Regular" size:20.0];
+        lblGuestThree.font = [UIFont fontWithName:@"SFUIDisplay-Regular" size:20.0];
+        lblGuestFour.font = [UIFont fontWithName:@"SFUIDisplay-Regular" size:20.0];
     }
     else
     {
         lblCopyright.font = [UIFont systemFontOfSize:10.0];
+        
+        lblColumnOneName.font = [UIFont fontWithName:@"SFUIDisplay-Semibold" size:15.0];
+        lblColumnTwoName.font = [UIFont fontWithName:@"SFUIDisplay-Semibold" size:15.0];
+        lblColumnThreeName.font = [UIFont fontWithName:@"SFUIDisplay-Semibold" size:15.0];
+        lblColumnFourName.font = [UIFont fontWithName:@"SFUIDisplay-Semibold" size:15.0];
+        
+        lblGuestOne.font = [UIFont fontWithName:@"SFUIDisplay-Regular" size:15.0];
+        lblGuestTwo.font = [UIFont fontWithName:@"SFUIDisplay-Regular" size:15.0];
+        lblGuestThree.font = [UIFont fontWithName:@"SFUIDisplay-Regular" size:15.0];
+        lblGuestFour.font = [UIFont fontWithName:@"SFUIDisplay-Regular" size:15.0];
     }
+    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"showParty"] == NO)
+    {
+        lblPartyOne.hidden = true;
+        lblPartyTwo.hidden = true;
+        lblPartyThree.hidden = true;
+        lblPartyFour.hidden = true;
+        
+        _colOneGuestLead.constant = -50;
+        _colTwoGuestLead.constant = -50;
+        _colThreeGuestLead.constant = -50;
+        _colFourGuestLead.constant = -50;
+    }
+    else
+    {
+        lblPartyOne.hidden = false;
+        lblPartyTwo.hidden = false;
+        lblPartyThree.hidden = false;
+        lblPartyFour.hidden = false;
+        
+        
+        
+        _partyOneLead.constant = 0;
+        _partyTwoLead.constant = 0;
+        _partyThreeLead.constant = 0;
+        _partyFourLead.constant = 0;
+        
+        if (UIInterfaceOrientationIsLandscape(orientation))
+        {
+            _colOneGuestLead.constant = 15;
+            _colTwoGuestLead.constant = 15;
+            _colThreeGuestLead.constant = 15;
+            _colFourGuestLead.constant = 15;
+        }
+        else
+        {
+            _colOneGuestLead.constant = 5;
+            _colTwoGuestLead.constant = 5;
+            _colThreeGuestLead.constant = 5;
+            _colFourGuestLead.constant = 5;
+        }
+    }
+    
+    [tblView30 reloadData];
+    [tblView60 reloadData];
+    [tblView90 reloadData];
+    [tblView120 reloadData];
     
     [self.view setNeedsUpdateConstraints];
     
@@ -323,12 +478,23 @@
                                  [guestArray addObjectsFromArray:guestList];
                                  
                                  
+                                 
                                  if(arrayLess30.count > 0)
                                  {
                                      [arrayLess30 removeAllObjects];
                                  }
-                                 
-                                 
+                                 if(arrayLess60.count > 0)
+                                 {
+                                     [arrayLess60 removeAllObjects];
+                                 }
+                                 if(arrayLess90.count > 0)
+                                 {
+                                     [arrayLess90 removeAllObjects];
+                                 }
+                                 if(arrayLess120.count > 0)
+                                 {
+                                     [arrayLess120 removeAllObjects];
+                                 }
                                  
                                  // For Less Than 30
                                  /*for(int i = 0; i < [guestArray count]; i++)
@@ -385,21 +551,214 @@
                                  {
                                      [tblView30 reloadData];
                                      
-                                     lblNoUser30.hidden = true;
                                  }
                                  else
                                  {
-                                     lblNoUser30.hidden = true;
                                  }
                                  //
                                  
                                  
                                  
+                                 // For Less Than 60
+                                 /*for(int i = 0; i < [guestArray count]; i++)
+                                  {
+                                  if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] > 30 & [[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 60)
+                                  //if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 60)
+                                  {
+                                  [arrayLess60 addObject:[guestArray objectAtIndex:i]];
+                                  }
+                                  }*/
+                                 
+                                 if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] isEqualToString:@""])
+                                 {
+                                     int numberOfRows = [[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] intValue];
+                                     
+                                     int rows = (int)[arrayLess30 count];
+                                     
+                                     for(int i = rows; i < [guestArray count]; i++)
+                                     {
+                                         
+                                         [arrayLess60 addObject:[guestArray objectAtIndex:i]];
+                                         
+                                         if([arrayLess60 count] == numberOfRows)
+                                         {
+                                             break;
+                                         }
+                                         
+                                     }
+                                 }
+                                 else
+                                 {
+                                     for(int i = 25; i < [guestArray count]; i++)
+                                     {
+                                         
+                                         [arrayLess60 addObject:[guestArray objectAtIndex:i]];
+                                         
+                                         if(i == 49)
+                                         {
+                                             break;
+                                         }
+                                         
+                                     }
+                                 }
+                                 
+                                 /*for(int i = 25; i < [guestArray count]; i++)
+                                  {
+                                  
+                                  [arrayLess60 addObject:[guestArray objectAtIndex:i]];
+                                  
+                                  if(i == 49)
+                                  {
+                                  break;
+                                  }
+                                  
+                                  }*/
+                                 
+                                 if(arrayLess60.count > 0)
+                                 {
+                                     [tblView60 reloadData];
+                                     
+                                 }
+                                 else
+                                 {
+                                 }
+                                 //
+                                 
+                                 
+                                 // For Less Than 90
+                                 /*for(int i = 0; i < [guestArray count]; i++)
+                                  {
+                                  if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] > 60 & [[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 90)
+                                  //if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 90)
+                                  {
+                                  [arrayLess90 addObject:[guestArray objectAtIndex:i]];
+                                  }
+                                  }*/
+                                 
+                                 
+                                 if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] isEqualToString:@""])
+                                 {
+                                     int numberOfRows = [[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] intValue];
+                                     
+                                     int rows1 = (int)[arrayLess30 count];
+                                     int rows2 = (int)[arrayLess60 count];
+                                     
+                                     int row = rows1 + rows2;
+                                     
+                                     for(int i = row; i < [guestArray count]; i++)
+                                     {
+                                         [arrayLess90 addObject:[guestArray objectAtIndex:i]];
+                                         
+                                         if([arrayLess90 count] == numberOfRows)
+                                         {
+                                             break;
+                                         }
+                                         
+                                     }
+                                 }
+                                 else
+                                 {
+                                     for(int i = 50; i < [guestArray count]; i++)
+                                     {
+                                         [arrayLess90 addObject:[guestArray objectAtIndex:i]];
+                                         
+                                         if(i == 74)
+                                         {
+                                             break;
+                                         }
+                                         
+                                     }
+                                 }
+                                 
+                                 /*for(int i = 50; i < [guestArray count]; i++)
+                                  {
+                                  [arrayLess90 addObject:[guestArray objectAtIndex:i]];
+                                  
+                                  if(i == 74)
+                                  {
+                                  break;
+                                  }
+                                  
+                                  }*/
+                                 
+                                 if(arrayLess90.count > 0)
+                                 {
+                                     [tblView90 reloadData];
+                                     
+                                 }
+                                 else
+                                 {
+                                 }
+                                 //
+                                 
+                                 // For Less than 120
+                                 
+                                 if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] isEqualToString:@""])
+                                 {
+                                     int numberOfRows = [[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] intValue];
+                                     
+                                     int rows1 = (int)[arrayLess30 count];
+                                     int rows2 = (int)[arrayLess60 count];
+                                     int rows3 = (int)[arrayLess90 count];
+                                     
+                                     int row = rows1 + rows2 + rows3;
+                                     
+                                     for(int i = row; i < [guestArray count]; i++)
+                                     {
+                                         [arrayLess120 addObject:[guestArray objectAtIndex:i]];
+                                         
+                                         if([arrayLess120 count] == numberOfRows)
+                                         {
+                                             break;
+                                         }
+                                         
+                                     }
+                                 }
+                                 else
+                                 {
+                                     for(int i = 75; i < [guestArray count]; i++)
+                                     {
+                                         [arrayLess120 addObject:[guestArray objectAtIndex:i]];
+                                         
+                                         if(i == 99)
+                                         {
+                                             break;
+                                         }
+                                         
+                                     }
+                                 }
+                                 
+                                 /*for(int i = 50; i < [guestArray count]; i++)
+                                  {
+                                  [arrayLess90 addObject:[guestArray objectAtIndex:i]];
+                                  
+                                  if(i == 74)
+                                  {
+                                  break;
+                                  }
+                                  
+                                  }*/
+                                 
+                                 if(arrayLess120.count > 0)
+                                 {
+                                     [tblView120 reloadData];
+                                     
+                                 }
+                                 else
+                                 {
+                                 }
+                                 //
+                                 
+                                 
+                                 
+                                 
+                                 
+                                 
                                  [tblView30 reloadData];
+                                 [tblView60 reloadData];
+                                 [tblView90 reloadData];
                                  
-                                 
-                                 
-                                 
+                                 [tblView120 reloadData];
                                  
                              }
                              else
@@ -443,10 +802,23 @@
                      {
                          [arrayLess30 removeAllObjects];
                      }
-                     
-                     
+                     if(arrayLess60.count > 0)
+                     {
+                         [arrayLess60 removeAllObjects];
+                     }
+                     if(arrayLess90.count > 0)
+                     {
+                         [arrayLess90 removeAllObjects];
+                     }
+                     if(arrayLess120.count > 0)
+                     {
+                         [arrayLess120 removeAllObjects];
+                     }
                      
                      [tblView30 reloadData];
+                     [tblView60 reloadData];
+                     [tblView90 reloadData];
+                     [tblView120 reloadData];
                  }
              }
          }];
@@ -480,10 +852,25 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
     if(viewSettings.hidden == true)
     {
-        return arrayLess30.count;
+        
+        if(tableView == tblView30)
+        {
+            return arrayLess30.count;
+        }
+        else if (tableView == tblView60)
+        {
+            return arrayLess60.count;
+        }
+        else if (tableView == tblView90)
+        {
+            return arrayLess90.count;
+        }
+        else
+        {
+            return arrayLess120.count;
+        }
     }
     else
     {
@@ -496,7 +883,7 @@
             return rowsArray.count + 1;
         }
     }
-
+    
     //return guestArray.count;
 }
 
@@ -508,66 +895,94 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    
     if(viewSettings.hidden == true)
     {
-        static NSString *CellIdentifier = @"Cell";
         
-        GuestListCell *cell = (GuestListCell *)[tblView30 dequeueReusableCellWithIdentifier:CellIdentifier];
-        
-        if (cell == nil)
+        if(tableView == tblView30)
         {
-            cell = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([GuestListCell class]) owner:nil options:nil] lastObject];
-        }
-        
-        cell.lblRank.text = [NSString stringWithFormat:@"%@",[[arrayLess30 objectAtIndex:indexPath.row] valueForKey:@"rank"]];
-        cell.lblName.text = [NSString stringWithFormat:@"%@",[[arrayLess30 objectAtIndex:indexPath.row] valueForKey:@"name"]];
-        
-        /*if (![[[arrayLess30 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
-        {
-            cell.imgThumb.hidden = false;
-        }
-        
-        if (![[[arrayLess30 objectAtIndex:indexPath.row]valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
-        {
-            cell.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
-        }
-        else
-        {
-            cell.backgroundColor = [UIColor clearColor];
-        }*/
-        
-        if([[NSUserDefaults standardUserDefaults] boolForKey:@"showParty"] == NO)
-        {
-            cell.lblRank.hidden = true;
-        }
-        else
-        {
-            cell.lblRank.hidden = false;
-        }
-        
-        if([[NSUserDefaults standardUserDefaults] boolForKey:@"showNotPresent"] == YES)
-        {
-            if (![[[arrayLess30 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+            static NSString *CellIdentifier = @"Cell";
+            
+            GuestListCell *cell = (GuestListCell *)[tblView30 dequeueReusableCellWithIdentifier:CellIdentifier];
+            
+            if (cell == nil)
             {
-                cell.imgThumb.hidden = false;
+                cell = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([GuestListCell class]) owner:nil options:nil] lastObject];
+            }
+            
+            cell.lblRank.text = [NSString stringWithFormat:@"%@",[[arrayLess30 objectAtIndex:indexPath.row] valueForKey:@"rank"]];
+            cell.lblName.text = [NSString stringWithFormat:@"%@",[[arrayLess30 objectAtIndex:indexPath.row] valueForKey:@"name"]];
+            
+            /*if (![[[arrayLess30 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+             {
+             cell.imgThumb.hidden = false;
+             }
+             
+             if (![[[arrayLess30 objectAtIndex:indexPath.row]valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+             {
+             cell.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
+             }
+             else
+             {
+             cell.backgroundColor = [UIColor clearColor];
+             }*/
+            
+            cell.lblRankLead.constant = -5;
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showParty"] == NO)
+            {
+                cell.lblRank.hidden = true;
+                cell.lblNameLead.constant = -50;
+                
+            }
+            else
+            {
+                cell.lblRank.hidden = false;
+                
+                
+                if (UIInterfaceOrientationIsLandscape(orientation))
+                {
+                    cell.lblNameLead.constant = 15;
+                }
+                else
+                {
+                    cell.lblNameLead.constant = 5;
+                }
+            }
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showNotPresent"] == YES)
+            {
+                if (![[[arrayLess30 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+                {
+                    cell.imgThumb.hidden = false;
+                }
+                else
+                {
+                    cell.imgThumb.hidden = true;
+                }
             }
             else
             {
                 cell.imgThumb.hidden = true;
             }
-        }
-        else
-        {
-            cell.imgThumb.hidden = true;
-        }
-        
-        if([[NSUserDefaults standardUserDefaults] boolForKey:@"showIncomplete"] == YES)
-        {
-            if (![[[arrayLess30 objectAtIndex:indexPath.row]valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showIncomplete"] == YES)
             {
-                cell.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
-                
-                cell.contentView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
+                if (![[[arrayLess30 objectAtIndex:indexPath.row]valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+                {
+                    cell.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
+                    
+                    cell.contentView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
+                }
+                else
+                {
+                    cell.backgroundColor = [UIColor clearColor];
+                    
+                    cell.contentView.backgroundColor = [UIColor clearColor];
+                }
             }
             else
             {
@@ -575,19 +990,281 @@
                 
                 cell.contentView.backgroundColor = [UIColor clearColor];
             }
+            
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            return cell;
+        }
+        else if(tableView == tblView60)
+        {
+            static NSString *CellIdentifier = @"Cell";
+            
+            GuestListCell *cell = (GuestListCell *)[tblView30 dequeueReusableCellWithIdentifier:CellIdentifier];
+            
+            if (cell == nil)
+            {
+                cell = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([GuestListCell class]) owner:nil options:nil] lastObject];
+            }
+            
+            cell.lblRank.text = [NSString stringWithFormat:@"%@",[[arrayLess60 objectAtIndex:indexPath.row] valueForKey:@"rank"]];
+            cell.lblName.text = [NSString stringWithFormat:@"%@",[[arrayLess60 objectAtIndex:indexPath.row] valueForKey:@"name"]];
+            
+            
+            
+            /*if (![[[arrayLess60 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+             {
+             cell.imgThumb.hidden = false;
+             }
+             
+             if (![[[arrayLess60 objectAtIndex:indexPath.row]valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+             {
+             cell.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
+             }
+             else
+             {
+             cell.backgroundColor = [UIColor clearColor];
+             }*/
+            
+            
+            cell.lblRankLead.constant = -5;
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showParty"] == NO)
+            {
+                cell.lblRank.hidden = true;
+                cell.lblNameLead.constant = -50;
+                
+            }
+            else
+            {
+                cell.lblRank.hidden = false;
+                
+                
+                if (UIInterfaceOrientationIsLandscape(orientation))
+                {
+                    cell.lblNameLead.constant = 15;
+                }
+                else
+                {
+                    cell.lblNameLead.constant = 5;
+                }
+            }
+            
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showNotPresent"] == true)
+            {
+                if (![[[arrayLess60 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+                {
+                    cell.imgThumb.hidden = false;
+                }
+            }
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showIncomplete"] == true)
+            {
+                if (![[[arrayLess60 objectAtIndex:indexPath.row]valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+                {
+                    cell.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
+                    
+                    cell.contentView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
+                }
+                else
+                {
+                    cell.backgroundColor = [UIColor clearColor];
+                    
+                    cell.contentView.backgroundColor = [UIColor clearColor];
+                }
+            }
+            else
+            {
+                cell.backgroundColor = [UIColor clearColor];
+                
+                cell.contentView.backgroundColor = [UIColor clearColor];
+            }
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            return cell;
+        }
+        else if(tableView == tblView90)
+        {
+            static NSString *CellIdentifier = @"Cell";
+            
+            GuestListCell *cell = (GuestListCell *)[tblView90 dequeueReusableCellWithIdentifier:CellIdentifier];
+            
+            if (cell == nil)
+            {
+                cell = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([GuestListCell class]) owner:nil options:nil] lastObject];
+            }
+            
+            cell.lblRank.text = [NSString stringWithFormat:@"%@",[[arrayLess90 objectAtIndex:indexPath.row] valueForKey:@"rank"]];
+            cell.lblName.text = [NSString stringWithFormat:@"%@",[[arrayLess90 objectAtIndex:indexPath.row] valueForKey:@"name"]];
+            
+            
+            
+            
+            /*if (![[[arrayLess90 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+             {
+             cell.imgThumb.hidden = false;
+             }
+             
+             if (![[[arrayLess90 objectAtIndex:indexPath.row]valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+             {
+             cell.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:0.0/255.0 alpha:1.0];
+             }
+             else
+             {
+             cell.backgroundColor = [UIColor clearColor];
+             }*/
+            
+            
+            cell.lblRankLead.constant = -5;
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showParty"] == NO)
+            {
+                cell.lblRank.hidden = true;
+                cell.lblNameLead.constant = -50;
+                
+            }
+            else
+            {
+                cell.lblRank.hidden = false;
+                
+                
+                if (UIInterfaceOrientationIsLandscape(orientation))
+                {
+                    cell.lblNameLead.constant = 15;
+                }
+                else
+                {
+                    cell.lblNameLead.constant = 5;
+                }
+            }
+            
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showNotPresent"] == true)
+            {
+                if (![[[arrayLess90 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+                {
+                    cell.imgThumb.hidden = false;
+                }
+            }
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showIncomplete"] == true)
+            {
+                if (![[[arrayLess90 objectAtIndex:indexPath.row]valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+                {
+                    cell.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
+                    
+                    cell.contentView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
+                }
+                else
+                {
+                    cell.backgroundColor = [UIColor clearColor];
+                    
+                    cell.contentView.backgroundColor = [UIColor clearColor];
+                }
+            }
+            else
+            {
+                cell.backgroundColor = [UIColor clearColor];
+                
+                cell.contentView.backgroundColor = [UIColor clearColor];
+            }
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            return cell;
         }
         else
         {
-            cell.backgroundColor = [UIColor clearColor];
+            static NSString *CellIdentifier = @"Cell";
             
-            cell.contentView.backgroundColor = [UIColor clearColor];
+            GuestListCell *cell = (GuestListCell *)[tblView120 dequeueReusableCellWithIdentifier:CellIdentifier];
+            
+            if (cell == nil)
+            {
+                cell = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([GuestListCell class]) owner:nil options:nil] lastObject];
+            }
+            
+            cell.lblRank.text = [NSString stringWithFormat:@"%@",[[arrayLess120 objectAtIndex:indexPath.row] valueForKey:@"rank"]];
+            cell.lblName.text = [NSString stringWithFormat:@"%@",[[arrayLess120 objectAtIndex:indexPath.row] valueForKey:@"name"]];
+            
+            
+            
+            
+            /*if (![[[arrayLess90 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+             {
+             cell.imgThumb.hidden = false;
+             }
+             
+             if (![[[arrayLess90 objectAtIndex:indexPath.row]valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+             {
+             cell.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:0.0/255.0 alpha:1.0];
+             }
+             else
+             {
+             cell.backgroundColor = [UIColor clearColor];
+             }*/
+            
+            
+            cell.lblRankLead.constant = -5;
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showParty"] == NO)
+            {
+                cell.lblRank.hidden = true;
+                cell.lblNameLead.constant = -50;
+                
+            }
+            else
+            {
+                cell.lblRank.hidden = false;
+                
+                
+                if (UIInterfaceOrientationIsLandscape(orientation))
+                {
+                    cell.lblNameLead.constant = 15;
+                }
+                else
+                {
+                    cell.lblNameLead.constant = 5;
+                }
+            }
+            
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showNotPresent"] == true)
+            {
+                if (![[[arrayLess120 objectAtIndex:indexPath.row]valueForKey:@"calloutCount"] isEqual:[NSNull null]])
+                {
+                    cell.imgThumb.hidden = false;
+                }
+            }
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:@"showIncomplete"] == true)
+            {
+                if (![[[arrayLess120 objectAtIndex:indexPath.row]valueForKey:@"incompleteParty"] isEqual:[NSNull null]])
+                {
+                    cell.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
+                    
+                    cell.contentView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:102.0/255.0 alpha:1.0];
+                }
+                else
+                {
+                    cell.backgroundColor = [UIColor clearColor];
+                    
+                    cell.contentView.backgroundColor = [UIColor clearColor];
+                }
+            }
+            else
+            {
+                cell.backgroundColor = [UIColor clearColor];
+                
+                cell.contentView.backgroundColor = [UIColor clearColor];
+            }
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            return cell;
         }
-        
-        
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        return cell;
-    
     }
     else
     {
@@ -1174,8 +1851,18 @@
                                  {
                                      [arrayLess30 removeAllObjects];
                                  }
-                                
-                                 
+                                 if(arrayLess60.count > 0)
+                                 {
+                                     [arrayLess60 removeAllObjects];
+                                 }
+                                 if(arrayLess90.count > 0)
+                                 {
+                                     [arrayLess90 removeAllObjects];
+                                 }
+                                 if(arrayLess120.count > 0)
+                                 {
+                                     [arrayLess120 removeAllObjects];
+                                 }
                                  
                                  // For Less Than 30
                                  /*for(int i = 0; i < [guestArray count]; i++)
@@ -1232,18 +1919,214 @@
                                  {
                                      [tblView30 reloadData];
                                      
-                                     lblNoUser30.hidden = true;
                                  }
                                  else
                                  {
-                                     lblNoUser30.hidden = true;
                                  }
                                  //
                                  
                                  
+                                 
+                                 // For Less Than 60
+                                 /*for(int i = 0; i < [guestArray count]; i++)
+                                  {
+                                  if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] > 30 & [[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 60)
+                                  //if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 60)
+                                  {
+                                  [arrayLess60 addObject:[guestArray objectAtIndex:i]];
+                                  }
+                                  }*/
+                                 
+                                 if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] isEqualToString:@""])
+                                 {
+                                     int numberOfRows = [[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] intValue];
+                                     
+                                     int rows = (int)[arrayLess30 count];
+                                     
+                                     for(int i = rows; i < [guestArray count]; i++)
+                                     {
+                                         
+                                         [arrayLess60 addObject:[guestArray objectAtIndex:i]];
+                                         
+                                         if([arrayLess60 count] == numberOfRows)
+                                         {
+                                             break;
+                                         }
+                                         
+                                     }
+                                 }
+                                 else
+                                 {
+                                     for(int i = 25; i < [guestArray count]; i++)
+                                     {
+                                         
+                                         [arrayLess60 addObject:[guestArray objectAtIndex:i]];
+                                         
+                                         if(i == 49)
+                                         {
+                                             break;
+                                         }
+                                         
+                                     }
+                                 }
+                                 
+                                 /*for(int i = 25; i < [guestArray count]; i++)
+                                  {
+                                  
+                                  [arrayLess60 addObject:[guestArray objectAtIndex:i]];
+                                  
+                                  if(i == 49)
+                                  {
+                                  break;
+                                  }
+                                  
+                                  }*/
+                                 
+                                 if(arrayLess60.count > 0)
+                                 {
+                                     [tblView60 reloadData];
+                                     
+                                 }
+                                 else
+                                 {
+                                 }
+                                 //
+                                 
+                                 
+                                 // For Less Than 90
+                                 /*for(int i = 0; i < [guestArray count]; i++)
+                                  {
+                                  if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] > 60 & [[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 90)
+                                  //if([[[guestArray objectAtIndex:i] valueForKey:@"WaitTime"] integerValue] <= 90)
+                                  {
+                                  [arrayLess90 addObject:[guestArray objectAtIndex:i]];
+                                  }
+                                  }*/
+                                 
+                                 
+                                 if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] isEqualToString:@""])
+                                 {
+                                     int numberOfRows = [[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] intValue];
+                                     
+                                     int rows1 = (int)[arrayLess30 count];
+                                     int rows2 = (int)[arrayLess60 count];
+                                     
+                                     int row = rows1 + rows2;
+                                     
+                                     for(int i = row; i < [guestArray count]; i++)
+                                     {
+                                         [arrayLess90 addObject:[guestArray objectAtIndex:i]];
+                                         
+                                         if([arrayLess90 count] == numberOfRows)
+                                         {
+                                             break;
+                                         }
+                                         
+                                     }
+                                 }
+                                 else
+                                 {
+                                     for(int i = 50; i < [guestArray count]; i++)
+                                     {
+                                         [arrayLess90 addObject:[guestArray objectAtIndex:i]];
+                                         
+                                         if(i == 74)
+                                         {
+                                             break;
+                                         }
+                                         
+                                     }
+                                 }
+                                 
+                                 /*for(int i = 50; i < [guestArray count]; i++)
+                                  {
+                                  [arrayLess90 addObject:[guestArray objectAtIndex:i]];
+                                  
+                                  if(i == 74)
+                                  {
+                                  break;
+                                  }
+                                  
+                                  }*/
+                                 
+                                 if(arrayLess90.count > 0)
+                                 {
+                                     [tblView90 reloadData];
+                                     
+                                 }
+                                 else
+                                 {
+                                 }
+                                 //
+                                 
+                                 // For Less than 120
+                                 
+                                 if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] isEqualToString:@""])
+                                 {
+                                     int numberOfRows = [[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] intValue];
+                                     
+                                     int rows1 = (int)[arrayLess30 count];
+                                     int rows2 = (int)[arrayLess60 count];
+                                     int rows3 = (int)[arrayLess90 count];
+                                     
+                                     int row = rows1 + rows2 + rows3;
+                                     
+                                     for(int i = row; i < [guestArray count]; i++)
+                                     {
+                                         [arrayLess120 addObject:[guestArray objectAtIndex:i]];
+                                         
+                                         if([arrayLess120 count] == numberOfRows)
+                                         {
+                                             break;
+                                         }
+                                         
+                                     }
+                                 }
+                                 else
+                                 {
+                                     for(int i = 75; i < [guestArray count]; i++)
+                                     {
+                                         [arrayLess120 addObject:[guestArray objectAtIndex:i]];
+                                         
+                                         if(i == 99)
+                                         {
+                                             break;
+                                         }
+                                         
+                                     }
+                                 }
+                                 
+                                 /*for(int i = 50; i < [guestArray count]; i++)
+                                  {
+                                  [arrayLess90 addObject:[guestArray objectAtIndex:i]];
+                                  
+                                  if(i == 74)
+                                  {
+                                  break;
+                                  }
+                                  
+                                  }*/
+                                 
+                                 if(arrayLess120.count > 0)
+                                 {
+                                     [tblView120 reloadData];
+                                     
+                                 }
+                                 else
+                                 {
+                                 }
+                                 //
+                                 
+                                 
+                                 
+                                 
+                                 
+                                 
                                  [tblView30 reloadData];
+                                 [tblView60 reloadData];
+                                 [tblView90 reloadData];
                                  
-                                 
+                                 [tblView120 reloadData];
                              }
                              else
                              {
@@ -1286,10 +2169,23 @@
                      {
                          [arrayLess30 removeAllObjects];
                      }
-                     
-                     
+                     if(arrayLess60.count > 0)
+                     {
+                         [arrayLess60 removeAllObjects];
+                     }
+                     if(arrayLess90.count > 0)
+                     {
+                         [arrayLess90 removeAllObjects];
+                     }
+                     if(arrayLess120.count > 0)
+                     {
+                         [arrayLess120 removeAllObjects];
+                     }
                      
                      [tblView30 reloadData];
+                     [tblView60 reloadData];
+                     [tblView90 reloadData];
+                     [tblView120 reloadData];
                  }
              }
          }];
@@ -1323,7 +2219,6 @@
         
         if(buttonIndex == 3)
         {
-            
             
             [txtColumns.layer setBorderWidth:1.5];
             [txtColumns.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
@@ -1369,19 +2264,22 @@
             txtColumnFour.placeholder = @"Enter fourth column name";
             
             [[NSUserDefaults standardUserDefaults] setValue:lblColumnOneName.text forKey:@"columnOneName"];
+            [[NSUserDefaults standardUserDefaults] setValue:lblColumnTwoName.text forKey:@"columnTwoName"];
+            [[NSUserDefaults standardUserDefaults] setValue:lblColumnThreeName.text forKey:@"columnThreeName"];
+            [[NSUserDefaults standardUserDefaults] setValue:lblColumnFourName.text forKey:@"columnFourName"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
             
             /*if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfColumns"] isEqualToString:@""])
-            {
-                txtColumns.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfColumns"];
-                
-            }
-            if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] isEqualToString:@""])
-            {
-                txtRows.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"];
-                
-            }*/
+             {
+             txtColumns.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfColumns"];
+             
+             }
+             if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"] isEqualToString:@""])
+             {
+             txtRows.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfRows"];
+             
+             }*/
             
             if(![[[NSUserDefaults standardUserDefaults] valueForKey:@"columnOneName"] isEqualToString:@""])
             {
@@ -1448,7 +2346,11 @@
     [txtFieldRef resignFirstResponder];
     
     [tblView30 reloadData];
+    [tblView60 reloadData];
+    [tblView90 reloadData];
+    [tblView120 reloadData];
 }
+
 
 - (IBAction)btnColumns_clicked:(id)sender
 {
@@ -1492,6 +2394,8 @@
     
 }
 
+
+
 - (IBAction)btnSettingsOK_clicked:(id)sender
 {
     if(![txtColumns.text isEqualToString:@""] & ![txtRows.text isEqualToString:@""])
@@ -1510,35 +2414,30 @@
                 NSString *columnThreeName = [txtColumnThree.text uppercaseString];
                 txtColumnThree.text =  columnThreeName;
                 
+                NSString *columnFourName = [txtColumnFour.text uppercaseString];
+                txtColumnFour.text =  columnFourName;
+                
                 [[NSUserDefaults standardUserDefaults] setValue:txtColumns.text forKey:@"numberOfColumns"];
                 [[NSUserDefaults standardUserDefaults] setValue:txtRows.text forKey:@"numberOfRows"];
                 [[NSUserDefaults standardUserDefaults] setValue:txtColumnOne.text forKey:@"columnOneName"];
                 [[NSUserDefaults standardUserDefaults] setValue:txtColumnTwo.text forKey:@"columnTwoName"];
                 [[NSUserDefaults standardUserDefaults] setValue:txtColumnThree.text forKey:@"columnThreeName"];
+                [[NSUserDefaults standardUserDefaults] setValue:txtColumnFour.text forKey:@"columnFourName"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 
                 
                 
                 lblColumnOneName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnOneName"];
-                
-                
-                if([[NSUserDefaults standardUserDefaults] boolForKey:@"showParty"] == NO)
-                {
-                    lblPartyOne.hidden = true;
-                }
-                else
-                {
-                    lblPartyOne.hidden = false;
-                }
+                lblColumnTwoName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnTwoName"];
+                lblColumnThreeName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnThreeName"];
+                lblColumnFourName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnFourName"];
                 
                 viewSettings.hidden = true;
                 
                 [txtFieldRef resignFirstResponder];
                 
-                [self fetchGuestList];
-                
-                /*GuestListOneColumn *guestListOneColumn = [[GuestListOneColumn alloc] initWithNibName:@"GuestListOneColumn" bundle:nil];
-                [self.navigationController pushViewController:guestListOneColumn animated:NO];*/
+                GuestListOneColumn *guestListOneColumn = [[GuestListOneColumn alloc] initWithNibName:@"GuestListOneColumn" bundle:nil];
+                [self.navigationController pushViewController:guestListOneColumn animated:NO];
             }
             else
             {
@@ -1572,16 +2471,24 @@
                 NSString *columnThreeName = [txtColumnThree.text uppercaseString];
                 txtColumnThree.text =  columnThreeName;
                 
+                NSString *columnFourName = [txtColumnFour.text uppercaseString];
+                txtColumnFour.text =  columnFourName;
+                
+                
                 [[NSUserDefaults standardUserDefaults] setValue:txtColumns.text forKey:@"numberOfColumns"];
                 [[NSUserDefaults standardUserDefaults] setValue:txtRows.text forKey:@"numberOfRows"];
                 [[NSUserDefaults standardUserDefaults] setValue:txtColumnOne.text forKey:@"columnOneName"];
                 [[NSUserDefaults standardUserDefaults] setValue:txtColumnTwo.text forKey:@"columnTwoName"];
                 [[NSUserDefaults standardUserDefaults] setValue:txtColumnThree.text forKey:@"columnThreeName"];
+                [[NSUserDefaults standardUserDefaults] setValue:txtColumnFour.text forKey:@"columnFourName"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 
                 
                 
                 lblColumnOneName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnOneName"];
+                lblColumnTwoName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnTwoName"];
+                lblColumnThreeName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnThreeName"];
+                lblColumnFourName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnFourName"];
                 
                 viewSettings.hidden = true;
                 
@@ -1631,20 +2538,32 @@
                 NSString *columnThreeName = [txtColumnThree.text uppercaseString];
                 txtColumnThree.text =  columnThreeName;
                 
+                NSString *columnFourName = [txtColumnFour.text uppercaseString];
+                txtColumnFour.text =  columnFourName;
+                
+                
                 [[NSUserDefaults standardUserDefaults] setValue:txtColumns.text forKey:@"numberOfColumns"];
                 [[NSUserDefaults standardUserDefaults] setValue:txtRows.text forKey:@"numberOfRows"];
                 [[NSUserDefaults standardUserDefaults] setValue:txtColumnOne.text forKey:@"columnOneName"];
                 [[NSUserDefaults standardUserDefaults] setValue:txtColumnTwo.text forKey:@"columnTwoName"];
                 [[NSUserDefaults standardUserDefaults] setValue:txtColumnThree.text forKey:@"columnThreeName"];
+                [[NSUserDefaults standardUserDefaults] setValue:txtColumnFour.text forKey:@"columnFourName"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 
                 
                 
                 lblColumnOneName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnOneName"];
+                lblColumnTwoName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnTwoName"];
+                lblColumnThreeName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnThreeName"];
+                lblColumnFourName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnFourName"];
+                
+                
                 
                 viewSettings.hidden = true;
                 
                 [txtFieldRef resignFirstResponder];
+                
+                //[self fetchGuestList];
                 
                 KyobeeGuestList *kyobeeGuestList = [[KyobeeGuestList alloc] initWithNibName:@"KyobeeGuestList" bundle:nil];
                 [self.navigationController pushViewController:kyobeeGuestList animated:NO];
@@ -1717,17 +2636,60 @@
                 
                 
                 lblColumnOneName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnOneName"];
+                lblColumnTwoName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnTwoName"];
+                lblColumnThreeName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnThreeName"];
+                lblColumnFourName.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"columnFourName"];
                 
+                UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+                
+                if([[NSUserDefaults standardUserDefaults] boolForKey:@"showParty"] == NO)
+                {
+                    lblPartyOne.hidden = true;
+                    lblPartyTwo.hidden = true;
+                    lblPartyThree.hidden = true;
+                    lblPartyFour.hidden = true;
+                    
+                    _colOneGuestLead.constant = -50;
+                    _colTwoGuestLead.constant = -50;
+                    _colThreeGuestLead.constant = -50;
+                    _colFourGuestLead.constant = -50;
+                }
+                else
+                {
+                    lblPartyOne.hidden = false;
+                    lblPartyTwo.hidden = false;
+                    lblPartyThree.hidden = false;
+                    lblPartyFour.hidden = false;
+                    
+                    
+                    
+                    _partyOneLead.constant = 0;
+                    _partyTwoLead.constant = 0;
+                    _partyThreeLead.constant = 0;
+                    _partyFourLead.constant = 0;
+                    
+                    if (UIInterfaceOrientationIsLandscape(orientation))
+                    {
+                        _colOneGuestLead.constant = 15;
+                        _colTwoGuestLead.constant = 15;
+                        _colThreeGuestLead.constant = 15;
+                        _colFourGuestLead.constant = 15;
+                    }
+                    else
+                    {
+                        _colOneGuestLead.constant = 5;
+                        _colTwoGuestLead.constant = 5;
+                        _colThreeGuestLead.constant = 5;
+                        _colFourGuestLead.constant = 5;
+                    }
+                }
                 
                 
                 viewSettings.hidden = true;
                 
                 [txtFieldRef resignFirstResponder];
                 
-                //[self fetchGuestList];
-                
-                GuestListFourthColumn *guestListFourthColumn = [[GuestListFourthColumn alloc] initWithNibName:@"GuestListFourthColumn" bundle:nil];
-                [self.navigationController pushViewController:guestListFourthColumn animated:NO];
+                [self fetchGuestList];
                 
             }
             else
@@ -1872,7 +2834,6 @@
         [btnShowParty setBackgroundColor:[UIColor whiteColor]];
     }
 }
-
 
 #pragma mark -
 #pragma mark - Text Field Delegate Methods

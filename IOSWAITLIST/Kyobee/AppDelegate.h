@@ -3,7 +3,7 @@
 //  Kyobee
 //
 //  Created by Jenis Shah on 9/16/16.
-//
+//  mayur on 02 june 2017
 //
 
 #import <UIKit/UIKit.h>
@@ -28,12 +28,12 @@
 */
 
 
-#define logoUrl @"http://jbossdev-kyobee.rhcloud.com/static/orglogos/" // DEV Envireonment
+/*#define logoUrl @"http://jbossdev-kyobee.rhcloud.com/static/orglogos/" // DEV Envireonment
 #define ServiceUrl @"http://jbossdev-kyobee.rhcloud.com/kyobee/" // DEV Envireonment
 #define ChannelName @"RSNT_GUEST_DEV_" // DEV Envireonment*/
 
 
-/*#define logoUrl @"http://jbossqa-kyobee.rhcloud.com/static/orglogos/" // QA Envireonment
+#define logoUrl @"http://jbossqa-kyobee.rhcloud.com/static/orglogos/" // QA Envireonment
 #define ServiceUrl @"http://jbossqa-kyobee.rhcloud.com/kyobee/" // QA Envireonment
 #define ChannelName @"RSNT_GUEST_QA_" // QA Envireonment*/
 

@@ -12,6 +12,7 @@
 #import "KyobeeGuestList.h"
 #import "GuestListTwoColumn.h"
 #import "GuestListOneColumn.h"
+#import "GuestListFourthColumn.h"
 
 #import "GuestListVC.h"
 
@@ -356,6 +357,7 @@ replacementString:(NSString *)string
                          [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"columnOneName"];
                          [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"columnTwoName"];
                          [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"columnThreeName"];
+                         [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"columnFourName"];
                          
                          //**
                          
@@ -365,6 +367,7 @@ replacementString:(NSString *)string
                          
                          [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showNotPresent"];
                          [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showIncomplete"];
+                         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showParty"];
                          
                          [[NSUserDefaults standardUserDefaults] synchronize];
                          
@@ -491,6 +494,11 @@ replacementString:(NSString *)string
         {
             KyobeeGuestList *kyobeeGuestList = [[KyobeeGuestList alloc] initWithNibName:@"KyobeeGuestList" bundle:nil];
             [self.navigationController pushViewController:kyobeeGuestList animated:YES];
+        }
+        if([[[NSUserDefaults standardUserDefaults] valueForKey:@"numberOfColumns"] isEqualToString:@"4"])
+        {
+            GuestListFourthColumn *guestListFourthColumn = [[GuestListFourthColumn alloc] initWithNibName:@"GuestListFourthColumn" bundle:nil];
+            [self.navController pushViewController:guestListFourthColumn animated:YES];
         }
         
     }

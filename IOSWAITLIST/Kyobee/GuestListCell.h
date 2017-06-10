@@ -16,4 +16,7 @@
 @property (strong, nonatomic) IBOutlet UIImageView *imgThumb;
 
 
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *lblNameLead;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *lblRankLead;
+
 @end
