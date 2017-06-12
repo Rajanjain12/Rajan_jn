@@ -13,9 +13,11 @@ public class MultiColumnSession{
     String columnName1="APPROX. 30 MIN. OR LESS";
     String columnName2="APPROX. 60 MIN. OR LESS";
     String columnName3="APPROX. 90 MIN. OR LESS";
+    String columnName4="APPROX. 120 MIN. OR LESS";
 
     boolean notPresent=true;
     boolean inComplete=true;
+    boolean party=false;
 
 
     public int getTotalColumn (){
@@ -32,6 +34,14 @@ public class MultiColumnSession{
 
     public void setTotalRows (int totalRows){
         this.totalRows = totalRows;
+    }
+
+    public boolean isParty (){
+        return party;
+    }
+
+    public void setParty (boolean party){
+        this.party = party;
     }
 
     public String getColumnName1 (){
@@ -56,6 +66,14 @@ public class MultiColumnSession{
 
     public void setColumnName3 (String columnName3){
         this.columnName3 = columnName3;
+    }
+
+    public String getColumnName4 (){
+        return columnName4;
+    }
+
+    public void setColumnName4 (String columnName4){
+        this.columnName4 = columnName4;
     }
 
     public boolean isNotPresent (){
