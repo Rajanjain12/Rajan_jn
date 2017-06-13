@@ -257,7 +257,13 @@
 		    <artifactId>aws-java-sdk-sns</artifactId>
 		    <version>1.11.113</version>
 		</dependency>
-				
+						
+		<!-- https://mvnrepository.com/artifact/com.bandwidth.sdk/bandwidth-java-sdk -->
+		<dependency>
+		    <groupId>com.bandwidth.sdk</groupId>
+		    <artifactId>bandwidth-java-sdk</artifactId>
+		    <version>1.10</version>
+		</dependency>
 
 		<!-- Dependency for mail -->
 
