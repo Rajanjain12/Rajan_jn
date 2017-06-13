@@ -96,6 +96,10 @@
     NSTimer *checkinTimerInternet;
     NSTimer *hidePoorInternet;
     
+    IBOutlet UITextField *txtAdults;
+    IBOutlet UITextField *txtChildrens;
+    IBOutlet UITextField *txtInfants;
+    
     
     IBOutlet UIView *Thank_View;
     IBOutlet UIImageView *Img_thank_you_Popup;

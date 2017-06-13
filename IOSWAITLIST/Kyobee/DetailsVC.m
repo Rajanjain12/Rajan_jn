@@ -440,6 +440,15 @@
     [txt_your_party.layer setBorderWidth:1.5];
     [txt_your_party.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
     
+    [txtAdults.layer setBorderWidth:1.5];
+    [txtAdults.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    
+    [txtChildrens.layer setBorderWidth:1.5];
+    [txtChildrens.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    
+    [txtInfants.layer setBorderWidth:1.5];
+    [txtInfants.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    
     [Img_seating_Bg.layer setBorderWidth:1.5];
     [Img_seating_Bg.layer setCornerRadius:3.0];
     [Img_seating_Bg.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
@@ -800,6 +809,10 @@
     txt_Phone_Or_Mail.text = @"";
     txt_your_party.text = @"";
     
+    txtAdults.text = @"";
+    txtChildrens.text = @"";
+    txtInfants.text = @"";
+    
     Btn_Promotions_Specials.selected = false;
     
     btn_Cell_Phone.selected = true;
@@ -834,6 +847,15 @@
     
     [txt_your_party.layer setBorderWidth:1.5];
     [txt_your_party.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    
+    [txtAdults.layer setBorderWidth:1.5];
+    [txtAdults.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    
+    [txtChildrens.layer setBorderWidth:1.5];
+    [txtChildrens.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    
+    [txtInfants.layer setBorderWidth:1.5];
+    [txtInfants.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
     
     [_tableViewWB reloadData];
     
@@ -1603,7 +1625,8 @@
         hidePoorInternet = nil;
         
         //if(![txt_Name.text isEqualToString:@""] & ![txt_Phone_Or_Mail.text isEqualToString:@""] & ![txt_your_party.text isEqualToString:@""])
-        if(![txt_Name.text isEqualToString:@""] & ![txt_your_party.text isEqualToString:@""])
+        //if(![txt_Name.text isEqualToString:@""] & ![txt_your_party.text isEqualToString:@""]) // 10/06/2017
+        if(![txt_Name.text isEqualToString:@""] & (![txtAdults.text isEqualToString:@""] | ![txtChildrens.text isEqualToString:@""] | ![txtInfants.text isEqualToString:@""]))
         {
             ///
             
@@ -1627,6 +1650,75 @@
                 }
             }
             
+            if(([txtAdults.text isEqualToString:@"0"] | [txtAdults.text isEqualToString:@"00"]) & ([txtChildrens.text isEqualToString:@"0"] | [txtChildrens.text isEqualToString:@"00"]) & ([txtInfants.text isEqualToString:@"0"] | [txtInfants.text isEqualToString:@"00"]))
+            {
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please enter values more than 0." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                
+                [alert show];
+                
+                [txtAdults.layer setBorderWidth:1.5];
+                [txtAdults.layer setBorderColor:[UIColor redColor].CGColor];
+                [txtChildrens.layer setBorderWidth:1.5];
+                [txtChildrens.layer setBorderColor:[UIColor redColor].CGColor];
+                [txtInfants.layer setBorderWidth:1.5];
+                [txtInfants.layer setBorderColor:[UIColor redColor].CGColor];
+                
+                return;
+            }
+            else if (![txtInfants.text isEqualToString:@"0"] && ![txtInfants.text isEqualToString:@"00"] && ![txtInfants.text isEqualToString:@""])
+            {
+                if(([txtAdults.text isEqualToString:@"0"] | [txtAdults.text isEqualToString:@"00"] | [txtAdults.text isEqualToString:@""]) & ([txtChildrens.text isEqualToString:@"0"] | [txtChildrens.text isEqualToString:@"00"] | [txtChildrens.text isEqualToString:@""]))
+                {
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please enter values for adults or childrens." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    
+                    [alert show];
+                    
+                    return;
+                }
+            }
+            else if ([txtAdults.text isEqualToString:@"0"] || [txtAdults.text isEqualToString:@"00"] || [txtAdults.text isEqualToString:@""])
+            {
+                if(([txtChildrens.text isEqualToString:@"0"] | [txtChildrens.text isEqualToString:@"00"] | [txtChildrens.text isEqualToString:@""]) & ([txtInfants.text isEqualToString:@"0"] | [txtInfants.text isEqualToString:@"00"] | [txtInfants.text isEqualToString:@""]))
+                {
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please enter values for adults, childrens or infants." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    
+                    [alert show];
+                    
+                    return;
+                }
+            }
+            else if ([txtChildrens.text isEqualToString:@"0"] || [txtChildrens.text isEqualToString:@"00"] || [txtChildrens.text isEqualToString:@""])
+            {
+                if(([txtAdults.text isEqualToString:@"0"] | [txtAdults.text isEqualToString:@"00"] | [txtAdults.text isEqualToString:@""]) & ([txtInfants.text isEqualToString:@"0"] | [txtInfants.text isEqualToString:@"00"] | [txtInfants.text isEqualToString:@""]))
+                {
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please enter values for adults, childrens or infants." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    
+                    [alert show];
+                    
+                    return;
+                }
+            }
+            else if ([txtInfants.text isEqualToString:@"0"] || [txtInfants.text isEqualToString:@"00"] || [txtInfants.text isEqualToString:@""])
+            {
+                if(([txtAdults.text isEqualToString:@"0"] | [txtAdults.text isEqualToString:@"00"] | [txtAdults.text isEqualToString:@""]) & ([txtChildrens.text isEqualToString:@"0"] | [txtChildrens.text isEqualToString:@"00"] | [txtChildrens.text isEqualToString:@""]))
+                {
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please enter values for adults, childrens or infants." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    
+                    [alert show];
+                    
+                    return;
+                }
+            }
+            
+            
+            int adults = (int) [txtAdults.text integerValue];
+            int childrens = (int) [txtChildrens.text integerValue];
+            int infants = (int) [txtInfants.text integerValue];
+            
+            int parties = adults+childrens+infants;
+            
+            txt_your_party.text = [NSString stringWithFormat:@"%d",parties];
+            
             Lbl_Required.hidden = false;
             Btn_Close.hidden = false;
             _txtNameToTop.constant = -181;
@@ -1648,6 +1740,15 @@
             [txt_your_party.layer setBorderWidth:1.5];
             [txt_your_party.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
             
+            
+            [txtAdults.layer setBorderWidth:1.5];
+            [txtAdults.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+            
+            [txtChildrens.layer setBorderWidth:1.5];
+            [txtChildrens.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+            
+            [txtInfants.layer setBorderWidth:1.5];
+            [txtInfants.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
             
             /*if(selectedPref.count == 0)
             {
@@ -1853,6 +1954,41 @@
             {
                 [txt_your_party.layer setBorderWidth:1.5];
                 [txt_your_party.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+            }
+            
+            
+            
+            if([txtAdults.text isEqualToString:@""])
+            {
+                [txtAdults.layer setBorderWidth:1.5];
+                [txtAdults.layer setBorderColor:[UIColor redColor].CGColor];
+            }
+            else
+            {
+                [txtAdults.layer setBorderWidth:1.5];
+                [txtAdults.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+            }
+            
+            if([txtChildrens.text isEqualToString:@""])
+            {
+                [txtChildrens.layer setBorderWidth:1.5];
+                [txtChildrens.layer setBorderColor:[UIColor redColor].CGColor];
+            }
+            else
+            {
+                [txtChildrens.layer setBorderWidth:1.5];
+                [txtChildrens.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+            }
+            
+            if([txtInfants.text isEqualToString:@""])
+            {
+                [txtInfants.layer setBorderWidth:1.5];
+                [txtInfants.layer setBorderColor:[UIColor redColor].CGColor];
+            }
+            else
+            {
+                [txtInfants.layer setBorderWidth:1.5];
+                [txtInfants.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
             }
         }
     }
@@ -2116,6 +2252,27 @@
             }
         }
         
+        if(txtFieldRef == txtAdults)
+        {
+            _txtNameToTop.constant = -111;
+            Lbl_Required.hidden = true;
+            Btn_Close.hidden = true;
+        }
+        
+        if(txtFieldRef == txtChildrens)
+        {
+            _txtNameToTop.constant = -111;
+            Lbl_Required.hidden = true;
+            Btn_Close.hidden = true;
+        }
+        
+        if(txtFieldRef == txtInfants)
+        {
+            _txtNameToTop.constant = -111;
+            Lbl_Required.hidden = true;
+            Btn_Close.hidden = true;
+        }
+        
         if(txtFieldRef == txt_your_party)
         {
             _txtNameToTop.constant = -111;
@@ -2241,6 +2398,108 @@ replacementString:(NSString *)string
         [txt_Name.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
         
         
+        
+        return YES;
+    }
+    else if (textField == txtAdults)
+    {
+        [txtAdults.layer setBorderWidth:1.5];
+        [txtAdults.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+        
+        [txtChildrens.layer setBorderWidth:1.5];
+        [txtChildrens.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+        
+        [txtInfants.layer setBorderWidth:1.5];
+        [txtInfants.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+        
+        if([self checkforNumeric:string] == YES)
+        {
+            int length = (int)[self getLength:textField.text];
+            
+            if(length > 1)
+            {
+                if(range.length == 0)
+                {
+                    [self hideKeyBoard];
+                    return NO;
+                    
+                }
+            }
+        }
+        else
+        {
+            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:@"Please enter numbers only." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
+            [objAlert show];
+            
+            
+            return NO;
+        }
+        
+        return YES;
+    }
+    else if (textField == txtChildrens)
+    {
+        [txtChildrens.layer setBorderWidth:1.5];
+        [txtChildrens.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+        
+        [txtAdults.layer setBorderWidth:1.5];
+        [txtAdults.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+        
+        [txtInfants.layer setBorderWidth:1.5];
+        [txtInfants.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+        
+        if([self checkforNumeric:string] == YES)
+        {
+            int length = (int)[self getLength:textField.text];
+            
+            if(length > 1)
+            {
+                if(range.length == 0)
+                {
+                    [self hideKeyBoard];
+                    return NO;
+                    
+                }
+            }
+        }
+        else
+        {
+            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:@"Please enter numbers only." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
+            [objAlert show];
+            
+            
+            return NO;
+        }
+        
+        return YES;
+    }
+    else if (textField == txtInfants)
+    {
+        [txtInfants.layer setBorderWidth:1.5];
+        [txtInfants.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+        
+        if([self checkforNumeric:string] == YES)
+        {
+            int length = (int)[self getLength:textField.text];
+            
+            if(length > 1)
+            {
+                if(range.length == 0)
+                {
+                    [self hideKeyBoard];
+                    return NO;
+                    
+                }
+            }
+        }
+        else
+        {
+            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:@"Please enter numbers only." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
+            [objAlert show];
+            
+            
+            return NO;
+        }
         
         return YES;
     }
