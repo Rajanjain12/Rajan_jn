@@ -214,6 +214,7 @@
                         >
 
                         <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
+                            android:id="@+id/txtParty1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
@@ -224,9 +225,11 @@
                             android:textColor="@android:color/white"
                             android:textSize="20sp"
                             android:textStyle="bold"
+                            android:visibility="gone"
                             />
 
                         <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
+                            android:id="@+id/txtGuestName1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -320,6 +323,7 @@
                         >
 
                         <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
+                            android:id="@+id/txtParty2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
@@ -329,10 +333,11 @@
                             android:textColor="@android:color/white"
                             android:textSize="20sp"
                             android:textStyle="bold"
+                            android:visibility="gone"
                             />
 
                         <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
-                            android:id="@+id/customTextViewRegular"
+                            android:id="@+id/txtGuestName2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -424,6 +429,7 @@
                         >
 
                         <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
+                            android:id="@+id/txtParty3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
@@ -433,9 +439,11 @@
                             android:textColor="@android:color/white"
                             android:textSize="20sp"
                             android:textStyle="bold"
+                            android:visibility="gone"
                             />
 
                         <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
+                            android:id="@+id/txtGuestName3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -469,6 +477,113 @@
 
                     <com.kyobee.waitlist.customcontrol.CustomTextViewSemiBold
                         android:id="@+id/txtNodata3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:gravity="center"
+                        android:text="@string/no_guest_checked"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:visibility="gone"
+                        />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorGrayColumn"/>
+
+            <LinearLayout
+                android:id="@+id/linearColumn4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorPurpleLight"
+                android:orientation="vertical"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:background="@color/colorPurple"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    >
+
+                    <com.kyobee.waitlist.customcontrol.CustomTextViewSemiBold
+                        android:id="@+id/txtColumn4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center"
+                        android:text="@string/approx_120_min"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="bottom"
+                        android:orientation="horizontal"
+                        >
+
+                        <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
+                            android:id="@+id/txtParty4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_weight="2"
+                            android:gravity="center_horizontal"
+                            android:text="#"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:visibility="gone"
+                            />
+
+                        <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
+                            android:id="@+id/txtGuestName4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/guest_name"
+                            android:textAllCaps="true"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycle120"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        >
+
+                    </android.support.v7.widget.RecyclerView>
+
+
+                    <com.kyobee.waitlist.customcontrol.CustomTextViewSemiBold
+                        android:id="@+id/txtNodata4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"

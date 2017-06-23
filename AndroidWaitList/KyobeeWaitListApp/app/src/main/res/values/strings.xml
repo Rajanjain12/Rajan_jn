@@ -52,6 +52,7 @@
     <string name="approx_30_min">APPROX. 30 MIN. OR LESS</string>
     <string name="approx_60_min">APPROX. 60 MIN. OR LESS</string>
     <string name="approx_90_min">APPROX. 90 MIN. OR LESS</string>
+    <string name="approx_120_min">APPROX. 120 MIN. OR LESS</string>
 
     <string name="not_present"> : Not Present</string>
     <string name="in_complete"> : Incomplete</string>
@@ -65,6 +66,7 @@
     <string name="column_first">First column name</string>
     <string name="column_second">Second column name</string>
     <string name="column_thired">Third column name</string>
+    <string name="column_fourth">Fourth column name</string>
 
     <string name="option">Option</string>
 
@@ -73,5 +75,6 @@
 
     <string name="not_present_status">Not Present</string>
     <string name="in_complete_status">Incomplete</string>
+    <string name="show_party_number">Show Party #</string>
 
 </resources>

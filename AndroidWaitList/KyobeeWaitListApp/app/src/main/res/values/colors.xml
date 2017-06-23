@@ -15,6 +15,8 @@
     <color name="colorGrayLight">#e6e5e3</color>
     <color name="colorSky">#93a9d2</color>
     <color name="colorSkyLight">#e5e9f4</color>
+    <color name="colorPurple">#740163</color>
+    <color name="colorPurpleLight">#E4D3E7</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorYellow">#FFFF00</color>
     <color name="colorTransparent">#00000000</color>
