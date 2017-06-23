@@ -25,7 +25,12 @@ public class GuestDTO implements Serializable{
 	private String name;
 	private String note;
 	private String uuid;
+	private Long noOfChildren;  //changes by krupali, line 28 to 33 and line(15/06/2017)
+	private Long noOfAdults;
+	private Long noOfInfants;
 	private Long noOfPeople;
+	private int quoteTime;
+	private int partyType;
 	private String email;
 	private String sms;
 	private String status;
@@ -58,7 +63,6 @@ public class GuestDTO implements Serializable{
 	public void setDeviceId(String deviceId) {
 		this.deviceId = deviceId;
 	}
-
 
 	@XmlAttribute
 	public Long getIncompleteParty() {
@@ -95,12 +99,47 @@ public class GuestDTO implements Serializable{
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
+	@XmlAttribute						//changes by krupali, line 102 to line 122 and line 130 to 135 (15/06/2017)
+	public Long getNoOfChildren() {				
+		return noOfChildren;
+	}
+	public void setNoOfChildren(Long noOfChildren) {	
+		this.noOfChildren = noOfChildren;
+	}
+	@XmlAttribute
+	public Long getNoOfAdults() {
+		return noOfAdults;
+	}
+	public void setNoOfAdults(Long noOfAdults) {
+		this.noOfAdults = noOfAdults;
+	}
+	@XmlAttribute
+	public Long getNoOfInfants() {
+		return noOfInfants;
+	}
+	public void setNoOfInfants(Long noOfInfants) {
+		this.noOfInfants = noOfInfants;
+	}
 	@XmlAttribute
 	public Long getNoOfPeople() {
 		return noOfPeople;
 	}
 	public void setNoOfPeople(Long noOfPeople) {
 		this.noOfPeople = noOfPeople;
+	}
+	@XmlAttribute
+	public int getQuoteTime() {
+		return quoteTime;
+	}
+	public void setQuoteTime(int quoteTime) {
+		this.quoteTime = quoteTime;
+	}
+	@XmlAttribute
+	public int getPartyType() {
+		return partyType;
+	}
+	public void setPartyType(int partyType) {
+		this.partyType = partyType;
 	}
 	@XmlAttribute
 	public String getEmail() {
@@ -209,6 +248,7 @@ public class GuestDTO implements Serializable{
 	public void setSeatingPreference(String seatingPreference) {
 		this.seatingPreference = seatingPreference;
 	}
+	
 }
 
 

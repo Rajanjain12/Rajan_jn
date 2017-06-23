@@ -114,6 +114,20 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 							return;
 						}
 						
+						/*if(($scope.guestDTO.noOfAdults != null && $scope.guestDTO.noOfAdults == 0)){
+							$scope.errorMsg = "Adults must be greater than 0";
+							$scope.loading=false;
+							return;
+						}*/
+						
+						if ($("#children").val() == "") {
+						     $("#children").val("0");
+						}
+					
+						if ($("#infants").val() == ""){
+							$("#infants").val("0");
+						}
+						
 						var selectedGuestPref = [];
 						
 						for(i=0;i<$scope.seatPrefs.length;i++){
@@ -130,7 +144,10 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								'name' : 	$scope.guest.name,
 								'guestID' : $scope.guest.guestID,
 								'organizationID' : $scope.guest.OrganizationID,
-								'noOfPeople' : $scope.guest.noOfPeople,
+								'noOfChildren' : $scope.guest.noOfChildren,
+								'noOfAdults' : $scope.guest.noOfAdults,
+								'noOfInfants' : $scope.guest.noOfInfants,
+								'noOfPeople' : $scope.guest.noOfAdults+$scope.guest.noOfChildren+$scope.guest.noOfInfants,
 								'prefType' : $scope.guest.prefType,
 								'sms' : $scope.guest.sms,
 								'email' : $scope.guest.email,

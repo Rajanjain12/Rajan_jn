@@ -41,9 +41,9 @@
 				  </div>
                 </div>
                   
-               <div class="form-group" ng-class="{'has-error' : addGuestForm.partyOf.$invalid && (!addGuestForm.partyOf.$pristine || addGuestForm.$submitted)}">
+               <!-- <div class="form-group" ng-class="{'has-error' : addGuestForm.partyOf.$invalid && (!addGuestForm.partyOf.$pristine || addGuestForm.$submitted)}">
                	<input type="number" class="form-control" placeholder="Party of." min=1 max=100 required ng-model="guestDTO.noOfPeople" name="partyOf" id="partyOf">
-                    <!-- <select name="partyOf" class="form-control" ng-model="guestDTO.noOfPeople" required>
+                    <select name="partyOf" class="form-control" ng-model="guestDTO.noOfPeople" required>
                         <option value="" ng-selected="null == guestDTO.noOfPeople">Party of:</option>
                         <option value="1" ng-selected="1 == guestDTO.noOfPeople">Party 1</option>
                         <option value="2" ng-selected="2 == guestDTO.noOfPeople">Party 2</option>
@@ -55,15 +55,64 @@
                         <option value="8" ng-selected="8 == guestDTO.noOfPeople">Party 8</option>
                         <option value="9" ng-selected="9 == guestDTO.noOfPeople">Party 9</option>
                         <option value="10" ng-selected="10 == guestDTO.noOfPeople">Party 10</option>
-                    </select> -->
+                    </select>
                     <div ng-messages="addGuestForm.partyOf.$error" ng-show=" (!addGuestForm.partyOf.$pristine || addGuestForm.$submitted)" class="help-block">
 				        <div ng-message="required">Party of cannot be blank</div>
 				  </div>
-                </div>
+                </div> -->
                   
+                 <!-- changes by krupali, line 65 to 107,(15/06/2017) -->
+              <div class="row">   
+              <div class="form-group" ng-class="{'has-error' : addGuestForm.name.$invalid && (!addGuestForm.name.$pristine || addGuestForm.$submitted)}">
+                <div class="col-md-2 col-sm-2 col-xs-12">
+				  <input type="number" id="adults" name="adults" min=0 max=100 class="form-control col-md-4 col-sm-4 col-xs-12" ng-model="guestDTO.noOfAdults" required placeholder="Adults" />
+				  <!-- <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
+				        <h5 ng-message="required">Adults cannot be blank</h5>
+				  </span> -->
+				  </div>
+                
+                 <div class="col-md-2 col-sm-2 col-xs-12">
+                  <input type="number" id="children" name="children" class="form-control" min=0 max=100 ng-model="guestDTO.noOfChildren" placeholder="Children"/>
+                  <!-- <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
+				        <h5 ng-message="required">Children cannot be blank</h5>
+                  </span>  -->
+                  </div>
+				  
+				  <div class="col-md-2 col-sm-2 col-xs-12">
+				  <input type="number" id="infants" name="infants" min=0 max=100 class="form-control col-md-4 col-sm-4 col-xs-12" ng-model="guestDTO.noOfInfants" placeholder="Infants" ng-disabled="guestDTO.noOfChildren == 0 && guestDTO.noOfAdults == 0" title="{{(guestDTO.noOfChildren == 0 && guestDTO.noOfAdults == 0) ? 'You must have to add at least one child or adult' : 'Please fill out this field'}}" />
+				  <!-- <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
+				        <h5 ng-message="required">Infants cannot be blank</h5>
+				  </span> -->
+                  </div>
+                   <div class="col-md-6 col-sm-6 col-xs-12" >
+                <div class="form-group panel-form-partytype addf3"  >
+               
+              			<div class="addf1">
+              				<label class="partytype-label">Party Type:</label>
+              			</div>
+                        <div class="radio radio-danger">
+                            <input type="radio" name="radio4" ng-checked="true" id="Psmall" ng-model="guestDTO.partyType" ng-value="0" >
+                            <label for="Psmall">Small</label>
+                        </div>
+                        <div class="radio radio-danger">
+                            <input type="radio" name="radio4" id="Plarge" ng-model="guestDTO.partyType" ng-value="1" >
+                            <label for="Plarge">Large</label>
+                        </div>
+                 </div>
+                 </div> 
+                  
+              </div>
+              </div>
+                
+               <div class="row margin-bottom-25">
+               	<div class="col-md-12 col-sm-12 col-xs-12" >
+                	 <input type="number" id="quoteTime" name="quoteTime" class="form-control" min=0 max=100 ng-model="guestDTO.quoteTime" placeholder="Quote Time" />
+                </div> 
+               </div>
+                 </div> 
                 
                   
-                 <div class="form-group panel-form addf3" ng-show="userDTO.smsRoute != null && userDTO.smsRoute != ''" > 
+                 <div class="form-group panel-form addf3 margin-bottom-25" ng-show="userDTO.smsRoute != null && userDTO.smsRoute != ''" > 
                         <div class="radio radio-danger">
                             <input type="radio" name="radio1" onchange="showsms();" id="smsshow" ng-model="guestDTO.prefType" value="sms" >
                             <label for="smsshow">SMS</label>
@@ -112,14 +161,14 @@
                   
                 <div class="addf4 panel-form-1">
                       <a href="javascript:void(0);" id="noteshow"><u>Note</u> <img src="../assets/img/down-arrow.png"></a>
-                      <div class="checkbox checkbox-success checkbox-inline">
+                      <!-- <div class="checkbox checkbox-success checkbox-inline">
                         <input type="checkbox" id="inlineCheckbox13" ng-model='guestDTO.optin'>
                         <label for="inlineCheckbox13">Opt-in</label>
-                    </div>
+                    </div> -->
                 </div>
                   
                 <div class="form-group" id="notehide">                  
-                  <textarea class="form-control" rows="5" id="comment" placeholder="Note:" ng-model='guestDTO.note'></textarea>
+                  <textarea class="form-control" rows="2" id="comment" placeholder="Note:" ng-model='guestDTO.note'></textarea>
                 </div>
 
                 <div class="form-group text-center">

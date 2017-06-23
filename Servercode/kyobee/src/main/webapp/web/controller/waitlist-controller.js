@@ -9,6 +9,128 @@ KyobeeControllers.controller('waitListCtrl',
 				'KyobeeService',
 				function($scope, $rootScope,$location, $timeout, $interval, KyobeeService) {
 					
+				$scope.toggleColumn = {
+							seat : true,
+							no : true,
+							name : true,
+							seatingPref : true,
+							noOfParty : true,
+							checkinTime : true,
+							partyType : true,
+							quoteTime : false,
+							/*optIn : true,*/
+							note : false,
+							del : true
+					};
+					
+					$scope.toggleColumns = function(status){
+					/*alert("in toggleColumns")*/
+					console.log(status);
+					
+					switch (status) {
+					case 'seat':
+						if($scope.toggleColumn.seat == true){
+							$scope.toggleColumn.seat = false;
+						}
+						else{
+							$scope.toggleColumn.seat = true;
+						}
+						break;
+					
+					case 'no':
+						if($scope.toggleColumn.no == true){
+							$scope.toggleColumn.no = false; 
+						}
+						else{
+							$scope.toggleColumn.no = true;
+						}
+						break;
+						
+					case 'name':
+						if($scope.toggleColumn.name == true){
+							$scope.toggleColumn.name = false; 
+						}
+						else{
+							$scope.toggleColumn.name = true;
+						}
+						break;
+						
+					case 'seatingPref':
+						if($scope.toggleColumn.seatingPref == true){
+							$scope.toggleColumn.seatingPref = false; 
+						}
+						else{
+							$scope.toggleColumn.seatingPref = true;
+						}
+						break;
+						
+					case 'noOfParty':
+						if($scope.toggleColumn.noOfParty == true){
+							$scope.toggleColumn.noOfParty = false; 
+						}
+						else{
+							$scope.toggleColumn.noOfParty = true;
+						}
+						break;
+						
+					case 'checkinTime':
+						if($scope.toggleColumn.checkinTime == true){
+							$scope.toggleColumn.checkinTime = false; 
+						}
+						else{
+							$scope.toggleColumn.checkinTime = true;
+						}
+						break;
+						
+					case 'partyType':
+						if($scope.toggleColumn.partyType == true){
+							$scope.toggleColumn.partyType = false; 
+						}
+						else{
+							$scope.toggleColumn.partyType = true;
+						}
+						break;
+					
+					case 'quoteTime':
+						if($scope.toggleColumn.quoteTime == true){
+							$scope.toggleColumn.quoteTime = false; 
+						}
+						else{
+							$scope.toggleColumn.quoteTime= true;
+						}
+						break;
+					/*case 'optIn':
+						if($scope.toggleColumn.optIn == true){
+							$scope.toggleColumn.optIn = false; 
+						}
+						else{
+							$scope.toggleColumn.optIn = true;
+						}
+						break;*/
+						
+					case 'note':
+						if($scope.toggleColumn.note == true){
+							$scope.toggleColumn.note = false; 
+						}
+						else{
+							$scope.toggleColumn.note = true;
+						}
+						break;
+					
+					case 'del':
+						if($scope.toggleColumn.del == true){
+							$scope.toggleColumn.del = false; 
+						}
+						else{
+							$scope.toggleColumn.del = true;
+						}
+						break;
+						
+					default:
+						break;
+					}
+				}
+					/*$scope.sliderStartTime = 'hello';*/
 					$rootScope.hideHeader=false;//To hide show header in index.html
 					$scope.waitTime = null;
 					$scope.notifyFirst = null;
@@ -28,6 +150,8 @@ KyobeeControllers.controller('waitListCtrl',
 					
 					$scope.showHistory = false;
 					
+					$scope.toggleColumnShowHide = false;
+					
 					$scope.successMsg = null;
 					
 					$scope.statusOptions=["All","Not Present","Incomplete"];
@@ -36,6 +160,38 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.hideSuccessMsg = function(){
 						$scope.successMsg = null;
 					};
+					
+					$scope.slider = {
+							id : 'timeSlider',
+							range:{
+								min:00,
+								max:24
+							},
+							minTime:9,
+							maxTime:15,
+							/*showValues: "true",*/
+							
+					};
+			
+					
+					/*$scope.demo8 = {
+						    range: {
+						        min: 0,
+						        max: 10050
+						    },
+						    minPrice: 1000,
+						    maxPrice: 4000,
+						    showValues: "true"
+						    
+						};*/
+					$scope.showToggleColumn = function(){
+						if($scope.toggleColumnShowHide){
+							$scope.toggleColumnShowHide = false;
+							
+						}else {
+							$scope.toggleColumnShowHide = true;
+						}						
+					}
 					
 					$scope.toggleShowHistory = function(){
 						if($scope.showHistory){
@@ -113,7 +269,8 @@ KyobeeControllers.controller('waitListCtrl',
 						
 						var postBody = {
 								orgid : $scope.userDTO.organizationId,
-								pagerReqParam : $scope.pagerRequest
+								partyType : "C",
+								pagerReqParam : $scope.pagerRequest								
 						};
 						
 						$scope.loadOrgMetricks();
@@ -153,7 +310,9 @@ KyobeeControllers.controller('waitListCtrl',
 						var postBody = {
 								orgid : $scope.userDTO.organizationId,
 								statusOption: $scope.selectedStatus,
-								pagerReqParam : $scope.pagerRequest
+								pagerReqParam : $scope.pagerRequest,
+								sliderMinTime : $scope.slider.minTime,
+								sliderMaxTime : $scope.slider.maxTime
 						};
 						
 						//$scope.loadOrgMetricks();
@@ -423,6 +582,85 @@ KyobeeControllers.controller('waitListCtrl',
 						$scope.loadWaitListPage(1);
 					});
 					
+	
+					/*$(document).ready(function(){
+					    $("#slider-range").slider({
+					    range: true,
+					    min: 0,
+					    max: 1440,
+					    step: 15,
+					    values: [600, 720],
+					    slide: function (e, ui) {
+					        var hours1 = Math.floor(ui.values[0] / 60);
+					        var minutes1 = ui.values[0] - (hours1 * 60);
+
+					        if (hours1.length == 1) hours1 = '0' + hours1;
+					        if (minutes1.length == 1) minutes1 = '0' + minutes1;
+					        if (minutes1 == 0) minutes1 = '00';
+					        if (hours1 >= 12) {
+					            if (hours1 == 12) {
+					                hours1 = hours1;
+					                minutes1 = minutes1 + " PM";
+					            } else {
+					                hours1 = hours1 - 12;
+					                minutes1 = minutes1 + " PM";
+					            }
+					        } else {
+					            hours1 = hours1;
+					            minutes1 = minutes1 + " AM";
+					        }
+					        if (hours1 == 0) {
+					            hours1 = 12;
+					            minutes1 = minutes1;
+					        }
+
+
+
+					        $('.slider-time').html(hours1 + ':' + minutes1);
+					        alert($scope.sliderStartTime);
+					        $scope.sliderStartTime = hours1 + ':' + minutes1;
+					        alert($scope.sliderStartTime);
+					        
+					        var hours2 = Math.floor(ui.values[1] / 60);
+					        var minutes2 = ui.values[1] - (hours2 * 60);
+
+					        if (hours2.length == 1) hours2 = '0' + hours2;
+					        if (minutes2.length == 1) minutes2 = '0' + minutes2;
+					        if (minutes2 == 0) minutes2 = '00';
+					        if (hours2 >= 12) {
+					            if (hours2 == 12) {
+					                hours2 = hours2;
+					                minutes2 = minutes2 + " PM";
+					            } else if (hours2 == 24) {
+					                hours2 = 11;
+					                minutes2 = "59 PM";
+					            } else {
+					                hours2 = hours2 - 12;
+					                minutes2 = minutes2 + " PM";
+					            }
+					        } else {
+					            hours2 = hours2;
+					            minutes2 = minutes2 + " AM";
+					        }
+
+					        $('.slider-time2').html(hours2 + ':' + minutes2);
+					        
+					    }
+					});
+					});*/
+					
 										
 
 				} ]);
+
+KyobeeControllers.filter('hourMinFilter', function () {
+    return function (value) {
+    	return value+':00 Hrs';
+    	/*if(value.length >= 9){
+    		return value + ':00 Hrs';
+    	}
+    	else{
+    		return value+':00 Hrs';
+    	}*/
+    };
+});

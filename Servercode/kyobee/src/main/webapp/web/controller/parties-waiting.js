@@ -26,6 +26,11 @@ KyobeeControllers.controller('partyWaitingCtrl',
 							name: null,
 							organizationID : $scope.userDTO.organizationId,
 							noOfPeople : null,
+							noOfChiildren : null, //changes by krupali, line 29 to 33(15/06/2017)
+							noOfAdults : null,
+							noOfInfants : null,
+							quoteTime : null,
+							partyType : null,
 							prefType : null,
 							email : null,
 							sms : null,
@@ -175,6 +180,12 @@ KyobeeControllers.controller('partyWaitingCtrl',
 							return;
 						}
 						
+						if(($scope.guestDTO.noOfAdults != null && $scope.guestDTO.noOfAdults == 0)){
+							$scope.errorMsg = "Adults must be greater than 0";
+							$scope.loading=false;
+							return;
+						}
+						
 						if(($scope.guestDTO.prefType == 'sms' || $scope.guestDTO.prefType == 'SMS') && ($scope.guestDTO.sms == null || $scope.guestDTO.sms == 'undefined')){
 							$scope.errorMsg = "Please enter the contact no.";
 							$scope.loading=false;
@@ -187,6 +198,18 @@ KyobeeControllers.controller('partyWaitingCtrl',
 							return;
 						}
 						
+						if ($("#children").val() == "") {
+						     $("#children").val("0");
+						}
+					
+						if ($("#infants").val() == ""){
+							$("#infants").val("0");
+						}
+						
+						if ($("#quoteTime").val() == ""){
+							$("#quoteTime").val("0");
+						}
+						
 						var selectedGuestPref = [];
 						
 						for(i=0;i<$scope.seatPrefs.length;i++){
@@ -195,6 +218,15 @@ KyobeeControllers.controller('partyWaitingCtrl',
 							}
 						}
 						$scope.guestDTO.guestPreferences = selectedGuestPref;
+						
+						/*change by krupali, line 204 (15/06/2017) */
+						if($scope.guestDTO.noOfChildren == null){
+							$scope.guestDTO.noOfChildren  = 0;
+						}
+						if($scope.guestDTO.noOfInfants == null){
+							$scope.guestDTO.noOfInfants = 0;
+						}
+						$scope.guestDTO.noOfPeople = $scope.guestDTO.noOfChildren + $scope.guestDTO.noOfAdults + $scope.guestDTO.noOfInfants;
 						console.log($scope.guestDTO);
 						
 						var postBody = $scope.guestDTO;

@@ -21,7 +21,12 @@ KyobeeControllers.controller('guestCtrl',
 						$scope.guestDTO = {
 								name: null,
 								organizationID : $scope.userDTO.organizationId,
+								noOfAdults : null,
+								noOfChiildren : null,	//changes by krupali, line 24 to 29 (15/06/2017)
+								noOfInfants : null,
 								noOfPeople : null,
+								quoteTime : null,
+								partyType : null,
 								prefType : null,
 								email : null,
 								sms : null,
@@ -81,6 +86,12 @@ KyobeeControllers.controller('guestCtrl',
 							return;
 						}
 						
+						if(($scope.guestDTO.noOfAdults != null && $scope.guestDTO.noOfAdults == 0)){
+							$scope.errorMsg = "Adults must be greater than 0";
+							$scope.loading=false;
+							return;
+						}                                                         
+						
 						if(($scope.guestDTO.prefType == 'sms' || $scope.guestDTO.prefType == 'SMS') && ($scope.guestDTO.sms == null || $scope.guestDTO.sms == 'undefined')){
 							$scope.errorMsg = "Please enter the contact no.";
 							$scope.loading=false;
@@ -93,6 +104,18 @@ KyobeeControllers.controller('guestCtrl',
 							return;
 						}
 						
+						if ($("#children").val() == "") {
+							      $("#children").val("0");
+						}
+						
+						if ($("#infants").val() == ""){
+								$("#infants").val("0");
+						}
+						
+						if ($("#quoteTime").val() == ""){
+							$("#quoteTime").val("0");
+						}
+						
 						var selectedGuestPref = [];
 						
 						for(i=0;i<$scope.guestPref.length;i++){
@@ -103,6 +126,14 @@ KyobeeControllers.controller('guestCtrl',
 						$scope.guestDTO.guestPreferences = selectedGuestPref;
 						console.log($scope.guestDTO);
 						
+						/*change by krupali, line 204 (15/06/2017) */
+						if($scope.guestDTO.noOfChildren == null){
+							$scope.guestDTO.noOfChildren  = 0;
+						}
+						if($scope.guestDTO.noOfInfants == null){
+							$scope.guestDTO.noOfInfants = 0;
+						}
+						$scope.guestDTO.noOfPeople = $scope.guestDTO.noOfChildren + $scope.guestDTO.noOfAdults + $scope.guestDTO.noOfInfants;
 						var postBody = $scope.guestDTO;
 						
 						var url = '/kyobee/web/rest/waitlistRestAction/addGuest';
@@ -130,9 +161,16 @@ KyobeeControllers.controller('guestCtrl',
 							return;
 						}
 						
+						
 						//if($scope.guestDTO.prefType == null || $scope.guestDTO.prefType == 'undefined'){
 						if($scope.userDTO.smsRoute != null && $scope.userDTO.smsRoute != '' && ( $scope.guestDTO.prefType == null || $scope.guestDTO.prefType == 'undefined' )){
 							$scope.errorMsg = "Please select sms or email";
+							$scope.loading=false;
+							return;
+						}
+						
+						if(($scope.guestDTO.noOfAdults != null && $scope.guestDTO.noOfAdults == 0)){
+							$scope.errorMsg = "Adults must be greater than 0";
 							$scope.loading=false;
 							return;
 						}
@@ -149,6 +187,18 @@ KyobeeControllers.controller('guestCtrl',
 							return;
 						}
 						
+						if ($("#children").val() == "") {
+						     $("#children").val("0");
+						}
+					
+						if ($("#infants").val() == ""){
+							$("#infants").val("0");
+						}
+						
+						if ($("#quoteTime").val() == ""){
+							$("#quoteTime").val("0");
+						}
+						
 						var selectedGuestPref = [];
 						
 						for(i=0;i<$scope.guestPref.length;i++){
@@ -157,6 +207,8 @@ KyobeeControllers.controller('guestCtrl',
 							}
 						}
 						$scope.guestDTO.guestPreferences = selectedGuestPref;
+						/*change by krupali, line 204 (15/06/2017) */
+						$scope.guestDTO.noOfPeople = $scope.guestDTO.noOfChildren + $scope.guestDTO.noOfAdults + $scope.guestDTO.noOfInfants;
 						console.log($scope.guestDTO);
 						
 						var postBody = $scope.guestDTO;
@@ -206,6 +258,10 @@ KyobeeControllers.controller('guestCtrl',
 										} else if($scope.guestDTO.prefType == 'email' || $scope.guestDTO.prefType == 'EMAIL') {
 											showemail();
 											$scope.guestDTO.prefType = 'email';
+										}
+										
+										if($scope.guestDTO.partyType==0) {
+											
 										}
 									} else if (data.status == "FAILURE") {
 										alert('Error while fetching guest details. Please login again or contact support');

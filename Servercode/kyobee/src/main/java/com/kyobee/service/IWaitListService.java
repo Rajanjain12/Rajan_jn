@@ -46,10 +46,11 @@ public interface IWaitListService {
 	 * @param orgid
 	 * @param recordsPerPage
 	 * @param pageNumber
+	 * @param partyType 
 	 * @return
 	 * @throws RsntException
 	 */
-	public List<Guest> loadAllCheckinUsers(Long orgid, int recordsPerPage, int pageNumber) throws RsntException;
+	public List<Guest> loadAllCheckinUsers(Long orgid, int recordsPerPage, int pageNumber, String partyType) throws RsntException;
 	/**
 	 * Fetch History of Guests by orgId
 	 * @param orgid
@@ -200,9 +201,9 @@ public interface IWaitListService {
 	public List<Object[]> getLookupsForLookupType(final Long pLookupTypeId) throws RsntException;
 
 	//public void sendNotificationToGuestForSeated(GuestNotificationBean guestNotificationBean);
-	public List<Guest> loadGuestsHistoryByOrgRecords(Long orgid, int recordsPerPage, int pageNumber,String statusOption)throws RsntException;
+	public List<Guest> loadGuestsHistoryByOrgRecords(Long orgid, int recordsPerPage, int pageNumber,String statusOption,int sliderMinTime, int sliderMaxTime)throws RsntException;
 
 	Long getAllCheckinUsersCount(Long orgid) throws RsntException;
 
-	Long getHistoryUsersCountForOrg(Long orgid,String statusOption) throws RsntException;
+	Long getHistoryUsersCountForOrg(Long orgid,String statusOption,int sliderMinTime, int sliderMiaxTime) throws RsntException;
 }
