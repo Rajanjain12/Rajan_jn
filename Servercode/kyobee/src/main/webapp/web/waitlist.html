@@ -1,4 +1,4 @@
-<section>
+<section class="row">
     
     
        <!--  <a href="javascript:void(0)" class="headersh"><i class="fa fa-bars" aria-hidden="true"></i></a> -->
@@ -46,10 +46,10 @@
 			</div>
         </div> -->
 		
-        <div class="waitlist-section-2 row" id="waittimesetting"  style="display: none;" ng-show="showHistory == false">
-                
-            <div class="container">
+        <!-- <div class="container"> -->
+			<div class="waitlist-section-2 row" id="waittimesetting"  style="display: none;" ng-show="showHistory == false">
             
+         <!-- <div class="container">  -->  
              
 			
 <!-- <div range-slider min="slider.range.min" max="slider.range.max" model-min="slider.minTime" model-max="slider.maxTime" step="1" prevent-equal-min-max="true"></div> -->
@@ -109,7 +109,7 @@
                    
                 </div>
                       
-        </div>
+        <!-- </div> -->
         
        	
 		
@@ -204,7 +204,7 @@
 					<strong>Done ! </strong>{{successMsg}}
 				</div>
 				
-				<div class="toggle-col col-md-12 col-sm-12 col-xs-12">
+				<div class="toggle-col col-md-12 col-sm-12 col-xs-12 row">
 				
 				<label ng-show="toggleColumnShowHide == false" ><a style="cursor:pointer; font-weight:bold; text-decoration: underline;" class="theme-fontcolor" ng-click="showToggleColumn();">Show Toggle Column</a></label>
 				<label ng-show="toggleColumnShowHide == true" ><a href="javascript:" style="text-decoration: underline;" class="theme-fontcolor" ng-click="showToggleColumn();">Hide Toggle Column</a></label>
@@ -346,6 +346,7 @@
 	           	 
                         
      </div>
+
     	 <div class="pagination-block">
 <!--                        <div class="col-md-12 col-sm-12 col-xs-12">-->
                        <div ng-show="showHistory == false" class="paginations">
