@@ -132,11 +132,17 @@
                             <!--<li><a href=""><i class="fa fa-clock-o" aria-hidden="true"></i></a></li>
                             <li><a href=""><i class="fa fa-search" aria-hidden="true"></i></a></li>
                             <li><a href=""><i class="fa fa-user-plus" aria-hidden="true"></i></a></li>-->
-                            <li><a href=""><img src="../assets/img/search.png"></a> </li>
+                            <li><a href="javascript:void(0)" id="search" ng-click="toggleSearch()"><img src="../assets/img/search.png"></a> </li>
                             <li><a style="cursor:pointer" ng-click="changeView('addGuest')"><img src="../assets/img/userpluse.png"></a> </li>
-                            <li><a style="cursor:pointer" ng-click="changeView('partyWaiting')" ><img src="../assets/img/check_in.png"></a> </li>
+                            <li><a style="cursor:pointer" ng-click="changeView('partyWaiting')" ><img src="../assets/img/check-in.png"></a> </li>
                         </ul>
                     </div>
+					
+					<!-- <div id="search-box" style="display:none;">
+						<div class="col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 margin-top-20 margin-bottom-20">
+							<input type="text" class="form-control" placeholder="Enter your search here..." ng-model="searchName"><a href="javascript:void(0)" class="seach-box theme-fontcolor"><i class="glyphicon glyphicon-search" ng-click="searchGrid(searchName);"></i></a>
+						</div>
+					</div> -->
 
                 </div>
                       
@@ -194,6 +200,10 @@ $(document).ready(function() {
     //$('.header-waitlist').stop(true).slideToggle();
     	$('.header-waitlist').toggle('slow');
     });
+}); 
+
+$("#search").click(function(){
+    $("#search-box").toggle();
 });        
 
 </script>

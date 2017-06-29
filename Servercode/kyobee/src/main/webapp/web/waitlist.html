@@ -1,4 +1,4 @@
-<section class="row">
+<section>
     
     
        <!--  <a href="javascript:void(0)" class="headersh"><i class="fa fa-bars" aria-hidden="true"></i></a> -->
@@ -45,6 +45,7 @@
 				<input type="text" id="range" value="" name="range" />
 			</div>
         </div> -->
+
 		
         <!-- <div class="container"> -->
 			<div class="waitlist-section-2 row" id="waittimesetting"  style="display: none;" ng-show="showHistory == false">
@@ -128,6 +129,8 @@
 
 		</div>
 		
+		<!-- <a href="javascript:void(0)" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Your Note. mjhhygdgsdhghdfshjshdg dhghdbhvcdbvdg ghfdghsfdhfvcdg dghfdhfgdhfgdh">Click me</a> -->
+		<!-- <a href="#" title="Header" data-toggle="popover" data-placement="top" data-content="Content">Top</a> -->
 		
 
 <!-- <div range-slider min="slider.range.min" max="slider.range.max" model-min="slider.minTime" model-max="slider.maxTime" step="1" prevent-equal-min-max="true"></div> --> 
@@ -204,7 +207,7 @@
 					<strong>Done ! </strong>{{successMsg}}
 				</div>
 				
-				<div class="toggle-col col-md-12 col-sm-12 col-xs-12 row">
+				<div class="toggle-col col-md-8 col-sm-8 col-xs-12 row">
 				
 				<label ng-show="toggleColumnShowHide == false" ><a style="cursor:pointer; font-weight:bold; text-decoration: underline;" class="theme-fontcolor" ng-click="showToggleColumn();">Show Toggle Column</a></label>
 				<label ng-show="toggleColumnShowHide == true" ><a href="javascript:" style="text-decoration: underline;" class="theme-fontcolor" ng-click="showToggleColumn();">Hide Toggle Column</a></label>
@@ -227,6 +230,16 @@
 				<!-- <a href="javascript:" ng-click="toggleColumns('del')">Delete</a> -->
 				
 				</div>
+				
+				<div class="col-md-4 col-sm-4 col-xs-12">
+					<div class="col-md-8 col-sm-8 col-xs-12 row pull-right margin-bottom-10" id="search-box" ng-show="searchStatus == true && showHistory == false">
+						<input type="text" class="form-control" placeholder="Enter your search here..." ng-model="searchName"><a href="javascript:void(0)" class="seach-box theme-fontcolor"><i class="glyphicon glyphicon-search" ng-click="searchGrid(searchName)"></i></a>
+					</div>
+					<div class="col-md-8 col-sm-8 col-xs-12 row pull-right margin-bottom-10" id="search-box" ng-show="searchStatus == true && showHistory == true">
+						<input type="text" class="form-control" placeholder="Enter your search here..." ng-model="searchName"><a href="javascript:void(0)" class="seach-box theme-fontcolor"><i class="glyphicon glyphicon-search" ng-click="searchGridOnHistory(searchName)"></i></a>
+					</div>
+				</div>
+				
 					           	
 				
 	           	<div ng-show="showHistory == false">
@@ -272,7 +285,8 @@
                                 <td data-title="checkinTime" class="numeric" ng-show="toggleColumn.checkinTime">{{record.checkinTime | date :  "short" }}</td>
                                 
                                 <!-- <td data-title="Opt-In" class="numeric" ng-show="toggleColumn.optIn"><span ng-show="record.optin == false">&nbsp;</span><img ng-show="record.optin == true" src="../assets/img/roundarrow.png" class="roundarrow"></td> -->
-                                <td data-title="Note" class="numeric" ng-show="toggleColumn.note"><span ng-show="record.note == null || record.note ==''">&nbsp;</span><img ng-show="record.note != null && record.note !=''" src="../assets/img/roundarrow.png" class="roundarrow"></td>
+                                
+								<td data-title="Note" class="numeric" ng-show="toggleColumn.note"><span ng-show="record.note == null || record.note ==''">&nbsp;</span><a popover href="javascript:void(0)" data-toggle="popover-hide" data-placement="top" data-trigger="focus" data-content="{{record.note}}"><img ng-show="record.note != null && record.note !=''" src="../assets/img/roundarrow.png" class="roundarrow"></a></td>
                                 <td data-title="Delete" class="numeric"><a style="cursor:pointer" ng-click="showDeletePopup(record);"><img src="../assets/img/delete.png" class="deleteimg"></a></td>
                                 
                             </tr>
@@ -323,8 +337,7 @@
                                 <td data-title="checkinTime" class="numeric1" ng-show="toggleColumn.checkinTime">{{record.checkinTime | date :  "short"}}</td>
                                 
                                 <!-- <td data-title="Opt-In" class="numeric1" ng-show="toggleColumn.optIn"><span ng-show="record.optin == false">&nbsp;</span><img ng-show="record.optin == true" src="../assets/img/roundarrow.png" class="roundarrow"></td> -->
-                                 <td data-title="Note" class="numeric1" ng-show="toggleColumn.note"><span ng-show="record.note == null || record.note ==''">&nbsp;</span><img ng-show="record.note != null && record.note !=''" src="../assets/img/roundarrow.png" 
-								 class="roundarrow"></td>
+                                 <td data-title="Note" class="numeric1" ng-show="toggleColumn.note"><span ng-show="record.note == null || record.note ==''">&nbsp;</span><a popover href="javascript:void(0)" data-toggle="popover-show" data-placement="top" data-trigger="focus" data-content="{{record.note}}"><img ng-show="record.note != null && record.note !=''" src="../assets/img/roundarrow.png" class="roundarrow"></a></td>
                             </tr>
                        	</tbody>
                 	</table>                
@@ -535,5 +548,13 @@ $(".input-number").keydown(function (e) {
 });	 */
   </script>
   <!-- /ion_range -->
+ 
+ <!-- note -->
+ <script>
+$(document).ready(function(){
+    $('[data-toggle="popover-hide"]').popover();  
+	$('[data-toggle="popover-show"]').popover();	
+});
+</script>
 
 

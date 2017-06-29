@@ -546,7 +546,7 @@ public class WaitListRestAction {
 	//changes by krupali line 514,532 (16/06/2017)
 	@RequestMapping(value = "/checkinusers", method = RequestMethod.GET, produces = "application/json")
 	public Response<PaginatedResponse<GuestDTO>> fetchCheckinUsers(@RequestParam("orgid") Long orgid,  @RequestParam("partyType") String partyType,
-			@RequestParam String pagerReqParam){
+			 @RequestParam String pagerReqParam){
 		log.info("Entering :: fetchCheckinUsers --OrgId::"+orgid);
 		Response<PaginatedResponse<GuestDTO>> response = new Response<PaginatedResponse<GuestDTO>>();
 		List<GuestDTO> guestDTOs = null;
@@ -587,6 +587,65 @@ public class WaitListRestAction {
 			log.error("fetchCheckinUsers() - failed:", e);
 			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
 					"System Error - fetchCheckinUsers failed");
+		} 
+		//rootMap.put(Constants.RSNT_ERROR, "");
+		//rootMap.put("guests",guestDTOs);
+		//final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+		return response;
+	}
+	
+	/**
+	 * Search Guests by name
+	 * @param orgid
+	 * @return List<GuestDTO> --List of guests
+	 */
+	//@GET
+	//@Path("/searchuser")
+	//@Produces(MediaType.APPLICATION_JSON)
+	//changes by krupali line 514,532 (16/06/2017)
+	@RequestMapping(value = "/searchuser", method = RequestMethod.GET, produces = "application/json")
+	public Response<PaginatedResponse<GuestDTO>> searchuserGrid(@RequestParam("orgid") Long orgid,  @RequestParam("partyType") String partyType,
+			@RequestParam String searchName, @RequestParam String pagerReqParam){
+		log.info("Entering :: searchuser --OrgId::"+orgid);
+		Response<PaginatedResponse<GuestDTO>> response = new Response<PaginatedResponse<GuestDTO>>();
+		List<GuestDTO> guestDTOs = null;
+		PaginatedResponse<GuestDTO> paginatedResponse = new PaginatedResponse<GuestDTO>();
+		//final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
+		//final List<String> errorArray = new ArrayList<String>(0);
+		Map<Integer, String> guestPreferenceMap;
+		List<Guest> guests;	
+		
+		
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			PaginationReqParam paginationReqParam = mapper.readValue(pagerReqParam, PaginationReqParam.class);
+			guestPreferenceMap = getGuestSeatingPrefMap();
+			guests = waitListService.searchAllCheckinUsersByName(orgid, paginationReqParam.getPageSize(), paginationReqParam.getPageNo(), partyType, searchName);
+			Long guestsTotalCount = waitListService.getAllCheckinUsersCountByName(orgid,searchName);
+			if(null != guests && guests.size()>0){
+				guestDTOs = new ArrayList<GuestDTO>(guests.size());
+				for (Guest guest : guests) {
+					guestDTOs.add(convertGuesEntityToVo(guest, guestPreferenceMap));
+				}
+				
+				paginatedResponse.setRecords(guestDTOs);
+				paginatedResponse.setPageNo(paginationReqParam.getPageNo());
+				paginatedResponse.setTotalRecords(guestsTotalCount.intValue());
+				response.setServiceResult(paginatedResponse);
+				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+
+			}
+
+		} catch (RsntException e) {
+			e.printStackTrace();
+			log.error("searchuserGrid() - failed:", e);
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - searchuserGrid failed");
+		} catch (Exception  e) {
+			e.printStackTrace();
+			log.error("searchuserGrid() - failed:", e);
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - searchuserGrid failed");
 		} 
 		//rootMap.put(Constants.RSNT_ERROR, "");
 		//rootMap.put("guests",guestDTOs);
@@ -730,6 +789,87 @@ public class WaitListRestAction {
 		//return jsonObject.toString();
 		return response;
 	}
+	
+	/**
+	 * Get the Guests History by Name
+	 * @param searchName
+	 * @param orgid
+	 * @return List<GuestDTO>
+	 */
+	//@GET
+	//@Path("/searchhistoryuser")
+	//@Produces(MediaType.APPLICATION_JSON)
+	@RequestMapping(value = "/searchhistoryuser", method = RequestMethod.GET, produces = "application/json")
+	//changed for history pagination
+	//public String searchhistoryuser(@QueryParam("orgid") Long orgid){
+	public Response<PaginatedResponse<GuestDTO>> searchhistoryuserGrid(
+			@RequestParam("orgid") Long orgid,
+			@RequestParam("statusOption") String statusOption,
+			@RequestParam("sliderMinTime") Integer sliderMinTime,
+			@RequestParam("sliderMaxTime") Integer sliderMaxTime,
+			@RequestParam("searchName") String searchName,
+			@RequestParam String pagerReqParam) {
+		log.info("Entering :: searchhistoryuser ::orgid "+orgid);		
+		Response<PaginatedResponse<GuestDTO>> response = new Response<PaginatedResponse<GuestDTO>>();
+		List<GuestDTO> guestDTOs = null;
+		PaginatedResponse<GuestDTO> paginatedResponse = new PaginatedResponse<GuestDTO>();
+		
+		//List<GuestDTO> guestDTOs = null;
+		//final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
+		//final List<String> errorArray = new ArrayList<String>(0);
+		List<Guest> guests;
+		Map<Integer, String> guestPreferenceMap;
+		try {
+			//changed for history pagination
+			//guests = waitListService.loadGuestsHistoryByOrg(orgid);
+			ObjectMapper mapper = new ObjectMapper();
+			PaginationReqParam paginationReqParam = mapper.readValue(pagerReqParam, PaginationReqParam.class);
+			guestPreferenceMap = getGuestSeatingPrefMap();
+			guests = waitListService.loadGuestsHistoryByName(orgid,paginationReqParam.getPageSize(), paginationReqParam.getPageNo(),statusOption,sliderMinTime,sliderMaxTime,searchName);
+			
+			Long guestsTotalCount = waitListService.getHistoryUsersCountForName(orgid,statusOption,sliderMinTime,sliderMaxTime,searchName);
+			
+			if(null != guests && guests.size()>0){
+				guestDTOs = new ArrayList<GuestDTO>(guests.size());
+				for (Guest guest : guests) {
+					guestDTOs.add(convertGuesEntityToVo(guest, guestPreferenceMap));
+				}
+				paginatedResponse.setRecords(guestDTOs);
+				paginatedResponse.setPageNo(paginationReqParam.getPageNo());
+				paginatedResponse.setTotalRecords(guestsTotalCount.intValue());
+				response.setServiceResult(paginatedResponse);
+				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+
+			}
+			/*changes by vruddhi(when there is no data as defined in condition)*/
+			else {
+				guestDTOs = new ArrayList<GuestDTO>(guests.size());
+				paginatedResponse.setRecords(guestDTOs);
+				paginatedResponse.setPageNo(paginationReqParam.getPageNo());
+				paginatedResponse.setTotalRecords(guestsTotalCount.intValue());
+				response.setServiceResult(paginatedResponse);
+				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+			}
+
+		} catch (RsntException e) {
+			e.printStackTrace();
+			log.error("searchhistoryuser() - failed:", e);
+			//rootMap.put("id", -1);
+			//rootMap.put(Constants.RSNT_ERROR, "System Error - fetchCheckinUsers failed");
+			//rootMap.put("fieldErrors", errorArray);
+			//final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+			//return jsonObject.toString();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		//rootMap.put(Constants.RSNT_ERROR, "");
+		//rootMap.put("guests",guestDTOs);
+		//final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+		//return jsonObject.toString();
+		return response;
+	}
+	
 	/**
 	 * Get Event Listener Configuration details 
 	 * @return Map<String, String> 

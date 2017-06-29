@@ -257,7 +257,6 @@ public class WaitListServiceImpl implements IWaitListService {
 				return sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUESTS_CHECKIN_BY_ORG_COMMON)
 						.setParameter(Constants.RSNT_ORG_ID,orgid).setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
 			}
-			
 			/*return sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUESTS_CHECKIN_BY_ORG)
 					.setParameter(Constants.RSNT_ORG_ID,orgid).setFirstResult(firstPage).setMaxResults(recordsPerPage).list();*/
 		} catch (Exception e) {
@@ -277,6 +276,54 @@ public class WaitListServiceImpl implements IWaitListService {
 					.setParameter(Constants.RSNT_ORG_ID,orgid).uniqueResult();
 		} catch (Exception e) {
 			log.error("loadAllCheckinUsers()", e);
+			throw new RsntException(e);
+		}
+
+	}
+	/**
+	 * Search Guests with name is CHECKIN Users
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Guest> searchAllCheckinUsersByName(Long orgid, int recordsPerPage, int pageNumber, String partyType, String searchName) throws RsntException{
+		try {
+ 			int firstPage = (pageNumber == 1) ? 0 : (recordsPerPage*(pageNumber-1));
+ 			String name = searchName;
+ 			StringBuffer query=new StringBuffer("FROM Guest g WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId");
+ 			if(name != null) {
+ 				query=query.append(" and g.name like :Name");
+ 			}
+ 			/*if(statusOption.equals("Incomplete")) {
+ 				query=query.append(" and incompleteParty > 0");
+ 			}*/
+ 			query=query.append(" order by g.rank asc");
+ 			System.out.println("Query : "+ query);
+ 			//HQL_GET_GUESTS_HISTORY
+ 			return sessionFactory.getCurrentSession().createQuery(query.toString())
+ 					.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("Name", "%"+name+"%").setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
+ 		} catch (Exception e) {
+ 			log.error("searchAllCheckinUsersByName()", e);
+ 			throw new RsntException(e);
+ 		}
+	}
+	
+	@Override
+	public Long getAllCheckinUsersCountByName(Long orgid,String searchName) throws RsntException{
+		try {
+			String name = searchName;
+			StringBuffer query=new StringBuffer("select count(*) FROM Guest g WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId");
+			if(name != null) {
+ 				query=query.append(" and g.name like :Name");
+ 			}
+ 			/*if(statusOption.equals("Incomplete")) {
+ 				query=query.append(" and incompleteParty > 0");
+ 			}*/
+ 			query=query.append(" order by g.rank asc");
+ 			System.out.println("Query : "+ query);
+			return (Long) sessionFactory.getCurrentSession().createQuery(query.toString())
+					.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("Name", "%"+name+"%").uniqueResult();
+		} catch (Exception e) {
+			log.error("getAllCheckinUsersCountByName()", e);
 			throw new RsntException(e);
 		}
 
@@ -1418,7 +1465,8 @@ public class WaitListServiceImpl implements IWaitListService {
 	}
 	/*
 	 +	 * (non-Javadoc)
-	 +	 * @see com.rsnt.service.IWaitListService#loadGuestsHistoryByOrgRecords(java.lang.Long, int, int)
+	 +	 * @see com.rsnt.service.IWaitListService#loadGuests
+ByOrgRecords(java.lang.Long, int, int)
 	 +	 *
 	 +	 *this method is load for get history with pagination create by ronak
 	 		HQL_GET_GUESTS_HISTORY was used before adding dropdown for All,callcount and incomplete
@@ -1443,6 +1491,34 @@ public class WaitListServiceImpl implements IWaitListService {
 	 					.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("SliderMinValue", sliderMinTime).setParameter("SliderMaxValue", sliderMaxTime).setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
 	 		} catch (Exception e) {
 	 			log.error("loadGuestsHistoryByOrg()", e);
+	 			throw new RsntException(e);
+	 		}
+	 	}
+	 	
+	 	@SuppressWarnings("unchecked")
+	 	@Override
+	 	public List<Guest> loadGuestsHistoryByName(Long orgid, int recordsPerPage, int pageNumber,String statusOption, int sliderMinTime, int sliderMaxTime, String searchName) throws RsntException {
+	 		try {
+	 			int firstPage = (pageNumber == 1) ? 0 : (recordsPerPage*(pageNumber-1));
+	 			String name = searchName;
+	 			StringBuffer query=new StringBuffer("FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
+	 					+ " and g.OrganizationID=:orgId and (hour(g.checkinTime) between (:SliderMinValue) and (:SliderMaxValue))");
+	 			if(statusOption.equals("Not Present")) {
+	 				query=query.append(" and calloutCount > 0");
+	 			}
+	 			if(statusOption.equals("Incomplete")) {
+	 				query=query.append(" and incompleteParty > 0");
+	 			}
+	 			if(name != null) {
+	 				query=query.append(" and g.name like :Name");
+	 			}
+	 			query=query.append(" order by g.rank asc");
+	 			System.out.println("Query : "+ query);
+	 			//HQL_GET_GUESTS_HISTORY
+	 			return sessionFactory.getCurrentSession().createQuery(query.toString())
+	 					.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("SliderMinValue", sliderMinTime).setParameter("SliderMaxValue", sliderMaxTime).setParameter("Name", "%"+name+"%").setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
+	 		} catch (Exception e) {
+	 			log.error("loadGuestsHistoryByName()", e);
 	 			throw new RsntException(e);
 	 		}
 	 	}
@@ -1473,5 +1549,32 @@ public class WaitListServiceImpl implements IWaitListService {
 			}
 
 		}
+	 	
+	 	@Override
+		public Long getHistoryUsersCountForName(Long orgid,String statusOption,int sliderMinTime,int sliderMaxTime,String searchName) throws RsntException{
+			try {
+				String name = searchName;
+				StringBuffer query=new StringBuffer("select count(*) FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
+	 					+ " and g.OrganizationID=:orgId and (hour(g.checkinTime) between (:SliderMinValue) and (:SliderMaxValue))");
+	 			if(statusOption.equals("Not Present")) {
+	 				query=query.append(" and calloutCount > 0");
+	 			}
+	 			if(statusOption.equals("Incomplete")) {
+	 				query=query.append(" and incompleteParty > 0");
+	 			}
+	 			if(name != null) {
+	 				query=query.append(" and g.name like :Name");
+	 			}
+	 			query=query.append(" order by g.rank asc");
+	 			System.out.println("Query : "+ query);
+				return (Long) sessionFactory.getCurrentSession().createQuery(query.toString())
+						.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("SliderMinValue", sliderMinTime).setParameter("SliderMaxValue", sliderMaxTime).setParameter("Name", "%"+name+"%").uniqueResult();
+			} catch (Exception e) {
+				log.error("getHistoryUsersCountForName()", e);
+				throw new RsntException(e);
+			}
+
+		}
+		
 	
 }
