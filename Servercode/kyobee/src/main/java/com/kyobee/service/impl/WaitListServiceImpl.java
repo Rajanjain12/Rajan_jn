@@ -1476,8 +1476,9 @@ ByOrgRecords(java.lang.Long, int, int)
 	 	public List<Guest> loadGuestsHistoryByOrgRecords(Long orgid, int recordsPerPage, int pageNumber,String statusOption, int sliderMinTime, int sliderMaxTime) throws RsntException {
 	 		try {
 	 			int firstPage = (pageNumber == 1) ? 0 : (recordsPerPage*(pageNumber-1));
+	 			int SliderMaxTimeLessOne = sliderMaxTime-1;
 	 			StringBuffer query=new StringBuffer("FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
-	 					+ " and g.OrganizationID=:orgId and (hour(g.checkinTime) between (:SliderMinValue) and (:SliderMaxValue))");
+	 					+ " and g.OrganizationID=:orgId and ((hour(g.checkinTime) between (:SliderMinValue) and (:SliderMaxValueLessOne)) or (date_format(g.checkinTime, '%H:%i')=:SliderMaxValue))");
 	 			if(statusOption.equals("Not Present")) {
 	 				query=query.append(" and calloutCount > 0");
 	 			}
@@ -1488,7 +1489,7 @@ ByOrgRecords(java.lang.Long, int, int)
 	 			System.out.println("Query : "+ query);
 	 			//HQL_GET_GUESTS_HISTORY
 	 			return sessionFactory.getCurrentSession().createQuery(query.toString())
-	 					.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("SliderMinValue", sliderMinTime).setParameter("SliderMaxValue", sliderMaxTime).setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
+	 					.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("SliderMinValue", sliderMinTime).setParameter("SliderMaxValueLessOne", SliderMaxTimeLessOne).setParameter("SliderMaxValue", sliderMaxTime+":00").setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
 	 		} catch (Exception e) {
 	 			log.error("loadGuestsHistoryByOrg()", e);
 	 			throw new RsntException(e);
@@ -1501,8 +1502,9 @@ ByOrgRecords(java.lang.Long, int, int)
 	 		try {
 	 			int firstPage = (pageNumber == 1) ? 0 : (recordsPerPage*(pageNumber-1));
 	 			String name = searchName;
+	 			int SliderMaxTimeLessOne = sliderMaxTime-1;
 	 			StringBuffer query=new StringBuffer("FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
-	 					+ " and g.OrganizationID=:orgId and (hour(g.checkinTime) between (:SliderMinValue) and (:SliderMaxValue))");
+	 					+ " and g.OrganizationID=:orgId and ((hour(g.checkinTime) between (:SliderMinValue) and (:SliderMaxValueLessOne)) or (date_format(g.checkinTime, '%H:%i')=:SliderMaxValue))");
 	 			if(statusOption.equals("Not Present")) {
 	 				query=query.append(" and calloutCount > 0");
 	 			}
@@ -1516,7 +1518,7 @@ ByOrgRecords(java.lang.Long, int, int)
 	 			System.out.println("Query : "+ query);
 	 			//HQL_GET_GUESTS_HISTORY
 	 			return sessionFactory.getCurrentSession().createQuery(query.toString())
-	 					.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("SliderMinValue", sliderMinTime).setParameter("SliderMaxValue", sliderMaxTime).setParameter("Name", "%"+name+"%").setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
+	 					.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("SliderMinValue", sliderMinTime).setParameter("SliderMaxValueLessOne", SliderMaxTimeLessOne).setParameter("SliderMaxValue", sliderMaxTime+":00").setParameter("Name", "%"+name+"%").setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
 	 		} catch (Exception e) {
 	 			log.error("loadGuestsHistoryByName()", e);
 	 			throw new RsntException(e);
@@ -1531,8 +1533,9 @@ ByOrgRecords(java.lang.Long, int, int)
 	 	@Override
 		public Long getHistoryUsersCountForOrg(Long orgid,String statusOption,int sliderMinTime,int sliderMaxTime) throws RsntException{
 			try {
+				int SliderMaxTimeLessOne = sliderMaxTime-1;
 				StringBuffer query=new StringBuffer("select count(*) FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
-	 					+ " and g.OrganizationID=:orgId and (hour(g.checkinTime) between (:SliderMinValue) and (:SliderMaxValue))");
+	 					+ " and g.OrganizationID=:orgId and ((hour(g.checkinTime) between (:SliderMinValue) and (:SliderMaxValueLessOne)) or (date_format(g.checkinTime, '%H:%i')=:SliderMaxValue))");
 	 			if(statusOption.equals("Not Present")) {
 	 				query=query.append(" and calloutCount > 0");
 	 			}
@@ -1542,7 +1545,7 @@ ByOrgRecords(java.lang.Long, int, int)
 	 			query=query.append(" order by g.rank asc");
 	 			System.out.println("Query : "+ query);
 				return (Long) sessionFactory.getCurrentSession().createQuery(query.toString())
-						.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("SliderMinValue", sliderMinTime).setParameter("SliderMaxValue", sliderMaxTime).uniqueResult();
+						.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("SliderMinValue", sliderMinTime).setParameter("SliderMaxValueLessOne", SliderMaxTimeLessOne).setParameter("SliderMaxValue", sliderMaxTime+":00").uniqueResult();
 			} catch (Exception e) {
 				log.error("loadAllCheckinUsers()", e);
 				throw new RsntException(e);
@@ -1554,8 +1557,9 @@ ByOrgRecords(java.lang.Long, int, int)
 		public Long getHistoryUsersCountForName(Long orgid,String statusOption,int sliderMinTime,int sliderMaxTime,String searchName) throws RsntException{
 			try {
 				String name = searchName;
+				int SliderMaxTimeLessOne = sliderMaxTime-1;
 				StringBuffer query=new StringBuffer("select count(*) FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
-	 					+ " and g.OrganizationID=:orgId and (hour(g.checkinTime) between (:SliderMinValue) and (:SliderMaxValue))");
+	 					+ " and g.OrganizationID=:orgId and ((hour(g.checkinTime) between (:SliderMinValue) and (:SliderMaxValueLessOne)) or (date_format(g.checkinTime, '%H:%i')=:SliderMaxValue))");
 	 			if(statusOption.equals("Not Present")) {
 	 				query=query.append(" and calloutCount > 0");
 	 			}
@@ -1568,7 +1572,7 @@ ByOrgRecords(java.lang.Long, int, int)
 	 			query=query.append(" order by g.rank asc");
 	 			System.out.println("Query : "+ query);
 				return (Long) sessionFactory.getCurrentSession().createQuery(query.toString())
-						.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("SliderMinValue", sliderMinTime).setParameter("SliderMaxValue", sliderMaxTime).setParameter("Name", "%"+name+"%").uniqueResult();
+						.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("SliderMinValue", sliderMinTime).setParameter("SliderMaxValueLessOne", SliderMaxTimeLessOne).setParameter("SliderMaxValue", sliderMaxTime+":00").setParameter("Name", "%"+name+"%").uniqueResult();
 			} catch (Exception e) {
 				log.error("getHistoryUsersCountForName()", e);
 				throw new RsntException(e);

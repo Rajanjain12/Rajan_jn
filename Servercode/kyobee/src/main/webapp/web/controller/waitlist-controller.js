@@ -285,6 +285,20 @@ KyobeeControllers.controller('waitListCtrl',
 								});
 					};
 					
+					var toUTCDate = function(date){
+				        var _utc = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),  date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+				        return _utc;
+				      };
+				      
+				      var millisToUTCDate = function(millis){       
+				       if(millis==null)
+				        return null;
+				       return toUTCDate(new Date(millis));
+				      };
+				      
+				        $scope.toUTCDate = toUTCDate;
+				        $scope.millisToUTCDate = millisToUTCDate;
+					
 					
 					$scope.searchGrid = function(searchName) {
 						

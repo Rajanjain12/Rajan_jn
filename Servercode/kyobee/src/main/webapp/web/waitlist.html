@@ -282,7 +282,9 @@
                                 	<span ng-if="record.partyType == -1">-</span>
                                 </td>
                                 <td data-title="quoteTime" class="numeric" ng-show="toggleColumn.quoteTime">{{record.quoteTime }}</td>
-                                <td data-title="checkinTime" class="numeric" ng-show="toggleColumn.checkinTime">{{record.checkinTime | date :  "short" }}</td>
+                                <td data-title="checkinTime" class="numeric" ng-show="toggleColumn.checkinTime">{{record.checkinTime | date :  "short"}}</td>
+                                
+                                <!-- {{record.checkinTime | date :  "short" : '-0500' }} -->
                                 
                                 <!-- <td data-title="Opt-In" class="numeric" ng-show="toggleColumn.optIn"><span ng-show="record.optin == false">&nbsp;</span><img ng-show="record.optin == true" src="../assets/img/roundarrow.png" class="roundarrow"></td> -->
                                 
