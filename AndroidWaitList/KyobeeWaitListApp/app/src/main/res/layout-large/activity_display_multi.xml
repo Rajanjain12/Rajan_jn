@@ -71,7 +71,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/txtKyobee"
-
                 android:layout_alignParentLeft="true"
                 android:text="brought to by"
                 android:textColor="@android:color/white"

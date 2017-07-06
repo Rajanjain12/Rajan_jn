@@ -172,10 +172,12 @@ public class LoginActivity extends AppCompatActivity{
         username = edtUsername.getText ().toString ();
         password = edtPassword.getText ().toString ();
 
+        username = "jkim@kyobee.com";
+        password = "jaekim";
 
         /* dev version  */
 
-       // username = "jkim@kyobee.com";
+        //username = "jkim@kyobee.com";
        // password = "jaekim";
        // username = "Gabriela.meza@advantech.com";
        // password = "jaekim";

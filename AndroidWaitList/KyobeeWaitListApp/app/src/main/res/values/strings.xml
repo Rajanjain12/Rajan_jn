@@ -30,8 +30,13 @@
     <string name="email">E-Mail</string>
     <string name="hint_email">E-Mail*</string>
     <string name="people_party"># of people in your party*</string>
-    <string name="total_column"># of columns</string>
-    <string name="total_row"># of rows per column</string>
+
+    <!--<string name="total_column"># of columns</string>
+    <string name="total_row"># of rows per column</string>-->
+
+    <string name="select_waitlist">Select waitlist type*</string>
+    <string name="total_row_waitlist"># of rows per waitlist*</string>
+
     <string name="seating_preference">Seating Preference :</string>
     <string name="opt_in">Opt-in to receive promotions/specials</string>
     <string name="add_me_wait_list">ADD ME TO THE WAIT-LIST</string>
@@ -76,5 +81,9 @@
     <string name="not_present_status">Not Present</string>
     <string name="in_complete_status">Incomplete</string>
     <string name="show_party_number">Show Party #</string>
+
+    <string name="adults">Adults:</string>
+    <string name="childrens">Childrens:</string>
+    <string name="infants">Infants:</string>
 
 </resources>

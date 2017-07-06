@@ -185,6 +185,7 @@
                         android:textColorHint="@color/colorLightBrown"
                         android:textSize="26sp"
                         android:visibility="gone"
+                        android:nextFocusDown="@+id/edtAdults"
                         />
 
                     <LinearLayout
@@ -221,6 +222,7 @@
                             android:textColorHint="@color/colorLightBrown"
                             android:textSize="26sp"
                             maskededittext:mask="(999)-999-9999"
+                            android:nextFocusDown="@+id/edtAdults"
                             />
                     </LinearLayout>
 
@@ -234,9 +236,119 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginTop="15dp"
-                android:spinnerMode="dropdown"
+                android:background="@drawable/correct_border"
                 android:dropDownVerticalOffset="-16dp"
-                android:background="@drawable/correct_border"/>
+                android:spinnerMode="dropdown"
+                android:visibility="gone"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginTop="15dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    >
+
+                    <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
+                        android:id="@+id/txtAdult"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/adults"
+                        android:textColor="@color/colorLightBrown"
+                        android:textSize="26sp"/>
+
+                    <com.kyobee.waitlist.customcontrol.CustomEditTextRegular
+                        android:id="@+id/edtAdults"
+                        android:layout_width="70dp"
+                        android:layout_height="55dp"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/correct_border"
+                        android:gravity="center"
+                        android:hint="0"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:padding="5dp"
+                        android:nextFocusDown="@+id/edtChildrens"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    >
+
+                    <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
+                        android:id="@+id/txtChildrens"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/childrens"
+                        android:textColor="@color/colorLightBrown"
+                        android:textSize="26sp"/>
+
+                    <com.kyobee.waitlist.customcontrol.CustomEditTextRegular
+                        android:id="@+id/edtChildrens"
+                        android:layout_width="70dp"
+                        android:layout_height="55dp"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/correct_border"
+                        android:gravity="center"
+                        android:hint="0"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:padding="5dp"
+                        android:nextFocusDown="@+id/edtInfants"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    >
+
+                    <com.kyobee.waitlist.customcontrol.CustomTextViewRegular
+                        android:id="@+id/txtInfants"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/infants"
+                        android:textColor="@color/colorLightBrown"
+                        android:textSize="26sp"/>
+
+                    <com.kyobee.waitlist.customcontrol.CustomEditTextRegular
+                        android:id="@+id/edtInfants"
+                        android:layout_width="70dp"
+                        android:layout_height="55dp"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/correct_border"
+                        android:gravity="center"
+                        android:hint="0"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:padding="5dp"
+                        android:imeOptions="actionDone"
+                        />
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

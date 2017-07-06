@@ -27,72 +27,92 @@ public class RequestAddGuest{
     private String prefType;
     @SerializedName("sms")
     @Expose
-    private String sms="";
+    private String sms = "";
 
     @SerializedName("email")
     @Expose
-    private String email="";
+    private String email = "";
 
     @SerializedName("noOfPeople")
     @Expose
-    private String noOfPeople="";
+    private String noOfPeople = "";
     @SerializedName("name")
     @Expose
-    private String name="";
+    private String name = "";
 
-    public String getStatus() {
+    @SerializedName("noOfChildren")
+    @Expose
+    private String noOfChildren = "0";
+
+    @SerializedName("noOfAdults")
+    @Expose
+    private String noOfAdults = "0";
+
+    @SerializedName("noOfInfants")
+    @Expose
+    private String noOfInfants = "0";
+
+    @SerializedName("quoteTime")
+    @Expose
+    private String quoteTime = "0";
+
+    @SerializedName("partyType")
+    @Expose
+    private String partyType = "-1";
+
+    public String getStatus (){
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus (String status){
         this.status = status;
     }
 
-    public String getOrganizationID() {
+    public String getOrganizationID (){
         return organizationID;
     }
 
-    public void setOrganizationID(String organizationID) {
+    public void setOrganizationID (String organizationID){
         this.organizationID = organizationID;
     }
 
-    public String getNote() {
+    public String getNote (){
         return note;
     }
 
-    public void setNote(String note) {
+    public void setNote (String note){
         this.note = note;
     }
 
-    public String getOptin() {
+    public String getOptin (){
         return optin;
     }
 
-    public void setOptin(String optin) {
+    public void setOptin (String optin){
         this.optin = optin;
     }
 
-    public List<GuestPreference> getGuestPreferences() {
+    public List<GuestPreference> getGuestPreferences (){
         return guestPreferences;
     }
 
-    public void setGuestPreferences(List<GuestPreference> guestPreferences) {
+    public void setGuestPreferences (List<GuestPreference> guestPreferences){
         this.guestPreferences = guestPreferences;
     }
 
-    public String getPrefType() {
+    public String getPrefType (){
         return prefType;
     }
 
-    public void setPrefType(String prefType) {
+    public void setPrefType (String prefType){
         this.prefType = prefType;
     }
 
-    public String getSms() {
+    public String getSms (){
         return sms;
     }
 
-    public void setSms(String sms) {
+    public void setSms (String sms){
         this.sms = sms;
     }
 
@@ -104,19 +124,59 @@ public class RequestAddGuest{
         this.email = email;
     }
 
-    public String getNoOfPeople() {
+    public String getNoOfPeople (){
         return noOfPeople;
     }
 
-    public void setNoOfPeople(String noOfPeople) {
+    public void setNoOfPeople (String noOfPeople){
         this.noOfPeople = noOfPeople;
     }
 
-    public String getName() {
+    public String getName (){
         return name;
     }
 
-    public void setName(String name) {
+    public void setName (String name){
         this.name = name;
+    }
+
+    public String getNoOfChildren (){
+        return noOfChildren;
+    }
+
+    public void setNoOfChildren (String noOfChildren){
+        this.noOfChildren = noOfChildren;
+    }
+
+    public String getNoOfAdults (){
+        return noOfAdults;
+    }
+
+    public void setNoOfAdults (String noOfAdults){
+        this.noOfAdults = noOfAdults;
+    }
+
+    public String getNoOfInfants (){
+        return noOfInfants;
+    }
+
+    public void setNoOfInfants (String noOfInfants){
+        this.noOfInfants = noOfInfants;
+    }
+
+    public String getQuoteTime (){
+        return quoteTime;
+    }
+
+    public void setQuoteTime (String quoteTime){
+        this.quoteTime = quoteTime;
+    }
+
+    public String getPartyType (){
+        return partyType;
+    }
+
+    public void setPartyType (String partyType){
+        this.partyType = partyType;
     }
 }

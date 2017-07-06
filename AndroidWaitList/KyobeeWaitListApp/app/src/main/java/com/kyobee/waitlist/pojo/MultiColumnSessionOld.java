@@ -4,22 +4,21 @@ package com.kyobee.waitlist.pojo;
  * Created on 4/3/2017.
  */
 
-public class MultiColumnSession{
+public class MultiColumnSessionOld{
 
-    int totalColumn=1;
-    int totalRows=20;
+    int totalColumn=3;
+    int totalRows=25;
     int rowPosition=1;
 
-    String partyType="C";
-
-    String columnName1="COMMON PARTIES";
-    String columnName2="";
-    String columnName3="";
-    String columnName4="";
+    String columnName1="APPROX. 30 MIN. OR LESS";
+    String columnName2="APPROX. 60 MIN. OR LESS";
+    String columnName3="APPROX. 90 MIN. OR LESS";
+    String columnName4="APPROX. 120 MIN. OR LESS";
 
     boolean notPresent=true;
     boolean inComplete=true;
     boolean party=false;
+
 
     public int getTotalColumn (){
         return totalColumn;
@@ -99,13 +98,5 @@ public class MultiColumnSession{
 
     public void setRowPosition (int rowPosition){
         this.rowPosition = rowPosition;
-    }
-
-    public String getPartyType (){
-        return partyType;
-    }
-
-    public void setPartyType (String partyType){
-        this.partyType = partyType;
     }
 }
