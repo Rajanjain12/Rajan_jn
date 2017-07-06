@@ -18,6 +18,7 @@ public interface APIService{
 
     // for check in users api
     String ORG_ID = "orgid";
+    String PARTYTYPE = "partyType";
     String PAGER_REQ_PARAM = "pagerReqParam";
 
     @GET(General.LOGIN)
@@ -29,7 +30,7 @@ public interface APIService{
 
     @GET(General.CHECK_IN_USERS)
     @Headers("Content-Type: application/x-www-form-urlencoded")
-    Call<ResponseGen> genCheckInUsers (@Query(ORG_ID) String orgId, @Query(value = PAGER_REQ_PARAM, encoded = true) String pagerReqParam);
+    Call<ResponseGen> genCheckInUsers (@Query(ORG_ID) String orgId, @Query(PARTYTYPE) String partyType,@Query(value = PAGER_REQ_PARAM, encoded = true) String pagerReqParam);
 
     @GET(General.WAIT_LIST_REST_ACTION)
     Call<Display> waiting (@Query(ORG_ID) String orgId);

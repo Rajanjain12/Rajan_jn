@@ -329,11 +329,10 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
         String[] types = getResources ().getStringArray (R.array.number_array);
         spnrPeople.initializeStringValues (types, getString (R.string.people_party));
 
-        /*if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
-
-        }else{
-
-        }*/
+        final CustomEditTextRegular edtAdults = (CustomEditTextRegular) view.findViewById (R.id.edtAdults);
+        final CustomEditTextRegular edtChildrens = (CustomEditTextRegular) view.findViewById (R.id.edtChildrens);
+        final CustomEditTextRegular edtInfants = (CustomEditTextRegular) view.findViewById (R.id.edtInfants);
+        edtInfants.setEnabled (false);
 
         final HorizontalListView horizontalListView = (HorizontalListView) view.findViewById (R.id.horizontalList);
         GuestHorizontalListAdapter listAdapter = new GuestHorizontalListAdapter ();
@@ -352,7 +351,6 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
             relativeTop.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorBlue));
             btnAddMe.setBackgroundColor (ContextCompat.getColor (activity, R.color.colorBlue));
         }
-
 
         spnrPeople.setOnItemSelectedListener (new AdapterView.OnItemSelectedListener (){
             @Override
@@ -410,6 +408,7 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
                 edtPhone.setVisibility (View.INVISIBLE);
                 edtEmail.setVisibility (View.VISIBLE);
                 txtValidPhone.setVisibility (View.GONE);
+                edtEmail.requestFocus ();
             }
         });
 
@@ -422,6 +421,7 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
                 edtEmail.setVisibility (View.INVISIBLE);
                 edtPhone.setVisibility (View.VISIBLE);
                 txtValidPhone.setVisibility (View.VISIBLE);
+                edtPhone.requestFocus ();
             }
         });
 
@@ -487,6 +487,82 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
             }
         });
 
+        edtAdults.addTextChangedListener (new TextWatcher (){
+            @Override
+            public void beforeTextChanged (CharSequence s, int start, int count, int after){
+
+            }
+
+            @Override
+            public void onTextChanged (CharSequence s, int start, int before, int count){
+
+            }
+
+            @Override
+            public void afterTextChanged (Editable s){
+
+                String adults = edtAdults.getText ().toString ().trim ();
+                if (adults.length () > 0){
+                    edtAdults.setBackgroundResource (R.drawable.correct_border);
+                    edtInfants.setEnabled (true);
+                    requestAddGuest.setNoOfAdults (adults);
+                } else{
+                    edtInfants.setEnabled (false);
+                    requestAddGuest.setNoOfAdults ("0");
+                }
+            }
+        });
+
+        edtChildrens.addTextChangedListener (new TextWatcher (){
+            @Override
+            public void beforeTextChanged (CharSequence s, int start, int count, int after){
+
+            }
+
+            @Override
+            public void onTextChanged (CharSequence s, int start, int before, int count){
+
+            }
+
+            @Override
+            public void afterTextChanged (Editable s){
+
+                String childrens = edtChildrens.getText ().toString ().trim ();
+                if (childrens.length () > 0){
+                    edtChildrens.setBackgroundResource (R.drawable.correct_border);
+                    requestAddGuest.setNoOfChildren (childrens);
+                }else{
+                    requestAddGuest.setNoOfChildren ("0");
+                }
+            }
+        });
+
+        edtInfants.addTextChangedListener (new TextWatcher (){
+            @Override
+            public void beforeTextChanged (CharSequence s, int start, int count, int after){
+
+            }
+
+            @Override
+            public void onTextChanged (CharSequence s, int start, int before, int count){
+
+            }
+
+            @Override
+            public void afterTextChanged (Editable s){
+
+                String infants = edtInfants.getText ().toString ().trim ();
+                if (infants.length () > 0){
+                    edtInfants.setBackgroundResource (R.drawable.correct_border);
+                    requestAddGuest.setNoOfInfants (infants);
+                }else{
+                    requestAddGuest.setNoOfInfants ("0");
+                }
+            }
+        });
+
+
+
         btnAddMe.setOnClickListener (new View.OnClickListener (){
             @Override
             public void onClick (View v){
@@ -520,47 +596,64 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
                         }
                     }
 
-                    if (requestAddGuest.getName ().equalsIgnoreCase ("") && (requestAddGuest.getSms ().equalsIgnoreCase ("") && requestAddGuest.getEmail ().equalsIgnoreCase ("")) && requestAddGuest.getNoOfPeople ().equalsIgnoreCase ("0")){
+                    if (requestAddGuest.getName ().equalsIgnoreCase ("") && (requestAddGuest.getSms ().equalsIgnoreCase ("") && requestAddGuest.getEmail ().equalsIgnoreCase ("")) && requestAddGuest.getNoOfPeople ().equalsIgnoreCase ("0") && requestAddGuest.getNoOfAdults ().equalsIgnoreCase ("0")){
                         edtName.setBackgroundResource (R.drawable.wrong_border);
+                        edtName.requestFocus ();
                         if (validateEmailPhone){
                             edtEmail.setBackgroundResource (R.drawable.wrong_border);
                             edtPhone.setBackgroundResource (R.drawable.wrong_border);
                         }
+                        edtAdults.setBackgroundResource (R.drawable.wrong_border);
                         spnrPeople.setBackgroundResource (R.drawable.wrong_border);
 
                     } else if (requestAddGuest.getName ().equalsIgnoreCase ("")){
                         edtName.setBackgroundResource (R.drawable.wrong_border);
+                        edtName.requestFocus ();
 
                     } else if (requestAddGuest.getSms ().equalsIgnoreCase ("") && requestAddGuest.getEmail ().equalsIgnoreCase ("") && validateEmailPhone){
                         edtEmail.setBackgroundResource (R.drawable.wrong_border);
                         edtPhone.setBackgroundResource (R.drawable.wrong_border);
+                        if(radioPhone.isChecked ()){
+                            edtPhone.requestFocus ();
+                        }else{
+                            edtEmail.requestFocus ();
+                        }
 
                     } else if (requestAddGuest.getSms ().equalsIgnoreCase ("") && !Validation.emailValidator (requestAddGuest.getEmail ()) && validateEmailPhone){
                         edtEmail.setBackgroundResource (R.drawable.wrong_border);
+                        edtEmail.requestFocus ();
 
-                    } else if (!Validation.phoneValidator (edtPhone.getText ().toString ()) && requestAddGuest.getEmail ().toString ().equalsIgnoreCase ("") && validateEmailPhone){
+                    } else if (!Validation.phoneValidator (edtPhone.getText ().toString ().trim ()) && requestAddGuest.getEmail ().toString ().equalsIgnoreCase ("") && validateEmailPhone){
                         edtPhone.setBackgroundResource (R.drawable.wrong_border);
+                        edtPhone.requestFocus ();
 
-                    } else if (requestAddGuest.getNoOfPeople ().equalsIgnoreCase ("0")){
+                    }else if (edtAdults.getText ().toString ().equalsIgnoreCase ("")){
+                        edtAdults.setBackgroundResource (R.drawable.wrong_border);
+                        edtAdults.requestFocus ();
+                    }
+                    /*else if (requestAddGuest.getNoOfPeople ().equalsIgnoreCase ("0")){
                         spnrPeople.setBackgroundResource (R.drawable.wrong_border);
 
-                    } /*else if (requestAddGuest.getGuestPreferences ().size () < 1){
+                    } else if (requestAddGuest.getGuestPreferences ().size () < 1){
                         CustomDialog.showAlertDialog (activity, activity.getString (R.string.kyobee), activity.getString (R.string.please_select));
                     }*/ else{
                         edtName.setBackgroundResource (R.drawable.correct_border);
                         edtEmail.setBackgroundResource (R.drawable.correct_border);
                         edtPhone.setBackgroundResource (R.drawable.correct_border);
                         spnrPeople.setBackgroundResource (R.drawable.correct_border);
+                        edtAdults.setBackgroundResource (R.drawable.correct_border);
 
                         // Gson gson = new GsonBuilder ().serializeNulls ().create ();
                         // String json = gson.toJson (requestAddGuest);
                         // Log.d (LOGTAG, "JSON " + json);
 
                         txtPoor.setVisibility (View.GONE);
+
+                        int noOfPeople=Integer.parseInt (requestAddGuest.getNoOfAdults ())+Integer.parseInt (requestAddGuest.getNoOfChildren ())+Integer.parseInt (requestAddGuest.getNoOfInfants ());
+                        requestAddGuest.setNoOfPeople (String.valueOf (noOfPeople));
                         callAddGuest (txtPoor, alertDialog);
                         //alertDialog.dismiss ();
                     }
-
                 } else{
                     Utils.noInternet (activity);
                 }
