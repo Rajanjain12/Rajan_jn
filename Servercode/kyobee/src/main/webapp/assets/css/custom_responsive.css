@@ -313,7 +313,7 @@ img.roundarrow {width: 14px;}
 .table-wrap {
     width: 100%;
 /*    float: left;*/
-    height: 371px;
+    height: 521px;
     overflow-y: scroll;
 /*    overflow-x: scroll;*/
 }
@@ -363,7 +363,7 @@ img.roundarrow {width: 14px;}
 .table-wrap {
     width: 100%;
     float: left;
-    height: 261px;
+    height: 351px;
     overflow-y: scroll;
 /*    overflow-x: scroll;*/
 }

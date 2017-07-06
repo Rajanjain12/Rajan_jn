@@ -1,5 +1,4 @@
 /**
- * @author :ordextechnology
  * Provides rest services for Admin guest module 
  * services offered are: Basic CRUD on Guest Entity , Send notification and calculate guest 
  * wait time by organizationId
@@ -11,11 +10,14 @@ package com.kyobee.rest;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import net.sf.json.JSONObject;
@@ -728,6 +730,7 @@ public class WaitListRestAction {
 			@RequestParam("statusOption") String statusOption,
 			@RequestParam("sliderMinTime") Integer sliderMinTime,
 			@RequestParam("sliderMaxTime") Integer sliderMaxTime,
+			@RequestParam("clientTimezone") String clientTimezone,
 			@RequestParam String pagerReqParam) {
 		log.info("Entering :: fetchGuestsHistory ::orgid "+orgid);		
 		Response<PaginatedResponse<GuestDTO>> response = new Response<PaginatedResponse<GuestDTO>>();
@@ -742,10 +745,56 @@ public class WaitListRestAction {
 		try {
 			//changed for history pagination
 			//guests = waitListService.loadGuestsHistoryByOrg(orgid);
+			
+			/*Calendar c = new GregorianCalendar(TimeZone.getTimeZone("GMT-05:00"));
+ 			c.setTimeInMillis(new Date().getTime());
+ 			int EastCoastHourOfDay = c.get(Calendar.HOUR_OF_DAY);
+ 			int EastCoastDayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+ 			int EastCoastMinuitOfDay = c.get(Calendar.MINUTE);
+ 			int offset1 = TimeZone.getTimeZone("GMT-05:00").getOffset(new Date().getTime());*/
+
+ 			
+
+ 			/*// Local Time
+ 			int localHourOfDay = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+ 			int localDayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);*/
+
+ 			// Alaska
+ 			/*c = new GregorianCalendar(TimeZone.getTimeZone("GMT+05:30"));
+ 			c.setTimeInMillis(new Date().getTime());
+ 			int AlaskaHourOfDay = c.get(Calendar.HOUR_OF_DAY);
+ 			int AlaskaDayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+ 			int AlaskaMinuitOfDay = c.get(Calendar.MINUTE);
+ 			int offset2 = TimeZone.getTimeZone("GMT+05:30").getOffset(new Date().getTime());
+ 			
+ 			int hourDifference = AlaskaHourOfDay - EastCoastHourOfDay;
+ 			int dayDifference = AlaskaDayOfMonth - EastCoastDayOfMonth;
+ 			int minuitDifference = AlaskaMinuitOfDay - EastCoastMinuitOfDay;
+ 			int offsetDifference = (offset1-offset2)/1000/60/60;
+ 			
+ 			if(minuitDifference == 60){
+ 				hourDifference = hourDifference+1;
+ 			}
+ 			if(minuitDifference < 0){
+ 				hourDifference = hourDifference-1;
+ 				minuitDifference = 60+minuitDifference;
+ 			}
+ 			if (dayDifference != 0) {
+ 			hourDifference = hourDifference + 24;
+ 			}
+ 			System.out.println(hourDifference+":"+minuitDifference);
+			if(offset1 >= offset2){
+ 			sliderMinTime = sliderMinTime+hourDifference;
+ 			sliderMaxTime = sliderMaxTime+hourDifference;
+			}
+			else{
+				sliderMinTime = sliderMinTime-hourDifference;
+	 			sliderMaxTime = sliderMaxTime-hourDifference;
+			}*/
 			ObjectMapper mapper = new ObjectMapper();
 			PaginationReqParam paginationReqParam = mapper.readValue(pagerReqParam, PaginationReqParam.class);
 			guestPreferenceMap = getGuestSeatingPrefMap();
-			guests = waitListService.loadGuestsHistoryByOrgRecords(orgid,paginationReqParam.getPageSize(), paginationReqParam.getPageNo(),statusOption,sliderMinTime,sliderMaxTime);
+			guests = waitListService.loadGuestsHistoryByOrgRecords(orgid,paginationReqParam.getPageSize(), paginationReqParam.getPageNo(),statusOption,sliderMinTime,sliderMaxTime,clientTimezone);
 			
 			Long guestsTotalCount = waitListService.getHistoryUsersCountForOrg(orgid,statusOption,sliderMinTime,sliderMaxTime);
 			

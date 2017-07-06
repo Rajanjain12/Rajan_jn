@@ -201,7 +201,7 @@ public interface IWaitListService {
 	public List<Object[]> getLookupsForLookupType(final Long pLookupTypeId) throws RsntException;
 
 	//public void sendNotificationToGuestForSeated(GuestNotificationBean guestNotificationBean);
-	public List<Guest> loadGuestsHistoryByOrgRecords(Long orgid, int recordsPerPage, int pageNumber,String statusOption,int sliderMinTime, int sliderMaxTime)throws RsntException;
+	public List<Guest> loadGuestsHistoryByOrgRecords(Long orgid, int recordsPerPage, int pageNumber,String statusOption,int sliderMinTime, int sliderMaxTime, String clientTimezone)throws RsntException;
 
 	Long getAllCheckinUsersCount(Long orgid) throws RsntException;
 

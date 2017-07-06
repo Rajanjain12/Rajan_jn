@@ -49,12 +49,14 @@ KyobeeControllers.controller('waitListCtrl',
 							noOfParty : true,
 							checkinTime : true,
 							partyType : true,
-							quoteTime : false,
+							quoteTime : true,
 							/*optIn : true,*/
-							note : false,
+							note : true,
 							del : true
 					};
 					
+					/*$scope.offset = new date().getTimezoneOffset();*/
+					/*alert($scope.offset);*/
 					$scope.slider = {
 							id : 'timeSlider',
 							range:{
@@ -352,12 +354,28 @@ KyobeeControllers.controller('waitListCtrl',
 						
 						console.log($scope.selectedStatus);
 						
+						var d = new Date(); // or whatever date you have
+						function pad(value) {
+						    return value < 10 ? '0' + value : value;
+						}
+						function createOffset(date) {
+						    var sign = (date.getTimezoneOffset() > 0) ? "-" : "+";
+						    var offset = Math.abs(date.getTimezoneOffset());
+						    var hours = pad(Math.floor(offset / 60));
+						    var minutes = pad(offset % 60);
+						    return sign + hours + ":" + minutes;
+						}
+						/*tzName = d.toLocaleString('en', {timeZoneName:'short'}).split(' ').pop();*/
+						tzName = createOffset(d);
+						/*alert("krupali"+tzName);*/
+						
 						var postBody = {
 								orgid : $scope.userDTO.organizationId,
 								statusOption: $scope.selectedStatus,
 								pagerReqParam : $scope.pagerRequest,
 								sliderMinTime : $scope.slider.minTime,
-								sliderMaxTime : $scope.slider.maxTime
+								sliderMaxTime : $scope.slider.maxTime,
+								clientTimezone : tzName
 						};
 						
 						//$scope.loadOrgMetricks();

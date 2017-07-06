@@ -8,11 +8,15 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.TimeZone;
 
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -24,6 +28,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.swing.plaf.SliderUI;
 import javax.swing.text.StyleContext.SmallAttributeSet;
 
 import org.hibernate.Criteria;
@@ -1473,12 +1478,86 @@ ByOrgRecords(java.lang.Long, int, int)
 	 +	 */
 	 	@SuppressWarnings("unchecked")
 	 	@Override
-	 	public List<Guest> loadGuestsHistoryByOrgRecords(Long orgid, int recordsPerPage, int pageNumber,String statusOption, int sliderMinTime, int sliderMaxTime) throws RsntException {
+	 	public List<Guest> loadGuestsHistoryByOrgRecords(Long orgid, int recordsPerPage, int pageNumber,String statusOption, int sliderMinTime, int sliderMaxTime, String clientTimezone) throws RsntException {
 	 		try {
 	 			int firstPage = (pageNumber == 1) ? 0 : (recordsPerPage*(pageNumber-1));
 	 			int SliderMaxTimeLessOne = sliderMaxTime-1;
+	 			/*int minDiff = minuitDifference;*/
+	 			int convertedSliderMin;
+	 			int convertedSliderMax;
+	 			String timezone = clientTimezone;
+	 			/*TimeZone t1 = Calendar.getInstance().getTimeZone();
+	 			TimeZone t2 =  TimeZone.getTimeZone("EDT");
+	 			long offset = (t1.getRawOffset() - t2.getRawOffset())/100000;
+	 			int offset = t1.getRawOffset();
+	 			String gmtTZ = String.format("%s%02d", 
+	 			               offset < 0 ? "-" : "+", 
+	 			               Math.abs(offset) / 3600000,
+	 			               Math.abs(offset) / 60000 % 60);
+	 			int gmtTZint = Integer.parseInt(gmtTZ);
+	 			int secondsOfHour = offset.getTotalSeconds() % (60 * 60);
+	 		    String out = String.format("%35s %10s%n", t1, offset);
+	 			System.out.println("krupali"+gmtTZ);*/
+	 			
+	 			/*Calendar c = new GregorianCalendar(Calendar.getInstance().getTimeZone());*/
+	 			/*Calendar c = new GregorianCalendar(TimeZone.getTimeZone("UTC+05:30"));
+	 			c.setTimeInMillis(new Date().getTime());
+	 			int EastCoastHourOfDay = c.get(Calendar.HOUR_OF_DAY);
+	 			int EastCoastDayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+
+	 			// Local Time
+	 			int localHourOfDay = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+	 			int localDayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+
+	 			// Alaska
+	 			Calendar c1 = new GregorianCalendar(TimeZone.getTimeZone("EDT"));
+	 			c1.setTimeInMillis(new Date().getTime());
+	 			int AlaskaHourOfDay = c1.get(Calendar.HOUR_OF_DAY);
+	 			int AlaskaDayOfMonth = c1.get(Calendar.DAY_OF_MONTH);
+	 			
+	 			int hourDifference = AlaskaHourOfDay - EastCoastHourOfDay;
+	 			int dayDifference = AlaskaDayOfMonth - EastCoastDayOfMonth;
+	 			if (dayDifference != 0) {
+	 			hourDifference = hourDifference + 24;
+	 			}
+	 			System.out.println(hourDifference);*/
+
+	 			/*int SliderMinValue = sliderMinTime;
+	 			int SliderMaxValueLessOne = SliderMaxTimeLessOne;
+	 			int SliderMaxValue = sliderMaxTime;*/
+
+	 			/*// Difference between New York and Local Time (for me Germany)
+	 			hourDifference = EastCoastHourOfDay - localHourOfDay;
+	 			dayDifference = EastCoastDayOfMonth - localDayOfMonth;
+	 			if (dayDifference != 0) {
+	 			hourDifference = hourDifference + 24;
+	 			}
+	 			System.out.println(hourDifference);*/
+
+	 			/*if(sliderMinTime >=24){
+	 				convertedSliderMin = 0+(sliderMinTime-24);
+	 			}
+	 			else if(sliderMinTime < 0){
+	 				convertedSliderMin = 24+sliderMinTime;
+	 			}
+	 			else{
+	 				convertedSliderMin = sliderMinTime;
+	 			}
+	 			if(sliderMaxTime >=24){
+	 				convertedSliderMax = 0+(sliderMaxTime-24);
+	 			}
+	 			else if(sliderMaxTime <0){
+	 				convertedSliderMax = 24+sliderMaxTime;
+	 			}
+	 			else{
+	 				convertedSliderMax = sliderMaxTime;
+	 			}*/
+	 			 
+	 			String t1 = sliderMinTime+":00";
+	 			String t2 = sliderMaxTime+":01";
 	 			StringBuffer query=new StringBuffer("FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
-	 					+ " and g.OrganizationID=:orgId and ((hour(g.checkinTime) between (:SliderMinValue) and (:SliderMaxValueLessOne)) or (date_format(g.checkinTime, '%H:%i')=:SliderMaxValue))");
+	 					+ " and g.OrganizationID=:orgId and ((time(convert_tz(g.checkinTime,'-05:00', :ClientTimezone)) between time(:SliderMinValue) and time(:SliderMaxValue)))");
+	 			/*convert_tz(g.checkinTime,'+05:30','-05:00'*/
 	 			if(statusOption.equals("Not Present")) {
 	 				query=query.append(" and calloutCount > 0");
 	 			}
@@ -1489,7 +1568,7 @@ ByOrgRecords(java.lang.Long, int, int)
 	 			System.out.println("Query : "+ query);
 	 			//HQL_GET_GUESTS_HISTORY
 	 			return sessionFactory.getCurrentSession().createQuery(query.toString())
-	 					.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("SliderMinValue", sliderMinTime).setParameter("SliderMaxValueLessOne", SliderMaxTimeLessOne).setParameter("SliderMaxValue", sliderMaxTime+":00").setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
+	 					.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("SliderMinValue", t1).setParameter("SliderMaxValue", t2).setParameter("ClientTimezone", clientTimezone).setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
 	 		} catch (Exception e) {
 	 			log.error("loadGuestsHistoryByOrg()", e);
 	 			throw new RsntException(e);

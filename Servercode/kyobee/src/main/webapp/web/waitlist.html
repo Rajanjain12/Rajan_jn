@@ -217,13 +217,13 @@
 				
 				<!-- {{toggleColumn.seat}} -->
 	
-				<a href="javascript:" ng-click="toggleColumns('no')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.no == true}">No.</a>
-				<a href="javascript:" ng-click="toggleColumns('name')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.name == true}"">Name</a>
-				<a href="javascript:" ng-click="toggleColumns('seatingPref')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.seatingPref == true}">Seating Pref.</a>
-				<a href="javascript:" ng-click="toggleColumns('noOfParty')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.noOfParty == true}">No. Of Party</a>
+				<!-- <a href="javascript:" ng-click="toggleColumns('no')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.no == true}">No.</a> -->
 				<a href="javascript:" ng-click="toggleColumns('partyType')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.partyType == true}">Party Type</a>
-				<a href="javascript:" ng-click="toggleColumns('quoteTime')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.quoteTime == true}">Quote Time</a>
+				<a href="javascript:" ng-click="toggleColumns('noOfParty')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.noOfParty == true}">No. Of Party</a>
+				<a href="javascript:" ng-click="toggleColumns('name')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.name == true}"">Name</a>
 				<a href="javascript:" ng-click="toggleColumns('checkinTime')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.checkinTime == true}">Checkin Time</a>
+				<a href="javascript:" ng-click="toggleColumns('quoteTime')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.quoteTime == true}">Quote Time</a>
+				<!-- <a href="javascript:" ng-click="toggleColumns('seatingPref')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.seatingPref == true}">Seating Pref.</a> -->
 				
 				<!-- <a href="javascript:" ng-click="toggleColumns('optIn')" >Opt-In</a> -->
 				<a href="javascript:" ng-click="toggleColumns('note')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.note == true}">Note</a>
@@ -247,42 +247,42 @@
                         <thead>
                             <tr>
                                 <th class="numeric" ng-show="toggleColumn.seat">Seat</th>
-                                <th class="numeric" ng-show="toggleColumn.no">No.</th>
-                                <th class="numeric" ng-show="toggleColumn.name">Name</th>
-                                <th class="numeric" ng-show="toggleColumn.seatingPref">Seating Pref.</th>
-                                <th class="numeric" ng-show="toggleColumn.noOfParty">No. Of Party</th>
+                                <!-- <th class="numeric" ng-show="toggleColumn.no">No.</th> -->
                                 <th class="numeric" ng-show="toggleColumn.partyType">Party Type</th>
-                                <th class="numeric" ng-show="toggleColumn.quoteTime">Quote Time</th>
+                                <th class="numeric" ng-show="toggleColumn.noOfParty">No. Of Party</th>
+                                <th class="numeric" ng-show="toggleColumn.name">Name</th>
                                 <th class="numeric" ng-show="toggleColumn.checkinTime">Checkin Time</th>
-                                
-                                <!-- <th class="numeric" ng-show="toggleColumn.optIn">Opt-In</th> -->
+                                <th class="numeric" ng-show="toggleColumn.quoteTime">Quote Time</th> 
                                 <th class="numeric" ng-show="toggleColumn.note">Note</th>
-                                <th class="numeric">Delete</th>                                 
+                                <th class="numeric">Delete</th> 
+                                <!-- <th class="numeric" ng-show="toggleColumn.seatingPref">Seating Pref.</th> -->
+                                
+                                 <!-- <th class="numeric" ng-show="toggleColumn.optIn">Opt-In</th> -->                                
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="record in guestWaitList">
                                 <td data-title="Seat" class="numeric" ng-show="toggleColumn.seat"><a class="clickpopup" style="cursor:pointer" ng-click="showPopup(record);"><img src="../assets/img/greenarrow.png"></a></td>
-                                <td data-title="No." class="numeric" ng-show="toggleColumn.no">{{record.rank}}</td>
+                                <!-- <td data-title="No." class="numeric" ng-show="toggleColumn.no">{{record.rank}}</td> -->
+                                <td data-title="partyType" class="numeric" ng-show="toggleColumn.partyType">
+                                	<span ng-if="record.partyType == 0" ng-class="{'highlight_smallparty' : record.partyType == 0 }">Small</span>
+                                	<span ng-if="record.partyType == 1" ng-class="{'highlight_largeparty' : record.partyType == 1 }">Large</span>
+                                	<span ng-if="record.partyType == -1">-</span>
+                                </td>
+                                <td data-title="No.of Party" class="numeric" ng-show="toggleColumn.noOfParty">A-{{record.noOfAdults}}, C-{{record.noOfChildren}}, I-{{record.noOfInfants}} </td>
                                 <td data-title="Name" class="numeric" ng-show="toggleColumn.name">
-                                	<a ng-click="moveToUpdateGuest(record.guestID)" ng-class="{'hightlight' : record.incompleteParty != null }" style="cursor:pointer"><u>{{record.name}}</u></a> &nbsp;
+                                	<a ng-click="moveToUpdateGuest(record.guestID)" ng-class="{'hightlight_name' : record.incompleteParty != null }" style="cursor:pointer"><u>{{record.name}}</u></a> &nbsp;
                                 	<span ng-show="record.calloutCount != null" ng-repeat="item in getArrayFromNum(record.calloutCount) track by $index">
                                 	<img src="../assets/img/downhand.png" class="downarrow"> &nbsp;
                                 	</span>
                                 </td>
-                                <td data-title="Seating Pref." class="numeric" ng-show="toggleColumn.seatingPref">
+                                <!-- <td data-title="Seating Pref." class="numeric" ng-show="toggleColumn.seatingPref">
                                 <span ng-show="record.seatingPreference != null"><span ng-show="record.seatingPreference==''">&nbsp;</span>{{record.seatingPreference}}</span>
                                 <span ng-show="record.seatingPreference == null">-</span>
-                                </td>
+                                </td> -->
                                 <!-- <span ng-show="record.seatingPreference==''">&nbsp;</span>{{record.seatingPreference}}</td> -->
-                                <td data-title="No.of Party" class="numeric" ng-show="toggleColumn.noOfParty">A-{{record.noOfAdults}}, C-{{record.noOfChildren}}, I-{{record.noOfInfants}} </td>
-                                <td data-title="partyType" class="numeric" ng-show="toggleColumn.partyType">
-                                	<span ng-if="record.partyType == 0">Small</span>
-                                	<span ng-if="record.partyType == 1">Large</span>
-                                	<span ng-if="record.partyType == -1">-</span>
-                                </td>
-                                <td data-title="quoteTime" class="numeric" ng-show="toggleColumn.quoteTime">{{record.quoteTime }}</td>
                                 <td data-title="checkinTime" class="numeric" ng-show="toggleColumn.checkinTime">{{record.checkinTime | date :  "short"}}</td>
+                                <td data-title="quoteTime" class="numeric" ng-show="toggleColumn.quoteTime">{{record.quoteTime }}</td>
                                 
                                 <!-- {{record.checkinTime | date :  "short" : '-0500' }} -->
                                 
@@ -307,13 +307,13 @@
 	           	 	<table id="waitlisttable" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th class="numeric1" ng-show="toggleColumn.no">No.</th>
-                                <th class="numeric1" ng-show="toggleColumn.name">Name</th>
-                                <th class="numeric1" ng-show="toggleColumn.seatingPref">Seating Pref.</th>
-                                <th class="numeric1" ng-show="toggleColumn.noOfParty">No. Of Party</th>
+                                <!-- <th class="numeric1" ng-show="toggleColumn.no">No.</th> -->
                                 <th class="numeric1" ng-show="toggleColumn.partyType">Party Type</th>
-                                <th class="numeric1" ng-show="toggleColumn.quoteTime">Quote Time</th>
+                                <th class="numeric1" ng-show="toggleColumn.noOfParty">No. Of Party</th>
+                                <th class="numeric1" ng-show="toggleColumn.name">Name</th>
                                 <th class="numeric1" ng-show="toggleColumn.checkinTime">Checkin Time</th>
+                                <!-- <th class="numeric1" ng-show="toggleColumn.seatingPref">Seating Pref.</th> -->
+                                <th class="numeric1" ng-show="toggleColumn.quoteTime">Quote Time</th>
                                 
                                 <!-- <th class="numeric1" ng-show="toggleColumn.optIn">Opt-In</th> --> 
                                 <th class="numeric1" ng-show="toggleColumn.note">Note</th>
@@ -321,22 +321,22 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="record in guestWaitList">
-                                <td data-title="No." class="numeric1" ng-show="toggleColumn.no">{{record.rank}}</td>
+                                <!-- <td data-title="No." class="numeric1" ng-show="toggleColumn.no">{{record.rank}}</td> -->
+                                <td data-title="partyType" class="numeric1" ng-show="toggleColumn.partyType">
+                                	<span ng-if="record.partyType == 0" ng-class="{'highlight_smallparty' : record.partyType == 0 }">Small</span>
+                                	<span ng-if="record.partyType == 1" ng-class="{'highlight_largeparty' : record.partyType == 1 }">Large</span>
+                                	<span ng-if="record.partyType == -1">-</span>
+                                </td>
+                                <td data-title="No.Of Party" class="numeric1" ng-show="toggleColumn.noOfParty">A-{{record.noOfAdults}}, C-{{record.noOfChildren}}, I-{{record.noOfInfants}}</td>
                                 <td data-title="Name" class="numeric1" ng-show="toggleColumn.name">
-                                	<a ng-click="moveToUpdateGuest(record.guestID)" ng-class="{'hightlight' : record.incompleteParty != null }" style="cursor:pointer"><u>{{record.name}}</u></a> &nbsp;
+                                	<a ng-click="moveToUpdateGuest(record.guestID)" ng-class="{'hightlight_name' : record.incompleteParty != null }" style="cursor:pointer"><u>{{record.name}}</u></a> &nbsp;
                                 	<span ng-show="record.calloutCount != null" ng-repeat="item in getArrayFromNum(record.calloutCount) track by $index">
                                 	<img src="../assets/img/downhand.png" class="downarrow"> &nbsp;
                                 	</span>
                                 </td>
-                                <td data-title="Seating Pref." class="numeric1" ng-show="toggleColumn.seatingPref"><span ng-show="record.seatingPreference==''">&nbsp;</span>{{record.seatingPreference}}</td>
-                                <td data-title="No.Of Party" class="numeric1" ng-show="toggleColumn.noOfParty">A-{{record.noOfAdults}}, C-{{record.noOfChildren}}, I-{{record.noOfInfants}}</td>
-                                <td data-title="partyType" class="numeric1" ng-show="toggleColumn.partyType">
-                                	<span ng-if="record.partyType == 0">Small</span>
-                                	<span ng-if="record.partyType == 1">Large</span>
-                                	<span ng-if="record.partyType == -1">-</span>
-                                </td>
-                                <td data-title="quoteTime" class="numeric1" ng-show="toggleColumn.quoteTime">{{record.quoteTime}}</td>
+                                <!-- <td data-title="Seating Pref." class="numeric1" ng-show="toggleColumn.seatingPref"><span ng-show="record.seatingPreference==''">&nbsp;</span>{{record.seatingPreference}}</td> -->
                                 <td data-title="checkinTime" class="numeric1" ng-show="toggleColumn.checkinTime">{{record.checkinTime | date :  "short"}}</td>
+                                <td data-title="quoteTime" class="numeric1" ng-show="toggleColumn.quoteTime">{{record.quoteTime}}</td>
                                 
                                 <!-- <td data-title="Opt-In" class="numeric1" ng-show="toggleColumn.optIn"><span ng-show="record.optin == false">&nbsp;</span><img ng-show="record.optin == true" src="../assets/img/roundarrow.png" class="roundarrow"></td> -->
                                  <td data-title="Note" class="numeric1" ng-show="toggleColumn.note"><span ng-show="record.note == null || record.note ==''">&nbsp;</span><a popover href="javascript:void(0)" data-toggle="popover-show" data-placement="top" data-trigger="focus" data-content="{{record.note}}"><img ng-show="record.note != null && record.note !=''" src="../assets/img/roundarrow.png" class="roundarrow"></a></td>
