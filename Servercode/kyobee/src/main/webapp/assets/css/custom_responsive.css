@@ -313,7 +313,7 @@ img.roundarrow {width: 14px;}
 .table-wrap {
     width: 100%;
 /*    float: left;*/
-    height: 521px;
+    height: 571px;
     overflow-y: scroll;
 /*    overflow-x: scroll;*/
 }
@@ -337,7 +337,8 @@ img.roundarrow {width: 14px;}
 #thankYouPopup {
     left: 120px !important;
 }
-
+/*latest footer changes*/
+.padding-bottom-130 { padding-bottom: 175px;}
 
 }
 
@@ -363,7 +364,7 @@ img.roundarrow {width: 14px;}
 .table-wrap {
     width: 100%;
     float: left;
-    height: 351px;
+    height: 400px;
     overflow-y: scroll;
 /*    overflow-x: scroll;*/
 }

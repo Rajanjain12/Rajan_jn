@@ -796,7 +796,7 @@ public class WaitListRestAction {
 			guestPreferenceMap = getGuestSeatingPrefMap();
 			guests = waitListService.loadGuestsHistoryByOrgRecords(orgid,paginationReqParam.getPageSize(), paginationReqParam.getPageNo(),statusOption,sliderMinTime,sliderMaxTime,clientTimezone);
 			
-			Long guestsTotalCount = waitListService.getHistoryUsersCountForOrg(orgid,statusOption,sliderMinTime,sliderMaxTime);
+			Long guestsTotalCount = waitListService.getHistoryUsersCountForOrg(orgid,statusOption,sliderMinTime,sliderMaxTime,clientTimezone);
 			
 			if(null != guests && guests.size()>0){
 				guestDTOs = new ArrayList<GuestDTO>(guests.size());
@@ -856,6 +856,7 @@ public class WaitListRestAction {
 			@RequestParam("statusOption") String statusOption,
 			@RequestParam("sliderMinTime") Integer sliderMinTime,
 			@RequestParam("sliderMaxTime") Integer sliderMaxTime,
+			@RequestParam("clientTimezone") String clientTimezone,
 			@RequestParam("searchName") String searchName,
 			@RequestParam String pagerReqParam) {
 		log.info("Entering :: searchhistoryuser ::orgid "+orgid);		
@@ -874,9 +875,9 @@ public class WaitListRestAction {
 			ObjectMapper mapper = new ObjectMapper();
 			PaginationReqParam paginationReqParam = mapper.readValue(pagerReqParam, PaginationReqParam.class);
 			guestPreferenceMap = getGuestSeatingPrefMap();
-			guests = waitListService.loadGuestsHistoryByName(orgid,paginationReqParam.getPageSize(), paginationReqParam.getPageNo(),statusOption,sliderMinTime,sliderMaxTime,searchName);
+			guests = waitListService.loadGuestsHistoryByName(orgid,paginationReqParam.getPageSize(), paginationReqParam.getPageNo(),statusOption,sliderMinTime,sliderMaxTime,searchName,clientTimezone);
 			
-			Long guestsTotalCount = waitListService.getHistoryUsersCountForName(orgid,statusOption,sliderMinTime,sliderMaxTime,searchName);
+			Long guestsTotalCount = waitListService.getHistoryUsersCountForName(orgid,statusOption,sliderMinTime,sliderMaxTime,searchName,clientTimezone);
 			
 			if(null != guests && guests.size()>0){
 				guestDTOs = new ArrayList<GuestDTO>(guests.size());

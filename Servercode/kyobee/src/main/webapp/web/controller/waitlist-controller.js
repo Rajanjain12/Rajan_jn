@@ -6,8 +6,9 @@ KyobeeControllers.controller('waitListCtrl',
 				'$location',
 				'$timeout',
 				'$interval',
+				'$routeParams',
 				'KyobeeService',
-				function($scope, $rootScope,$location, $timeout, $interval, KyobeeService) {
+				function($scope, $rootScope,$location, $timeout, $interval, $routeParams , KyobeeService) {
 						
 					/*$scope.sliderStartTime = 'hello';*/
 					$rootScope.hideHeader=false;//To hide show header in index.html
@@ -19,6 +20,7 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.client = null;
 					$scope.countMsgChannel = 0;
 					
+					$scope.loading = false; /* for loader(krupali 07/07/2017)*/
 					$scope.searchName = null;
 					$scope.appKey = null;
 		            $scope.privateKey = null;
@@ -36,6 +38,10 @@ KyobeeControllers.controller('waitListCtrl',
 					
 					$scope.statusOptions=["All","Not Present","Incomplete"];
 					$scope.selectedStatus=$scope.statusOptions[0];
+					
+					/*for getting current timezone(krupali 06/07/2017)*/
+					
+					
 					
 					$scope.hideSuccessMsg = function(){
 						$scope.successMsg = null;
@@ -354,10 +360,11 @@ KyobeeControllers.controller('waitListCtrl',
 						
 						console.log($scope.selectedStatus);
 						
-						var d = new Date(); // or whatever date you have
+						/*current timezone (krupali 06/07/2017)*/
 						function pad(value) {
 						    return value < 10 ? '0' + value : value;
 						}
+						
 						function createOffset(date) {
 						    var sign = (date.getTimezoneOffset() > 0) ? "-" : "+";
 						    var offset = Math.abs(date.getTimezoneOffset());
@@ -365,9 +372,10 @@ KyobeeControllers.controller('waitListCtrl',
 						    var minutes = pad(offset % 60);
 						    return sign + hours + ":" + minutes;
 						}
-						/*tzName = d.toLocaleString('en', {timeZoneName:'short'}).split(' ').pop();*/
+						
+						var d = new Date(); 
 						tzName = createOffset(d);
-						/*alert("krupali"+tzName);*/
+						/*alert(tzName);*/
 						
 						var postBody = {
 								orgid : $scope.userDTO.organizationId,
@@ -396,8 +404,23 @@ KyobeeControllers.controller('waitListCtrl',
 								});
 					};
 					
+					
 					$scope.searchGridOnHistory = function(searchName) {
-						/*debugger;*/
+						function pad(value) {
+						    return value < 10 ? '0' + value : value;
+						}
+						
+						function createOffset(date) {
+						    var sign = (date.getTimezoneOffset() > 0) ? "-" : "+";
+						    var offset = Math.abs(date.getTimezoneOffset());
+						    var hours = pad(Math.floor(offset / 60));
+						    var minutes = pad(offset % 60);
+						    return sign + hours + ":" + minutes;
+						}
+						
+						var d = new Date(); 
+						tzName = createOffset(d);
+						/*alert(tzName);*/
 						
 						$scope.pagerRequest = {
 								filters : null,
@@ -409,13 +432,16 @@ KyobeeControllers.controller('waitListCtrl',
 						
 						console.log($scope.selectedStatus);
 						
+
+						
 						var postBody = {
 								orgid : $scope.userDTO.organizationId,
 								statusOption: $scope.selectedStatus,
 								pagerReqParam : $scope.pagerRequest,
 								searchName : $scope.searchName,
 								sliderMinTime : $scope.slider.minTime,
-								sliderMaxTime : $scope.slider.maxTime
+								sliderMaxTime : $scope.slider.maxTime,
+								clientTimezone : tzName
 						};
 						
 						//$scope.loadOrgMetricks();
@@ -494,14 +520,16 @@ KyobeeControllers.controller('waitListCtrl',
 					}
 					
 					$scope.incrementCalloutCount = function(){
+						$scope.loading=true;													/* for loader(krupali 07/07/2017)*/
 						$scope.successMsg = null;
 						var postBody = $scope.selectedGuest;
 						
 						var url = '/kyobee/web/rest/waitlistRestAction/incrementCalloutCount';
 						KyobeeService.postDataService(url, '').query(postBody,
 								function(data) {
-									console.log(data);
+									console.log(data);				
 									if (data.status == "SUCCESS") {
+										$scope.loading = false;									/* for loader(krupali 07/07/2017)*/
 										console.log("scccessfully called out.");
 										console.log(data.serviceResult);
 										$('#showpopup').simplePopup().hide();
@@ -527,6 +555,7 @@ KyobeeControllers.controller('waitListCtrl',
 					}
 					
 					$scope.markasIncomplete = function(){
+						$scope.loading=true;											/* for loader(krupali 07/07/2017)*/
 						$scope.successMsg = null;
 						var postBody = $scope.selectedGuest;
 						
@@ -535,6 +564,7 @@ KyobeeControllers.controller('waitListCtrl',
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
+										$scope.loading=false;							/* for loader(krupali 07/07/2017)*/
 										console.log("scccessfully called out.");
 										console.log(data.serviceResult);
 										$('#showpopup').simplePopup().hide();
@@ -561,6 +591,7 @@ KyobeeControllers.controller('waitListCtrl',
 					} 
 					
 					$scope.markasSeated = function(){
+						$scope.loading = true;										/* for loader(krupali 07/07/2017)*/
 						$scope.successMsg = null;
 						var postBody = {
 
@@ -570,6 +601,7 @@ KyobeeControllers.controller('waitListCtrl',
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
+										$scope.loading=false;						/* for loader(krupali 07/07/2017)*/
 										$('#showpopup').simplePopup().hide();
 										$(".simplePopupBackground").fadeOut("fast");
 										$scope.loadWaitListPage(1);

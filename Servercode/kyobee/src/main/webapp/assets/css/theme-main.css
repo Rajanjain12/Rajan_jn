@@ -445,7 +445,7 @@ p.text-msg-pswd { color: #c9ced1; font-size: 16px;  text-align: left;    display
 .kw-dav-1 {
     display: inline-block;    
     text-align: center;
-    margin-left: 40%;
+    margin-left: 36%;
     margin-top: 10px;
 }
 
@@ -1558,4 +1558,15 @@ input[type=number]::-webkit-inner-spin-button {
     position: absolute;
     right: 28px;
     top: 8px;
+}
+
+/*Image in parties waiting*/
+.set-image{
+	width:254px !important;
+	height:auto !important;
+}
+/*kyobee logo change*/
+.logo-set{
+	width:499px;
+	height:auto;
 }

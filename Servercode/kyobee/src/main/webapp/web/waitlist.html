@@ -13,11 +13,11 @@
 			</div>
 									
 			<!-- <div class="pull-right col-md-12 col-sm-12 col-xs-12"> -->
-				<div class="col-md-2 col-sm-2 col-xs-12 pull-right">			
+				<div class="row col-md-2 col-sm-3 col-xs-12 pull-right">			
 					<h5 class="pull-right" ng-show="showHistory == false" style="margin-bottom:5px;"><a style="padding: 0 10px; cursor:pointer; font-weight:bold; text-decoration: underline;" class="theme-fontcolor" ng-click="toggleShowHistory();">Show History</a></h5>
 					<h5 class="pull-right select-margin" ng-show="showHistory == true" style="margin-bottom:5px;"><a style="padding: 0 10px; cursor:pointer; font-weight:bold; text-decoration: underline;" class="theme-fontcolor" ng-click="toggleShowHistory();">Hide History</a></h5>
 				</div>
-				
+			
 			
 			<!-- <div class="col-md-12 col-sm-12 col-xs-12"> -->
 			
@@ -25,8 +25,7 @@
        			<label ng-show="showHistory == true">Check-in Time</label>
 			</div>
 			
-			
-			
+						
 			<div class="col-md-4 col-sm-4 col-xs-12" ng-show="showHistory == true">
       			<div range-slider id="timeSlider" show-values="true" filter="hourMinFilter" attach-handle-values="true"  min="slider.range.min" max="slider.range.max" model-min="slider.minTime" model-max="slider.maxTime" step="1" prevent-equal-min-max="true" on-handle-up="loadHistoryPage(1)"></div>
        		</div>
@@ -37,6 +36,34 @@
 			</div>
 		<!-- </div> -->
 		<!-- </div> -->
+		
+		<div class="row col-md-12 col-sm-12 col-xs-12 margin-top-15">
+			<div class="row toggle-col col-md-8 col-sm-8 col-xs-12">
+				
+				<label ng-show="toggleColumnShowHide == false" ><a style="cursor:pointer; font-weight:bold; text-decoration: underline;" class="theme-fontcolor" ng-click="showToggleColumn();">Show Toggle Column</a></label>
+				<label ng-show="toggleColumnShowHide == true" ><a href="javascript:" style="text-decoration: underline;" class="theme-fontcolor" ng-click="showToggleColumn();">Hide Toggle Column</a></label><!-- <label ng-show="toggleColumn == false" >Show Toggle Column</label>
+				<a href="javascript:" ng-click="toggleColumns('seat')" ng-model="toggleColumn.seat" ng-switch="toggleColumn.seat">Seat</a> --><!-- <a href="javascript:" ng-click="toggleColumns('no')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.no == true}">No.</a> -->
+				<a href="javascript:" ng-click="toggleColumns('partyType')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.partyType == true}">Party Type</a>
+				<a href="javascript:" ng-click="toggleColumns('noOfParty')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.noOfParty == true}">No. Of Party</a>
+				<a href="javascript:" ng-click="toggleColumns('name')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.name == true}"">Name</a>
+				<a href="javascript:" ng-click="toggleColumns('checkinTime')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.checkinTime == true}">Checkin Time</a>
+				<a href="javascript:" ng-click="toggleColumns('quoteTime')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.quoteTime == true}">Quote Time</a>
+				<!-- <a href="javascript:" ng-click="toggleColumns('seatingPref')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.seatingPref == true}">Seating Pref.</a> --><!-- <a href="javascript:" ng-click="toggleColumns('optIn')" >Opt-In</a> -->
+				<a href="javascript:" ng-click="toggleColumns('note')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.note == true}">Note</a>
+				<!-- <a href="javascript:" ng-click="toggleColumns('del')">Delete</a> -->
+				
+				</div>
+				
+				<div class="col-md-4 col-sm-4 col-xs-12 margin-left-30">
+					<div class="col-md-12 col-sm-12 col-xs-12 row pull-right margin-bottom-10" id="search-box" ng-show="searchStatus == true && showHistory == false">
+						<input type="text" class="form-control" placeholder="Enter your search here..." ng-model="searchName"><a href="javascript:void(0)" class="seach-box theme-fontcolor"><i class="glyphicon glyphicon-search" ng-click="searchGrid(searchName)"></i></a>
+					</div>
+					<div class="col-md-12 col-sm-12 col-xs-12 row pull-right margin-bottom-10" id="search-box" ng-show="searchStatus == true && showHistory == true">
+						<input type="text" class="form-control" placeholder="Enter your search here..." ng-model="searchName"><a href="javascript:void(0)" class="seach-box theme-fontcolor"><i class="glyphicon glyphicon-search" ng-click="searchGridOnHistory(searchName)"></i></a>
+					</div>
+				</div>
+		
+		</div>
 		</div>
 		<!--
 		
@@ -59,7 +86,7 @@
 
 			
             
-                <div class="row waitlistbox2 theme-color" >
+                <div class="row waitlistbox2 theme-color margin-bottom-20">
 
                     <div class="col-md-4 col-sm-4 text-center countres">
                         <label class="lblres">Approximate Wait Time</label>
@@ -207,38 +234,9 @@
 					<strong>Done ! </strong>{{successMsg}}
 				</div>
 				
-				<div class="toggle-col col-md-8 col-sm-8 col-xs-12 row">
+				<!-- for togglecolumn on grid (krupali) -->
 				
-				<label ng-show="toggleColumnShowHide == false" ><a style="cursor:pointer; font-weight:bold; text-decoration: underline;" class="theme-fontcolor" ng-click="showToggleColumn();">Show Toggle Column</a></label>
-				<label ng-show="toggleColumnShowHide == true" ><a href="javascript:" style="text-decoration: underline;" class="theme-fontcolor" ng-click="showToggleColumn();">Hide Toggle Column</a></label>
 				
-				<!-- <label ng-show="toggleColumn == false" >Show Toggle Column</label>
-				<a href="javascript:" ng-click="toggleColumns('seat')" ng-model="toggleColumn.seat" ng-switch="toggleColumn.seat">Seat</a> -->
-				
-				<!-- {{toggleColumn.seat}} -->
-	
-				<!-- <a href="javascript:" ng-click="toggleColumns('no')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.no == true}">No.</a> -->
-				<a href="javascript:" ng-click="toggleColumns('partyType')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.partyType == true}">Party Type</a>
-				<a href="javascript:" ng-click="toggleColumns('noOfParty')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.noOfParty == true}">No. Of Party</a>
-				<a href="javascript:" ng-click="toggleColumns('name')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.name == true}"">Name</a>
-				<a href="javascript:" ng-click="toggleColumns('checkinTime')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.checkinTime == true}">Checkin Time</a>
-				<a href="javascript:" ng-click="toggleColumns('quoteTime')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.quoteTime == true}">Quote Time</a>
-				<!-- <a href="javascript:" ng-click="toggleColumns('seatingPref')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.seatingPref == true}">Seating Pref.</a> -->
-				
-				<!-- <a href="javascript:" ng-click="toggleColumns('optIn')" >Opt-In</a> -->
-				<a href="javascript:" ng-click="toggleColumns('note')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.note == true}">Note</a>
-				<!-- <a href="javascript:" ng-click="toggleColumns('del')">Delete</a> -->
-				
-				</div>
-				
-				<div class="col-md-4 col-sm-4 col-xs-12">
-					<div class="col-md-8 col-sm-8 col-xs-12 row pull-right margin-bottom-10" id="search-box" ng-show="searchStatus == true && showHistory == false">
-						<input type="text" class="form-control" placeholder="Enter your search here..." ng-model="searchName"><a href="javascript:void(0)" class="seach-box theme-fontcolor"><i class="glyphicon glyphicon-search" ng-click="searchGrid(searchName)"></i></a>
-					</div>
-					<div class="col-md-8 col-sm-8 col-xs-12 row pull-right margin-bottom-10" id="search-box" ng-show="searchStatus == true && showHistory == true">
-						<input type="text" class="form-control" placeholder="Enter your search here..." ng-model="searchName"><a href="javascript:void(0)" class="seach-box theme-fontcolor"><i class="glyphicon glyphicon-search" ng-click="searchGridOnHistory(searchName)"></i></a>
-					</div>
-				</div>
 				
 					           	
 				
@@ -308,6 +306,7 @@
                         <thead>
                             <tr>
                                 <!-- <th class="numeric1" ng-show="toggleColumn.no">No.</th> -->
+                                <th class="numeric">Seated</br>or</br>Deleted</th>						<!-- krupali(10/07/2017) -->
                                 <th class="numeric1" ng-show="toggleColumn.partyType">Party Type</th>
                                 <th class="numeric1" ng-show="toggleColumn.noOfParty">No. Of Party</th>
                                 <th class="numeric1" ng-show="toggleColumn.name">Name</th>
@@ -322,6 +321,10 @@
                         <tbody>
                             <tr ng-repeat="record in guestWaitList">
                                 <!-- <td data-title="No." class="numeric1" ng-show="toggleColumn.no">{{record.rank}}</td> -->
+                                <td data-title="seatedOrDeleted" class="numeric">								<!-- krupali(10/07/2017) -->
+                                	<img ng-if="record.status == 'SEATED'" src="../assets/img/seated.png" >
+                                	<img ng-if="record.status == 'DELETED'" src="../assets/img/deleted.png">
+                                </td>
                                 <td data-title="partyType" class="numeric1" ng-show="toggleColumn.partyType">
                                 	<span ng-if="record.partyType == 0" ng-class="{'highlight_smallparty' : record.partyType == 0 }">Small</span>
                                 	<span ng-if="record.partyType == 1" ng-class="{'highlight_largeparty' : record.partyType == 1 }">Large</span>
@@ -381,7 +384,8 @@
                		 </div>
 
        			</div><!-- End of pagination block -->
-
+			
+			<div class="loader" ng-if="loading"></div>
        
 </section>
 

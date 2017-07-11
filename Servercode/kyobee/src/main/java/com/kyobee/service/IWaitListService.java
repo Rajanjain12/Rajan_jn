@@ -205,7 +205,7 @@ public interface IWaitListService {
 
 	Long getAllCheckinUsersCount(Long orgid) throws RsntException;
 
-	Long getHistoryUsersCountForOrg(Long orgid,String statusOption,int sliderMinTime, int sliderMiaxTime) throws RsntException;
+	Long getHistoryUsersCountForOrg(Long orgid,String statusOption,int sliderMinTime, int sliderMiaxTime, String clientTimezone) throws RsntException;
 	/**
 	 * Search All check-in users by name
 	 * @param orgid
@@ -221,8 +221,8 @@ public interface IWaitListService {
 	public Long getAllCheckinUsersCountByName(Long orgid, String searchName) throws RsntException;
 
 	List<Guest> loadGuestsHistoryByName(Long orgid, int recordsPerPage, int pageNumber, String statusOption,
-			int sliderMinTime, int sliderMaxTime, String searchName) throws RsntException;
+			int sliderMinTime, int sliderMaxTime, String searchName, String clientTimezone) throws RsntException;
 
 	Long getHistoryUsersCountForName(Long orgid, String statusOption, int sliderMinTime, int sliderMaxTime,
-			String searchName) throws RsntException; 
+			String searchName, String clientTimezone) throws RsntException; 
 }
