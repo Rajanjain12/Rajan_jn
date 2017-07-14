@@ -97,6 +97,31 @@ KyobeeControllers.controller('homeCtrl',
 						//console.log('temp'+temp);
 					};
 					
+					/*for implementing dynamic footer (krupali 13/07/2017)*/
+					
+					$scope.loadPropertyInfo = function() {
+						
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/propertyFileInfo';
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										$scope.footerMsg = data.serviceResult.FOOTER_MSG;
+										$scope.loadFactory();
+									} else if (data.status == "FAILURE") {
+										alert('Error while fetching user details. Please login again or contact support');
+										$scope.logout();
+									}
+								}, function(error) {
+									alert('Error while fetching user details. Please login again or contact support');
+								});
+					};
+					
+					/**/
+					
 					$scope.loadOrgMetricks = function() {
 						var postBody = {
 

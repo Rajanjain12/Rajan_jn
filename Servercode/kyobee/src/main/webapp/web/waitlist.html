@@ -282,8 +282,6 @@
                                 <td data-title="checkinTime" class="numeric" ng-show="toggleColumn.checkinTime">{{record.checkinTime | date :  "short"}}</td>
                                 <td data-title="quoteTime" class="numeric" ng-show="toggleColumn.quoteTime">{{record.quoteTime }}</td>
                                 
-                                <!-- {{record.checkinTime | date :  "short" : '-0500' }} -->
-                                
                                 <!-- <td data-title="Opt-In" class="numeric" ng-show="toggleColumn.optIn"><span ng-show="record.optin == false">&nbsp;</span><img ng-show="record.optin == true" src="../assets/img/roundarrow.png" class="roundarrow"></td> -->
                                 
 								<td data-title="Note" class="numeric" ng-show="toggleColumn.note"><span ng-show="record.note == null || record.note ==''">&nbsp;</span><a popover href="javascript:void(0)" data-toggle="popover-hide" data-placement="top" data-trigger="focus" data-content="{{record.note}}"><img ng-show="record.note != null && record.note !=''" src="../assets/img/roundarrow.png" class="roundarrow"></a></td>

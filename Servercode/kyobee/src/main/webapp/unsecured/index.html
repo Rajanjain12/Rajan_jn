@@ -113,9 +113,10 @@
         
             <div class="col-md-5 col-xs-12 pull-right footerright">
             	
-            	<p class="">Copyright KYOBEE. All Rights Reserved - Version 1.0 - 07/07/2017 7:00 AM PST</p>
-                <!-- To be made dynamic using property footermsg 
-                <p class="">{{footerMsg}}</p> -->
+            	<!-- <p class="">Copyright KYOBEE. All Rights Reserved - Version 1.0 - 07/07/2017 7:00 AM PST</p> -->
+               
+                <!-- for implementing dynamic footer (krupali 13/07/2017) -->
+                <p class="" ng-init="loadPropertyInfo();">{{footerMsg}}</p> 
                 
             </div>
         </div>

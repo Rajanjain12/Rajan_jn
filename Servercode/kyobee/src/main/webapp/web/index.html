@@ -112,21 +112,28 @@
              <div class="container-fluid">
                  
 
-                <div class="content-xs">
-
-                    <div class="kw-dav-1">
+                <div class="content-xs col-md-12 col-sm-12 col-xs-12">
+				
+				<div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
+					<div class="kw-dav-1">
+                    
+						<!-- <img src="../assets/img/kyobeelogo-new-white.png" alert="logo"> -->
                     	<script>
-                    		document.write('<img src="' + logoImgSrc + '">');
+                    		<!-- document.write('<img src="' + logoImgSrc + '">'); -->
+							document.write('<img src="../assets/img/kyobeelogo-new-white.png" alert="logo">');
                     	</script>
-                        <h1>Waitlist</h1>   
+                        <!-- <h1>Waitlist</h1>    -->
+						<h1>&nbsp;</h1>
                         <ul>
                             <li><a ng-click="changeView('home')" style="cursor:pointer">Waitlist</a></li>
                             <!-- <li><a href="">Account</a></li> -->
                             <li><a href="">Help</a></li>
                         </ul>
                     </div>
-
-                    <div class="kw-dav-2">
+					</div>
+					<div class="col-md-3 col-sm-3 col-xs-12">
+					<div class="kw-dav-2">
+                    
                         <span><p>Hello {{userDTO.firstName}} |</p> <a style="cursor:pointer" ng-click="logout();"> Logout</a> </span>
                         <ul>
                             <!--<li><a href=""><i class="fa fa-clock-o" aria-hidden="true"></i></a></li>
@@ -137,6 +144,7 @@
                             <li><a style="cursor:pointer" ng-click="changeView('partyWaiting')" ><img src="../assets/img/check-in.png"></a> </li>
                         </ul>
                     </div>
+					</div>
 					
 					<!-- <div id="search-box" style="display:none;">
 						<div class="col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 margin-top-20 margin-bottom-20">
@@ -165,10 +173,11 @@
 			
 				<div class="col-md-5 col-xs-12 pull-right footerright">
 					
-					<p class="">Copyright KYOBEE. All Rights Reserved - Version 1.0 - 07/07/2017 7:00 AM PST</p>
-					<!-- To be made dynamic using property footermsg 
-					<p class="">{{footerMsg}}</p> -->
+					<!-- <p class="">Copyright KYOBEE. All Rights Reserved - Version 1.0 - 07/07/2017 7:00 AM PST</p> -->
 					
+					<!-- for implementing dynamic footer (krupali 13/07/2017) -->
+                	<p class="" ng-init="loadPropertyInfo();">{{footerMsg}}</p> 
+						
 				</div>
 			</div>    
    	 	</div>   

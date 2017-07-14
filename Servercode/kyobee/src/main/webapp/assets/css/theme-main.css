@@ -26,7 +26,6 @@
 
 /** ======================================================== **/
 
-
 /* Preloader */
 #preloader {
 	position: fixed;
@@ -433,7 +432,7 @@ p.text-msg-pswd { color: #c9ced1; font-size: 16px;  text-align: left;    display
 }
 .kw-dav-1 img {
     display: inline-block;
-    float: left;
+    /* float: left; */
     width: 55%;
 }
 
@@ -445,7 +444,7 @@ p.text-msg-pswd { color: #c9ced1; font-size: 16px;  text-align: left;    display
 .kw-dav-1 {
     display: inline-block;    
     text-align: center;
-    margin-left: 36%;
+    /* margin-left: 36%; */
     margin-top: 10px;
 }
 
@@ -1567,6 +1566,6 @@ input[type=number]::-webkit-inner-spin-button {
 }
 /*kyobee logo change*/
 .logo-set{
-	width:499px;
+	width:459px;
 	height:auto;
 }

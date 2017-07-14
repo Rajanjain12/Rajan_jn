@@ -57,6 +57,10 @@
     font-weight: normal;	
     margin-top: 10px;
 }
+.logo-set{
+	width:273px;
+	height:auto;
+}
 
 }
 
@@ -151,6 +155,10 @@
                         white-space: nowrap;
                         text-align: left;
 		}
+		.logo-set{
+	width:273px;
+	height:auto;
+}
 		
 		/*
 		Label the data
@@ -171,7 +179,10 @@
 
 @media only screen and (max-width: 767px) {
 
-
+.logo-set{
+	width:273px;
+	height:auto;
+}
 .kw-dav-1 { width:48%; margin-left: 0%;}
 .kw-dav-1 h1 {color: #FFF; margin: 0px 0 20px 0;display: inline-block;font-size: 2em;}
 .kw-dav-1 ul li {margin: 0 20px 0 10px;width: 100%;text-align: left;}

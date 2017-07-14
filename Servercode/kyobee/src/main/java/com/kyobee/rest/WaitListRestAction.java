@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.TimeZone;
 import java.util.UUID;
 
@@ -1583,5 +1584,38 @@ public class WaitListRestAction {
 		
 		System.out.println("callback test successful" + smsEvent.getMessageId());
 	}
+	
+	/*for implementing dynamic footer (krupali 13/07/2017)*/
+	
+	/**
+	 * Get propetyFile info(footer) 			
+	 * @return Map<String, String> 
+	 */
+	//@GET
+	//@Path("/propertyFileInfo")
+	@RequestMapping(value = "/propertyFileInfo", method = RequestMethod.GET, produces = "application/json")
+	public Response<Map<String, String>> getPropertyFileInfo(){
+		System.out.println("in propertyFileInfo method");
+		String footerMsg = "";
+		Response<Map<String, String>> response = new Response<Map<String,String>>();
+		Map<String, String> propInfo = new HashMap<String, String>();
+		try{
+		Properties rsntProperties = new Properties();
+		rsntProperties.load(this.getClass().getClassLoader().getResourceAsStream("rsnt.properties"));
+		footerMsg = rsntProperties.getProperty("rsnt.footerMsg");
+		propInfo.put(Constants.FOOTER_MSG, footerMsg);
+		//final JSONObject jsonObject = JSONObject.fromObject(eventConfig);
+		//return jsonObject.toString();
+		response.setServiceResult(propInfo);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+		return response;
+	}
+	
+	/**/
 	
 }
