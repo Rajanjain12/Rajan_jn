@@ -162,7 +162,8 @@
 
 <!-- <div range-slider min="slider.range.min" max="slider.range.max" model-min="slider.minTime" model-max="slider.maxTime" step="1" prevent-equal-min-max="true"></div> --> 
     
-       <div class="table-wrap">
+       <div ng-class="{'table-wrap-web': userCount <= 7 , 'table-wrap': userCount>7}"> <!--for fixing footer- krupali(18/07/2017) -->
+     
 
                          
                    <!--  <div class="dropdown">

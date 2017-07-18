@@ -39,6 +39,8 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.statusOptions=["All","Not Present","Incomplete"];
 					$scope.selectedStatus=$scope.statusOptions[0];
 					
+					$scope.userCount = null;  /*for solving footer issue (krupali 17/07/2017)*/
+					
 					/*for getting current timezone(krupali 06/07/2017)*/
 					
 					
@@ -281,6 +283,7 @@ KyobeeControllers.controller('waitListCtrl',
 										var paginatedResponse = data.serviceResult;
 										$scope.guestWaitList = paginatedResponse.records;
 										$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, pageNo, $scope.pageSize);
+										$scope.userCount = paginatedResponse.totalRecords;
 										console.log($scope.pager);
 									}else if(data.status == null) {
 										$scope.guestWaitList = null;
@@ -336,6 +339,7 @@ KyobeeControllers.controller('waitListCtrl',
 										var paginatedResponse = data.serviceResult;
 										$scope.guestWaitList = paginatedResponse.records;
 										$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, paginatedResponse.pageNo, $scope.pageSize);
+										$scope.userCount = paginatedResponse.totalRecords;
 										console.log($scope.pager);
 									}else if(data.status == null) {
 										$scope.guestWaitList = null;
@@ -394,6 +398,7 @@ KyobeeControllers.controller('waitListCtrl',
 									if (data.status == "SUCCESS") {
 										var paginatedResponse = data.serviceResult;
 										$scope.guestWaitList = paginatedResponse.records;
+										$scope.userCount = paginatedResponse.totalRecords;
 										$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, pageNo, $scope.pageSize);
 										console.log($scope.pager);
 									} else if (data.status == "FAILURE") {
@@ -452,6 +457,7 @@ KyobeeControllers.controller('waitListCtrl',
 									if (data.status == "SUCCESS") {
 										var paginatedResponse = data.serviceResult;
 										$scope.guestWaitList = paginatedResponse.records;
+										$scope.userCount = paginatedResponse.totalRecords;
 										$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, pageNo, $scope.pageSize);
 										console.log($scope.pager);
 									} else if (data.status == "FAILURE") {

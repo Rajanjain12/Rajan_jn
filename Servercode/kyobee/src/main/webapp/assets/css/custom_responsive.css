@@ -299,8 +299,8 @@ img.roundarrow {width: 14px;}
 .login-outer {
     padding: 147px 0;
 }
-.kw-dav-1 { width: 53%; margin-left: 5%;}
-.kw-dav-2 {width: 40%;}    
+/* .kw-dav-1 { width: 53%; margin-left: 5%;} */
+/* .kw-dav-2 {width: 40%;}     */
 .dropbtn { color: #dd4124;}
 .dropdown {  margin-top: -40px;}  
 /*popup*/    
@@ -363,7 +363,7 @@ img.roundarrow {width: 14px;}
     height: 120px;
     width:auto;
 }
-.kw-dav-1 { width: 43%; margin-left: 23%;}
+/* .kw-dav-1 { width: 43%; margin-left: 23%;} */
 .btn-orange { width: 30%; margin: 0 5px;}
   
 .account-table{
