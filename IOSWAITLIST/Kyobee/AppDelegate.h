@@ -27,13 +27,13 @@
  PWD : jaekim
 */
 
-
+/*
 #define logoUrl @"http://jbossdev-kyobee.rhcloud.com/static/orglogos/" // DEV Envireonment
 #define ServiceUrl @"http://jbossdev-kyobee.rhcloud.com/kyobee/" // DEV Envireonment
 #define ChannelName @"RSNT_GUEST_DEV_" // DEV Envireonment*/
 
 
-/*#define logoUrl @"http://jbossqa-kyobee.rhcloud.com/static/orglogos/" // QA Envireonment
+#define logoUrl @"http://jbossqa-kyobee.rhcloud.com/static/orglogos/" // QA Envireonment
 #define ServiceUrl @"http://jbossqa-kyobee.rhcloud.com/kyobee/" // QA Envireonment
 #define ChannelName @"RSNT_GUEST_QA_" // QA Envireonment*/
 

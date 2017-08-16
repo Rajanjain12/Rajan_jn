@@ -30,9 +30,39 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "22"
-            endingLineNumber = "22"
-            landmarkName = "-viewDidLoad"
-            landmarkType = "5">
+            endingLineNumber = "22">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MyTextFieldDetails padding]"
+                  moduleName = "Kyobee"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jenisshah/Desktop/Nilesh/Project/Clone/RevisedKyobee/IOSWAITLIST/Kyobee/DetailsVC.m"
+                  timestampString = "524572254.858583"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "6">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MyTextFieldDetails setPadding:]"
+                  moduleName = "Kyobee"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jenisshah/Desktop/Nilesh/Project/Clone/RevisedKyobee/IOSWAITLIST/Kyobee/DetailsVC.m"
+                  timestampString = "524572254.860687"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "42">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
