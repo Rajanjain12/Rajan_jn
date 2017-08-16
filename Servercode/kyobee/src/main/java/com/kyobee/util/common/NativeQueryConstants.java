@@ -418,7 +418,12 @@ public class NativeQueryConstants {
 	public static final String GET_ORG_NAME_BY_ID = "SELECT OrganizationName FROM ORGANIZATION where OrganizationId=?1";
 	public static final String GET_ORG_GUEST_MAX_RANK = "SELECT IF(max(rank) IS NULL ,0,max(rank))  from GUEST WHERE OrganizationID =?1 and status in('CHECKIN','SEATED','DELETED','REMOVED') and resetTime is null";
 	
-	public static final String HQL_GET_GUESTS_CHECKIN_BY_ORG = "FROM Guest g WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId order by g.rank asc";
+	//changes by krupali, line 422 to 425 (16/06/2017)
+	public static final String HQL_GET_GUESTS_CHECKIN_BY_ORG_COMMON = "FROM Guest g WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId order by g.rank asc";
+	public static final String HQL_GET_GUESTS_CHECKIN_BY_ORG_SMALL = "FROM Guest g WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId and g.partyType=0 order by g.rank asc";
+	public static final String HQL_GET_GUESTS_CHECKIN_BY_ORG_LARGE = "FROM Guest g WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId and g.partyType=1 order by g.rank asc";
+	public static final String HQL_GET_GUESTS_CHECKIN_BY_ORG_BOTH = "FROM Guest g WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId and (g.partyType in (0,1)) order by g.rank asc";
+	public static final String HQL_GET_GUESTS_CHECKIN_BY_ORG_COMMON_SEARCH = "FROM Guest g WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId and g.name=:Name order by g.rank asc";
 	//Added Later for Gen enhancement
 	public static final String GET_GUESTS_CHECKIN_BY_ORG = "Select @row \\:= @row + 1 AS row, g.* , ( @row * oo.waitTime) WaitTime FROM GUEST g, (SELECT @row \\:= 0) x , ORGANIZATION oo WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId and oo.OrganizationID=:orgId order by g.rank asc";
 	public static final String HQL_GET_GUESTS_COUNT_CHECKIN_BY_ORG = "select count(*) FROM Guest g WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId";
@@ -448,4 +453,6 @@ public class NativeQueryConstants {
 	
 	public static final String CHECK_ORGANIZATION_IF_EXISTS = "FROM Organization u WHERE u.organizationName=:orgName";
 	public static final String CHECK_USER_IF_EXISTS = "FROM User u WHERE u.userName=:userName";
+
+	
 }

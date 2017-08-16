@@ -8,11 +8,15 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.TimeZone;
 
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -24,6 +28,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.swing.plaf.SliderUI;
 import javax.swing.text.StyleContext.SmallAttributeSet;
 
 import org.hibernate.Criteria;
@@ -48,6 +53,7 @@ import com.kyobee.entity.Organization;
 import com.kyobee.exception.RsntException;
 import com.kyobee.service.IWaitListService;
 import com.kyobee.util.AppTransactional;
+import com.kyobee.util.common.*;
 import com.kyobee.util.common.Constants;
 import com.kyobee.util.common.NativeQueryConstants;
 import com.kyobee.util.jms.NotificationQueueSender;
@@ -233,11 +239,31 @@ public class WaitListServiceImpl implements IWaitListService {
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Guest> loadAllCheckinUsers(Long orgid, int recordsPerPage, int pageNumber) throws RsntException{
+	public List<Guest> loadAllCheckinUsers(Long orgid, int recordsPerPage, int pageNumber, String partyType) throws RsntException{
 		try {
 			int firstPage = (pageNumber == 1) ? 0 : (recordsPerPage*(pageNumber-1));
-			return sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUESTS_CHECKIN_BY_ORG)
-					.setParameter(Constants.RSNT_ORG_ID,orgid).setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
+			
+			/*changes by krupali, line 241 to 257 (16/06/2017)*/
+			//To do switch case
+			String type = partyType;
+			if(type.equalsIgnoreCase("l")){
+				return sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUESTS_CHECKIN_BY_ORG_LARGE)
+						.setParameter(Constants.RSNT_ORG_ID,orgid).setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
+			}
+			else if(type.equalsIgnoreCase("s")){
+				return sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUESTS_CHECKIN_BY_ORG_SMALL)
+						.setParameter(Constants.RSNT_ORG_ID,orgid).setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
+			}
+			else if(type.equalsIgnoreCase("b")){
+				return sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUESTS_CHECKIN_BY_ORG_BOTH)
+						.setParameter(Constants.RSNT_ORG_ID,orgid).setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
+			}
+			else {
+				return sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUESTS_CHECKIN_BY_ORG_COMMON)
+						.setParameter(Constants.RSNT_ORG_ID,orgid).setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
+			}
+			/*return sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUESTS_CHECKIN_BY_ORG)
+					.setParameter(Constants.RSNT_ORG_ID,orgid).setFirstResult(firstPage).setMaxResults(recordsPerPage).list();*/
 		} catch (Exception e) {
 			log.error("loadAllCheckinUsers()", e);
 			throw new RsntException(e);
@@ -255,6 +281,54 @@ public class WaitListServiceImpl implements IWaitListService {
 					.setParameter(Constants.RSNT_ORG_ID,orgid).uniqueResult();
 		} catch (Exception e) {
 			log.error("loadAllCheckinUsers()", e);
+			throw new RsntException(e);
+		}
+
+	}
+	/**
+	 * Search Guests with name is CHECKIN Users
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Guest> searchAllCheckinUsersByName(Long orgid, int recordsPerPage, int pageNumber, String partyType, String searchName) throws RsntException{
+		try {
+ 			int firstPage = (pageNumber == 1) ? 0 : (recordsPerPage*(pageNumber-1));
+ 			String name = searchName;
+ 			StringBuffer query=new StringBuffer("FROM Guest g WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId");
+ 			if(name != null) {
+ 				query=query.append(" and g.name like :Name");
+ 			}
+ 			/*if(statusOption.equals("Incomplete")) {
+ 				query=query.append(" and incompleteParty > 0");
+ 			}*/
+ 			query=query.append(" order by g.rank asc");
+ 			System.out.println("Query : "+ query);
+ 			//HQL_GET_GUESTS_HISTORY
+ 			return sessionFactory.getCurrentSession().createQuery(query.toString())
+ 					.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("Name", "%"+name+"%").setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
+ 		} catch (Exception e) {
+ 			log.error("searchAllCheckinUsersByName()", e);
+ 			throw new RsntException(e);
+ 		}
+	}
+	
+	@Override
+	public Long getAllCheckinUsersCountByName(Long orgid,String searchName) throws RsntException{
+		try {
+			String name = searchName;
+			StringBuffer query=new StringBuffer("select count(*) FROM Guest g WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId");
+			if(name != null) {
+ 				query=query.append(" and g.name like :Name");
+ 			}
+ 			/*if(statusOption.equals("Incomplete")) {
+ 				query=query.append(" and incompleteParty > 0");
+ 			}*/
+ 			query=query.append(" order by g.rank asc");
+ 			System.out.println("Query : "+ query);
+			return (Long) sessionFactory.getCurrentSession().createQuery(query.toString())
+					.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("Name", "%"+name+"%").uniqueResult();
+		} catch (Exception e) {
+			log.error("getAllCheckinUsersCountByName()", e);
 			throw new RsntException(e);
 		}
 
@@ -1074,10 +1148,12 @@ public class WaitListServiceImpl implements IWaitListService {
 			oWaitlistMetrics.setGuestToBeNotified(cStmt.getInt(19));*/
 			waitListMetrics = sessionFactory.getCurrentSession().doReturningWork(new ReturningWork<WaitlistMetrics>() {
 				
+				/*changes by krupali, line 1078 to line 1111 (15/06/2017)*/
+				
 				@Override
 				public WaitlistMetrics execute(Connection connection) throws SQLException {
-					CallableStatement cStmt = connection.prepareCall("{call addGuest(?, ?, ?, "
-							+ "?, ?, ?, ?, ?, ?, ?, "
+					CallableStatement cStmt = connection.prepareCall("{call addGuest(?, ?, ?, ?, "
+							+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
 							+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");  
 					WaitlistMetrics oWaitlistMetrics = new WaitlistMetrics();
 					
@@ -1085,33 +1161,38 @@ public class WaitListServiceImpl implements IWaitListService {
 						cStmt.setLong(1, guestObj.getOrganizationID());
 						cStmt.setString(2, guestObj.getName());
 						cStmt.setString(3, guestObj.getUuid());
-						cStmt.setLong(4, guestObj.getNoOfPeople());
-						cStmt.setString(5, guestObj.getDeviceType());
-						cStmt.setString(6, guestObj.getDeviceId());
-						cStmt.setString(7, guestObj.getSms());
-						cStmt.setString(8, guestObj.getEmail());
-						cStmt.setString(9, guestObj.getPrefType());
-						cStmt.setBoolean(10, guestObj.isOptin());
-						cStmt.setString(11, guestObj.getNote());
-						cStmt.setString(12, guestObj.getSeatingPreference());
-						cStmt.registerOutParameter(13, Types.INTEGER);
-						cStmt.registerOutParameter(14, Types.INTEGER);
-						cStmt.registerOutParameter(15, Types.INTEGER);
-						cStmt.registerOutParameter(16, Types.VARCHAR);
-						cStmt.registerOutParameter(17, Types.INTEGER);
-						cStmt.registerOutParameter(18, Types.VARCHAR);
+						cStmt.setLong(4, guestObj.getNoOfChildren());
+						cStmt.setLong(5, guestObj.getNoOfAdults());
+						cStmt.setLong(6, guestObj.getNoOfInfants());
+						cStmt.setLong(7, guestObj.getNoOfPeople());
+						cStmt.setInt(8, guestObj.getQuoteTime());
+						cStmt.setInt(9, guestObj.getPartyType());
+						cStmt.setString(10, guestObj.getDeviceType());
+						cStmt.setString(11, guestObj.getDeviceId());
+						cStmt.setString(12, guestObj.getSms());
+						cStmt.setString(13, guestObj.getEmail());
+						cStmt.setString(14, guestObj.getPrefType());
+						cStmt.setBoolean(15, guestObj.isOptin());
+						cStmt.setString(16, guestObj.getNote());
+						cStmt.setString(17, guestObj.getSeatingPreference());
+						cStmt.registerOutParameter(18, Types.INTEGER);
 						cStmt.registerOutParameter(19, Types.INTEGER);
-						cStmt.registerOutParameter(20, Types.VARCHAR);
+						cStmt.registerOutParameter(20, Types.INTEGER);
+						cStmt.registerOutParameter(21, Types.VARCHAR);
+						cStmt.registerOutParameter(22, Types.INTEGER);
+						cStmt.registerOutParameter(23, Types.VARCHAR);
+						cStmt.registerOutParameter(24, Types.INTEGER);
+						cStmt.registerOutParameter(25, Types.VARCHAR);
 						cStmt.execute();
 
-						oWaitlistMetrics.setGuestId(cStmt.getInt(13));
-						oWaitlistMetrics.setGuestRank(cStmt.getInt(14));
-						oWaitlistMetrics.setNowServingParty(cStmt.getInt(15));
-						oWaitlistMetrics.setTotalWaitingGuest(cStmt.getInt(16));
-						oWaitlistMetrics.setTotalWaitTime(cStmt.getInt(17));
-						oWaitlistMetrics.setNoOfPartiesAhead(cStmt.getInt(18));
-						oWaitlistMetrics.setGuestToBeNotified(cStmt.getInt(19));
-						oWaitlistMetrics.setClientBase(cStmt.getString(20));
+						oWaitlistMetrics.setGuestId(cStmt.getInt(18));
+						oWaitlistMetrics.setGuestRank(cStmt.getInt(19));
+						oWaitlistMetrics.setNowServingParty(cStmt.getInt(20));
+						oWaitlistMetrics.setTotalWaitingGuest(cStmt.getInt(21));
+						oWaitlistMetrics.setTotalWaitTime(cStmt.getInt(22));
+						oWaitlistMetrics.setNoOfPartiesAhead(cStmt.getInt(23));
+						oWaitlistMetrics.setGuestToBeNotified(cStmt.getInt(24));
+						oWaitlistMetrics.setClientBase(cStmt.getString(25));
 					} finally {
 						if (cStmt != null) {
 							cStmt.close();
@@ -1178,44 +1259,50 @@ public class WaitListServiceImpl implements IWaitListService {
 			oWaitlistMetrics.setGuestNotifiedWaitTime(cStmt.getInt(20));*/
 			waitlistMetrics = sessionFactory.getCurrentSession().doReturningWork(new ReturningWork<WaitlistMetrics>() {
 				
+				/*changes by krupali, line 1191 to 1231 (15/06/2017)*/
 				@Override
 				public WaitlistMetrics execute(Connection connection) throws SQLException {
-					CallableStatement cStmt = connection.prepareCall("{call UPDATEGUEST(?, ?, ?, "
-							+ "?, ?, ?, ?, ?, ?, ?, ?,"
+					CallableStatement cStmt = connection.prepareCall("{call UPDATEGUEST(?, ?, ?, ?,"
+							+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,"
 			 				+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");  
 					WaitlistMetrics oWaitlistMetrics = new WaitlistMetrics();
 					try {
 						cStmt.setLong(1, guestObj.getOrganizationID() != null ? guestObj.getOrganizationID() : 0);
 						cStmt.setLong(2, guestObj.getGuestID());
 						cStmt.setString(3, guestObj.getName() != null ? guestObj.getName() : "");
-						cStmt.setLong(4, guestObj.getNoOfPeople() != null ? guestObj.getNoOfPeople() : 0);
-						cStmt.setString(5, guestObj.getSms() != null ? guestObj.getSms() : "");
-						cStmt.setString(6, guestObj.getEmail() != null ? guestObj.getEmail() : "");
-						cStmt.setString(7, guestObj.getPrefType() != null ? guestObj.getPrefType() : "");
-						cStmt.setBoolean(8, guestObj.isOptin());
-						cStmt.setString(9,
+						cStmt.setLong(4, guestObj.getNoOfChildren() != null ? guestObj.getNoOfChildren() : 0);
+						cStmt.setLong(5, guestObj.getNoOfAdults() != null ? guestObj.getNoOfAdults() : 0);
+						cStmt.setLong(6, guestObj.getNoOfInfants() != null ? guestObj.getNoOfInfants() : 0);
+						cStmt.setLong(7, guestObj.getNoOfPeople() != null ? guestObj.getNoOfPeople() : 0);
+						cStmt.setInt(8, guestObj.getQuoteTime() != null ? guestObj.getQuoteTime() : 0);
+						cStmt.setInt(9, guestObj.getPartyType() != null ? guestObj.getPartyType() : 0);
+						cStmt.setString(10, guestObj.getSms() != null ? guestObj.getSms() : "");
+						cStmt.setString(11, guestObj.getEmail() != null ? guestObj.getEmail() : "");
+						cStmt.setString(12, guestObj.getPrefType() != null ? guestObj.getPrefType() : "");
+						cStmt.setBoolean(13, guestObj.isOptin());
+						cStmt.setString(14,
 								guestObj.getSeatingPreference() != null ? guestObj.getSeatingPreference() : "");
-						cStmt.setString(10, guestObj.getNote() != null ? guestObj.getNote() : "");
-						cStmt.setLong(11, actionFlag == Constants.WAITLIST_UPDATE_CALLOUT ? 1 : 0);
-						cStmt.setLong(12, actionFlag == Constants.WAITLIST_UPDATE_INCOMPLETE ? 1 : 0);
-						cStmt.setLong(13, actionFlag == Constants.WAITLIST_UPDATE_MARK_AS_SEATED ? 1 : 0);
-						cStmt.setLong(14, actionFlag == Constants.WAITLIST_UPDATE_DELETE ? 1 : 0);
-						cStmt.registerOutParameter(15, Types.INTEGER);
-						cStmt.registerOutParameter(16, Types.INTEGER);
-						cStmt.registerOutParameter(17, Types.INTEGER);
-						cStmt.registerOutParameter(18, Types.VARCHAR);
-						cStmt.registerOutParameter(19, Types.INTEGER);
+						cStmt.setString(15, guestObj.getNote() != null ? guestObj.getNote() : "");
+						cStmt.setLong(16, actionFlag == Constants.WAITLIST_UPDATE_CALLOUT ? 1 : 0);
+						cStmt.setLong(17, actionFlag == Constants.WAITLIST_UPDATE_INCOMPLETE ? 1 : 0);
+						cStmt.setLong(18, actionFlag == Constants.WAITLIST_UPDATE_MARK_AS_SEATED ? 1 : 0);
+						cStmt.setLong(19, actionFlag == Constants.WAITLIST_UPDATE_DELETE ? 1 : 0);
 						cStmt.registerOutParameter(20, Types.INTEGER);
-						cStmt.registerOutParameter(21, Types.VARCHAR);
+						cStmt.registerOutParameter(21, Types.INTEGER);
+						cStmt.registerOutParameter(22, Types.INTEGER);
+						cStmt.registerOutParameter(23, Types.VARCHAR);
+						cStmt.registerOutParameter(24, Types.INTEGER);
+						cStmt.registerOutParameter(25, Types.INTEGER);
+						cStmt.registerOutParameter(26, Types.VARCHAR);
 						cStmt.execute();
 
-						oWaitlistMetrics.setNowServingParty(cStmt.getInt(15));
-						oWaitlistMetrics.setTotalWaitingGuest(cStmt.getInt(16));
-						oWaitlistMetrics.setTotalWaitTime(cStmt.getInt(17));
-						oWaitlistMetrics.setNoOfPartiesAhead(cStmt.getInt(18));
-						oWaitlistMetrics.setGuestToBeNotified(cStmt.getInt(19));
-						oWaitlistMetrics.setGuestNotifiedWaitTime(cStmt.getInt(20));
-						oWaitlistMetrics.setClientBase(cStmt.getString(21));
+						oWaitlistMetrics.setNowServingParty(cStmt.getInt(20));
+						oWaitlistMetrics.setTotalWaitingGuest(cStmt.getInt(21));
+						oWaitlistMetrics.setTotalWaitTime(cStmt.getInt(22));
+						oWaitlistMetrics.setNoOfPartiesAhead(cStmt.getInt(23));
+						oWaitlistMetrics.setGuestToBeNotified(cStmt.getInt(24));
+						oWaitlistMetrics.setGuestNotifiedWaitTime(cStmt.getInt(25));
+						oWaitlistMetrics.setClientBase(cStmt.getString(26));
 					} finally {
 						if (cStmt != null) {
 							cStmt.close();
@@ -1383,18 +1470,90 @@ public class WaitListServiceImpl implements IWaitListService {
 	}
 	/*
 	 +	 * (non-Javadoc)
-	 +	 * @see com.rsnt.service.IWaitListService#loadGuestsHistoryByOrgRecords(java.lang.Long, int, int)
+	 +	 * @see com.rsnt.service.IWaitListService#loadGuests
+ByOrgRecords(java.lang.Long, int, int)
 	 +	 *
 	 +	 *this method is load for get history with pagination create by ronak
 	 		HQL_GET_GUESTS_HISTORY was used before adding dropdown for All,callcount and incomplete
 	 +	 */
 	 	@SuppressWarnings("unchecked")
 	 	@Override
-	 	public List<Guest> loadGuestsHistoryByOrgRecords(Long orgid, int recordsPerPage, int pageNumber,String statusOption) throws RsntException {
+	 	public List<Guest> loadGuestsHistoryByOrgRecords(Long orgid, int recordsPerPage, int pageNumber,String statusOption, int sliderMinTime, int sliderMaxTime, String clientTimezone) throws RsntException {
 	 		try {
 	 			int firstPage = (pageNumber == 1) ? 0 : (recordsPerPage*(pageNumber-1));
+	 			/*int minDiff = minuitDifference;*/
+	 			/*TimeZone t1 = Calendar.getInstance().getTimeZone();
+	 			TimeZone t2 =  TimeZone.getTimeZone("EDT");
+	 			long offset = (t1.getRawOffset() - t2.getRawOffset())/100000;
+	 			int offset = t1.getRawOffset();
+	 			String gmtTZ = String.format("%s%02d", 
+	 			               offset < 0 ? "-" : "+", 
+	 			               Math.abs(offset) / 3600000,
+	 			               Math.abs(offset) / 60000 % 60);
+	 			int gmtTZint = Integer.parseInt(gmtTZ);
+	 			int secondsOfHour = offset.getTotalSeconds() % (60 * 60);
+	 		    String out = String.format("%35s %10s%n", t1, offset);
+	 			System.out.println("krupali"+gmtTZ);*/
+	 			
+	 			/*Calendar c = new GregorianCalendar(Calendar.getInstance().getTimeZone());*/
+	 			/*Calendar c = new GregorianCalendar(TimeZone.getTimeZone("UTC+05:30"));
+	 			c.setTimeInMillis(new Date().getTime());
+	 			int EastCoastHourOfDay = c.get(Calendar.HOUR_OF_DAY);
+	 			int EastCoastDayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+
+	 			// Local Time
+	 			int localHourOfDay = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+	 			int localDayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+
+	 			// Alaska
+	 			Calendar c1 = new GregorianCalendar(TimeZone.getTimeZone("EDT"));
+	 			c1.setTimeInMillis(new Date().getTime());
+	 			int AlaskaHourOfDay = c1.get(Calendar.HOUR_OF_DAY);
+	 			int AlaskaDayOfMonth = c1.get(Calendar.DAY_OF_MONTH);
+	 			
+	 			int hourDifference = AlaskaHourOfDay - EastCoastHourOfDay;
+	 			int dayDifference = AlaskaDayOfMonth - EastCoastDayOfMonth;
+	 			if (dayDifference != 0) {
+	 			hourDifference = hourDifference + 24;
+	 			}
+	 			System.out.println(hourDifference);*/
+
+	 			/*int SliderMinValue = sliderMinTime;
+	 			int SliderMaxValueLessOne = SliderMaxTimeLessOne;
+	 			int SliderMaxValue = sliderMaxTime;*/
+
+	 			/*// Difference between New York and Local Time (for me Germany)
+	 			hourDifference = EastCoastHourOfDay - localHourOfDay;
+	 			dayDifference = EastCoastDayOfMonth - localDayOfMonth;
+	 			if (dayDifference != 0) {
+	 			hourDifference = hourDifference + 24;
+	 			}
+	 			System.out.println(hourDifference);*/
+
+	 			/*if(sliderMinTime >=24){
+	 				convertedSliderMin = 0+(sliderMinTime-24);
+	 			}
+	 			else if(sliderMinTime < 0){
+	 				convertedSliderMin = 24+sliderMinTime;
+	 			}
+	 			else{
+	 				convertedSliderMin = sliderMinTime;
+	 			}
+	 			if(sliderMaxTime >=24){
+	 				convertedSliderMax = 0+(sliderMaxTime-24);
+	 			}
+	 			else if(sliderMaxTime <0){
+	 				convertedSliderMax = 24+sliderMaxTime;
+	 			}
+	 			else{
+	 				convertedSliderMax = sliderMaxTime;
+	 			}*/
+	 			 
+	 			String sliderMinTimeString = sliderMinTime+":00";
+	 			String sliderMaxTimeString = sliderMaxTime+":01";
 	 			StringBuffer query=new StringBuffer("FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
-	 					+ " and g.OrganizationID=:orgId");
+	 					+ " and g.OrganizationID=:orgId and ((time(convert_tz(g.checkinTime,'-05:00', :ClientTimezone)) between time(:SliderMinValue) and time(:SliderMaxValue)))");
+	 			/*convert_tz(g.checkinTime,'+05:30','-05:00'*/
 	 			if(statusOption.equals("Not Present")) {
 	 				query=query.append(" and calloutCount > 0");
 	 			}
@@ -1405,9 +1564,39 @@ public class WaitListServiceImpl implements IWaitListService {
 	 			System.out.println("Query : "+ query);
 	 			//HQL_GET_GUESTS_HISTORY
 	 			return sessionFactory.getCurrentSession().createQuery(query.toString())
-	 					.setParameter(Constants.RSNT_ORG_ID,orgid).setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
+	 					.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("SliderMinValue", sliderMinTimeString).setParameter("SliderMaxValue", sliderMaxTimeString).setParameter("ClientTimezone", clientTimezone).setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
 	 		} catch (Exception e) {
 	 			log.error("loadGuestsHistoryByOrg()", e);
+	 			throw new RsntException(e);
+	 		}
+	 	}
+	 	
+	 	@SuppressWarnings("unchecked")
+	 	@Override
+	 	public List<Guest> loadGuestsHistoryByName(Long orgid, int recordsPerPage, int pageNumber,String statusOption, int sliderMinTime, int sliderMaxTime, String searchName, String clientTimezone) throws RsntException {
+	 		try {
+	 			int firstPage = (pageNumber == 1) ? 0 : (recordsPerPage*(pageNumber-1));
+	 			String name = searchName;
+	 			String sliderMinTimeString = sliderMinTime+":00";
+	 			String sliderMaxTimeString = sliderMaxTime+":01";
+	 			StringBuffer query=new StringBuffer("FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
+	 					+ " and g.OrganizationID=:orgId and ((time(convert_tz(g.checkinTime,'-05:00', :ClientTimezone)) between time(:SliderMinValue) and time(:SliderMaxValue)))");
+	 			if(statusOption.equals("Not Present")) {
+	 				query=query.append(" and calloutCount > 0");
+	 			}
+	 			if(statusOption.equals("Incomplete")) {
+	 				query=query.append(" and incompleteParty > 0");
+	 			}
+	 			if(name != null) {
+	 				query=query.append(" and g.name like :Name");
+	 			}
+	 			query=query.append(" order by g.rank asc");
+	 			System.out.println("Query : "+ query);
+	 			//HQL_GET_GUESTS_HISTORY
+	 			return sessionFactory.getCurrentSession().createQuery(query.toString())
+	 					.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("SliderMinValue", sliderMinTimeString).setParameter("SliderMaxValue", sliderMaxTimeString).setParameter("ClientTimezone", clientTimezone).setParameter("Name", "%"+name+"%").setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
+	 		} catch (Exception e) {
+	 			log.error("loadGuestsHistoryByName()", e);
 	 			throw new RsntException(e);
 	 		}
 	 	}
@@ -1418,10 +1607,12 @@ public class WaitListServiceImpl implements IWaitListService {
 	 	 *changed query from HQL_GET_GUESTS_COUNT_HISTORY as dropdown is needed for All,callcount and incomplete
 	 	 */
 	 	@Override
-		public Long getHistoryUsersCountForOrg(Long orgid,String statusOption) throws RsntException{
+		public Long getHistoryUsersCountForOrg(Long orgid,String statusOption,int sliderMinTime,int sliderMaxTime, String clientTimezone) throws RsntException{
 			try {
+				String sliderMinTimeString = sliderMinTime+":00";
+	 			String sliderMaxTimeString = sliderMaxTime+":01";
 				StringBuffer query=new StringBuffer("select count(*) FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
-	 					+ " and g.OrganizationID=:orgId");
+	 					+ " and g.OrganizationID=:orgId and ((time(convert_tz(g.checkinTime,'-05:00', :ClientTimezone)) between time(:SliderMinValue) and time(:SliderMaxValue)))");
 	 			if(statusOption.equals("Not Present")) {
 	 				query=query.append(" and calloutCount > 0");
 	 			}
@@ -1431,12 +1622,42 @@ public class WaitListServiceImpl implements IWaitListService {
 	 			query=query.append(" order by g.rank asc");
 	 			System.out.println("Query : "+ query);
 				return (Long) sessionFactory.getCurrentSession().createQuery(query.toString())
-						.setParameter(Constants.RSNT_ORG_ID,orgid).uniqueResult();
+						.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("SliderMinValue", sliderMinTimeString).setParameter("SliderMaxValue", sliderMaxTimeString).setParameter("ClientTimezone", clientTimezone).uniqueResult();
 			} catch (Exception e) {
 				log.error("loadAllCheckinUsers()", e);
 				throw new RsntException(e);
 			}
 
 		}
+	 	
+	 	@Override
+		public Long getHistoryUsersCountForName(Long orgid,String statusOption,int sliderMinTime,int sliderMaxTime,String searchName, String clientTimezone) throws RsntException{
+			try {
+				String name = searchName;
+				int SliderMaxTimeLessOne = sliderMaxTime-1;
+				String sliderMinTimeString = sliderMinTime+":00";
+	 			String sliderMaxTimeString = sliderMaxTime+":01";
+				StringBuffer query=new StringBuffer("select count(*) FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
+	 					+ " and g.OrganizationID=:orgId and ((time(convert_tz(g.checkinTime,'-05:00', :ClientTimezone)) between time(:SliderMinValue) and time(:SliderMaxValue)))");
+	 			if(statusOption.equals("Not Present")) {
+	 				query=query.append(" and calloutCount > 0");
+	 			}
+	 			if(statusOption.equals("Incomplete")) {
+	 				query=query.append(" and incompleteParty > 0");
+	 			}
+	 			if(name != null) {
+	 				query=query.append(" and g.name like :Name");
+	 			}
+	 			query=query.append(" order by g.rank asc");
+	 			System.out.println("Query : "+ query);
+				return (Long) sessionFactory.getCurrentSession().createQuery(query.toString())
+						.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("SliderMinValue", sliderMinTimeString).setParameter("SliderMaxValue", sliderMaxTimeString).setParameter("ClientTimezone", clientTimezone).setParameter("Name", "%"+name+"%").uniqueResult();
+			} catch (Exception e) {
+				log.error("getHistoryUsersCountForName()", e);
+				throw new RsntException(e);
+			}
+
+		}
+		
 	
 }

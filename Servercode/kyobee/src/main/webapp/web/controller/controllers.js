@@ -22,7 +22,9 @@ KyobeeControllers.controller('homeCtrl',
 		            $scope.authToken = 'Unno1adyiSooIAkAEt';
 		            $scope.connectionUrl = 'https://ortc-developers.realtime.co/server/2.1';
 		            $scope.homeCtrlLoaded = null;
-		            $scope.logoImgSrc = logoImgSrc;		            
+		            $scope.logoImgSrc = logoImgSrc;
+		         
+		            $scope.searchStatus = false;
 		            
 		        	console.log('src' + $scope.logoImgSrc);
 					$scope.changeView = function(view, searchParms) {
@@ -51,6 +53,23 @@ KyobeeControllers.controller('homeCtrl',
 						;
 					};
 					
+					$scope.toggleSearch = function(){
+						if($scope.searchStatus){
+							$scope.searchStatus = false;
+							// load normal waitlist
+							var waitListCtrlScope=angular.element('#search-box').scope();
+							if(waitListCtrlScope.showHistory == false){
+								waitListCtrlScope.loadWaitListPage(1);
+							}
+							else{
+								waitListCtrlScope.loadHistoryPage(1);
+							}
+								
+						}else {
+							$scope.searchStatus = true;
+						}						
+					}
+					
 					$scope.moveToUpdateGuest = function(guestId){
 						$location.path("/addGuest");
 						$location.search({"guestId":guestId});
@@ -78,8 +97,98 @@ KyobeeControllers.controller('homeCtrl',
 						//console.log('temp'+temp);
 					};
 					
+					/*for implementing dynamic footer (krupali 13/07/2017)*/
 					
+					$scope.loadPropertyInfo = function() {
+						
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/propertyFileInfo';
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										$scope.footerMsg = data.serviceResult.FOOTER_MSG;
+										$scope.loadFactory();
+									} else if (data.status == "FAILURE") {
+										alert('Error while fetching user details. Please login again or contact support');
+										$scope.logout();
+									}
+								}, function(error) {
+									alert('Error while fetching user details. Please login again or contact support');
+								});
+					};
 					
+					/**/
+					
+					$scope.loadOrgMetricks = function() {
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/totalwaittimemetricks?orgid=' + $scope.userDTO.organizationId;
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										$scope.waitTime = data.serviceResult.ORG_WAIT_TIME;
+										$scope.notifyFirst = data.serviceResult.OP_NOTIFYUSERCOUNT;
+										$scope.totalWaitTime = data.serviceResult.ORG_TOTAL_WAIT_TIME;
+									} else if (data.status == "FAILURE") {
+										alert('Error while fetching wait times.');
+									}
+								}, function(error) {
+									alert('Error while fetching wait times.. Please login again or contact support');
+								});
+					};
+					
+					/*$scope.searchGrid = function(searchName) {
+						alert("in searching");
+						
+						$scope.pagerRequest = {
+								filters : null,
+								sort : null,
+								sortOrder: null,
+								pageSize : $scope.pageSize,
+								pageNo : 1
+						}
+						
+						var postBody = {
+								orgid : $scope.userDTO.organizationId,
+								partyType : "C",
+								searchName : $scope.searchName,
+								pagerReqParam : $scope.pagerRequest								
+						};
+						alert("after postbody");
+						$scope.loadOrgMetricks();
+						alert("after loading");
+						var url = '/kyobee/web/rest/waitlistRestAction/searchuser';
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log("Postbody "+JSON.stringify(postBody));
+									console.log("Waitlist Grid data : "+ JSON.stringify(data));
+									if (data.status == "SUCCESS") {
+										alert("its success");
+										var paginatedResponse = data.serviceResult;
+										$scope.guestWaitList = paginatedResponse.records;
+										alert("guestWaitList" + JSON.stringify(paginatedResponse));
+										alert("after variable");
+										$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, paginatedResponse.pageNo, $scope.pageSize);
+										alert(paginatedResponse.totalRecords);
+										alert(pageNo);
+										alert($scope.pageSize);
+										alert("record displayed");
+										console.log($scope.pager);
+									}else if(data.status == null) {
+										$scope.guestWaitList = null;
+										$scope.pager = {};
+									}else if (data.status == "FAILURE") {
+										alert('Error while fetching wait times.');
+									}
+								}, function(error) {
+									alert('Error while fetching wait times.. Please login again or contact support');
+								});
+					};*/
 					
 					
 					$scope.loadSeatingPref = function() {

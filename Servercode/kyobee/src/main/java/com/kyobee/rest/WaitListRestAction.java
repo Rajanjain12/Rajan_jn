@@ -1,5 +1,4 @@
 /**
- * @author :ordextechnology
  * Provides rest services for Admin guest module 
  * services offered are: Basic CRUD on Guest Entity , Send notification and calculate guest 
  * wait time by organizationId
@@ -9,12 +8,17 @@
 package com.kyobee.rest;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import net.sf.json.JSONObject;
@@ -177,8 +181,13 @@ public class WaitListRestAction {
 		guestObj.setOrganizationID(guest.getOrganizationID());
 		guestObj.setEmail(guest.getEmail());
 		guestObj.setSms(guest.getSms());
-		guestObj.setOrganizationID(guest.getOrganizationID());
+		guestObj.setOrganizationID(guest.getOrganizationID());	
+		guestObj.setNoOfChildren(guest.getNoOfChildren());	//change by krupali, line 181 to line 183 and line 185,186 (14/06/2017)
+		guestObj.setNoOfAdults(guest.getNoOfAdults());
+		guestObj.setNoOfInfants(guest.getNoOfInfants());
 		guestObj.setNoOfPeople(guest.getNoOfPeople());
+		guestObj.setQuoteTime(guest.getQuoteTime());
+		guestObj.setPartyType(guest.getPartyType());
 		guestObj.setOptin(guest.isOptin());
 		guestObj.setStatus(guest.getStatus());
 		guestObj.setPrefType(guest.getPrefType());
@@ -264,7 +273,22 @@ public class WaitListRestAction {
 			guestObj.setEmail(guest.getEmail());
 			guestObj.setSms(guest.getSms());
 			guestObj.setOrganizationID(guest.getOrganizationID());
+			if(guest.getNoOfChildren() != null){
+				guestObj.setNoOfChildren(guest.getNoOfChildren());
+			}
+			if(guest.getNoOfAdults() != null){
+				guestObj.setNoOfAdults(guest.getNoOfAdults());
+			}
+			if(guest.getNoOfInfants() != null){
+				guestObj.setNoOfInfants(guest.getNoOfInfants());
+			}
 			guestObj.setNoOfPeople(guest.getNoOfPeople());
+			if(guest.getQuoteTime() != null){
+				guestObj.setQuoteTime(guest.getQuoteTime());
+			}
+			if(guest.getPartyType() != null){
+				guestObj.setPartyType(guest.getPartyType());
+			}
 			guestObj.setOptin(guest.isOptin());
 			guestObj.setStatus(guest.getStatus());
 			guestObj.setPrefType(guest.getPrefType());
@@ -283,6 +307,7 @@ public class WaitListRestAction {
 			}
 			guestObj.setGuestPreferences(guestPreferences);
 		}*/
+			
 			String seatingPrefForDTO = "";
 			if(null != guest.getSeatingPreference() && !"".equals(guest.getSeatingPreference())) {
 				try {
@@ -306,11 +331,13 @@ public class WaitListRestAction {
 				guestObj.setRank(guest.getRank());
 				guestObj.setCalloutCount(guest.getCalloutCount());
 				guestObj.setIncompleteParty(guest.getIncompleteParty());
+				guestObj.setCreatedTime(new Date());
+				guestObj.setCheckinTime(guest.getCheckinTime());
 
 			}else{
 				guestObj.setUuid(UUID.randomUUID().toString().substring(0, 8));
 				guestObj.setCreatedTime(new Date());
-				guestObj.setCheckinTime(new Date());
+				guestObj.setCheckinTime(guest.getCheckinTime());
 			}
 		} catch (Exception e){
 			e.printStackTrace();
@@ -329,7 +356,22 @@ public class WaitListRestAction {
 			guestObj.setEmail(guest.getEmail());
 			guestObj.setSms(guest.getSms());
 			guestObj.setOrganizationID(guest.getOrganizationID());
+			if(guest.getNoOfChildren() != null){
+				guestObj.setNoOfChildren(guest.getNoOfChildren());
+			}
+			if(guest.getNoOfAdults() != null){
+				guestObj.setNoOfAdults(guest.getNoOfAdults());
+			}
+			if(guest.getNoOfInfants() != null){
+				guestObj.setNoOfInfants(guest.getNoOfInfants());
+			}
 			guestObj.setNoOfPeople(guest.getNoOfPeople());
+			if(guest.getQuoteTime() != null){
+				guestObj.setQuoteTime(guest.getQuoteTime());
+			}
+			if(guest.getPartyType() != null){
+				guestObj.setPartyType(guest.getPartyType());
+			}
 			guestObj.setOptin(guest.isOptin());
 			guestObj.setStatus(guest.getStatus());
 			guestObj.setPrefType(guest.getPrefType());
@@ -504,9 +546,10 @@ public class WaitListRestAction {
 	//@GET
 	//@Path("/checkinusers")
 	//@Produces(MediaType.APPLICATION_JSON)
+	//changes by krupali line 514,532 (16/06/2017)
 	@RequestMapping(value = "/checkinusers", method = RequestMethod.GET, produces = "application/json")
-	public Response<PaginatedResponse<GuestDTO>> fetchCheckinUsers(@RequestParam("orgid") Long orgid, 
-			@RequestParam String pagerReqParam){
+	public Response<PaginatedResponse<GuestDTO>> fetchCheckinUsers(@RequestParam("orgid") Long orgid,  @RequestParam("partyType") String partyType,
+			 @RequestParam String pagerReqParam){
 		log.info("Entering :: fetchCheckinUsers --OrgId::"+orgid);
 		Response<PaginatedResponse<GuestDTO>> response = new Response<PaginatedResponse<GuestDTO>>();
 		List<GuestDTO> guestDTOs = null;
@@ -514,16 +557,14 @@ public class WaitListRestAction {
 		//final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 		//final List<String> errorArray = new ArrayList<String>(0);
 		Map<Integer, String> guestPreferenceMap;
-		List<Guest> guests;
-		
+		List<Guest> guests;	
 		
 		
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			PaginationReqParam paginationReqParam = mapper.readValue(pagerReqParam, PaginationReqParam.class);
 			guestPreferenceMap = getGuestSeatingPrefMap();
-
-			guests = waitListService.loadAllCheckinUsers(orgid, paginationReqParam.getPageSize(), paginationReqParam.getPageNo());
+			guests = waitListService.loadAllCheckinUsers(orgid, paginationReqParam.getPageSize(), paginationReqParam.getPageNo(), partyType);
 			Long guestsTotalCount = waitListService.getAllCheckinUsersCount(orgid);
 			if(null != guests && guests.size()>0){
 				guestDTOs = new ArrayList<GuestDTO>(guests.size());
@@ -549,6 +590,65 @@ public class WaitListRestAction {
 			log.error("fetchCheckinUsers() - failed:", e);
 			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
 					"System Error - fetchCheckinUsers failed");
+		} 
+		//rootMap.put(Constants.RSNT_ERROR, "");
+		//rootMap.put("guests",guestDTOs);
+		//final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+		return response;
+	}
+	
+	/**
+	 * Search Guests by name
+	 * @param orgid
+	 * @return List<GuestDTO> --List of guests
+	 */
+	//@GET
+	//@Path("/searchuser")
+	//@Produces(MediaType.APPLICATION_JSON)
+	//changes by krupali line 514,532 (16/06/2017)
+	@RequestMapping(value = "/searchuser", method = RequestMethod.GET, produces = "application/json")
+	public Response<PaginatedResponse<GuestDTO>> searchuserGrid(@RequestParam("orgid") Long orgid,  @RequestParam("partyType") String partyType,
+			@RequestParam String searchName, @RequestParam String pagerReqParam){
+		log.info("Entering :: searchuser --OrgId::"+orgid);
+		Response<PaginatedResponse<GuestDTO>> response = new Response<PaginatedResponse<GuestDTO>>();
+		List<GuestDTO> guestDTOs = null;
+		PaginatedResponse<GuestDTO> paginatedResponse = new PaginatedResponse<GuestDTO>();
+		//final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
+		//final List<String> errorArray = new ArrayList<String>(0);
+		Map<Integer, String> guestPreferenceMap;
+		List<Guest> guests;	
+		
+		
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			PaginationReqParam paginationReqParam = mapper.readValue(pagerReqParam, PaginationReqParam.class);
+			guestPreferenceMap = getGuestSeatingPrefMap();
+			guests = waitListService.searchAllCheckinUsersByName(orgid, paginationReqParam.getPageSize(), paginationReqParam.getPageNo(), partyType, searchName);
+			Long guestsTotalCount = waitListService.getAllCheckinUsersCountByName(orgid,searchName);
+			if(null != guests && guests.size()>0){
+				guestDTOs = new ArrayList<GuestDTO>(guests.size());
+				for (Guest guest : guests) {
+					guestDTOs.add(convertGuesEntityToVo(guest, guestPreferenceMap));
+				}
+				
+				paginatedResponse.setRecords(guestDTOs);
+				paginatedResponse.setPageNo(paginationReqParam.getPageNo());
+				paginatedResponse.setTotalRecords(guestsTotalCount.intValue());
+				response.setServiceResult(paginatedResponse);
+				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+
+			}
+
+		} catch (RsntException e) {
+			e.printStackTrace();
+			log.error("searchuserGrid() - failed:", e);
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - searchuserGrid failed");
+		} catch (Exception  e) {
+			e.printStackTrace();
+			log.error("searchuserGrid() - failed:", e);
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - searchuserGrid failed");
 		} 
 		//rootMap.put(Constants.RSNT_ERROR, "");
 		//rootMap.put("guests",guestDTOs);
@@ -629,6 +729,9 @@ public class WaitListRestAction {
 	public Response<PaginatedResponse<GuestDTO>> fetchGuestsHistory(
 			@RequestParam("orgid") Long orgid,
 			@RequestParam("statusOption") String statusOption,
+			@RequestParam("sliderMinTime") Integer sliderMinTime,
+			@RequestParam("sliderMaxTime") Integer sliderMaxTime,
+			@RequestParam("clientTimezone") String clientTimezone,
 			@RequestParam String pagerReqParam) {
 		log.info("Entering :: fetchGuestsHistory ::orgid "+orgid);		
 		Response<PaginatedResponse<GuestDTO>> response = new Response<PaginatedResponse<GuestDTO>>();
@@ -643,12 +746,58 @@ public class WaitListRestAction {
 		try {
 			//changed for history pagination
 			//guests = waitListService.loadGuestsHistoryByOrg(orgid);
+			
+			/*Calendar c = new GregorianCalendar(TimeZone.getTimeZone("GMT-05:00"));
+ 			c.setTimeInMillis(new Date().getTime());
+ 			int EastCoastHourOfDay = c.get(Calendar.HOUR_OF_DAY);
+ 			int EastCoastDayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+ 			int EastCoastMinuitOfDay = c.get(Calendar.MINUTE);
+ 			int offset1 = TimeZone.getTimeZone("GMT-05:00").getOffset(new Date().getTime());*/
+
+ 			
+
+ 			/*// Local Time
+ 			int localHourOfDay = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+ 			int localDayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);*/
+
+ 			// Alaska
+ 			/*c = new GregorianCalendar(TimeZone.getTimeZone("GMT+05:30"));
+ 			c.setTimeInMillis(new Date().getTime());
+ 			int AlaskaHourOfDay = c.get(Calendar.HOUR_OF_DAY);
+ 			int AlaskaDayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+ 			int AlaskaMinuitOfDay = c.get(Calendar.MINUTE);
+ 			int offset2 = TimeZone.getTimeZone("GMT+05:30").getOffset(new Date().getTime());
+ 			
+ 			int hourDifference = AlaskaHourOfDay - EastCoastHourOfDay;
+ 			int dayDifference = AlaskaDayOfMonth - EastCoastDayOfMonth;
+ 			int minuitDifference = AlaskaMinuitOfDay - EastCoastMinuitOfDay;
+ 			int offsetDifference = (offset1-offset2)/1000/60/60;
+ 			
+ 			if(minuitDifference == 60){
+ 				hourDifference = hourDifference+1;
+ 			}
+ 			if(minuitDifference < 0){
+ 				hourDifference = hourDifference-1;
+ 				minuitDifference = 60+minuitDifference;
+ 			}
+ 			if (dayDifference != 0) {
+ 			hourDifference = hourDifference + 24;
+ 			}
+ 			System.out.println(hourDifference+":"+minuitDifference);
+			if(offset1 >= offset2){
+ 			sliderMinTime = sliderMinTime+hourDifference;
+ 			sliderMaxTime = sliderMaxTime+hourDifference;
+			}
+			else{
+				sliderMinTime = sliderMinTime-hourDifference;
+	 			sliderMaxTime = sliderMaxTime-hourDifference;
+			}*/
 			ObjectMapper mapper = new ObjectMapper();
 			PaginationReqParam paginationReqParam = mapper.readValue(pagerReqParam, PaginationReqParam.class);
 			guestPreferenceMap = getGuestSeatingPrefMap();
-			guests = waitListService.loadGuestsHistoryByOrgRecords(orgid,paginationReqParam.getPageSize(), paginationReqParam.getPageNo(),statusOption);
+			guests = waitListService.loadGuestsHistoryByOrgRecords(orgid,paginationReqParam.getPageSize(), paginationReqParam.getPageNo(),statusOption,sliderMinTime,sliderMaxTime,clientTimezone);
 			
-			Long guestsTotalCount = waitListService.getHistoryUsersCountForOrg(orgid,statusOption);
+			Long guestsTotalCount = waitListService.getHistoryUsersCountForOrg(orgid,statusOption,sliderMinTime,sliderMaxTime,clientTimezone);
 			
 			if(null != guests && guests.size()>0){
 				guestDTOs = new ArrayList<GuestDTO>(guests.size());
@@ -661,6 +810,15 @@ public class WaitListRestAction {
 				response.setServiceResult(paginatedResponse);
 				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 
+			}
+			/*changes by vruddhi(when there is no data as defined in condition)*/
+			else {
+				guestDTOs = new ArrayList<GuestDTO>(guests.size());
+				paginatedResponse.setRecords(guestDTOs);
+				paginatedResponse.setPageNo(paginationReqParam.getPageNo());
+				paginatedResponse.setTotalRecords(guestsTotalCount.intValue());
+				response.setServiceResult(paginatedResponse);
+				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 			}
 
 		} catch (RsntException e) {
@@ -681,6 +839,88 @@ public class WaitListRestAction {
 		//return jsonObject.toString();
 		return response;
 	}
+	
+	/**
+	 * Get the Guests History by Name
+	 * @param searchName
+	 * @param orgid
+	 * @return List<GuestDTO>
+	 */
+	//@GET
+	//@Path("/searchhistoryuser")
+	//@Produces(MediaType.APPLICATION_JSON)
+	@RequestMapping(value = "/searchhistoryuser", method = RequestMethod.GET, produces = "application/json")
+	//changed for history pagination
+	//public String searchhistoryuser(@QueryParam("orgid") Long orgid){
+	public Response<PaginatedResponse<GuestDTO>> searchhistoryuserGrid(
+			@RequestParam("orgid") Long orgid,
+			@RequestParam("statusOption") String statusOption,
+			@RequestParam("sliderMinTime") Integer sliderMinTime,
+			@RequestParam("sliderMaxTime") Integer sliderMaxTime,
+			@RequestParam("clientTimezone") String clientTimezone,
+			@RequestParam("searchName") String searchName,
+			@RequestParam String pagerReqParam) {
+		log.info("Entering :: searchhistoryuser ::orgid "+orgid);		
+		Response<PaginatedResponse<GuestDTO>> response = new Response<PaginatedResponse<GuestDTO>>();
+		List<GuestDTO> guestDTOs = null;
+		PaginatedResponse<GuestDTO> paginatedResponse = new PaginatedResponse<GuestDTO>();
+		
+		//List<GuestDTO> guestDTOs = null;
+		//final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
+		//final List<String> errorArray = new ArrayList<String>(0);
+		List<Guest> guests;
+		Map<Integer, String> guestPreferenceMap;
+		try {
+			//changed for history pagination
+			//guests = waitListService.loadGuestsHistoryByOrg(orgid);
+			ObjectMapper mapper = new ObjectMapper();
+			PaginationReqParam paginationReqParam = mapper.readValue(pagerReqParam, PaginationReqParam.class);
+			guestPreferenceMap = getGuestSeatingPrefMap();
+			guests = waitListService.loadGuestsHistoryByName(orgid,paginationReqParam.getPageSize(), paginationReqParam.getPageNo(),statusOption,sliderMinTime,sliderMaxTime,searchName,clientTimezone);
+			
+			Long guestsTotalCount = waitListService.getHistoryUsersCountForName(orgid,statusOption,sliderMinTime,sliderMaxTime,searchName,clientTimezone);
+			
+			if(null != guests && guests.size()>0){
+				guestDTOs = new ArrayList<GuestDTO>(guests.size());
+				for (Guest guest : guests) {
+					guestDTOs.add(convertGuesEntityToVo(guest, guestPreferenceMap));
+				}
+				paginatedResponse.setRecords(guestDTOs);
+				paginatedResponse.setPageNo(paginationReqParam.getPageNo());
+				paginatedResponse.setTotalRecords(guestsTotalCount.intValue());
+				response.setServiceResult(paginatedResponse);
+				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+
+			}
+			/*changes by vruddhi(when there is no data as defined in condition)*/
+			else {
+				guestDTOs = new ArrayList<GuestDTO>(guests.size());
+				paginatedResponse.setRecords(guestDTOs);
+				paginatedResponse.setPageNo(paginationReqParam.getPageNo());
+				paginatedResponse.setTotalRecords(guestsTotalCount.intValue());
+				response.setServiceResult(paginatedResponse);
+				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+			}
+
+		} catch (RsntException e) {
+			e.printStackTrace();
+			log.error("searchhistoryuser() - failed:", e);
+			//rootMap.put("id", -1);
+			//rootMap.put(Constants.RSNT_ERROR, "System Error - fetchCheckinUsers failed");
+			//rootMap.put("fieldErrors", errorArray);
+			//final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+			//return jsonObject.toString();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		//rootMap.put(Constants.RSNT_ERROR, "");
+		//rootMap.put("guests",guestDTOs);
+		//final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+		//return jsonObject.toString();
+		return response;
+	}
+	
 	/**
 	 * Get Event Listener Configuration details 
 	 * @return Map<String, String> 
@@ -762,6 +1002,7 @@ public class WaitListRestAction {
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 		WaitlistMetrics oWaitlistMetrics = null;
 		try {
+
 			guest = convertGuesVoToEntity(guestDTO);
 			
 			oWaitlistMetrics = waitListService.addGuest(guest);
@@ -1343,5 +1584,38 @@ public class WaitListRestAction {
 		
 		System.out.println("callback test successful" + smsEvent.getMessageId());
 	}
+	
+	/*for implementing dynamic footer (krupali 13/07/2017)*/
+	
+	/**
+	 * Get propetyFile info(footer) 			
+	 * @return Map<String, String> 
+	 */
+	//@GET
+	//@Path("/propertyFileInfo")
+	@RequestMapping(value = "/propertyFileInfo", method = RequestMethod.GET, produces = "application/json")
+	public Response<Map<String, String>> getPropertyFileInfo(){
+		System.out.println("in propertyFileInfo method");
+		String footerMsg = "";
+		Response<Map<String, String>> response = new Response<Map<String,String>>();
+		Map<String, String> propInfo = new HashMap<String, String>();
+		try{
+		Properties rsntProperties = new Properties();
+		rsntProperties.load(this.getClass().getClassLoader().getResourceAsStream("rsnt.properties"));
+		footerMsg = rsntProperties.getProperty("rsnt.footerMsg");
+		propInfo.put(Constants.FOOTER_MSG, footerMsg);
+		//final JSONObject jsonObject = JSONObject.fromObject(eventConfig);
+		//return jsonObject.toString();
+		response.setServiceResult(propInfo);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+		return response;
+	}
+	
+	/**/
 	
 }

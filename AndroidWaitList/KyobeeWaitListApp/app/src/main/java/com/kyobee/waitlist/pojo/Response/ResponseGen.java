@@ -124,6 +124,9 @@ public class ResponseGen{
         @SerializedName("noOfPeople")
         @Expose
         private String noOfPeople;
+        @SerializedName("partyType")
+        @Expose
+        private int partyType;
         @SerializedName("email")
         @Expose
         private String email;
@@ -309,6 +312,14 @@ public class ResponseGen{
 
         public void setNoOfPeople (String noOfPeople){
             this.noOfPeople = noOfPeople;
+        }
+
+        public int getPartyType() {
+            return partyType;
+        }
+
+        public void setPartyType(int partyType) {
+            this.partyType = partyType;
         }
 
         public String getEmail (){

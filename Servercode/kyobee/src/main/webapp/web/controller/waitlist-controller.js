@@ -6,9 +6,11 @@ KyobeeControllers.controller('waitListCtrl',
 				'$location',
 				'$timeout',
 				'$interval',
+				'$routeParams',
 				'KyobeeService',
-				function($scope, $rootScope,$location, $timeout, $interval, KyobeeService) {
-					
+				function($scope, $rootScope,$location, $timeout, $interval, $routeParams , KyobeeService) {
+						
+					/*$scope.sliderStartTime = 'hello';*/
 					$rootScope.hideHeader=false;//To hide show header in index.html
 					$scope.waitTime = null;
 					$scope.notifyFirst = null;
@@ -18,6 +20,8 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.client = null;
 					$scope.countMsgChannel = 0;
 					
+					$scope.loading = false; /* for loader(krupali 07/07/2017)*/
+					$scope.searchName = null;
 					$scope.appKey = null;
 		            $scope.privateKey = null;
 		            $scope.channel = null;
@@ -28,14 +32,60 @@ KyobeeControllers.controller('waitListCtrl',
 					
 					$scope.showHistory = false;
 					
+					$scope.toggleColumnShowHide = false;
+					
 					$scope.successMsg = null;
 					
 					$scope.statusOptions=["All","Not Present","Incomplete"];
 					$scope.selectedStatus=$scope.statusOptions[0];
 					
+					$scope.userCount = null;  /*for solving footer issue (krupali 17/07/2017)*/
+					
+					/*for getting current timezone(krupali 06/07/2017)*/
+					
+					
+					
 					$scope.hideSuccessMsg = function(){
 						$scope.successMsg = null;
 					};
+					
+					$scope.toggleColumn = {
+							seat : true,
+							no : true,
+							name : true,
+							seatingPref : true,
+							noOfParty : true,
+							checkinTime : true,
+							partyType : true,
+							quoteTime : true,
+							/*optIn : true,*/
+							note : true,
+							del : true
+					};
+					
+					/*$scope.offset = new date().getTimezoneOffset();*/
+					/*alert($scope.offset);*/
+					$scope.slider = {
+							id : 'timeSlider',
+							range:{
+								min:00,
+								max:24
+							},
+							minTime:9,
+							maxTime:15,
+							/*showValues: "true",*/
+							
+					};
+			
+					
+					$scope.showToggleColumn = function(){
+						if($scope.toggleColumnShowHide){
+							$scope.toggleColumnShowHide = false;
+							
+						}else {
+							$scope.toggleColumnShowHide = true;
+						}						
+					}
 					
 					$scope.toggleShowHistory = function(){
 						if($scope.showHistory){
@@ -49,7 +99,6 @@ KyobeeControllers.controller('waitListCtrl',
 							// Load History
 						}						
 					}
-		            
 		            
 		            $scope.loadOrgMetricks = function() {
 						var postBody = {
@@ -93,6 +142,114 @@ KyobeeControllers.controller('waitListCtrl',
 								});
 					};
 					
+					$scope.toggleColumns = function(status){
+						/*alert("in toggleColumns")*/
+						console.log(status);
+						
+						switch (status) {
+						case 'seat':
+							if($scope.toggleColumn.seat == true){
+								$scope.toggleColumn.seat = false;
+							}
+							else{
+								$scope.toggleColumn.seat = true;
+							}
+							break;
+						
+						case 'no':
+							if($scope.toggleColumn.no == true){
+								$scope.toggleColumn.no = false; 
+							}
+							else{
+								$scope.toggleColumn.no = true;
+							}
+							break;
+							
+						case 'name':
+							if($scope.toggleColumn.name == true){
+								$scope.toggleColumn.name = false; 
+							}
+							else{
+								$scope.toggleColumn.name = true;
+							}
+							break;
+							
+						case 'seatingPref':
+							if($scope.toggleColumn.seatingPref == true){
+								$scope.toggleColumn.seatingPref = false; 
+							}
+							else{
+								$scope.toggleColumn.seatingPref = true;
+							}
+							break;
+							
+						case 'noOfParty':
+							if($scope.toggleColumn.noOfParty == true){
+								$scope.toggleColumn.noOfParty = false; 
+							}
+							else{
+								$scope.toggleColumn.noOfParty = true;
+							}
+							break;
+							
+						case 'checkinTime':
+							if($scope.toggleColumn.checkinTime == true){
+								$scope.toggleColumn.checkinTime = false; 
+							}
+							else{
+								$scope.toggleColumn.checkinTime = true;
+							}
+							break;
+							
+						case 'partyType':
+							if($scope.toggleColumn.partyType == true){
+								$scope.toggleColumn.partyType = false; 
+							}
+							else{
+								$scope.toggleColumn.partyType = true;
+							}
+							break;
+						
+						case 'quoteTime':
+							if($scope.toggleColumn.quoteTime == true){
+								$scope.toggleColumn.quoteTime = false; 
+							}
+							else{
+								$scope.toggleColumn.quoteTime= true;
+							}
+							break;
+						/*case 'optIn':
+							if($scope.toggleColumn.optIn == true){
+								$scope.toggleColumn.optIn = false; 
+							}
+							else{
+								$scope.toggleColumn.optIn = true;
+							}
+							break;*/
+							
+						case 'note':
+							if($scope.toggleColumn.note == true){
+								$scope.toggleColumn.note = false; 
+							}
+							else{
+								$scope.toggleColumn.note = true;
+							}
+							break;
+						
+						case 'del':
+							if($scope.toggleColumn.del == true){
+								$scope.toggleColumn.del = false; 
+							}
+							else{
+								$scope.toggleColumn.del = true;
+							}
+							break;
+							
+						default:
+							break;
+						}
+					}
+					
 					$scope.loadWaitListPage = function(pageNo){						
 						console.log(pageNo);
 						if (pageNo < 1 || pageNo > $scope.pager.totalPages) {
@@ -100,7 +257,7 @@ KyobeeControllers.controller('waitListCtrl',
 				        }
 						$scope.loadWaitListGuests(pageNo);
 					}
-					
+					 
 					$scope.loadWaitListGuests = function(pageNo) {
 						
 						$scope.pagerRequest = {
@@ -113,9 +270,9 @@ KyobeeControllers.controller('waitListCtrl',
 						
 						var postBody = {
 								orgid : $scope.userDTO.organizationId,
-								pagerReqParam : $scope.pagerRequest
+								partyType : "C",
+								pagerReqParam : $scope.pagerRequest								
 						};
-						
 						$scope.loadOrgMetricks();
 						var url = '/kyobee/web/rest/waitlistRestAction/checkinusers';
 						KyobeeService.getDataService(url, '').query(postBody,
@@ -126,6 +283,63 @@ KyobeeControllers.controller('waitListCtrl',
 										var paginatedResponse = data.serviceResult;
 										$scope.guestWaitList = paginatedResponse.records;
 										$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, pageNo, $scope.pageSize);
+										$scope.userCount = paginatedResponse.totalRecords;
+										console.log($scope.pager);
+									}else if(data.status == null) {
+										$scope.guestWaitList = null;
+										$scope.pager = {};
+									}else if (data.status == "FAILURE") {
+										alert('Error while fetching wait times.');
+									}
+								}, function(error) {
+									alert('Error while fetching wait times.. Please login again or contact support');
+								});
+					};
+					
+					var toUTCDate = function(date){
+				        var _utc = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),  date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+				        return _utc;
+				      };
+				      
+				      var millisToUTCDate = function(millis){       
+				       if(millis==null)
+				        return null;
+				       return toUTCDate(new Date(millis));
+				      };
+				      
+				        $scope.toUTCDate = toUTCDate;
+				        $scope.millisToUTCDate = millisToUTCDate;
+					
+					
+					$scope.searchGrid = function(searchName) {
+						
+						$scope.pagerRequest = {
+								filters : null,
+								sort : null,
+								sortOrder: null,
+								pageSize : $scope.pageSize,
+								pageNo : 1
+						}
+						
+						var postBody = {
+								orgid : $scope.userDTO.organizationId,
+								partyType : "C",
+								searchName : $scope.searchName,
+								pagerReqParam : $scope.pagerRequest								
+						};
+						
+						$scope.loadOrgMetricks();
+						
+						var url = '/kyobee/web/rest/waitlistRestAction/searchuser';
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log("Postbody "+JSON.stringify(postBody));
+									console.log("Waitlist Grid data : "+ JSON.stringify(data));
+									if (data.status == "SUCCESS") {
+										var paginatedResponse = data.serviceResult;
+										$scope.guestWaitList = paginatedResponse.records;
+										$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, paginatedResponse.pageNo, $scope.pageSize);
+										$scope.userCount = paginatedResponse.totalRecords;
 										console.log($scope.pager);
 									}else if(data.status == null) {
 										$scope.guestWaitList = null;
@@ -150,10 +364,30 @@ KyobeeControllers.controller('waitListCtrl',
 						
 						console.log($scope.selectedStatus);
 						
+						/*current timezone (krupali 06/07/2017)*/
+						function pad(value) {
+						    return value < 10 ? '0' + value : value;
+						}
+						
+						function createOffset(date) {
+						    var sign = (date.getTimezoneOffset() > 0) ? "-" : "+";
+						    var offset = Math.abs(date.getTimezoneOffset());
+						    var hours = pad(Math.floor(offset / 60));
+						    var minutes = pad(offset % 60);
+						    return sign + hours + ":" + minutes;
+						}
+						
+						var d = new Date(); 
+						tzName = createOffset(d);
+						/*alert(tzName);*/
+						
 						var postBody = {
 								orgid : $scope.userDTO.organizationId,
 								statusOption: $scope.selectedStatus,
-								pagerReqParam : $scope.pagerRequest
+								pagerReqParam : $scope.pagerRequest,
+								sliderMinTime : $scope.slider.minTime,
+								sliderMaxTime : $scope.slider.maxTime,
+								clientTimezone : tzName
 						};
 						
 						//$scope.loadOrgMetricks();
@@ -164,6 +398,7 @@ KyobeeControllers.controller('waitListCtrl',
 									if (data.status == "SUCCESS") {
 										var paginatedResponse = data.serviceResult;
 										$scope.guestWaitList = paginatedResponse.records;
+										$scope.userCount = paginatedResponse.totalRecords;
 										$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, pageNo, $scope.pageSize);
 										console.log($scope.pager);
 									} else if (data.status == "FAILURE") {
@@ -173,6 +408,112 @@ KyobeeControllers.controller('waitListCtrl',
 									alert('Error while fetching wait times.. Please login again or contact support');
 								});
 					};
+					
+					
+					$scope.searchGridOnHistory = function(searchName) {
+						function pad(value) {
+						    return value < 10 ? '0' + value : value;
+						}
+						
+						function createOffset(date) {
+						    var sign = (date.getTimezoneOffset() > 0) ? "-" : "+";
+						    var offset = Math.abs(date.getTimezoneOffset());
+						    var hours = pad(Math.floor(offset / 60));
+						    var minutes = pad(offset % 60);
+						    return sign + hours + ":" + minutes;
+						}
+						
+						var d = new Date(); 
+						tzName = createOffset(d);
+						/*alert(tzName);*/
+						
+						$scope.pagerRequest = {
+								filters : null,
+								sort : null,
+								sortOrder: null,
+								pageSize : $scope.pageSize,
+								pageNo : 1
+						}
+						
+						console.log($scope.selectedStatus);
+						
+
+						
+						var postBody = {
+								orgid : $scope.userDTO.organizationId,
+								statusOption: $scope.selectedStatus,
+								pagerReqParam : $scope.pagerRequest,
+								searchName : $scope.searchName,
+								sliderMinTime : $scope.slider.minTime,
+								sliderMaxTime : $scope.slider.maxTime,
+								clientTimezone : tzName
+						};
+						
+						//$scope.loadOrgMetricks();
+						var url = '/kyobee/web/rest/waitlistRestAction/searchhistoryuser';
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										var paginatedResponse = data.serviceResult;
+										$scope.guestWaitList = paginatedResponse.records;
+										$scope.userCount = paginatedResponse.totalRecords;
+										$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, pageNo, $scope.pageSize);
+										console.log($scope.pager);
+									} else if (data.status == "FAILURE") {
+										alert('Error while fetching history');
+									}
+								}, function(error) {
+									alert('Error while fetching wait times.. Please login again or contact support');
+								});
+					};
+					/*$scope.searchGridOnHistory = function(searchName) {
+						alert("in searching");
+						
+						$scope.pagerRequest = {
+								filters : null,
+								sort : null,
+								sortOrder: null,
+								pageSize : $scope.pageSize,
+								pageNo : 1
+						}
+						
+						var postBody = {
+								orgid : $scope.userDTO.organizationId,
+								partyType : "C",
+								searchName : $scope.searchName,
+								pagerReqParam : $scope.pagerRequest								
+						};
+						alert("after postbody");
+						$scope.loadOrgMetricks();
+						alert("after loading");
+						var url = '/kyobee/web/rest/waitlistRestAction/searchuserhistory';
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log("Postbody "+JSON.stringify(postBody));
+									console.log("Waitlist Grid data : "+ JSON.stringify(data));
+									if (data.status == "SUCCESS") {
+										alert("its success");
+										var paginatedResponse = data.serviceResult;
+										$scope.guestWaitList = paginatedResponse.records;
+										alert("guestWaitList" + JSON.stringify(paginatedResponse));
+										alert("after variable");
+										$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, paginatedResponse.pageNo, $scope.pageSize);
+										alert(paginatedResponse.totalRecords);
+										alert(pageNo);
+										alert($scope.pageSize);
+										alert("record displayed");
+										console.log($scope.pager);
+									}else if(data.status == null) {
+										$scope.guestWaitList = null;
+										$scope.pager = {};
+									}else if (data.status == "FAILURE") {
+										alert('Error while fetching wait times.');
+									}
+								}, function(error) {
+									alert('Error while fetching wait times.. Please login again or contact support');
+								});
+					};*/
 					
 					$scope.showPopup = function(guestObj){
 						$('#showpopup').simplePopup();
@@ -185,14 +526,16 @@ KyobeeControllers.controller('waitListCtrl',
 					}
 					
 					$scope.incrementCalloutCount = function(){
+						$scope.loading=true;													/* for loader(krupali 07/07/2017)*/
 						$scope.successMsg = null;
 						var postBody = $scope.selectedGuest;
 						
 						var url = '/kyobee/web/rest/waitlistRestAction/incrementCalloutCount';
 						KyobeeService.postDataService(url, '').query(postBody,
 								function(data) {
-									console.log(data);
+									console.log(data);				
 									if (data.status == "SUCCESS") {
+										$scope.loading = false;									/* for loader(krupali 07/07/2017)*/
 										console.log("scccessfully called out.");
 										console.log(data.serviceResult);
 										$('#showpopup').simplePopup().hide();
@@ -218,6 +561,7 @@ KyobeeControllers.controller('waitListCtrl',
 					}
 					
 					$scope.markasIncomplete = function(){
+						$scope.loading=true;											/* for loader(krupali 07/07/2017)*/
 						$scope.successMsg = null;
 						var postBody = $scope.selectedGuest;
 						
@@ -226,6 +570,7 @@ KyobeeControllers.controller('waitListCtrl',
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
+										$scope.loading=false;							/* for loader(krupali 07/07/2017)*/
 										console.log("scccessfully called out.");
 										console.log(data.serviceResult);
 										$('#showpopup').simplePopup().hide();
@@ -252,6 +597,7 @@ KyobeeControllers.controller('waitListCtrl',
 					} 
 					
 					$scope.markasSeated = function(){
+						$scope.loading = true;										/* for loader(krupali 07/07/2017)*/
 						$scope.successMsg = null;
 						var postBody = {
 
@@ -261,6 +607,7 @@ KyobeeControllers.controller('waitListCtrl',
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
+										$scope.loading=false;						/* for loader(krupali 07/07/2017)*/
 										$('#showpopup').simplePopup().hide();
 										$(".simplePopupBackground").fadeOut("fast");
 										$scope.loadWaitListPage(1);
@@ -423,6 +770,85 @@ KyobeeControllers.controller('waitListCtrl',
 						$scope.loadWaitListPage(1);
 					});
 					
+	
+					/*$(document).ready(function(){
+					    $("#slider-range").slider({
+					    range: true,
+					    min: 0,
+					    max: 1440,
+					    step: 15,
+					    values: [600, 720],
+					    slide: function (e, ui) {
+					        var hours1 = Math.floor(ui.values[0] / 60);
+					        var minutes1 = ui.values[0] - (hours1 * 60);
+
+					        if (hours1.length == 1) hours1 = '0' + hours1;
+					        if (minutes1.length == 1) minutes1 = '0' + minutes1;
+					        if (minutes1 == 0) minutes1 = '00';
+					        if (hours1 >= 12) {
+					            if (hours1 == 12) {
+					                hours1 = hours1;
+					                minutes1 = minutes1 + " PM";
+					            } else {
+					                hours1 = hours1 - 12;
+					                minutes1 = minutes1 + " PM";
+					            }
+					        } else {
+					            hours1 = hours1;
+					            minutes1 = minutes1 + " AM";
+					        }
+					        if (hours1 == 0) {
+					            hours1 = 12;
+					            minutes1 = minutes1;
+					        }
+
+
+
+					        $('.slider-time').html(hours1 + ':' + minutes1);
+					        alert($scope.sliderStartTime);
+					        $scope.sliderStartTime = hours1 + ':' + minutes1;
+					        alert($scope.sliderStartTime);
+					        
+					        var hours2 = Math.floor(ui.values[1] / 60);
+					        var minutes2 = ui.values[1] - (hours2 * 60);
+
+					        if (hours2.length == 1) hours2 = '0' + hours2;
+					        if (minutes2.length == 1) minutes2 = '0' + minutes2;
+					        if (minutes2 == 0) minutes2 = '00';
+					        if (hours2 >= 12) {
+					            if (hours2 == 12) {
+					                hours2 = hours2;
+					                minutes2 = minutes2 + " PM";
+					            } else if (hours2 == 24) {
+					                hours2 = 11;
+					                minutes2 = "59 PM";
+					            } else {
+					                hours2 = hours2 - 12;
+					                minutes2 = minutes2 + " PM";
+					            }
+					        } else {
+					            hours2 = hours2;
+					            minutes2 = minutes2 + " AM";
+					        }
+
+					        $('.slider-time2').html(hours2 + ':' + minutes2);
+					        
+					    }
+					});
+					});*/
+					
 										
 
 				} ]);
+
+KyobeeControllers.filter('hourMinFilter', function () {
+    return function (value) {
+    	return value+':00 Hrs';
+    	/*if(value.length >= 9){
+    		return value + ':00 Hrs';
+    	}
+    	else{
+    		return value+':00 Hrs';
+    	}*/
+    };
+});

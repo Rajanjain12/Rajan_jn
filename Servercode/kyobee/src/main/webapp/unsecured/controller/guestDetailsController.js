@@ -27,6 +27,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					$scope.countMsgChannel = 0;
 					
 					$scope.selectedSeatPref = [];
+					$scope.loading = false;
 					
 					$scope.loadGuestPage = function(){
 						
@@ -93,6 +94,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					
 					$scope.updateGuest = function(){
 						
+						$scope.loading = true;
 						$scope.errorMsg = null;
 						
 						/*if(!invalid){
@@ -101,17 +103,34 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						
 						if($scope.guest.prefType == null || $scope.guest.prefType == 'undefined'){
 							$scope.errorMsg = "Please select sms or email";
+							$scope.loading = false;
 							return;
 						}
 						
 						if(($scope.guest.prefType == 'sms' || $scope.guest.prefType == 'SMS') && ($scope.guest.sms == null || $scope.guest.sms == 'undefined')){
 							$scope.errorMsg = "Please enter the contact no.";
+							$scope.loading = false;
 							return;
 						}
 						
 						if(($scope.guest.prefType == 'email' || $scope.guest.prefType == 'EMAIL') && ($scope.guest.email == null || $scope.guest.email == 'undefined')){
 							$scope.errorMsg = "Please enter the email";
+							$scope.loading = false;
 							return;
+						}
+						
+						/*if(($scope.guestDTO.noOfAdults != null && $scope.guestDTO.noOfAdults == 0)){
+							$scope.errorMsg = "Adults must be greater than 0";
+							$scope.loading=false;
+							return;
+						}*/
+						
+						if ($("#children").val() == "") {
+						     $("#children").val("0");
+						}
+					
+						if ($("#infants").val() == ""){
+							$("#infants").val("0");
 						}
 						
 						var selectedGuestPref = [];
@@ -130,7 +149,10 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								'name' : 	$scope.guest.name,
 								'guestID' : $scope.guest.guestID,
 								'organizationID' : $scope.guest.OrganizationID,
-								'noOfPeople' : $scope.guest.noOfPeople,
+								'noOfChildren' : $scope.guest.noOfChildren,
+								'noOfAdults' : $scope.guest.noOfAdults,
+								'noOfInfants' : $scope.guest.noOfInfants,
+								'noOfPeople' : $scope.guest.noOfAdults+$scope.guest.noOfChildren+$scope.guest.noOfInfants,
 								'prefType' : $scope.guest.prefType,
 								'sms' : $scope.guest.sms,
 								'email' : $scope.guest.email,
@@ -150,6 +172,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					   	    		    var message = JSON.stringify({"OP":"UpdageGuestInfo","guestObj":data.serviceResult.updguest.guestID,"updguest":data.serviceResult.guest,"FROM":"USER","ppwt":$scope.orgWaitTime ,"orgid":$scope.guest.organizationID});
 					                    $scope.client.send($scope.channel, message);
 							            console.log('Sending from updateguest: ' + message + ' to channel: ' + $scope.channel);
+							            $scope.loading = false;
 										alert('Guest Inforation updated successfully');
 									} else if (data.status == "FAILURE") {
 										alert('Error while updating guest');
@@ -160,6 +183,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					}
 					
 					$scope.deleteGuest = function(){
+						$scope.loading = true;
 						var postBody = {
 
 						};
@@ -168,6 +192,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
+										$scope.loading= false;
 										if ($scope.client.getIsConnected() == false) {
 											$scope.client.connect($scope.appKey, $scope.authToken);
 					                     }

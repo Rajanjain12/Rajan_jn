@@ -36,9 +36,24 @@ public class Guest implements Serializable{
 	@Column(name="uuid")
 	private String uuid;
 	
+	@Column(name="noOfChildren")	//changes by krupali, line 39 to line 46 and line 51 to 55 (15/06/2017)
+	private Long noOfChildren;
+	
+	@Column(name="noOfAdults")
+	private Long noOfAdults;
+	
+	@Column(name="noOfInfants")
+	private Long noOfInfants;
+	
 	@Column(name="noOfPeople")
 	private Long noOfPeople;
 	
+	@Column(name="quoteTime")
+	private Integer quoteTime;
+
+	@Column(name="partyType")
+	private Integer partyType;
+
 	@Column(name="sms")
 	private String sms;
 	
@@ -145,13 +160,36 @@ public class Guest implements Serializable{
 		this.name = name;
 	}
 
-	
 	public String getNote() {
 		return note;
 	}
 
 	public void setNote(String note) {
 		this.note = note;
+	}
+	
+	public Long getNoOfChildren() {						//change by krupali, line 168 to line 190 and line 203 to 217 (14/06/2017)
+		return noOfChildren;
+	}
+
+	public void setNoOfChildren(Long noOfChildren) {
+		this.noOfChildren = noOfChildren;
+	}
+
+	public Long getNoOfAdults() {
+		return noOfAdults;
+	}
+
+	public void setNoOfAdults(Long noOfAdults) {
+		this.noOfAdults = noOfAdults;
+	}
+
+	public Long getNoOfInfants() {
+		return noOfInfants;
+	}
+
+	public void setNoOfInfants(Long noOfInfants) {
+		this.noOfInfants = noOfInfants;
 	}
 
 	public Long getNoOfPeople() {
@@ -160,6 +198,22 @@ public class Guest implements Serializable{
 
 	public void setNoOfPeople(Long noOfPeople) {
 		this.noOfPeople = noOfPeople;
+	}
+	
+	public Integer getQuoteTime() {
+		return quoteTime;
+	}
+
+	public void setQuoteTime(Integer quoteTime) {
+		this.quoteTime = quoteTime;
+	}
+	
+	public Integer getPartyType() {
+		return partyType;
+	}
+
+	public void setPartyType(Integer partyType) {
+		this.partyType = partyType;
 	}
 
 	public String getSms() {

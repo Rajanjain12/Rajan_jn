@@ -57,6 +57,10 @@
     font-weight: normal;	
     margin-top: 10px;
 }
+.logo-set{
+	width:273px;
+	height:auto;
+}
 
 }
 
@@ -151,6 +155,10 @@
                         white-space: nowrap;
                         text-align: left;
 		}
+		.logo-set{
+	width:273px;
+	height:auto;
+}
 		
 		/*
 		Label the data
@@ -171,7 +179,10 @@
 
 @media only screen and (max-width: 767px) {
 
-
+.logo-set{
+	width:273px;
+	height:auto;
+}
 .kw-dav-1 { width:48%; margin-left: 0%;}
 .kw-dav-1 h1 {color: #FFF; margin: 0px 0 20px 0;display: inline-block;font-size: 2em;}
 .kw-dav-1 ul li {margin: 0 20px 0 10px;width: 100%;text-align: left;}
@@ -288,8 +299,8 @@ img.roundarrow {width: 14px;}
 .login-outer {
     padding: 147px 0;
 }
-.kw-dav-1 { width: 53%; margin-left: 5%;}
-.kw-dav-2 {width: 40%;}    
+/* .kw-dav-1 { width: 53%; margin-left: 5%;} */
+/* .kw-dav-2 {width: 40%;}     */
 .dropbtn { color: #dd4124;}
 .dropdown {  margin-top: -40px;}  
 /*popup*/    
@@ -313,7 +324,7 @@ img.roundarrow {width: 14px;}
 .table-wrap {
     width: 100%;
 /*    float: left;*/
-    height: 371px;
+    height: 571px;
     overflow-y: scroll;
 /*    overflow-x: scroll;*/
 }
@@ -337,7 +348,8 @@ img.roundarrow {width: 14px;}
 #thankYouPopup {
     left: 120px !important;
 }
-
+/*latest footer changes*/
+.padding-bottom-130 { padding-bottom: 175px;}
 
 }
 
@@ -351,7 +363,7 @@ img.roundarrow {width: 14px;}
     height: 120px;
     width:auto;
 }
-.kw-dav-1 { width: 43%; margin-left: 23%;}
+/* .kw-dav-1 { width: 43%; margin-left: 23%;} */
 .btn-orange { width: 30%; margin: 0 5px;}
   
 .account-table{
@@ -363,7 +375,7 @@ img.roundarrow {width: 14px;}
 .table-wrap {
     width: 100%;
     float: left;
-    height: 261px;
+    height: 400px;
     overflow-y: scroll;
 /*    overflow-x: scroll;*/
 }

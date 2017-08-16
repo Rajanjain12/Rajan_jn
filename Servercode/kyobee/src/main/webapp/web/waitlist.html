@@ -2,29 +2,91 @@
     
     
        <!--  <a href="javascript:void(0)" class="headersh"><i class="fa fa-bars" aria-hidden="true"></i></a> -->
-		<div class="showhidewrap">
 		
+		
+			
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="showhidewrap">
+			
 			<div class="pull-left">
-				<a href="javascript:void(0);" class="theme-fontcolor" id="waittimebtn" style="padding: 0 10px; cursor:pointer; font-weight:bold; text-decoration: underline;">Show Wait Time Settings</a>
+				<a href="javascript:void(0);" ng-show="showHistory == false" class="theme-fontcolor" id="waittimebtn" style="padding: 0 10px; cursor:pointer; font-weight:bold; text-decoration: underline;">Show Wait Time Settings</a>
 			</div>
 									
-			<div class="pull-right">
-				<h5 ng-show="showHistory == false" style="margin-bottom:5px;"><a style="padding: 0 10px; cursor:pointer; font-weight:bold; text-decoration: underline;" class="theme-fontcolor" ng-click="toggleShowHistory();">Show History</a></h5>
-				<h5 ng-show="showHistory == true" style="margin-bottom:5px;"><a style="padding: 0 10px; cursor:pointer; font-weight:bold; text-decoration: underline;" class="theme-fontcolor" ng-click="toggleShowHistory();">Hide History</a></h5>
+			<!-- <div class="pull-right col-md-12 col-sm-12 col-xs-12"> -->
+				<div class="row col-md-2 col-sm-3 col-xs-12 pull-right">			
+					<h5 class="pull-right" ng-show="showHistory == false" style="margin-bottom:5px;"><a style="padding: 0 10px; cursor:pointer; font-weight:bold; text-decoration: underline;" class="theme-fontcolor" ng-click="toggleShowHistory();">Show History</a></h5>
+					<h5 class="pull-right select-margin" ng-show="showHistory == true" style="margin-bottom:5px;"><a style="padding: 0 10px; cursor:pointer; font-weight:bold; text-decoration: underline;" class="theme-fontcolor" ng-click="toggleShowHistory();">Hide History</a></h5>
+				</div>
+			
+			
+			<!-- <div class="col-md-12 col-sm-12 col-xs-12"> -->
+			
+			<div class="col-md-2 col-sm-2 col-xs-12 select-margin">
+       			<label ng-show="showHistory == true">Check-in Time</label>
 			</div>
 			
-			<div class="col-md-2 col-md-offset-10 col-sm-2 col-sm-offset-10 col-xs-12" ng-show="showHistory == true">
+						
+			<div class="col-md-4 col-sm-4 col-xs-12" ng-show="showHistory == true">
+      			<div range-slider id="timeSlider" show-values="true" filter="hourMinFilter" attach-handle-values="true"  min="slider.range.min" max="slider.range.max" model-min="slider.minTime" model-max="slider.maxTime" step="1" prevent-equal-min-max="true" on-handle-up="loadHistoryPage(1)"></div>
+       		</div>
+       		
+			<div class="col-md-2 col-sm-2 col-xs-12" ng-show="showHistory == true">
 				<select name="statusOptions" ng-change="loadHistoryPage(1)" ng-model="selectedStatus" class="form-control" ng-model="" ng-options="status for status in statusOptions" required>
                 </select> 
 			</div>
-			
+		<!-- </div> -->
+		<!-- </div> -->
+		
+		<div class="row col-md-12 col-sm-12 col-xs-12 margin-top-15">
+			<div class="row toggle-col col-md-8 col-sm-8 col-xs-12">
+				
+				<label ng-show="toggleColumnShowHide == false" ><a style="cursor:pointer; font-weight:bold; text-decoration: underline;" class="theme-fontcolor" ng-click="showToggleColumn();">Show Toggle Column</a></label>
+				<label ng-show="toggleColumnShowHide == true" ><a href="javascript:" style="text-decoration: underline;" class="theme-fontcolor" ng-click="showToggleColumn();">Hide Toggle Column</a></label><!-- <label ng-show="toggleColumn == false" >Show Toggle Column</label>
+				<a href="javascript:" ng-click="toggleColumns('seat')" ng-model="toggleColumn.seat" ng-switch="toggleColumn.seat">Seat</a> --><!-- <a href="javascript:" ng-click="toggleColumns('no')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.no == true}">No.</a> -->
+				<a href="javascript:" ng-click="toggleColumns('partyType')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.partyType == true}">Party Type</a>
+				<a href="javascript:" ng-click="toggleColumns('noOfParty')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.noOfParty == true}">No. Of Party</a>
+				<a href="javascript:" ng-click="toggleColumns('name')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.name == true}"">Name</a>
+				<a href="javascript:" ng-click="toggleColumns('checkinTime')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.checkinTime == true}">Checkin Time</a>
+				<a href="javascript:" ng-click="toggleColumns('quoteTime')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.quoteTime == true}">Quote Time</a>
+				<!-- <a href="javascript:" ng-click="toggleColumns('seatingPref')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.seatingPref == true}">Seating Pref.</a> --><!-- <a href="javascript:" ng-click="toggleColumns('optIn')" >Opt-In</a> -->
+				<a href="javascript:" ng-click="toggleColumns('note')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.note == true}">Note</a>
+				<!-- <a href="javascript:" ng-click="toggleColumns('del')">Delete</a> -->
+				
+				</div>
+				
+				<div class="col-md-4 col-sm-4 col-xs-12 margin-left-30">
+					<div class="col-md-12 col-sm-12 col-xs-12 row pull-right margin-bottom-10" id="search-box" ng-show="searchStatus == true && showHistory == false">
+						<input type="text" class="form-control" placeholder="Enter your search here..." ng-model="searchName"><a href="javascript:void(0)" class="seach-box theme-fontcolor"><i class="glyphicon glyphicon-search" ng-click="searchGrid(searchName)"></i></a>
+					</div>
+					<div class="col-md-12 col-sm-12 col-xs-12 row pull-right margin-bottom-10" id="search-box" ng-show="searchStatus == true && showHistory == true">
+						<input type="text" class="form-control" placeholder="Enter your search here..." ng-model="searchName"><a href="javascript:void(0)" class="seach-box theme-fontcolor"><i class="glyphicon glyphicon-search" ng-click="searchGridOnHistory(searchName)"></i></a>
+					</div>
+				</div>
+		
 		</div>
-        
-        <div class="waitlist-section-2" id="waittimesetting"  style="display: none;>
-                
-            <div class="container">
+		</div>
+		<!--
+		
+		 <div class="grid_slider">
+			<div class="col-md-12 col-sm-12 col-xs-12 padding-bottom-30">
+				<input type="text" id="range" value="" name="range" />
+			</div>
+        </div> -->
+
+		
+        <!-- <div class="container"> -->
+			<div class="waitlist-section-2 row" id="waittimesetting"  style="display: none;" ng-show="showHistory == false">
             
-                <div class="row waitlistbox2 theme-color">
+         <!-- <div class="container">  -->  
+             
+			
+<!-- <div range-slider min="slider.range.min" max="slider.range.max" model-min="slider.minTime" model-max="slider.maxTime" step="1" prevent-equal-min-max="true"></div> -->
+				
+			
+
+			
+            
+                <div class="row waitlistbox2 theme-color margin-bottom-20">
 
                     <div class="col-md-4 col-sm-4 text-center countres">
                         <label class="lblres">Approximate Wait Time</label>
@@ -75,10 +137,33 @@
                    
                 </div>
                       
-        </div>
-    
+        <!-- </div> -->
+        
+       	
+		
+		<!-- <div id="time-range" ng-show="showHistory == true" >
+			<div class="col-md-12 col-sm-12 col-xs-12 padding-bottom-30 padding-top-25">
+				<p>Time Range: <span id="slider-time" class="slider-time">9:00 AM</span> - <span class="slider-time2">5:00 PM</span></p>
+				<div class="sliders_step1">
+					<div id="slider-range"></div>
+				</div>
+			</div>
+		</div>
+    	<span>{{sliderStartTime}}hello</span> -->
+    	
+    	
+			
 
-       <div class="table-wrap">
+		</div>
+		
+		<!-- <a href="javascript:void(0)" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Your Note. mjhhygdgsdhghdfshjshdg dhghdbhvcdbvdg ghfdghsfdhfvcdg dghfdhfgdhfgdh">Click me</a> -->
+		<!-- <a href="#" title="Header" data-toggle="popover" data-placement="top" data-content="Content">Top</a> -->
+		
+
+<!-- <div range-slider min="slider.range.min" max="slider.range.max" model-min="slider.minTime" model-max="slider.maxTime" step="1" prevent-equal-min-max="true"></div> --> 
+    
+       <div ng-class="{'table-wrap-web': userCount <= 7 , 'table-wrap': userCount>7}"> <!--for fixing footer- krupali(18/07/2017) -->
+     
 
                          
                    <!--  <div class="dropdown">
@@ -150,36 +235,57 @@
 					<strong>Done ! </strong>{{successMsg}}
 				</div>
 				
+				<!-- for togglecolumn on grid (krupali) -->
+				
+				
+				
 					           	
 				
 	           	<div ng-show="showHistory == false">
 	           		<table id="waitlisttable" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th class="numeric">Seat</th>
-                                <th class="numeric">No.</th>
-                                <th class="numeric">Name</th>
-                                <th class="numeric">Seating Pref.</th>
-                                <th class="numeric">No. Of Party</th>
-                                <th class="numeric">Opt-In</th>
-                                <th class="numeric">Note</th>
-                                <th class="numeric">Delete</th>                                 
+                                <th class="numeric" ng-show="toggleColumn.seat">Seat</th>
+                                <!-- <th class="numeric" ng-show="toggleColumn.no">No.</th> -->
+                                <th class="numeric" ng-show="toggleColumn.partyType">Party Type</th>
+                                <th class="numeric" ng-show="toggleColumn.noOfParty">No. Of Party</th>
+                                <th class="numeric" ng-show="toggleColumn.name">Name</th>
+                                <th class="numeric" ng-show="toggleColumn.checkinTime">Checkin Time</th>
+                                <th class="numeric" ng-show="toggleColumn.quoteTime">Quote Time</th> 
+                                <th class="numeric" ng-show="toggleColumn.note">Note</th>
+                                <th class="numeric">Delete</th> 
+                                <!-- <th class="numeric" ng-show="toggleColumn.seatingPref">Seating Pref.</th> -->
+                                
+                                 <!-- <th class="numeric" ng-show="toggleColumn.optIn">Opt-In</th> -->                                
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="record in guestWaitList">
-                                <td data-title="Seat" class="numeric"><a class="clickpopup" style="cursor:pointer" ng-click="showPopup(record);"><img src="../assets/img/greenarrow.png"></a></td>
-                                <td data-title="No." class="numeric">{{record.rank}}</td>
-                                <td data-title="Name" class="numeric">
-                                	<a ng-click="moveToUpdateGuest(record.guestID)" ng-class="{'hightlight' : record.incompleteParty != null }" style="cursor:pointer"><u>{{record.name}}</u></a> &nbsp;
+                                <td data-title="Seat" class="numeric" ng-show="toggleColumn.seat"><a class="clickpopup" style="cursor:pointer" ng-click="showPopup(record);"><img src="../assets/img/greenarrow.png"></a></td>
+                                <!-- <td data-title="No." class="numeric" ng-show="toggleColumn.no">{{record.rank}}</td> -->
+                                <td data-title="partyType" class="numeric" ng-show="toggleColumn.partyType">
+                                	<span ng-if="record.partyType == 0" ng-class="{'highlight_smallparty' : record.partyType == 0 }">Small</span>
+                                	<span ng-if="record.partyType == 1" ng-class="{'highlight_largeparty' : record.partyType == 1 }">Large</span>
+                                	<span ng-if="record.partyType == -1">-</span>
+                                </td>
+                                <td data-title="No.of Party" class="numeric" ng-show="toggleColumn.noOfParty">A-{{record.noOfAdults}}, C-{{record.noOfChildren}}, I-{{record.noOfInfants}} </td>
+                                <td data-title="Name" class="numeric" ng-show="toggleColumn.name">
+                                	<a ng-click="moveToUpdateGuest(record.guestID)" ng-class="{'hightlight_name' : record.incompleteParty != null }" style="cursor:pointer"><u>{{record.name}}</u></a> &nbsp;
                                 	<span ng-show="record.calloutCount != null" ng-repeat="item in getArrayFromNum(record.calloutCount) track by $index">
                                 	<img src="../assets/img/downhand.png" class="downarrow"> &nbsp;
                                 	</span>
                                 </td>
-                                <td data-title="Seating Pref." class="numeric"><span ng-show="record.seatingPreference==''">&nbsp;</span>{{record.seatingPreference}}</td>
-                                <td data-title="No.of Party" class="numeric">{{record.noOfPeople}}</td>
-                                <td data-title="Opt-In" class="numeric"><span ng-show="record.optin == false">&nbsp;</span><img ng-show="record.optin == true" src="../assets/img/roundarrow.png" class="roundarrow"></td>
-                                <td data-title="Note" class="numeric"><span ng-show="record.note == null || record.note ==''">&nbsp;</span><img ng-show="record.note != null && record.note !=''" src="../assets/img/roundarrow.png" class="roundarrow"></td>
+                                <!-- <td data-title="Seating Pref." class="numeric" ng-show="toggleColumn.seatingPref">
+                                <span ng-show="record.seatingPreference != null"><span ng-show="record.seatingPreference==''">&nbsp;</span>{{record.seatingPreference}}</span>
+                                <span ng-show="record.seatingPreference == null">-</span>
+                                </td> -->
+                                <!-- <span ng-show="record.seatingPreference==''">&nbsp;</span>{{record.seatingPreference}}</td> -->
+                                <td data-title="checkinTime" class="numeric" ng-show="toggleColumn.checkinTime">{{record.checkinTime | date :  "short"}}</td>
+                                <td data-title="quoteTime" class="numeric" ng-show="toggleColumn.quoteTime">{{record.quoteTime }}</td>
+                                
+                                <!-- <td data-title="Opt-In" class="numeric" ng-show="toggleColumn.optIn"><span ng-show="record.optin == false">&nbsp;</span><img ng-show="record.optin == true" src="../assets/img/roundarrow.png" class="roundarrow"></td> -->
+                                
+								<td data-title="Note" class="numeric" ng-show="toggleColumn.note"><span ng-show="record.note == null || record.note ==''">&nbsp;</span><a popover href="javascript:void(0)" data-toggle="popover-hide" data-placement="top" data-trigger="focus" data-content="{{record.note}}"><img ng-show="record.note != null && record.note !=''" src="../assets/img/roundarrow.png" class="roundarrow"></a></td>
                                 <td data-title="Delete" class="numeric"><a style="cursor:pointer" ng-click="showDeletePopup(record);"><img src="../assets/img/delete.png" class="deleteimg"></a></td>
                                 
                             </tr>
@@ -198,28 +304,44 @@
 	           	 	<table id="waitlisttable" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th class="numeric1">No.</th>
-                                <th class="numeric1">Name</th>
-                                <th class="numeric1">Seating Pref.</th>
-                                <th class="numeric1">No. Of Party</th>
-                                <th class="numeric1">Opt-In</th> 
-                                <th class="numeric1">Note</th>
+                                <!-- <th class="numeric1" ng-show="toggleColumn.no">No.</th> -->
+                                <th class="numeric">Seated</br>or</br>Deleted</th>						<!-- krupali(10/07/2017) -->
+                                <th class="numeric1" ng-show="toggleColumn.partyType">Party Type</th>
+                                <th class="numeric1" ng-show="toggleColumn.noOfParty">No. Of Party</th>
+                                <th class="numeric1" ng-show="toggleColumn.name">Name</th>
+                                <th class="numeric1" ng-show="toggleColumn.checkinTime">Checkin Time</th>
+                                <!-- <th class="numeric1" ng-show="toggleColumn.seatingPref">Seating Pref.</th> -->
+                                <th class="numeric1" ng-show="toggleColumn.quoteTime">Quote Time</th>
+                                
+                                <!-- <th class="numeric1" ng-show="toggleColumn.optIn">Opt-In</th> --> 
+                                <th class="numeric1" ng-show="toggleColumn.note">Note</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="record in guestWaitList">
-                                <td data-title="No." class="numeric1">{{record.rank}}</td>
-                                <td data-title="Name" class="numeric1">
-                                	<a ng-click="moveToUpdateGuest(record.guestID)" ng-class="{'hightlight' : record.incompleteParty != null }" style="cursor:pointer"><u>{{record.name}}</u></a> &nbsp;
+                                <!-- <td data-title="No." class="numeric1" ng-show="toggleColumn.no">{{record.rank}}</td> -->
+                                <td data-title="seatedOrDeleted" class="numeric">								<!-- krupali(10/07/2017) -->
+                                	<img ng-if="record.status == 'SEATED'" src="../assets/img/seated.png" >
+                                	<img ng-if="record.status == 'DELETED'" src="../assets/img/deleted.png">
+                                </td>
+                                <td data-title="partyType" class="numeric1" ng-show="toggleColumn.partyType">
+                                	<span ng-if="record.partyType == 0" ng-class="{'highlight_smallparty' : record.partyType == 0 }">Small</span>
+                                	<span ng-if="record.partyType == 1" ng-class="{'highlight_largeparty' : record.partyType == 1 }">Large</span>
+                                	<span ng-if="record.partyType == -1">-</span>
+                                </td>
+                                <td data-title="No.Of Party" class="numeric1" ng-show="toggleColumn.noOfParty">A-{{record.noOfAdults}}, C-{{record.noOfChildren}}, I-{{record.noOfInfants}}</td>
+                                <td data-title="Name" class="numeric1" ng-show="toggleColumn.name">
+                                	<a ng-click="moveToUpdateGuest(record.guestID)" ng-class="{'hightlight_name' : record.incompleteParty != null }" style="cursor:pointer"><u>{{record.name}}</u></a> &nbsp;
                                 	<span ng-show="record.calloutCount != null" ng-repeat="item in getArrayFromNum(record.calloutCount) track by $index">
                                 	<img src="../assets/img/downhand.png" class="downarrow"> &nbsp;
                                 	</span>
                                 </td>
-                                <td data-title="Seating Pref." class="numeric1"><span ng-show="record.seatingPreference==''">&nbsp;</span>{{record.seatingPreference}}</td>
-                                <td data-title="No.Of Party" class="numeric1">{{record.noOfPeople}}</td>
-                                <td data-title="Opt-In" class="numeric1"><span ng-show="record.optin == false">&nbsp;</span><img ng-show="record.optin == true" src="../assets/img/roundarrow.png" class="roundarrow"></td>
-                                 <td data-title="Note" class="numeric1"><span ng-show="record.note == null || record.note ==''">&nbsp;</span><img ng-show="record.note != null && record.note !=''" src="../assets/img/roundarrow.png" 
-								 class="roundarrow"></td>
+                                <!-- <td data-title="Seating Pref." class="numeric1" ng-show="toggleColumn.seatingPref"><span ng-show="record.seatingPreference==''">&nbsp;</span>{{record.seatingPreference}}</td> -->
+                                <td data-title="checkinTime" class="numeric1" ng-show="toggleColumn.checkinTime">{{record.checkinTime | date :  "short"}}</td>
+                                <td data-title="quoteTime" class="numeric1" ng-show="toggleColumn.quoteTime">{{record.quoteTime}}</td>
+                                
+                                <!-- <td data-title="Opt-In" class="numeric1" ng-show="toggleColumn.optIn"><span ng-show="record.optin == false">&nbsp;</span><img ng-show="record.optin == true" src="../assets/img/roundarrow.png" class="roundarrow"></td> -->
+                                 <td data-title="Note" class="numeric1" ng-show="toggleColumn.note"><span ng-show="record.note == null || record.note ==''">&nbsp;</span><a popover href="javascript:void(0)" data-toggle="popover-show" data-placement="top" data-trigger="focus" data-content="{{record.note}}"><img ng-show="record.note != null && record.note !=''" src="../assets/img/roundarrow.png" class="roundarrow"></a></td>
                             </tr>
                        	</tbody>
                 	</table>                
@@ -241,6 +363,7 @@
 	           	 
                         
      </div>
+
     	 <div class="pagination-block">
 <!--                        <div class="col-md-12 col-sm-12 col-xs-12">-->
                        <div ng-show="showHistory == false" class="paginations">
@@ -260,7 +383,8 @@
                		 </div>
 
        			</div><!-- End of pagination block -->
-
+			
+			<div class="loader" ng-if="loading"></div>
        
 </section>
 
@@ -362,6 +486,80 @@ $(".input-number").keydown(function (e) {
 	});       
 	});
 	
+</script>
+
+ <!-- ion_range -->
+  <script>
+ /*  $(document).ready(function(){
+    $("#slider-range").slider({
+    range: true,
+    min: 0,
+    max: 1440,
+    step: 15,
+    values: [600, 720],
+    slide: function (e, ui) {
+        var hours1 = Math.floor(ui.values[0] / 60);
+        var minutes1 = ui.values[0] - (hours1 * 60);
+
+        if (hours1.length == 1) hours1 = '0' + hours1;
+        if (minutes1.length == 1) minutes1 = '0' + minutes1;
+        if (minutes1 == 0) minutes1 = '00';
+        if (hours1 >= 12) {
+            if (hours1 == 12) {
+                hours1 = hours1;
+                minutes1 = minutes1 + " PM";
+            } else {
+                hours1 = hours1 - 12;
+                minutes1 = minutes1 + " PM";
+            }
+        } else {
+            hours1 = hours1;
+            minutes1 = minutes1 + " AM";
+        }
+        if (hours1 == 0) {
+            hours1 = 12;
+            minutes1 = minutes1;
+        }
+
+
+
+        $('.slider-time').html(hours1 + ':' + minutes1);
+
+        var hours2 = Math.floor(ui.values[1] / 60);
+        var minutes2 = ui.values[1] - (hours2 * 60);
+
+        if (hours2.length == 1) hours2 = '0' + hours2;
+        if (minutes2.length == 1) minutes2 = '0' + minutes2;
+        if (minutes2 == 0) minutes2 = '00';
+        if (hours2 >= 12) {
+            if (hours2 == 12) {
+                hours2 = hours2;
+                minutes2 = minutes2 + " PM";
+            } else if (hours2 == 24) {
+                hours2 = 11;
+                minutes2 = "59 PM";
+            } else {
+                hours2 = hours2 - 12;
+                minutes2 = minutes2 + " PM";
+            }
+        } else {
+            hours2 = hours2;
+            minutes2 = minutes2 + " AM";
+        }
+
+        $('.slider-time2').html(hours2 + ':' + minutes2);
+    }
+});
+});	 */
+  </script>
+  <!-- /ion_range -->
+ 
+ <!-- note -->
+ <script>
+$(document).ready(function(){
+    $('[data-toggle="popover-hide"]').popover();  
+	$('[data-toggle="popover-show"]').popover();	
+});
 </script>
 
 
