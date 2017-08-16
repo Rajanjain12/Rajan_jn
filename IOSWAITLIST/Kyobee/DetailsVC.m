@@ -1789,7 +1789,9 @@
             
             if(btn_Cell_Phone.selected)
             {
-                NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"SMS", @"prefType",number, @"sms",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences", nil];
+                //NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"SMS", @"prefType",number, @"sms",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences", nil];
+                
+                NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"SMS", @"prefType",number, @"sms",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences",txtAdults.text,@"noOfAdults",txtChildrens.text,@"noOfChildren",txtInfants.text,@"noOfInfants",@"",@"quoteTime",@"-1",@"partyType", nil];
                 
                 //convert object to data
                 jsonDataReq = [NSJSONSerialization dataWithJSONObject:newDatasetInfo options:kNilOptions error:&error];
@@ -1800,7 +1802,9 @@
             else
             {
                 
-                NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"EMAIL", @"prefType",txt_Phone_Or_Mail.text, @"email",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences", nil];
+                //NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"EMAIL", @"prefType",txt_Phone_Or_Mail.text, @"email",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences", nil];
+                
+                NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"EMAIL", @"prefType",txt_Phone_Or_Mail.text, @"email",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences",txtAdults.text,@"noOfAdults",txtChildrens.text,@"noOfChildren",txtInfants.text,@"noOfInfants",@"",@"quoteTime",@"-1",@"partyType", nil];
                 
                 //convert object to data
                 jsonDataReq = [NSJSONSerialization dataWithJSONObject:newDatasetInfo options:kNilOptions error:&error];
