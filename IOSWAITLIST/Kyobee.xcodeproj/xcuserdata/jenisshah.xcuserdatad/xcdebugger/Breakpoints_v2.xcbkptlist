@@ -15,8 +15,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "40"
             endingLineNumber = "40"
-            landmarkName = "-btn_Login_Clicked:"
-            landmarkType = "5">
+            landmarkName = "LoginVC()"
+            landmarkType = "2">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -26,11 +26,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Kyobee/DetailsVC.m"
-            timestampString = "496053317.745923"
+            timestampString = "528722759.595443"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "22"
-            endingLineNumber = "22">
+            endingLineNumber = "22"
+            landmarkName = "unknown"
+            landmarkType = "0">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
@@ -40,7 +42,7 @@
                   moduleName = "Kyobee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jenisshah/Desktop/Nilesh/Project/Clone/RevisedKyobee/IOSWAITLIST/Kyobee/DetailsVC.m"
-                  timestampString = "524572254.858583"
+                  timestampString = "528722339.75247"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "29"
@@ -55,7 +57,7 @@
                   moduleName = "Kyobee"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jenisshah/Desktop/Nilesh/Project/Clone/RevisedKyobee/IOSWAITLIST/Kyobee/DetailsVC.m"
-                  timestampString = "524572254.860687"
+                  timestampString = "528722339.756301"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "29"
