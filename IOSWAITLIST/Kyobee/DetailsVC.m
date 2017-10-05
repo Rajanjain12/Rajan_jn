@@ -1626,7 +1626,8 @@
         
         //if(![txt_Name.text isEqualToString:@""] & ![txt_Phone_Or_Mail.text isEqualToString:@""] & ![txt_your_party.text isEqualToString:@""])
         //if(![txt_Name.text isEqualToString:@""] & ![txt_your_party.text isEqualToString:@""]) // 10/06/2017
-        if(![txt_Name.text isEqualToString:@""] & (![txtAdults.text isEqualToString:@""] | ![txtChildrens.text isEqualToString:@""] | ![txtInfants.text isEqualToString:@""]))
+//        if(![txt_Name.text isEqualToString:@""] & (![txtAdults.text isEqualToString:@""] | ![txtChildrens.text isEqualToString:@""] | ![txtInfants.text isEqualToString:@""]))
+        if(![txt_Name.text isEqualToString:@""] & ![txtAdults.text isEqualToString:@""])
         {
             ///
             
@@ -1717,6 +1718,10 @@
             
             int parties = adults+childrens+infants;
             
+            NSString *strAdults = [NSString stringWithFormat:@"%d",adults];
+            NSString *strChildrens = [NSString stringWithFormat:@"%d",childrens];
+            NSString *strInfants = [NSString stringWithFormat:@"%d",infants];
+            
             txt_your_party.text = [NSString stringWithFormat:@"%d",parties];
             
             Lbl_Required.hidden = false;
@@ -1791,7 +1796,7 @@
             {
                 //NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"SMS", @"prefType",number, @"sms",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences", nil];
                 
-                NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"SMS", @"prefType",number, @"sms",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences",txtAdults.text,@"noOfAdults",txtChildrens.text,@"noOfChildren",txtInfants.text,@"noOfInfants",@"",@"quoteTime",@"-1",@"partyType", nil];
+                NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"SMS", @"prefType",number, @"sms",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences",strAdults,@"noOfAdults",strChildrens,@"noOfChildren",strInfants,@"noOfInfants",@"",@"quoteTime",@"-1",@"partyType", nil];
                 
                 //convert object to data
                 jsonDataReq = [NSJSONSerialization dataWithJSONObject:newDatasetInfo options:kNilOptions error:&error];
@@ -1804,7 +1809,7 @@
                 
                 //NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"EMAIL", @"prefType",txt_Phone_Or_Mail.text, @"email",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences", nil];
                 
-                NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"EMAIL", @"prefType",txt_Phone_Or_Mail.text, @"email",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences",txtAdults.text,@"noOfAdults",txtChildrens.text,@"noOfChildren",txtInfants.text,@"noOfInfants",@"",@"quoteTime",@"-1",@"partyType", nil];
+                NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"EMAIL", @"prefType",txt_Phone_Or_Mail.text, @"email",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences",strAdults,@"noOfAdults",strChildrens,@"noOfChildren",strInfants,@"noOfInfants",@"",@"quoteTime",@"-1",@"partyType", nil];
                 
                 //convert object to data
                 jsonDataReq = [NSJSONSerialization dataWithJSONObject:newDatasetInfo options:kNilOptions error:&error];
