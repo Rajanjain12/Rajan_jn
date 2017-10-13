@@ -60,7 +60,8 @@ KyobeeControllers.controller('waitListCtrl',
 							quoteTime : true,
 							/*optIn : true,*/
 							note : true,
-							del : true
+							del : true,
+							partyRank : true
 					};
 					
 					/*$scope.offset = new date().getTimezoneOffset();*/
@@ -242,6 +243,15 @@ KyobeeControllers.controller('waitListCtrl',
 							}
 							else{
 								$scope.toggleColumn.del = true;
+							}
+							break;
+							
+						case 'partyRank':
+							if($scope.toggleColumn.partyRank == true){
+								$scope.toggleColumn.partyRank = false; 
+							}
+							else{
+								$scope.toggleColumn.partyRank = true;
 							}
 							break;
 							
@@ -753,7 +763,8 @@ KyobeeControllers.controller('waitListCtrl',
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
-										alert("The top " + newTime + " parties will be notified in the event of any change in status.");
+										/*alert("The top " + newTime + " parties will be notified in the event of any change in status.");*/
+										$scope.totalWaitTime = data.serviceResult.ORG_TOTAL_WAIT_TIME;
 									} else if (data.status == "FAILURE") {
 										alert('Error while marking as seated.');
 									}
