@@ -7,7 +7,10 @@
     <string name="password">Password</string>
     <string name="remember">Keep me logged in</string>
     <string name="please_select_guset_mode">Please select guest mode:</string>
-    <string name="check_in">Guest Checkin Mode</string>
+
+    <!--<string name="check_in">Guest Checkin Mode</string>-->
+    <!-- 10-6-2017 change display only guest self checkin mode -->
+    <string name="check_in">Guest Self Checkin Mode</string>
     <string name="display_in">Guest Display Mode</string>
     <string name="login">Login</string>
     <string name="login_text">By clicking the \'Login\' you stating that you have read and agreed to KYOBEE Waitlist Privacy &amp; Policy</string>

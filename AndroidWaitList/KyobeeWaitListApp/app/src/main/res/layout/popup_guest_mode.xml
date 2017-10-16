@@ -43,7 +43,8 @@
                 android:layout_height="70dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="50dp"
                 android:background="@color/colorRed"
                 android:text="@string/check_in"
                 android:textAllCaps="false"
@@ -55,15 +56,16 @@
                 android:id="@+id/btnDisplay"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
-                android:layout_marginBottom="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="50dp"
                 android:background="@color/colorRed"
                 android:text="@string/display_in"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:textSize="30sp"
+                android:visibility="gone"
                 />
         </LinearLayout>
     </RelativeLayout>

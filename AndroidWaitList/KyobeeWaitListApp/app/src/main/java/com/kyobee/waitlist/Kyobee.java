@@ -33,7 +33,6 @@ public class Kyobee extends Application{
     public void onCreate (){
         super.onCreate ();
         kInstance = this;
-
     }
 
 

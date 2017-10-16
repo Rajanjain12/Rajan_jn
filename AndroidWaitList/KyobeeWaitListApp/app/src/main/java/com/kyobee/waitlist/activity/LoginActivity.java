@@ -14,10 +14,13 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -128,6 +131,21 @@ public class LoginActivity extends AppCompatActivity{
 
     }
 
+    @Override
+    public boolean dispatchTouchEvent (MotionEvent ev){
+        View view = getCurrentFocus();
+        if (view != null && (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) && view instanceof EditText && !view.getClass().getName().startsWith("android.webkit.")) {
+            int scrcoords[] = new int[2];
+            view.getLocationOnScreen(scrcoords);
+            float x = ev.getRawX() + view.getLeft() - scrcoords[0];
+            float y = ev.getRawY() + view.getTop() - scrcoords[1];
+            if (x < view.getLeft() || x > view.getRight() || y < view.getTop() || y > view.getBottom())
+                ((InputMethodManager)this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow((this.getWindow().getDecorView().getApplicationWindowToken()), 0);
+        }
+        return super.dispatchTouchEvent(ev);
+
+    }
+
     public void callLogin (){
 
         CustomDialog.showProgressDialog (activity, getString (R.string.login), getString (R.string.please_wait));
@@ -172,8 +190,8 @@ public class LoginActivity extends AppCompatActivity{
         username = edtUsername.getText ().toString ();
         password = edtPassword.getText ().toString ();
 
-        username = "jkim@kyobee.com";
-        password = "jaekim";
+        //username = "jkim@kyobee.com";
+        //password = "jaekim";
 
         /* dev version  */
 
@@ -182,10 +200,10 @@ public class LoginActivity extends AppCompatActivity{
        // username = "Gabriela.meza@advantech.com";
        // password = "jaekim";
 
-        /* qa version
-        username = "meetjenis@gmail.com";
-        password = "meetjenis";
-
+        // qa version
+       // username = "meetjenis@gmail.com";
+       // password = "meetjenis";
+/*
         username = "Gabriela.meza@advantech.com";
         password = "advan0725*";
        */
