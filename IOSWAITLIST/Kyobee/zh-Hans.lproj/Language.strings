@@ -1,0 +1,45 @@
+/* 
+  Language.strings
+  Kyobee
+
+  Created by Shruti Shah on 10/10/17.
+
+*/
+
+
+// Chinese
+
+"Parties Waiting" = "等候人数";
+
+"Now Serving" = "当前服务";
+
+"Est. Wait Time" = "预计等候时间";
+
+"PRESS HERE TO CHECK-IN" = "点此取号排队";
+
+"Enter Your Name" = "输入姓名";
+
+"NEXT" = "下一步";
+"PREVIOUS" = "上一步";
+
+"ADULTS" = "成人";
+"CHILDREN" = "儿童";
+"INFANTS" = "婴儿";
+
+"Seating Preference" = "桌位偏好";
+"Patio" = "室外";
+"Bar" = "吧台";
+"First Available" = "最先备好的桌位";
+"Booth" = "包间";
+"Table" = "方桌";
+
+
+"Enter Your Phone Number" = "请输入手机号";
+
+"Thank you! Your customer number is:" = "非常感谢！您的号码是：";
+"Your whole party must be present to be seated" = "请务必所有用餐的客人到齐，方可入座";
+"Scan this QR code to view live updates on your phone" = "用手机扫描二维码可获取实时等待信息";
+
+"DONE" = "完成";
+"SEND SMS" = "发送信息";
+
