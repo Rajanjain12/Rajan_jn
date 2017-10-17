@@ -15,6 +15,9 @@
  
  */
 
+
+#define Localized(key)  [[NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"appLanguage"]] ofType:@"lproj"]] localizedStringForKey:(key) value:nil table:@"Language"]
+
 #import "DetailsVC.h"
 
 #import "SeatPrefCell.h"
@@ -23,6 +26,7 @@
 #import "UIImageView+WebCache.h"
 //****
 
+#import "seatingPreferenceCell.h"
 
 @interface MyTextFieldDetails : UITextField
 
@@ -59,6 +63,14 @@
 - (void)viewDidLoad
 {
     appDelegate =(AppDelegate*)[[UIApplication sharedApplication]delegate];
+    
+    
+    
+    languageArray = [[NSMutableArray alloc] initWithCapacity:0];
+
+    languageArray = [[NSUserDefaults standardUserDefaults] valueForKey:@"languageArray"];
+    
+    [btnLanguage_New setTitle:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"btnSelectLanguage"]] forState:UIControlStateNormal];
     
     
     self.lpgrLogOut = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGestures:)];
@@ -490,6 +502,22 @@
         
         //
         
+        
+        // For New UI
+        
+        // 2. Member View
+        _childrenToAdults.constant = 70;
+        _childrenToInfants.constant = 70;
+        
+        // 5. Thank You View
+        
+        _lblThankYou_Leading.constant = 60;
+        _orToQR.constant = 124;
+        _orToSMS.constant = 124;
+        
+        _EWT_Trailing.constant = 85;
+        _minutes_Trailing.constant = 15;
+        
     }
     else
     {
@@ -517,11 +545,35 @@
         
         //
         
+        
+        
+        // For New UI
+        
+        
+        // 2. Members View
+        _childrenToAdults.constant = 15;
+        _childrenToInfants.constant = 15;
+        
+        // 5. Thank You View
+        
+        _lblThankYou_Leading.constant = 10;
+        _orToQR.constant = 70;
+        _orToSMS.constant = 70;
+        
+        _EWT_Trailing.constant = 30;
+        _minutes_Trailing.constant = -45;
+        
     }
     
     [self performSelector:@selector(adjustScrollViewContentSize) withObject:nil afterDelay:0.1];
     
     [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(orientationChanged:)    name:UIDeviceOrientationDidChangeNotification  object:nil];
+    
+    
+    Lbl_waiting.text = Localized(@"Parties Waiting");
+    Lbl_Now_serving.text = Localized(@"Now Serving");
+    Lbl_Est_Wait_Time.text = Localized(@"Est. Wait Time");
+    [Btn_Press_Here_Checkin setTitle:Localized(@"PRESS HERE TO CHECK-IN") forState:UIControlStateNormal];
 }
 
 -(void)adjustScrollViewContentSize
@@ -573,6 +625,20 @@
         //
         
         
+        // For New UI
+        
+        // 2. Members View
+        _childrenToAdults.constant = 70;
+        _childrenToInfants.constant = 70;
+        
+        // 5. Thank You View
+        
+        _lblThankYou_Leading.constant = 60;
+        _orToQR.constant = 124;
+        _orToSMS.constant = 124;
+        
+        _EWT_Trailing.constant = 85;
+        _minutes_Trailing.constant = 15;
         
     }
     else
@@ -601,6 +667,22 @@
         _thankYouViewWidth.constant = 678;
         
         //
+        
+        
+        // For New UI
+        
+        // 2. Members View
+        _childrenToAdults.constant = 15;
+        _childrenToInfants.constant = 15;
+        
+        // 5. Thank You View
+        
+        _lblThankYou_Leading.constant = 10;
+        _orToQR.constant = 70;
+        _orToSMS.constant = 70;
+        
+        _EWT_Trailing.constant = 30;
+        _minutes_Trailing.constant = -45;
     }
     
     [self addHorizontalTable];
@@ -803,7 +885,9 @@
 
 - (IBAction)Btn_Press_Here_Checkin_Clicked:(id)sender
 {
-    form_View.hidden = NO;
+    //form_View.hidden = NO;
+    
+    viewName.hidden = false;
     
     txt_Name.text = @"";
     txt_Phone_Or_Mail.text = @"";
@@ -837,7 +921,7 @@
     if(selectedPref.count > 0)
         [selectedPref removeAllObjects];
     
-    [tblViewSeatPref reloadData];
+    //[tblViewSeatPref reloadData];
     
     [txt_Name.layer setBorderWidth:1.5];
     [txt_Name.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
@@ -857,9 +941,18 @@
     [txtInfants.layer setBorderWidth:1.5];
     [txtInfants.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
     
-    [_tableViewWB reloadData];
+    //[_tableViewWB reloadData];
     
     tblViewParties.hidden = true;
+    
+    
+    // New UI
+    
+    txtName_Name.text = @"";
+    txtName_Name.placeholder = Localized(@"Enter Your Name");
+    [btnNext_Name setTitle:Localized(@"NEXT") forState:UIControlStateNormal];
+    
+    [txtName_Name becomeFirstResponder];
 }
 
 - (IBAction)Btn_Patio_Clicked:(id)sender
@@ -1132,6 +1225,7 @@
                 [_tableViewWB reloadData];
                 [tblViewSeatPref reloadData];
                 
+                [tblView_Seating reloadData];
                 
                 return;
             }
@@ -1155,6 +1249,8 @@
                 
                 [tblViewSeatPref reloadData];
                 
+                [tblView_Seating reloadData];
+                
                 return;
             }
         }
@@ -1170,6 +1266,7 @@
         [_tableViewWB reloadData];
         [tblViewSeatPref reloadData];
         
+        [tblView_Seating reloadData];
         
         //[selectedCategories addObject:[[tempArray objectAtIndex:indexPath.row] valueForKey:@"categoryId"]];
     }
@@ -1390,88 +1487,229 @@
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    if(viewSeating.hidden == false)
+    {
+        return seatPrefArray.count;
+    }
+    else
+    {
+        return 1;
+    }
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(tblViewParties.hidden == true)
+//    if(tblViewParties.hidden == true)
+//    {
+//        return  seatPrefArray.count;
+//    }
+//    else
+//    {
+//        return 23;
+//    }
+    
+    if(viewSeating.hidden == false)
     {
-        return  seatPrefArray.count;
+        return 1;
     }
     else
     {
-        return 23;
+        return languageArray.count;
     }
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(tblViewParties.hidden == true)
+//    if(tblViewParties.hidden == true)
+//    {
+//        if([[[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValue"] isEqualToString:@"First Available"])
+//        {
+//            return 185.0f;
+//        }
+//        else if([[[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValue"] isEqualToString:@"Patio"])
+//        {
+//            return 110.0f;
+//        }
+//        else if([[[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValue"] isEqualToString:@"Bar"])
+//        {
+//            return 90.0f;
+//        }
+//        else if([[[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValue"] isEqualToString:@"Booth"])
+//        {
+//            return 110.0f;
+//        }
+//        else
+//        {
+//            return 110.0f;
+//        }
+//    }
+//    else
+//    {
+//        return 30;
+//    }
+    
+    if(viewSeating.hidden == false)
     {
-        if([[[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValue"] isEqualToString:@"First Available"])
-        {
-            return 185.0f;
-        }
-        else if([[[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValue"] isEqualToString:@"Patio"])
-        {
-            return 110.0f;
-        }
-        else if([[[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValue"] isEqualToString:@"Bar"])
-        {
-            return 90.0f;
-        }
-        else if([[[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValue"] isEqualToString:@"Booth"])
-        {
-            return 110.0f;
-        }
-        else
-        {
-            return 110.0f;
-        }
+        return 88;
     }
     else
     {
-        return 30;
+        return 50;
+    }
+    
+    
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if(viewSeating.hidden == false)
+    {
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 10)];
+    [view setBackgroundColor:[UIColor whiteColor]]; //your background color...
+    return view;
+    }
+    else
+    {
+        return nil;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if(viewSeating.hidden == false)
+    {
+        return 8;
+    }
+    else
+    {
+        return 0;
     }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if(tblViewParties.hidden == true)
+//    if(tblViewParties.hidden == true)
+//    {
+//        
+//        static NSString *CellIdentifier = @"Cell";
+//        
+//        SeatPrefCell *cell = (SeatPrefCell *)[tblViewSeatPref dequeueReusableCellWithIdentifier:CellIdentifier];
+//        
+//        if (cell == nil)
+//        {
+//            cell = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([SeatPrefCell class]) owner:nil options:nil] lastObject];
+//            //cell.contentView.transform = CGAffineTransformMakeRotation(M_PI * 3/2);
+//            cell.contentView.transform = CGAffineTransformMakeRotation(M_PI /2);
+//            
+//        }
+//        
+//        
+//        [[cell.btnSeatPref imageView]setContentMode:UIViewContentModeScaleAspectFit];
+//        
+//        [cell.btnSeatPref addTarget:self action:@selector(btnPressed:) forControlEvents:UIControlEventTouchUpInside];
+//        [cell.btnSeatPref setTag:indexPath.row];
+//        
+//        [cell.btnPrefOnLabel addTarget:self action:@selector(btnPressed:) forControlEvents:UIControlEventTouchUpInside];
+//        [cell.btnPrefOnLabel setTag:indexPath.row];
+//        
+//        
+//        cell.lblSeatPref.text = [[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValue"];
+//        
+//        cell.lblSeatPref.textColor = [UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0];
+//        
+//        cell.lblSeatPref.font = [UIFont boldSystemFontOfSize:20.0];
+//        
+//        cell.lblSaperator.backgroundColor = [UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0];
+//        cell.lblSaperator.hidden = true;
+//        
+//        
+//        if([selectedPref count] > 0)
+//        {
+//            for(int i=0; i<[selectedPref count];i++)
+//            {
+//                
+//                if([[[selectedPref objectAtIndex:i] valueForKey:@"prefValueId"] isEqualToNumber:[[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValueId"]])
+//                {
+//                    cell.btnSeatPref.selected = TRUE;
+//                }
+//                //else
+//                 //{
+//                 //cell.btnFriend.selected = FALSE;
+//                 //}
+//            }
+//        }
+//        else
+//        {
+//            cell.btnSeatPref.selected = FALSE;
+//        }
+//        
+//        
+//        
+//        cell.backgroundColor = [UIColor clearColor];
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        
+//        return cell;
+//        
+//    }
+//    else
+//    {
+//        static NSString *cellIdentifier = @"Cell";
+//        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+//        if (!cell)
+//        {
+//            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+//        }
+//        
+//        if(indexPath.row == 0)
+//        {
+//            cell.textLabel.text =[NSString stringWithFormat:@"# of people in your party*"];
+//        }
+//        else
+//        {
+//            cell.textLabel.text =[NSString stringWithFormat:@"%ld",indexPath.row] ;
+//        }
+//        cell.backgroundColor = [UIColor clearColor];
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        cell.textLabel.textColor = [UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0];
+//        cell.textLabel.font = [UIFont boldSystemFontOfSize:20.0];
+//        
+//        return cell;
+//            
+//    }
+    
+    if(viewSeating.hidden == false)
     {
         
         static NSString *CellIdentifier = @"Cell";
         
-        SeatPrefCell *cell = (SeatPrefCell *)[tblViewSeatPref dequeueReusableCellWithIdentifier:CellIdentifier];
+        seatingPreferenceCell *cell = (seatingPreferenceCell *)[tblView_Seating dequeueReusableCellWithIdentifier:CellIdentifier];
         
-        if (cell == nil)
+        //if (cell == nil)
         {
-            cell = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([SeatPrefCell class]) owner:nil options:nil] lastObject];
+            cell = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([seatingPreferenceCell class]) owner:nil options:nil] lastObject];
             //cell.contentView.transform = CGAffineTransformMakeRotation(M_PI * 3/2);
-            cell.contentView.transform = CGAffineTransformMakeRotation(M_PI /2);
+            //cell.contentView.transform = CGAffineTransformMakeRotation(M_PI /2);
             
         }
         
         
-        [[cell.btnSeatPref imageView]setContentMode:UIViewContentModeScaleAspectFit];
         
-        [cell.btnSeatPref addTarget:self action:@selector(btnPressed:) forControlEvents:UIControlEventTouchUpInside];
-        [cell.btnSeatPref setTag:indexPath.row];
+        [cell.btnSeating addTarget:self action:@selector(btnPressed:) forControlEvents:UIControlEventTouchUpInside];
         
-        [cell.btnPrefOnLabel addTarget:self action:@selector(btnPressed:) forControlEvents:UIControlEventTouchUpInside];
-        [cell.btnPrefOnLabel setTag:indexPath.row];
+        [cell.btnSeating setTag:indexPath.section];
         
         
-        cell.lblSeatPref.text = [[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValue"];
         
-        cell.lblSeatPref.textColor = [UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0];
         
-        cell.lblSeatPref.font = [UIFont boldSystemFontOfSize:20.0];
+        cell.lblSeatingPrefernce.text = [[seatPrefArray objectAtIndex:indexPath.section] valueForKey:@"prefValue"];
         
-        cell.lblSaperator.backgroundColor = [UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0];
-        cell.lblSaperator.hidden = true;
+        cell.lblSeatingPrefernce.text = Localized(cell.lblSeatingPrefernce.text);
+        
+        
         
         
         if([selectedPref count] > 0)
@@ -1479,119 +1717,135 @@
             for(int i=0; i<[selectedPref count];i++)
             {
                 
-                if([[[selectedPref objectAtIndex:i] valueForKey:@"prefValueId"] isEqualToNumber:[[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValueId"]])
+                if([[[selectedPref objectAtIndex:i] valueForKey:@"prefValueId"] isEqualToNumber:[[seatPrefArray objectAtIndex:indexPath.section] valueForKey:@"prefValueId"]])
                 {
-                    cell.btnSeatPref.selected = TRUE;
+                    cell.imgBGSeating.image = [UIImage imageNamed:@"btnSeatingPrefSelected"];
+                    
+                    cell.lblSeatingPrefernce.textColor = [UIColor whiteColor];
                 }
                 //else
-                 //{
-                 //cell.btnFriend.selected = FALSE;
-                 //}
+                //{
+                //cell.btnFriend.selected = FALSE;
+                //}
             }
         }
         else
         {
-            cell.btnSeatPref.selected = FALSE;
+            //cell.btnSeating.selected = FALSE;
+            
+            cell.imgBGSeating.image = [UIImage imageNamed:@"btnSeatingPrefUnSelected"];
         }
         
         
         
-        cell.backgroundColor = [UIColor clearColor];
+        cell.backgroundColor = [UIColor whiteColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         return cell;
-        
     }
     else
     {
         static NSString *cellIdentifier = @"Cell";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        UITableViewCell *cell = [tblViewLanguage dequeueReusableCellWithIdentifier:cellIdentifier];
         if (!cell)
         {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
         
-        if(indexPath.row == 0)
-        {
-            cell.textLabel.text =[NSString stringWithFormat:@"# of people in your party*"];
-        }
-        else
-        {
-            cell.textLabel.text =[NSString stringWithFormat:@"%ld",indexPath.row] ;
-        }
+        
+        cell.textLabel.text =[NSString stringWithFormat:@"%@",[[languageArray objectAtIndex:indexPath.row] valueForKey:@"langTitle"]];
+        
         cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.textLabel.textColor = [UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0];
-        cell.textLabel.font = [UIFont boldSystemFontOfSize:20.0];
+        cell.textLabel.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:35.0];
         
         return cell;
-            
     }
-    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(tblViewParties.hidden == true)
+//    if(tblViewParties.hidden == true)
+//    {
+//        
+//        /*if([selectedPref count] > 0)
+//        {
+//            for(int i=0; i<[selectedPref count];i++)
+//            {
+//                if([[[selectedPref objectAtIndex:i] valueForKey:@"prefValueId"] isEqualToNumber:[[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValueId"]])
+//                {
+//                    [selectedPref removeObjectAtIndex:i];
+//                    [tblViewSeatPref reloadData];
+//                    
+//                    return;
+//                }
+//                
+//            }
+//            
+//            for(int i=0; i<[selectedPref count];i++)
+//            {
+//                if(![[[selectedPref objectAtIndex:i] valueForKey:@"prefValueId"] isEqualToNumber:[[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValueId"]])
+//                {
+//                    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:0];
+//                    [dict setValue:[[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValueId"] forKey:@"prefValueId"];
+//                    [dict setValue:[[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValue"] forKey:@"prefValue"];
+//                    
+//                    
+//                    //[selectedCategories addObject:[[tempArray objectAtIndex:indexPath.row] valueForKey:@"categoryId"]];
+//                    
+//                    [selectedPref addObject:dict];
+//                    
+//                    [tblViewSeatPref reloadData];
+//                    
+//                    return;
+//                }
+//            }
+//        }
+//        else
+//        {
+//            
+//            NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:0];
+//            [dict setValue:[[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValueId"] forKey:@"prefValueId"];
+//            [dict setValue:[[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValue"] forKey:@"prefValue"];
+//            
+//            [selectedPref addObject:dict];
+//            [tblViewSeatPref reloadData];
+//            
+//            //[selectedCategories addObject:[[tempArray objectAtIndex:indexPath.row] valueForKey:@"categoryId"]];
+//        }*/
+//    }
+//    else
+//    {
+//        if(indexPath.row > 0)
+//        {
+//            txt_your_party.text = [NSString stringWithFormat:@"%ld",indexPath.row];
+//            [tblViewParties setHidden:true];
+//            [tblViewSeatPref reloadData];
+//            
+//            [txt_your_party.layer setBorderWidth:1.5];
+//            [txt_your_party.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+//        }
+//    }
+    
+    if(viewSeating.hidden == true)
     {
+        [[NSUserDefaults standardUserDefaults] setObject:[[languageArray objectAtIndex:indexPath.row] valueForKey:@"langCode"] forKey:@"appLanguage"];
         
-        /*if([selectedPref count] > 0)
-        {
-            for(int i=0; i<[selectedPref count];i++)
-            {
-                if([[[selectedPref objectAtIndex:i] valueForKey:@"prefValueId"] isEqualToNumber:[[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValueId"]])
-                {
-                    [selectedPref removeObjectAtIndex:i];
-                    [tblViewSeatPref reloadData];
-                    
-                    return;
-                }
-                
-            }
-            
-            for(int i=0; i<[selectedPref count];i++)
-            {
-                if(![[[selectedPref objectAtIndex:i] valueForKey:@"prefValueId"] isEqualToNumber:[[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValueId"]])
-                {
-                    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:0];
-                    [dict setValue:[[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValueId"] forKey:@"prefValueId"];
-                    [dict setValue:[[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValue"] forKey:@"prefValue"];
-                    
-                    
-                    //[selectedCategories addObject:[[tempArray objectAtIndex:indexPath.row] valueForKey:@"categoryId"]];
-                    
-                    [selectedPref addObject:dict];
-                    
-                    [tblViewSeatPref reloadData];
-                    
-                    return;
-                }
-            }
-        }
-        else
-        {
-            
-            NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:0];
-            [dict setValue:[[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValueId"] forKey:@"prefValueId"];
-            [dict setValue:[[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValue"] forKey:@"prefValue"];
-            
-            [selectedPref addObject:dict];
-            [tblViewSeatPref reloadData];
-            
-            //[selectedCategories addObject:[[tempArray objectAtIndex:indexPath.row] valueForKey:@"categoryId"]];
-        }*/
-    }
-    else
-    {
-        if(indexPath.row > 0)
-        {
-            txt_your_party.text = [NSString stringWithFormat:@"%ld",indexPath.row];
-            [tblViewParties setHidden:true];
-            [tblViewSeatPref reloadData];
-            
-            [txt_your_party.layer setBorderWidth:1.5];
-            [txt_your_party.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
-        }
+        [[NSUserDefaults standardUserDefaults] setValue:[[languageArray objectAtIndex:indexPath.row] valueForKey:@"langTitle"] forKey:@"btnSelectLanguage"];
+        
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [btnLanguage_New setTitle:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"btnSelectLanguage"]] forState:UIControlStateNormal];
+        
+        
+        Lbl_waiting.text = Localized(@"Parties Waiting");
+        Lbl_Now_serving.text = Localized(@"Now Serving");
+        Lbl_Est_Wait_Time.text = Localized(@"Est. Wait Time");
+        [Btn_Press_Here_Checkin setTitle:Localized(@"PRESS HERE TO CHECK-IN") forState:UIControlStateNormal];
+        
+        viewLanguage.hidden = true;
     }
 }
 
@@ -1627,11 +1881,11 @@
         //if(![txt_Name.text isEqualToString:@""] & ![txt_Phone_Or_Mail.text isEqualToString:@""] & ![txt_your_party.text isEqualToString:@""])
         //if(![txt_Name.text isEqualToString:@""] & ![txt_your_party.text isEqualToString:@""]) // 10/06/2017
 //        if(![txt_Name.text isEqualToString:@""] & (![txtAdults.text isEqualToString:@""] | ![txtChildrens.text isEqualToString:@""] | ![txtInfants.text isEqualToString:@""]))
-        if(![txt_Name.text isEqualToString:@""] & ![txtAdults.text isEqualToString:@""])
+        if(![txtName_Name.text isEqualToString:@""] & ![txtAdults_Member.text isEqualToString:@""])
         {
             ///
             
-            if([[[NSUserDefaults standardUserDefaults] valueForKey:@"smsRoute"]  isEqualToString:@""])
+            /*if([[[NSUserDefaults standardUserDefaults] valueForKey:@"smsRoute"]  isEqualToString:@""])
             {
                 
             }
@@ -1649,72 +1903,14 @@
                     [txt_Phone_Or_Mail.layer setBorderWidth:1.5];
                     [txt_Phone_Or_Mail.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
                 }
-            }
+            }*/
             
-            if(([txtAdults.text isEqualToString:@"0"] | [txtAdults.text isEqualToString:@"00"]) & ([txtChildrens.text isEqualToString:@"0"] | [txtChildrens.text isEqualToString:@"00"]) & ([txtInfants.text isEqualToString:@"0"] | [txtInfants.text isEqualToString:@"00"]))
-            {
-                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please enter values more than 0." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                
-                [alert show];
-                
-                [txtAdults.layer setBorderWidth:1.5];
-                [txtAdults.layer setBorderColor:[UIColor redColor].CGColor];
-                [txtChildrens.layer setBorderWidth:1.5];
-                [txtChildrens.layer setBorderColor:[UIColor redColor].CGColor];
-                [txtInfants.layer setBorderWidth:1.5];
-                [txtInfants.layer setBorderColor:[UIColor redColor].CGColor];
-                
-                return;
-            }
-            else if (![txtInfants.text isEqualToString:@"0"] && ![txtInfants.text isEqualToString:@"00"] && ![txtInfants.text isEqualToString:@""])
-            {
-                if(([txtAdults.text isEqualToString:@"0"] | [txtAdults.text isEqualToString:@"00"] | [txtAdults.text isEqualToString:@""]) & ([txtChildrens.text isEqualToString:@"0"] | [txtChildrens.text isEqualToString:@"00"] | [txtChildrens.text isEqualToString:@""]))
-                {
-                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please enter values for adults or childrens." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                    
-                    [alert show];
-                    
-                    return;
-                }
-            }
-            else if ([txtAdults.text isEqualToString:@"0"] || [txtAdults.text isEqualToString:@"00"] || [txtAdults.text isEqualToString:@""])
-            {
-                if(([txtChildrens.text isEqualToString:@"0"] | [txtChildrens.text isEqualToString:@"00"] | [txtChildrens.text isEqualToString:@""]) & ([txtInfants.text isEqualToString:@"0"] | [txtInfants.text isEqualToString:@"00"] | [txtInfants.text isEqualToString:@""]))
-                {
-                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please enter values for adults, childrens or infants." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                    
-                    [alert show];
-                    
-                    return;
-                }
-            }
-            else if ([txtChildrens.text isEqualToString:@"0"] || [txtChildrens.text isEqualToString:@"00"] || [txtChildrens.text isEqualToString:@""])
-            {
-                if(([txtAdults.text isEqualToString:@"0"] | [txtAdults.text isEqualToString:@"00"] | [txtAdults.text isEqualToString:@""]) & ([txtInfants.text isEqualToString:@"0"] | [txtInfants.text isEqualToString:@"00"] | [txtInfants.text isEqualToString:@""]))
-                {
-                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please enter values for adults, childrens or infants." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                    
-                    [alert show];
-                    
-                    return;
-                }
-            }
-            else if ([txtInfants.text isEqualToString:@"0"] || [txtInfants.text isEqualToString:@"00"] || [txtInfants.text isEqualToString:@""])
-            {
-                if(([txtAdults.text isEqualToString:@"0"] | [txtAdults.text isEqualToString:@"00"] | [txtAdults.text isEqualToString:@""]) & ([txtChildrens.text isEqualToString:@"0"] | [txtChildrens.text isEqualToString:@"00"] | [txtChildrens.text isEqualToString:@""]))
-                {
-                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please enter values for adults, childrens or infants." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                    
-                    [alert show];
-                    
-                    return;
-                }
-            }
+
             
             
-            int adults = (int) [txtAdults.text integerValue];
-            int childrens = (int) [txtChildrens.text integerValue];
-            int infants = (int) [txtInfants.text integerValue];
+            int adults = (int) [txtAdults_Member.text integerValue];
+            int childrens = (int) [txtChildren_Member.text integerValue];
+            int infants = (int) [txtInfants_Member.text integerValue];
             
             int parties = adults+childrens+infants;
             
@@ -1738,22 +1934,22 @@
             
             ///
             
-            [txt_Name.layer setBorderWidth:1.5];
-            [txt_Name.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
-            [txt_Phone_Or_Mail.layer setBorderWidth:1.5];
-            [txt_Phone_Or_Mail.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
-            [txt_your_party.layer setBorderWidth:1.5];
-            [txt_your_party.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
-            
-            
-            [txtAdults.layer setBorderWidth:1.5];
-            [txtAdults.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
-            
-            [txtChildrens.layer setBorderWidth:1.5];
-            [txtChildrens.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
-            
-            [txtInfants.layer setBorderWidth:1.5];
-            [txtInfants.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+//            [txt_Name.layer setBorderWidth:1.5];
+//            [txt_Name.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+//            [txt_Phone_Or_Mail.layer setBorderWidth:1.5];
+//            [txt_Phone_Or_Mail.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+//            [txt_your_party.layer setBorderWidth:1.5];
+//            [txt_your_party.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+//            
+//            
+//            [txtAdults.layer setBorderWidth:1.5];
+//            [txtAdults.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+//            
+//            [txtChildrens.layer setBorderWidth:1.5];
+//            [txtChildrens.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+//            
+//            [txtInfants.layer setBorderWidth:1.5];
+//            [txtInfants.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
             
             /*if(selectedPref.count == 0)
             {
@@ -1786,7 +1982,7 @@
                 optIn = @"false";
             }
             
-            NSString *number = [self formatIdentificationNumber:[NSString stringWithFormat:@"%@",txt_Phone_Or_Mail.text]];
+            NSString *number = [self formatIdentificationNumber:[NSString stringWithFormat:@"%@",txtPhone_PN.text]];
             
             NSString *postString;
             
@@ -1796,7 +1992,7 @@
             {
                 //NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"SMS", @"prefType",number, @"sms",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences", nil];
                 
-                NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"SMS", @"prefType",number, @"sms",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences",strAdults,@"noOfAdults",strChildrens,@"noOfChildren",strInfants,@"noOfInfants",@"",@"quoteTime",@"-1",@"partyType", nil];
+                NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txtName_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"SMS", @"prefType",number, @"sms",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences",strAdults,@"noOfAdults",strChildrens,@"noOfChildren",strInfants,@"noOfInfants",@"",@"quoteTime",@"-1",@"partyType", nil];
                 
                 //convert object to data
                 jsonDataReq = [NSJSONSerialization dataWithJSONObject:newDatasetInfo options:kNilOptions error:&error];
@@ -1861,7 +2057,11 @@
                      //if([[json valueForKey:@"OP"] isEqualToString:@"ADD"])
                      if([[json valueForKey:@"status"] isEqualToString:@"SUCCESS"])
                      {
+                         viewThankYou.hidden = false;
+                         
+                         
                          lbl_Count.text = [NSString stringWithFormat:@"(%@)",[[json valueForKey:@"serviceResult"]valueForKey:@"totalPartiesWaiting"]];
+                         
                          Lbl_Now_serving_Count.text = [NSString stringWithFormat:@"#%@",[[json valueForKey:@"serviceResult"]valueForKey:@"nowServingParty"]];
                          
                          NSString *minutes = [NSString stringWithFormat:@"%@",[[json valueForKey:@"serviceResult"]valueForKey:@"totalWaitTime"]];
@@ -1876,8 +2076,12 @@
                          
                          Lbl_Number.text = [NSString stringWithFormat:@"#%@",[[json valueForKey:@"serviceResult"]valueForKey:@"guestRank"]];
                          
-                         form_View.hidden = YES;
-                         Thank_View.hidden = NO;
+                         //form_View.hidden = YES;
+                         //Thank_View.hidden = NO;
+                         
+                         lblHours_TY.text = [NSString stringWithFormat:@"%.2d",hour];
+                         lblMinutes_TY.text = [NSString stringWithFormat:@"%02d",min];
+                         lblNumber_TY.text = [NSString stringWithFormat:@"#%@",[[json valueForKey:@"serviceResult"]valueForKey:@"guestRank"]];
                      }
                      else if([[json valueForKey:@"success"] isEqualToNumber:[NSNumber numberWithInt:-1]])
                      {
@@ -2109,6 +2313,8 @@
         NSData *data = [message dataUsingEncoding:NSUTF8StringEncoding];
         id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         
+        
+        
         if([[json valueForKey:@"OP"] isEqualToString:@"ADD"])
         {
             lbl_Count.text = [NSString stringWithFormat:@"(%@)",[json valueForKey:@"totalPartiesWaiting"]];
@@ -2188,6 +2394,18 @@
             lblHours.text = [NSString stringWithFormat:@"%.2d",hour];
             lblMinutes.text = [NSString stringWithFormat:@"%02d",min];
             lblColon.hidden = false;
+        }
+        
+        if([[json valueForKey:@"OP"] isEqualToString:@"PPT_CHG"])
+        {
+            NSString *minutes = [NSString stringWithFormat:@"%@",[json valueForKey:@"ORG_TOTAL_WAIT_TIME"]];
+            int hour = [minutes intValue] / 60;
+            int min = [minutes intValue] % 60;
+            NSString *timeString = [NSString stringWithFormat:@"%.2d⁚%02d", hour, min];
+            Lbl_Est_Time.text = [NSString stringWithFormat:@"%@",timeString];
+            
+            lblHours.text = [NSString stringWithFormat:@"%.2d",hour];
+            lblMinutes.text = [NSString stringWithFormat:@"%02d",min];
         }
         
     }];
@@ -2511,6 +2729,182 @@ replacementString:(NSString *)string
         }
         
         return YES;
+    }
+    else if (textField == txtAdults_Member)
+    {
+        
+        
+        if([self checkforNumeric:string] == YES)
+        {
+            int length = (int)[self getLength:textField.text];
+            
+            if(length > 1)
+            {
+                if(range.length == 0)
+                {
+                    [self hideKeyBoard];
+                    return NO;
+                    
+                }
+            }
+        }
+        else
+        {
+            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:@"Please enter numbers only." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
+            [objAlert show];
+            
+            
+            return NO;
+        }
+        
+        return YES;
+    }
+    else if (textField == txtChildren_Member)
+    {
+        
+        if([self checkforNumeric:string] == YES)
+        {
+            int length = (int)[self getLength:textField.text];
+            
+            if(length > 1)
+            {
+                if(range.length == 0)
+                {
+                    [self hideKeyBoard];
+                    return NO;
+                    
+                }
+            }
+        }
+        else
+        {
+            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:@"Please enter numbers only." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
+            [objAlert show];
+            
+            
+            return NO;
+        }
+        
+        return YES;
+    }
+    else if (textField == txtInfants_Member)
+    {
+        
+        if([self checkforNumeric:string] == YES)
+        {
+            int length = (int)[self getLength:textField.text];
+            
+            if(length > 1)
+            {
+                if(range.length == 0)
+                {
+                    [self hideKeyBoard];
+                    return NO;
+                    
+                }
+            }
+        }
+        else
+        {
+            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:@"Please enter numbers only." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
+            [objAlert show];
+            
+            
+            return NO;
+        }
+        
+        return YES;
+    }
+    else if(textField == txtPhone_PN)
+    {
+        
+        
+        
+        
+        if([self checkforNumeric:string] == YES)
+        {
+            int length = (int)[self getLength:textField.text];
+            //NSLog(@"Length  =  %d ",length);
+            
+            if(length == 10)
+            {
+                if(range.length == 0)
+                {
+                    [self hideKeyBoard];
+                    return NO;
+                    
+                }
+            }
+            
+            if(length == 3)
+            {
+                NSString *num = [self formatNumber:textField.text];
+                textField.text = [NSString stringWithFormat:@"(%@) ",num];
+                
+                if(range.length > 0)
+                    textField.text = [NSString stringWithFormat:@"%@",[num substringToIndex:3]];
+            }
+            else if(length == 6)
+            {
+                NSString *num = [self formatNumber:textField.text];
+                //NSLog(@"%@",[num  substringToIndex:3]);
+                //NSLog(@"%@",[num substringFromIndex:3]);
+                //textField.text = [NSString stringWithFormat:@"(%@) %@-",[num  substringToIndex:3],[num substringFromIndex:3]]; // Mayur
+                textField.text = [NSString stringWithFormat:@"(%@)-%@-",[num  substringToIndex:3],[num substringFromIndex:3]];
+                
+                if(range.length > 0)
+                    textField.text = [NSString stringWithFormat:@"(%@)%@",[num substringToIndex:3],[num substringFromIndex:3]];
+            }
+            
+            return YES;
+            
+            /*NSString *text = textField.text;
+             
+             NSString *acceptedcharacters = @"0123456789-/";
+             NSCharacterSet *cs = [[NSCharacterSet characterSetWithCharactersInString:acceptedcharacters] invertedSet];
+             const char * _char = [string cStringUsingEncoding:NSUTF8StringEncoding];
+             int isBackSpace = strcmp(_char, "\b");
+             if (isBackSpace == -8) {
+             NSLog(@"deleted");
+             }
+             else {
+             if (textField.text.length == 1) {
+             
+             textField.text = [NSString stringWithFormat:@"%@-",text];
+             return YES;
+             }
+             if (textField.text.length == 5) {
+             
+             textField.text = [NSString stringWithFormat:@"%@-",text];
+             return YES;
+             }
+             if (textField.text.length == 9) {
+             
+             textField.text = [NSString stringWithFormat:@"%@-",text];
+             return YES;
+             }
+             }
+             if (textField == txt_Phone_Or_Mail) {
+             NSUInteger newLength = [textField.text length] + [string length] - range.length;
+             return (newLength > 14) ? NO : YES;
+             
+             }
+             
+             NSString *filtered = [[string componentsSeparatedByCharactersInSet:cs] componentsJoinedByString:@""];
+             
+             return [string isEqualToString:filtered];*/
+        }
+        else
+        {
+            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:@"please enter numbers only." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
+            [objAlert show];
+            
+            
+            return NO;
+        }
+        
+        return YES;
+        
     }
     else
     {
@@ -2870,4 +3264,205 @@ replacementString:(NSString *)string
     
 }
 
+
+# pragma mark - 
+# pragma mark - Custom methods for New UI
+
+// 1. Name View
+
+- (IBAction)btnHomeView_clicked:(id)sender
+{
+    [txtFieldRef resignFirstResponder];
+    
+    viewName.hidden = true;
+    viewMembers.hidden = true;
+    viewSeating.hidden = true;
+    viewPhoneNumber.hidden = true;
+    viewThankYou.hidden = true;
+}
+- (IBAction)btnNext_Name_clicked:(id)sender
+{
+    
+    viewMembers.hidden = false;
+    
+    txtAdults_Member.text = @"";
+    txtChildren_Member.text = @"";
+    txtInfants_Member.text = @"";
+    [btnNext_Member setTitle:Localized(@"NEXT") forState:UIControlStateNormal];
+    [btnPrevious_Member setTitle:Localized(@"PREVIOUS") forState:UIControlStateNormal];
+    
+    lblAdults_member.text = Localized(@"ADULTS");
+    lblChildren_Member.text = Localized(@"CHILDREN");
+    lblInfants_Member.text = Localized(@"INFANTS");
+    
+    [txtAdults_Member becomeFirstResponder];
+}
+
+// 2. Member View
+
+- (IBAction)btnPrevious_Member_clicked:(id)sender
+{
+    [txtFieldRef resignFirstResponder];
+    
+    viewMembers.hidden = true;
+    viewName.hidden = false;
+}
+
+- (IBAction)btnNext_Member_Clicked:(id)sender
+{
+    [txtFieldRef resignFirstResponder];
+    
+    if(([txtAdults_Member.text isEqualToString:@"0"] | [txtAdults_Member.text isEqualToString:@"00"]) & ([txtChildren_Member.text isEqualToString:@"0"] | [txtChildren_Member.text isEqualToString:@"00"]) & ([txtInfants_Member.text isEqualToString:@"0"] | [txtInfants_Member.text isEqualToString:@"00"]))
+    {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please enter values more than 0." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [alert show];
+        
+        return;
+    }
+    else if (![txtInfants_Member.text isEqualToString:@"0"] && ![txtInfants_Member.text isEqualToString:@"00"] && ![txtInfants_Member.text isEqualToString:@""])
+    {
+        if(([txtAdults_Member.text isEqualToString:@"0"] | [txtAdults_Member.text isEqualToString:@"00"] | [txtAdults_Member.text isEqualToString:@""]) & ([txtChildren_Member.text isEqualToString:@"0"] | [txtChildren_Member.text isEqualToString:@"00"] | [txtChildren_Member.text isEqualToString:@""]))
+        {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please enter values for adults or childrens." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            
+            [alert show];
+            
+            return;
+        }
+    }
+    else if ([txtAdults_Member.text isEqualToString:@"0"] || [txtAdults_Member.text isEqualToString:@"00"] || [txtAdults_Member.text isEqualToString:@""])
+    {
+        if(([txtChildren_Member.text isEqualToString:@"0"] | [txtChildren_Member.text isEqualToString:@"00"] | [txtChildren_Member.text isEqualToString:@""]) & ([txtInfants_Member.text isEqualToString:@"0"] | [txtInfants_Member.text isEqualToString:@"00"] | [txtInfants_Member.text isEqualToString:@""]))
+        {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please enter values for adults, childrens or infants." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            
+            [alert show];
+            
+            return;
+        }
+    }
+    else if ([txtChildren_Member.text isEqualToString:@"0"] || [txtChildren_Member.text isEqualToString:@"00"] || [txtChildren_Member.text isEqualToString:@""])
+    {
+        if(([txtAdults_Member.text isEqualToString:@"0"] | [txtAdults_Member.text isEqualToString:@"00"] | [txtAdults_Member.text isEqualToString:@""]) & ([txtInfants_Member.text isEqualToString:@"0"] | [txtInfants_Member.text isEqualToString:@"00"] | [txtInfants_Member.text isEqualToString:@""]))
+        {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please enter values for adults, childrens or infants." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            
+            [alert show];
+            
+            return;
+        }
+    }
+    else if ([txtInfants_Member.text isEqualToString:@"0"] || [txtInfants_Member.text isEqualToString:@"00"] || [txtInfants_Member.text isEqualToString:@""])
+    {
+        if(([txtAdults_Member.text isEqualToString:@"0"] | [txtAdults_Member.text isEqualToString:@"00"] | [txtAdults_Member.text isEqualToString:@""]) & ([txtChildren_Member.text isEqualToString:@"0"] | [txtChildren_Member.text isEqualToString:@"00"] | [txtChildren_Member.text isEqualToString:@""]))
+        {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please enter values for adults, childrens or infants." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            
+            [alert show];
+            
+            return;
+        }
+    }
+    
+    viewSeating.hidden = false;
+    
+    if(seatPrefArray.count > 0)
+    {
+        [tblView_Seating reloadData];
+    }
+    
+    [btnNext_Seating setTitle:Localized(@"NEXT") forState:UIControlStateNormal];
+    [btnPrevious_Seating setTitle:Localized(@"PREVIOUS") forState:UIControlStateNormal];
+    lblSeating_Preference.text = Localized(@"Seating Preference");
+    
+    
+}
+
+
+// 3. Seating View
+
+- (IBAction)btnPrevious_Seating_clicked:(id)sender
+{
+    viewSeating.hidden = true;
+    viewMembers.hidden = false;
+}
+
+- (IBAction)btnNext_Seating_Clicked:(id)sender
+{
+    viewPhoneNumber.hidden = false;
+    
+    [btnNext_PN setTitle:Localized(@"NEXT") forState:UIControlStateNormal];
+    [btnPrevious_PN setTitle:Localized(@"PREVIOUS") forState:UIControlStateNormal];
+    lblEnterPN.text = Localized(@"Enter Your Phone Number");
+    
+    txtPhone_PN.text = @"";
+    [txtPhone_PN becomeFirstResponder];
+}
+
+- (IBAction)btnSeating1_clicked:(id)sender {
+}
+
+- (IBAction)btnSeating2_clicked:(id)sender {
+}
+
+- (IBAction)btnSeating3_clicked:(id)sender {
+}
+
+- (IBAction)btnSeating4_clicked:(id)sender {
+}
+
+- (IBAction)btnSeating5_clicked:(id)sender {
+}
+
+// 4. Phone Number View
+
+
+- (IBAction)btnPrevious_PN_Clicked:(id)sender
+{
+    [txtPhone_PN resignFirstResponder];
+    
+    viewPhoneNumber.hidden = true;
+    viewSeating.hidden = false;
+}
+
+- (IBAction)btnNext_PN_Clicked:(id)sender
+{
+    [txtPhone_PN resignFirstResponder];
+    
+    [btnSendSms_TY setTitle:Localized(@"SEND SMS") forState:UIControlStateNormal];
+    [btnDone_TY setTitle:Localized(@"DONE") forState:UIControlStateNormal];
+    lblThankyou_TY.text = Localized(@"Thank you! Your customer number is:");
+    lblEWT_TY.text = Localized(@"Est. Wait Time");
+    lblParty_TY.text = Localized(@"Your whole party must be present to be seated");
+    lblQR_TY.text = Localized(@"Scan this QR code to view live updates on your phone");
+    
+    //viewThankYou.hidden = false;
+    
+    [self Btn_Add__me_wait_list_Clicked:self];
+    
+}
+
+- (IBAction)btnSendSms_TY_Clicked:(id)sender
+{
+    
+}
+
+- (IBAction)btnDone_TY_Clicked:(id)sender
+{
+    viewName.hidden = true;
+    viewMembers.hidden = true;
+    viewSeating.hidden = true;
+    viewPhoneNumber.hidden = true;
+    viewThankYou.hidden = true;
+}
+- (IBAction)btnLanguage_New_Clicked:(id)sender
+{
+    viewSeating.hidden = true;
+    viewLanguage.hidden = false;
+    viewLanguage.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:0.9];
+    
+    [tblViewLanguage reloadData];
+    
+}
 @end

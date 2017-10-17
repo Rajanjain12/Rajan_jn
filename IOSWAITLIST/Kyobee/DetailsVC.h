@@ -57,6 +57,9 @@
     
     IBOutlet UIButton *btnForOptions;
     
+    IBOutlet UIButton *btnLanguage_New;
+    
+    
     
     
     IBOutlet UIView *form_View;
@@ -109,6 +112,73 @@
     IBOutlet UILabel *Lbl_Three;
     IBOutlet UIButton *Btn_Thank_you_ok;
     
+    
+    // New UI
+    
+    // 1. Name View
+    
+    IBOutlet UIView *viewName;
+    IBOutlet UITextField *txtName_Name;
+    IBOutlet UILabel *lblClientBase_Name;
+    IBOutlet UIButton *btnNext_Name;
+    
+    
+    // 2. Member View
+    
+    IBOutlet UIView *viewMembers;
+    IBOutlet UIButton *btnPrevious_Member;
+    IBOutlet UIButton *btnNext_Member;
+    IBOutlet UILabel *lblAdults_member;
+    IBOutlet UITextField *txtAdults_Member;
+    IBOutlet UILabel *lblChildren_Member;
+    IBOutlet UITextField *txtChildren_Member;
+    IBOutlet UILabel *lblInfants_Member;
+    IBOutlet UITextField *txtInfants_Member;
+    
+    // 3. Seating View
+    
+    IBOutlet UIView *viewSeating;
+    IBOutlet UIButton *btnPrevious_Seating;
+    IBOutlet UIButton *btnNext_Seating;
+    IBOutlet UIButton *btnSeating1;
+    IBOutlet UIButton *btnSeating2;
+    IBOutlet UIButton *btnSeating3;
+    IBOutlet UIButton *btnSeating4;
+    IBOutlet UIButton *btnSeating5;
+    IBOutlet UITableView *tblView_Seating;
+    IBOutlet UILabel *lblSeating_Preference;
+
+    // 4. Phone Number View
+    
+    IBOutlet UIView *viewPhoneNumber;
+    IBOutlet UIButton *btnPrevious_PN;
+    IBOutlet UIButton *btnNext_PN;
+    IBOutlet UITextField *txtPhone_PN;
+    IBOutlet UILabel *lblEnterPN;
+    
+    // 5. Thank You View
+    
+    IBOutlet UIView *viewThankYou;
+    IBOutlet UILabel *lblThankyou_TY;
+    IBOutlet UILabel *lblNumber_TY;
+    IBOutlet UILabel *lblVLine_TY;
+    IBOutlet UILabel *lblEWT_TY;
+    IBOutlet UILabel *lblHours_TY;
+    IBOutlet UILabel *lblColun_TY;
+    IBOutlet UILabel *lblMinutes_TY;
+    IBOutlet UILabel *lblParty_TY;
+    IBOutlet UIImageView *imgQRCode_TY;
+    IBOutlet UILabel *lblOr_TY;
+    IBOutlet UIButton *btnSendSms_TY;
+    IBOutlet UILabel *lblQR_TY;
+    IBOutlet UIButton *btnDone_TY;
+    
+    // 6. Language View
+    IBOutlet UIView *viewLanguage;
+    IBOutlet UILabel *lblSelectLanguage;
+    IBOutlet UITableView *tblViewLanguage;
+    
+    NSMutableArray *languageArray;
     
     UITextField *txtFieldRef;
 }
@@ -166,5 +236,54 @@
 
 
 //
+
+
+
+//-------------- New UI -------------
+
+
+- (IBAction)btnHomeView_clicked:(id)sender;
+
+// 1. Name View
+
+- (IBAction)btnNext_Name_clicked:(id)sender;
+
+// 2. Member View
+
+- (IBAction)btnPrevious_Member_clicked:(id)sender;
+- (IBAction)btnNext_Member_Clicked:(id)sender;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *childrenToAdults;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *childrenToInfants;
+
+// 3. Member View
+
+- (IBAction)btnPrevious_Seating_clicked:(id)sender;
+- (IBAction)btnNext_Seating_Clicked:(id)sender;
+- (IBAction)btnSeating1_clicked:(id)sender;
+- (IBAction)btnSeating2_clicked:(id)sender;
+- (IBAction)btnSeating3_clicked:(id)sender;
+- (IBAction)btnSeating4_clicked:(id)sender;
+- (IBAction)btnSeating5_clicked:(id)sender;
+
+// 4. Phone Number View
+
+- (IBAction)btnPrevious_PN_Clicked:(id)sender;
+- (IBAction)btnNext_PN_Clicked:(id)sender;
+
+// 5. Thank You View
+
+- (IBAction)btnSendSms_TY_Clicked:(id)sender;
+- (IBAction)btnDone_TY_Clicked:(id)sender;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *lblThankYou_Leading;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *orToQR;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *orToSMS;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *EWT_Trailing;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *minutes_Trailing;
+
+
+// btn language
+
+- (IBAction)btnLanguage_New_Clicked:(id)sender;
+
 
 @end

@@ -1,0 +1,44 @@
+/* 
+  Language.strings
+  Kyobee
+
+  Created by Shruti Shah on 10/10/17.
+
+*/
+
+
+// English
+
+"Parties Waiting" = "Parties Waiting";
+
+"Now Serving" = "Now Serving";
+
+"Est. Wait Time" = "Est. Wait Time";
+
+"PRESS HERE TO CHECK-IN" = "PRESS HERE TO CHECK-IN";
+
+"Enter Your Name" = "Enter Your Name";
+
+"NEXT" = "NEXT";
+"PREVIOUS" = "PREVIOUS";
+
+"ADULTS" = "ADULTS";
+"CHILDREN" = "CHILDREN";
+"INFANTS" = "INFANTS";
+
+"Seating Preference" = "Seating Preference";
+"Patio" = "Patio";
+"Bar" = "Bar";
+"First Available" = "First Available";
+"Booth" = "Booth";
+"Table" = "Table";
+
+"Enter Your Phone Number" = "Enter Your Phone Number";
+
+"Thank you! Your customer number is:" = "Thank you! Your customer number is:";
+
+"Your whole party must be present to be seated" = "Your whole party must be present to be seated";
+"Scan this QR code to view live updates on your phone" = "Scan this QR code to view live updates on your phone";
+"DONE" = "DONE";
+"SEND SMS" = "SEND SMS";
+

@@ -38,6 +38,21 @@
     
     [self setUP];
     
+    
+    
+    if (! [[NSUserDefaults standardUserDefaults] objectForKey: @"appLanguage"])
+    {
+        NSArray * languages = [NSLocale preferredLanguages];
+        NSString * language = [languages objectAtIndex: 0];
+        if ([language hasPrefix: @"zh-Hans"]) {// match
+            [[NSUserDefaults standardUserDefaults] setObject: @"zh-Hans" forKey:@"appLanguage"];
+        } else {
+            [[NSUserDefaults standardUserDefaults] setObject: @"en" forKey:@"appLanguage"];
+        }
+    }
+    
+    
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)

@@ -452,6 +452,36 @@ replacementString:(NSString *)string
 }
 - (IBAction)btnCheckinMode_clicked:(id)sender
 {
+    
+    // For Language
+    
+    NSMutableArray *langArray = [[NSMutableArray alloc] initWithCapacity:0];
+    
+    NSMutableDictionary *dict1 = [[NSMutableDictionary alloc] initWithCapacity:0];
+    
+    [dict1 setValue:@"ENGLISH" forKey:@"langTitle"];
+    [dict1 setValue:@"en" forKey:@"langCode"];
+    [langArray addObject:dict1];
+    
+    NSMutableDictionary *dict2 = [[NSMutableDictionary alloc] initWithCapacity:0];
+    
+    [dict2 setValue:@"简体中文" forKey:@"langTitle"];
+    [dict2 setValue:@"zh-Hans" forKey:@"langCode"];[langArray addObject:dict2];
+    
+    NSMutableDictionary *dict3 = [[NSMutableDictionary alloc] initWithCapacity:0];
+    
+    [dict3 setValue:@"中国传统的" forKey:@"langTitle"];
+    [dict3 setValue:@"zh-Hant" forKey:@"langCode"];
+    [langArray addObject:dict3];
+    
+    [[NSUserDefaults standardUserDefaults] setValue:langArray forKey:@"languageArray"];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:@"en" forKey:@"appLanguage"];
+    
+    [[NSUserDefaults standardUserDefaults] setValue:@"ENGLISH" forKey:@"btnSelectLanguage"];
+    
+    //
+    
     [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"checkinmodeselected"];
     [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"displaymodeselected"];
     [[NSUserDefaults standardUserDefaults] synchronize];
