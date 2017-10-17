@@ -21,7 +21,7 @@ public class General{
     public static final String URL = "http://jbossdev-kyobee.rhcloud.com/";
 
     // qa
-    //public static final String URL = "http://jbossqa-kyobee.rhcloud.com/";
+    ///public static final String URL = "http://jbossqa-kyobee.rhcloud.com/";
 
     /*public static final String LOGIN=URL+"rest/loginCredAuth?";//username=jkim@kyobee.com&password=jaekim";
     public static final String WAIT_LIST_REST_ACTION=URL+"web/rest/waitlistRestAction/totalwaittimemetricks?orgid=";

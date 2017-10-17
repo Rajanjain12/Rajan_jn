@@ -24,9 +24,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -286,6 +288,20 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
         return true;
     }
 
+    @Override
+    public boolean dispatchTouchEvent (MotionEvent ev){
+        View view = getCurrentFocus();
+        if (view != null && (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) && view instanceof EditText && !view.getClass().getName().startsWith("android.webkit.")) {
+            int scrcoords[] = new int[2];
+            view.getLocationOnScreen(scrcoords);
+            float x = ev.getRawX() + view.getLeft() - scrcoords[0];
+            float y = ev.getRawY() + view.getTop() - scrcoords[1];
+            if (x < view.getLeft() || x > view.getRight() || y < view.getTop() || y > view.getBottom())
+                ((InputMethodManager)this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow((this.getWindow().getDecorView().getApplicationWindowToken()), 0);
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
     public void popUpAddMe (){
         requestAddGuest = new RequestAddGuest ();
         DisplayMetrics displayMetrics = new DisplayMetrics ();
@@ -297,7 +313,7 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
             width = (displayMetrics.widthPixels * 95) / 100;
         }
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder (activity);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder (GuestActivity.this);
         LayoutInflater layout = (LayoutInflater) getSystemService (Context.LAYOUT_INFLATER_SERVICE);
         final View view = layout.inflate (R.layout.popup_add_new_guest, (ViewGroup) findViewById (R.id.pop_add_new_guest));
         alertDialogBuilder.setView (view);

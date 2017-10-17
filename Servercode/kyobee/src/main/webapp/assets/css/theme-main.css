@@ -931,6 +931,7 @@ z-index: 3;
 .well-guest .form-control {
     font-size: 18px !important;
     height: 45px !important;
+    margin-bottom: 25px;
 }
 .well-guest textarea{
     font-size: 18px !important;    

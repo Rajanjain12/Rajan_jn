@@ -85,6 +85,10 @@ public class AppInitializer {
     public static String staticFooterMsg;
 	public String smsRouteId;
 	public String smsRouteOrgId; 
+	//added by krupali
+	public static String bandwidthUserID;
+	public static String bandwidthApiToken;
+	public static String bandwidthApiSecretkey;
 
     /**
      * rpmPropertiesMap will contain all the props defined in rpm.properties at application startup.
@@ -179,6 +183,11 @@ public class AppInitializer {
             staticFooterMsg = extProperties.getProperty("footerMsg");
             smsRouteId = extProperties.getProperty("smsRouteId");
             smsRouteOrgId = extProperties.getProperty("smsRouteOrgId");
+            
+            //added on 13/10/2017 by krupali
+            bandwidthUserID = extProperties.getProperty("bandwidthUserID");
+            bandwidthApiToken = extProperties.getProperty("bandwidthApiToken");
+            bandwidthApiSecretkey = extProperties.getProperty("bandwidthApiSecretkey");
 
             // Removed the path from the appVersion.properties and moved just a single path ITSM_PATH to
             // props/conf/rpm.properties file.

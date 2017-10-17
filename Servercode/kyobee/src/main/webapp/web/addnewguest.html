@@ -84,7 +84,7 @@
 				        <h5 ng-message="required">Infants cannot be blank</h5>
 				  </span> -->
                   </div>
-                   <div class="col-md-6 col-sm-6 col-xs-12" >
+                   <div class="col-md-6 col-sm-6 col-xs-12" ng-show="userDTO.smsRoute == null || userDTO.smsRoute == ''">
                 <div class="form-group panel-form-partytype addf3"  >
                
               			<div class="addf1">
@@ -104,9 +104,9 @@
               </div>
               </div>
                 
-               <div class="row margin-bottom-25">
+               <div class="row">
                	<div class="col-md-12 col-sm-12 col-xs-12" >
-                	 <input type="number" id="quoteTime" name="quoteTime" class="form-control" min=0 max=500 ng-model="guestDTO.quoteTime" placeholder="Quote Time" />
+                	 <input type="number" ng-show="userDTO.smsRoute == null || userDTO.smsRoute == ''" id="quoteTime" name="quoteTime" class="form-control" min=0 max=500 ng-model="guestDTO.quoteTime" placeholder="Quote Time" />
                 </div> 
                </div>
                  </div> 

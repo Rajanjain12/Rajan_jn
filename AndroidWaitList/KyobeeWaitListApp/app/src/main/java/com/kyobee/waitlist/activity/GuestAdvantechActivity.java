@@ -616,7 +616,7 @@ public class GuestAdvantechActivity extends AppCompatActivity implements RealTim
     @Override
     protected void onDestroy (){
         super.onDestroy ();
-        realTimePush.disConnect ();
+        realTimePush.disConnect (login);
     }
 
     public void callWaiting (boolean progress){

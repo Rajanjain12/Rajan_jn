@@ -43,6 +43,7 @@
 				<label ng-show="toggleColumnShowHide == false" ><a style="cursor:pointer; font-weight:bold; text-decoration: underline;" class="theme-fontcolor" ng-click="showToggleColumn();">Show Toggle Column</a></label>
 				<label ng-show="toggleColumnShowHide == true" ><a href="javascript:" style="text-decoration: underline;" class="theme-fontcolor" ng-click="showToggleColumn();">Hide Toggle Column</a></label><!-- <label ng-show="toggleColumn == false" >Show Toggle Column</label>
 				<a href="javascript:" ng-click="toggleColumns('seat')" ng-model="toggleColumn.seat" ng-switch="toggleColumn.seat">Seat</a> --><!-- <a href="javascript:" ng-click="toggleColumns('no')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.no == true}">No.</a> -->
+				<a href="javascript:" ng-click="toggleColumns('partyRank')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.partyRank == true}">Party Rank</a>
 				<a href="javascript:" ng-click="toggleColumns('partyType')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.partyType == true}">Party Type</a>
 				<a href="javascript:" ng-click="toggleColumns('noOfParty')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.noOfParty == true}">No. Of Party</a>
 				<a href="javascript:" ng-click="toggleColumns('name')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.name == true}"">Name</a>
@@ -96,7 +97,7 @@
                                       <span class="glyphicon glyphicon-minus"></span>
                                   </button>
                               </span>
-                              <input type="text" name="quant[1]" class="form-control input-number" ng-model="waitTime" min="1" max="10">
+                              <input type="text" name="quant[1]" class="form-control input-number" ng-model="waitTime" min="1" max="99" readonly>
                               <span class="input-group-btn">
                                   <button type="button" class="btn btn-red btn-number theme-color" data-type="plus" data-field="quant[1]">
                                       <span class="glyphicon glyphicon-plus"></span>
@@ -115,7 +116,7 @@
                                       <span class="glyphicon glyphicon-minus"></span>
                                   </button>
                               </span>
-                              <input type="text" name="quant[2]" class="form-control input-number" ng-model="notifyFirst" min="1" max="10">
+                              <input type="text" name="quant[2]" class="form-control input-number" ng-model="notifyFirst" min="1" max="10" readonly>
                               <span class="input-group-btn">
                                   <button type="button" class="btn btn-red btn-number theme-color" data-type="plus" data-field="quant[2]">
                                       <span class="glyphicon glyphicon-plus"></span>
@@ -247,6 +248,7 @@
                             <tr>
                                 <th class="numeric" ng-show="toggleColumn.seat">Seat</th>
                                 <!-- <th class="numeric" ng-show="toggleColumn.no">No.</th> -->
+                                <th class="numeric" ng-show="toggleColumn.partyRank">Party Rank</th>
                                 <th class="numeric" ng-show="toggleColumn.partyType">Party Type</th>
                                 <th class="numeric" ng-show="toggleColumn.noOfParty">No. Of Party</th>
                                 <th class="numeric" ng-show="toggleColumn.name">Name</th>
@@ -263,6 +265,7 @@
                             <tr ng-repeat="record in guestWaitList">
                                 <td data-title="Seat" class="numeric" ng-show="toggleColumn.seat"><a class="clickpopup" style="cursor:pointer" ng-click="showPopup(record);"><img src="../assets/img/greenarrow.png"></a></td>
                                 <!-- <td data-title="No." class="numeric" ng-show="toggleColumn.no">{{record.rank}}</td> -->
+                                <td data-title="partyRank" class="numeric" ng-show="toggleColumn.partyRank">{{record.rank}}</td>
                                 <td data-title="partyType" class="numeric" ng-show="toggleColumn.partyType">
                                 	<span ng-if="record.partyType == 0" ng-class="{'highlight_smallparty' : record.partyType == 0 }">Small</span>
                                 	<span ng-if="record.partyType == 1" ng-class="{'highlight_largeparty' : record.partyType == 1 }">Large</span>
@@ -306,6 +309,7 @@
                             <tr>
                                 <!-- <th class="numeric1" ng-show="toggleColumn.no">No.</th> -->
                                 <th class="numeric">Seated</br>or</br>Deleted</th>						<!-- krupali(10/07/2017) -->
+                                <th class="numeric" ng-show="toggleColumn.partyRank">Party Rank</th>
                                 <th class="numeric1" ng-show="toggleColumn.partyType">Party Type</th>
                                 <th class="numeric1" ng-show="toggleColumn.noOfParty">No. Of Party</th>
                                 <th class="numeric1" ng-show="toggleColumn.name">Name</th>
@@ -324,6 +328,7 @@
                                 	<img ng-if="record.status == 'SEATED'" src="../assets/img/seated.png" >
                                 	<img ng-if="record.status == 'DELETED'" src="../assets/img/deleted.png">
                                 </td>
+                                <td data-title="partyRank" class="numeric" ng-show="toggleColumn.partyRank">{{record.rank}}</td>
                                 <td data-title="partyType" class="numeric1" ng-show="toggleColumn.partyType">
                                 	<span ng-if="record.partyType == 0" ng-class="{'highlight_smallparty' : record.partyType == 0 }">Small</span>
                                 	<span ng-if="record.partyType == 1" ng-class="{'highlight_largeparty' : record.partyType == 1 }">Large</span>

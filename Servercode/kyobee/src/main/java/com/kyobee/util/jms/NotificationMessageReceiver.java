@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -24,6 +25,7 @@ import com.bandwidth.sdk.BandwidthClient;
 import com.bandwidth.sdk.model.ReceiptRequest;
 import com.kyobee.entity.GuestNotificationBean;
 import com.kyobee.exception.RsntException;
+import com.kyobee.util.AppInitializer;
 import com.kyobee.util.EmailUtil;
 import com.kyobee.util.common.Constants;
 import com.kyobee.util.pusher.IPusher;
@@ -249,8 +251,10 @@ public class NotificationMessageReceiver implements MessageListener{
 	
 	private void sendSMSToGuestViaBW(String toNumber,String msg,String smsRouteNo) {
 		// TODO Auto-generated method stub		
-		try {
-			BandwidthClient.getInstance().setCredentials("u-64pesbby7g33ad5n7zl3pli", "t-b7p63jg2qqalyjdcmu2xlea", "bgcrgrjx2kuhu44vspfe2mc4ozmaodem7dd7a3q");
+		try {//userID,apiToken,apisecret
+			
+			//BandwidthClient.getInstance().setCredentials("u-64pesbby7g33ad5n7zl3pli", "t-b7p63jg2qqalyjdcmu2xlea", "bgcrgrjx2kuhu44vspfe2mc4ozmaodem7dd7a3q");
+			BandwidthClient.getInstance().setCredentials(AppInitializer.bandwidthUserID, AppInitializer.bandwidthApiToken, AppInitializer.bandwidthApiSecretkey);
 			ReceiptRequest receiptRequest = ReceiptRequest.ALL;
 			
 			com.bandwidth.sdk.model.Message message = com.bandwidth.sdk.model.Message.create("+1"+toNumber, smsRouteNo, msg, receiptRequest);
