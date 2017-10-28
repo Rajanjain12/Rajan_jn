@@ -71,4 +71,9 @@ dependencies {
     compile 'in.championswimmer:SimpleFingerGestures_Android_Library:1.2'
 
     compile 'it.sephiroth.android.library.uigestures:uigesture-recognizer:1.0.0-r1-SNAPSHOT'
+
+    compile 'com.mikhaellopez:circularimageview:3.0.2'
+
+    compile 'com.github.florent37:longshadow:1.0.1'
+
 }

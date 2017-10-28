@@ -258,7 +258,6 @@ public class GuestActivity extends AppCompatActivity implements RealTimePush.Rea
             txtName.setText (activity.getString (R.string.advantech));
             //txtCopyRight.setTextColor (ContextCompat.getColor (activity, R.color.colorBlue));
         }
-
     }
 
     @Override

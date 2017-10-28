@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="oval">
+
+            <solid android:color="@color/colorRed"/>
+            <stroke android:color="@color/colorRed" android:width="5dp"/>
+            <!-- Set the same value for both width and height to get a circular shape -->
+            <size android:width="60dp" android:height="60dp"/>
+        </shape>
+    </item>
+</layer-list>
