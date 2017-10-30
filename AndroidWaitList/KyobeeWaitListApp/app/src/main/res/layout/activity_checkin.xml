@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="com.kyobee.waitlist.activity.CheckInActivity">
+    >
+
+    <com.kyobee.waitlist.customcontrol.CustomButtonBold
+        android:id="@+id/btnPrevious"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:layout_margin="15dp"
+        android:background="@drawable/round_button_red_shadow"
+        android:text="@string/previous"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        />
+
+    <RelativeLayout
+        android:id="@+id/relativeHome"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/circle_button_red_shadow"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            />
+
+        <!--<com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/imgHome"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/checkbox_true"
+            app:civ_border="true"
+            app:civ_border_color="@color/colorRed"
+            app:civ_border_width="20dp"
+            app:civ_shadow="true"
+            app:civ_shadow_color="@color/colorRed"
+            app:civ_shadow_radius="5dp"/>-->
+
+    </RelativeLayout>
+
+    <com.kyobee.waitlist.customcontrol.CustomButtonBold
+        android:id="@+id/btnNext"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_margin="15dp"
+        android:background="@drawable/round_button_red_shadow"
+        android:text="@string/next"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        />
+
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/relativeHome"
+        android:layout_above="@+id/linearBottom"
+        android:layout_margin="10dp"
+        />
+
+
+    <LinearLayout
+        android:id="@+id/linearBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
+
+        <include
+            layout="@layout/include_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </LinearLayout>
+</RelativeLayout>
