@@ -6,6 +6,8 @@ public class Constants {
 	public static final String ERROR = "ERROR";
 	public static final String SUCCESS = "SUCCESS";
 	public static final String FAILURE = "FAILURE";
+	public static final String FREETEXT = "FREETEXT";
+	
 	
 	public static final String USER_OBJ = "USER_SESSION_OBJ";
 	public static final CharSequence LOGOUT_URL = "/logout";

@@ -1025,7 +1025,7 @@ public class WaitListRestAction {
 			rootMap.put("guestRank", oWaitlistMetrics.getGuestRank());			
 			
 			if(guestDTO.getPrefType() != null)
-				sendNotification(guest, oWaitlistMetrics, "NORMAL");
+				sendNotification(guest, oWaitlistMetrics, "NORMAL", null);
 			
 			sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
 			response.setServiceResult(rootMap);
@@ -1153,7 +1153,7 @@ public class WaitListRestAction {
 			
 			if(guest.getGuestID() <= oWaitlistMetrics.getGuestToBeNotified()) {
 				Guest guestToBeNotified = waitListService.getGuestById(oWaitlistMetrics.getGuestToBeNotified());
-				sendNotification(guestToBeNotified, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED);
+				sendNotification(guestToBeNotified, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED, null);
 			}
 		}
 		sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
@@ -1295,7 +1295,7 @@ public class WaitListRestAction {
 		if(oWaitlistMetrics.getGuestToBeNotified() != -1){
 			if(guest.getGuestID() <= oWaitlistMetrics.getGuestToBeNotified()){
 				Guest guestToNotify = waitListService.getGuestById((long)oWaitlistMetrics.getGuestToBeNotified());
-				sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED);
+				sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED, null);
 			}
 		}
 		
@@ -1360,7 +1360,7 @@ public class WaitListRestAction {
 		if(oWaitlistMetrics.getGuestToBeNotified() != -1){
 			if(guest.getGuestID() <= oWaitlistMetrics.getGuestToBeNotified()){
 				Guest guestToNotify = waitListService.getGuestById((long)oWaitlistMetrics.getGuestToBeNotified());
-				sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED);
+				sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED, null);
 			}
 		}
 		
@@ -1425,7 +1425,7 @@ public class WaitListRestAction {
 			if(guestToBeSeated.getGuestID() <= guestIdToBeNotified)
 			{
 				Guest guestToNotify = waitListService.getGuestById(guestIdToBeNotified);
-				sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED);
+				sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED,null);
 			}
 		}
 		
@@ -1515,24 +1515,29 @@ public class WaitListRestAction {
 		return jsonObject;
 	}*/
 
-	private void sendNotification(Guest guestToNotify, WaitlistMetrics oWaitlistMetrics, String notificationFlag)
+	private void sendNotification(Guest guestToNotify, WaitlistMetrics oWaitlistMetrics, String notificationFlag, String freeTextContent)
 	{
 		GuestNotificationBean guestNotificationBean = new GuestNotificationBean();
 		guestNotificationBean.setEmail(guestToNotify.getEmail());
-		guestNotificationBean.setGuestCount(Long.parseLong(oWaitlistMetrics.getTotalWaitingGuest()+""));
+		if(oWaitlistMetrics != null){
+			guestNotificationBean.setGuestCount(Long.parseLong(oWaitlistMetrics.getTotalWaitingGuest()+""));
+			guestNotificationBean.setTotalWaitTime(Long.parseLong(oWaitlistMetrics.getTotalWaitTime()+""));
+			guestNotificationBean.setGuestNotifiedWaitTime(Long.parseLong(oWaitlistMetrics.getGuestNotifiedWaitTime()+""));
+			guestNotificationBean.setGuestNotifiedWaitTime(Long.parseLong(oWaitlistMetrics.getGuestNotifiedWaitTime()+""));
+			guestNotificationBean.setClientBase(oWaitlistMetrics.getClientBase());
+
+		}
 		guestNotificationBean.setGuestNoPrefix(getGuestNoPrefix(guestToNotify.getOrganizationID()));
 		guestNotificationBean.setPrefType(guestToNotify.getPrefType());
 		guestNotificationBean.setRank(guestToNotify.getRank());
 		//log.info("LOG 1 ::::: $$$$ :::::: "+guestNotificationBean.getRank());
 		guestNotificationBean.setSms(guestToNotify.getSms());
-		guestNotificationBean.setTotalWaitTime(Long.parseLong(oWaitlistMetrics.getTotalWaitTime()+""));
 		guestNotificationBean.setUuid(guestToNotify.getUuid());
 		guestNotificationBean.setNotificationFlag(notificationFlag);
-		guestNotificationBean.setGuestNotifiedWaitTime(Long.parseLong(oWaitlistMetrics.getGuestNotifiedWaitTime()+""));
 		guestNotificationBean.setDeviceId(guestToNotify.getDeviceId());
 		guestNotificationBean.setDeviceType(guestToNotify.getDeviceType());
 		guestNotificationBean.setOrgId(guestToNotify.getOrganizationID());
-		guestNotificationBean.setClientBase(oWaitlistMetrics.getClientBase());
+		guestNotificationBean.setMessage(freeTextContent);
 		waitListService.sendNotificationToGuest(guestNotificationBean);
 	}
 	
@@ -1617,5 +1622,37 @@ public class WaitListRestAction {
 	}
 	
 	/**/
+		
+		/**
+		 * This endpoint is used to send sms to particular user fron sms button on the frot end. 
+		 * Also used to leverage the free form of the sms.
+		 */
+		
+		@RequestMapping(value = "/sendSMS", method = RequestMethod.GET, produces = "application/json")
+		public Response<Map<String, String>> sendSMS(@RequestParam("guestId") Long guestId,
+													 @RequestParam("orgId") Long orgId,
+													 @RequestParam("templateID") Integer templateId, 
+													 @RequestParam("smsContent") String smsContent
+												     ){
+			System.out.println("sendSMS");
+			Response<Map<String, String>> response = new Response<Map<String,String>>();
+			try{
+				Guest guest = waitListService.getGuestById(guestId);
+				System.out.println(guestId);
+
+				System.out.println(orgId);
+
+				System.out.println(templateId);
+
+				System.out.println(smsContent);
+
+				sendNotification(guest, null, Constants.FREETEXT, smsContent);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				// TODO: handle exception
+			}
+			return response;
+		}
 	
 }
