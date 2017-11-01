@@ -18,6 +18,8 @@
 
 #define Localized(key)  [[NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"appLanguage"]] ofType:@"lproj"]] localizedStringForKey:(key) value:nil table:@"Language"]
 
+#define kText @"http://marketing.kyobee.com"
+
 #import "DetailsVC.h"
 
 #import "SeatPrefCell.h"
@@ -2082,6 +2084,7 @@
                          lblHours_TY.text = [NSString stringWithFormat:@"%.2d",hour];
                          lblMinutes_TY.text = [NSString stringWithFormat:@"%02d",min];
                          lblNumber_TY.text = [NSString stringWithFormat:@"#%@",[[json valueForKey:@"serviceResult"]valueForKey:@"guestRank"]];
+                         [self qrGenerator]; //---- QR Code Generate Function Cerated by Nilesh at 30/10/2  017
                      }
                      else if([[json valueForKey:@"success"] isEqualToNumber:[NSNumber numberWithInt:-1]])
                      {
@@ -3282,7 +3285,13 @@ replacementString:(NSString *)string
 }
 - (IBAction)btnNext_Name_clicked:(id)sender
 {
-    
+    if(txtName_Name.text.length <=0){
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please enter your name." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        
+        [alert show];
+        
+        return;
+    }
     viewMembers.hidden = false;
     
     txtAdults_Member.text = @"";
@@ -3464,5 +3473,54 @@ replacementString:(NSString *)string
     
     [tblViewLanguage reloadData];
     
+}
+
+#pragma mark - Cusotme Method For QR Genrater
+//---- QR Code Generate Function Cerated by Nilesh at 30/10/2017
+-(void)qrGenerator{
+    CIFilter *filter = [CIFilter filterWithName:@"CIQRCodeGenerator"];
+    
+    //    NSLog(@"filterAttributes:%@", filter.attributes);
+    
+    [filter setDefaults];
+    
+    NSData *data = [kText dataUsingEncoding:NSUTF8StringEncoding];
+    [filter setValue:data forKey:@"inputMessage"];
+    
+    CIImage *outputImage = [filter outputImage];
+    
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CGImageRef cgImage = [context createCGImage:outputImage
+                                       fromRect:[outputImage extent]];
+    
+    UIImage *image = [UIImage imageWithCGImage:cgImage
+                                         scale:1.
+                                   orientation:UIImageOrientationUp];
+    
+    // Resize without interpolating
+    UIImage *resized = [self resizeImage:image
+                             withQuality:kCGInterpolationNone
+                                    rate:5.0];
+    
+    imgQRCode_TY.image = resized;
+    
+    CGImageRelease(cgImage);
+}
+- (UIImage *)resizeImage:(UIImage *)image
+             withQuality:(CGInterpolationQuality)quality
+                    rate:(CGFloat)rate
+{
+    UIImage *resized = nil;
+    CGFloat width = image.size.width * rate;
+    CGFloat height = image.size.height * rate;
+    
+    UIGraphicsBeginImageContext(CGSizeMake(width, height));
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetInterpolationQuality(context, quality);
+    [image drawInRect:CGRectMake(0, 0, width, height)];
+    resized = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return resized;
 }
 @end

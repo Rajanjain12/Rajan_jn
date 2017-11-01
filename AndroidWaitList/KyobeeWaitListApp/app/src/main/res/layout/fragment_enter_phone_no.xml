@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:maskededittext="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:orientation="vertical"
+              android:padding="50dp"
+    >
+
+    <com.kyobee.waitlist.customcontrol.CustomTextViewBold
+        android:id="@+id/txtEnterPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/enter_phone"
+        android:textColor="@color/colorRed"
+        android:textSize="42sp"
+        />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        >
+
+        <com.kyobee.waitlist.customcontrol.CustomEditTextRegular
+            android:id="@+id/edt_1"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/colorTransparent"
+            android:gravity="center_horizontal"
+            android:hint="@string/enter_1"
+            android:textSize="45sp"
+            />
+
+        <com.github.reinaldoarrosi.maskededittext.MaskedEditText
+            android:id="@+id/edtPhone"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/edt_1"
+            android:background="@color/colorTransparent"
+            android:gravity="center_horizontal"
+            android:hint="@string/hint_phone"
+            android:inputType="phone"
+            android:textColor="@color/colorLightBrown"
+            android:textColorHint="@color/colorLightBrown"
+            android:textSize="45sp"
+            maskededittext:mask="(999)-999-9999"
+            />
+
+        <View
+            android:id="@+id/viewSeperator"
+            android:layout_width="80dp"
+            android:layout_height="2dp"
+            android:layout_below="@id/edt_1"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorLightBrown"
+            />
+
+        <View
+            android:id="@+id/viewSeperator1"
+            android:layout_width="350dp"
+            android:layout_height="2dp"
+            android:layout_below="@+id/edtPhone"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/viewSeperator"
+            android:background="@color/colorLightBrown"
+            />
+
+    </RelativeLayout>
+
+
+</LinearLayout>
