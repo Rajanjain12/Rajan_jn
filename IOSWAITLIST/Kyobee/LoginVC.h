@@ -32,9 +32,10 @@
     
     IBOutlet UIView *viewSelectGuestMode;
     
-    
-    
     UITextField *txtFieldRef;
+    
+    UIColor *orangeColor;
+    UIColor *blueColor;
 }
 @property (nonatomic,retain) UINavigationController *navController;
 

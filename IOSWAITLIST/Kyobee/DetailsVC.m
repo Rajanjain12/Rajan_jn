@@ -66,7 +66,12 @@
 {
     appDelegate =(AppDelegate*)[[UIApplication sharedApplication]delegate];
     
-    
+    //---- Color Code Set as per login user wise created by Nilesh at 1st Nov,2017
+    orangeColor = [UIColor colorWithRed:74.0/255.0 green:27.0/255.0 blue:27.0/255.0 alpha:1.0];
+//    orangeColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+    blueColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
+    brownColor = [UIColor colorWithRed:74.0/255.0 green:27.0/255.0 blue:27.0/255.0 alpha:1.0];
+    //----
     
     languageArray = [[NSMutableArray alloc] initWithCapacity:0];
 
@@ -321,38 +326,38 @@
         lblClientBase.text = @"KYOBEE";
         
         //Home View
-        lbl_Count.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        Lbl_waiting.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        Img_Standing_Line.backgroundColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        Lbl_Now_serving.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        Lbl_Now_serving_Count.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        Lbl_Est_Wait_Time.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        Lbl_Est_Time.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+        lbl_Count.textColor = orangeColor;
+        Lbl_waiting.textColor = orangeColor;
+        Img_Standing_Line.backgroundColor = orangeColor;
+        Lbl_Now_serving.textColor = orangeColor;
+        Lbl_Now_serving_Count.textColor = orangeColor;
+        Lbl_Est_Wait_Time.textColor = orangeColor;
+        Lbl_Est_Time.textColor = orangeColor;
         [Btn_Press_Here_Checkin.layer setCornerRadius:8.0];
-        Btn_Press_Here_Checkin.backgroundColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        lblHours.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        lblColon.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        lblMinutes.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        lblWelcome.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        lblFooter.backgroundColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        
+        Btn_Press_Here_Checkin.backgroundColor = orangeColor;
+        lblHours.textColor = orangeColor;
+        lblColon.textColor = orangeColor;
+        lblMinutes.textColor = orangeColor;
+        lblWelcome.textColor = orangeColor;
+        lblFooter.backgroundColor = orangeColor;
+        btnLanguage_New.backgroundColor = orangeColor;
         
         //Form View
         [Btn_Add_me_wait_list.layer setCornerRadius:8.0];
-        Btn_Add_me_wait_list.backgroundColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+        Btn_Add_me_wait_list.backgroundColor = orangeColor;
         
-        lblAdd_New_Guest_bg.backgroundColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+        lblAdd_New_Guest_bg.backgroundColor = orangeColor;
         
-        [Img_Required_Bg.layer setBorderColor:[UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0].CGColor];
+        [Img_Required_Bg.layer setBorderColor:orangeColor.CGColor];
         [Img_Required_Bg.layer setBorderWidth:3.0];
         [Img_Required_Bg.layer setCornerRadius:5.0];
         
         //Thank you View
-        Lbl_Number.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+        Lbl_Number.textColor = orangeColor;
         [Btn_Thank_you_ok.layer setCornerRadius:8.0];
-        Btn_Thank_you_ok.backgroundColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+        Btn_Thank_you_ok.backgroundColor = orangeColor;
         
-        [Img_thank_you_Popup.layer setBorderColor:[UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0].CGColor];
+        [Img_thank_you_Popup.layer setBorderColor:orangeColor.CGColor];
         [Img_thank_you_Popup.layer setBorderWidth:3.0];
         [Img_thank_you_Popup.layer setCornerRadius:5.0];
         
@@ -362,38 +367,79 @@
         lblClientBase.text = @"ADVANTECH";
         
         //Home View
-        lbl_Count.textColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
-        Lbl_waiting.textColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
-        Img_Standing_Line.backgroundColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
-        Lbl_Now_serving.textColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
-        Lbl_Now_serving_Count.textColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
-        Lbl_Est_Wait_Time.textColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
-        Lbl_Est_Time.textColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
+        lbl_Count.textColor = blueColor;
+        Lbl_waiting.textColor = blueColor;
+        Img_Standing_Line.backgroundColor = blueColor;
+        Lbl_Now_serving.textColor = blueColor;
+        Lbl_Now_serving_Count.textColor = blueColor;
+        Lbl_Est_Wait_Time.textColor = blueColor;
+        Lbl_Est_Time.textColor = blueColor;
         [Btn_Press_Here_Checkin.layer setCornerRadius:8.0];
-        Btn_Press_Here_Checkin.backgroundColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
-        lblHours.textColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
-        lblColon.textColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
-        lblMinutes.textColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
-        lblWelcome.textColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
-        lblFooter.backgroundColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
-        
+        Btn_Press_Here_Checkin.backgroundColor = blueColor;
+        lblHours.textColor = blueColor;
+        lblColon.textColor = blueColor;
+        lblMinutes.textColor = blueColor;
+        lblWelcome.textColor = blueColor;
+        lblFooter.backgroundColor = blueColor;
+        btnLanguage_New.backgroundColor = blueColor;
         
         //Form View
         [Btn_Add_me_wait_list.layer setCornerRadius:8.0];
-        Btn_Add_me_wait_list.backgroundColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
+        Btn_Add_me_wait_list.backgroundColor = blueColor;
         
-        lblAdd_New_Guest_bg.backgroundColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
+        lblAdd_New_Guest_bg.backgroundColor = blueColor;
         
-        [Img_Required_Bg.layer setBorderColor:[UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0].CGColor];
+        [Img_Required_Bg.layer setBorderColor:blueColor.CGColor];
         [Img_Required_Bg.layer setBorderWidth:3.0];
         [Img_Required_Bg.layer setCornerRadius:5.0];
         
         //Thank you View
-        Lbl_Number.textColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
+        Lbl_Number.textColor = blueColor;
         [Btn_Thank_you_ok.layer setCornerRadius:8.0];
-        Btn_Thank_you_ok.backgroundColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
+        Btn_Thank_you_ok.backgroundColor = blueColor;
         
-        [Img_thank_you_Popup.layer setBorderColor:[UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0].CGColor];
+        [Img_thank_you_Popup.layer setBorderColor:blueColor.CGColor];
+        [Img_thank_you_Popup.layer setBorderWidth:3.0];
+        [Img_thank_you_Popup.layer setCornerRadius:5.0];
+    }
+    else if([[[NSUserDefaults standardUserDefaults] valueForKey:@"clientBase"]  isEqual:@"sweethoneydesert"])
+    {
+        lblClientBase.text = @"KYOBEE";
+//        lblClientBase.text = @"SWETHONEYDESERT";
+        
+        //Home View
+        lbl_Count.textColor = brownColor;
+        Lbl_waiting.textColor = brownColor;
+        Img_Standing_Line.backgroundColor = brownColor;
+        Lbl_Now_serving.textColor = brownColor;
+        Lbl_Now_serving_Count.textColor = brownColor;
+        Lbl_Est_Wait_Time.textColor = brownColor;
+        Lbl_Est_Time.textColor = brownColor;
+        [Btn_Press_Here_Checkin.layer setCornerRadius:8.0];
+        Btn_Press_Here_Checkin.backgroundColor = brownColor;
+        lblHours.textColor = brownColor;
+        lblColon.textColor = brownColor;
+        lblMinutes.textColor = brownColor;
+        lblWelcome.textColor = brownColor;
+        lblFooter.backgroundColor = brownColor;
+        btnLanguage_New.backgroundColor = brownColor;
+        
+        //Form View
+        [Btn_Add_me_wait_list.layer setCornerRadius:8.0];
+        Btn_Add_me_wait_list.backgroundColor = brownColor;
+        
+        lblAdd_New_Guest_bg.backgroundColor = brownColor;
+        
+        [Img_Required_Bg.layer setBorderColor:brownColor.CGColor];
+        [Img_Required_Bg.layer setBorderWidth:3.0];
+        [Img_Required_Bg.layer setCornerRadius:5.0];
+        
+        //Thank you View
+        Lbl_Number.textColor = brownColor;
+        [Btn_Thank_you_ok.layer setCornerRadius:8.0];
+        Btn_Thank_you_ok.backgroundColor = brownColor;
+        
+        [Img_thank_you_Popup.layer setBorderColor:brownColor.CGColor];
         [Img_thank_you_Popup.layer setBorderWidth:3.0];
         [Img_thank_you_Popup.layer setCornerRadius:5.0];
     }
@@ -402,38 +448,38 @@
         lblClientBase.text = @"KYOBEE";
         
         //Home View
-        lbl_Count.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        Lbl_waiting.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        Img_Standing_Line.backgroundColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        Lbl_Now_serving.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        Lbl_Now_serving_Count.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        Lbl_Est_Wait_Time.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        Lbl_Est_Time.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+        lbl_Count.textColor = orangeColor;
+        Lbl_waiting.textColor = orangeColor;
+        Img_Standing_Line.backgroundColor = orangeColor;
+        Lbl_Now_serving.textColor = orangeColor;
+        Lbl_Now_serving_Count.textColor = orangeColor;
+        Lbl_Est_Wait_Time.textColor = orangeColor;
+        Lbl_Est_Time.textColor = orangeColor;
         [Btn_Press_Here_Checkin.layer setCornerRadius:8.0];
-        Btn_Press_Here_Checkin.backgroundColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        lblHours.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        lblColon.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        lblMinutes.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        lblWelcome.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        lblFooter.backgroundColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-        
+        Btn_Press_Here_Checkin.backgroundColor = orangeColor;
+        lblHours.textColor = orangeColor;
+        lblColon.textColor = orangeColor;
+        lblMinutes.textColor = orangeColor;
+        lblWelcome.textColor = orangeColor;
+        lblFooter.backgroundColor = orangeColor;
+        btnLanguage_New.backgroundColor = orangeColor;
         
         //Form View
         [Btn_Add_me_wait_list.layer setCornerRadius:8.0];
-        Btn_Add_me_wait_list.backgroundColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+        Btn_Add_me_wait_list.backgroundColor = orangeColor;
         
-        lblAdd_New_Guest_bg.backgroundColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+        lblAdd_New_Guest_bg.backgroundColor = orangeColor;
         
-        [Img_Required_Bg.layer setBorderColor:[UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0].CGColor];
+        [Img_Required_Bg.layer setBorderColor:orangeColor.CGColor];
         [Img_Required_Bg.layer setBorderWidth:3.0];
         [Img_Required_Bg.layer setCornerRadius:5.0];
         
         //Thank you View
-        Lbl_Number.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+        Lbl_Number.textColor = orangeColor;
         [Btn_Thank_you_ok.layer setCornerRadius:8.0];
-        Btn_Thank_you_ok.backgroundColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+        Btn_Thank_you_ok.backgroundColor = orangeColor;
         
-        [Img_thank_you_Popup.layer setBorderColor:[UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0].CGColor];
+        [Img_thank_you_Popup.layer setBorderColor:orangeColor.CGColor];
         [Img_thank_you_Popup.layer setBorderWidth:3.0];
         [Img_thank_you_Popup.layer setCornerRadius:5.0];
     }
@@ -1759,7 +1805,8 @@
         
         cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.textLabel.textColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+        cell.textLabel.textColor = [UIColor whiteColor];
+//        cell.textLabel.textColor = orangeColor;
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
         cell.textLabel.font = [UIFont boldSystemFontOfSize:35.0];
         
