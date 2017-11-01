@@ -534,6 +534,13 @@ KyobeeControllers.controller('waitListCtrl',
 						$('#deletePopup').simplePopup();
 						$scope.selectedGuest = guestObj;
 					}
+				
+					$scope.showSendSMSPopup = function(guestObj){
+						$('#sendSMSPopup').simplePopup();
+						$scope.smsContent = 'this is default message from admin';
+						$scope.selectedGuest = guestObj;
+						
+					}
 					
 					$scope.incrementCalloutCount = function(){
 						$scope.loading=true;													/* for loader(krupali 07/07/2017)*/
@@ -654,8 +661,44 @@ KyobeeControllers.controller('waitListCtrl',
 						
 					}
 					
+					$scope.sendSMS = function(){
+						$scope.successMsg = null;
+						alert($scope.userDTO.organizationId);
+						alert($scope.selectedGuest.guestID);
+
+						alert($scope.smsContent);
+
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/sendSMS?orgId=' + $scope.userDTO.organizationId + '&guestId='+$scope.selectedGuest.guestID 
+																					+ '&templateID=1'
+						 															+ '&smsContent=' +$scope.smsContent ;
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										$('#sendSMSPopup').simplePopup().hide();
+										$(".simplePopupBackground").fadeOut("fast");
+										$scope.loadWaitListPage(1);
+										$scope.successMsg = "SMS Sent Successfully."
+									} else if (data.status == "FAILURE") {
+										alert('Error while Sending SMS to Guest.');
+									}
+								}, function(error) {
+									alert('Error while Sending SMS to Guest.');
+								});
+						
+					}
+					
 					$scope.cancelDelete = function(){
 						$('#deletePopup').simplePopup().hide();
+						$(".simplePopupBackground").fadeOut("fast");
+						$scope.selectedGuest = null;
+					}
+					
+					$scope.cancelSendSMS = function(){
+						$('#sendSMSPopup').simplePopup().hide();
 						$(".simplePopupBackground").fadeOut("fast");
 						$scope.selectedGuest = null;
 					}

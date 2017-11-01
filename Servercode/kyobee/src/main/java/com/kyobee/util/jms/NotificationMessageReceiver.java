@@ -78,8 +78,12 @@ public class NotificationMessageReceiver implements MessageListener{
 		try {
 			GuestNotificationBean guestNotificationBean = (GuestNotificationBean) objectMessage.getObject();
 			String emailUrl=urlInitial + guestNotificationBean.getClientBase() + "." + urlSuffix + guestNotificationBean.getUuid();//Added LAter
-			String msg1 = "Guest #"+guestNotificationBean.getRank()+": There are "+ (guestNotificationBean.getGuestCount()-1)+" parties ahead of you w/ approx. wait-time of ";
-			if (guestNotificationBean.getTotalWaitTime() > 60) {
+			String msg1 = "";
+			if(guestNotificationBean.getRank() != null && guestNotificationBean.getGuestCount() != null){
+				 msg1 = "Guest #"+guestNotificationBean.getRank()+": There are "+ (guestNotificationBean.getGuestCount()-1)+" parties ahead of you w/ approx. wait-time of ";
+			}
+			
+			if (guestNotificationBean.getTotalWaitTime() != null && guestNotificationBean.getTotalWaitTime() > 60) {
 				int hr = (int) (guestNotificationBean.getTotalWaitTime() / 60L);
 				msg1 = msg1 + hr + " hr " + guestNotificationBean.getTotalWaitTime() % 60L + " min. ";
 			} else {
@@ -122,6 +126,10 @@ public class NotificationMessageReceiver implements MessageListener{
 				}
 				msg2 = "\n"+"- Sent by " + guestNotificationBean.getSmsSignature()+"\n";
 				subject = "Your estimated wait time";
+			}
+			else if (Constants.FREETEXT.equals(guestNotificationBean.getNotificationFlag())){
+				msg1 = guestNotificationBean.getMessage();
+				msg2 = "";
 			}
 			
 			System.out.println("+get pref type---"+guestNotificationBean.getPrefType());

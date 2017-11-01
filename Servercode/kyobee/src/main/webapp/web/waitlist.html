@@ -230,6 +230,21 @@
 	                    </div>
 	              </div>
 	           </div>
+	           
+	             <div id="sendSMSPopup" class="simplePopup border-color">
+	              <div class="confirm-table-wrap text-center">
+	                    <h2 class="theme-fontcolor">Confirm Delete Guest</h2>
+	                    <div class="guest-name">
+	                        <h1>Guest #{{selectedGuest.rank}}</h1>
+	                        <h1>{{selectedGuest.name}}</h1>
+	                        <p><textarea ng-model="smsContent" /></p>
+	                    </div>
+	                    <div class="btn-guest border-top">
+	                        <button type="button" class="btn btn-orange theme-color" ng-click="sendSMS();">SEND SMS</button>
+	                        <button type="button" class="btn btn-orange theme-color" ng-click="cancelSendSMS();">CANCEL</button>
+	                    </div>
+	              </div>
+	           </div>
 	           	 
 	           	<div class="alert alert-success" role="alert" style="margin-left: 10px; margin-right: 10px;" ng-show="successMsg != null && successMsg != ''">
 					<button type="button" class="close" ng-click="hideSuccessMsg();">&times;</button>
@@ -256,6 +271,7 @@
                                 <th class="numeric" ng-show="toggleColumn.quoteTime">Quote Time</th> 
                                 <th class="numeric" ng-show="toggleColumn.note">Note</th>
                                 <th class="numeric">Delete</th> 
+                                <th class="numeric">sendSMS</th> 
                                 <!-- <th class="numeric" ng-show="toggleColumn.seatingPref">Seating Pref.</th> -->
                                 
                                  <!-- <th class="numeric" ng-show="toggleColumn.optIn">Opt-In</th> -->                                
@@ -290,6 +306,7 @@
                                 
 								<td data-title="Note" class="numeric" ng-show="toggleColumn.note"><span ng-show="record.note == null || record.note ==''">&nbsp;</span><a popover href="javascript:void(0)" data-toggle="popover-hide" data-placement="top" data-trigger="focus" data-content="{{record.note}}"><img ng-show="record.note != null && record.note !=''" src="../assets/img/roundarrow.png" class="roundarrow"></a></td>
                                 <td data-title="Delete" class="numeric"><a style="cursor:pointer" ng-click="showDeletePopup(record);"><img src="../assets/img/delete.png" class="deleteimg"></a></td>
+                                <td data-title="Delete" class="numeric"><a style="cursor:pointer" ng-click="showSendSMSPopup(record);"><img src="../assets/img/delete.png" class="deleteimg"></a></td>
                                 
                             </tr>
                        	</tbody>
