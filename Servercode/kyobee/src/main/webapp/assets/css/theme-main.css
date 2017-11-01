@@ -547,9 +547,10 @@ p.text-msg-pswd { color: #c9ced1; font-size: 16px;  text-align: left;    display
 }
 #waitlisttable, .table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td {    
     border: none;
-    text-align: center;
-    border-bottom: 1px solid #bfb9b9;
+    text-align: center;  
+    border-bottom: 1px solid #bfb9b9;  
 }
+
 
 .footer-wrap {
     /*position: absolute;*/
@@ -743,7 +744,7 @@ a.headersh {display: none;}
     padding: 25px 0;
 }
 .guest-name {
-    margin: 5% 0;
+    margin: 2% 0;
 }
 .guest-name h1 {
     font-size: 3em;
@@ -1228,7 +1229,8 @@ z-index:3;
 padding:12px;
 width:70%;
 min-width:70%;
-
+top: 0 !important;
+    background: #fff;
 }
 
 #showpopup{
@@ -1598,4 +1600,23 @@ input[type=number]::-webkit-inner-spin-button {
 .logo-set-footer{
 	width:270px;
 	height:auto;
+}
+.send-sms-textarea{
+	width: 700px;
+    height: 100px;
+    border: 1px solid #777;
+    margin-top: 20px;
+}
+.highlite textarea:focus{
+	border:1px solid #dd4124 !important;
+	outline:none;
+}
+.error-text{
+	font-size: 14px;
+    color:#843534;
+    font-weight: bold;
+}
+.not-active {
+ pointer-events: none;
+ cursor: default;
 }

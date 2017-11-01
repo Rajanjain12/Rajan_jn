@@ -40,7 +40,7 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.selectedStatus=$scope.statusOptions[0];
 					
 					$scope.userCount = null;  /*for solving footer issue (krupali 17/07/2017)*/
-					
+					$scope.countMessage = 'Max Character limit 150';
 					/*for getting current timezone(krupali 06/07/2017)*/
 					
 					
@@ -61,7 +61,8 @@ KyobeeControllers.controller('waitListCtrl',
 							/*optIn : true,*/
 							note : true,
 							del : true,
-							partyRank : true
+							partyRank : true,
+							sendText : true
 					};
 					
 					/*$scope.offset = new date().getTimezoneOffset();*/
@@ -252,6 +253,15 @@ KyobeeControllers.controller('waitListCtrl',
 							}
 							else{
 								$scope.toggleColumn.partyRank = true;
+							}
+							break;
+						
+						case 'sendText':
+							if($scope.toggleColumn.sendText == true){
+								$scope.toggleColumn.sendText = false; 
+							}
+							else{
+								$scope.toggleColumn.sendText = true;
 							}
 							break;
 							
@@ -536,10 +546,13 @@ KyobeeControllers.controller('waitListCtrl',
 					}
 				
 					$scope.showSendSMSPopup = function(guestObj){
+						$scope.countMessage = 'Max Character limit 150';
+						$scope.errorMessage = null;
 						$('#sendSMSPopup').simplePopup();
-						$scope.smsContent = 'this is default message from admin';
 						$scope.selectedGuest = guestObj;
-						
+						//$scope.smsContent = 'this is default message from admin';
+						console.log("------------"+JSON.stringify($scope.selectedGuest));
+						$scope.smsContent = 'Guest #'+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your no. to be called. For updates: http://tinyurl.com/juvjuvn/s/'+$scope.selectedGuest.uuid+' - Sent by Demo ';
 					}
 					
 					$scope.incrementCalloutCount = function(){
@@ -662,11 +675,18 @@ KyobeeControllers.controller('waitListCtrl',
 					}
 					
 					$scope.sendSMS = function(){
+						if ($scope.smsContent == null || $scope.smsContent == '') {
+							$scope.errorMessage = 'Text message cannot be blank';
+							return;
+						}
+						$scope.loading=true;
 						$scope.successMsg = null;
-						alert($scope.userDTO.organizationId);
-						alert($scope.selectedGuest.guestID);
+						$scope.errorMessage = null;
+						
+						//alert($scope.userDTO.organizationId);
+						//alert($scope.selectedGuest.guestID);
 
-						alert($scope.smsContent);
+						//alert($scope.smsContent);
 
 						var postBody = {
 
@@ -678,14 +698,17 @@ KyobeeControllers.controller('waitListCtrl',
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
+										$scope.loading=false;
 										$('#sendSMSPopup').simplePopup().hide();
 										$(".simplePopupBackground").fadeOut("fast");
 										$scope.loadWaitListPage(1);
 										$scope.successMsg = "SMS Sent Successfully."
 									} else if (data.status == "FAILURE") {
+										$scope.loading=false;
 										alert('Error while Sending SMS to Guest.');
 									}
 								}, function(error) {
+									$scope.loading=false;
 									alert('Error while Sending SMS to Guest.');
 								});
 						
@@ -891,7 +914,18 @@ KyobeeControllers.controller('waitListCtrl',
 					});
 					});*/
 					
-										
+					$scope.setCountMessage = function(){
+						$scope.errorMessage=null;
+						var text_max = 150;
+						var text_length = $('#smsContent').val().length;
+						var text_remaining = text_max - text_length;
+						
+						$scope.countMessage = text_remaining + ' characters left';
+						  
+						if(text_length == 0){
+							$scope.countMessage = 'Enter the text message';
+						}
+					}		
 
 				} ]);
 
