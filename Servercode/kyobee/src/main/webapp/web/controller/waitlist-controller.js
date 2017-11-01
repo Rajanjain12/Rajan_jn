@@ -19,6 +19,7 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.selectedGuest = null;
 					$scope.client = null;
 					$scope.countMsgChannel = 0;
+					$scope.textSent = true;
 					
 					$scope.loading = false; /* for loader(krupali 07/07/2017)*/
 					$scope.searchName = null;
@@ -61,7 +62,8 @@ KyobeeControllers.controller('waitListCtrl',
 							/*optIn : true,*/
 							note : true,
 							del : true,
-							partyRank : true
+							partyRank : true,
+							sendText : true
 					};
 					
 					/*$scope.offset = new date().getTimezoneOffset();*/
@@ -252,6 +254,15 @@ KyobeeControllers.controller('waitListCtrl',
 							}
 							else{
 								$scope.toggleColumn.partyRank = true;
+							}
+							break;
+						
+						case 'sendText':
+							if($scope.toggleColumn.sendText == true){
+								$scope.toggleColumn.sendText = false; 
+							}
+							else{
+								$scope.toggleColumn.sendText = true;
 							}
 							break;
 							
@@ -537,9 +548,10 @@ KyobeeControllers.controller('waitListCtrl',
 				
 					$scope.showSendSMSPopup = function(guestObj){
 						$('#sendSMSPopup').simplePopup();
-						$scope.smsContent = 'this is default message from admin';
 						$scope.selectedGuest = guestObj;
-						
+						//$scope.smsContent = 'this is default message from admin';
+						console.log("------------"+JSON.stringify($scope.selectedGuest));
+						$scope.smsContent = 'Guest #'+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your no. to be called. For updates: http://tinyurl.com/juvjuvn/s/'+$scope.selectedGuest.uuid+' - Sent by Demo ';
 					}
 					
 					$scope.incrementCalloutCount = function(){
@@ -663,10 +675,10 @@ KyobeeControllers.controller('waitListCtrl',
 					
 					$scope.sendSMS = function(){
 						$scope.successMsg = null;
-						alert($scope.userDTO.organizationId);
-						alert($scope.selectedGuest.guestID);
+						//alert($scope.userDTO.organizationId);
+						//alert($scope.selectedGuest.guestID);
 
-						alert($scope.smsContent);
+						//alert($scope.smsContent);
 
 						var postBody = {
 
@@ -678,6 +690,7 @@ KyobeeControllers.controller('waitListCtrl',
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
+										$scope.textSent = true;
 										$('#sendSMSPopup').simplePopup().hide();
 										$(".simplePopupBackground").fadeOut("fast");
 										$scope.loadWaitListPage(1);
@@ -891,7 +904,16 @@ KyobeeControllers.controller('waitListCtrl',
 					});
 					});*/
 					
-										
+					var text_max = 140;
+					//$('#count_message').html(text_max + ' remaining');
+					$('#count_message').html("Max Character limit 140");
+
+					$('#smsContent').keyup(function() {
+					  var text_length = $('#smsContent').val().length;
+					  var text_remaining = text_max - text_length;
+					  
+					  $('#count_message').html(text_remaining + ' characters left');
+					});				
 
 				} ]);
 
