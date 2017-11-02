@@ -49,6 +49,9 @@
     
     self.navigationController.navigationBarHidden = TRUE;
     
+    orangeColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+    blueColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
+    
     UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 0)];
     txt_UserName.leftView = paddingView;
     txt_UserName.leftViewMode = UITextFieldViewModeAlways;

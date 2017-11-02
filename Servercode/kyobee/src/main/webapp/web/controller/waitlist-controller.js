@@ -19,6 +19,7 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.selectedGuest = null;
 					$scope.client = null;
 					$scope.countMsgChannel = 0;
+					$scope.textSent = true;
 					
 					$scope.loading = false; /* for loader(krupali 07/07/2017)*/
 					$scope.searchName = null;
@@ -926,6 +927,13 @@ KyobeeControllers.controller('waitListCtrl',
 							$scope.countMessage = 'Enter the text message';
 						}
 					}		
+
+					$('#smsContent').keyup(function() {
+					  var text_length = $('#smsContent').val().length;
+					  var text_remaining = text_max - text_length;
+					  
+					  $('#count_message').html(text_remaining + ' characters left');
+					});				
 
 				} ]);
 

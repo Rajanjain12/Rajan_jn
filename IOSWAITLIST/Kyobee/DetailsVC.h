@@ -59,9 +59,6 @@
     
     IBOutlet UIButton *btnLanguage_New;
     
-    
-    
-    
     IBOutlet UIView *form_View;
     IBOutlet UIImageView *Img_Bg_Blure;
     IBOutlet UIImageView *Img_Required_Bg;
@@ -181,6 +178,10 @@
     NSMutableArray *languageArray;
     
     UITextField *txtFieldRef;
+    
+    UIColor *orangeColor;
+    UIColor *blueColor;
+    UIColor *brownColor;
 }
 
 @property OrtcClient* ortcClient;
