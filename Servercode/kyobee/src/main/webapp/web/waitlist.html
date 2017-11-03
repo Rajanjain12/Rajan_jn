@@ -313,7 +313,24 @@
                                 
 								<td data-title="Note" class="numeric" ng-show="toggleColumn.note"><span ng-show="record.note == null || record.note ==''">&nbsp;</span><a popover href="javascript:void(0)" data-toggle="popover-hide" data-placement="top" data-trigger="focus" data-content="{{record.note}}"><img ng-show="record.note != null && record.note !=''" src="../assets/img/roundarrow.png" class="roundarrow"></a></td>
                                 <td data-title="Delete" class="numeric"><a style="cursor:pointer" ng-click="showDeletePopup(record);"><img src="../assets/img/delete.png" class="deleteimg"></a></td>
-                                <td data-title="Send Text" class="numeric" ng-show="userDTO.smsRoute != null && userDTO.smsRoute != '' && toggleColumn.sendText"><a style="cursor:pointer" ng-click="showSendSMSPopup(record);"><img src="../assets/img/ic_send-sms.png" ></a></td>
+                                <!-- <td data-title="Send Text" class="numeric" ng-show="userDTO.smsRoute != null && userDTO.smsRoute != '' && toggleColumn.sendText"><a style="cursor:pointer" ng-click="showSendSMSPopup(record);"><img src="../assets/img/ic_send-sms.png" ></a></td>-->
+                                <td data-title="Send Text" class="numeric" ng-show="userDTO.smsRoute != null && userDTO.smsRoute != '' && toggleColumn.sendText">
+                                
+                                <a style="cursor:pointer" ng-click="showSendSMSPopup(record);">
+	                                <svg version="1.1" id="theme-icon-sms" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+										viewBox="0 0 800 800" enable-background="new 0 0 800 800" xml:space="preserve">
+									<g id="Shape_1">
+										<g>
+											<path fill-rule="evenodd" clip-rule="evenodd" d="M718.309,0H83.691C38.085,0,1,37.732,1,84.127v426.444
+												c0,46.396,37.085,84.128,82.691,84.128h90.381V800L424.34,594.697h293.969c41.24,0,75.509-30.857,81.691-71.071V71.071
+												C793.817,30.857,759.549,0,718.309,0z M750.999,510.571c0,18.816-14.673,34.144-32.69,34.144H406.47L224.073,694.323V544.715
+												H83.693c-18.018,0-32.69-15.327-32.69-34.144V84.127c0-18.816,14.673-34.144,32.69-34.144h634.616
+												c18.018,0,32.69,15.327,32.69,34.144V510.571z M224.681,318.668h452.636v-49.984H224.681V318.668z M324.683,441.186h352.635
+												v-49.983H324.683V441.186z M124.682,196.126h552.635v-49.984H124.682V196.126z"/>
+										</g>
+									</g>
+									</svg>
+                                </a></td>
                                 
                             </tr>
                        	</tbody>
