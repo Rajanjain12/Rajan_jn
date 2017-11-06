@@ -121,7 +121,7 @@ public class NotificationMessageReceiver implements MessageListener{
 					emailMsg2="\n"+"- Sent by " + guestNotificationBean.getSmsSignature()+"\n";
 				}else {		
 					//Text for message has been changed and made upto 153 characters so that only single message is received
-					msg1 = "Guest #"+guestNotificationBean.getRank()+": Table is almost ready. Come back and wait for your no. to be called"
+					msg1 = "Guest #"+guestNotificationBean.getRank()+": Table is almost ready. Come back and wait for your name to be called"
 						+ "For updates: " + buildURL(guestNotificationBean.getClientBase(), guestNotificationBean.getUuid());
 				}
 				msg2 = "\n"+"- Sent by " + guestNotificationBean.getSmsSignature()+"\n";
@@ -129,7 +129,7 @@ public class NotificationMessageReceiver implements MessageListener{
 			}
 			else if (Constants.FREETEXT.equals(guestNotificationBean.getNotificationFlag())){
 				msg1 = guestNotificationBean.getMessage();
-				msg2 = "";
+				msg2 = "\n"+"- Sent by " + guestNotificationBean.getSmsSignature()+"\n";
 			}
 			
 			System.out.println("+get pref type---"+guestNotificationBean.getPrefType());
