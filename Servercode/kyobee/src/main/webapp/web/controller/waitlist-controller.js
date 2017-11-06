@@ -41,7 +41,7 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.selectedStatus=$scope.statusOptions[0];
 					
 					$scope.userCount = null;  /*for solving footer issue (krupali 17/07/2017)*/
-					
+					$scope.countMessage = 'Max Character limit 150';
 					/*for getting current timezone(krupali 06/07/2017)*/
 					
 					
@@ -547,6 +547,8 @@ KyobeeControllers.controller('waitListCtrl',
 					}
 				
 					$scope.showSendSMSPopup = function(guestObj){
+						$scope.countMessage = 'Max Character limit 150';
+						$scope.errorMessage = null;
 						$('#sendSMSPopup').simplePopup();
 						$scope.selectedGuest = guestObj;
 						//$scope.smsContent = 'this is default message from admin';
@@ -674,7 +676,14 @@ KyobeeControllers.controller('waitListCtrl',
 					}
 					
 					$scope.sendSMS = function(){
+						if ($scope.smsContent == null || $scope.smsContent == '') {
+							$scope.errorMessage = 'Text message cannot be blank';
+							return;
+						}
+						$scope.loading=true;
 						$scope.successMsg = null;
+						$scope.errorMessage = null;
+						
 						//alert($scope.userDTO.organizationId);
 						//alert($scope.selectedGuest.guestID);
 
@@ -690,15 +699,17 @@ KyobeeControllers.controller('waitListCtrl',
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
-										$scope.textSent = true;
+										$scope.loading=false;
 										$('#sendSMSPopup').simplePopup().hide();
 										$(".simplePopupBackground").fadeOut("fast");
 										$scope.loadWaitListPage(1);
 										$scope.successMsg = "SMS Sent Successfully."
 									} else if (data.status == "FAILURE") {
+										$scope.loading=false;
 										alert('Error while Sending SMS to Guest.');
 									}
 								}, function(error) {
+									$scope.loading=false;
 									alert('Error while Sending SMS to Guest.');
 								});
 						
@@ -904,9 +915,18 @@ KyobeeControllers.controller('waitListCtrl',
 					});
 					});*/
 					
-					var text_max = 140;
-					//$('#count_message').html(text_max + ' remaining');
-					$('#count_message').html("Max Character limit 140");
+					$scope.setCountMessage = function(){
+						$scope.errorMessage=null;
+						var text_max = 150;
+						var text_length = $('#smsContent').val().length;
+						var text_remaining = text_max - text_length;
+						
+						$scope.countMessage = text_remaining + ' characters left';
+						  
+						if(text_length == 0){
+							$scope.countMessage = 'Enter the text message';
+						}
+					}		
 
 					$('#smsContent').keyup(function() {
 					  var text_length = $('#smsContent').val().length;

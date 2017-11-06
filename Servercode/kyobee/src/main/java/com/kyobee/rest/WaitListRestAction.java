@@ -1647,9 +1647,12 @@ public class WaitListRestAction {
 				System.out.println(smsContent);
 
 				sendNotification(guest, null, Constants.FREETEXT, smsContent);
+				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 			}
 			catch (Exception e) {
 				e.printStackTrace();
+				CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+						"System Error - usermetriks failed");
 				// TODO: handle exception
 			}
 			return response;

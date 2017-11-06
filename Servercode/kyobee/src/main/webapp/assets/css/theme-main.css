@@ -15,6 +15,7 @@
 #border-right{border-right: 4px solid #dc4123;}
 .close-theme{color:#dd4124; right: 40px; top: 30px; cursor: pointer; z-index: 2; position: absolute; font-size: 18px;}
 
+#theme-icon-sms { fill: #EA0A0A; height: 30px; width: 30px;}
 /*.theme-color{background: #004b85;}
 .theme-fontcolor{color: #004b85;}
 .border-color{border: 1px solid #004b85;}
@@ -1602,8 +1603,21 @@ input[type=number]::-webkit-inner-spin-button {
 	height:auto;
 }
 .send-sms-textarea{
-	width: 400px;
+	width: 700px;
     height: 100px;
     border: 1px solid #777;
     margin-top: 20px;
+}
+.highlite textarea:focus{
+	border:1px solid #dd4124 !important;
+	outline:none;
+}
+.error-text{
+	font-size: 14px;
+    color:#843534;
+    font-weight: bold;
+}
+.not-active {
+ pointer-events: none;
+ cursor: default;
 }

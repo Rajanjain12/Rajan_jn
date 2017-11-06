@@ -13,3 +13,7 @@
 #border-right{border-right: 4px solid #004b85;}
 .close-theme{color:#004b85; right: 40px; top: 30px; cursor: pointer; z-index: 2; position: absolute; font-size: 18px;}
 .background{background-color: #f8f8f8;}
+
+.ngrs-range-slider .ngrs-join{background-color: #004b85 !important;}
+
+#theme-icon-sms { fill: #004b85; height: 30px; width: 30px;}

@@ -1,0 +1,13 @@
+
+/* theme stylesheet-sweethoneydessert */
+
+.theme-color{ background: #4a1b1b;}
+.theme-fontcolor{ color: #4a1b1b;}
+.border-color{border: 1px solid #4a1b1b;}
+.border-color-3{border: 3px solid #4a1b1b; border-radius:4px; }
+.border-top{border-top: 1px solid #4a1b1b;}
+#border-right{border-right: 4px solid #4a1b1b;}
+.close-theme{color:#4a1b1b; right: 20px; top: 15px; cursor: pointer; z-index: 2; position: absolute; font-size: 18px;}
+.background{background-color: #e8e8e8;}
+.ngrs-range-slider .ngrs-join{background-color: #4a1b1b !important;}
+#theme-icon-sms { fill: #4a1b1b; height: 30px; width: 30px;}
