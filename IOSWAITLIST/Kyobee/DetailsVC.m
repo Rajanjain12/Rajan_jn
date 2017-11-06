@@ -67,8 +67,8 @@
     appDelegate =(AppDelegate*)[[UIApplication sharedApplication]delegate];
     
     //---- Color Code Set as per login user wise created by Nilesh at 1st Nov,2017
-    orangeColor = [UIColor colorWithRed:74.0/255.0 green:27.0/255.0 blue:27.0/255.0 alpha:1.0];
-//    orangeColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+//    orangeColor = [UIColor colorWithRed:74.0/255.0 green:27.0/255.0 blue:27.0/255.0 alpha:1.0];
+    orangeColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
     blueColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
     brownColor = [UIColor colorWithRed:74.0/255.0 green:27.0/255.0 blue:27.0/255.0 alpha:1.0];
     //----
@@ -82,7 +82,7 @@
     
     self.lpgrLogOut = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGestures:)];
     self.lpgrLogOut.minimumPressDuration = 2.0f;
-    self.lpgrLogOut.numberOfTouchesRequired = 2;
+    self.lpgrLogOut.numberOfTouchesRequired = 1;
     self.lpgrLogOut.allowableMovement = 100.0f;
     
     //[btnLogout addGestureRecognizer:self.lpgr];
