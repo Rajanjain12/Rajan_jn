@@ -20,6 +20,7 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.client = null;
 					$scope.countMsgChannel = 0;
 					$scope.textSent = true;
+					$scope.smsContent=null;
 					
 					$scope.loading = false; /* for loader(krupali 07/07/2017)*/
 					$scope.searchName = null;
@@ -553,7 +554,7 @@ KyobeeControllers.controller('waitListCtrl',
 						$scope.selectedGuest = guestObj;
 						//$scope.smsContent = 'this is default message from admin';
 						console.log("------------"+JSON.stringify($scope.selectedGuest));
-						$scope.smsContent = 'Guest #'+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your no. to be called. For updates: http://tinyurl.com/juvjuvn/s/'+$scope.selectedGuest.uuid+' - Sent by Demo ';
+						$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: http://tinyurl.com/juvjuvn/s/'+$scope.selectedGuest.uuid;
 					}
 					
 					$scope.incrementCalloutCount = function(){
