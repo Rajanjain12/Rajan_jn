@@ -68,9 +68,9 @@
     
     //---- Color Code Set as per login user wise created by Nilesh at 1st Nov,2017
 //    orangeColor = [UIColor colorWithRed:74.0/255.0 green:27.0/255.0 blue:27.0/255.0 alpha:1.0];
-    orangeColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-    blueColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
-    brownColor = [UIColor colorWithRed:74.0/255.0 green:27.0/255.0 blue:27.0/255.0 alpha:1.0];
+//    orangeColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+//    blueColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
+//    brownColor = [UIColor colorWithRed:74.0/255.0 green:27.0/255.0 blue:27.0/255.0 alpha:1.0];
     //----
     
     languageArray = [[NSMutableArray alloc] initWithCapacity:0];
@@ -324,172 +324,113 @@
     if([[[NSUserDefaults standardUserDefaults] valueForKey:@"clientBase"]  isEqual:@"admin"])
     {
         lblClientBase.text = @"KYOBEE";
-        
-        //Home View
-        lbl_Count.textColor = orangeColor;
-        Lbl_waiting.textColor = orangeColor;
-        Img_Standing_Line.backgroundColor = orangeColor;
-        Lbl_Now_serving.textColor = orangeColor;
-        Lbl_Now_serving_Count.textColor = orangeColor;
-        Lbl_Est_Wait_Time.textColor = orangeColor;
-        Lbl_Est_Time.textColor = orangeColor;
-        [Btn_Press_Here_Checkin.layer setCornerRadius:8.0];
-        Btn_Press_Here_Checkin.backgroundColor = orangeColor;
-        lblHours.textColor = orangeColor;
-        lblColon.textColor = orangeColor;
-        lblMinutes.textColor = orangeColor;
-        lblWelcome.textColor = orangeColor;
-        lblFooter.backgroundColor = orangeColor;
-        btnLanguage_New.backgroundColor = orangeColor;
-        
-        //Form View
-        [Btn_Add_me_wait_list.layer setCornerRadius:8.0];
-        Btn_Add_me_wait_list.backgroundColor = orangeColor;
-        
-        lblAdd_New_Guest_bg.backgroundColor = orangeColor;
-        
-        [Img_Required_Bg.layer setBorderColor:orangeColor.CGColor];
-        [Img_Required_Bg.layer setBorderWidth:3.0];
-        [Img_Required_Bg.layer setCornerRadius:5.0];
-        
-        //Thank you View
-        Lbl_Number.textColor = orangeColor;
-        [Btn_Thank_you_ok.layer setCornerRadius:8.0];
-        Btn_Thank_you_ok.backgroundColor = orangeColor;
-        
-        [Img_thank_you_Popup.layer setBorderColor:orangeColor.CGColor];
-        [Img_thank_you_Popup.layer setBorderWidth:3.0];
-        [Img_thank_you_Popup.layer setCornerRadius:5.0];
-        
+        commonColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
     }
     else if([[[NSUserDefaults standardUserDefaults] valueForKey:@"clientBase"]  isEqual:@"advantech"])
     {
         lblClientBase.text = @"ADVANTECH";
-        
-        //Home View
-        lbl_Count.textColor = blueColor;
-        Lbl_waiting.textColor = blueColor;
-        Img_Standing_Line.backgroundColor = blueColor;
-        Lbl_Now_serving.textColor = blueColor;
-        Lbl_Now_serving_Count.textColor = blueColor;
-        Lbl_Est_Wait_Time.textColor = blueColor;
-        Lbl_Est_Time.textColor = blueColor;
-        [Btn_Press_Here_Checkin.layer setCornerRadius:8.0];
-        Btn_Press_Here_Checkin.backgroundColor = blueColor;
-        lblHours.textColor = blueColor;
-        lblColon.textColor = blueColor;
-        lblMinutes.textColor = blueColor;
-        lblWelcome.textColor = blueColor;
-        lblFooter.backgroundColor = blueColor;
-        btnLanguage_New.backgroundColor = blueColor;
-        
-        //Form View
-        [Btn_Add_me_wait_list.layer setCornerRadius:8.0];
-        Btn_Add_me_wait_list.backgroundColor = blueColor;
-        
-        lblAdd_New_Guest_bg.backgroundColor = blueColor;
-        
-        [Img_Required_Bg.layer setBorderColor:blueColor.CGColor];
-        [Img_Required_Bg.layer setBorderWidth:3.0];
-        [Img_Required_Bg.layer setCornerRadius:5.0];
-        
-        //Thank you View
-        Lbl_Number.textColor = blueColor;
-        [Btn_Thank_you_ok.layer setCornerRadius:8.0];
-        Btn_Thank_you_ok.backgroundColor = blueColor;
-        
-        [Img_thank_you_Popup.layer setBorderColor:blueColor.CGColor];
-        [Img_thank_you_Popup.layer setBorderWidth:3.0];
-        [Img_thank_you_Popup.layer setCornerRadius:5.0];
+        commonColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
     }
-    else if([[[NSUserDefaults standardUserDefaults] valueForKey:@"clientBase"]  isEqual:@"sweethoneydesert"])
+    else if([[[NSUserDefaults standardUserDefaults] valueForKey:@"clientBase"]  isEqual:@"sweethoneydessert"])
     {
-        lblClientBase.text = @"KYOBEE";
-//        lblClientBase.text = @"SWETHONEYDESERT";
-        
-        //Home View
-        lbl_Count.textColor = brownColor;
-        Lbl_waiting.textColor = brownColor;
-        Img_Standing_Line.backgroundColor = brownColor;
-        Lbl_Now_serving.textColor = brownColor;
-        Lbl_Now_serving_Count.textColor = brownColor;
-        Lbl_Est_Wait_Time.textColor = brownColor;
-        Lbl_Est_Time.textColor = brownColor;
-        [Btn_Press_Here_Checkin.layer setCornerRadius:8.0];
-        Btn_Press_Here_Checkin.backgroundColor = brownColor;
-        lblHours.textColor = brownColor;
-        lblColon.textColor = brownColor;
-        lblMinutes.textColor = brownColor;
-        lblWelcome.textColor = brownColor;
-        lblFooter.backgroundColor = brownColor;
-        btnLanguage_New.backgroundColor = brownColor;
-        
-        //Form View
-        [Btn_Add_me_wait_list.layer setCornerRadius:8.0];
-        Btn_Add_me_wait_list.backgroundColor = brownColor;
-        
-        lblAdd_New_Guest_bg.backgroundColor = brownColor;
-        
-        [Img_Required_Bg.layer setBorderColor:brownColor.CGColor];
-        [Img_Required_Bg.layer setBorderWidth:3.0];
-        [Img_Required_Bg.layer setCornerRadius:5.0];
-        
-        //Thank you View
-        Lbl_Number.textColor = brownColor;
-        [Btn_Thank_you_ok.layer setCornerRadius:8.0];
-        Btn_Thank_you_ok.backgroundColor = brownColor;
-        
-        [Img_thank_you_Popup.layer setBorderColor:brownColor.CGColor];
-        [Img_thank_you_Popup.layer setBorderWidth:3.0];
-        [Img_thank_you_Popup.layer setCornerRadius:5.0];
+        lblClientBase.text = @"SWEETHONEYDESSERT";
+        commonColor = [UIColor colorWithRed:74.0/255.0 green:27.0/255.0 blue:27.0/255.0 alpha:1.0];
     }
     else
     {
         lblClientBase.text = @"KYOBEE";
+        commonColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+    }
+    
+//    if([[[NSUserDefaults standardUserDefaults] valueForKey:@"clientBase"]  isEqual:@"admin"])
+//    {
+//        lblClientBase.text = @"KYOBEE";
         
         //Home View
-        lbl_Count.textColor = orangeColor;
-        Lbl_waiting.textColor = orangeColor;
-        Img_Standing_Line.backgroundColor = orangeColor;
-        Lbl_Now_serving.textColor = orangeColor;
-        Lbl_Now_serving_Count.textColor = orangeColor;
-        Lbl_Est_Wait_Time.textColor = orangeColor;
-        Lbl_Est_Time.textColor = orangeColor;
+        lbl_Count.textColor = commonColor;
+        Lbl_waiting.textColor = commonColor;
+        Img_Standing_Line.backgroundColor = commonColor;
+        Lbl_Now_serving.textColor = commonColor;
+        Lbl_Now_serving_Count.textColor = commonColor;
+        Lbl_Est_Wait_Time.textColor = commonColor;
+        Lbl_Est_Time.textColor = commonColor;
         [Btn_Press_Here_Checkin.layer setCornerRadius:8.0];
-        Btn_Press_Here_Checkin.backgroundColor = orangeColor;
-        lblHours.textColor = orangeColor;
-        lblColon.textColor = orangeColor;
-        lblMinutes.textColor = orangeColor;
-        lblWelcome.textColor = orangeColor;
-        lblFooter.backgroundColor = orangeColor;
-        btnLanguage_New.backgroundColor = orangeColor;
+        Btn_Press_Here_Checkin.backgroundColor = commonColor;
+        lblHours.textColor = commonColor;
+        lblColon.textColor = commonColor;
+        lblMinutes.textColor = commonColor;
+        lblWelcome.textColor = commonColor;
+        lblFooter.backgroundColor = commonColor;
+        btnLanguage_New.backgroundColor = commonColor;
         
         //Form View
         [Btn_Add_me_wait_list.layer setCornerRadius:8.0];
-        Btn_Add_me_wait_list.backgroundColor = orangeColor;
+        Btn_Add_me_wait_list.backgroundColor = commonColor;
         
-        lblAdd_New_Guest_bg.backgroundColor = orangeColor;
+        lblAdd_New_Guest_bg.backgroundColor = commonColor;
         
-        [Img_Required_Bg.layer setBorderColor:orangeColor.CGColor];
+        [Img_Required_Bg.layer setBorderColor:commonColor.CGColor];
         [Img_Required_Bg.layer setBorderWidth:3.0];
         [Img_Required_Bg.layer setCornerRadius:5.0];
         
         //Thank you View
-        Lbl_Number.textColor = orangeColor;
+        Lbl_Number.textColor = commonColor;
         [Btn_Thank_you_ok.layer setCornerRadius:8.0];
-        Btn_Thank_you_ok.backgroundColor = orangeColor;
+        Btn_Thank_you_ok.backgroundColor = commonColor;
         
-        [Img_thank_you_Popup.layer setBorderColor:orangeColor.CGColor];
+        [Img_thank_you_Popup.layer setBorderColor:commonColor.CGColor];
         [Img_thank_you_Popup.layer setBorderWidth:3.0];
         [Img_thank_you_Popup.layer setCornerRadius:5.0];
-    }
     
+    // 1. Name View
+     
+    [btnNext_Name.layer setCornerRadius:8.0];
+    btnNext_Name.backgroundColor = commonColor;
+    lblNameFooter.backgroundColor = commonColor;
     
-
+    // 2. Member View
     
+    [btnPrevious_Member.layer setCornerRadius:8.0];
+    btnPrevious_Member.backgroundColor = commonColor;
+    [btnNext_Member.layer setCornerRadius:8.0];
+    btnNext_Member.backgroundColor = commonColor;
+    lblAdults_member.textColor = commonColor;
+    lblChildren_Member.textColor = commonColor;
+    lblInfants_Member.textColor = commonColor;
+    lblMemberFooter.backgroundColor = commonColor;
     
+    // 3. Seating View
     
+    [btnPrevious_Seating.layer setCornerRadius:8.0];
+    btnPrevious_Seating.backgroundColor = commonColor;
+    [btnNext_Seating.layer setCornerRadius:8.0];
+    btnNext_Seating.backgroundColor = commonColor;
+    lblSeating_Preference.textColor = commonColor;
+    lblSeatingFooter.backgroundColor = commonColor;
     
+    // 4. Phone Number View
+    
+    [btnPrevious_PN.layer setCornerRadius:8.0];
+    btnPrevious_PN.backgroundColor = commonColor;
+    [btnNext_PN.layer setCornerRadius:8.0];
+    btnNext_PN.backgroundColor = commonColor;
+    lblEnterPN.textColor = commonColor;
+    lblPhoneNoFooter.backgroundColor = commonColor;
+    
+    // 5. Thank You View
+    
+    lblNumber_TY.textColor = commonColor;
+    lblVLine_TY.backgroundColor = commonColor;
+    lblEWT_TY.textColor = commonColor;
+    lblHours_TY.textColor = commonColor;
+    lblColun_TY.textColor = commonColor;
+    lblMinutes_TY.textColor = commonColor;
+    [btnSendSms_TY.layer setCornerRadius:8.0];
+    btnSendSms_TY.backgroundColor = commonColor;
+    [btnDone_TY.layer setCornerRadius:8.0];
+    btnDone_TY.backgroundColor = commonColor;
+    lblThankYouFooter.backgroundColor = commonColor;
+            
     
     [txt_Name.layer setBorderWidth:1.5];
     [txt_Name.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
@@ -1745,7 +1686,6 @@
         }
         
         
-        
         [cell.btnSeating addTarget:self action:@selector(btnPressed:) forControlEvents:UIControlEventTouchUpInside];
         
         [cell.btnSeating setTag:indexPath.section];
@@ -2108,6 +2048,7 @@
                      {
                          viewThankYou.hidden = false;
                          
+                         strQRLink = [[json valueForKey:@"serviceResult"]valueForKey:@"guestUUID"];
                          
                          lbl_Count.text = [NSString stringWithFormat:@"(%@)",[[json valueForKey:@"serviceResult"]valueForKey:@"totalPartiesWaiting"]];
                          
@@ -3333,7 +3274,7 @@ replacementString:(NSString *)string
 - (IBAction)btnNext_Name_clicked:(id)sender
 {
     if(txtName_Name.text.length <=0){
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please enter your name." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:Localized(@"Please enter your name.") delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         
         [alert show];
         
@@ -3362,6 +3303,7 @@ replacementString:(NSString *)string
     
     viewMembers.hidden = true;
     viewName.hidden = false;
+     
 }
 
 - (IBAction)btnNext_Member_Clicked:(id)sender
@@ -3370,7 +3312,7 @@ replacementString:(NSString *)string
     
     if(([txtAdults_Member.text isEqualToString:@"0"] | [txtAdults_Member.text isEqualToString:@"00"]) & ([txtChildren_Member.text isEqualToString:@"0"] | [txtChildren_Member.text isEqualToString:@"00"]) & ([txtInfants_Member.text isEqualToString:@"0"] | [txtInfants_Member.text isEqualToString:@"00"]))
     {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please enter values more than 0." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:Localized(@"Please enter values more than 0.") delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         
         [alert show];
         
@@ -3380,7 +3322,7 @@ replacementString:(NSString *)string
     {
         if(([txtAdults_Member.text isEqualToString:@"0"] | [txtAdults_Member.text isEqualToString:@"00"] | [txtAdults_Member.text isEqualToString:@""]) & ([txtChildren_Member.text isEqualToString:@"0"] | [txtChildren_Member.text isEqualToString:@"00"] | [txtChildren_Member.text isEqualToString:@""]))
         {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please enter values for adults or childrens." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:Localized(@"Please enter values for adults or childrens.") delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
             
             [alert show];
             
@@ -3391,7 +3333,7 @@ replacementString:(NSString *)string
     {
         if(([txtChildren_Member.text isEqualToString:@"0"] | [txtChildren_Member.text isEqualToString:@"00"] | [txtChildren_Member.text isEqualToString:@""]) & ([txtInfants_Member.text isEqualToString:@"0"] | [txtInfants_Member.text isEqualToString:@"00"] | [txtInfants_Member.text isEqualToString:@""]))
         {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please enter values for adults, childrens or infants." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:Localized(@"Please enter values for adults, childrens or infants.") delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
             
             [alert show];
             
@@ -3402,7 +3344,7 @@ replacementString:(NSString *)string
     {
         if(([txtAdults_Member.text isEqualToString:@"0"] | [txtAdults_Member.text isEqualToString:@"00"] | [txtAdults_Member.text isEqualToString:@""]) & ([txtInfants_Member.text isEqualToString:@"0"] | [txtInfants_Member.text isEqualToString:@"00"] | [txtInfants_Member.text isEqualToString:@""]))
         {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please enter values for adults, childrens or infants." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:Localized(@"Please enter values for adults, childrens or infants.") delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
             
             [alert show];
             
@@ -3413,7 +3355,7 @@ replacementString:(NSString *)string
     {
         if(([txtAdults_Member.text isEqualToString:@"0"] | [txtAdults_Member.text isEqualToString:@"00"] | [txtAdults_Member.text isEqualToString:@""]) & ([txtChildren_Member.text isEqualToString:@"0"] | [txtChildren_Member.text isEqualToString:@"00"] | [txtChildren_Member.text isEqualToString:@""]))
         {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please enter values for adults, childrens or infants." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:Localized(@"Please enter values for adults, childrens or infants.") delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
             
             [alert show];
             
@@ -3421,17 +3363,28 @@ replacementString:(NSString *)string
         }
     }
     
-    viewSeating.hidden = false;
-    
-    if(seatPrefArray.count > 0)
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"seatingPref"] == YES)
     {
-        [tblView_Seating reloadData];
+        viewSeating.hidden = false;
+        
+        if(seatPrefArray.count > 0)
+        {
+            [tblView_Seating reloadData];
+        }
+        
+        [btnNext_Seating setTitle:Localized(@"NEXT") forState:UIControlStateNormal];
+        [btnPrevious_Seating setTitle:Localized(@"PREVIOUS") forState:UIControlStateNormal];
+        lblSeating_Preference.text = Localized(@"Seating Preference");
+    }else{
+        viewPhoneNumber.hidden = false;
+        
+        [btnNext_PN setTitle:Localized(@"NEXT") forState:UIControlStateNormal];
+        [btnPrevious_PN setTitle:Localized(@"PREVIOUS") forState:UIControlStateNormal];
+        lblEnterPN.text = Localized(@"Enter Your Phone Number");
+        
+        txtPhone_PN.text = @"";
+        [txtPhone_PN becomeFirstResponder];
     }
-    
-    [btnNext_Seating setTitle:Localized(@"NEXT") forState:UIControlStateNormal];
-    [btnPrevious_Seating setTitle:Localized(@"PREVIOUS") forState:UIControlStateNormal];
-    lblSeating_Preference.text = Localized(@"Seating Preference");
-    
     
 }
 
@@ -3476,10 +3429,17 @@ replacementString:(NSString *)string
 
 - (IBAction)btnPrevious_PN_Clicked:(id)sender
 {
-    [txtPhone_PN resignFirstResponder];
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"seatingPref"] == YES)
+    {
+        viewSeating.hidden = true;
+        viewMembers.hidden = false;
+    }else{
+        [txtPhone_PN resignFirstResponder];
+        
+        viewPhoneNumber.hidden = true;
+        viewMembers.hidden = false;
+    }
     
-    viewPhoneNumber.hidden = true;
-    viewSeating.hidden = false;
 }
 
 - (IBAction)btnNext_PN_Clicked:(id)sender
@@ -3531,7 +3491,7 @@ replacementString:(NSString *)string
     
     [filter setDefaults];
     
-    NSData *data = [kText dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *data = [strQRLink dataUsingEncoding:NSUTF8StringEncoding];
     [filter setValue:data forKey:@"inputMessage"];
     
     CIImage *outputImage = [filter outputImage];

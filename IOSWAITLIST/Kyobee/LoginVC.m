@@ -49,9 +49,6 @@
     
     self.navigationController.navigationBarHidden = TRUE;
     
-    orangeColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-    blueColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
-    
     UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 0)];
     txt_UserName.leftView = paddingView;
     txt_UserName.leftViewMode = UITextFieldViewModeAlways;
@@ -67,6 +64,25 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    
+    if([[[NSUserDefaults standardUserDefaults] valueForKey:@"clientBase"]  isEqual:@"admin"])
+    {
+        commonColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+    }
+    else if([[[NSUserDefaults standardUserDefaults] valueForKey:@"clientBase"]  isEqual:@"advantech"])
+    {
+        commonColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
+    }
+    else if([[[NSUserDefaults standardUserDefaults] valueForKey:@"clientBase"]  isEqual:@"sweethoneydessert"])
+    {
+        commonColor = [UIColor colorWithRed:74.0/255.0 green:27.0/255.0 blue:27.0/255.0 alpha:1.0];
+    }
+    else
+    {
+        commonColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+    }
+    [btnCheckinMode.layer setCornerRadius:8.0];
+    btnCheckinMode.backgroundColor = commonColor;
     
     [txt_UserName.layer setCornerRadius:4.0];
     [txt_UserName.layer setBorderWidth:1.0];
@@ -368,6 +384,7 @@ replacementString:(NSString *)string
                          
                          //
                          
+                         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"seatingPref"];//--- Seating Preference show as per client base set
                          [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showNotPresent"];
                          [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showIncomplete"];
                          [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showParty"];

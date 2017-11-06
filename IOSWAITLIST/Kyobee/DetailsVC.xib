@@ -103,6 +103,7 @@
                 <outlet property="formViewWidth" destination="qkK-cg-RW8" id="FE7-l0-tnI"/>
                 <outlet property="form_View" destination="IjA-R1-hbP" id="Gln-2t-6qX"/>
                 <outlet property="imgQRCode_TY" destination="YES-Ac-99l" id="rjw-6h-Nat"/>
+                <outlet property="img_HomeBg" destination="jO6-YZ-jIe" id="b6h-Go-Wyr"/>
                 <outlet property="lblAdd_New_Guest_bg" destination="c4A-bt-c6U" id="p4h-Km-A2C"/>
                 <outlet property="lblAdults_member" destination="4oq-Bt-c83" id="ZXz-WS-B60"/>
                 <outlet property="lblChildren_Member" destination="z4q-Rh-N7O" id="IKg-EV-Suq"/>
@@ -116,16 +117,21 @@
                 <outlet property="lblHours" destination="xei-bC-4Lg" id="Psu-DJ-e4X"/>
                 <outlet property="lblHours_TY" destination="GsI-4m-A7R" id="cAA-wq-U36"/>
                 <outlet property="lblInfants_Member" destination="JSm-H1-CKo" id="jyE-rX-kg9"/>
+                <outlet property="lblMemberFooter" destination="PML-zp-4pH" id="qw8-uv-J6N"/>
                 <outlet property="lblMinutes" destination="sNH-k0-lvg" id="PiM-sz-IzV"/>
                 <outlet property="lblMinutes_TY" destination="lgx-M2-aWk" id="SU8-xp-zw8"/>
+                <outlet property="lblNameFooter" destination="hB2-xx-j16" id="KzU-Ff-iur"/>
                 <outlet property="lblNumber_TY" destination="gMN-6U-ERj" id="Mz4-Hi-yqu"/>
                 <outlet property="lblOnlyUSNumberValid" destination="C2B-lE-VNE" id="khI-co-xaY"/>
                 <outlet property="lblOr_TY" destination="Dd6-NV-u8b" id="13Y-RP-MTe"/>
                 <outlet property="lblParty_TY" destination="tCu-Xv-7sH" id="grU-7e-wlw"/>
+                <outlet property="lblPhoneNoFooter" destination="WOo-90-iD8" id="1B2-Zy-ev4"/>
                 <outlet property="lblPoorInternet" destination="Thd-xg-uVt" id="oat-ok-OVd"/>
                 <outlet property="lblQR_TY" destination="RX1-Tk-Zu7" id="iGw-5M-r0V"/>
+                <outlet property="lblSeatingFooter" destination="rsu-rQ-smM" id="ndV-Lj-yhD"/>
                 <outlet property="lblSeating_Preference" destination="Adl-Zy-9qE" id="wBe-PY-x7I"/>
                 <outlet property="lblSelectLanguage" destination="9Vq-Pk-QJb" id="DtZ-P8-faA"/>
+                <outlet property="lblThankYouFooter" destination="y3T-2D-mza" id="zOS-3c-VAQ"/>
                 <outlet property="lblThankYou_Leading" destination="DQg-OH-fdm" id="T4z-It-s91"/>
                 <outlet property="lblThankyou_TY" destination="wca-XZ-SX8" id="0WB-t0-OQt"/>
                 <outlet property="lblVLine_TY" destination="yot-V6-5oI" id="aw5-wH-prv"/>
@@ -1040,7 +1046,7 @@
                             <rect key="frame" x="40" y="718" width="244" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="1Vz-ae-Gpl"/>
-                                <constraint firstAttribute="width" constant="244" id="O2b-A5-gn5"/>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="244" id="O2b-A5-gn5"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="35"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

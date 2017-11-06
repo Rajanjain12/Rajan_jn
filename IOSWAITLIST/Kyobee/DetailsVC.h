@@ -118,6 +118,8 @@
     IBOutlet UITextField *txtName_Name;
     IBOutlet UILabel *lblClientBase_Name;
     IBOutlet UIButton *btnNext_Name;
+    IBOutlet UILabel *lblNameFooter;
+    IBOutlet UIImageView *img_HomeBg;
     
     
     // 2. Member View
@@ -131,6 +133,7 @@
     IBOutlet UITextField *txtChildren_Member;
     IBOutlet UILabel *lblInfants_Member;
     IBOutlet UITextField *txtInfants_Member;
+    IBOutlet UILabel *lblMemberFooter;
     
     // 3. Seating View
     
@@ -144,7 +147,8 @@
     IBOutlet UIButton *btnSeating5;
     IBOutlet UITableView *tblView_Seating;
     IBOutlet UILabel *lblSeating_Preference;
-
+    IBOutlet UILabel *lblSeatingFooter;
+    
     // 4. Phone Number View
     
     IBOutlet UIView *viewPhoneNumber;
@@ -152,6 +156,7 @@
     IBOutlet UIButton *btnNext_PN;
     IBOutlet UITextField *txtPhone_PN;
     IBOutlet UILabel *lblEnterPN;
+    IBOutlet UILabel *lblPhoneNoFooter;
     
     // 5. Thank You View
     
@@ -169,6 +174,7 @@
     IBOutlet UIButton *btnSendSms_TY;
     IBOutlet UILabel *lblQR_TY;
     IBOutlet UIButton *btnDone_TY;
+    IBOutlet UILabel *lblThankYouFooter;
     
     // 6. Language View
     IBOutlet UIView *viewLanguage;
@@ -179,9 +185,12 @@
     
     UITextField *txtFieldRef;
     
+    NSString *strQRLink;
+    
     UIColor *orangeColor;
     UIColor *blueColor;
     UIColor *brownColor;
+    UIColor *commonColor;
 }
 
 @property OrtcClient* ortcClient;

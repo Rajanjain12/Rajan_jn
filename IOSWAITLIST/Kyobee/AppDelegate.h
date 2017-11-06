@@ -59,7 +59,8 @@
 
 
 #define logoUrl @"http://jbossqa-kyobee.rhcloud.com/static/orglogos/" // QA Envireonment
-#define ServiceUrl @"http://jbossqa-kyobee.rhcloud.com/kyobee/" // QA Envireonment
+//#define ServiceUrl @"http://jbossqa-kyobee.rhcloud.com/kyobee/" // QA Envireonment
+#define ServiceUrl @"http://ec2-34-215-255-216.us-west-2.compute.amazonaws.com:8080/kyobee/" // QA Envireonment
 #define ChannelName @"RSNT_GUEST_QA_" // QA Envireonment*/
 
 

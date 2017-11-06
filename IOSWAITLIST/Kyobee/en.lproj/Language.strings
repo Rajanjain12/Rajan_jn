@@ -42,3 +42,8 @@
 "DONE" = "DONE";
 "SEND SMS" = "SEND SMS";
 
+//---- Alert Msg
+"Please enter your name." = "Please enter your name.";
+"Please enter values more than 0." = "Please enter values more than 0.";
+"Please enter values for adults or childrens." = "Please enter values for adults or childrens.";
+"Please enter values for adults, childrens or infants." = "Please enter values for adults, childrens or infants."; 

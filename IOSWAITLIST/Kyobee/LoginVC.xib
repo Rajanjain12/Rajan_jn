@@ -26,6 +26,7 @@
                 <outlet property="Img_Kyobee_logo" destination="TVX-Ou-B36" id="3fO-Gt-D1w"/>
                 <outlet property="Lbl_Remember_me" destination="BzO-pJ-bNh" id="b2K-0U-oVC"/>
                 <outlet property="Lbl_Sign_in" destination="CwH-Dq-H5f" id="2bl-qL-lWb"/>
+                <outlet property="btnCheckinMode" destination="koa-Bc-dih" id="2JI-7G-nhH"/>
                 <outlet property="btnSend" destination="3Z4-FH-hVs" id="7Mw-j7-6Re"/>
                 <outlet property="btn_Fogot_Psw" destination="pJF-Bf-Xw1" id="lXb-2O-LdU"/>
                 <outlet property="btn_Login" destination="hcc-Gs-qJ4" id="78f-Zf-v5U"/>

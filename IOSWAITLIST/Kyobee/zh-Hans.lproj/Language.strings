@@ -43,3 +43,8 @@
 "DONE" = "完成";
 "SEND SMS" = "发送信息";
 
+//---- Alert Msg
+"Please enter your name." = "请输入你的名字。";
+"Please enter values more than 0." = "请输入大于0的值。";
+"Please enter values for adults or childrens." = "请为成人或儿童输入值。";
+"Please enter values for adults, childrens or infants." = "请为成人，儿童或婴儿输入值。";

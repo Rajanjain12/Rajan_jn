@@ -22,6 +22,7 @@
     IBOutlet UIButton *btn_Fogot_Psw;
     IBOutlet UIButton *btn_Remember;
     IBOutlet UILabel *Lbl_Remember_me;
+    IBOutlet UIButton *btnCheckinMode;
     
     IBOutlet UITextField *txtEmail;
     IBOutlet UIButton *btnSend;
@@ -34,8 +35,7 @@
     
     UITextField *txtFieldRef;
     
-    UIColor *orangeColor;
-    UIColor *blueColor;
+    UIColor *commonColor;
 }
 @property (nonatomic,retain) UINavigationController *navController;
 
