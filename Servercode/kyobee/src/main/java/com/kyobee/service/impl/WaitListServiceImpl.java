@@ -43,6 +43,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kyobee.dto.GuestPreferencesDTO;
+import com.kyobee.dto.LanguageMasterDTO;
 import com.kyobee.dto.SMSDetailsWrapper;
 import com.kyobee.dto.WaitlistMetrics;
 import com.kyobee.entity.Guest;
@@ -817,6 +818,7 @@ public class WaitListServiceImpl implements IWaitListService {
 		GuestPreferencesDTO dto = new GuestPreferencesDTO();
 		List<Object[]> list = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_SEATING_PREF_VALUES).
 				setParameter("orgId", orgId).setParameter("catTypeId", Constants.CONT_LOOKUPTYPE_SEATTYPE).list();
+		System.out.println("***********pref"+list);
 		if(null != list && list.size()>0){
 			pref = new ArrayList<GuestPreferencesDTO>();
 			for (Object[] lookupvalue : list) {
@@ -1657,6 +1659,45 @@ ByOrgRecords(java.lang.Long, int, int)
 				throw new RsntException(e);
 			}
 
+		}
+	 	/*Get Organization language preferences by OrgId (krupali 07/11/2017)*/
+	 	
+		@Override
+		public List<LanguageMasterDTO> getOrganizationLanguagePref(long orgId) {
+			/*List<GuestPreferencesDTO> pref = null;
+			GuestPreferencesDTO dto1 = new GuestPreferencesDTO();
+			List<Object[]> list = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_SEATING_PREF_VALUES).
+					setParameter("orgId", orgId).setParameter("catTypeId", Constants.CONT_LOOKUPTYPE_SEATTYPE).list();
+			System.out.println("***********pref"+list);
+			if(null != list && list.size()>0){
+				pref = new ArrayList<GuestPreferencesDTO>();
+				for (Object[] lookupvalue : list) {
+					dto = new GuestPreferencesDTO();
+					System.out.println("===Long.getLong(lookupvalue[0].toString())===="+lookupvalue[0].toString());
+					dto.setPrefValueId(Long.valueOf(lookupvalue[0].toString()));
+					dto.setPrefValue(lookupvalue[1].toString());
+					pref.add(dto);
+				}
+			}*/
+			List<LanguageMasterDTO> langPref = null;
+			LanguageMasterDTO dto = new LanguageMasterDTO();
+			List<Object[]> list = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_LANGUAGE_PREF_VALUES).
+					setParameter("orgId", orgId).list();
+			System.out.println("**************pref"+list);
+			if(null != list && list.size()>0){
+				langPref = new ArrayList<LanguageMasterDTO>();
+				for (Object[] pref : list) {
+					dto = new LanguageMasterDTO();
+					System.out.println("===Long.getLong(lookupvalue[0].toString())===="+pref[0].toString());
+					dto.setLangId(Long.valueOf(pref[0].toString()));
+					dto.setLangName(pref[1].toString());
+					dto.setLangIsoCode(pref[2].toString());
+					/*dto.setPrefValueId(Long.valueOf(pref[0].toString()));
+					dto.setPrefValue(pref[1].toString());*/
+					langPref.add(dto);
+				}
+			}
+			return langPref;
 		}
 		
 	

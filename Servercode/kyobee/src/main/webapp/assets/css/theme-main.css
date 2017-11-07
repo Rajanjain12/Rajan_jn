@@ -1231,7 +1231,7 @@ padding:12px;
 width:70%;
 min-width:70%;
 top: 0 !important;
-    background: #fff;
+/* background: #fff; */
 }
 
 #showpopup{
@@ -1620,4 +1620,7 @@ input[type=number]::-webkit-inner-spin-button {
 .not-active {
  pointer-events: none;
  cursor: default;
+}
+#sendSMSPopup {
+	background-color:#fff !important;
 }

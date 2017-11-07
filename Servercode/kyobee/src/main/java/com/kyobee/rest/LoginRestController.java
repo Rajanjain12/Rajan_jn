@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kyobee.dto.GuestPreferencesDTO;
+import com.kyobee.dto.LanguageMasterDTO;
 import com.kyobee.dto.UserDTO;
 import com.kyobee.dto.common.Credential;
 import com.kyobee.dto.common.Response;
@@ -122,6 +123,15 @@ public class LoginRestController {
 					rootMap.put("smsRoute", loginDetail[4].toString());
 				else
 					rootMap.put("smsRoute", loginDetail[4]);
+				
+				List<LanguageMasterDTO> langPref = null;
+				try {
+					System.out.println(Long.valueOf(loginDetail[1].toString()).longValue());
+					langPref = waitListService.getOrganizationLanguagePref(Long.valueOf(loginDetail[1].toString()).longValue());
+					rootMap.put("languagepref",langPref);
+				} catch (Exception e) {
+					System.out.println(e);
+				}
 				
 				List<GuestPreferencesDTO> searPref =  null;
 				try {
