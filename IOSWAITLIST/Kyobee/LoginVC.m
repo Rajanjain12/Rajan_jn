@@ -336,13 +336,20 @@ replacementString:(NSString *)string
                          }
                          
                          
-                         NSArray *seatArray = [json valueForKey:@"seatpref"];
-                         
-                         if(seatArray.count > 0)
+                         if(![[json valueForKey:@"seatpref"] isEqual:[NSNull null]])
                          {
-                             [seat addObjectsFromArray:seatArray];
+                             NSArray *seatArray = [json valueForKey:@"seatpref"];
                              
-                             [[NSUserDefaults standardUserDefaults]setValue:seat forKey:@"seatpref"];
+                             if(seatArray.count > 0)
+                             {
+                                 [seat addObjectsFromArray:seatArray];
+                                 
+                                 [[NSUserDefaults standardUserDefaults]setValue:seat forKey:@"seatpref"];
+                                 [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"seatingPref"];//--- Seating Preference show as per client base set
+                             }
+                         }
+                         else{
+                             [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"seatingPref"];//--- Seating Preference show as per client base set
                          }
                          
                          //
@@ -383,8 +390,7 @@ replacementString:(NSString *)string
                          //[[NSUserDefaults standardUserDefaults] setValue:@"1" forKey:@"userthemepref"];
                          
                          //
-                         
-                         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"seatingPref"];//--- Seating Preference show as per client base set
+                          
                          [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showNotPresent"];
                          [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showIncomplete"];
                          [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showParty"];

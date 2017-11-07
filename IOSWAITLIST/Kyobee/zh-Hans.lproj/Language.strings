@@ -48,3 +48,10 @@
 "Please enter values more than 0." = "请输入大于0的值。";
 "Please enter values for adults or childrens." = "请为成人或儿童输入值。";
 "Please enter values for adults, childrens or infants." = "请为成人，儿童或婴儿输入值。";
+
+"Please check your internet connection." = "请检查您的互联网连接。";
+"The phone number that you typed is invalid. Please correct your phone number and try again." = "您输入的电话号码无效。请更正您的电话号码，然后重试。";
+"The email address that you typed is invalid. Please correct your email address and try again." = "您输入的电子邮件地址无效。请更正您的电子邮件地址，然后重试。";
+"please enter numbers only." = "请只输入数字。";
+"Are you sure you want to logout?" = "您确定要退出？";
+"Please check your internet connection." = "请检查您的互联网连接。";
