@@ -47,3 +47,10 @@
 "Please enter values more than 0." = "Please enter values more than 0.";
 "Please enter values for adults or childrens." = "Please enter values for adults or childrens.";
 "Please enter values for adults, childrens or infants." = "Please enter values for adults, childrens or infants."; 
+
+"Please check your internet connection." = "Please check your internet connection.";
+"The phone number that you typed is invalid. Please correct your phone number and try again." = "The phone number that you typed is invalid. Please correct your phone number and try again.";
+"The email address that you typed is invalid. Please correct your email address and try again." = "The email address that you typed is invalid. Please correct your email address and try again.";
+"please enter numbers only." = "please enter numbers only.";
+"Are you sure you want to logout?" = "Are you sure you want to logout?";
+"Please check your internet connection." = "Please check your internet connection.";

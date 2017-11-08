@@ -89,6 +89,7 @@
     UITableView *tblViewSeatPref;// Mayur
     NSMutableArray *seatPrefArray;
     NSMutableArray *selectedPref;
+    NSMutableArray *languageArray;
     IBOutlet UITableView *tblViewParties;
     
     IBOutlet UILabel *lblOnlyUSNumberValid;
@@ -181,15 +182,13 @@
     IBOutlet UILabel *lblSelectLanguage;
     IBOutlet UITableView *tblViewLanguage;
     
-    NSMutableArray *languageArray;
+//    NSMutableArray *languageArray;
     
     UITextField *txtFieldRef;
     
     NSString *strQRLink;
     
-    UIColor *orangeColor;
-    UIColor *blueColor;
-    UIColor *brownColor;
+    UIColor *greyColor;
     UIColor *commonColor;
 }
 

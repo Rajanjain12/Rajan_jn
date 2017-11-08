@@ -66,13 +66,6 @@
 {
     appDelegate =(AppDelegate*)[[UIApplication sharedApplication]delegate];
     
-    //---- Color Code Set as per login user wise created by Nilesh at 1st Nov,2017
-//    orangeColor = [UIColor colorWithRed:74.0/255.0 green:27.0/255.0 blue:27.0/255.0 alpha:1.0];
-//    orangeColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-//    blueColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
-//    brownColor = [UIColor colorWithRed:74.0/255.0 green:27.0/255.0 blue:27.0/255.0 alpha:1.0];
-    //----
-    
     languageArray = [[NSMutableArray alloc] initWithCapacity:0];
 
     languageArray = [[NSUserDefaults standardUserDefaults] valueForKey:@"languageArray"];
@@ -103,8 +96,7 @@
     
     seatPrefArray = [[NSMutableArray alloc] initWithCapacity:0];
     selectedPref = [[NSMutableArray alloc] initWithCapacity:0];
-    
-    
+        
     seatPrefArray = [[NSUserDefaults standardUserDefaults] valueForKey:@"seatpref"];
     
     self.navigationController.navigationBarHidden = TRUE;
@@ -321,6 +313,8 @@
     
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     
+    greyColor = greyColor;
+    
     if([[[NSUserDefaults standardUserDefaults] valueForKey:@"clientBase"]  isEqual:@"admin"])
     {
         lblClientBase.text = @"KYOBEE";
@@ -433,29 +427,29 @@
             
     
     [txt_Name.layer setBorderWidth:1.5];
-    [txt_Name.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    [txt_Name.layer setBorderColor:greyColor.CGColor];
     
     [txt_Phone_Or_Mail.layer setBorderWidth:1.5];
-    [txt_Phone_Or_Mail.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    [txt_Phone_Or_Mail.layer setBorderColor:greyColor.CGColor];
     
     [txt_your_party.layer setBorderWidth:1.5];
-    [txt_your_party.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    [txt_your_party.layer setBorderColor:greyColor.CGColor];
     
     [txtAdults.layer setBorderWidth:1.5];
-    [txtAdults.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    [txtAdults.layer setBorderColor:greyColor.CGColor];
     
     [txtChildrens.layer setBorderWidth:1.5];
-    [txtChildrens.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    [txtChildrens.layer setBorderColor:greyColor.CGColor];
     
     [txtInfants.layer setBorderWidth:1.5];
-    [txtInfants.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    [txtInfants.layer setBorderColor:greyColor.CGColor];
     
     [Img_seating_Bg.layer setBorderWidth:1.5];
     [Img_seating_Bg.layer setCornerRadius:3.0];
-    [Img_seating_Bg.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    [Img_seating_Bg.layer setBorderColor:greyColor.CGColor];
     
     [tblViewParties.layer setBorderWidth:1.5];
-    [tblViewParties.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    [tblViewParties.layer setBorderColor:greyColor.CGColor];
     
     [self loadTimeMatrics];
     
@@ -766,7 +760,7 @@
     }
     else
     {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please check your internet connection." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:Localized(@"Please check your internet connection.") delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         
         [alert show];
     }
@@ -913,22 +907,22 @@
     //[tblViewSeatPref reloadData];
     
     [txt_Name.layer setBorderWidth:1.5];
-    [txt_Name.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    [txt_Name.layer setBorderColor:greyColor.CGColor];
     
     [txt_Phone_Or_Mail.layer setBorderWidth:1.5];
-    [txt_Phone_Or_Mail.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    [txt_Phone_Or_Mail.layer setBorderColor:greyColor.CGColor];
     
     [txt_your_party.layer setBorderWidth:1.5];
-    [txt_your_party.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    [txt_your_party.layer setBorderColor:greyColor.CGColor];
     
     [txtAdults.layer setBorderWidth:1.5];
-    [txtAdults.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    [txtAdults.layer setBorderColor:greyColor.CGColor];
     
     [txtChildrens.layer setBorderWidth:1.5];
-    [txtChildrens.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    [txtChildrens.layer setBorderColor:greyColor.CGColor];
     
     [txtInfants.layer setBorderWidth:1.5];
-    [txtInfants.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+    [txtInfants.layer setBorderColor:greyColor.CGColor];
     
     //[_tableViewWB reloadData];
     
@@ -1110,11 +1104,11 @@
     
     cell.lblSeatPref.text = [[seatPrefArray objectAtIndex:index] valueForKey:@"prefValue"];
     
-    cell.lblSeatPref.textColor = [UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0];
+    cell.lblSeatPref.textColor = greyColor;
     
     cell.lblSeatPref.font = [UIFont boldSystemFontOfSize:20.0];
     
-    cell.lblSaperator.backgroundColor = [UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0];
+    cell.lblSaperator.backgroundColor = greyColor;
     cell.lblSaperator.hidden = true;
     
     
@@ -1309,11 +1303,11 @@
         
         cell.lblSeatPref.text = [[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValue"];
         
-        cell.lblSeatPref.textColor = [UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0];
+        cell.lblSeatPref.textColor = greyColor;
         
         cell.lblSeatPref.font = [UIFont boldSystemFontOfSize:20.0];
         
-        cell.lblSaperator.backgroundColor = [UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0];
+        cell.lblSaperator.backgroundColor = greyColor;
         cell.lblSaperator.hidden = true;
         
         
@@ -1364,7 +1358,7 @@
         }
         cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.textLabel.textColor = [UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0];
+        cell.textLabel.textColor = greyColor;
         cell.textLabel.font = [UIFont boldSystemFontOfSize:20.0];
         
         return cell;
@@ -1466,7 +1460,7 @@
             [tblViewSeatPref reloadData];
             
             [txt_your_party.layer setBorderWidth:1.5];
-            [txt_your_party.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+            [txt_your_party.layer setBorderColor:greyColor.CGColor];
         }
     }
 }*/
@@ -1608,11 +1602,11 @@
 //        
 //        cell.lblSeatPref.text = [[seatPrefArray objectAtIndex:indexPath.row] valueForKey:@"prefValue"];
 //        
-//        cell.lblSeatPref.textColor = [UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0];
+//        cell.lblSeatPref.textColor = greyColor;
 //        
 //        cell.lblSeatPref.font = [UIFont boldSystemFontOfSize:20.0];
 //        
-//        cell.lblSaperator.backgroundColor = [UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0];
+//        cell.lblSaperator.backgroundColor = greyColor;
 //        cell.lblSaperator.hidden = true;
 //        
 //        
@@ -1663,7 +1657,7 @@
 //        }
 //        cell.backgroundColor = [UIColor clearColor];
 //        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//        cell.textLabel.textColor = [UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0];
+//        cell.textLabel.textColor = greyColor;
 //        cell.textLabel.font = [UIFont boldSystemFontOfSize:20.0];
 //        
 //        return cell;
@@ -1814,7 +1808,7 @@
 //            [tblViewSeatPref reloadData];
 //            
 //            [txt_your_party.layer setBorderWidth:1.5];
-//            [txt_your_party.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+//            [txt_your_party.layer setBorderColor:greyColor.CGColor];
 //        }
 //    }
     
@@ -1890,7 +1884,7 @@
                 else
                 {
                     [txt_Phone_Or_Mail.layer setBorderWidth:1.5];
-                    [txt_Phone_Or_Mail.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+                    [txt_Phone_Or_Mail.layer setBorderColor:greyColor.CGColor];
                 }
             }*/
             
@@ -1924,21 +1918,21 @@
             ///
             
 //            [txt_Name.layer setBorderWidth:1.5];
-//            [txt_Name.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+//            [txt_Name.layer setBorderColor:greyColor.CGColor];
 //            [txt_Phone_Or_Mail.layer setBorderWidth:1.5];
-//            [txt_Phone_Or_Mail.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+//            [txt_Phone_Or_Mail.layer setBorderColor:greyColor.CGColor];
 //            [txt_your_party.layer setBorderWidth:1.5];
-//            [txt_your_party.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+//            [txt_your_party.layer setBorderColor:greyColor.CGColor];
 //            
 //            
 //            [txtAdults.layer setBorderWidth:1.5];
-//            [txtAdults.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+//            [txtAdults.layer setBorderColor:greyColor.CGColor];
 //            
 //            [txtChildrens.layer setBorderWidth:1.5];
-//            [txtChildrens.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+//            [txtChildrens.layer setBorderColor:greyColor.CGColor];
 //            
 //            [txtInfants.layer setBorderWidth:1.5];
-//            [txtInfants.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+//            [txtInfants.layer setBorderColor:greyColor.CGColor];
             
             /*if(selectedPref.count == 0)
             {
@@ -2127,7 +2121,7 @@
             else
             {
                 [txt_Name.layer setBorderWidth:1.5];
-                [txt_Name.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+                [txt_Name.layer setBorderColor:greyColor.CGColor];
             }
             
             if([[[NSUserDefaults standardUserDefaults] valueForKey:@"smsRoute"]  isEqualToString:@""])
@@ -2145,7 +2139,7 @@
                 else
                 {
                     [txt_Phone_Or_Mail.layer setBorderWidth:1.5];
-                    [txt_Phone_Or_Mail.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+                    [txt_Phone_Or_Mail.layer setBorderColor:greyColor.CGColor];
                 }
             }
             
@@ -2157,7 +2151,7 @@
             else
             {
                 [txt_your_party.layer setBorderWidth:1.5];
-                [txt_your_party.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+                [txt_your_party.layer setBorderColor:greyColor.CGColor];
             }
             
             
@@ -2170,7 +2164,7 @@
             else
             {
                 [txtAdults.layer setBorderWidth:1.5];
-                [txtAdults.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+                [txtAdults.layer setBorderColor:greyColor.CGColor];
             }
             
             if([txtChildrens.text isEqualToString:@""])
@@ -2181,7 +2175,7 @@
             else
             {
                 [txtChildrens.layer setBorderWidth:1.5];
-                [txtChildrens.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+                [txtChildrens.layer setBorderColor:greyColor.CGColor];
             }
             
             if([txtInfants.text isEqualToString:@""])
@@ -2192,13 +2186,13 @@
             else
             {
                 [txtInfants.layer setBorderWidth:1.5];
-                [txtInfants.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+                [txtInfants.layer setBorderColor:greyColor.CGColor];
             }
         }
     }
     else
     {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please check your internet connection." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:Localized(@"Please check your internet connection.") delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         
         [alert show];
     }
@@ -2406,7 +2400,7 @@
 - (IBAction)btnLogout_clicked:(id)sender
 {
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:@"Are you sure you want to logout?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:Localized(@"Are you sure you want to logout?") delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
     
     alert.tag = 101;
     
@@ -2518,7 +2512,7 @@ replacementString:(NSString *)string
     if(textField == txt_Phone_Or_Mail)
     {
         [txt_Phone_Or_Mail.layer setBorderWidth:1.5];
-        [txt_Phone_Or_Mail.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+        [txt_Phone_Or_Mail.layer setBorderColor:greyColor.CGColor];
         
         if(btn_Cell_Phone.selected == true)
         {
@@ -2598,7 +2592,7 @@ replacementString:(NSString *)string
             }
             else
             {
-                UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:@"please enter numbers only." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
+                UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:Localized(@"please enter numbers only.") delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
                 [objAlert show];
                 
                 
@@ -2613,7 +2607,7 @@ replacementString:(NSString *)string
     else if (textField == txt_Name)
     {
         [txt_Name.layer setBorderWidth:1.5];
-        [txt_Name.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+        [txt_Name.layer setBorderColor:greyColor.CGColor];
         
         
         
@@ -2622,13 +2616,13 @@ replacementString:(NSString *)string
     else if (textField == txtAdults)
     {
         [txtAdults.layer setBorderWidth:1.5];
-        [txtAdults.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+        [txtAdults.layer setBorderColor:greyColor.CGColor];
         
         [txtChildrens.layer setBorderWidth:1.5];
-        [txtChildrens.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+        [txtChildrens.layer setBorderColor:greyColor.CGColor];
         
         [txtInfants.layer setBorderWidth:1.5];
-        [txtInfants.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+        [txtInfants.layer setBorderColor:greyColor.CGColor];
         
         if([self checkforNumeric:string] == YES)
         {
@@ -2646,7 +2640,7 @@ replacementString:(NSString *)string
         }
         else
         {
-            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:@"Please enter numbers only." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
+            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:Localized(@"please enter numbers only.") delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
             [objAlert show];
             
             
@@ -2658,13 +2652,13 @@ replacementString:(NSString *)string
     else if (textField == txtChildrens)
     {
         [txtChildrens.layer setBorderWidth:1.5];
-        [txtChildrens.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+        [txtChildrens.layer setBorderColor:greyColor.CGColor];
         
         [txtAdults.layer setBorderWidth:1.5];
-        [txtAdults.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+        [txtAdults.layer setBorderColor:greyColor.CGColor];
         
         [txtInfants.layer setBorderWidth:1.5];
-        [txtInfants.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+        [txtInfants.layer setBorderColor:greyColor.CGColor];
         
         if([self checkforNumeric:string] == YES)
         {
@@ -2682,7 +2676,7 @@ replacementString:(NSString *)string
         }
         else
         {
-            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:@"Please enter numbers only." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
+            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:Localized(@"please enter numbers only.") delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
             [objAlert show];
             
             
@@ -2694,7 +2688,7 @@ replacementString:(NSString *)string
     else if (textField == txtInfants)
     {
         [txtInfants.layer setBorderWidth:1.5];
-        [txtInfants.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+        [txtInfants.layer setBorderColor:greyColor.CGColor];
         
         if([self checkforNumeric:string] == YES)
         {
@@ -2712,7 +2706,7 @@ replacementString:(NSString *)string
         }
         else
         {
-            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:@"Please enter numbers only." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
+            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:Localized(@"please enter numbers only.") delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
             [objAlert show];
             
             
@@ -2741,7 +2735,7 @@ replacementString:(NSString *)string
         }
         else
         {
-            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:@"Please enter numbers only." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
+            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:Localized(@"please enter numbers only.") delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
             [objAlert show];
             
             
@@ -2769,7 +2763,7 @@ replacementString:(NSString *)string
         }
         else
         {
-            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:@"Please enter numbers only." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
+            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:Localized(@"please enter numbers only.") delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
             [objAlert show];
             
             
@@ -2797,7 +2791,7 @@ replacementString:(NSString *)string
         }
         else
         {
-            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:@"Please enter numbers only." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
+            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:Localized(@"please enter numbers only.") delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
             [objAlert show];
             
             
@@ -2887,7 +2881,7 @@ replacementString:(NSString *)string
         }
         else
         {
-            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:@"please enter numbers only." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
+            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:Localized(@"please enter numbers only.") delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Close",nil];
             [objAlert show];
             
             
@@ -2900,7 +2894,7 @@ replacementString:(NSString *)string
     else
     {
         [txt_your_party.layer setBorderWidth:1.5];
-        [txt_your_party.layer setBorderColor:[UIColor colorWithRed:195.0/255.0 green:195.0/255.0 blue:195.0/255.0 alpha:1.0].CGColor];
+        [txt_your_party.layer setBorderColor:greyColor.CGColor];
         
         return YES;
     }
@@ -2916,7 +2910,7 @@ replacementString:(NSString *)string
             {
                 if(![self isEmailValid:txt_Phone_Or_Mail.text])
                 {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:@"The email address that you typed is invalid. Please correct your email address and try again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:Localized(@"The email address that you typed is invalid. Please correct your email address and try again.") delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                     [alert show];
                     txt_Phone_Or_Mail.text = @"";
                 }
@@ -2929,7 +2923,7 @@ replacementString:(NSString *)string
             if([number length] > 0 &[number length] < 10)
             {
                 
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:@"The phone number that you typed is invalid. Please correct your phone number and try again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Kyobee" message:Localized(@"The phone number that you typed is invalid. Please correct your phone number and try again.") delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [alert show];
                 txt_Phone_Or_Mail.text = @"";
                 
@@ -3248,7 +3242,7 @@ replacementString:(NSString *)string
         }
         else
         {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:@"Please check your internet connection." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Kyobee" message:Localized(@"Please check your internet connection.") delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
             
             [alert show];
         }
