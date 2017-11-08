@@ -10,6 +10,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 public class LanguageMasterDTO {
  private Long langId;
  private String langName;
+/* private String langDisplayName;*/
  private String langIsoCode;
  
  @XmlAttribute
@@ -35,4 +36,12 @@ public String getLangIsoCode() {
 public void setLangIsoCode(String langIsoCode) {
 	this.langIsoCode = langIsoCode;
 }
+
+/*@XmlAttribute
+public String getLangDisplayName() {
+	return langDisplayName;
+}
+public void setLangDisplayName(String langDisplayName) {
+	this.langDisplayName = langDisplayName;
+}*/
 }
