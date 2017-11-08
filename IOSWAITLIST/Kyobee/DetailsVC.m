@@ -68,11 +68,15 @@
     
     languageArray = [[NSMutableArray alloc] initWithCapacity:0];
 
-    languageArray = [[NSUserDefaults standardUserDefaults] valueForKey:@"languageArray"];
+    languageArray = [[NSUserDefaults standardUserDefaults] valueForKey:@"languagePref"];
     
     [btnLanguage_New setTitle:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"btnSelectLanguage"]] forState:UIControlStateNormal];
     
-    
+    if(languageArray.count>0){
+        btnLanguage_New.hidden = NO;
+    }else{
+        btnLanguage_New.hidden = YES;
+    }
     self.lpgrLogOut = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGestures:)];
     self.lpgrLogOut.minimumPressDuration = 2.0f;
     self.lpgrLogOut.numberOfTouchesRequired = 1;
@@ -102,9 +106,10 @@
     self.navigationController.navigationBarHidden = TRUE;
     
     First_View.hidden = NO;
+    tblViewLanguage.hidden = YES;
     form_View.hidden = YES;
     Thank_View.hidden = YES;
-
+    
     UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 0)];
     txt_Name.leftView = paddingView;
     txt_Name.leftViewMode = UITextFieldViewModeAlways;
@@ -319,70 +324,80 @@
     {
         lblClientBase.text = @"KYOBEE";
         commonColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+        lightCommonColor = [UIColor colorWithRed:241.0/255.0 green:194.0/255.0 blue:188.0/255.0 alpha:1.0];
     }
     else if([[[NSUserDefaults standardUserDefaults] valueForKey:@"clientBase"]  isEqual:@"advantech"])
     {
         lblClientBase.text = @"ADVANTECH";
         commonColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
+        lightCommonColor = [UIColor colorWithRed:241.0/255.0 green:194.0/255.0 blue:188.0/255.0 alpha:1.0];
     }
     else if([[[NSUserDefaults standardUserDefaults] valueForKey:@"clientBase"]  isEqual:@"sweethoneydessert"])
     {
         lblClientBase.text = @"SWEETHONEYDESSERT";
         commonColor = [UIColor colorWithRed:74.0/255.0 green:27.0/255.0 blue:27.0/255.0 alpha:1.0];
+        lightCommonColor = [UIColor colorWithRed:241.0/255.0 green:194.0/255.0 blue:188.0/255.0 alpha:1.0];
     }
     else
     {
         lblClientBase.text = @"KYOBEE";
         commonColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+        lightCommonColor = [UIColor colorWithRed:241.0/255.0 green:194.0/255.0 blue:188.0/255.0 alpha:1.0];
     }
     
-//    if([[[NSUserDefaults standardUserDefaults] valueForKey:@"clientBase"]  isEqual:@"admin"])
-//    {
-//        lblClientBase.text = @"KYOBEE";
-        
-        //Home View
-        lbl_Count.textColor = commonColor;
-        Lbl_waiting.textColor = commonColor;
-        Img_Standing_Line.backgroundColor = commonColor;
-        Lbl_Now_serving.textColor = commonColor;
-        Lbl_Now_serving_Count.textColor = commonColor;
-        Lbl_Est_Wait_Time.textColor = commonColor;
-        Lbl_Est_Time.textColor = commonColor;
-        [Btn_Press_Here_Checkin.layer setCornerRadius:8.0];
-        Btn_Press_Here_Checkin.backgroundColor = commonColor;
-        lblHours.textColor = commonColor;
-        lblColon.textColor = commonColor;
-        lblMinutes.textColor = commonColor;
-        lblWelcome.textColor = commonColor;
-        lblFooter.backgroundColor = commonColor;
-        btnLanguage_New.backgroundColor = commonColor;
-        
-        //Form View
-        [Btn_Add_me_wait_list.layer setCornerRadius:8.0];
-        Btn_Add_me_wait_list.backgroundColor = commonColor;
-        
-        lblAdd_New_Guest_bg.backgroundColor = commonColor;
-        
-        [Img_Required_Bg.layer setBorderColor:commonColor.CGColor];
-        [Img_Required_Bg.layer setBorderWidth:3.0];
-        [Img_Required_Bg.layer setCornerRadius:5.0];
-        
-        //Thank you View
-        Lbl_Number.textColor = commonColor;
-        [Btn_Thank_you_ok.layer setCornerRadius:8.0];
-        Btn_Thank_you_ok.backgroundColor = commonColor;
-        
-        [Img_thank_you_Popup.layer setBorderColor:commonColor.CGColor];
-        [Img_thank_you_Popup.layer setBorderWidth:3.0];
-        [Img_thank_you_Popup.layer setCornerRadius:5.0];
+    //Home View
+    lbl_Count.textColor = commonColor;
+    Lbl_waiting.textColor = commonColor;
+    Img_Standing_Line.backgroundColor = commonColor;
+    Lbl_Now_serving.textColor = commonColor;
+    Lbl_Now_serving_Count.textColor = commonColor;
+    Lbl_Est_Wait_Time.textColor = commonColor;
+    Lbl_Est_Time.textColor = commonColor;
+    [Btn_Press_Here_Checkin.layer setCornerRadius:8.0];
+    Btn_Press_Here_Checkin.backgroundColor = commonColor;
+    lblHours.textColor = commonColor;
+    lblColon.textColor = commonColor;
+    lblMinutes.textColor = commonColor;
+    lblWelcome.textColor = commonColor;
+    lblFooter.backgroundColor = commonColor;
+    btnLanguage_New.backgroundColor = commonColor;
+    
+    //Form View
+    [Btn_Add_me_wait_list.layer setCornerRadius:8.0];
+    Btn_Add_me_wait_list.backgroundColor = commonColor;
+    
+    lblAdd_New_Guest_bg.backgroundColor = commonColor;
+    
+    [Img_Required_Bg.layer setBorderColor:commonColor.CGColor];
+    [Img_Required_Bg.layer setBorderWidth:3.0];
+    [Img_Required_Bg.layer setCornerRadius:5.0];
+    
+    //Thank you View
+    Lbl_Number.textColor = commonColor;
+    [Btn_Thank_you_ok.layer setCornerRadius:8.0];
+    Btn_Thank_you_ok.backgroundColor = commonColor;
+    
+    [Img_thank_you_Popup.layer setBorderColor:commonColor.CGColor];
+    [Img_thank_you_Popup.layer setBorderWidth:3.0];
+    [Img_thank_you_Popup.layer setCornerRadius:5.0];
     
     // 1. Name View
-     
+    
+    btnHome_Name.backgroundColor = commonColor;
+    btnHome_Name.layer.cornerRadius = 0.5*btnHome_Name.bounds.size.width;
+    btnHome_Name.clipsToBounds = YES;
+    btnHome_Name.layer.masksToBounds = YES;
+    
     [btnNext_Name.layer setCornerRadius:8.0];
     btnNext_Name.backgroundColor = commonColor;
     lblNameFooter.backgroundColor = commonColor;
     
     // 2. Member View
+    
+    btnHome_Members.backgroundColor = commonColor;
+    btnHome_Members.layer.cornerRadius = 0.5*btnHome_Members.bounds.size.width;
+    btnHome_Members.clipsToBounds = YES;
+    btnHome_Members.layer.masksToBounds = YES;
     
     [btnPrevious_Member.layer setCornerRadius:8.0];
     btnPrevious_Member.backgroundColor = commonColor;
@@ -395,6 +410,11 @@
     
     // 3. Seating View
     
+    btnHome_Seating.backgroundColor = commonColor;
+    btnHome_Seating.layer.cornerRadius = 0.5*btnHome_Seating.bounds.size.width;
+    btnHome_Seating.clipsToBounds = YES;
+    btnHome_Seating.layer.masksToBounds = YES;
+    
     [btnPrevious_Seating.layer setCornerRadius:8.0];
     btnPrevious_Seating.backgroundColor = commonColor;
     [btnNext_Seating.layer setCornerRadius:8.0];
@@ -403,6 +423,11 @@
     lblSeatingFooter.backgroundColor = commonColor;
     
     // 4. Phone Number View
+    
+    btnHome_PN.backgroundColor = commonColor;
+    btnHome_PN.layer.cornerRadius = 0.5*btnHome_PN.bounds.size.width;
+    btnHome_PN.clipsToBounds = YES;
+    btnHome_PN.layer.masksToBounds = YES;
     
     [btnPrevious_PN.layer setCornerRadius:8.0];
     btnPrevious_PN.backgroundColor = commonColor;
@@ -1132,8 +1157,6 @@
         cell.btnSeatPref.selected = FALSE;
     }
     
-    
-    
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
@@ -1735,14 +1758,17 @@
         }
         
         
-        cell.textLabel.text =[NSString stringWithFormat:@"%@",[[languageArray objectAtIndex:indexPath.row] valueForKey:@"langTitle"]];
+//        cell.textLabel.text =[NSString stringWithFormat:@"%@",[[languageArray objectAtIndex:indexPath.row] valueForKey:@"langTitle"]];
+
+        cell.textLabel.text =[NSString stringWithFormat:@"%@",[[languageArray objectAtIndex:indexPath.row] valueForKey:@"langName"]];
         
         cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.textColor = [UIColor whiteColor];
 //        cell.textLabel.textColor = orangeColor;
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
-        cell.textLabel.font = [UIFont boldSystemFontOfSize:35.0];
+//        cell.textLabel.font = [UIFont boldSystemFontOfSize:35.0];
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:20.0];
         
         return cell;
     }
@@ -1814,21 +1840,31 @@
     
     if(viewSeating.hidden == true)
     {
-        [[NSUserDefaults standardUserDefaults] setObject:[[languageArray objectAtIndex:indexPath.row] valueForKey:@"langCode"] forKey:@"appLanguage"];
+//        [[NSUserDefaults standardUserDefaults] setObject:[[languageArray objectAtIndex:indexPath.row] valueForKey:@"langCode"] forKey:@"appLanguage"];
+//
+//        [[NSUserDefaults standardUserDefaults] setValue:[[languageArray objectAtIndex:indexPath.row] valueForKey:@"langTitle"] forKey:@"btnSelectLanguage"];
+
+        [[NSUserDefaults standardUserDefaults] setObject:[[languageArray objectAtIndex:indexPath.row] valueForKey:@"langIsoCode"] forKey:@"appLanguage"];
         
-        [[NSUserDefaults standardUserDefaults] setValue:[[languageArray objectAtIndex:indexPath.row] valueForKey:@"langTitle"] forKey:@"btnSelectLanguage"];
-        
+        [[NSUserDefaults standardUserDefaults] setValue:[[languageArray objectAtIndex:indexPath.row] valueForKey:@"langName"] forKey:@"btnSelectLanguage"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-        [btnLanguage_New setTitle:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"btnSelectLanguage"]] forState:UIControlStateNormal];
-        
+        if([[[NSUserDefaults standardUserDefaults] valueForKey:@"btnSelectLanguage"] isEqualToString:@"Chinese (Simplified)"]){
+//            [btnLanguage_New setTitle:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"btnSelectLanguage"]] forState:UIControlStateNormal];
+            [btnLanguage_New setTitle:@"简体中文" forState:UIControlStateNormal];
+        }else if([[[NSUserDefaults standardUserDefaults] valueForKey:@"btnSelectLanguage"] isEqualToString:@"Chinese (Traditional)"]){
+            [btnLanguage_New setTitle:@"中国传统的" forState:UIControlStateNormal];
+        }else{
+            [btnLanguage_New setTitle:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"btnSelectLanguage"]] forState:UIControlStateNormal];
+        }        
         
         Lbl_waiting.text = Localized(@"Parties Waiting");
         Lbl_Now_serving.text = Localized(@"Now Serving");
         Lbl_Est_Wait_Time.text = Localized(@"Est. Wait Time");
         [Btn_Press_Here_Checkin setTitle:Localized(@"PRESS HERE TO CHECK-IN") forState:UIControlStateNormal];
         
-        viewLanguage.hidden = true;
+//        viewLanguage.hidden = true;
+        tblViewLanguage.hidden = true;
     }
 }
 
@@ -1975,7 +2011,7 @@
             {
                 //NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"SMS", @"prefType",number, @"sms",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences", nil];
                 
-                NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txtName_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"SMS", @"prefType",number, @"sms",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences",strAdults,@"noOfAdults",strChildrens,@"noOfChildren",strInfants,@"noOfInfants",@"",@"quoteTime",@"-1",@"partyType", nil];
+                NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txtName_Name.text, @" ", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"SMS", @"prefType",number, @"sms",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences",strAdults,@"noOfAdults",strChildrens,@"noOfChildren",strInfants,@"noOfInfants",@"",@"quoteTime",@"-1",@"partyType", nil];
                 
                 //convert object to data
                 jsonDataReq = [NSJSONSerialization dataWithJSONObject:newDatasetInfo options:kNilOptions error:&error];
@@ -3425,8 +3461,8 @@ replacementString:(NSString *)string
 {
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"seatingPref"] == YES)
     {
-        viewSeating.hidden = true;
-        viewMembers.hidden = false;
+        viewSeating.hidden = false;
+        viewPhoneNumber.hidden = true;
     }else{
         [txtPhone_PN resignFirstResponder];
         
@@ -3468,10 +3504,17 @@ replacementString:(NSString *)string
 }
 - (IBAction)btnLanguage_New_Clicked:(id)sender
 {
-    viewSeating.hidden = true;
-    viewLanguage.hidden = false;
-    viewLanguage.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:0.9];
-    
+    if(tblViewLanguage.hidden == false){
+        viewSeating.hidden = true;
+//        viewLanguage.hidden = false;
+//        viewLanguage.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:0.9];
+        tblViewLanguage.hidden = true;
+    }else{
+        viewSeating.hidden = true;
+//        viewLanguage.hidden = false;
+//        viewLanguage.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:0.9];
+        tblViewLanguage.hidden = false;
+    }
     [tblViewLanguage reloadData];
     
 }

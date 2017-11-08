@@ -121,12 +121,14 @@
     IBOutlet UIButton *btnNext_Name;
     IBOutlet UILabel *lblNameFooter;
     IBOutlet UIImageView *img_HomeBg;
+    IBOutlet UIButton *btnHome_Name;
     
     
     // 2. Member View
     
     IBOutlet UIView *viewMembers;
     IBOutlet UIButton *btnPrevious_Member;
+    IBOutlet UIButton *btnHome_Members;
     IBOutlet UIButton *btnNext_Member;
     IBOutlet UILabel *lblAdults_member;
     IBOutlet UITextField *txtAdults_Member;
@@ -140,6 +142,7 @@
     
     IBOutlet UIView *viewSeating;
     IBOutlet UIButton *btnPrevious_Seating;
+    IBOutlet UIButton *btnHome_Seating;
     IBOutlet UIButton *btnNext_Seating;
     IBOutlet UIButton *btnSeating1;
     IBOutlet UIButton *btnSeating2;
@@ -154,6 +157,7 @@
     
     IBOutlet UIView *viewPhoneNumber;
     IBOutlet UIButton *btnPrevious_PN;
+    IBOutlet UIButton *btnHome_PN;
     IBOutlet UIButton *btnNext_PN;
     IBOutlet UITextField *txtPhone_PN;
     IBOutlet UILabel *lblEnterPN;
@@ -190,6 +194,7 @@
     
     UIColor *greyColor;
     UIColor *commonColor;
+    UIColor *lightCommonColor;
 }
 
 @property OrtcClient* ortcClient;

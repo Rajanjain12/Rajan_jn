@@ -65,24 +65,7 @@
 {
     [super viewWillAppear:YES];
     
-    if([[[NSUserDefaults standardUserDefaults] valueForKey:@"clientBase"]  isEqual:@"admin"])
-    {
-        commonColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-    }
-    else if([[[NSUserDefaults standardUserDefaults] valueForKey:@"clientBase"]  isEqual:@"advantech"])
-    {
-        commonColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
-    }
-    else if([[[NSUserDefaults standardUserDefaults] valueForKey:@"clientBase"]  isEqual:@"sweethoneydessert"])
-    {
-        commonColor = [UIColor colorWithRed:74.0/255.0 green:27.0/255.0 blue:27.0/255.0 alpha:1.0];
-    }
-    else
-    {
-        commonColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
-    }
-    [btnCheckinMode.layer setCornerRadius:8.0];
-    btnCheckinMode.backgroundColor = commonColor;
+    [self setColorCode]; //---- color code set as per client base login created by Nilesh
     
     [txt_UserName.layer setCornerRadius:4.0];
     [txt_UserName.layer setBorderWidth:1.0];
@@ -313,7 +296,7 @@ replacementString:(NSString *)string
                      if([[json valueForKey:@"success"] isEqualToString:@"0"])
                      {
                          NSMutableArray *seat = [[NSMutableArray alloc] initWithCapacity:0];
-                         
+                         NSMutableArray *language = [[NSMutableArray alloc] initWithCapacity:0];
                          
                          [[NSUserDefaults standardUserDefaults] setValue:[json valueForKey:@"OrgId"] forKey:@"OrgId"];
                          
@@ -335,7 +318,24 @@ replacementString:(NSString *)string
                              [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:@"smsRoute"];
                          }
                          
+                         //---- Language Type added
+                         if(![[json valueForKey:@"languagepref"] isEqual:[NSNull null]])
+                         {
+                             NSArray *languageArray = [json valueForKey:@"languagepref"];
+                             
+                             if(languageArray.count > 0)
+                             {
+                                 [language addObjectsFromArray:languageArray];
+                                 
+                                 [[NSUserDefaults standardUserDefaults]setValue:language forKey:@"languagePref"];
+                                 [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"langPref"];//--- Language Preference show as per client base
+                             }
+                         }
+                         else{
+                             [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"langPref"];//--- Language Preference show as per client base
+                         }
                          
+                         //----- Seating Preferences added
                          if(![[json valueForKey:@"seatpref"] isEqual:[NSNull null]])
                          {
                              NSArray *seatArray = [json valueForKey:@"seatpref"];
@@ -396,7 +396,7 @@ replacementString:(NSString *)string
                          [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showParty"];
                          
                          [[NSUserDefaults standardUserDefaults] synchronize];
-                         
+                         [self setColorCode]; //---- color code set as per client base login created by Nilesh
                          viewSelectGuestMode.hidden = false;
                          
                          /*DetailsVC *objDVC = [[DetailsVC alloc] initWithNibName:@"DetailsVC" bundle:nil];
@@ -480,7 +480,7 @@ replacementString:(NSString *)string
 {
     
     // For Language
-    
+    /*
     NSMutableArray *langArray = [[NSMutableArray alloc] initWithCapacity:0];
     
     NSMutableDictionary *dict1 = [[NSMutableDictionary alloc] initWithCapacity:0];
@@ -501,7 +501,7 @@ replacementString:(NSString *)string
     [langArray addObject:dict3];
     
     [[NSUserDefaults standardUserDefaults] setValue:langArray forKey:@"languageArray"];
-    
+    */
     [[NSUserDefaults standardUserDefaults] setObject:@"en" forKey:@"appLanguage"];
     
     [[NSUserDefaults standardUserDefaults] setValue:@"ENGLISH" forKey:@"btnSelectLanguage"];
@@ -572,5 +572,26 @@ replacementString:(NSString *)string
     if ([[UIApplication sharedApplication] canOpenURL:URL]) {
         [[UIApplication sharedApplication] openURL:URL];
     }
+}
+
+-(void)setColorCode{
+    if([[[NSUserDefaults standardUserDefaults] valueForKey:@"clientBase"]  isEqual:@"admin"])
+    {
+        commonColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+    }
+    else if([[[NSUserDefaults standardUserDefaults] valueForKey:@"clientBase"]  isEqual:@"advantech"])
+    {
+        commonColor = [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1.0];
+    }
+    else if([[[NSUserDefaults standardUserDefaults] valueForKey:@"clientBase"]  isEqual:@"sweethoneydessert"])
+    {
+        commonColor = [UIColor colorWithRed:74.0/255.0 green:27.0/255.0 blue:27.0/255.0 alpha:1.0];
+    }
+    else
+    {
+        commonColor = [UIColor colorWithRed:225.0/255.0 green:75.0/255.0 blue:40.0/255.0 alpha:1.0];
+    }
+    [btnCheckinMode.layer setCornerRadius:8.0];
+    btnCheckinMode.backgroundColor = commonColor;
 }
 @end
