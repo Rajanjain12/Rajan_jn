@@ -47,6 +47,7 @@ public class GuestDTO implements Serializable{
 	private String seatingPreference;
 	private String deviceType;
 	private String deviceId;
+	private LanguageMasterDTO languagePref;
 
 	
 	@XmlAttribute
@@ -249,6 +250,13 @@ public class GuestDTO implements Serializable{
 		this.seatingPreference = seatingPreference;
 	}
 	
+	@XmlAttribute
+	public LanguageMasterDTO getLanguagePref() {
+		return languagePref;
+	}
+	public void setLanguagePref(LanguageMasterDTO languagePref) {
+		this.languagePref = languagePref;
+	}
 }
 
 

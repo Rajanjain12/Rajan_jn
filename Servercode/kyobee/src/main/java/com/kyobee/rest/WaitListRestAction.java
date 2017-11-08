@@ -222,6 +222,8 @@ public class WaitListRestAction {
 		}
 		if(null != guest.getSeatingPreference())
 			guestObj.setSeatingPreference(guest.getSeatingPreference());
+		if(null != guest.getLanguagePref())
+			guestObj.setLanguagePrefID(guest.getLanguagePref().getLangId());
 		if(null != guest && null != guest.getGuestID()) {
 			guestObj.setUpdatedTime(new Date());
 			guestObj.setUuid(guest.getUuid());
@@ -1022,7 +1024,8 @@ public class WaitListRestAction {
 			rootMap.put("orgid", guest.getOrganizationID());
 			rootMap.put("addedGuestId", oWaitlistMetrics.getGuestId());
 			rootMap.put("guestUUID", guest.getUuid());
-			rootMap.put("guestRank", oWaitlistMetrics.getGuestRank());			
+			rootMap.put("guestRank", oWaitlistMetrics.getGuestRank());	
+			rootMap.put("languagePrefID", guest.getLanguagePrefID());
 			
 			if(guestDTO.getPrefType() != null)
 				sendNotification(guest, oWaitlistMetrics, "NORMAL", null);
