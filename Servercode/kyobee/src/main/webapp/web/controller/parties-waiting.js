@@ -32,6 +32,11 @@ KyobeeControllers.controller('partyWaitingCtrl',
 							quoteTime : null,
 							partyType : null,
 							prefType : null,
+							languagePref :{
+								langIsoCode: 'en',
+								langName: 'English',
+								langId: 1
+							},
 							email : null,
 							sms : null,
 							optin : false,
