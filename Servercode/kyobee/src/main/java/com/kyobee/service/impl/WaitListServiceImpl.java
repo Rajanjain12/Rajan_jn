@@ -1266,7 +1266,7 @@ public class WaitListServiceImpl implements IWaitListService {
 				@Override
 				public WaitlistMetrics execute(Connection connection) throws SQLException {
 					CallableStatement cStmt = connection.prepareCall("{call UPDATEGUEST(?, ?, ?, ?,"
-							+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,"
+							+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,"
 			 				+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");  
 					WaitlistMetrics oWaitlistMetrics = new WaitlistMetrics();
 					try {
@@ -1277,35 +1277,36 @@ public class WaitListServiceImpl implements IWaitListService {
 						cStmt.setLong(5, guestObj.getNoOfAdults() != null ? guestObj.getNoOfAdults() : 0);
 						cStmt.setLong(6, guestObj.getNoOfInfants() != null ? guestObj.getNoOfInfants() : 0);
 						cStmt.setLong(7, guestObj.getNoOfPeople() != null ? guestObj.getNoOfPeople() : 0);
-						cStmt.setInt(8, guestObj.getQuoteTime() != null ? guestObj.getQuoteTime() : 0);
-						cStmt.setInt(9, guestObj.getPartyType() != null ? guestObj.getPartyType() : 0);
-						cStmt.setString(10, guestObj.getSms() != null ? guestObj.getSms() : "");
-						cStmt.setString(11, guestObj.getEmail() != null ? guestObj.getEmail() : "");
-						cStmt.setString(12, guestObj.getPrefType() != null ? guestObj.getPrefType() : "");
-						cStmt.setBoolean(13, guestObj.isOptin());
-						cStmt.setString(14,
+						cStmt.setLong(8, guestObj.getLanguagePrefID() != null ? guestObj.getLanguagePrefID() : 0);
+						cStmt.setInt(9, guestObj.getQuoteTime() != null ? guestObj.getQuoteTime() : 0);
+						cStmt.setInt(10, guestObj.getPartyType() != null ? guestObj.getPartyType() : 0);
+						cStmt.setString(11, guestObj.getSms() != null ? guestObj.getSms() : "");
+						cStmt.setString(12, guestObj.getEmail() != null ? guestObj.getEmail() : "");
+						cStmt.setString(13, guestObj.getPrefType() != null ? guestObj.getPrefType() : "");
+						cStmt.setBoolean(14, guestObj.isOptin());
+						cStmt.setString(15,
 								guestObj.getSeatingPreference() != null ? guestObj.getSeatingPreference() : "");
-						cStmt.setString(15, guestObj.getNote() != null ? guestObj.getNote() : "");
-						cStmt.setLong(16, actionFlag == Constants.WAITLIST_UPDATE_CALLOUT ? 1 : 0);
-						cStmt.setLong(17, actionFlag == Constants.WAITLIST_UPDATE_INCOMPLETE ? 1 : 0);
-						cStmt.setLong(18, actionFlag == Constants.WAITLIST_UPDATE_MARK_AS_SEATED ? 1 : 0);
-						cStmt.setLong(19, actionFlag == Constants.WAITLIST_UPDATE_DELETE ? 1 : 0);
-						cStmt.registerOutParameter(20, Types.INTEGER);
+						cStmt.setString(16, guestObj.getNote() != null ? guestObj.getNote() : "");
+						cStmt.setLong(17, actionFlag == Constants.WAITLIST_UPDATE_CALLOUT ? 1 : 0);
+						cStmt.setLong(18, actionFlag == Constants.WAITLIST_UPDATE_INCOMPLETE ? 1 : 0);
+						cStmt.setLong(19, actionFlag == Constants.WAITLIST_UPDATE_MARK_AS_SEATED ? 1 : 0);
+						cStmt.setLong(20, actionFlag == Constants.WAITLIST_UPDATE_DELETE ? 1 : 0);
 						cStmt.registerOutParameter(21, Types.INTEGER);
 						cStmt.registerOutParameter(22, Types.INTEGER);
-						cStmt.registerOutParameter(23, Types.VARCHAR);
-						cStmt.registerOutParameter(24, Types.INTEGER);
+						cStmt.registerOutParameter(23, Types.INTEGER);
+						cStmt.registerOutParameter(24, Types.VARCHAR);
 						cStmt.registerOutParameter(25, Types.INTEGER);
-						cStmt.registerOutParameter(26, Types.VARCHAR);
+						cStmt.registerOutParameter(26, Types.INTEGER);
+						cStmt.registerOutParameter(27, Types.VARCHAR);
 						cStmt.execute();
 
-						oWaitlistMetrics.setNowServingParty(cStmt.getInt(20));
-						oWaitlistMetrics.setTotalWaitingGuest(cStmt.getInt(21));
-						oWaitlistMetrics.setTotalWaitTime(cStmt.getInt(22));
-						oWaitlistMetrics.setNoOfPartiesAhead(cStmt.getInt(23));
-						oWaitlistMetrics.setGuestToBeNotified(cStmt.getInt(24));
-						oWaitlistMetrics.setGuestNotifiedWaitTime(cStmt.getInt(25));
-						oWaitlistMetrics.setClientBase(cStmt.getString(26));
+						oWaitlistMetrics.setNowServingParty(cStmt.getInt(21));
+						oWaitlistMetrics.setTotalWaitingGuest(cStmt.getInt(22));
+						oWaitlistMetrics.setTotalWaitTime(cStmt.getInt(23));
+						oWaitlistMetrics.setNoOfPartiesAhead(cStmt.getInt(24));
+						oWaitlistMetrics.setGuestToBeNotified(cStmt.getInt(25));
+						oWaitlistMetrics.setGuestNotifiedWaitTime(cStmt.getInt(26));
+						oWaitlistMetrics.setClientBase(cStmt.getString(27));
 					} finally {
 						if (cStmt != null) {
 							cStmt.close();
