@@ -67,7 +67,8 @@
     appDelegate =(AppDelegate*)[[UIApplication sharedApplication]delegate];
     
     languageArray = [[NSMutableArray alloc] initWithCapacity:0];
-
+    selectedLang = [[NSMutableDictionary alloc] initWithCapacity:0];
+    
     languageArray = [[NSUserDefaults standardUserDefaults] valueForKey:@"languagePref"];
     
     [btnLanguage_New setTitle:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"btnSelectLanguage"]] forState:UIControlStateNormal];
@@ -1858,6 +1859,13 @@
             [btnLanguage_New setTitle:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"btnSelectLanguage"]] forState:UIControlStateNormal];
         }        
         
+        selectedLang = [[NSMutableDictionary alloc] initWithCapacity:0];
+        if(selectedLang.count>0)
+            [selectedLang removeAllObjects];
+        [selectedLang setValue:[[languageArray objectAtIndex:indexPath.row] valueForKey:@"langIsoCode"] forKey:@"langIsoCode"];
+        [selectedLang setValue:[[languageArray objectAtIndex:indexPath.row] valueForKey:@"langName"] forKey:@"langName"];
+        [selectedLang setValue:[[languageArray objectAtIndex:indexPath.row] valueForKey:@"langId"] forKey:@"langId"];
+        
         Lbl_waiting.text = Localized(@"Parties Waiting");
         Lbl_Now_serving.text = Localized(@"Now Serving");
         Lbl_Est_Wait_Time.text = Localized(@"Est. Wait Time");
@@ -1888,8 +1896,6 @@
 
 - (IBAction)Btn_Add__me_wait_list_Clicked:(id)sender
 {
-    
-    
     if(appDelegate.isInternetReachble)
     {
         lblPoorInternet.hidden = true;
@@ -1945,6 +1951,12 @@
             
             [txtFieldRef resignFirstResponder];
             
+            if(selectedLang.count==0){
+                selectedLang = [[NSMutableDictionary alloc] initWithCapacity:0];
+                [selectedLang setValue:[[languageArray objectAtIndex:0] valueForKey:@"langIsoCode"] forKey:@"langIsoCode"];
+                [selectedLang setValue:[[languageArray objectAtIndex:0] valueForKey:@"langName"] forKey:@"langName"];
+                [selectedLang setValue:[[languageArray objectAtIndex:0] valueForKey:@"langId"] forKey:@"langId"];
+            }
             [self.view setNeedsUpdateConstraints];
             
             [UIView animateWithDuration:0.40f animations:^{
@@ -1989,7 +2001,6 @@
             NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
             id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             
-            
             NSString *optIn;
             
             if(Btn_Promotions_Specials.selected)
@@ -2011,7 +2022,7 @@
             {
                 //NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"SMS", @"prefType",number, @"sms",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences", nil];
                 
-                NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txtName_Name.text, @" ", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"SMS", @"prefType",number, @"sms",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences",strAdults,@"noOfAdults",strChildrens,@"noOfChildren",strInfants,@"noOfInfants",@"",@"quoteTime",@"-1",@"partyType", nil];
+                NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txtName_Name.text, @" ", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"SMS", @"prefType",number, @"sms",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences",selectedLang,@"languagePref",strAdults,@"noOfAdults",strChildrens,@"noOfChildren",strInfants,@"noOfInfants",@"",@"quoteTime",@"-1",@"partyType", nil];
                 
                 //convert object to data
                 jsonDataReq = [NSJSONSerialization dataWithJSONObject:newDatasetInfo options:kNilOptions error:&error];
@@ -2024,7 +2035,7 @@
                 
                 //NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"EMAIL", @"prefType",txt_Phone_Or_Mail.text, @"email",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences", nil];
                 
-                NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"EMAIL", @"prefType",txt_Phone_Or_Mail.text, @"email",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences",strAdults,@"noOfAdults",strChildrens,@"noOfChildren",strInfants,@"noOfInfants",@"",@"quoteTime",@"-1",@"partyType", nil];
+                NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"EMAIL", @"prefType",txt_Phone_Or_Mail.text, @"email",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences",selectedLang,@"languagePref",strAdults,@"noOfAdults",strChildrens,@"noOfChildren",strInfants,@"noOfInfants",@"",@"quoteTime",@"-1",@"partyType", nil];
                 
                 //convert object to data
                 jsonDataReq = [NSJSONSerialization dataWithJSONObject:newDatasetInfo options:kNilOptions error:&error];

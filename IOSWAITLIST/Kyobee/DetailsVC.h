@@ -90,6 +90,8 @@
     NSMutableArray *seatPrefArray;
     NSMutableArray *selectedPref;
     NSMutableArray *languageArray;
+//    NSArray *selectedLang;
+    NSMutableDictionary *selectedLang;
     IBOutlet UITableView *tblViewParties;
     
     IBOutlet UILabel *lblOnlyUSNumberValid;
