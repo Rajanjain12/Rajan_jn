@@ -2022,7 +2022,7 @@
             {
                 //NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txt_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"SMS", @"prefType",number, @"sms",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences", nil];
                 
-                NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txtName_Name.text, @" ", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"SMS", @"prefType",number, @"sms",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences",selectedLang,@"languagePref",strAdults,@"noOfAdults",strChildrens,@"noOfChildren",strInfants,@"noOfInfants",@"",@"quoteTime",@"-1",@"partyType", nil];
+                NSDictionary *newDatasetInfo = [NSDictionary dictionaryWithObjectsAndKeys:txtName_Name.text, @"name", @"", @"note",[[NSUserDefaults standardUserDefaults] valueForKey:@"OrgId"], @"organizationID",txt_your_party.text, @"noOfPeople",@"SMS", @"prefType",number, @"sms",optIn, @"optin",@"CHECKIN", @"status",json, @"guestPreferences",selectedLang,@"languagePref",strAdults,@"noOfAdults",strChildrens,@"noOfChildren",strInfants,@"noOfInfants",@"",@"quoteTime",@"-1",@"partyType", nil];
                 
                 //convert object to data
                 jsonDataReq = [NSJSONSerialization dataWithJSONObject:newDatasetInfo options:kNilOptions error:&error];
