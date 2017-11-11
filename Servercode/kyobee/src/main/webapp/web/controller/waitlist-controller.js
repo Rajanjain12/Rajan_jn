@@ -655,6 +655,7 @@ KyobeeControllers.controller('waitListCtrl',
 					
 					$scope.deleteGuest = function(){
 						$scope.successMsg = null;
+						$scope.loading = true;
 						var postBody = {
 
 						};
@@ -666,11 +667,14 @@ KyobeeControllers.controller('waitListCtrl',
 										$('#deletePopup').simplePopup().hide();
 										$(".simplePopupBackground").fadeOut("fast");
 										$scope.loadWaitListPage(1);
+										$scope.loading = false;
 										$scope.successMsg = "Guest Deleted Successfully."
 									} else if (data.status == "FAILURE") {
+										$scope.loading = false;
 										alert('Error while deleting guest.');
 									}
 								}, function(error) {
+									$scope.loading = false;
 									alert('Error while deleting guest.');
 								});
 						

@@ -109,21 +109,27 @@
                 	 <input type="number" ng-show="userDTO.smsRoute == null || userDTO.smsRoute == ''" id="quoteTime" name="quoteTime" class="form-control" min=0 max=500 ng-model="guestDTO.quoteTime" placeholder="Quote Time" />
                 </div> 
                </div>
-                 </div> 
-                
-                  
-                 <div class="form-group panel-form addf3 margin-bottom-25" ng-show="userDTO.smsRoute != null && userDTO.smsRoute != ''" > 
-                        <div class="radio radio-danger">
-                            <input type="radio" name="radio1" onchange="showsms();" id="smsshow" ng-model="guestDTO.prefType" value="sms" >
+                 </div>
+
+					<div class="form-group">
+					 <input type="text" id="masked" name="field2SMS" ng-model="guestDTO.sms" ui-mask="(999) 999-9999" ui-mask-placeholder ui-mask-placeholder-char="_"
+							 class="form-control default-input-placeholder input-no-spinner"/>
+								<span class="help-inline">
+                                    <div class="has-error-mask" ng-show="guestDTO.sms.length <10">please enter the valid number</div>
+                                </span>
+					</div>
+					<!-- <div class="form-group panel-form addf3 margin-bottom-25" ng-show="userDTO.smsRoute != null && userDTO.smsRoute != ''" > --> 
+                        <!-- <div class="radio radio-danger">
+                            <input type="text" name="radio1" onchange="showsms();" id="smsshow" ng-model="guestDTO.prefType" value="sms" >
                             <label for="smsshow">SMS</label>
-                        </div>
-                        <div class="radio radio-danger">
+                        </div> -->
+                        <!-- <div class="radio radio-danger">
                             <input type="radio" name="radio1" onchange="showemail();" id="emailshow" ng-model="guestDTO.prefType" value="email" >
                             <label for="emailshow">E-Mail</label>
-                        </div>
-                         <div class="addf3input">
+                        </div> -->
+                         <!-- <div class="addf3input">
                              <div id="smshide">
-                                <input type="number" id="number" name="field2SMS" ng-model="guestDTO.sms"  placeholder="(___) ___-____ " 
+                                <input type="number" id="number" name="field2SMS" ng-model="guestDTO.sms"  placeholder="SMS (___) ___-____ " 
                                 required ng-minlength="10" ng-maxlength="10" min="0" class="form-control input-no-spinner"
                                  ng-pattern="phnRegex" ng-required="guestDTO.prefType == 'sms'" ng-class="{'has-error' : addGuestForm.field2SMS.$invalid && (!addGuestForm.field2SMS.$pristine || addGuestForm.$submitted)}" />
                                   <div ng-messages="addGuestForm.field2SMS.$error" ng-show="(!addGuestForm.field2SMS.$pristine || addGuestForm.$submitted)" class="help-block">
@@ -140,8 +146,8 @@
 										<div ng-message="email" >Please enter a valid email</div>
 									</div>
                             </div>
-                        </div>
-                  </div>
+                        </div> -->
+                  <!-- </div> -->
                   
                 <div class="form-group panel-form" ng-show="guestPref != null">
                     <div class="addf1">
@@ -220,7 +226,7 @@ function showemail(){
     $('#smshide').hide();
     
 }       
-
+//$("#number-mask").mask("(999) 999-9999");
 </script>   
     
     

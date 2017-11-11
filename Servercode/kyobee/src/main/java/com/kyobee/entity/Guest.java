@@ -106,7 +106,7 @@ public class Guest implements Serializable{
 	@Column(name="seatingPreference")
 	private String seatingPreference;
 	
-	@Column(name="languagePrefID")
+	@Column(name="languagePrefID", nullable =false)
 	private Long languagePrefID;
 	
 	@Column(name="deviceID")

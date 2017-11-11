@@ -30,7 +30,6 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					$scope.loading = false;
 					
 					$scope.loadGuestPage = function(){
-						
 						var postBody = {};
 						var url = "/kyobee/web/rest/waitlistRestAction/guestuuid?uuid="+$scope.tid;
 						 
@@ -107,7 +106,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 							return;
 						}
 						
-						if(($scope.guest.prefType == 'sms' || $scope.guest.prefType == 'SMS') && ($scope.guest.sms == null || $scope.guest.sms == 'undefined')){
+						if(($scope.guest.prefType == 'sms' || $scope.guest.prefType == 'SMS') && ($scope.guest.sms == null || $scope.guest.sms == 'undefined' || $scope.guest.sms == "")){
 							$scope.errorMsg = "Please enter the contact no.";
 							$scope.loading = false;
 							return;

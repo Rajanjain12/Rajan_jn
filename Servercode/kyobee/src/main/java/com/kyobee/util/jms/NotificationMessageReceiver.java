@@ -129,6 +129,7 @@ public class NotificationMessageReceiver implements MessageListener{
 			}
 			else if (Constants.FREETEXT.equals(guestNotificationBean.getNotificationFlag())){
 				msg1 = guestNotificationBean.getMessage();
+				/*msg1 = buildURL(guestNotificationBean.getClientBase(), guestNotificationBean.getUuid());*/
 				msg2 = "\n"+"- Sent by " + guestNotificationBean.getSmsSignature()+"\n";
 			}
 			
@@ -301,7 +302,7 @@ public class NotificationMessageReceiver implements MessageListener{
 	}
 
 
-	private String buildURL(String clientBase, String uuid){
+	public String buildURL(String clientBase, String uuid){
 		String url = "";
 		
 		/*if(urlSuffix.contains("kyobee.com")){

@@ -132,10 +132,29 @@
                             <input type="text" name="field1" class="form-control" ng-model="guest.noOfPeople" />
                             
                             </div> -->
+                            
+                            	<div class="form-group col-md-6 col-sm-6 col-xs-12">
 
+									<div id="smshide1">
+                                        <input type="text" id="masked" name="field2SMS" ng-model="guest.sms" ui-mask="(999) 999-9999" ui-mask-placeholder ui-mask-placeholder-char="_" 
+                                        class="form-control input-no-spinner"
+                                 			ng-class="{'has-error' : addGuestForm.field2SMS.$invalid && (!addGuestForm.field2SMS.$pristine || addGuestForm.$submitted)}" />
+                                 			
+                                 			<span class="help-inline">
+			                                    <div class="has-error-mask" ng-show="guest.sms.length <10">please enter the valid number</div>
+			                                </span>
+                                    <!-- <div ng-messages="addGuestForm.field2SMS.$error" ng-show="(!addGuestForm.field2SMS.$pristine || addGuestForm.$submitted)" class="help-block has-error-mask">
+                                 		<div ng-message="required">Phone number cannot be blank</div>									
+										<div ng-message="pattern" >Please enter a valid phone number</div>
+										<div ng-message="minlength" >Minimum length for phone number is 10</div>
+										<div ng-message="maxlength" >Maximum length for phone number is 10</div>
+									</div> -->
+                                        
+                                    </div>
+                                    
+                               </div>
 
-
-                            <div class="form-group addf5 col-md-6 col-sm-6 col-xs-12"> 
+                            <!-- <div class="form-group addf5 col-md-6 col-sm-6 col-xs-12"> 
                                 <div class="radio radio-danger">
                                     <input type="radio" name="radio1" onchange="showsms1();" id="smsshow1" ng-model="guest.prefType" value="sms" >
                                     <label for="smsshow1">SMS</label>
@@ -161,10 +180,10 @@
                                         <input type="text" name="field2" ng-model="guest.email" placeholder="abc@gmail.com" class="form-control" />
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
 
-                            <div class="form-group col-md-6 multipaleselect1 font-color-fix">
+                            <div class="form-group col-md-6 multipaleselect1 font-color-fix" ng-show="seatPrefs != null">
                                     <label class="control-label">Seating Preference</label>
                                     <select id="example-multiple-selected" multiple="multiple" ng-model="selectedSeatPref">
                                     	<option ng-repeat="opt in seatPrefs" ng-value="opt.prefValueId">{{opt.prefValue}}</option>

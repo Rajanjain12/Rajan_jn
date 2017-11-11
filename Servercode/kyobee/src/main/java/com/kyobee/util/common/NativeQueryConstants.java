@@ -436,7 +436,7 @@ public class NativeQueryConstants {
 																"ORGANIZATIONLANG ol inner join LANGMASTER lm on lm.LangID = ol.LanguageID "+
 																"where ol.OrganizationID=:orgId and kyobeeproddb.ol.Active=1";
 	//Added for Guest Reset functionality
-	public static final String HQL_GET_GUESTS = "FROM Guest where OrganizationID = ?1";
+	public static final String HQL_GET_GUESTS = "FROM Guest where OrganizationID = :orgId";
 	//public static final String HQL_GET_GUESTS_PREFERENCES = "FROM GuestPreferences";
 	public static final String HQL_DELETE_GUESTS = "DELETE FROM Guest where OrganizationID = ?1";
 	//public static final String HQL_DELETE_GUESTS_PREFERENCES = "DELETE FROM GuestPreferences";

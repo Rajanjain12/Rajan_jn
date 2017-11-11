@@ -388,15 +388,18 @@ public class WaitListServiceImpl implements IWaitListService {
 	}
 
 	//Added for Guest Reset functionality
-	private void resetGuestTables (Long orgId)
+	private void resetGuestTables(Long orgId)
 	{
 		//Copy Guest to GuestReset
-		List<Guest> guestList = sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUESTS).setParameter(1,orgId).list();
+		/*System.out.println(sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUESTS).setParameter(1, orgId));*/
+		List<Guest> guestList = sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUESTS).setParameter("orgId", orgId).list();
+		System.out.println(guestList);
 		GuestReset oGuestReset;
 		//List<GuestReset> guestResetList = new ArrayList<GuestReset>();
 		for(Guest oGuest : guestList)
 		{
 			oGuestReset = new GuestReset();
+			oGuestReset.setGuestID(oGuest.getGuestID());
 			oGuestReset.setCalloutCount(oGuest.getCalloutCount());
 			oGuestReset.setCheckinTime(oGuest.getCheckinTime());
 			oGuestReset.setCreatedTime(oGuest.getCreatedTime());
@@ -408,6 +411,7 @@ public class WaitListServiceImpl implements IWaitListService {
 			oGuestReset.setOptin(oGuest.isOptin());
 			oGuestReset.setOrganizationID(oGuest.getOrganizationID());
 			oGuestReset.setPrefType(oGuest.getPrefType());
+			oGuestReset.setLanguagePrefID(oGuest.getLanguagePrefID());
 			oGuestReset.setRank(oGuest.getRank());
 			oGuestReset.setResetTime(oGuest.getResetTime());
 			oGuestReset.setSeatedTime(oGuest.getSeatedTime());

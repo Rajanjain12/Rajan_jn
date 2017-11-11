@@ -22,6 +22,9 @@ public class GuestReset implements Serializable{
 	@Column(name="guestResetID")
 	private Long guestResetID;
 	
+	@Column(name="guestID")
+	private Long guestID;
+	
 	@Column(name="OrganizationID")
 	private Long OrganizationID;
 	
@@ -72,6 +75,9 @@ public class GuestReset implements Serializable{
 	@Column(name="prefType")
 	private String prefType;
 	
+	@Column(name="languagePrefID")
+	private Long languagePrefID;
+	
 	@Column(name="resetTime")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date resetTime;
@@ -96,6 +102,14 @@ public class GuestReset implements Serializable{
 
 	public void setGuestResetID(Long guestResetID) {
 		this.guestResetID = guestResetID;
+	}
+
+	public Long getGuestID() {
+		return guestID;
+	}
+
+	public void setGuestID(Long guestID) {
+		this.guestID = guestID;
 	}
 
 	public Long getOrganizationID() {
@@ -210,7 +224,14 @@ public class GuestReset implements Serializable{
 	public void setPrefType(String prefType) {
 		this.prefType = prefType;
 	}
+	
+	public Long getLanguagePrefID() {
+		return languagePrefID;
+	}
 
+	public void setLanguagePrefID(Long languagePrefID) {
+		this.languagePrefID = languagePrefID;
+	}
 
 	public Date getResetTime() {
 		return resetTime;

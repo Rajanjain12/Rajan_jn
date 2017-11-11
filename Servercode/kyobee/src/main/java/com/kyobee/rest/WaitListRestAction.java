@@ -52,6 +52,7 @@ import com.kyobee.util.common.CommonUtil;
 import com.kyobee.util.common.Constants;
 import com.kyobee.util.common.LoggerUtil;
 import com.kyobee.util.common.RealtimefameworkPusher;
+import com.kyobee.util.jms.NotificationMessageReceiver;
 
 
 
@@ -72,8 +73,9 @@ public class WaitListRestAction {
 	
 	@Autowired
 	SessionContextUtil sessionContextUtil;
-
 	
+	@Autowired
+	private NotificationMessageReceiver messageReceiver;
 	/**
 	 * Send Notification to guests by user preferences
 	 * @param guestId
@@ -1008,7 +1010,8 @@ public class WaitListRestAction {
 			guest = convertGuesVoToEntity(guestDTO);
 			
 			oWaitlistMetrics = waitListService.addGuest(guest);
-
+			String tinyUrl = messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guest.getUuid());
+			
 			rootMap.put(Constants.RSNT_NOW_SERVING_GUEST_ID, oWaitlistMetrics.getNowServingParty());
 			rootMap.put(Constants.RSNT_ORG_TOTAL_WAIT_TIME, oWaitlistMetrics.getTotalWaitTime());
 			rootMap.put(Constants.RSNT_NEXT_TO_NOTIFY_GUEST_ID, oWaitlistMetrics.getGuestToBeNotified());
@@ -1024,11 +1027,13 @@ public class WaitListRestAction {
 			rootMap.put("orgid", guest.getOrganizationID());
 			rootMap.put("addedGuestId", oWaitlistMetrics.getGuestId());
 			rootMap.put("guestUUID", guest.getUuid());
+			rootMap.put("tinyURL", tinyUrl);
 			rootMap.put("guestRank", oWaitlistMetrics.getGuestRank());	
 			rootMap.put("languagePrefID", guest.getLanguagePrefID());
 			
-			if(guestDTO.getPrefType() != null)
-				sendNotification(guest, oWaitlistMetrics, "NORMAL", null);
+			//commented for stopping the send sms upon adding the guest(krupali 09/11/2017)
+			/*if(guestDTO.getPrefType() != null)
+				sendNotification(guest, oWaitlistMetrics, "NORMAL", null);*/
 			
 			sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
 			response.setServiceResult(rootMap);

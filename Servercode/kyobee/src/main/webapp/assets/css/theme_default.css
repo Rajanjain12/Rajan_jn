@@ -649,3 +649,6 @@ h4, .h4 {
 .tutorial-page .title{
     color: #FFFFFF;
 }
+.has-error-mask {
+    color: #dd4124;    
+}

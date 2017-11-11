@@ -31,7 +31,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 							noOfInfants : null,
 							quoteTime : null,
 							partyType : null,
-							prefType : null,
+							prefType : 'sms',
 							languagePref :{
 								langIsoCode: 'en',
 								langName: 'English',
@@ -191,7 +191,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 							return;
 						}
 						
-						if(($scope.guestDTO.prefType == 'sms' || $scope.guestDTO.prefType == 'SMS') && ($scope.guestDTO.sms == null || $scope.guestDTO.sms == 'undefined')){
+						if(($scope.guestDTO.prefType == 'sms' || $scope.guestDTO.prefType == 'SMS') && ($scope.guestDTO.sms == null || $scope.guestDTO.sms == 'undefined' || $scope.guestDTO.sms=="")){
 							$scope.errorMsg = "Please enter the contact no.";
 							$scope.loading=false;
 							return;

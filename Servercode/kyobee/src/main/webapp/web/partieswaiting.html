@@ -152,8 +152,21 @@
                 	 <input type="number" ng-show="userDTO.smsRoute == null || userDTO.smsRoute == ''" id="quoteTime" name="quoteTime" class="form-control" min=0 max=500 ng-model="guestDTO.quoteTime" placeholder="Quote Time" />
                 </div> 
                </div>
-                
-                 <div class="form-group panel-form addf3" ng-show="userDTO.smsRoute != null && userDTO.smsRoute != ''"> 
+               	<div class="row">
+               			<div class="col-md-12 col-sm-12 col-xs-12">
+               			
+               			<div class="form-group">
+				 			<input type="text" id="masked" name="field2SMS" ng-model="guestDTO.sms" ng-model="phonenumber" ui-mask="(999) 999-9999" ui-mask-placeholder ui-mask-placeholder-char="_"
+							 class="form-control default-input-placeholder input-no-spinner"/>
+							<span class="help-inline">
+                              <div class="has-error-mask" ng-show="guestDTO.sms.length <10">please enter the valid number</div>
+                            </span>
+                              </div>
+                        </div>
+				 </div>
+					
+					
+                 <!-- <div class="form-group panel-form addf3" ng-show="userDTO.smsRoute != null && userDTO.smsRoute != ''"> 
                         <div class="radio radio-danger">
                             <input type="radio" name="radio1" onchange="showsms();" id="smsshow" ng-model="guestDTO.prefType" value="sms" >
                             <label for="smsshow">SMS</label>
@@ -183,7 +196,7 @@
                             </div>
                              
                         </div>
-                  </div>
+                  </div> -->
                   
                 <div class="form-group panel-form" ng-show="seatPrefs != null">
                     <div class="addf1">
@@ -326,6 +339,8 @@ function showemail(){
     $('#smshide').hide();
     
 }       
+//$("#number-mask").mask("(999) 999-9999");
+
 
 </script>   
   
