@@ -37,6 +37,8 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.toggleColumnShowHide = false;
 					
 					$scope.successMsg = null;
+					/*$scope.clientBase = $scope.userDTO.clientBase;
+					alert($scope.clientBase);*/
 					
 					$scope.statusOptions=["All","Not Present","Incomplete"];
 					$scope.selectedStatus=$scope.statusOptions[0];
@@ -554,7 +556,18 @@ KyobeeControllers.controller('waitListCtrl',
 						$scope.selectedGuest = guestObj;
 						//$scope.smsContent = 'this is default message from admin';
 						console.log("------------"+JSON.stringify($scope.selectedGuest));
-						$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: http://tinyurl.com/juvjuvn/s/'+$scope.selectedGuest.uuid;
+						switch ($scope.userDTO.clientBase) {
+						case "admin":
+							$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/juvjuvn/s/'+$scope.selectedGuest.uuid;
+							break;
+						case "advantech":
+							$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/juccaaq/s/'+$scope.selectedGuest.uuid;
+							break;
+						default:
+							$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/juvjuvn/s/'+$scope.selectedGuest.uuid;
+							break;
+						}
+						
 					}
 					
 					$scope.incrementCalloutCount = function(){

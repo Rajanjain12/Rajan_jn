@@ -76,6 +76,7 @@ public class LoginRestController {
 					HttpSession sessionObj = request.getSession();
 					loadOrgContextData(loginUser.getUserId());
 					UserDTO userDTO = prepareUserObj(loginUser);
+					userDTO.setClientBase(credenitals.getClientBase());
 					sessionObj.setAttribute(Constants.USER_OBJ, userDTO);
 					response.setServiceResult(userDTO);
 					LoggerUtil.logInfo("---- Login successful ----- : " + userDTO.getUserName());

@@ -48,6 +48,7 @@ public class GuestDTO implements Serializable{
 	private String deviceType;
 	private String deviceId;
 	private LanguageMasterDTO languagePref;
+	private String tinyUrl;
 
 	
 	@XmlAttribute
@@ -257,6 +258,12 @@ public class GuestDTO implements Serializable{
 	public void setLanguagePref(LanguageMasterDTO languagePref) {
 		this.languagePref = languagePref;
 	}
+	/*public String getTinyUrl() {
+		return tinyUrl;
+	}
+	public void setTinyUrl(String tinyUrl) {
+		this.tinyUrl = tinyUrl;
+	}*/
 }
 
 
