@@ -554,7 +554,21 @@ KyobeeControllers.controller('waitListCtrl',
 						$scope.selectedGuest = guestObj;
 						//$scope.smsContent = 'this is default message from admin';
 						console.log("------------"+JSON.stringify($scope.selectedGuest));
-						$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: http://tinyurl.com/juvjuvn/s/'+$scope.selectedGuest.uuid;
+						switch ($scope.userDTO.clientBase) {
+						case "admin":
+							$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/zrpro2s/s/'+$scope.selectedGuest.uuid;
+							break;
+						case "advantech":
+							$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/h5wmc2t/s/'+$scope.selectedGuest.uuid;
+							break;
+						case "sweethoneydessert":
+							$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y76qkpro/s/'+$scope.selectedGuest.uuid;
+							break;
+						default:
+							$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/zrpro2s/s/'+$scope.selectedGuest.uuid;
+							break;
+						}
+						
 					}
 					
 					$scope.incrementCalloutCount = function(){
@@ -655,6 +669,7 @@ KyobeeControllers.controller('waitListCtrl',
 					
 					$scope.deleteGuest = function(){
 						$scope.successMsg = null;
+						$scope.loading = true;
 						var postBody = {
 
 						};
@@ -666,11 +681,14 @@ KyobeeControllers.controller('waitListCtrl',
 										$('#deletePopup').simplePopup().hide();
 										$(".simplePopupBackground").fadeOut("fast");
 										$scope.loadWaitListPage(1);
+										$scope.loading = false;
 										$scope.successMsg = "Guest Deleted Successfully."
 									} else if (data.status == "FAILURE") {
+										$scope.loading = false;
 										alert('Error while deleting guest.');
 									}
 								}, function(error) {
+									$scope.loading = false;
 									alert('Error while deleting guest.');
 								});
 						
@@ -928,13 +946,7 @@ KyobeeControllers.controller('waitListCtrl',
 							$scope.countMessage = 'Enter the text message';
 						}
 					}		
-
-					$('#smsContent').keyup(function() {
-					  var text_length = $('#smsContent').val().length;
-					  var text_remaining = text_max - text_length;
-					  
-					  $('#count_message').html(text_remaining + ' characters left');
-					});				
+			
 
 				} ]);
 

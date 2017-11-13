@@ -534,7 +534,7 @@ p.text-msg-pswd { color: #c9ced1; font-size: 16px;  text-align: left;    display
 }
 .table-wrap-web {
     width: 100%;
-	height:332px;
+	height: 410px;
 }
 #waitlisttable thead {
     background: #9e978e;
@@ -933,7 +933,7 @@ z-index: 3;
 .well-guest .form-control {
     font-size: 18px !important;
     height: 45px !important;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 }
 .well-guest textarea{
     font-size: 18px !important;    
@@ -1231,7 +1231,7 @@ padding:12px;
 width:70%;
 min-width:70%;
 top: 0 !important;
-    background: #fff;
+/* background: #fff; */
 }
 
 #showpopup{
@@ -1620,4 +1620,12 @@ input[type=number]::-webkit-inner-spin-button {
 .not-active {
  pointer-events: none;
  cursor: default;
+}
+#sendSMSPopup {
+	background-color:#fff !important;
+}
+.default-input-placeholder{font-size: 18px; padding: 21px 10px;}
+.scroll {
+    height: 333px;
+    overflow-y: scroll;
 }
