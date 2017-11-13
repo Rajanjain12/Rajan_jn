@@ -563,6 +563,9 @@ KyobeeControllers.controller('waitListCtrl',
 						case "advantech":
 							$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/juccaaq/s/'+$scope.selectedGuest.uuid;
 							break;
+						case "sweethoneydessert":
+							$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y7gpz23x/s/'+$scope.selectedGuest.uuid;
+							break;
 						default:
 							$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/juvjuvn/s/'+$scope.selectedGuest.uuid;
 							break;

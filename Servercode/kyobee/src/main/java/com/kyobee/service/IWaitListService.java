@@ -230,5 +230,7 @@ public interface IWaitListService {
 			int sliderMinTime, int sliderMaxTime, String searchName, String clientTimezone) throws RsntException;
 
 	Long getHistoryUsersCountForName(Long orgid, String statusOption, int sliderMinTime, int sliderMaxTime,
-			String searchName, String clientTimezone) throws RsntException; 
+			String searchName, String clientTimezone) throws RsntException;
+
+	public LanguageMasterDTO getLangPrefById(Long languagePrefID); 
 }

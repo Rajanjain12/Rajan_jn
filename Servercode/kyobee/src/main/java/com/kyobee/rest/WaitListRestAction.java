@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bandwidth.sdk.model.events.SmsEvent;
 import com.kyobee.dto.GuestDTO;
 import com.kyobee.dto.GuestPreferencesDTO;
+import com.kyobee.dto.LanguageMasterDTO;
 import com.kyobee.dto.WaitlistMetrics;
 import com.kyobee.dto.common.PaginatedResponse;
 import com.kyobee.dto.common.PaginationReqParam;
@@ -51,6 +52,7 @@ import com.kyobee.util.SessionContextUtil;
 import com.kyobee.util.common.CommonUtil;
 import com.kyobee.util.common.Constants;
 import com.kyobee.util.common.LoggerUtil;
+import com.kyobee.util.common.NativeQueryConstants;
 import com.kyobee.util.common.RealtimefameworkPusher;
 import com.kyobee.util.jms.NotificationMessageReceiver;
 
@@ -76,6 +78,7 @@ public class WaitListRestAction {
 	
 	@Autowired
 	private NotificationMessageReceiver messageReceiver;
+	
 	/**
 	 * Send Notification to guests by user preferences
 	 * @param guestId
@@ -375,6 +378,9 @@ public class WaitListRestAction {
 			}
 			if(guest.getPartyType() != null){
 				guestObj.setPartyType(guest.getPartyType());
+			}
+			if(guest.getLanguagePrefID() != null){
+				guestObj.setLanguagePref(waitListService.getLangPrefById(guest.getLanguagePrefID()));
 			}
 			guestObj.setOptin(guest.isOptin());
 			guestObj.setStatus(guest.getStatus());

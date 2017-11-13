@@ -1691,6 +1691,22 @@ ByOrgRecords(java.lang.Long, int, int)
 			}
 			return langPref;
 		}
+		@Override
+		public LanguageMasterDTO getLangPrefById(Long languagePrefID) {
+			// TODO Auto-generated method stub
+			LanguageMasterDTO langPref = new LanguageMasterDTO();
+			List<Object[]> list = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_USER_LANGUAGE_PREF_VALUES).
+					setParameter("langId", languagePrefID).list();
+			System.out.println(list);
+			if(null != list && list.size()>0){
+				for (Object[] pref : list) {
+					langPref.setLangId(Long.valueOf(pref[0].toString()));
+					langPref.setLangName(pref[1].toString());
+					langPref.setLangIsoCode(pref[2].toString());
+				}
+			}
+			return langPref;
+		}
 		
 	
 }
