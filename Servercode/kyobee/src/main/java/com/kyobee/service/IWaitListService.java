@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
+import com.kyobee.dto.OrganizationTemplateDTO;
 import com.kyobee.dto.WaitlistMetrics;
 import com.kyobee.entity.Guest;
 import com.kyobee.entity.GuestNotificationBean;
@@ -138,13 +139,25 @@ public interface IWaitListService {
 	 * @param orgId
 	 * @return {@link List<GuestPreferencesDTO>}
 	 */
-	public List<GuestPreferencesDTO> getOrganizationSeatingPref(long orgId);
+	public List<GuestPreferencesDTO> getOrganizationSeatingPref(Long orgId);
 	/**
 	 * Get Organization language preferences by OrgId
 	 * @param orgId
 	 * @return {@link List<LanguagePreferencesDTO>}
 	 */
-	public List<LanguageMasterDTO> getOrganizationLanguagePref(long orgId);
+	public List<LanguageMasterDTO> getOrganizationLanguagePref(Long orgId);
+	/**
+	 * Get language preferences by languagePrefID
+	 * @param languagePrefID
+	 * @return {@link LanguageMasterDTO}
+	 */
+	public LanguageMasterDTO getLangPrefById(Long languagePrefID);
+	/**
+	 * Get organization templates by OrgId
+	 * @param OrgId
+	 * @return {@link List<OrganizationTemplateDTO>}
+	 */
+	List<OrganizationTemplateDTO> getOrganizationTemplates(Long orgId);
 	/**
 	 * Updates the total waittime of the organization
 	 * @param organizationId
@@ -231,6 +244,5 @@ public interface IWaitListService {
 
 	Long getHistoryUsersCountForName(Long orgid, String statusOption, int sliderMinTime, int sliderMaxTime,
 			String searchName, String clientTimezone) throws RsntException;
-
-	public LanguageMasterDTO getLangPrefById(Long languagePrefID); 
+ 
 }

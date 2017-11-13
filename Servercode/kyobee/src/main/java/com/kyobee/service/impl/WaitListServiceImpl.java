@@ -44,6 +44,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
+import com.kyobee.dto.OrganizationTemplateDTO;
 import com.kyobee.dto.SMSDetailsWrapper;
 import com.kyobee.dto.WaitlistMetrics;
 import com.kyobee.entity.Guest;
@@ -815,9 +816,10 @@ public class WaitListServiceImpl implements IWaitListService {
 
 		return guestWithMaxRank.get(0);
 	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<GuestPreferencesDTO> getOrganizationSeatingPref(long orgId) {
+	public List<GuestPreferencesDTO> getOrganizationSeatingPref(Long orgId) {
 		List<GuestPreferencesDTO> pref = null;
 		GuestPreferencesDTO dto = new GuestPreferencesDTO();
 		List<Object[]> list = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_SEATING_PREF_VALUES).
@@ -1666,10 +1668,11 @@ ByOrgRecords(java.lang.Long, int, int)
 			}
 
 		}
-	 	/*Get Organization language preferences by OrgId (krupali 07/11/2017)*/
 	 	
+	 	/*Get Organization language preferences by OrgId (krupali 07/11/2017)*/
+	 	@SuppressWarnings("unchecked")
 		@Override
-		public List<LanguageMasterDTO> getOrganizationLanguagePref(long orgId) {
+		public List<LanguageMasterDTO> getOrganizationLanguagePref(Long orgId) {
 			List<LanguageMasterDTO> langPref = null;
 			LanguageMasterDTO dto = new LanguageMasterDTO();
 			List<Object[]> list = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_LANGUAGE_PREF_VALUES).
@@ -1691,6 +1694,9 @@ ByOrgRecords(java.lang.Long, int, int)
 			}
 			return langPref;
 		}
+	 	
+	 	/*for getting language preferences by id (krupali 13/11/2017)*/
+	 	@SuppressWarnings("unchecked")
 		@Override
 		public LanguageMasterDTO getLangPrefById(Long languagePrefID) {
 			// TODO Auto-generated method stub
@@ -1708,5 +1714,29 @@ ByOrgRecords(java.lang.Long, int, int)
 			return langPref;
 		}
 		
+	 	@SuppressWarnings("unchecked")
+		@Override
+		public List<OrganizationTemplateDTO> getOrganizationTemplates(Long orgId) {
+			List<OrganizationTemplateDTO> templates = null;
+			OrganizationTemplateDTO dto = new OrganizationTemplateDTO();
+			List<Object[]> list = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_SMS_TEMPLATE_VALUES).
+					setParameter("orgId", orgId).list();
+			System.out.println("***********pref"+list);
+			if(null != list && list.size()>0){
+				templates = new ArrayList<OrganizationTemplateDTO>();
+				for (Object[] template : list) {
+					dto = new OrganizationTemplateDTO();
+					dto.setSmsTemplateID(Long.valueOf(template[0].toString()));
+					dto.setTemplateText(template[1].toString());
+					dto.setLevel(Integer.valueOf(template[2].toString()));
+					/*dto.setPrefValueId(Long.valueOf(lookupvalue[0].toString()));
+					dto.setPrefValue(lookupvalue[1].toString());*/
+					templates.add(dto);
+				}
+			}
+
+
+			return templates;
+		}
 	
 }

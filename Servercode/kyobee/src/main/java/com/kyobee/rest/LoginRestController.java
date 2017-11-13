@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
+import com.kyobee.dto.OrganizationTemplateDTO;
 import com.kyobee.dto.UserDTO;
 import com.kyobee.dto.common.Credential;
 import com.kyobee.dto.common.Response;
@@ -134,6 +135,14 @@ public class LoginRestController {
 					langPref = waitListService.getOrganizationLanguagePref(Long.valueOf(loginDetail[1].toString()).longValue());
 					rootMap.put("languagepref",langPref);
 				} catch (Exception e) {
+					System.out.println(e);
+				}
+				
+				List<OrganizationTemplateDTO> orgTemplates =  null;
+				try {
+					orgTemplates =	waitListService.getOrganizationTemplates(Long.valueOf(loginDetail[1].toString()).longValue());
+					rootMap.put("smsTemplates",orgTemplates);
+				}catch(Exception e){
 					System.out.println(e);
 				}
 				
