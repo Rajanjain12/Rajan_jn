@@ -235,6 +235,36 @@ KyobeeControllers.controller('guestCtrl',
 						
 					}
 					
+					/*$scope.fetchOrgSMSTemplates = function(OrgId) {
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/fetchSMSTemplates?organizationID='+OrgId;
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log("Updated data "+JSON.stringify(data));
+									if (data.status == "SUCCESS") {
+										$scope.guestDTO = data.serviceResult;
+										console.log($scope.guestDTO);
+										$scope.guestPref = angular.copy($scope.seatPrefs);
+										if($scope.guestDTO.guestPreferences!=null)
+										for(var i=0;i< $scope.guestDTO.guestPreferences.length;i++){
+											for(var j=0; j < $scope.guestPref.length ; j++){
+												if($scope.guestDTO.guestPreferences[i].prefValueId == $scope.guestPref[j].prefValueId){
+													$scope.guestPref[j].selected = true;
+													break;
+												}
+											}
+										}
+									} else if (data.status == "FAILURE") {
+										alert('Error while fetching guest details. Please login again or contact support');
+										$scope.logout();
+									}
+								}, function(error) {
+									alert('Error while fetching guest details. Please login again or contact support');
+								});
+					}*/
+					
 					$scope.loadGuestToUpdate = function(guestId) {
 						var postBody = {
 

@@ -376,7 +376,7 @@ public class WaitListServiceImpl implements IWaitListService {
 	 * update all guests status as RESET byorgId
 	 * @param  orgid
 	 */
-	@Override
+	/*@Override
 	public int resetOrganizationsByOrgid(Long orgid) {
 		try {
 			//Added for Guest Reset functionality
@@ -386,6 +386,38 @@ public class WaitListServiceImpl implements IWaitListService {
 			e.printStackTrace();
 		}
 		return 1;
+	}*/
+	
+	public int resetOrganizationsByOrgid(Long orgid) {
+		
+		try {
+			sessionFactory.getCurrentSession().doWork(new Work(){
+			
+				@Override
+				public void execute(Connection connection) throws SQLException {
+					CallableStatement cStmt = connection.prepareCall("{call RESETGUESTBYORGID(?)}");
+					
+					try {
+						if(orgid!=null){
+						cStmt.setLong(1, orgid);
+						}
+						else{
+							cStmt.setLong(1, Types.INTEGER);
+						}
+						cStmt.execute();
+					} finally {
+						if (cStmt != null) {
+							cStmt.close();
+						}
+					}
+				}
+			});
+			return 1;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 	//Added for Guest Reset functionality

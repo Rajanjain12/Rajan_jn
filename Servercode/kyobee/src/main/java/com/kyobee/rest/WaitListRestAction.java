@@ -38,6 +38,7 @@ import com.bandwidth.sdk.model.events.SmsEvent;
 import com.kyobee.dto.GuestDTO;
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
+import com.kyobee.dto.OrganizationTemplateDTO;
 import com.kyobee.dto.WaitlistMetrics;
 import com.kyobee.dto.common.PaginatedResponse;
 import com.kyobee.dto.common.PaginationReqParam;
@@ -55,6 +56,7 @@ import com.kyobee.util.common.LoggerUtil;
 import com.kyobee.util.common.NativeQueryConstants;
 import com.kyobee.util.common.RealtimefameworkPusher;
 import com.kyobee.util.jms.NotificationMessageReceiver;
+import com.stripe.model.Order;
 
 
 
@@ -540,13 +542,27 @@ public class WaitListRestAction {
 	//@GET
 	//@Path("/reset")
 	@RequestMapping(value = "/reset", method = RequestMethod.GET, produces = "application/json")
-	public String resetGuests(@RequestParam("orgid") Long orgid){
-		int res= waitListService.resetOrganizationsByOrgid(orgid);
-		if(res==1){
-			return Constants.RSNT_GUEST_SUCCESS;
+	public Response<String> resetGuests(@RequestParam(value="orgid", required=false) Long orgid){
+		Response<String> response = new Response<String>();
+		try {
+			int res= waitListService.resetOrganizationsByOrgid(orgid);
+			if(res==1){
+				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+				//return Constants.RSNT_GUEST_SUCCESS;
+			}
+			else{
+				CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+						"System Error - fetchCheckinUsers failed");
+				//return Constants.RSNT_GUEST_FAIL;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("fetchCheckinUsers() - failed:", e);
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - fetchCheckinUsers failed");
+			//return Constants.RSNT_GUEST_FAIL;
 		}
-
-		return Constants.RSNT_GUEST_FAIL;
+		return response;
 	}
 	/**
 	 * Fetch Guests by Status of CHECKIN
@@ -1668,6 +1684,31 @@ public class WaitListRestAction {
 				CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
 						"System Error - usermetriks failed");
 				// TODO: handle exception
+			}
+			return response;
+		}
+		
+		/**
+		 * Fetch organization sms template Details By Id
+		 * @param orgId
+		 * @return {@link OrganizationTemplateDTO}
+		 */
+		//@GET
+		//@Path("/fetchSMSTemplates")
+		//@Produces(MediaType.APPLICATION_JSON)
+		@RequestMapping(value = "/fetchSMSTemplates", method = RequestMethod.GET, produces = "application/json")
+		public Response<List<OrganizationTemplateDTO>> fetchOrgSMSTemplatesById(@RequestParam("organizationID") Long orgId){
+			log.info("Entering :: fetchGuestById :: orgId "+orgId);
+			Response<List<OrganizationTemplateDTO>> response = new Response<List<OrganizationTemplateDTO>>();
+			try {
+				List<OrganizationTemplateDTO> organizationTemplateDTOs = waitListService.getOrganizationTemplates(orgId);
+				System.out.println(organizationTemplateDTOs);
+				response.setServiceResult(organizationTemplateDTOs);
+				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+			} catch (Exception e) {
+				log.error("fetchOrgSMSTemplatesById(orgId) - failed:", e);
+				CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+						"System Error - fetch Organization Templates");
 			}
 			return response;
 		}
