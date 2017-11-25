@@ -11,6 +11,7 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -165,6 +166,14 @@ public class NotificationMessageReceiver implements MessageListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		/*try {
+			sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_USER_LANGUAGE_PREF_VALUES).
+			setParameter("langId", 1).list();
+			System.out.println("done");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}*/
     }
 	
 	

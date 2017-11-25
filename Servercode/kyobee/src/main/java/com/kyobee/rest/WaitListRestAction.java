@@ -39,6 +39,7 @@ import com.kyobee.dto.GuestDTO;
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
 import com.kyobee.dto.OrganizationTemplateDTO;
+import com.kyobee.dto.SendSMSWrapper;
 import com.kyobee.dto.WaitlistMetrics;
 import com.kyobee.dto.common.PaginatedResponse;
 import com.kyobee.dto.common.PaginationReqParam;
@@ -1152,6 +1153,8 @@ public class WaitListRestAction {
 		WaitlistMetrics oWaitlistMetrics = null;
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 		Long totalWaitTime = null;
+		String smsContent=null;
+		long templateId=0;
 		try {
 			oWaitlistMetrics = waitListService.updateGuestInfo(guest, Constants.WAITLIST_UPDATE_DELETE);
 
@@ -1182,8 +1185,29 @@ public class WaitListRestAction {
 		if(oWaitlistMetrics.getGuestToBeNotified() != -1){
 			
 			if(guest.getGuestID() <= oWaitlistMetrics.getGuestToBeNotified()) {
-				Guest guestToBeNotified = waitListService.getGuestById(oWaitlistMetrics.getGuestToBeNotified());
-				sendNotification(guestToBeNotified, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED, null);
+				/*Guest guestToBeNotified = waitListService.getGuestById(oWaitlistMetrics.getGuestToBeNotified());
+				sendNotification(guestToBeNotified, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED, null);*/
+				
+				//for fetching smsTemplates
+				Response<List<OrganizationTemplateDTO>> tempRes = fetchOrgSMSTemplatesById(guest.getOrganizationID());
+				List<OrganizationTemplateDTO> templates = tempRes.getServiceResult();
+				System.out.println(templates);
+				for (OrganizationTemplateDTO template : templates) {
+					if(template.getLevel()==2){
+						smsContent=template.getTemplateText();
+						templateId=template.getSmsTemplateID();
+						}
+				}
+				
+				SendSMSWrapper smsWrapper = new SendSMSWrapper();
+				smsWrapper.setGuestId(guest.getGuestID());
+				smsWrapper.setOrgId(guest.getOrganizationID());
+				smsWrapper.setTemplateId(templateId);
+				smsWrapper.setSmsContent(smsContent);
+				smsWrapper.setMetrics(oWaitlistMetrics);
+				
+				Response<Map<String, String>> res = sendSMS(smsWrapper);
+				System.out.println(res);
 			}
 		}
 		sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
@@ -1288,6 +1312,8 @@ public class WaitListRestAction {
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 		WaitlistMetrics oWaitlistMetrics = null;
 		Long guestCount = null;
+		String smsContent=null;
+		long templateId=0;
 
 		try {
 			//guestDTO = objectMapper.readValue(guestJSONStr, GuestDTO.class);
@@ -1324,8 +1350,30 @@ public class WaitListRestAction {
 
 		if(oWaitlistMetrics.getGuestToBeNotified() != -1){
 			if(guest.getGuestID() <= oWaitlistMetrics.getGuestToBeNotified()){
-				Guest guestToNotify = waitListService.getGuestById((long)oWaitlistMetrics.getGuestToBeNotified());
-				sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED, null);
+				//commented as we are using sendsms API for sending sms as of now
+				//Guest guestToNotify = waitListService.getGuestById((long)oWaitlistMetrics.getGuestToBeNotified());
+				//sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED, null);
+				
+				//for fetching smsTemplates
+				Response<List<OrganizationTemplateDTO>> tempRes = fetchOrgSMSTemplatesById(guest.getOrganizationID());
+				List<OrganizationTemplateDTO> templates = tempRes.getServiceResult();
+				System.out.println(templates);
+				for (OrganizationTemplateDTO template : templates) {
+					if(template.getLevel()==2){
+						smsContent=template.getTemplateText();
+						templateId=template.getSmsTemplateID();
+						}
+				}
+				
+				SendSMSWrapper smsWrapper = new SendSMSWrapper();
+				smsWrapper.setGuestId(guest.getGuestID());
+				smsWrapper.setOrgId(guest.getOrganizationID());
+				smsWrapper.setTemplateId(templateId);
+				smsWrapper.setSmsContent(smsContent);
+				smsWrapper.setMetrics(oWaitlistMetrics);
+				
+				Response<Map<String, String>> res = sendSMS(smsWrapper);
+				System.out.println(res);
 			}
 		}
 		
@@ -1354,6 +1402,8 @@ public class WaitListRestAction {
 		WaitlistMetrics oWaitlistMetrics = null;
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 		Long guestCount = null;
+		String smsContent=null;
+		long templateId=0;
 
 		try {
 			//guestDTO = objectMapper.readValue(guestJSONStr, GuestDTO.class);
@@ -1389,8 +1439,29 @@ public class WaitListRestAction {
 		
 		if(oWaitlistMetrics.getGuestToBeNotified() != -1){
 			if(guest.getGuestID() <= oWaitlistMetrics.getGuestToBeNotified()){
-				Guest guestToNotify = waitListService.getGuestById((long)oWaitlistMetrics.getGuestToBeNotified());
-				sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED, null);
+				/*Guest guestToNotify = waitListService.getGuestById((long)oWaitlistMetrics.getGuestToBeNotified());
+				sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED, null);*/
+				
+				//for fetching smsTemplates
+				Response<List<OrganizationTemplateDTO>> tempRes = fetchOrgSMSTemplatesById(guest.getOrganizationID());
+				List<OrganizationTemplateDTO> templates = tempRes.getServiceResult();
+				System.out.println(templates);
+				for (OrganizationTemplateDTO template : templates) {
+					if(template.getLevel()==2){
+						smsContent=template.getTemplateText();
+						templateId=template.getSmsTemplateID();
+						}
+				}
+				
+				SendSMSWrapper smsWrapper = new SendSMSWrapper();
+				smsWrapper.setGuestId(guest.getGuestID());
+				smsWrapper.setOrgId(guest.getOrganizationID());
+				smsWrapper.setTemplateId(templateId);
+				smsWrapper.setSmsContent(smsContent);
+				smsWrapper.setMetrics(oWaitlistMetrics);
+				
+				Response<Map<String, String>> res = sendSMS(smsWrapper);
+				System.out.println(res);
 			}
 		}
 		
@@ -1416,6 +1487,8 @@ public class WaitListRestAction {
 		Guest guestToBeSeated = waitListService.getGuestById(guestId);
 		//JSONObject jsonObject = null;
 		WaitlistMetrics oWaitlistMetrics = null;
+		String smsContent=null;
+		long templateId=0;
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 		Long guestCount = null;
 		try {
@@ -1455,7 +1528,28 @@ public class WaitListRestAction {
 			if(guestToBeSeated.getGuestID() <= guestIdToBeNotified)
 			{
 				Guest guestToNotify = waitListService.getGuestById(guestIdToBeNotified);
-				sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED,null);
+				/*sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED,null);*/
+				
+				//for fetching smsTemplates
+				Response<List<OrganizationTemplateDTO>> tempRes = fetchOrgSMSTemplatesById(guestToNotify.getOrganizationID());
+				List<OrganizationTemplateDTO> templates = tempRes.getServiceResult();
+				System.out.println(templates);
+				for (OrganizationTemplateDTO template : templates) {
+					if(template.getLevel()==2){
+						smsContent=template.getTemplateText();
+						templateId=template.getSmsTemplateID();
+						}
+				}
+				
+				SendSMSWrapper smsWrapper = new SendSMSWrapper();
+				smsWrapper.setGuestId(guestToNotify.getGuestID());
+				smsWrapper.setOrgId(guestToNotify.getOrganizationID());
+				smsWrapper.setTemplateId(templateId);
+				smsWrapper.setSmsContent(smsContent);
+				smsWrapper.setMetrics(oWaitlistMetrics);
+				
+				Response<Map<String, String>> res = sendSMS(smsWrapper);
+				System.out.println(res);
 			}
 		}
 		
@@ -1658,25 +1752,43 @@ public class WaitListRestAction {
 		 * Also used to leverage the free form of the sms.
 		 */
 		
-		@RequestMapping(value = "/sendSMS", method = RequestMethod.GET, produces = "application/json")
-		public Response<Map<String, String>> sendSMS(@RequestParam("guestId") Long guestId,
-													 @RequestParam("orgId") Long orgId,
-													 @RequestParam("templateID") Integer templateId, 
-													 @RequestParam("smsContent") String smsContent
-												     ){
+		@RequestMapping(value = "/sendSMS", method = RequestMethod.POST, produces = "application/json")
+		public Response<Map<String, String>> sendSMS(@RequestBody SendSMSWrapper smsWrapper){
 			System.out.println("sendSMS");
 			Response<Map<String, String>> response = new Response<Map<String,String>>();
 			try{
-				Guest guest = waitListService.getGuestById(guestId);
-				System.out.println(guestId);
+				Guest guest = waitListService.getGuestById(smsWrapper.getGuestId());
+				String notificationFlag=null;
+				int tempLevel = 0;
+				
+				System.out.println(smsWrapper.getGuestId());
+				System.out.println(smsWrapper.getOrgId());
+				System.out.println(smsWrapper.getTemplateId());
+				System.out.println(smsWrapper.getSmsContent());
+				
+				//for getting templateLevel
+				if(smsWrapper.getTemplateId()!=null){
+				tempLevel = waitListService.fetchTemplateLevel(smsWrapper.getOrgId(), smsWrapper.getTemplateId().longValue());	
+				System.out.println(tempLevel);
+				}
+				
+				//setting notificationFlag
+				switch (tempLevel) {
+				case 1:
+					notificationFlag="NORMAL";
+					break;
+					
+				case 2:
+					notificationFlag=Constants.NOTIF_THRESHOLD_ENTERED;
+					break;
 
-				System.out.println(orgId);
-
-				System.out.println(templateId);
-
-				System.out.println(smsContent);
-
-				sendNotification(guest, null, Constants.FREETEXT, smsContent);
+				default:
+					notificationFlag=Constants.FREETEXT;
+					break;
+				}
+				
+				sendNotification(guest, smsWrapper.getMetrics(), notificationFlag, smsWrapper.getSmsContent());
+				waitListService.saveSmsLog(guest,smsWrapper.getOrgId(),smsWrapper.getTemplateId(), smsWrapper.getSmsContent());
 				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 			}
 			catch (Exception e) {
@@ -1712,5 +1824,7 @@ public class WaitListRestAction {
 			}
 			return response;
 		}
+		
+		
 	
 }

@@ -244,5 +244,9 @@ public interface IWaitListService {
 
 	Long getHistoryUsersCountForName(Long orgid, String statusOption, int sliderMinTime, int sliderMaxTime,
 			String searchName, String clientTimezone) throws RsntException;
+
+	void saveSmsLog(Guest guest, Long orgId, Long templateId, String smsText) throws Exception;
+
+	Integer fetchTemplateLevel(Long orgId, Long templateId);
  
 }

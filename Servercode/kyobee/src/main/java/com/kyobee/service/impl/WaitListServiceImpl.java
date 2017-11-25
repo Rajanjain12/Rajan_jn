@@ -6,6 +6,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,7 +32,9 @@ import javax.mail.internet.MimeMultipart;
 import javax.swing.plaf.SliderUI;
 import javax.swing.text.StyleContext.SmallAttributeSet;
 
+import org.apache.log4j.helpers.QuietWriter;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.jdbc.ReturningWork;
@@ -41,6 +44,7 @@ import org.hibernate.type.StringType;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.terracotta.modules.ehcache.store.nonstop.NonStopStoreWrapper;
 
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
@@ -52,6 +56,7 @@ import com.kyobee.entity.GuestNotificationBean;
 import com.kyobee.entity.GuestPreferences;
 import com.kyobee.entity.GuestReset;
 import com.kyobee.entity.Organization;
+import com.kyobee.entity.SmsLog;
 import com.kyobee.exception.RsntException;
 import com.kyobee.service.IWaitListService;
 import com.kyobee.util.AppTransactional;
@@ -1770,5 +1775,48 @@ ByOrgRecords(java.lang.Long, int, int)
 
 			return templates;
 		}
+	 	
+	 	@SuppressWarnings("unchecked")
+		@Override
+	 	public void saveSmsLog(Guest guest, Long orgId, Long templateId, String smsText){
+	 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	 		Date date = new Date();
+	 		System.out.println(dateFormat.format(date));
+	 		
+			SmsLog log = new SmsLog();
+			log.setOrgID(orgId);
+			log.setGuestID(guest.getGuestID());
+			log.setPhoneNo(guest.getSms());
+			log.setMsgText(smsText);
+			log.setProcess("P");
+			log.setCreatedBy("admin");
+			log.setCreatedAt(dateFormat.format(date));
+			log.setModifiedAt(dateFormat.format(date));
+			
+			if(templateId!=null){
+			Integer templateLevel = fetchTemplateLevel(orgId, templateId);
+			log.setTemplateID(templateId);
+			log.setTempLevel(templateLevel);
+			}
+			
+			Long i = (Long) sessionFactory.getCurrentSession().save(log);
+			System.out.println("*************"+i);
+		}
+	 	
+	 	@SuppressWarnings("unchecked")
+		@Override
+	 	public Integer fetchTemplateLevel(Long orgId, Long templateId){
+	 		Integer templateLevel=null;
+	 		
+	 		List<Integer> lists = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_SMS_TEMPLATE_LEVEL_BY_ID).
+	 				setParameter("orgId", orgId).setParameter("templateID", templateId).list();
+	 				
+	 				System.out.println(lists);
+	 				for (Integer level : lists) {
+	 					templateLevel = level;
+	 				}
+	 				
+	 		return templateLevel;
+	 	}
 	
 }

@@ -709,14 +709,19 @@ KyobeeControllers.controller('waitListCtrl',
 						//alert($scope.selectedGuest.guestID);
 
 						//alert($scope.smsContent);
+						
+						$scope.sendSMSWrapper = {
+								guestId : $scope.selectedGuest.guestID,
+								orgId : $scope.userDTO.organizationId,
+								templateId : null,
+								smsContent : $scope.smsContent,
+								metrics :null
+						}
 
-						var postBody = {
-
-						};
-						var url = '/kyobee/web/rest/waitlistRestAction/sendSMS?orgId=' + $scope.userDTO.organizationId + '&guestId='+$scope.selectedGuest.guestID 
-																					+ '&templateID=1'
-						 															+ '&smsContent=' +$scope.smsContent ;
-						KyobeeService.getDataService(url, '').query(postBody,
+						var postBody = $scope.sendSMSWrapper;
+						console.log("sendSMS postbody-----"+JSON.stringify(postBody));
+						var url = '/kyobee/web/rest/waitlistRestAction/sendSMS' ;
+						KyobeeService.postDataService(url, '').query(postBody,
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {

@@ -1,5 +1,6 @@
 package com.kyobee.util.common;
 
+
 public class NativeQueryConstants {
 	
 	public static final String GET_ORG_AUTO_RENEW_OPTION = "SELECT AutoRenew from ORGANIZATION where ORGANIZATIONID = ?1";
@@ -437,6 +438,7 @@ public class NativeQueryConstants {
 																"where ol.OrganizationID=:orgId and kyobeeproddb.ol.Active=1";
 	public static final String GET_USER_LANGUAGE_PREF_VALUES = "select LangID, LangName, LangIsoCode from LANGMASTER lm where lm.LangID=:langId";
 	public static final String GET_ORG_SMS_TEMPLATE_VALUES = "select SmsTemplateID, TemplateText, Level from ORGANIZATIONTEMPLATE ot where ot.OrgID=:orgId and ot.Active=1";
+	public static final String GET_ORG_SMS_TEMPLATE_LEVEL_BY_ID  = "select Level from ORGANIZATIONTEMPLATE ot where ot.OrgID=:orgId and ot.Active=1 and ot.SmsTemplateID=:templateID";
 	//Added for Guest Reset functionality
 	public static final String HQL_GET_GUESTS = "FROM Guest where OrganizationID = :orgId";
 	//public static final String HQL_GET_GUESTS_PREFERENCES = "FROM GuestPreferences";

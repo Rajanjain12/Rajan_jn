@@ -81,7 +81,7 @@ public class AuthenticationFilter implements Filter {
 				if (!byPassURL(requestURI)) {
 					UserDTO userDTO = (UserDTO) httpReq.getSession().getAttribute(Constants.USER_OBJ);
 					if (userDTO == null) {
-						httpRes.sendRedirect(httpReq.getContextPath() + "/unsecured/index.html");
+						httpRes.sendRedirect(httpReq.getContextPath() + "/public/index.html");
 					}
 				}
 			}
