@@ -35,6 +35,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bandwidth.sdk.model.events.SmsEvent;
+import com.google.api.translate.Language;
+import com.google.api.translate.Translate;
 import com.kyobee.dto.GuestDTO;
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
@@ -1765,6 +1767,13 @@ public class WaitListRestAction {
 				System.out.println(smsWrapper.getOrgId());
 				System.out.println(smsWrapper.getTemplateId());
 				System.out.println(smsWrapper.getSmsContent());
+				
+				Translate.setHttpReferrer("http://code.google.com/p/google-api-translate-java");
+				 
+			    String translatedText = Translate.execute("Bonjour monde le",
+			            Language.FRENCH, Language.ENGLISH);
+			 
+			    System.out.println(translatedText);
 				
 				//for getting templateLevel
 				if(smsWrapper.getTemplateId()!=null){
