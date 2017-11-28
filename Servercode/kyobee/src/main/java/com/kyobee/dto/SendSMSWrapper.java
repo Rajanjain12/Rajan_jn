@@ -6,6 +6,7 @@ public class SendSMSWrapper {
 	private Long templateId;
 	private String smsContent;
 	private WaitlistMetrics metrics;
+	private Integer templateLevel;
 	
 	public Long getGuestId() {
 		return guestId;
@@ -40,5 +41,11 @@ public class SendSMSWrapper {
 	}
 	public void setMetrics(WaitlistMetrics metrics) {
 		this.metrics = metrics;
+	}
+	public Integer getTemplateLevel() {
+		return templateLevel;
+	}
+	public void setTemplateLevel(Integer templateLevel) {
+		this.templateLevel = templateLevel;
 	}
 }

@@ -140,7 +140,8 @@ public class LoginRestController {
 				
 				List<OrganizationTemplateDTO> orgTemplates =  null;
 				try {
-					orgTemplates =	waitListService.getOrganizationTemplates(Long.valueOf(loginDetail[1].toString()).longValue());
+					long langID=1;
+					orgTemplates =	waitListService.getOrganizationTemplates(Long.valueOf(loginDetail[1].toString()).longValue(),langID,null);
 					rootMap.put("smsTemplates",orgTemplates);
 				}catch(Exception e){
 					System.out.println(e);

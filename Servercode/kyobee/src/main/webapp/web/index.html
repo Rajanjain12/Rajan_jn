@@ -125,7 +125,8 @@
                         <!-- <h1>Waitlist</h1>    -->
 						<h1>&nbsp;</h1>
                         <ul>
-                            <li><a ng-click="changeView('home')" style="cursor:pointer">Waitlist</a></li>
+                            <!-- <li><a ng-click="changeView('home')" style="cursor:pointer">Waitlist</a></li> -->
+                            <li><a ng-click="resetGuestByOrgid();" style="cursor:pointer">Reset Waitlist</a></li>
                             <!-- <li><a href="">Account</a></li> -->
                             <li><a href="">Help</a></li>
                         </ul>
@@ -157,6 +158,7 @@
              </div>
         
         </div>
+        <div class="loader" ng-if="loading"></div>
         </section>
     
 	<div  ng-view></div>

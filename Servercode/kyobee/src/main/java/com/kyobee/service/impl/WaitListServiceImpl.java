@@ -1753,11 +1753,21 @@ ByOrgRecords(java.lang.Long, int, int)
 		
 	 	@SuppressWarnings("unchecked")
 		@Override
-		public List<OrganizationTemplateDTO> getOrganizationTemplates(Long orgId) {
+		public List<OrganizationTemplateDTO> getOrganizationTemplates(Long orgId,Long langID,Integer levelId) {
 			List<OrganizationTemplateDTO> templates = null;
 			OrganizationTemplateDTO dto = new OrganizationTemplateDTO();
-			List<Object[]> list = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_SMS_TEMPLATE_VALUES).
-					setParameter("orgId", orgId).list();
+			StringBuffer query= new StringBuffer("select SmsTemplateID, TemplateText, LanguageID, Level"
+					+ " from ORGANIZATIONTEMPLATE ot"
+					+ " where ot.OrgID=:orgId and ot.LanguageID=:langID and ot.Active=1");
+			
+			if(levelId!=null) {
+				query=query.append(" and ot.Level=:levelId");
+			}
+			
+			
+			List<Object[]> list = sessionFactory.getCurrentSession().createSQLQuery(query.toString()
+					).
+					setParameter("orgId", orgId).setParameter("langID", langID).setParameter("levelId", levelId).list();
 			System.out.println("***********pref"+list);
 			if(null != list && list.size()>0){
 				templates = new ArrayList<OrganizationTemplateDTO>();
@@ -1765,7 +1775,8 @@ ByOrgRecords(java.lang.Long, int, int)
 					dto = new OrganizationTemplateDTO();
 					dto.setSmsTemplateID(Long.valueOf(template[0].toString()));
 					dto.setTemplateText(template[1].toString());
-					dto.setLevel(Integer.valueOf(template[2].toString()));
+					dto.setLanguageID(Long.valueOf(template[2].toString()));
+					dto.setLevel(Integer.valueOf(template[3].toString()));
 					/*dto.setPrefValueId(Long.valueOf(lookupvalue[0].toString()));
 					dto.setPrefValue(lookupvalue[1].toString());*/
 					templates.add(dto);

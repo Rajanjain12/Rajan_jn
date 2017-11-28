@@ -715,7 +715,8 @@ KyobeeControllers.controller('waitListCtrl',
 								orgId : $scope.userDTO.organizationId,
 								templateId : null,
 								smsContent : $scope.smsContent,
-								metrics :null
+								metrics :null,
+								templateLevel:null
 						}
 
 						var postBody = $scope.sendSMSWrapper;
@@ -874,7 +875,9 @@ KyobeeControllers.controller('waitListCtrl',
 						$scope.loadWaitListPage(1);
 					});
 					
-	
+					$scope.$on('someEvent', function(e) {  
+				        $scope.$parent.msg = $scope.loadWaitListPage(1);            
+				    });
 					/*$(document).ready(function(){
 					    $("#slider-range").slider({
 					    range: true,

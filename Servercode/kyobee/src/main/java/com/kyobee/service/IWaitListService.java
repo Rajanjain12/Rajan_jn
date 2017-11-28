@@ -157,7 +157,7 @@ public interface IWaitListService {
 	 * @param OrgId
 	 * @return {@link List<OrganizationTemplateDTO>}
 	 */
-	List<OrganizationTemplateDTO> getOrganizationTemplates(Long orgId);
+	List<OrganizationTemplateDTO> getOrganizationTemplates(Long orgId, Long langId,Integer levelId);
 	/**
 	 * Updates the total waittime of the organization
 	 * @param organizationId

@@ -125,10 +125,12 @@ public class NotificationMessageReceiver implements MessageListener{
 					emailMsg2="\n"+"- Sent by " + guestNotificationBean.getSmsSignature()+"\n";
 				}else {		
 					//Text for message has been changed and made upto 153 characters so that only single message is received
-					msg1 = "Guest #"+guestNotificationBean.getRank()+": Table is almost ready. Come back and wait for your name to be called"
-						+ "For updates: " + buildURL(guestNotificationBean.getClientBase(), guestNotificationBean.getUuid());
+					/*msg1 = "Guest #"+guestNotificationBean.getRank()+": Table is almost ready. Come back and wait for your name to be called"
+						+ "For updates: " + buildURL(guestNotificationBean.getClientBase(), guestNotificationBean.getUuid());*/
+					msg1 = guestNotificationBean.getMessage();
 				}
-				msg2 = "\n"+"- Sent by " + guestNotificationBean.getSmsSignature()+"\n";
+				/*msg2 = "\n"+"- Sent by " + guestNotificationBean.getSmsSignature()+"\n";*/
+				msg2 = guestNotificationBean.getSmsSignature()+"\n";
 				subject = "Your estimated wait time";
 			}
 			else if (Constants.FREETEXT.equals(guestNotificationBean.getNotificationFlag())){

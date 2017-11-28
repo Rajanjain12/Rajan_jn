@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class OrganizationTemplateDTO {
 private Long smsTemplateID;
 private String templateText;
+private Long LanguageID;
 private Integer level;
 
 @XmlAttribute
@@ -26,6 +27,14 @@ public String getTemplateText() {
 }
 public void setTemplateText(String templateText) {
 	this.templateText = templateText;
+}
+
+@XmlAttribute
+public Long getLanguageID() {
+	return LanguageID;
+}
+public void setLanguageID(Long languageID) {
+	LanguageID = languageID;
 }
 
 @XmlAttribute

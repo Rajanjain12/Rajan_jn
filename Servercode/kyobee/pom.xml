@@ -219,11 +219,11 @@
 		    <version>2.1</version>
 		</dependency>
 		
-		<dependency>
+		<!-- <dependency>
     		<groupId>com.googlecode</groupId>
     		<artifactId>google-api-translate-java</artifactId>
     		<version>0.92</version>
-		</dependency>
+		</dependency> -->
 		
 		<dependency>
 		    <groupId>com.github.fernandospr</groupId>
