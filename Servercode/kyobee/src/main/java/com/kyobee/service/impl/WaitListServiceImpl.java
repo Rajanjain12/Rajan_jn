@@ -1764,10 +1764,15 @@ ByOrgRecords(java.lang.Long, int, int)
 				query=query.append(" and ot.Level=:levelId");
 			}
 			
+			//String queryStr=query.toString();
+			SQLQuery queryStr=sessionFactory.getCurrentSession().createSQLQuery(query.toString());
+			queryStr.setParameter("orgId", orgId);
+			queryStr.setParameter("langID", langID);
+			if(levelId!=null) {
+				queryStr.setParameter("levelId", levelId);
+			}
 			
-			List<Object[]> list = sessionFactory.getCurrentSession().createSQLQuery(query.toString()
-					).
-					setParameter("orgId", orgId).setParameter("langID", langID).setParameter("levelId", levelId).list();
+			List<Object[]> list = queryStr.list();
 			System.out.println("***********pref"+list);
 			if(null != list && list.size()>0){
 				templates = new ArrayList<OrganizationTemplateDTO>();
