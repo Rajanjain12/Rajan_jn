@@ -1198,20 +1198,12 @@ public class WaitListRestAction {
 				//for fetching smsTemplates
 				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToBeNotified.getOrganizationID(),guestToBeNotified.getLanguagePrefID(),2);
 				if(templates.size()>0) {
-					smsContent=templates.get(0).getTemplateText();
+					smsContent = templates.get(0).getTemplateText();
+					smsContent=smsContent.replaceAll("tmp1", guestToBeNotified.getRank().toString());
+					smsContent=smsContent.replaceAll("tmp2", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToBeNotified.getUuid()));
 					templateId=templates.get(0).getSmsTemplateID();
 					tempLevel=templates.get(0).getLevel();
 				}
-				/*Response<List<OrganizationTemplateDTO>> tempRes = fetchOrgSMSTemplatesById(guestToBeNotified.getOrganizationID(),guestToBeNotified.getLanguagePrefID());
-				List<OrganizationTemplateDTO> templates = tempRes.getServiceResult();
-				System.out.println(templates);
-				for (OrganizationTemplateDTO template : templates) {
-					if(template.getLevel()==2){
-						smsContent=template.getTemplateText();
-						templateId=template.getSmsTemplateID();
-						tempLevel=template.getLevel();
-						}
-				}*/
 				
 				SendSMSWrapper smsWrapper = new SendSMSWrapper();
 				smsWrapper.setGuestId(guestToBeNotified.getGuestID());
@@ -1336,7 +1328,7 @@ public class WaitListRestAction {
 			String seatingPreference = buildSeatingPreference(guestDTO);
 			guest.setSeatingPreference(seatingPreference);
 			oWaitlistMetrics = waitListService.updateGuestInfo(guest, Constants.WAITLIST_UPDATE_CALLOUT);
-
+			
 			rootMap.put(Constants.RSNT_NOW_SERVING_GUEST_ID, oWaitlistMetrics.getNowServingParty());
 			rootMap.put(Constants.RSNT_ORG_TOTAL_WAIT_TIME, oWaitlistMetrics.getTotalWaitTime());
 			rootMap.put(Constants.RSNT_NEXT_TO_NOTIFY_GUEST_ID, oWaitlistMetrics.getGuestToBeNotified());
@@ -1372,7 +1364,9 @@ public class WaitListRestAction {
 				//for fetching smsTemplates
 				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID(),2);
 				if(templates.size()>0) {
-					smsContent=templates.get(0).getTemplateText();
+					smsContent = templates.get(0).getTemplateText();
+					smsContent=smsContent.replaceAll("tmp1", guestToNotify.getRank().toString());
+					smsContent=smsContent.replaceAll("tmp2", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToNotify.getUuid()));
 					templateId=templates.get(0).getSmsTemplateID();
 					tempLevel=templates.get(0).getLevel();
 				}
@@ -1470,21 +1464,12 @@ public class WaitListRestAction {
 				//for fetching smsTemplates
 				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID(),2);
 				if(templates.size()>0) {
-					smsContent=templates.get(0).getTemplateText();
+					smsContent = templates.get(0).getTemplateText();
+					smsContent=smsContent.replaceAll("tmp1", guestToNotify.getRank().toString());
+					smsContent=smsContent.replaceAll("tmp2", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToNotify.getUuid()));
 					templateId=templates.get(0).getSmsTemplateID();
 					tempLevel=templates.get(0).getLevel();
 				}
-				
-				/*Response<List<OrganizationTemplateDTO>> tempRes = fetchOrgSMSTemplatesById(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID());
-				List<OrganizationTemplateDTO> templates = tempRes.getServiceResult();
-				System.out.println(templates);
-				for (OrganizationTemplateDTO template : templates) {
-					if(template.getLevel()==2){
-						smsContent=template.getTemplateText();
-						templateId=template.getSmsTemplateID();
-						tempLevel=template.getLevel();
-						}
-				}*/
 				
 				SendSMSWrapper smsWrapper = new SendSMSWrapper();
 				smsWrapper.setGuestId(guestToNotify.getGuestID());
@@ -1568,21 +1553,12 @@ public class WaitListRestAction {
 				//for fetching smsTemplates
 				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID(),2);
 				if(templates.size()>0) {
-					smsContent=templates.get(0).getTemplateText();
+					smsContent = templates.get(0).getTemplateText();
+					smsContent=smsContent.replaceAll("tmp1", guestToNotify.getRank().toString());
+					smsContent=smsContent.replaceAll("tmp2", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToNotify.getUuid()));
 					templateId=templates.get(0).getSmsTemplateID();
 					tempLevel=templates.get(0).getLevel();
 				}
-				
-				/*Response<List<OrganizationTemplateDTO>> tempRes = fetchOrgSMSTemplatesById(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID());
-				List<OrganizationTemplateDTO> templates = tempRes.getServiceResult();
-				System.out.println(templates);
-				for (OrganizationTemplateDTO template : templates) {
-					if(template.getLevel()==2){
-						smsContent=template.getTemplateText();
-						templateId=template.getSmsTemplateID();
-						tempLevel=template.getLevel();
-						}
-				}*/
 				
 				String newVal = null;
 				try {
@@ -1692,7 +1668,7 @@ public class WaitListRestAction {
 		return jsonObject;
 	}*/
 
-	private void sendNotification(Guest guestToNotify, WaitlistMetrics oWaitlistMetrics, String notificationFlag, String freeTextContent)
+	private void sendNotification(Guest guestToNotify, WaitlistMetrics oWaitlistMetrics, int tempLevel, String freeTextContent)
 	{
 		GuestNotificationBean guestNotificationBean = new GuestNotificationBean();
 		guestNotificationBean.setEmail(guestToNotify.getEmail());
@@ -1710,7 +1686,8 @@ public class WaitListRestAction {
 		//log.info("LOG 1 ::::: $$$$ :::::: "+guestNotificationBean.getRank());
 		guestNotificationBean.setSms(guestToNotify.getSms());
 		guestNotificationBean.setUuid(guestToNotify.getUuid());
-		guestNotificationBean.setNotificationFlag(notificationFlag);
+		//guestNotificationBean.setNotificationFlag(notificationFlag);
+		guestNotificationBean.setTempLevel(tempLevel);
 		guestNotificationBean.setDeviceId(guestToNotify.getDeviceId());
 		guestNotificationBean.setDeviceType(guestToNotify.getDeviceType());
 		guestNotificationBean.setOrgId(guestToNotify.getOrganizationID());
@@ -1811,50 +1788,36 @@ public class WaitListRestAction {
 			Response<Map<String, String>> response = new Response<Map<String,String>>();
 			try{
 				Guest guest = waitListService.getGuestById(smsWrapper.getGuestId());
-				String notificationFlag=null;
+				/*String notificationFlag=null;*/
 				int tempLevel=0;
 				if(smsWrapper.getTemplateLevel() != null){
 				tempLevel = smsWrapper.getTemplateLevel();
 				}
+				
+				if(smsWrapper.getMetrics() != null){
+				Map<String, String> oWaitlistMetrics = waitListService.getTotalPartyWaitTimeMetrics(guest.getOrganizationID());
+				smsWrapper.setMetrics(waitListService.convertToObject(oWaitlistMetrics));
+;				}
 				
 				System.out.println(smsWrapper.getGuestId());
 				System.out.println(smsWrapper.getOrgId());
 				System.out.println(smsWrapper.getTemplateId());
 				System.out.println(smsWrapper.getSmsContent());
 				
-				/*Translate.setHttpReferrer("http://code.google.com/p/google-api-translate-java");
-				 
-			    String translatedText = Translate.execute("Bonjour monde le",
-			            Language.FRENCH, Language.ENGLISH);
-			 
-			    System.out.println(translatedText);*/
-				
-				//for getting templateLevel
-				/*if(smsWrapper.getTemplateId()!=null){
-				tempLevel = waitListService.fetchTemplateLevel(smsWrapper.getOrgId(), smsWrapper.getTemplateId().longValue());	
-				System.out.println(tempLevel);
-				}*/
-				
-				//setting notificationFlag
-				switch (tempLevel) {
-				case 1:
+				if(tempLevel == 1){
 					List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guest.getOrganizationID(),guest.getLanguagePrefID(),1);
 					if(templates.size()>0) {
-						smsWrapper.setSmsContent(templates.get(0).getTemplateText());
+						String smsStr = templates.get(0).getTemplateText();
+						smsStr=smsStr.replaceAll("tmp1", guest.getRank().toString());
+						smsStr=smsStr.replaceAll("tmp2", String.valueOf(smsWrapper.getMetrics().getTotalWaitingGuest()-1));
+						smsStr=smsStr.replaceAll("tmp3", String.valueOf(smsWrapper.getMetrics().getTotalWaitTime()));
+						smsStr=smsStr.replaceAll("tmp4", messageReceiver.buildURL(smsWrapper.getMetrics().getClientBase(), guest.getUuid()));
+						smsWrapper.setSmsContent(smsStr);
+						smsWrapper.setTemplateId(templates.get(0).getSmsTemplateID());
 					}
-					notificationFlag="NORMAL";
-					break;
-					
-				case 2:
-					notificationFlag=Constants.NOTIF_THRESHOLD_ENTERED;
-					break;
-
-				default:
-					notificationFlag=Constants.FREETEXT;
-					break;
 				}
 				
-				sendNotification(guest, smsWrapper.getMetrics(), notificationFlag, smsWrapper.getSmsContent());
+				sendNotification(guest, smsWrapper.getMetrics(), tempLevel, smsWrapper.getSmsContent());
 				waitListService.saveSmsLog(guest,smsWrapper.getOrgId(),smsWrapper.getTemplateId(), smsWrapper.getSmsContent());
 				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 			}

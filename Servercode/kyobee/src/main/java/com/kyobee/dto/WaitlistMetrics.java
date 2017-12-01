@@ -70,18 +70,5 @@ public class WaitlistMetrics {
 		this.clientBase = clientBase;
 	}
 	
-	public WaitlistMetrics convertToObject(Map<String, String> metricsMap) {
-		WaitlistMetrics wMetrics=new WaitlistMetrics();
-		//wMetrics.setGuestId();
-		wMetrics.setNowServingParty(Integer.parseInt(metricsMap.get(Constants.RSNT_GUEST_RANK_MIN)));
-		wMetrics.setTotalWaitTime(Integer.parseInt(metricsMap.get(Constants.RSNT_ORG_TOTAL_WAIT_TIME)));
-		wMetrics.setGuestToBeNotified(Integer.parseInt(metricsMap.get("OP_GUESTTOBENOTIFIED")));
-		wMetrics.setTotalWaitingGuest(Integer.parseInt(metricsMap.get(Constants.RSNT_ORG_GUEST_COUNT)));
-		wMetrics.setNoOfPartiesAhead(Integer.parseInt(metricsMap.get("OP_NOOFPARTIESAHEAD")));
-		//wMetrics.setGuestRank(Integer.parseInt(metricsMap.get("OP_NOOFPARTIESAHEAD")));
-		wMetrics.setGuestNotifiedWaitTime(Integer.parseInt(metricsMap.get("OP_GUESTNOTIFIEDWAITTIME")));
-		wMetrics.setClientBase(metricsMap.get("CLIENT_BASE"));
-		return wMetrics;		
-	}
 	
 }

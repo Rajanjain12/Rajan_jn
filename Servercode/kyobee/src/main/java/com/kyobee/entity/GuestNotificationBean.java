@@ -27,6 +27,7 @@ public class GuestNotificationBean implements Serializable{
 	private String smsRouteNo;
 	private String clientBase;
 	private String message;
+	private Integer tempLevel;
 	
 	/**
 	 * @return the message
@@ -144,6 +145,12 @@ public class GuestNotificationBean implements Serializable{
 	}
 	public void setClientBase(String clientBase) {
 		this.clientBase = clientBase;
+	}
+	public Integer getTempLevel() {
+		return tempLevel;
+	}
+	public void setTempLevel(Integer tempLevel) {
+		this.tempLevel = tempLevel;
 	}
 	
 }
