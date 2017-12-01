@@ -101,6 +101,12 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 							return;
 						}*/
 						
+						if($scope.guest.name == null || $scope.guest.name == 'undefined' || $scope.guest.name == ''){
+							$scope.errorMsg = "Please Enter valid name";
+							$scope.loading = false;
+							return;
+						}
+						
 						if($scope.guest.prefType == null || $scope.guest.prefType == 'undefined'){
 							$scope.errorMsg = "Please select sms or email";
 							$scope.loading = false;
@@ -119,11 +125,11 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 							return;
 						}
 						
-						/*if(($scope.guestDTO.noOfAdults != null && $scope.guestDTO.noOfAdults == 0)){
+						if(($scope.guest.noOfAdults != null && $scope.guest.noOfAdults == 0 || $scope.guest.noOfAdults == undefined)){
 							$scope.errorMsg = "Adults must be greater than 0";
 							$scope.loading=false;
 							return;
-						}*/
+						}
 						
 						if ($("#children").val() == "") {
 						     $("#children").val("0");
@@ -398,6 +404,10 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 							});
 					}
 					
+					
+					$scope.hideErrorMsg = function(){
+					       $scope.errorMsg = null;
+					      };
 					
 					$scope.init();
 					

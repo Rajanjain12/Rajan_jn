@@ -12,6 +12,11 @@
         		<h4>The requested guest doesn't exist anymore.</h4>
         	</div>
         	
+        	 <div class="alert alert-danger" role="alert" ng-show="errorMsg != null && errorMsg != ''" style="margin-top: 10px;">
+						<button type="button" class="close" ng-click="hideErrorMsg();" >&times;</button>
+						<strong>Error ! </strong>{{errorMsg}}
+			</div>
+        	
             <div ng-show="guest != null" class="guest_list_wrap content-sm row">
 			<!-- <div class="guest_list_wrap content-sm row"> -->
                 <div class="fontpopup section">
@@ -94,7 +99,7 @@
                                     </div>
                                     
                                </div>
-
+							
                             <div class="form-group col-md-6 col-sm-6 col-xs-12 multipaleselect1 font-color-fix" ng-show="seatPrefs != null">
                                     <label class="control-label">Seating Preference</label>
                                     <select id="example-multiple-selected" multiple="multiple" ng-model="selectedSeatPref">
