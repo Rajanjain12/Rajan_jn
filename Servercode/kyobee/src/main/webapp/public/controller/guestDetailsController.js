@@ -38,6 +38,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								console.log(data);
 								if (data.status == "SUCCESS") {
 									$scope.guest = data.serviceResult;
+									console.log($scope.guest);
 									if($scope.guest == null || $scope.guest == 'undefined'){
 										return;
 									}
@@ -157,9 +158,10 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								'email' : $scope.guest.email,
 								'optin' : $scope.guest.optin,
 								'status': 'CHECKIN',
-								'guestPreferences' : selectedGuestPref
+								'guestPreferences' : selectedGuestPref,
+								'languagePref' : {'langId':$scope.guest.languagePrefID}
 						}
-						
+						console.log(JSON.stringify(postBody));
 						var url = '/kyobee/web/rest/waitlistRestAction/updateGuestInfo';
 						KyobeeUnsecuredService.postService(url, '').query(postBody,
 								function(data) {
