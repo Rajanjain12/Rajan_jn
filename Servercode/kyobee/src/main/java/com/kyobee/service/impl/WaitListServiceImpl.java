@@ -1343,6 +1343,7 @@ public class WaitListServiceImpl implements IWaitListService {
 						cStmt.registerOutParameter(27, Types.VARCHAR);
 						cStmt.execute();
 
+						oWaitlistMetrics.setGuestId(guestObj.getGuestID().intValue());
 						oWaitlistMetrics.setNowServingParty(cStmt.getInt(21));
 						oWaitlistMetrics.setTotalWaitingGuest(cStmt.getInt(22));
 						oWaitlistMetrics.setTotalWaitTime(cStmt.getInt(23));
