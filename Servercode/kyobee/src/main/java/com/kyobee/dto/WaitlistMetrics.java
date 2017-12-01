@@ -1,62 +1,66 @@
 package com.kyobee.dto;
 
+import java.util.Map;
+
+import com.kyobee.util.common.Constants;
+
 public class WaitlistMetrics {
-	private int guestId;
-	private int nowServingParty;
-	private int totalWaitTime;
-	private int guestToBeNotified;
-	private int totalWaitingGuest;
-	private int noOfPartiesAhead;
-	private int guestRank;
-	private int guestNotifiedWaitTime;
+	private Integer guestId;
+	private Integer nowServingParty;
+	private Integer totalWaitTime;
+	private Integer guestToBeNotified;
+	private Integer totalWaitingGuest;
+	private Integer noOfPartiesAhead;
+	private Integer guestRank;
+	private Integer guestNotifiedWaitTime;
 	private String clientBase;
 	
-	public int getGuestId() {
+	public Integer getGuestId() {
 		return guestId;
 	}
-	public void setGuestId(int guestId) {
+	public void setGuestId(Integer guestId) {
 		this.guestId = guestId;
 	}
-	public int getNowServingParty() {
+	public Integer getNowServingParty() {
 		return nowServingParty;
 	}
-	public void setNowServingParty(int nowServingParty) {
+	public void setNowServingParty(Integer nowServingParty) {
 		this.nowServingParty = nowServingParty;
 	}
-	public int getTotalWaitTime() {
+	public Integer getTotalWaitTime() {
 		return totalWaitTime;
 	}
-	public void setTotalWaitTime(int totalWaitTime) {
+	public void setTotalWaitTime(Integer totalWaitTime) {
 		this.totalWaitTime = totalWaitTime;
 	}
-	public int getGuestToBeNotified() {
+	public Integer getGuestToBeNotified() {
 		return guestToBeNotified;
 	}
-	public void setGuestToBeNotified(int guestToBeNotified) {
+	public void setGuestToBeNotified(Integer guestToBeNotified) {
 		this.guestToBeNotified = guestToBeNotified;
 	}
-	public int getTotalWaitingGuest() {
+	public Integer getTotalWaitingGuest() {
 		return totalWaitingGuest;
 	}
-	public void setTotalWaitingGuest(int totalWaitingGuest) {
+	public void setTotalWaitingGuest(Integer totalWaitingGuest) {
 		this.totalWaitingGuest = totalWaitingGuest;
 	}
-	public int getNoOfPartiesAhead() {
+	public Integer getNoOfPartiesAhead() {
 		return noOfPartiesAhead;
 	}
-	public void setNoOfPartiesAhead(int noOfPartiesAhead) {
+	public void setNoOfPartiesAhead(Integer noOfPartiesAhead) {
 		this.noOfPartiesAhead = noOfPartiesAhead;
 	}
-	public int getGuestRank() {
+	public Integer getGuestRank() {
 		return guestRank;
 	}
-	public void setGuestRank(int guestRank) {
+	public void setGuestRank(Integer guestRank) {
 		this.guestRank = guestRank;
 	}
-	public int getGuestNotifiedWaitTime() {
+	public Integer getGuestNotifiedWaitTime() {
 		return guestNotifiedWaitTime;
 	}
-	public void setGuestNotifiedWaitTime(int guestNotifiedWaitTime) {
+	public void setGuestNotifiedWaitTime(Integer guestNotifiedWaitTime) {
 		this.guestNotifiedWaitTime = guestNotifiedWaitTime;
 	}
 	public String getClientBase() {
@@ -64,6 +68,20 @@ public class WaitlistMetrics {
 	}
 	public void setClientBase(String clientBase) {
 		this.clientBase = clientBase;
+	}
+	
+	public WaitlistMetrics convertToObject(Map<String, String> metricsMap) {
+		WaitlistMetrics wMetrics=new WaitlistMetrics();
+		//wMetrics.setGuestId();
+		wMetrics.setNowServingParty(Integer.parseInt(metricsMap.get(Constants.RSNT_GUEST_RANK_MIN)));
+		wMetrics.setTotalWaitTime(Integer.parseInt(metricsMap.get(Constants.RSNT_ORG_TOTAL_WAIT_TIME)));
+		wMetrics.setGuestToBeNotified(Integer.parseInt(metricsMap.get("OP_GUESTTOBENOTIFIED")));
+		wMetrics.setTotalWaitingGuest(Integer.parseInt(metricsMap.get(Constants.RSNT_ORG_GUEST_COUNT)));
+		wMetrics.setNoOfPartiesAhead(Integer.parseInt(metricsMap.get("OP_NOOFPARTIESAHEAD")));
+		//wMetrics.setGuestRank(Integer.parseInt(metricsMap.get("OP_NOOFPARTIESAHEAD")));
+		wMetrics.setGuestNotifiedWaitTime(Integer.parseInt(metricsMap.get("OP_GUESTNOTIFIEDWAITTIME")));
+		wMetrics.setClientBase(metricsMap.get("CLIENT_BASE"));
+		return wMetrics;		
 	}
 	
 }
