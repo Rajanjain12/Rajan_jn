@@ -38,7 +38,6 @@ KyobeeControllers.controller('guestCtrl',
 								optin : false,
 								note : null
 						}
-						$scope.errorMsg = null;
 						
 						// we have loaded the seat prefs in main controller to avoid loading again & again on child controller. 
 						//But if user refreshes page or directly goes to add page via url, 

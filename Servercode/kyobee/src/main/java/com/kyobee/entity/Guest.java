@@ -64,6 +64,7 @@ public class Guest implements Serializable{
 	@Column(columnDefinition = "TINYINT",name="optin", nullable=false)
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean optin;
+	
 	@Column(name="rank")
 	private Long rank;
 	

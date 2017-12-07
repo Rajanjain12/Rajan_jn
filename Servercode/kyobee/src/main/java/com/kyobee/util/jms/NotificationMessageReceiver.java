@@ -193,17 +193,17 @@ public class NotificationMessageReceiver implements MessageListener{
 			
 			if(guestNotificationBean.getTempLevel() == 0){
 				msg1 = guestNotificationBean.getMessage();
-				msg2 = guestNotificationBean.getSmsSignature()+"\n";
+				msg2 = " -"+guestNotificationBean.getSmsSignature()+"\n";
 			}
 			else if(guestNotificationBean.getTempLevel() == 1){
 				msg1 = guestNotificationBean.getMessage();
 				System.out.println(msg1);
-				msg2 = guestNotificationBean.getSmsSignature()+"\n";
+				msg2 = " -"+guestNotificationBean.getSmsSignature()+"\n";
 			}
 			else if(guestNotificationBean.getTempLevel() == 2){
 				msg1 = guestNotificationBean.getMessage();
 				System.out.println(msg1);
-				msg2 = guestNotificationBean.getSmsSignature()+"\n";
+				msg2 = " -"+guestNotificationBean.getSmsSignature()+"\n";
 			}
 			
 			if(guestNotificationBean.getPrefType().equalsIgnoreCase(Constants.RSNT_SMS)){

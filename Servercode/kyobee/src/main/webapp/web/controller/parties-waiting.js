@@ -21,6 +21,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 					$scope.phnRegex="^([0-9]{3}|[0-9]{3})[0-9]{3}[0-9]{4}$";
 					$scope.footerMsg="Copyright KYOBEE. All Rights Reserved";
 					$scope.loading=false;
+					$scope.errorMsg = null;
 					
 					$scope.guestDTO = {
 							name: null,
@@ -44,7 +45,6 @@ KyobeeControllers.controller('partyWaitingCtrl',
 					};
 					$scope.guestRank=0;
 					$scope.guestPref = null;
-					$scope.errorMsg = null;
 					
 					$scope.getData = function () {
 						
