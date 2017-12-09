@@ -952,7 +952,7 @@ z-index: 3;
 .guest-h1{
   font-weight: bold;
   font-size: 130px;
-  color: #510c07;
+  /* color: #510c07; */
 }
 .h4-font{
   font-weight: bold;
