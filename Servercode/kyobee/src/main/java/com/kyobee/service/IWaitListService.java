@@ -248,5 +248,8 @@ public interface IWaitListService {
 	void saveSmsLog(Guest guest, Long orgId, Long templateId, String smsText) throws Exception;
 
 	Integer fetchTemplateLevel(Long orgId, Long templateId);
+	
+	/*converting waitlist map to waitlist object*/
+	public WaitlistMetrics convertToObject(Map<String, String> metricsMap);
  
 }

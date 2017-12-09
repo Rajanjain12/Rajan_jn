@@ -68,17 +68,17 @@
         <div id="demo-one-field" class="section">
           
             <div id="atLeastOneExampleDemo">
-              <form name="addGuestForm" class="well-guest">
+              <form name="addGuestForm" class="well-guest" novalidate>
               
               	<div class="alert alert-danger" role="alert" ng-show="errorMsg != null && errorMsg != ''">
 					<button type="button" class="close" ng-click="hideErrorMsg();" >&times;</button>
 					<strong>Error ! </strong>{{errorMsg}}
 				</div>
 				
-                <div class="form-group" ng-class="{'has-error' : addGuestForm.name.$invalid && (!addGuestForm.name.$pristine || addGuestForm.$submitted)}">
+                <div class="form-group" ng-class="{'has-error' : (addGuestForm.name.$invalid && addGuestForm.$submitted) || (!addGuestForm.name.$pristine && addGuestForm.$submitted)}">
                   <label class="control-label"></label>
-                  <input type="text" name="name" class="form-control" ng-model="guestDTO.name" required placeholder="Name" />
-                  <div ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
+                  <input type="text" name="name" id="name" class="form-control" ng-model="guestDTO.name" required placeholder="Name" />
+                  <div ng-messages="addGuestForm.name.$error" ng-show="(addGuestForm.name.$invalid && addGuestForm.$submitted)" class="help-block">
 				        <div ng-message="required">Name cannot be blank</div>
 				  </div>
                 </div>
@@ -106,12 +106,12 @@
                 <!-- changes by krupali, line 108 to line 150 (15/06/2017)  --> 
                 
                <div class="row">   
-              <div class="form-group" ng-class="{'has-error' : addGuestForm.name.$invalid && (!addGuestForm.name.$pristine || addGuestForm.$submitted)}">
+              <div class="form-group" ng-class="{'has-error' : (addGuestForm.adults.$invalid && addGuestForm.$submitted) || (!addGuestForm.adults.$pristine && addGuestForm.$submitted)}">
                 <div class="col-md-2 col-sm-2 col-xs-12">
 				  <input type="number" id="adults" name="adults" min=0 max=100 class="form-control col-md-4 col-sm-4 col-xs-12" ng-model="guestDTO.noOfAdults" required placeholder="Adults" />
-				  <!-- <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
+				  <span ng-messages="addGuestForm.adults.$error" ng-show="(addGuestForm.adults.$invalid && addGuestForm.$submitted)" class="help-block">
 				        <h5 ng-message="required">Adults cannot be blank</h5>
-				  </span> -->
+				  </span>
 				  </div>
                 
                  <div class="col-md-2 col-sm-2 col-xs-12">
@@ -155,13 +155,18 @@
                	<div class="row">
                			<div class="col-md-12 col-sm-12 col-xs-12">
                			
-               			<div class="form-group">
+               			<div class="form-group" ng-class="{'has-error' : (addGuestForm.field2SMS.$invalid && addGuestForm.$submitted) || (!addGuestForm.field2SMS.$pristine && addGuestForm.$submitted)}">
 				 			<input type="text" id="masked" name="field2SMS" ng-model="guestDTO.sms" ng-model="phonenumber" ui-mask="(999) 999-9999" ui-mask-placeholder ui-mask-placeholder-char="_"
-							 class="form-control default-input-placeholder input-no-spinner"/>
-							<span class="help-inline">
-                              <div class="has-error-mask" ng-show="guestDTO.sms.length <10">please enter the valid number</div>
-                            </span>
-                              </div>
+							 class="form-control default-input-placeholder input-no-spinner" required/>
+							<!-- <span class="help-inline">
+                              <div class="has-error-mask" ng-show="guestDTO.sms.length <10">Please enter the valid number</div>
+                            </span> -->
+								<div ng-messages="addGuestForm.field2SMS.$error"
+									ng-show="(addGuestForm.field2SMS.$invalid && addGuestForm.$submitted)"
+									class="help-block">
+									<div ng-message="required">Phone number cannot be blank</div>
+								</div>
+							</div>
                         </div>
 				 </div>
 					

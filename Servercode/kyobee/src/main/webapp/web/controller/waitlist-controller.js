@@ -558,16 +558,16 @@ KyobeeControllers.controller('waitListCtrl',
 						console.log("------------"+JSON.stringify($scope.selectedGuest));
 						switch ($scope.userDTO.clientBase) {
 						case "admin":
-							$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/juvjuvn/s/'+$scope.selectedGuest.uuid;
+							$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y9jr7234/s/'+$scope.selectedGuest.uuid;
 							break;
 						case "advantech":
-							$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/juccaaq/s/'+$scope.selectedGuest.uuid;
+							$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y7jfvtv3/s/'+$scope.selectedGuest.uuid;
 							break;
 						case "sweethoneydessert":
-							$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y7gpz23x/s/'+$scope.selectedGuest.uuid;
+							$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y8dxa9s3/s/'+$scope.selectedGuest.uuid;
 							break;
 						default:
-							$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/juvjuvn/s/'+$scope.selectedGuest.uuid;
+							$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y9jr7234/s/'+$scope.selectedGuest.uuid;
 							break;
 						}
 						
@@ -683,12 +683,11 @@ KyobeeControllers.controller('waitListCtrl',
 										$('#deletePopup').simplePopup().hide();
 										$(".simplePopupBackground").fadeOut("fast");
 										$scope.loadWaitListPage(1);
-										$scope.loading = false;
 										$scope.successMsg = "Guest Deleted Successfully."
 									} else if (data.status == "FAILURE") {
-										$scope.loading = false;
 										alert('Error while deleting guest.');
 									}
+									$scope.loading = false;
 								}, function(error) {
 									$scope.loading = false;
 									alert('Error while deleting guest.');

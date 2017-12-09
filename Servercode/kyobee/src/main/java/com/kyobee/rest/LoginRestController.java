@@ -119,7 +119,7 @@ public class LoginRestController {
 				if(loginDetail[4]!=null)
 					System.out.println("sms route--"+loginDetail[4].toString());*/
 				ScreensaverDTO screensaverDTO = new ScreensaverDTO();
-				screensaverDTO.setScreensaverFile("http://bestanimations.com/Holidays/NewYear/happy-new-year-fireworks-animated-gif-image-ecard-1.gif");
+				screensaverDTO.setScreensaverFile("https://i.kinja-img.com/gawker-media/image/upload/s--hhP_IVmY--/c_scale,f_auto,fl_progressive,q_80,w_800/wojsrqpmxrfhjajjzaz6.gif");
 				screensaverDTO.setScreensaverFlag("Y");
 				rootMap.put("OrgId",loginDetail[1].toString());
 				rootMap.put("logofile name",loginDetail[2].toString());
