@@ -1059,6 +1059,7 @@ public class WaitListRestAction {
 			rootMap.put("tinyURL", tinyUrl);
 			rootMap.put("guestRank", oWaitlistMetrics.getGuestRank());	
 			rootMap.put("languagePrefID", guest.getLanguagePrefID());
+			rootMap.put("partyType", guest.getPartyType());
 			
 			//commented for stopping the send sms upon adding the guest(krupali 09/11/2017)
 			/*if(guestDTO.getPrefType() != null)
