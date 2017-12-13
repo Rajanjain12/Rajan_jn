@@ -1022,7 +1022,8 @@ public class WaitListRestAction {
 			rootMap.put("orgid", guest.getOrganizationID());
 			rootMap.put("addedGuestId", oWaitlistMetrics.getGuestId());
 			rootMap.put("guestUUID", guest.getUuid());
-			rootMap.put("guestRank", oWaitlistMetrics.getGuestRank());			
+			rootMap.put("guestRank", oWaitlistMetrics.getGuestRank());
+			rootMap.put("partyType", guest.getPartyType());
 			
 			if(guestDTO.getPrefType() != null)
 				sendNotification(guest, oWaitlistMetrics, "NORMAL", null);
@@ -1096,6 +1097,7 @@ public class WaitListRestAction {
 		//rootMap.put("ppwt": $jquery("#perPartyWaitTime").val(),
 		rootMap.put("orgid", guest.getOrganizationID());
 		rootMap.put("totalWaitTime", oWaitlistMetrics.getTotalWaitTime());
+		rootMap.put("partyType", guest.getPartyType());
 		
 		//sendNotification(guest, guestCount, totalWaitTime);
 
@@ -1147,6 +1149,7 @@ public class WaitListRestAction {
 		rootMap.put("totalWaitTime",totalWaitTime);
 		rootMap.put("orgid", orgId);
 		rootMap.put("numberofparties", oWaitlistMetrics.getTotalWaitingGuest());
+		rootMap.put("partyType", guest.getPartyType());
 
 		
 		if(oWaitlistMetrics.getGuestToBeNotified() != -1){
@@ -1291,6 +1294,7 @@ public class WaitListRestAction {
 		rootMap.put("ORG_GUEST_COUNT", guestCount);
 		rootMap.put("totalWaitTime", oWaitlistMetrics.getTotalWaitTime());
 		rootMap.put("orgid", guest.getOrganizationID());
+		rootMap.put("partyType", guest.getPartyType());
 
 		if(oWaitlistMetrics.getGuestToBeNotified() != -1){
 			if(guest.getGuestID() <= oWaitlistMetrics.getGuestToBeNotified()){
@@ -1354,6 +1358,7 @@ public class WaitListRestAction {
 		rootMap.put("FROM", "ADMIN");
 		rootMap.put("ORG_GUEST_COUNT", guestCount);
 		rootMap.put("totalWaitTime", oWaitlistMetrics.getTotalWaitTime());
+		rootMap.put("partyType", guest.getPartyType());
 
 		rootMap.put("orgid", guest.getOrganizationID());
 		
@@ -1415,6 +1420,7 @@ public class WaitListRestAction {
 		rootMap.put("nowServingParty", oWaitlistMetrics.getNowServingParty());
 		rootMap.put("ORG_GUEST_COUNT", guestCount);
 		rootMap.put("orgid", orgId);
+		rootMap.put("partyType", guestToBeSeated.getPartyType());
 		
 		//turn off 3rd level notifiction by shruti shah along with history and threshold changes
 		//sendNotification(guestToBeSeated, oWaitlistMetrics, Constants.NOTIF_MARK_AS_SEATED);
