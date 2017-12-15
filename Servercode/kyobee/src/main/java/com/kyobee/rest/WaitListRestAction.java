@@ -1114,17 +1114,21 @@ public class WaitListRestAction {
 	 */
 	//@GET
 	//@Path("/deleteGuest")
-	@RequestMapping(value = "/deleteGuest", method = RequestMethod.GET, produces = "application/json")
-	public Response<Map<String, Object>> deleteGuest (@RequestParam("guestId") String guestId, @RequestParam("orgId")  int orgId) {
+	@RequestMapping(value = "/deleteGuest", method = RequestMethod.POST, produces = "application/json")
+	public Response<Map<String, Object>> deleteGuest (@RequestBody GuestDTO guestDTO) {
 		log.info("Entering into deleteGuest");
 		Response<Map<String, Object>> response = new Response<Map<String,Object>>();
 		Guest guest = new Guest();
-		guest.setGuestID(Long.parseLong(guestId+""));
-		guest.setOrganizationID(Long.parseLong(orgId+""));
+		//guest.setGuestID(Long.parseLong(guestDTO.getGuestID()+""));
+		//guest.setOrganizationID(Long.parseLong(guestDTO.getOrganizationID()+""));
 		WaitlistMetrics oWaitlistMetrics = null;
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 		Long totalWaitTime = null;
 		try {
+			guest = convertGuesVoToEntity(guestDTO);
+			String seatingPreference = buildSeatingPreference(guestDTO);
+			guest.setSeatingPreference(seatingPreference);
+			
 			oWaitlistMetrics = waitListService.updateGuestInfo(guest, Constants.WAITLIST_UPDATE_DELETE);
 
 			rootMap.put(Constants.RSNT_NOW_SERVING_GUEST_ID, oWaitlistMetrics.getNowServingParty());
@@ -1147,7 +1151,7 @@ public class WaitListRestAction {
 		rootMap.put("FROM", "ADMIN");
 		//rootMap.put("ppwt": $jquery("#perPartyWaitTime").val(),
 		rootMap.put("totalWaitTime",totalWaitTime);
-		rootMap.put("orgid", orgId);
+		rootMap.put("orgid", guest.getOrganizationID());
 		rootMap.put("numberofparties", oWaitlistMetrics.getTotalWaitingGuest());
 		rootMap.put("partyType", guest.getPartyType());
 

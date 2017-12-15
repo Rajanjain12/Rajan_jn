@@ -670,11 +670,10 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.deleteGuest = function(){
 						$scope.successMsg = null;
 						$scope.loading = true;
-						var postBody = {
-
-						};
-						var url = '/kyobee/web/rest/waitlistRestAction/deleteGuest?orgId=' + $scope.userDTO.organizationId + '&guestId='+$scope.selectedGuest.guestID;
-						KyobeeService.getDataService(url, '').query(postBody,
+						var postBody = $scope.selectedGuest;
+						
+						var url = '/kyobee/web/rest/waitlistRestAction/deleteGuest';
+						KyobeeService.postDataService(url, '').query(postBody,
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
