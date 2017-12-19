@@ -216,10 +216,11 @@ KyobeeControllers.controller('partyWaitingCtrl',
 						}
 						
 						var selectedGuestPref = [];
-						
-						for(i=0;i<$scope.seatPrefs.length;i++){
-							if($scope.seatPrefs[i].selected){
-								selectedGuestPref.push($scope.seatPrefs[i]);
+						if($scope.seatPrefs!=null) {
+							for(i=0;i<$scope.seatPrefs.length;i++){
+								if($scope.seatPrefs[i].selected){
+									selectedGuestPref.push($scope.seatPrefs[i]);
+								}
 							}
 						}
 						$scope.guestDTO.guestPreferences = selectedGuestPref;

@@ -121,10 +121,11 @@ KyobeeControllers.controller('guestCtrl',
 						}
 						
 						var selectedGuestPref = [];
-						
-						for(i=0;i<$scope.guestPref.length;i++){
-							if($scope.guestPref[i].selected){
-								selectedGuestPref.push($scope.guestPref[i]);
+						if($scope.guestPref!=null) {
+							for(i=0;i<$scope.guestPref.length;i++){
+								if($scope.guestPref[i].selected){
+									selectedGuestPref.push($scope.guestPref[i]);
+								}
 							}
 						}
 						$scope.guestDTO.guestPreferences = selectedGuestPref;
@@ -205,10 +206,12 @@ KyobeeControllers.controller('guestCtrl',
 						
 						var selectedGuestPref = [];
 						
+						if($scope.guestPref!=null) {
 						for(i=0;i<$scope.guestPref.length;i++){
 							if($scope.guestPref[i].selected){
 								selectedGuestPref.push($scope.guestPref[i]);
 							}
+						}
 						}
 						$scope.guestDTO.guestPreferences = selectedGuestPref;
 						/*change by krupali, line 204 (15/06/2017) */
@@ -271,6 +274,7 @@ KyobeeControllers.controller('guestCtrl',
 						var url = '/kyobee/web/rest/waitlistRestAction/guest?guestid='+guestId;
 						KyobeeService.getDataService(url, '').query(postBody,
 								function(data) {
+									debugger;
 									console.log("Updated data "+JSON.stringify(data));
 									if (data.status == "SUCCESS") {
 										$scope.guestDTO = data.serviceResult;

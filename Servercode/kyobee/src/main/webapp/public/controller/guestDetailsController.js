@@ -140,15 +140,15 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						}
 						
 						var selectedGuestPref = [];
-						
-						for(i=0;i<$scope.seatPrefs.length;i++){
-							for(j=0; j<$scope.selectedSeatPref.length;j++){
-								if($scope.seatPrefs[i].prefValueId == $scope.selectedSeatPref[j]){
-									selectedGuestPref.push($scope.seatPrefs[i]);
-									break;
-								}
+						if($scope.seatPrefs!=null) {
+							for(i=0;i<$scope.seatPrefs.length;i++){
+								for(j=0; j<$scope.selectedSeatPref.length;j++){
+									if($scope.seatPrefs[i].prefValueId == $scope.selectedSeatPref[j]){
+										selectedGuestPref.push($scope.seatPrefs[i]);
+										break;
+									}
+								}								
 							}
-							
 						}
 						
 						var postBody = {
