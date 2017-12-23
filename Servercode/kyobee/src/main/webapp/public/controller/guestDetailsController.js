@@ -1,12 +1,13 @@
 KyobeeUnSecuredController.controller('guestDetailCtrl',
 		[
 				'$scope',
+				'$q',
 				'$location',
 				'$timeout',
 				'$interval',
 				'$routeParams',
 				'KyobeeUnsecuredService',
-				function($scope, $location, $timeout, $interval, $routeParams, KyobeeUnsecuredService) {
+				function($scope, $q, $location, $timeout, $interval, $routeParams, KyobeeUnsecuredService) {
 					
 					$scope.guest = null;
 					$scope.tid = null;
@@ -29,7 +30,44 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					$scope.selectedSeatPref = [];
 					$scope.loading = false;
 					
+					$scope.currentPageLanguage = null;
+					
+					//creating new key-value jason for multilingual updateguest page
+					$scope.pageLanguage = {
+						  "en" : {
+						    "nowServing" : "Now Serving",
+						    "partiesWaiting" : "Parties Waiting",
+						    "estWaitTime" : "Est. Wait Time",
+						    "seatingPref" : "Seating Preference",
+						    "optInReceive" : "(Opt-in to receive promotions/special)",
+						    "rmvWaitlist" : "REMOVE FROM WAITLIST",
+						    "saveChanges" : "SAVE CHANGES",
+						    "enterNameError" : "Error! Please enter a valid name",
+						    "enterNumError" : "Error ! Please enter the contact no.",
+						    "adultSizeError" : "Error ! Adults must be greater than 0",
+						    "selectSmsError" : "Error ! Please select sms or Email",
+						    "enterEmailError" : "Error ! Please enter the Email",
+						    "validNumError" : "please enter the valid number" 
+						  },
+						  "chi" : {
+						    "nowServing" : "正在服務",
+						    "partiesWaiting" : "等待人數",
+						    "estWaitTime" : "預計等候時間",
+							"seatingPref" : "桌位偏好",
+							"optInReceive" : "(同意接受優惠信息)",
+							"rmvWaitlist" : "從排隊名單中去除",
+							"saveChanges" : "保存修改",
+							"enterNameError" : "错误！请输入有效的名字",
+							"enterNumError" : "错误！请输入联络号码",
+							"adultSizeError" : "错误！成人必须大于0",
+							"selectSmsError" : "错误！请选择短信或电子邮件",
+						    "enterEmailError" : "错误！请输入电子邮件",
+							"validNumError" : "请输入有效的号码"
+						  }
+						}
+					
 					$scope.loadGuestPage = function(){
+						var defered=$q.defer();
 						var postBody = {};
 						var url = "/kyobee/web/rest/waitlistRestAction/guestuuid?uuid="+$scope.tid;
 						 
@@ -64,13 +102,15 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 									
 									$scope.loadSeatingPref($scope.guest.organizationID);
 									$scope.loadUserMetricks($scope.guest.organizationID, $scope.guest.guestID);
+									defered.resolve();
 								} else if (data.status == "FAILURE") {
 									console.log(data.serviceResult);
 								}
 							}, function(error) {
 								console.log(error);
+								defered.reject();
 							});
-						
+						return defered.promise;
 					}
 					
 					$scope.loadSeatingPref = function(orgId) {
@@ -102,31 +142,31 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						}*/
 						
 						if($scope.guest.name == null || $scope.guest.name == 'undefined' || $scope.guest.name == ''){
-							$scope.errorMsg = "Please Enter valid name";
+							$scope.errorMsg = $scope.currentPageLanguage.enterNameError;
 							$scope.loading = false;
 							return;
 						}
 						
 						if($scope.guest.prefType == null || $scope.guest.prefType == 'undefined'){
-							$scope.errorMsg = "Please select sms or email";
+							$scope.errorMsg = $scope.currentPageLanguage.selectSmsError;
 							$scope.loading = false;
 							return;
 						}
 						
 						if(($scope.guest.prefType == 'sms' || $scope.guest.prefType == 'SMS') && ($scope.guest.sms == null || $scope.guest.sms == 'undefined' || $scope.guest.sms == "")){
-							$scope.errorMsg = "Please enter the contact no.";
+							$scope.errorMsg = $scope.currentPageLanguage.enterNumError;
 							$scope.loading = false;
 							return;
 						}
 						
 						if(($scope.guest.prefType == 'email' || $scope.guest.prefType == 'EMAIL') && ($scope.guest.email == null || $scope.guest.email == 'undefined')){
-							$scope.errorMsg = "Please enter the email";
+							$scope.errorMsg = $scope.currentPageLanguage.enterEmailError;
 							$scope.loading = false;
 							return;
 						}
 						
 						if(($scope.guest.noOfAdults != null && $scope.guest.noOfAdults == 0 || $scope.guest.noOfAdults == undefined)){
-							$scope.errorMsg = "Adults must be greater than 0";
+							$scope.errorMsg = $scope.currentPageLanguage.adultSizeError;
 							$scope.loading=false;
 							return;
 						}
@@ -256,7 +296,18 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						
 						if ($routeParams.tid != null && $routeParams.tid != 'undefined'){
 							$scope.tid = $routeParams.tid;
-							$scope.loadGuestPage();
+							var promise = $scope.loadGuestPage();
+							promise.then(function(){
+								debugger;
+								if($scope.guest.languagePrefID == 1){
+									$scope.currentPageLanguage = $scope.pageLanguage.en;
+								}
+								else if($scope.guest.languagePrefID == 134){
+									$scope.currentPageLanguage = $scope.pageLanguage.chi;
+								}
+							},function(error){
+								
+							});
 						}
 						
 						$scope.loadInfo();

@@ -126,23 +126,25 @@
 						<h1>&nbsp;</h1>
                         <ul>
                             <!-- <li><a ng-click="changeView('home')" style="cursor:pointer">Waitlist</a></li> -->
-                            <li><a ng-click="resetGuestByOrgid();" style="cursor:pointer">Reset Waitlist</a></li>
+                            <li><a ng-click="showResetPopup();" style="cursor:pointer">Reset Waitlist</a></li>
                             <!-- <li><a href="">Account</a></li> -->
-                            <li><a href="">Help</a></li>
+                            <!-- <li><a href="">Help</a></li> --> <!-- commenting for removing help option from web -->
                         </ul>
                     </div>
 					</div>
 					<div class="col-md-3 col-sm-6 col-xs-12">
-					<div class="kw-dav-2">
+					<!-- add class for temp solution of icon position if add new icon remove icon-position class inline css -->
+					<div class="kw-dav-2 icon-position">
                     
                         <span><p>Hello {{userDTO.firstName}} |</p> <a style="cursor:pointer" ng-click="logout();"> Logout</a> </span>
                         <ul>
                             <!--<li><a href=""><i class="fa fa-clock-o" aria-hidden="true"></i></a></li>
                             <li><a href=""><i class="fa fa-search" aria-hidden="true"></i></a></li>
                             <li><a href=""><i class="fa fa-user-plus" aria-hidden="true"></i></a></li>-->
-                            <li><a href="javascript:void(0)" id="search" ng-click="toggleSearch()"><img src="../assets/img/search.png"></a> </li>
+                            <li style="margin-right:0;"><a href="javascript:void(0)" id="search" ng-click="toggleSearch()"><img src="../assets/img/search.png"></a> </li>
                             <li><a style="cursor:pointer" ng-click="changeView('addGuest')"><img src="../assets/img/userpluse.png"></a> </li>
-                            <li><a style="cursor:pointer" ng-click="changeView('partyWaiting')" ><img src="../assets/img/check-in.png"></a> </li>
+                            <!-- commented for removing self checkin option from web -->
+                            <!-- <li><a style="cursor:pointer" ng-click="changeView('partyWaiting')" ><img src="../assets/img/check-in.png"></a> </li> -->
                         </ul>
                     </div>
 					</div>
@@ -154,6 +156,17 @@
 					</div> -->
 
                 </div>
+                
+                <!-- reset popup -->
+                <div id="resetPopup" class="simplePopup border-color">
+	              <div class="confirm-table-wrap text-center">
+	                    <h2 class="theme-fontcolor">Confirm Reset Organization</h2>
+	                    <div class="btn-guest border-top">
+	                        <button type="button" class="btn btn-orange theme-color" ng-click="resetGuestByOrgid();">RESET</button>
+	                        <button type="button" class="btn btn-orange theme-color" ng-click="cancelReset();">CANCEL</button>
+	                    </div>
+	              </div>
+	           </div>
                       
              </div>
         

@@ -1,4 +1,9 @@
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
 
+</head>
 <!----------Waitlist-Section-------->
 
 
@@ -14,7 +19,7 @@
         	
         	 <div class="alert alert-danger" role="alert" ng-show="errorMsg != null && errorMsg != ''" style="margin-top: 10px;">
 						<button type="button" class="close" ng-click="hideErrorMsg();" >&times;</button>
-						<strong>Error ! </strong>{{errorMsg}}
+						{{errorMsg}}
 			</div>
         	
             <div ng-show="guest != null" class="guest_list_wrap content-sm row">
@@ -26,15 +31,15 @@
                       <div id="waitlist-box">
                           
                           <div class="col-md-5 text-center fontsize1 theme-fontcolor">
-                            <h2>Now Serving</h2>
+                            <h2>{{currentPageLanguage.nowServing}}</h2>
                             <h3>#{{guestRankMin}}</h3>
                           </div>
                            <div class="col-md-2 text-center fontsize1 graycolor">
                             <h2>({{guestAheadCount}})</h2>
-                            <p class="fontpsize">Parties Waiting</p>
+                            <p class="fontpsize">{{currentPageLanguage.partiesWaiting}}</p>
                           </div>
                           <div class="col-md-5 text-center fontsize1 theme-fontcolor">
-                            <h2>Est. Wait Time</h2>
+                            <h2>{{currentPageLanguage.estWaitTime}}</h2>
                             <h3>{{convertMinstoMMHH(totalWaitTime)}}</h3>
                           </div>
                         
@@ -87,7 +92,7 @@
                                  			ng-class="{'has-error' : addGuestForm.field2SMS.$invalid && (!addGuestForm.field2SMS.$pristine || addGuestForm.$submitted)}" />
                                  			
                                  			<span class="help-inline">
-			                                    <div class="has-error-mask" ng-show="guest.sms.length <10">please enter the valid number</div>
+			                                    <div class="has-error-mask" ng-show="guest.sms.length <10">{{currentPageLanguage.validNumError}}</div>
 			                                </span>
                                     <!-- <div ng-messages="addGuestForm.field2SMS.$error" ng-show="(!addGuestForm.field2SMS.$pristine || addGuestForm.$submitted)" class="help-block has-error-mask">
                                  		<div ng-message="required">Phone number cannot be blank</div>									
@@ -101,7 +106,7 @@
                                </div>
 							
                             <div class="form-group col-md-6 col-sm-6 col-xs-12 multipaleselect1 font-color-fix" ng-show="seatPrefs != null">
-                                    <label class="control-label">Seating Preference</label>
+                                    <label class="control-label">{{currentPageLanguage.seatingPref}}</label>
                                     <select id="example-multiple-selected" multiple="multiple" ng-model="selectedSeatPref">
                                     	<option ng-repeat="opt in seatPrefs" ng-value="opt.prefValueId">{{opt.prefValue}}</option>
                                     </select>
@@ -112,7 +117,7 @@
 
                         <div class="checkbox radio-danger">
                             <input type="checkbox" name="radio1" id="optionin" ng-model='guest.optin'>
-                            <label for="optionin">(Opt-in to receive promotions/special)</label>
+                            <label for="optionin">{{currentPageLanguage.optInReceive}}</label>
                         </div>
 
                     </div>
@@ -120,11 +125,11 @@
                     <div class="col-md-12">
 
                         <div class="form-group text-center col-md-6 col-xs-12">
-                          <button type="button" class="btn btn-rfw theme-color" ng-click="showDeletePopup();">Remove From Waitlist</button>
+                          <button type="button" class="btn btn-rfw theme-color" ng-click="showDeletePopup();">{{currentPageLanguage.rmvWaitlist}}</button>
                         </div>
 
                         <div class="form-group text-center col-md-6 col-xs-12">
-                          <button type="button" class="btn btn-rfw theme-color" ng-click="updateGuest();">SAVE CHANGES</button>
+                          <button type="button" class="btn btn-rfw theme-color" ng-click="updateGuest();">{{currentPageLanguage.saveChanges}}</button>
                         </div>
                     </div>
                           

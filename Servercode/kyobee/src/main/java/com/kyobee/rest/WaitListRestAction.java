@@ -551,22 +551,26 @@ public class WaitListRestAction {
 	@RequestMapping(value = "/reset", method = RequestMethod.GET, produces = "application/json")
 	public Response<String> resetGuests(@RequestParam(value="orgid", required=false) Long orgid){
 		Response<String> response = new Response<String>();
+		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 		try {
 			int res= waitListService.resetOrganizationsByOrgid(orgid);
 			if(res==1){
 				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
-				//return Constants.RSNT_GUEST_SUCCESS;
+				rootMap.put("name", "resetOrganizationPusher");
+				rootMap.put("orgid", orgid);
+				sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+orgid);
+				System.out.println("pusher sent successfully");
 			}
 			else{
 				CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
-						"System Error - fetchCheckinUsers failed");
+						"System Error - resetOrganization failed");
 				//return Constants.RSNT_GUEST_FAIL;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.error("fetchCheckinUsers() - failed:", e);
 			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
-					"System Error - fetchCheckinUsers failed");
+					"System Error - resetOrganization failed");
 			//return Constants.RSNT_GUEST_FAIL;
 		}
 		return response;
@@ -1148,15 +1152,15 @@ public class WaitListRestAction {
 	 @param guestJSONStr : Guest object in JSON format
 	 @return String - Updated Guest Object
 	 */
-	//@GET
+	//@POST
 	//@Path("/deleteGuest")
-	@RequestMapping(value = "/deleteGuest", method = RequestMethod.GET, produces = "application/json")
-	public Response<Map<String, Object>> deleteGuest (@RequestParam("guestId") String guestId, @RequestParam("orgId")  int orgId) {
+	@RequestMapping(value = "/deleteGuest", method = RequestMethod.POST, produces = "application/json")
+	public Response<Map<String, Object>> deleteGuest (@RequestBody GuestDTO guestDTO) {
 		log.info("Entering into deleteGuest");
 		Response<Map<String, Object>> response = new Response<Map<String,Object>>();
 		Guest guest = new Guest();
-		guest.setGuestID(Long.parseLong(guestId+""));
-		guest.setOrganizationID(Long.parseLong(orgId+""));
+		//guest.setGuestID(Long.parseLong(guestId+""));
+		//guest.setOrganizationID(Long.parseLong(orgId+""));
 		WaitlistMetrics oWaitlistMetrics = null;
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 		Long totalWaitTime = null;
@@ -1164,6 +1168,10 @@ public class WaitListRestAction {
 		long templateId=0;
 		int tempLevel=0;
 		try {
+			guest = convertGuesVoToEntity(guestDTO);
+			String seatingPreference = buildSeatingPreference(guestDTO);
+			guest.setSeatingPreference(seatingPreference);
+			
 			oWaitlistMetrics = waitListService.updateGuestInfo(guest, Constants.WAITLIST_UPDATE_DELETE);
 
 			rootMap.put(Constants.RSNT_NOW_SERVING_GUEST_ID, oWaitlistMetrics.getNowServingParty());
@@ -1186,7 +1194,7 @@ public class WaitListRestAction {
 		rootMap.put("FROM", "ADMIN");
 		//rootMap.put("ppwt": $jquery("#perPartyWaitTime").val(),
 		rootMap.put("totalWaitTime",totalWaitTime);
-		rootMap.put("orgid", orgId);
+		rootMap.put("orgid", guest.getOrganizationID());
 		rootMap.put("numberofparties", oWaitlistMetrics.getTotalWaitingGuest());
 		rootMap.put("partyType", guest.getPartyType());
 		

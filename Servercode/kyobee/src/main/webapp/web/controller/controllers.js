@@ -222,6 +222,8 @@ KyobeeControllers.controller('homeCtrl',
 									if (data.status == "SUCCESS") {
 										$scope.$broadcast ('someEvent');
 										$scope.loading = false;
+										$('#resetPopup').simplePopup().hide();
+										$(".simplePopupBackground").fadeOut("fast");
 										$scope.successMsg = "Waitlist reset Successfully."
 									} else if (data.status == "FAILURE") {
 										alert('Error while resetting waitlist.');
@@ -247,6 +249,16 @@ KyobeeControllers.controller('homeCtrl',
 									alert('Session Timed Out');
 									$scope.changeView("logout");
 								});
+					}
+					
+					$scope.showResetPopup = function(){
+						$('#resetPopup').simplePopup();
+					}
+					
+					$scope.cancelReset = function(){
+						$('#resetPopup').simplePopup().hide();
+						$(".simplePopupBackground").fadeOut("fast");
+						$scope.selectedGuest = null;
 					}
 					
 					$scope.loadDataForPage = function(){	
