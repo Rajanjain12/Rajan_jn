@@ -21,7 +21,7 @@ import com.kyobee.dto.OrganizationTemplateDTO;
 import com.kyobee.dto.UserDTO;
 import com.kyobee.dto.common.Credential;
 import com.kyobee.dto.common.Response;
-import com.kyobee.dto.common.ScreensaverDTO;
+import com.kyobee.dto.ScreensaverDTO;
 import com.kyobee.entity.Organization;
 import com.kyobee.entity.User;
 import com.kyobee.exception.NoSuchUsernameException;
@@ -118,17 +118,22 @@ public class LoginRestController {
 				System.out.println("logofile name--"+loginDetail[2].toString());
 				if(loginDetail[4]!=null)
 					System.out.println("sms route--"+loginDetail[4].toString());*/
-				ScreensaverDTO screensaverDTO = new ScreensaverDTO();
-				screensaverDTO.setScreensaverFile("https://i.kinja-img.com/gawker-media/image/upload/s--hhP_IVmY--/c_scale,f_auto,fl_progressive,q_80,w_800/wojsrqpmxrfhjajjzaz6.gif");
-				screensaverDTO.setScreensaverFlag("Y");
 				rootMap.put("OrgId",loginDetail[1].toString());
 				rootMap.put("logofile name",loginDetail[2].toString());
 				rootMap.put("clientBase",loginDetail[3].toString());
-				rootMap.put("screensaver", screensaverDTO);
 				if(loginDetail[4]!=null)
 					rootMap.put("smsRoute", loginDetail[4].toString());
 				else
 					rootMap.put("smsRoute", loginDetail[4]);
+				
+				ScreensaverDTO screensaver = null;
+				try {
+					screensaver = waitListService.getOrganizationScreensaver(Long.valueOf(loginDetail[1].toString()).longValue());
+					rootMap.put("screensaver", screensaver);
+				} catch (Exception e) {
+					e.printStackTrace();
+					LoggerUtil.logError(e.toString());
+				}
 				
 				List<LanguageMasterDTO> langPref = null;
 				try {

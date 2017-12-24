@@ -1,4 +1,4 @@
-package com.kyobee.dto.common;
+package com.kyobee.dto;
 
 import javax.xml.bind.annotation.XmlRootElement;
 

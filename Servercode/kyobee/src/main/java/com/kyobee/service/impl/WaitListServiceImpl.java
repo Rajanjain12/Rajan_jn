@@ -50,6 +50,7 @@ import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
 import com.kyobee.dto.OrganizationTemplateDTO;
 import com.kyobee.dto.SMSDetailsWrapper;
+import com.kyobee.dto.ScreensaverDTO;
 import com.kyobee.dto.WaitlistMetrics;
 import com.kyobee.entity.Guest;
 import com.kyobee.entity.GuestNotificationBean;
@@ -1791,6 +1792,21 @@ ByOrgRecords(java.lang.Long, int, int)
 
 
 			return templates;
+		}
+	 	
+		@Override
+		public ScreensaverDTO getOrganizationScreensaver(long orgId) {
+			ScreensaverDTO screensaver = new ScreensaverDTO();
+			List<Object[]> list = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_SCREENSAVER).
+					setParameter("orgId", orgId).list();
+			System.out.println(list);
+			if(null != list && list.size()>0){
+				for (Object[] dto : list) {
+					screensaver.setScreensaverFlag(dto[0].toString());
+					screensaver.setScreensaverFile(dto[1].toString());
+				}
+			}
+			return screensaver;
 		}
 	 	
 	 	@SuppressWarnings("unchecked")

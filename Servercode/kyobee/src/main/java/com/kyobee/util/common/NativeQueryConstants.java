@@ -439,6 +439,7 @@ public class NativeQueryConstants {
 	public static final String GET_USER_LANGUAGE_PREF_VALUES = "select LangID, LangName, LangIsoCode from LANGMASTER lm where lm.LangID=:langId";
 	public static final String GET_ORG_SMS_TEMPLATE_VALUES = "select SmsTemplateID, TemplateText, LanguageID, Level from ORGANIZATIONTEMPLATE ot where ot.OrgID=:orgId and ot.LanguageID=:langID and ot.Active=1";
 	public static final String GET_ORG_SMS_TEMPLATE_LEVEL_BY_ID  = "select Level from ORGANIZATIONTEMPLATE ot where ot.OrgID=:orgId and ot.Active=1 and ot.SmsTemplateID=:templateID";
+	public static final String GET_ORG_SCREENSAVER = "select ScreensaverFlag, ScreensaverFileName from ORGANIZATION o where o.OrganizationID=:orgId";
 	//Added for Guest Reset functionality
 	public static final String HQL_GET_GUESTS = "FROM Guest where OrganizationID = :orgId";
 	//public static final String HQL_GET_GUESTS_PREFERENCES = "FROM GuestPreferences";

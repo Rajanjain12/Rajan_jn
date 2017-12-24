@@ -9,6 +9,7 @@ import java.util.Map;
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
 import com.kyobee.dto.OrganizationTemplateDTO;
+import com.kyobee.dto.ScreensaverDTO;
 import com.kyobee.dto.WaitlistMetrics;
 import com.kyobee.entity.Guest;
 import com.kyobee.entity.GuestNotificationBean;
@@ -248,6 +249,8 @@ public interface IWaitListService {
 	void saveSmsLog(Guest guest, Long orgId, Long templateId, String smsText) throws Exception;
 
 	Integer fetchTemplateLevel(Long orgId, Long templateId);
+
+	public ScreensaverDTO getOrganizationScreensaver(long orgId);
 	
 	/*converting waitlist map to waitlist object*/
 	public WaitlistMetrics convertToObject(Map<String, String> metricsMap);
