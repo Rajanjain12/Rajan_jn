@@ -24,6 +24,17 @@ KyobeeUnsecuredService.factory('KyobeeUnsecuredService', [ '$resource', '$http',
 					isArray : false
 				}
 			});
-		},
+		}, postDataService : function(url) {
+			return $resource(url, {}, {
+				query : {
+					method : 'POST',
+					params : {},
+					headers : {
+						'Content-Type' : 'application/json'
+					},
+					isArray : false
+				}
+			});
+		}
 	};
 } ]);

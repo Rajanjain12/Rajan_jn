@@ -16,6 +16,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					$scope.guestRankMin = null;
 					$scope.guestAheadCount = null;
 					$scope.orgWaitTime = null;
+					$scope.errorMsg = null;
 					
 					$scope.appKey = null;
 					$scope.privateKey = null;
@@ -47,7 +48,11 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						    "adultSizeError" : "Error ! Adults must be greater than 0",
 						    "selectSmsError" : "Error ! Please select sms or Email",
 						    "enterEmailError" : "Error ! Please enter the Email",
-						    "validNumError" : "please enter the valid number" 
+						    "validNumError" : "please enter the valid number",
+						    "fetchError" : "Error while fetching user details. Please login again or contact support",
+						    "updSuccess" : "Guest Information updated successfully",
+						    "updError" : "Error while updating Guest",
+						    "dltError" : "Error while deleting Guest"
 						  },
 						  "chi" : {
 						    "nowServing" : "正在服務",
@@ -62,7 +67,11 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 							"adultSizeError" : "错误！成人必须大于0",
 							"selectSmsError" : "错误！请选择短信或电子邮件",
 						    "enterEmailError" : "错误！请输入电子邮件",
-							"validNumError" : "请输入有效的号码"
+							"validNumError" : "请输入有效的号码",
+							"fetchError" : "获取用户详细信息时出错。请再次登录或联系支持",
+							"updSuccess" : "客人信息已成功更新",
+							"updError" : "更新来宾时出错",
+							"dltError" : "删除访客时出错"
 						  }
 						}
 					
@@ -124,11 +133,11 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 									if (data.status == "SUCCESS") {
 										$scope.seatPrefs = data.serviceResult;
 									} else if (data.status == "FAILURE") {
-										alert('Error while fetching user details. Please login again or contact support');
+										alert($scope.currentPageLanguage.fetchError);
 										$scope.logout();
 									}
 								}, function(error) {
-									alert('Error while fetching user details. Please login again or contact support');
+									alert($scope.currentPageLanguage.fetchError);
 								});
 					};
 					
@@ -220,22 +229,20 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					                    $scope.client.send($scope.channel, message);
 							            console.log('Sending from updateguest: ' + message + ' to channel: ' + $scope.channel);
 							            $scope.loading = false;
-										alert('Guest Inforation updated successfully');
+										alert($scope.currentPageLanguage.updSuccess);
 									} else if (data.status == "FAILURE") {
-										alert('Error while updating guest');
+										alert($scope.currentPageLanguage.updError);
 									}
 								}, function(error) {
-									alert('Error while updating guest');
+									alert($scope.currentPageLanguage.updError);
 								});
 					}
 					
 					$scope.deleteGuest = function(){
 						$scope.loading = true;
-						var postBody = {
-
-						};
-						var url = '/kyobee/web/rest/waitlistRestAction/deleteGuest?orgId=' + $scope.guest.organizationID + '&guestId='+$scope.guest.guestID;
-						KyobeeUnsecuredService.getDataService(url, '').query(postBody,
+						var postBody = $scope.guest;
+						var url = '/kyobee/web/rest/waitlistRestAction/deleteGuest';
+						KyobeeUnsecuredService.postDataService(url, '').query(postBody,
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
@@ -253,10 +260,10 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 										$scope.guest = null;
 										//$scope.loadWaitListPage(1);
 									} else if (data.status == "FAILURE") {
-										alert('Error while deleting guest.');
+										alert($scope.currentPageLanguage.dltError);
 									}
 								}, function(error) {
-									alert('Error while deleting guest.');
+									alert($scope.currentPageLanguage.dltError);
 								});
 						
 					}
@@ -284,11 +291,11 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 										$scope.guestAheadCount = data.serviceResult.GUEST_AHEAD_COUNT;
 										$scope.orgWaitTime = data.serviceResult.ORG_WAIT_TIME;
 									} else if (data.status == "FAILURE") {
-										alert('Error while fetching user details. Please login again or contact support');
+										alert($scope.currentPageLanguage.fetchError);
 										$scope.logout();
 									}
 								}, function(error) {
-									alert('Error while fetching user details. Please login again or contact support');
+									alert($scope.currentPageLanguage.fetchError);
 								});
 					};
 					
@@ -328,11 +335,11 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 										$scope.channel = data.serviceResult.pusherChannelEnv;
 										$scope.loadFactory();
 									} else if (data.status == "FAILURE") {
-										alert('Error while fetching user details. Please login again or contact support');
+										alert($scope.currentPageLanguage.fetchError);
 										$scope.logout();
 									}
 								}, function(error) {
-									alert('Error while fetching user details. Please login again or contact support');
+									alert($scope.currentPageLanguage.fetchError);
 								});
 					};
 					
