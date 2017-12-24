@@ -242,7 +242,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						$scope.loading = true;
 						var postBody = $scope.guest;
 						var url = '/kyobee/web/rest/waitlistRestAction/deleteGuest';
-						KyobeeUnsecuredService.postDataService(url, '').query(postBody,
+						KyobeeUnsecuredService.postService(url, '').query(postBody,
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
