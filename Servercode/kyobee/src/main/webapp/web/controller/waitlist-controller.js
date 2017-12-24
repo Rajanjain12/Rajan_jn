@@ -97,6 +97,7 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.toggleShowHistory = function(){
 						if($scope.showHistory){
 							$scope.showHistory = false;
+							$scope.pager = {};
 							// load normal waitlist
 							$scope.loadWaitListPage(1);
 						}else {
@@ -367,7 +368,6 @@ KyobeeControllers.controller('waitListCtrl',
 						var url = '/kyobee/web/rest/waitlistRestAction/searchuser';
 						KyobeeService.getDataService(url, '').query(postBody,
 								function(data) {
-									console.log("Postbody "+JSON.stringify(postBody));
 									console.log("Waitlist Grid data : "+ JSON.stringify(data));
 									if (data.status == "SUCCESS") {
 										var paginatedResponse = data.serviceResult;
@@ -395,8 +395,6 @@ KyobeeControllers.controller('waitListCtrl',
 								pageSize : $scope.pageSize,
 								pageNo : pageNo
 						}
-						
-						console.log($scope.selectedStatus);
 						
 						/*current timezone (krupali 06/07/2017)*/
 						function pad(value) {
