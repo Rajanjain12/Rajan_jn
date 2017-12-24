@@ -35,7 +35,7 @@ KyobeeControllers.controller('guestCtrl',
 								},
 								email : null,
 								sms : null,
-								optin : false,
+								optin : true,
 								note : null
 						}
 						

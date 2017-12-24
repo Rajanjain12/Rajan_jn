@@ -40,7 +40,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 							},
 							email : null,
 							sms : null,
-							optin : false,
+							optin : true,
 							note : null
 					};
 					$scope.guestRank=0;

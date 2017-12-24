@@ -62,11 +62,12 @@ KyobeeControllers.controller('waitListCtrl',
 							checkinTime : true,
 							partyType : true,
 							quoteTime : true,
-							/*optIn : true,*/
+							optIn : false,
 							note : true,
 							del : true,
 							partyRank : true,
-							sendText : true
+							sendText : true,
+							langPref : false
 					};
 					
 					/*$scope.offset = new date().getTimezoneOffset();*/
@@ -224,14 +225,14 @@ KyobeeControllers.controller('waitListCtrl',
 								$scope.toggleColumn.quoteTime= true;
 							}
 							break;
-						/*case 'optIn':
+						case 'optIn':
 							if($scope.toggleColumn.optIn == true){
 								$scope.toggleColumn.optIn = false; 
 							}
 							else{
 								$scope.toggleColumn.optIn = true;
 							}
-							break;*/
+							break;
 							
 						case 'note':
 							if($scope.toggleColumn.note == true){
@@ -266,6 +267,15 @@ KyobeeControllers.controller('waitListCtrl',
 							}
 							else{
 								$scope.toggleColumn.sendText = true;
+							}
+							break;
+						
+						case 'langPref':
+							if($scope.toggleColumn.langPref == true){
+								$scope.toggleColumn.langPref = false; 
+							}
+							else{
+								$scope.toggleColumn.langPref = true;
 							}
 							break;
 							
