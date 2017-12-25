@@ -60,26 +60,26 @@
 							<div class="form-group col-md-6 col-sm-6 col-xs-12 margin-top-20" >
 			                    
 			       <label class="control-label"></label>             
-			      <div class="col-md-4 col-sm-4 col-xs-12">
+			      <div class="col-md-6 col-sm-4 col-xs-12">
 				  <input type="number" id="adults" name="adults" min=0 max=100 class="form-control col-md-4 col-sm-4 col-xs-12" ng-model="guest.noOfAdults" required placeholder="Adults" />
 				  <!-- <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
 				        <h5 ng-message="required">Adults cannot be blank</h5>
 				  </span> -->
 				  </div>
                 
-                 <div class="col-md-4 col-sm-2 col-xs-12">
+                 <div class="col-md-6 col-sm-2 col-xs-12">
                   <input type="number" id="children" name="children" class="form-control" min=0 max=100 ng-model="guest.noOfChildren" placeholder="Children"/>
                   <!-- <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
 				        <h5 ng-message="required">Children cannot be blank</h5>
                   </span>  -->
                   </div>
 				  
-				  <div class="col-md-4 col-sm-2 col-xs-12">
+				 <!--  <div class="col-md-4 col-sm-2 col-xs-12">
 				  <input type="number" id="infants" name="infants" min=0 max=100 class="form-control col-md-4 col-sm-4 col-xs-12" ng-model="guest.noOfInfants" placeholder="Infants" ng-disabled="guest.noOfChildren == 0 && guest.noOfAdults == 0" title="{{(guest.noOfChildren == 0 && guest.noOfAdults == 0) ? 'You must have to add at least one child or adult' : 'Please fill out this field'}}" />
-				  <!-- <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
+				  <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
 				        <h5 ng-message="required">Infants cannot be blank</h5>
-				  </span> -->
-                  </div>
+				  </span>
+                  </div> -->
 			                </div>
                   
 
