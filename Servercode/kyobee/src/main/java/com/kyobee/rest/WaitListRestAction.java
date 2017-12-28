@@ -1808,7 +1808,7 @@ public class WaitListRestAction {
 				if(smsWrapper.getMetrics() != null){
 				Map<String, String> oWaitlistMetrics = waitListService.getTotalPartyWaitTimeMetrics(guest.getOrganizationID());
 				smsWrapper.setMetrics(waitListService.convertToObject(oWaitlistMetrics));
-;				}
+				}
 				
 				System.out.println(smsWrapper.getGuestId());
 				System.out.println(smsWrapper.getOrgId());

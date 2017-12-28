@@ -203,7 +203,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						var postBody = {
 								'name' : 	$scope.guest.name,
 								'guestID' : $scope.guest.guestID,
-								'organizationID' : $scope.guest.OrganizationID,
+								'organizationID' : $scope.guest.organizationID,
 								'noOfChildren' : $scope.guest.noOfChildren,
 								'noOfAdults' : $scope.guest.noOfAdults,
 								'noOfInfants' : $scope.guest.noOfInfants,
