@@ -22,6 +22,9 @@ import java.util.Properties;
 import java.util.TimeZone;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import net.sf.json.JSONObject;
 
 import org.codehaus.jackson.JsonParseException;
@@ -43,6 +46,7 @@ import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
 import com.kyobee.dto.OrganizationTemplateDTO;
 import com.kyobee.dto.SendSMSWrapper;
+import com.kyobee.dto.UserDTO;
 import com.kyobee.dto.WaitlistMetrics;
 import com.kyobee.dto.common.PaginatedResponse;
 import com.kyobee.dto.common.PaginationReqParam;
@@ -50,6 +54,7 @@ import com.kyobee.dto.common.Response;
 import com.kyobee.entity.Guest;
 import com.kyobee.entity.GuestNotificationBean;
 import com.kyobee.entity.GuestPreferences;
+import com.kyobee.entity.Organization;
 import com.kyobee.exception.RsntException;
 import com.kyobee.service.IWaitListService;
 import com.kyobee.util.AppInitializer;
@@ -1155,7 +1160,7 @@ public class WaitListRestAction {
 	//@POST
 	//@Path("/deleteGuest")
 	@RequestMapping(value = "/deleteGuest", method = RequestMethod.POST, produces = "application/json")
-	public Response<Map<String, Object>> deleteGuest (@RequestBody GuestDTO guestDTO) {
+	public Response<Map<String, Object>> deleteGuest (@RequestBody GuestDTO guestDTO, HttpServletRequest request) {
 		log.info("Entering into deleteGuest");
 		Response<Map<String, Object>> response = new Response<Map<String,Object>>();
 		Guest guest = new Guest();
@@ -1198,6 +1203,9 @@ public class WaitListRestAction {
 		rootMap.put("numberofparties", oWaitlistMetrics.getTotalWaitingGuest());
 		rootMap.put("partyType", guest.getPartyType());
 		
+		HttpSession sessionObj= request.getSession();
+		UserDTO userDto=(UserDTO) sessionObj.getAttribute(Constants.USER_OBJ);
+		if(userDto.getSmsRoute() != null && !userDto.getSmsRoute().equals("")){
 		if(oWaitlistMetrics.getGuestToBeNotified() != -1){
 			
 			if(guest.getGuestID() <= oWaitlistMetrics.getGuestToBeNotified()) {
@@ -1225,6 +1233,7 @@ public class WaitListRestAction {
 				Response<Map<String, String>> res = sendSMS(smsWrapper);
 				System.out.println(res);
 			}
+		}
 		}
 		sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
 		response.setServiceResult(rootMap);
@@ -1318,7 +1327,7 @@ public class WaitListRestAction {
 	//@Produces(MediaType.APPLICATION_JSON)
 	//@Consumes(MediaType.APPLICATION_JSON)
 	@RequestMapping(value = "/incrementCalloutCount", method = RequestMethod.POST, produces = "application/json")
-	public Response<Map<String, Object>> incrementCalloutCount (@RequestBody GuestDTO guestDTO) {
+	public Response<Map<String, Object>> incrementCalloutCount (@RequestBody GuestDTO guestDTO, HttpServletRequest request) {
 		log.info("Entering into incrementCalloutCount");
 		//JSONObject jsonObject = null;
 		//ObjectMapper objectMapper = new ObjectMapper();
@@ -1364,7 +1373,10 @@ public class WaitListRestAction {
 		rootMap.put("totalWaitTime", oWaitlistMetrics.getTotalWaitTime());
 		rootMap.put("orgid", guest.getOrganizationID());
 		rootMap.put("partyType", guest.getPartyType());
-
+		
+		HttpSession sessionObj= request.getSession();
+		UserDTO userDto=(UserDTO) sessionObj.getAttribute(Constants.USER_OBJ);
+		if(userDto.getSmsRoute() != null && !userDto.getSmsRoute().equals("")){
 		if(oWaitlistMetrics.getGuestToBeNotified() != -1){
 			if(guest.getGuestID() <= oWaitlistMetrics.getGuestToBeNotified()){
 				//commented as we are using sendsms API for sending sms as of now
@@ -1404,7 +1416,7 @@ public class WaitListRestAction {
 				System.out.println(res);
 			}
 		}
-		
+		}
 		sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
 		
 		return response;
@@ -1420,7 +1432,7 @@ public class WaitListRestAction {
 	//@Produces(MediaType.APPLICATION_JSON)
 	//@Consumes(MediaType.APPLICATION_JSON)
 	@RequestMapping(value = "/markAsIncomplete", method = RequestMethod.POST, produces = "application/json")
-	public Response<Map<String, Object>> markAsIncomplete (@RequestBody GuestDTO guestDTO) {
+	public Response<Map<String, Object>> markAsIncomplete (@RequestBody GuestDTO guestDTO, HttpServletRequest request) {
 		log.info("Entering into markAsIncomplete");
 		Response<Map<String, Object>> response = new Response<Map<String,Object>>();
 		//ObjectMapper objectMapper = new ObjectMapper();
@@ -1440,7 +1452,7 @@ public class WaitListRestAction {
 			String seatingPreference = buildSeatingPreference(guestDTO);
 			guest.setSeatingPreference(seatingPreference);
 			oWaitlistMetrics = waitListService.updateGuestInfo(guest, Constants.WAITLIST_UPDATE_INCOMPLETE);
-
+		
 			rootMap.put(Constants.RSNT_NOW_SERVING_GUEST_ID, oWaitlistMetrics.getNowServingParty());
 			rootMap.put(Constants.RSNT_ORG_TOTAL_WAIT_TIME, oWaitlistMetrics.getTotalWaitTime());
 			rootMap.put(Constants.RSNT_NEXT_TO_NOTIFY_GUEST_ID, oWaitlistMetrics.getGuestToBeNotified());
@@ -1467,6 +1479,9 @@ public class WaitListRestAction {
 		rootMap.put("orgid", guest.getOrganizationID());
 		rootMap.put("partyType", guest.getPartyType());
 		
+		HttpSession sessionObj= request.getSession();
+		UserDTO userDto=(UserDTO) sessionObj.getAttribute(Constants.USER_OBJ);
+		if(userDto.getSmsRoute() != null && !userDto.getSmsRoute().equals("")){
 		if(oWaitlistMetrics.getGuestToBeNotified() != -1){
 			if(guest.getGuestID() <= oWaitlistMetrics.getGuestToBeNotified()){
 				Guest guestToNotify = waitListService.getGuestById((long)oWaitlistMetrics.getGuestToBeNotified());
@@ -1494,7 +1509,7 @@ public class WaitListRestAction {
 				System.out.println(res);
 			}
 		}
-		
+		}
 		sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
 		
 		return response;
@@ -1511,7 +1526,7 @@ public class WaitListRestAction {
 	//@GET
 	//@Path("/markAsSeated")
 	@RequestMapping(value = "/markAsSeated", method = RequestMethod.GET, produces = "application/json")
-	public Response<Map<String, Object>> markAsSeated (@RequestParam("guestId")  int guestId, @RequestParam("orgId")  int orgId) {
+	public Response<Map<String, Object>> markAsSeated (@RequestParam("guestId")  int guestId, @RequestParam("orgId")  int orgId,HttpServletRequest request ) {
 		log.info("Entering into markAsSeated");
 		Response<Map<String, Object>> response = new Response<Map<String,Object>>();
 		Guest guestToBeSeated = waitListService.getGuestById(guestId);
@@ -1554,7 +1569,10 @@ public class WaitListRestAction {
 		//sendNotification(guestToBeSeated, oWaitlistMetrics, Constants.NOTIF_MARK_AS_SEATED);
 		
 		long guestIdToBeNotified = (long) oWaitlistMetrics.getGuestToBeNotified();
-		
+
+		HttpSession sessionObj= request.getSession();
+		UserDTO userDto=(UserDTO) sessionObj.getAttribute(Constants.USER_OBJ);
+		if(userDto.getSmsRoute() != null && !userDto.getSmsRoute().equals("")){
 		if(oWaitlistMetrics.getGuestToBeNotified() != -1){
 			if(guestToBeSeated.getGuestID() <= guestIdToBeNotified)
 			{
@@ -1592,7 +1610,7 @@ public class WaitListRestAction {
 				System.out.println(res);
 			}
 		}
-		
+		}
 		sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
 		
 		return response;
