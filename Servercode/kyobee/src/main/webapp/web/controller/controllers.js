@@ -23,7 +23,7 @@ KyobeeControllers.controller('homeCtrl',
 		            $scope.connectionUrl = 'https://ortc-developers.realtime.co/server/2.1';
 		            $scope.homeCtrlLoaded = null;
 		            $scope.logoImgSrc = logoImgSrc;
-		         
+		            $scope.loading = false;
 		            $scope.searchStatus = false;
 		            
 		        	console.log('src' + $scope.logoImgSrc);
@@ -210,6 +210,31 @@ KyobeeControllers.controller('homeCtrl',
 								});
 					};
 					
+					$scope.resetGuestByOrgid = function() {
+						$scope.loading=true;
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/reset?orgid=' + $scope.userDTO.organizationId;
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										$scope.$broadcast ('someEvent');
+										$scope.loading = false;
+										$('#resetPopup').simplePopup().hide();
+										$(".simplePopupBackground").fadeOut("fast");
+										$scope.successMsg = "Waitlist reset Successfully."
+									} else if (data.status == "FAILURE") {
+										alert('Error while resetting waitlist.');
+										$scope.loading=false;
+									}
+								}, function(error) {
+									alert('Error while resetting waitlist.. Please login again or contact support');
+									$scope.loading=false;
+								});
+					};
+					
 					
 					
 					$scope.logout = function(){
@@ -224,6 +249,16 @@ KyobeeControllers.controller('homeCtrl',
 									alert('Session Timed Out');
 									$scope.changeView("logout");
 								});
+					}
+					
+					$scope.showResetPopup = function(){
+						$('#resetPopup').simplePopup();
+					}
+					
+					$scope.cancelReset = function(){
+						$('#resetPopup').simplePopup().hide();
+						$(".simplePopupBackground").fadeOut("fast");
+						$scope.selectedGuest = null;
 					}
 					
 					$scope.loadDataForPage = function(){	

@@ -16,9 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kyobee.dto.GuestPreferencesDTO;
+import com.kyobee.dto.LanguageMasterDTO;
+import com.kyobee.dto.OrganizationTemplateDTO;
 import com.kyobee.dto.UserDTO;
 import com.kyobee.dto.common.Credential;
 import com.kyobee.dto.common.Response;
+import com.kyobee.dto.ScreensaverDTO;
 import com.kyobee.entity.Organization;
 import com.kyobee.entity.User;
 import com.kyobee.exception.NoSuchUsernameException;
@@ -74,6 +77,7 @@ public class LoginRestController {
 					HttpSession sessionObj = request.getSession();
 					loadOrgContextData(loginUser.getUserId());
 					UserDTO userDTO = prepareUserObj(loginUser);
+					userDTO.setClientBase(credenitals.getClientBase());
 					sessionObj.setAttribute(Constants.USER_OBJ, userDTO);
 					response.setServiceResult(userDTO);
 					LoggerUtil.logInfo("---- Login successful ----- : " + userDTO.getUserName());
@@ -114,7 +118,6 @@ public class LoginRestController {
 				System.out.println("logofile name--"+loginDetail[2].toString());
 				if(loginDetail[4]!=null)
 					System.out.println("sms route--"+loginDetail[4].toString());*/
-				
 				rootMap.put("OrgId",loginDetail[1].toString());
 				rootMap.put("logofile name",loginDetail[2].toString());
 				rootMap.put("clientBase",loginDetail[3].toString());
@@ -122,6 +125,32 @@ public class LoginRestController {
 					rootMap.put("smsRoute", loginDetail[4].toString());
 				else
 					rootMap.put("smsRoute", loginDetail[4]);
+				
+				ScreensaverDTO screensaver = null;
+				try {
+					screensaver = waitListService.getOrganizationScreensaver(Long.valueOf(loginDetail[1].toString()).longValue());
+					rootMap.put("screensaver", screensaver);
+				} catch (Exception e) {
+					e.printStackTrace();
+					LoggerUtil.logError(e.toString());
+				}
+				
+				List<LanguageMasterDTO> langPref = null;
+				try {
+					langPref = waitListService.getOrganizationLanguagePref(Long.valueOf(loginDetail[1].toString()).longValue());
+					rootMap.put("languagepref",langPref);
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+				
+				List<OrganizationTemplateDTO> orgTemplates =  null;
+				try {
+					long langID=1;
+					orgTemplates =	waitListService.getOrganizationTemplates(Long.valueOf(loginDetail[1].toString()).longValue(),langID,null);
+					rootMap.put("smsTemplates",orgTemplates);
+				}catch(Exception e){
+					System.out.println(e);
+				}
 				
 				List<GuestPreferencesDTO> searPref =  null;
 				try {

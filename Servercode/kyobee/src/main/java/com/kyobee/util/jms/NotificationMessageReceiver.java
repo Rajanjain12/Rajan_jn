@@ -11,6 +11,7 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -67,8 +68,11 @@ public class NotificationMessageReceiver implements MessageListener{
 	@Value("${rsnt.base.url.advantech}")
 	private String advantechURL;
 	
+	@Value("${rsnt.base.url.sweethoneydessert}")
+	private String sweethoneydessertURL;
 	
-	@Override
+	
+	/*@Override
 	public void onMessage(Message message) {
 		ObjectMessage objectMessage = null;
 		
@@ -90,10 +94,10 @@ public class NotificationMessageReceiver implements MessageListener{
 				msg1 = msg1 + guestNotificationBean.getTotalWaitTime() + " min. ";
 			}
 			
-			/*
+			
 			 * emailMsg2 has been added for testing purpose of Email issue not working properly on dev server 
 			 * Changed By Vruddhi 
-			 */
+			 
 			String emailMsg2 = "For LIVE updates: "+
 					emailUrl +"\n\n"+ "- Sent by " + guestNotificationBean.getSmsSignature();
 			String msg2 = "For LIVE updates: "+
@@ -123,12 +127,15 @@ public class NotificationMessageReceiver implements MessageListener{
 					//Text for message has been changed and made upto 153 characters so that only single message is received
 					msg1 = "Guest #"+guestNotificationBean.getRank()+": Table is almost ready. Come back and wait for your name to be called"
 						+ "For updates: " + buildURL(guestNotificationBean.getClientBase(), guestNotificationBean.getUuid());
+					msg1 = guestNotificationBean.getMessage();
 				}
 				msg2 = "\n"+"- Sent by " + guestNotificationBean.getSmsSignature()+"\n";
+				msg2 = guestNotificationBean.getSmsSignature()+"\n";
 				subject = "Your estimated wait time";
 			}
 			else if (Constants.FREETEXT.equals(guestNotificationBean.getNotificationFlag())){
 				msg1 = guestNotificationBean.getMessage();
+				msg1 = buildURL(guestNotificationBean.getClientBase(), guestNotificationBean.getUuid());
 				msg2 = "\n"+"- Sent by " + guestNotificationBean.getSmsSignature()+"\n";
 			}
 			
@@ -161,9 +168,78 @@ public class NotificationMessageReceiver implements MessageListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		try {
+			sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_USER_LANGUAGE_PREF_VALUES).
+			setParameter("langId", 1).list();
+			System.out.println("done");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+    }*/
+	
+	@Override
+	public void onMessage(Message message) {
+		ObjectMessage objectMessage = null;
+		
+		//Lifecycle.beginCall();  
+     
+		objectMessage = (ObjectMessage) message;
+		try {
+			GuestNotificationBean guestNotificationBean = (GuestNotificationBean) objectMessage.getObject();
+			
+			String msg1 = "";
+			String msg2 = "";
+			
+			if(guestNotificationBean.getTempLevel() == 0){
+				msg1 = guestNotificationBean.getMessage();
+				msg2 = " -"+guestNotificationBean.getSmsSignature()+"\n";
+			}
+			else if(guestNotificationBean.getTempLevel() == 1){
+				msg1 = guestNotificationBean.getMessage();
+				System.out.println(msg1);
+				msg2 = " -"+guestNotificationBean.getSmsSignature()+"\n";
+			}
+			else if(guestNotificationBean.getTempLevel() == 2){
+				msg1 = guestNotificationBean.getMessage();
+				System.out.println(msg1);
+				msg2 = " -"+guestNotificationBean.getSmsSignature()+"\n";
+			}
+			
+			if(guestNotificationBean.getPrefType().equalsIgnoreCase(Constants.RSNT_SMS)){
+				sendSMStoGuest(guestNotificationBean.getSms(), guestNotificationBean.getUuid(),msg1 + msg2, guestNotificationBean.getOrgId(),guestNotificationBean.getSmsRoute(),guestNotificationBean.getSmsRouteNo());
+				//sendSMStoGuest(guest.getSms(), guest.getUuid(),msg2);
+			}
+			else if (guestNotificationBean.getPrefType().equalsIgnoreCase("PUSH")){
+				
+				if(guestNotificationBean.getDeviceId()!=null && guestNotificationBean.getDeviceType()!=null){
+
+					IPusher pusher = pusherFactory.getPushMessageGenerator(guestNotificationBean.getDeviceType());
+
+					//PushNotificationPayload payload = CommonUtil.getJSONPushMessage(getOrgMarkerOptionDetail(this.getSelectedMarkerOptionId()),  this.getSelectedMarkerOptionId());
+
+					//pusher.sendPushMessage(deviceId, payload);
+					msg2 = "";
+					pusher.sendPushMessage("waitlist", guestNotificationBean.getDeviceId(), "Kyobee WaitList", null,
+							msg1+msg2);
+				}
+			}
+		} catch (JMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RsntException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		/*try {
+			sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_USER_LANGUAGE_PREF_VALUES).
+			setParameter("langId", 1).list();
+			System.out.println("done");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}*/
     }
-	
-	
 	/**
 	 * sendmail method
 	 * @param to
@@ -301,7 +377,7 @@ public class NotificationMessageReceiver implements MessageListener{
 	}
 
 
-	private String buildURL(String clientBase, String uuid){
+	public String buildURL(String clientBase, String uuid){
 		String url = "";
 		
 		/*if(urlSuffix.contains("kyobee.com")){
@@ -330,6 +406,8 @@ public class NotificationMessageReceiver implements MessageListener{
 			url = adminURL + "/s/" + uuid;;
 		} else if ("advantech".equals(clientBase)){
 			url = advantechURL + "/s/" + uuid;;
+		} else if ("sweethoneydessert".equals(clientBase)){
+			url = sweethoneydessertURL + "/s/" + uuid;;
 		} else {
 			url = urlInitial + clientBase + "." + urlSuffix + uuid;
 		}

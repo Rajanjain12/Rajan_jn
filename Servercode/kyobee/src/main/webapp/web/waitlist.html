@@ -49,7 +49,9 @@
 				<a href="javascript:" ng-click="toggleColumns('name')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.name == true}"">Name</a>
 				<a href="javascript:" ng-click="toggleColumns('checkinTime')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.checkinTime == true}">Checkin Time</a>
 				<a href="javascript:" ng-click="toggleColumns('quoteTime')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.quoteTime == true}">Quote Time</a>
-				<!-- <a href="javascript:" ng-click="toggleColumns('seatingPref')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.seatingPref == true}">Seating Pref.</a> --><!-- <a href="javascript:" ng-click="toggleColumns('optIn')" >Opt-In</a> -->
+				<a href="javascript:" ng-click="toggleColumns('langPref')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.langPref == true}">Language Pref.</a>
+				<!-- <a href="javascript:" ng-click="toggleColumns('seatingPref')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.seatingPref == true}">Seating Pref.</a> -->
+				<a href="javascript:" ng-click="toggleColumns('optIn')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.optIn == true}">Opt-In</a>
 				<a href="javascript:" ng-click="toggleColumns('note')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.note == true}">Note</a>
 				<a href="javascript:" ng-click="toggleColumns('sendText')" ng-show="userDTO.smsRoute != null && userDTO.smsRoute != '' && toggleColumnShowHide == true && showHistory == false" ng-class="{textBold: toggleColumn.sendText == true}">Send Text</a>
 				<!-- <a href="javascript:" ng-click="toggleColumns('del')">Delete</a> -->
@@ -164,7 +166,7 @@
 
 <!-- <div range-slider min="slider.range.min" max="slider.range.max" model-min="slider.minTime" model-max="slider.maxTime" step="1" prevent-equal-min-max="true"></div> --> 
     
-       <div ng-class="{'table-wrap-web': userCount <= 7 , 'table-wrap': userCount>7}"> <!--for fixing footer- krupali(18/07/2017) -->
+       <div ng-class="{'table-wrap-web': userCount <= 5 , 'table-wrap': userCount>5}"> <!--for fixing footer- krupali(18/07/2017) -->
      
 
                          
@@ -272,13 +274,15 @@
                                 <th class="numeric" ng-show="toggleColumn.noOfParty">No. Of Party</th>
                                 <th class="numeric" ng-show="toggleColumn.name">Name</th>
                                 <th class="numeric" ng-show="toggleColumn.checkinTime">Checkin Time</th>
-                                <th class="numeric" ng-show="toggleColumn.quoteTime">Quote Time</th> 
+                                <th class="numeric" ng-show="toggleColumn.quoteTime">Quote Time</th>
+                                <th class="numeric" ng-show="toggleColumn.langPref">Language Pref.</th>
+                                <th class="numeric" ng-show="toggleColumn.optIn">Opt-In</th>  
                                 <th class="numeric" ng-show="toggleColumn.note">Note</th>
                                 <th class="numeric">Delete</th>  
                                 <th class="numeric" ng-show="userDTO.smsRoute != null && userDTO.smsRoute != '' && toggleColumn.sendText">Send Text</th>
                                 <!-- <th class="numeric" ng-show="toggleColumn.seatingPref">Seating Pref.</th> -->
                                 
-                                 <!-- <th class="numeric" ng-show="toggleColumn.optIn">Opt-In</th> -->                                
+                                                               
                             </tr>
                         </thead>
                         <tbody>
@@ -308,8 +312,8 @@
                                 <!-- <span ng-show="record.seatingPreference==''">&nbsp;</span>{{record.seatingPreference}}</td> -->
                                 <td data-title="checkinTime" class="numeric" ng-show="toggleColumn.checkinTime">{{record.checkinTime | date :  "short"}}</td>
                                 <td data-title="quoteTime" class="numeric" ng-show="toggleColumn.quoteTime">{{record.quoteTime }}</td>
-                                
-                                <!-- <td data-title="Opt-In" class="numeric" ng-show="toggleColumn.optIn"><span ng-show="record.optin == false">&nbsp;</span><img ng-show="record.optin == true" src="../assets/img/roundarrow.png" class="roundarrow"></td> -->
+                                <td data-title="langPref" class="numeric" ng-show="toggleColumn.langPref">{{record.languagePref.langName}}</td>
+                                <td data-title="Opt-In" class="numeric" ng-show="toggleColumn.optIn"><span ng-show="record.optin == false">&nbsp;</span><img ng-show="record.optin == true" src="../assets/img/roundarrow.png" class="roundarrow"></td>
                                 
 								<td data-title="Note" class="numeric" ng-show="toggleColumn.note"><span ng-show="record.note == null || record.note ==''">&nbsp;</span><a popover href="javascript:void(0)" data-toggle="popover-hide" data-placement="top" data-trigger="focus" data-content="{{record.note}}"><img ng-show="record.note != null && record.note !=''" src="../assets/img/roundarrow.png" class="roundarrow"></a></td>
                                 <td data-title="Delete" class="numeric"><a style="cursor:pointer" ng-click="showDeletePopup(record);"><img src="../assets/img/delete.png" class="deleteimg"></a></td>
@@ -357,7 +361,8 @@
                                 <th class="numeric1" ng-show="toggleColumn.checkinTime">Checkin Time</th>
                                 <!-- <th class="numeric1" ng-show="toggleColumn.seatingPref">Seating Pref.</th> -->
                                 <th class="numeric1" ng-show="toggleColumn.quoteTime">Quote Time</th>
-                                <!-- <th class="numeric1" ng-show="toggleColumn.optIn">Opt-In</th> --> 
+                                <th class="numeric" ng-show="toggleColumn.langPref">Language Pref.</th>
+                                <th class="numeric1" ng-show="toggleColumn.optIn">Opt-In</th> 
                                 <th class="numeric1" ng-show="toggleColumn.note">Note</th>
                             </tr>
                         </thead>
@@ -387,8 +392,8 @@
                                 <!-- <td data-title="Seating Pref." class="numeric1" ng-show="toggleColumn.seatingPref"><span ng-show="record.seatingPreference==''">&nbsp;</span>{{record.seatingPreference}}</td> -->
                                 <td data-title="checkinTime" class="numeric1" ng-show="toggleColumn.checkinTime">{{record.checkinTime | date :  "short"}}</td>
                                 <td data-title="quoteTime" class="numeric1" ng-show="toggleColumn.quoteTime">{{record.quoteTime}}</td>
-                                
-                                <!-- <td data-title="Opt-In" class="numeric1" ng-show="toggleColumn.optIn"><span ng-show="record.optin == false">&nbsp;</span><img ng-show="record.optin == true" src="../assets/img/roundarrow.png" class="roundarrow"></td> -->
+                                <td data-title="langPref" class="numeric" ng-show="toggleColumn.langPref">{{record.languagePref.langName}}</td>
+                                <td data-title="Opt-In" class="numeric1" ng-show="toggleColumn.optIn"><span ng-show="record.optin == false">&nbsp;</span><img ng-show="record.optin == true" src="../assets/img/roundarrow.png" class="roundarrow"></td>
                                  <td data-title="Note" class="numeric1" ng-show="toggleColumn.note"><span ng-show="record.note == null || record.note ==''">&nbsp;</span><a popover href="javascript:void(0)" data-toggle="popover-show" data-placement="top" data-trigger="focus" data-content="{{record.note}}"><img ng-show="record.note != null && record.note !=''" src="../assets/img/roundarrow.png" class="roundarrow"></a></td>
                             </tr>
                        	</tbody>

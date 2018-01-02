@@ -1,12 +1,13 @@
 KyobeeUnSecuredController.controller('guestDetailCtrl',
 		[
 				'$scope',
+				'$q',
 				'$location',
 				'$timeout',
 				'$interval',
 				'$routeParams',
 				'KyobeeUnsecuredService',
-				function($scope, $location, $timeout, $interval, $routeParams, KyobeeUnsecuredService) {
+				function($scope, $q, $location, $timeout, $interval, $routeParams, KyobeeUnsecuredService) {
 					
 					$scope.guest = null;
 					$scope.tid = null;
@@ -15,6 +16,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					$scope.guestRankMin = null;
 					$scope.guestAheadCount = null;
 					$scope.orgWaitTime = null;
+					$scope.errorMsg = null;
 					
 					$scope.appKey = null;
 					$scope.privateKey = null;
@@ -29,8 +31,52 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					$scope.selectedSeatPref = [];
 					$scope.loading = false;
 					
+					$scope.currentPageLanguage = null;
+					
+					//creating new key-value jason for multilingual updateguest page
+					$scope.pageLanguage = {
+						  "en" : {
+						    "nowServing" : "Now Serving",
+						    "partiesWaiting" : "Parties Waiting",
+						    "estWaitTime" : "Est. Wait Time",
+						    "seatingPref" : "Seating Preference",
+						    "optInReceive" : "(Opt-in to receive promotions/special)",
+						    "rmvWaitlist" : "REMOVE FROM WAITLIST",
+						    "saveChanges" : "SAVE CHANGES",
+						    "enterNameError" : "Error! Please enter a valid name",
+						    "enterNumError" : "Error ! Please enter the contact no.",
+						    "adultSizeError" : "Error ! Adults must be greater than 0",
+						    "selectSmsError" : "Error ! Please select sms or Email",
+						    "enterEmailError" : "Error ! Please enter the Email",
+						    "validNumError" : "please enter the valid number",
+						    "fetchError" : "Error while fetching user details. Please login again or contact support",
+						    "updSuccess" : "Guest Information updated successfully",
+						    "updError" : "Error while updating Guest",
+						    "dltError" : "Error while deleting Guest"
+						  },
+						  "chi" : {
+						    "nowServing" : "正在服務",
+						    "partiesWaiting" : "等待人數",
+						    "estWaitTime" : "預計等候時間",
+							"seatingPref" : "桌位偏好",
+							"optInReceive" : "(同意接受優惠信息)",
+							"rmvWaitlist" : "從排隊名單中去除",
+							"saveChanges" : "保存修改",
+							"enterNameError" : "错误！请输入有效的名字",
+							"enterNumError" : "错误！请输入联络号码",
+							"adultSizeError" : "错误！成人必须大于0",
+							"selectSmsError" : "错误！请选择短信或电子邮件",
+						    "enterEmailError" : "错误！请输入电子邮件",
+							"validNumError" : "请输入有效的号码",
+							"fetchError" : "获取用户详细信息时出错。请再次登录或联系支持",
+							"updSuccess" : "客人信息已成功更新",
+							"updError" : "更新来宾时出错",
+							"dltError" : "删除访客时出错"
+						  }
+						}
+					
 					$scope.loadGuestPage = function(){
-						
+						var defered=$q.defer();
 						var postBody = {};
 						var url = "/kyobee/web/rest/waitlistRestAction/guestuuid?uuid="+$scope.tid;
 						 
@@ -39,6 +85,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								console.log(data);
 								if (data.status == "SUCCESS") {
 									$scope.guest = data.serviceResult;
+									console.log($scope.guest);
 									if($scope.guest == null || $scope.guest == 'undefined'){
 										return;
 									}
@@ -64,13 +111,15 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 									
 									$scope.loadSeatingPref($scope.guest.organizationID);
 									$scope.loadUserMetricks($scope.guest.organizationID, $scope.guest.guestID);
+									defered.resolve();
 								} else if (data.status == "FAILURE") {
 									console.log(data.serviceResult);
 								}
 							}, function(error) {
 								console.log(error);
+								defered.reject();
 							});
-						
+						return defered.promise;
 					}
 					
 					$scope.loadSeatingPref = function(orgId) {
@@ -84,11 +133,11 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 									if (data.status == "SUCCESS") {
 										$scope.seatPrefs = data.serviceResult;
 									} else if (data.status == "FAILURE") {
-										alert('Error while fetching user details. Please login again or contact support');
+										alert($scope.currentPageLanguage.fetchError);
 										$scope.logout();
 									}
 								}, function(error) {
-									alert('Error while fetching user details. Please login again or contact support');
+									alert($scope.currentPageLanguage.fetchError);
 								});
 					};
 					
@@ -101,29 +150,35 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 							return;
 						}*/
 						
-						if($scope.guest.prefType == null || $scope.guest.prefType == 'undefined'){
-							$scope.errorMsg = "Please select sms or email";
+						if($scope.guest.name == null || $scope.guest.name == 'undefined' || $scope.guest.name == ''){
+							$scope.errorMsg = $scope.currentPageLanguage.enterNameError;
 							$scope.loading = false;
 							return;
 						}
 						
-						if(($scope.guest.prefType == 'sms' || $scope.guest.prefType == 'SMS') && ($scope.guest.sms == null || $scope.guest.sms == 'undefined')){
-							$scope.errorMsg = "Please enter the contact no.";
+						if($scope.guest.prefType == null || $scope.guest.prefType == 'undefined'){
+							$scope.errorMsg = $scope.currentPageLanguage.selectSmsError;
+							$scope.loading = false;
+							return;
+						}
+						
+						if(($scope.guest.prefType == 'sms' || $scope.guest.prefType == 'SMS') && ($scope.guest.sms == null || $scope.guest.sms == 'undefined' || $scope.guest.sms == "")){
+							$scope.errorMsg = $scope.currentPageLanguage.enterNumError;
 							$scope.loading = false;
 							return;
 						}
 						
 						if(($scope.guest.prefType == 'email' || $scope.guest.prefType == 'EMAIL') && ($scope.guest.email == null || $scope.guest.email == 'undefined')){
-							$scope.errorMsg = "Please enter the email";
+							$scope.errorMsg = $scope.currentPageLanguage.enterEmailError;
 							$scope.loading = false;
 							return;
 						}
 						
-						/*if(($scope.guestDTO.noOfAdults != null && $scope.guestDTO.noOfAdults == 0)){
-							$scope.errorMsg = "Adults must be greater than 0";
+						if(($scope.guest.noOfAdults != null && $scope.guest.noOfAdults == 0 || $scope.guest.noOfAdults == undefined)){
+							$scope.errorMsg = $scope.currentPageLanguage.adultSizeError;
 							$scope.loading=false;
 							return;
-						}*/
+						}
 						
 						if ($("#children").val() == "") {
 						     $("#children").val("0");
@@ -134,21 +189,21 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						}
 						
 						var selectedGuestPref = [];
-						
-						for(i=0;i<$scope.seatPrefs.length;i++){
-							for(j=0; j<$scope.selectedSeatPref.length;j++){
-								if($scope.seatPrefs[i].prefValueId == $scope.selectedSeatPref[j]){
-									selectedGuestPref.push($scope.seatPrefs[i]);
-									break;
-								}
+						if($scope.seatPrefs!=null) {
+							for(i=0;i<$scope.seatPrefs.length;i++){
+								for(j=0; j<$scope.selectedSeatPref.length;j++){
+									if($scope.seatPrefs[i].prefValueId == $scope.selectedSeatPref[j]){
+										selectedGuestPref.push($scope.seatPrefs[i]);
+										break;
+									}
+								}								
 							}
-							
 						}
 						
 						var postBody = {
 								'name' : 	$scope.guest.name,
 								'guestID' : $scope.guest.guestID,
-								'organizationID' : $scope.guest.OrganizationID,
+								'organizationID' : $scope.guest.organizationID,
 								'noOfChildren' : $scope.guest.noOfChildren,
 								'noOfAdults' : $scope.guest.noOfAdults,
 								'noOfInfants' : $scope.guest.noOfInfants,
@@ -158,9 +213,10 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								'email' : $scope.guest.email,
 								'optin' : $scope.guest.optin,
 								'status': 'CHECKIN',
-								'guestPreferences' : selectedGuestPref
+								'guestPreferences' : selectedGuestPref,
+								'languagePref' : {'langId':$scope.guest.languagePrefID}
 						}
-						
+						console.log(JSON.stringify(postBody));
 						var url = '/kyobee/web/rest/waitlistRestAction/updateGuestInfo';
 						KyobeeUnsecuredService.postService(url, '').query(postBody,
 								function(data) {
@@ -173,22 +229,20 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					                    $scope.client.send($scope.channel, message);
 							            console.log('Sending from updateguest: ' + message + ' to channel: ' + $scope.channel);
 							            $scope.loading = false;
-										alert('Guest Inforation updated successfully');
+										alert($scope.currentPageLanguage.updSuccess);
 									} else if (data.status == "FAILURE") {
-										alert('Error while updating guest');
+										alert($scope.currentPageLanguage.updError);
 									}
 								}, function(error) {
-									alert('Error while updating guest');
+									alert($scope.currentPageLanguage.updError);
 								});
 					}
 					
 					$scope.deleteGuest = function(){
 						$scope.loading = true;
-						var postBody = {
-
-						};
-						var url = '/kyobee/web/rest/waitlistRestAction/deleteGuest?orgId=' + $scope.guest.organizationID + '&guestId='+$scope.guest.guestID;
-						KyobeeUnsecuredService.getDataService(url, '').query(postBody,
+						var postBody = $scope.guest;
+						var url = '/kyobee/web/rest/waitlistRestAction/deleteGuest';
+						KyobeeUnsecuredService.postService(url, '').query(postBody,
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
@@ -206,10 +260,10 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 										$scope.guest = null;
 										//$scope.loadWaitListPage(1);
 									} else if (data.status == "FAILURE") {
-										alert('Error while deleting guest.');
+										alert($scope.currentPageLanguage.dltError);
 									}
 								}, function(error) {
-									alert('Error while deleting guest.');
+									alert($scope.currentPageLanguage.dltError);
 								});
 						
 					}
@@ -237,11 +291,11 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 										$scope.guestAheadCount = data.serviceResult.GUEST_AHEAD_COUNT;
 										$scope.orgWaitTime = data.serviceResult.ORG_WAIT_TIME;
 									} else if (data.status == "FAILURE") {
-										alert('Error while fetching user details. Please login again or contact support');
+										alert($scope.currentPageLanguage.fetchError);
 										$scope.logout();
 									}
 								}, function(error) {
-									alert('Error while fetching user details. Please login again or contact support');
+									alert($scope.currentPageLanguage.fetchError);
 								});
 					};
 					
@@ -249,7 +303,18 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						
 						if ($routeParams.tid != null && $routeParams.tid != 'undefined'){
 							$scope.tid = $routeParams.tid;
-							$scope.loadGuestPage();
+							var promise = $scope.loadGuestPage();
+							promise.then(function(){
+								debugger;
+								if($scope.guest.languagePrefID == 1){
+									$scope.currentPageLanguage = $scope.pageLanguage.en;
+								}
+								else if($scope.guest.languagePrefID == 134){
+									$scope.currentPageLanguage = $scope.pageLanguage.chi;
+								}
+							},function(error){
+								
+							});
 						}
 						
 						$scope.loadInfo();
@@ -270,11 +335,11 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 										$scope.channel = data.serviceResult.pusherChannelEnv;
 										$scope.loadFactory();
 									} else if (data.status == "FAILURE") {
-										alert('Error while fetching user details. Please login again or contact support');
+										alert($scope.currentPageLanguage.fetchError);
 										$scope.logout();
 									}
 								}, function(error) {
-									alert('Error while fetching user details. Please login again or contact support');
+									alert($scope.currentPageLanguage.fetchError);
 								});
 					};
 					
@@ -397,6 +462,10 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 							});
 					}
 					
+					
+					$scope.hideErrorMsg = function(){
+					       $scope.errorMsg = null;
+					      };
 					
 					$scope.init();
 					

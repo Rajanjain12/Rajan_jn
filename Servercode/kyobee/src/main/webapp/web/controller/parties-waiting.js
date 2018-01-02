@@ -21,6 +21,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 					$scope.phnRegex="^([0-9]{3}|[0-9]{3})[0-9]{3}[0-9]{4}$";
 					$scope.footerMsg="Copyright KYOBEE. All Rights Reserved";
 					$scope.loading=false;
+					$scope.errorMsg = null;
 					
 					$scope.guestDTO = {
 							name: null,
@@ -31,15 +32,19 @@ KyobeeControllers.controller('partyWaitingCtrl',
 							noOfInfants : null,
 							quoteTime : null,
 							partyType : null,
-							prefType : null,
+							prefType : 'sms',
+							languagePref :{
+								langIsoCode: 'en',
+								langName: 'English',
+								langId: 1
+							},
 							email : null,
 							sms : null,
-							optin : false,
+							optin : true,
 							note : null
 					};
 					$scope.guestRank=0;
 					$scope.guestPref = null;
-					$scope.errorMsg = null;
 					
 					$scope.getData = function () {
 						
@@ -186,7 +191,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 							return;
 						}
 						
-						if(($scope.guestDTO.prefType == 'sms' || $scope.guestDTO.prefType == 'SMS') && ($scope.guestDTO.sms == null || $scope.guestDTO.sms == 'undefined')){
+						if(($scope.userDTO.smsRoute != null || $scope.userDTO.smsRoute != '') && ($scope.guestDTO.prefType == 'sms' || $scope.guestDTO.prefType == 'SMS') && ($scope.guestDTO.sms == null || $scope.guestDTO.sms == 'undefined' || $scope.guestDTO.sms=="")){
 							$scope.errorMsg = "Please enter the contact no.";
 							$scope.loading=false;
 							return;
@@ -211,10 +216,11 @@ KyobeeControllers.controller('partyWaitingCtrl',
 						}
 						
 						var selectedGuestPref = [];
-						
-						for(i=0;i<$scope.seatPrefs.length;i++){
-							if($scope.seatPrefs[i].selected){
-								selectedGuestPref.push($scope.seatPrefs[i]);
+						if($scope.seatPrefs!=null) {
+							for(i=0;i<$scope.seatPrefs.length;i++){
+								if($scope.seatPrefs[i].selected){
+									selectedGuestPref.push($scope.seatPrefs[i]);
+								}
 							}
 						}
 						$scope.guestDTO.guestPreferences = selectedGuestPref;

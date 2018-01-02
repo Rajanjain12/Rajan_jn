@@ -35,6 +35,8 @@ public class UserDTO {
 	private Long organizationId;
 	//Added Later
 	private String smsRoute;
+	
+	private String clientBase;
 
 	public Long getUserId() {
 		return userId;
@@ -138,6 +140,14 @@ public class UserDTO {
 
 	public void setSmsRoute(String smsRoute) {
 		this.smsRoute = smsRoute;
+	}
+
+	public String getClientBase() {
+		return clientBase;
+	}
+
+	public void setClientBase(String clientBase) {
+		this.clientBase = clientBase;
 	}
 
 }

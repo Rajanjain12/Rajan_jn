@@ -6,6 +6,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,7 +32,9 @@ import javax.mail.internet.MimeMultipart;
 import javax.swing.plaf.SliderUI;
 import javax.swing.text.StyleContext.SmallAttributeSet;
 
+import org.apache.log4j.helpers.QuietWriter;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.jdbc.ReturningWork;
@@ -41,15 +44,20 @@ import org.hibernate.type.StringType;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.terracotta.modules.ehcache.store.nonstop.NonStopStoreWrapper;
 
 import com.kyobee.dto.GuestPreferencesDTO;
+import com.kyobee.dto.LanguageMasterDTO;
+import com.kyobee.dto.OrganizationTemplateDTO;
 import com.kyobee.dto.SMSDetailsWrapper;
+import com.kyobee.dto.ScreensaverDTO;
 import com.kyobee.dto.WaitlistMetrics;
 import com.kyobee.entity.Guest;
 import com.kyobee.entity.GuestNotificationBean;
 import com.kyobee.entity.GuestPreferences;
 import com.kyobee.entity.GuestReset;
 import com.kyobee.entity.Organization;
+import com.kyobee.entity.SmsLog;
 import com.kyobee.exception.RsntException;
 import com.kyobee.service.IWaitListService;
 import com.kyobee.util.AppTransactional;
@@ -374,7 +382,7 @@ public class WaitListServiceImpl implements IWaitListService {
 	 * update all guests status as RESET byorgId
 	 * @param  orgid
 	 */
-	@Override
+	/*@Override
 	public int resetOrganizationsByOrgid(Long orgid) {
 		try {
 			//Added for Guest Reset functionality
@@ -384,18 +392,53 @@ public class WaitListServiceImpl implements IWaitListService {
 			e.printStackTrace();
 		}
 		return 1;
+	}*/
+	
+	public int resetOrganizationsByOrgid(Long orgid) {
+		
+		try {
+			sessionFactory.getCurrentSession().doWork(new Work(){
+			
+				@Override
+				public void execute(Connection connection) throws SQLException {
+					CallableStatement cStmt = connection.prepareCall("{call RESETGUESTBYORGID(?)}");
+					
+					try {
+						if(orgid!=null){
+						cStmt.setLong(1, orgid);
+						}
+						else{
+							cStmt.setLong(1, Types.INTEGER);
+						}
+						cStmt.execute();
+					} finally {
+						if (cStmt != null) {
+							cStmt.close();
+						}
+					}
+				}
+			});
+			return 1;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 	//Added for Guest Reset functionality
-	private void resetGuestTables (Long orgId)
+	private void resetGuestTables(Long orgId)
 	{
 		//Copy Guest to GuestReset
-		List<Guest> guestList = sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUESTS).setParameter(1,orgId).list();
+		/*System.out.println(sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUESTS).setParameter(1, orgId));*/
+		List<Guest> guestList = sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUESTS).setParameter("orgId", orgId).list();
+		System.out.println(guestList);
 		GuestReset oGuestReset;
 		//List<GuestReset> guestResetList = new ArrayList<GuestReset>();
 		for(Guest oGuest : guestList)
 		{
 			oGuestReset = new GuestReset();
+			oGuestReset.setGuestID(oGuest.getGuestID());
 			oGuestReset.setCalloutCount(oGuest.getCalloutCount());
 			oGuestReset.setCheckinTime(oGuest.getCheckinTime());
 			oGuestReset.setCreatedTime(oGuest.getCreatedTime());
@@ -407,6 +450,7 @@ public class WaitListServiceImpl implements IWaitListService {
 			oGuestReset.setOptin(oGuest.isOptin());
 			oGuestReset.setOrganizationID(oGuest.getOrganizationID());
 			oGuestReset.setPrefType(oGuest.getPrefType());
+			oGuestReset.setLanguagePrefID(oGuest.getLanguagePrefID());
 			oGuestReset.setRank(oGuest.getRank());
 			oGuestReset.setResetTime(oGuest.getResetTime());
 			oGuestReset.setSeatedTime(oGuest.getSeatedTime());
@@ -810,13 +854,15 @@ public class WaitListServiceImpl implements IWaitListService {
 
 		return guestWithMaxRank.get(0);
 	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<GuestPreferencesDTO> getOrganizationSeatingPref(long orgId) {
+	public List<GuestPreferencesDTO> getOrganizationSeatingPref(Long orgId) {
 		List<GuestPreferencesDTO> pref = null;
 		GuestPreferencesDTO dto = new GuestPreferencesDTO();
 		List<Object[]> list = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_SEATING_PREF_VALUES).
 				setParameter("orgId", orgId).setParameter("catTypeId", Constants.CONT_LOOKUPTYPE_SEATTYPE).list();
+		System.out.println("***********pref"+list);
 		if(null != list && list.size()>0){
 			pref = new ArrayList<GuestPreferencesDTO>();
 			for (Object[] lookupvalue : list) {
@@ -1153,7 +1199,7 @@ public class WaitListServiceImpl implements IWaitListService {
 				@Override
 				public WaitlistMetrics execute(Connection connection) throws SQLException {
 					CallableStatement cStmt = connection.prepareCall("{call addGuest(?, ?, ?, ?, "
-							+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
+							+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
 							+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");  
 					WaitlistMetrics oWaitlistMetrics = new WaitlistMetrics();
 					
@@ -1165,34 +1211,35 @@ public class WaitListServiceImpl implements IWaitListService {
 						cStmt.setLong(5, guestObj.getNoOfAdults());
 						cStmt.setLong(6, guestObj.getNoOfInfants());
 						cStmt.setLong(7, guestObj.getNoOfPeople());
-						cStmt.setInt(8, guestObj.getQuoteTime());
-						cStmt.setInt(9, guestObj.getPartyType());
-						cStmt.setString(10, guestObj.getDeviceType());
-						cStmt.setString(11, guestObj.getDeviceId());
-						cStmt.setString(12, guestObj.getSms());
-						cStmt.setString(13, guestObj.getEmail());
-						cStmt.setString(14, guestObj.getPrefType());
-						cStmt.setBoolean(15, guestObj.isOptin());
-						cStmt.setString(16, guestObj.getNote());
-						cStmt.setString(17, guestObj.getSeatingPreference());
-						cStmt.registerOutParameter(18, Types.INTEGER);
+						cStmt.setLong(8, guestObj.getLanguagePrefID());
+						cStmt.setInt(9, guestObj.getQuoteTime());
+						cStmt.setInt(10, guestObj.getPartyType());
+						cStmt.setString(11, guestObj.getDeviceType());
+						cStmt.setString(12, guestObj.getDeviceId());
+						cStmt.setString(13, guestObj.getSms());
+						cStmt.setString(14, guestObj.getEmail());
+						cStmt.setString(15, guestObj.getPrefType());
+						cStmt.setBoolean(16, guestObj.isOptin());
+						cStmt.setString(17, guestObj.getNote());
+						cStmt.setString(18, guestObj.getSeatingPreference());
 						cStmt.registerOutParameter(19, Types.INTEGER);
 						cStmt.registerOutParameter(20, Types.INTEGER);
-						cStmt.registerOutParameter(21, Types.VARCHAR);
-						cStmt.registerOutParameter(22, Types.INTEGER);
-						cStmt.registerOutParameter(23, Types.VARCHAR);
-						cStmt.registerOutParameter(24, Types.INTEGER);
-						cStmt.registerOutParameter(25, Types.VARCHAR);
+						cStmt.registerOutParameter(21, Types.INTEGER);
+						cStmt.registerOutParameter(22, Types.VARCHAR);
+						cStmt.registerOutParameter(23, Types.INTEGER);
+						cStmt.registerOutParameter(24, Types.VARCHAR);
+						cStmt.registerOutParameter(25, Types.INTEGER);
+						cStmt.registerOutParameter(26, Types.VARCHAR);
 						cStmt.execute();
 
-						oWaitlistMetrics.setGuestId(cStmt.getInt(18));
-						oWaitlistMetrics.setGuestRank(cStmt.getInt(19));
-						oWaitlistMetrics.setNowServingParty(cStmt.getInt(20));
-						oWaitlistMetrics.setTotalWaitingGuest(cStmt.getInt(21));
-						oWaitlistMetrics.setTotalWaitTime(cStmt.getInt(22));
-						oWaitlistMetrics.setNoOfPartiesAhead(cStmt.getInt(23));
-						oWaitlistMetrics.setGuestToBeNotified(cStmt.getInt(24));
-						oWaitlistMetrics.setClientBase(cStmt.getString(25));
+						oWaitlistMetrics.setGuestId(cStmt.getInt(19));
+						oWaitlistMetrics.setGuestRank(cStmt.getInt(20));
+						oWaitlistMetrics.setNowServingParty(cStmt.getInt(21));
+						oWaitlistMetrics.setTotalWaitingGuest(cStmt.getInt(22));
+						oWaitlistMetrics.setTotalWaitTime(cStmt.getInt(23));
+						oWaitlistMetrics.setNoOfPartiesAhead(cStmt.getInt(24));
+						oWaitlistMetrics.setGuestToBeNotified(cStmt.getInt(25));
+						oWaitlistMetrics.setClientBase(cStmt.getString(26));
 					} finally {
 						if (cStmt != null) {
 							cStmt.close();
@@ -1263,7 +1310,7 @@ public class WaitListServiceImpl implements IWaitListService {
 				@Override
 				public WaitlistMetrics execute(Connection connection) throws SQLException {
 					CallableStatement cStmt = connection.prepareCall("{call UPDATEGUEST(?, ?, ?, ?,"
-							+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,"
+							+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,"
 			 				+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");  
 					WaitlistMetrics oWaitlistMetrics = new WaitlistMetrics();
 					try {
@@ -1274,35 +1321,37 @@ public class WaitListServiceImpl implements IWaitListService {
 						cStmt.setLong(5, guestObj.getNoOfAdults() != null ? guestObj.getNoOfAdults() : 0);
 						cStmt.setLong(6, guestObj.getNoOfInfants() != null ? guestObj.getNoOfInfants() : 0);
 						cStmt.setLong(7, guestObj.getNoOfPeople() != null ? guestObj.getNoOfPeople() : 0);
-						cStmt.setInt(8, guestObj.getQuoteTime() != null ? guestObj.getQuoteTime() : 0);
-						cStmt.setInt(9, guestObj.getPartyType() != null ? guestObj.getPartyType() : 0);
-						cStmt.setString(10, guestObj.getSms() != null ? guestObj.getSms() : "");
-						cStmt.setString(11, guestObj.getEmail() != null ? guestObj.getEmail() : "");
-						cStmt.setString(12, guestObj.getPrefType() != null ? guestObj.getPrefType() : "");
-						cStmt.setBoolean(13, guestObj.isOptin());
-						cStmt.setString(14,
+						cStmt.setLong(8, guestObj.getLanguagePrefID() != null ? guestObj.getLanguagePrefID() : 0);
+						cStmt.setInt(9, guestObj.getQuoteTime() != null ? guestObj.getQuoteTime() : 0);
+						cStmt.setInt(10, guestObj.getPartyType() != null ? guestObj.getPartyType() : 0);
+						cStmt.setString(11, guestObj.getSms() != null ? guestObj.getSms() : "");
+						cStmt.setString(12, guestObj.getEmail() != null ? guestObj.getEmail() : "");
+						cStmt.setString(13, guestObj.getPrefType() != null ? guestObj.getPrefType() : "");
+						cStmt.setBoolean(14, guestObj.isOptin());
+						cStmt.setString(15,
 								guestObj.getSeatingPreference() != null ? guestObj.getSeatingPreference() : "");
-						cStmt.setString(15, guestObj.getNote() != null ? guestObj.getNote() : "");
-						cStmt.setLong(16, actionFlag == Constants.WAITLIST_UPDATE_CALLOUT ? 1 : 0);
-						cStmt.setLong(17, actionFlag == Constants.WAITLIST_UPDATE_INCOMPLETE ? 1 : 0);
-						cStmt.setLong(18, actionFlag == Constants.WAITLIST_UPDATE_MARK_AS_SEATED ? 1 : 0);
-						cStmt.setLong(19, actionFlag == Constants.WAITLIST_UPDATE_DELETE ? 1 : 0);
-						cStmt.registerOutParameter(20, Types.INTEGER);
+						cStmt.setString(16, guestObj.getNote() != null ? guestObj.getNote() : "");
+						cStmt.setLong(17, actionFlag == Constants.WAITLIST_UPDATE_CALLOUT ? 1 : 0);
+						cStmt.setLong(18, actionFlag == Constants.WAITLIST_UPDATE_INCOMPLETE ? 1 : 0);
+						cStmt.setLong(19, actionFlag == Constants.WAITLIST_UPDATE_MARK_AS_SEATED ? 1 : 0);
+						cStmt.setLong(20, actionFlag == Constants.WAITLIST_UPDATE_DELETE ? 1 : 0);
 						cStmt.registerOutParameter(21, Types.INTEGER);
 						cStmt.registerOutParameter(22, Types.INTEGER);
-						cStmt.registerOutParameter(23, Types.VARCHAR);
-						cStmt.registerOutParameter(24, Types.INTEGER);
+						cStmt.registerOutParameter(23, Types.INTEGER);
+						cStmt.registerOutParameter(24, Types.VARCHAR);
 						cStmt.registerOutParameter(25, Types.INTEGER);
-						cStmt.registerOutParameter(26, Types.VARCHAR);
+						cStmt.registerOutParameter(26, Types.INTEGER);
+						cStmt.registerOutParameter(27, Types.VARCHAR);
 						cStmt.execute();
 
-						oWaitlistMetrics.setNowServingParty(cStmt.getInt(20));
-						oWaitlistMetrics.setTotalWaitingGuest(cStmt.getInt(21));
-						oWaitlistMetrics.setTotalWaitTime(cStmt.getInt(22));
-						oWaitlistMetrics.setNoOfPartiesAhead(cStmt.getInt(23));
-						oWaitlistMetrics.setGuestToBeNotified(cStmt.getInt(24));
-						oWaitlistMetrics.setGuestNotifiedWaitTime(cStmt.getInt(25));
-						oWaitlistMetrics.setClientBase(cStmt.getString(26));
+						oWaitlistMetrics.setGuestId(guestObj.getGuestID().intValue());
+						oWaitlistMetrics.setNowServingParty(cStmt.getInt(21));
+						oWaitlistMetrics.setTotalWaitingGuest(cStmt.getInt(22));
+						oWaitlistMetrics.setTotalWaitTime(cStmt.getInt(23));
+						oWaitlistMetrics.setNoOfPartiesAhead(cStmt.getInt(24));
+						oWaitlistMetrics.setGuestToBeNotified(cStmt.getInt(25));
+						oWaitlistMetrics.setGuestNotifiedWaitTime(cStmt.getInt(26));
+						oWaitlistMetrics.setClientBase(cStmt.getString(27));
 					} finally {
 						if (cStmt != null) {
 							cStmt.close();
@@ -1658,6 +1707,162 @@ ByOrgRecords(java.lang.Long, int, int)
 			}
 
 		}
+	 	
+	 	/*Get Organization language preferences by OrgId (krupali 07/11/2017)*/
+	 	@SuppressWarnings("unchecked")
+		@Override
+		public List<LanguageMasterDTO> getOrganizationLanguagePref(Long orgId) {
+			List<LanguageMasterDTO> langPref = null;
+			LanguageMasterDTO dto = new LanguageMasterDTO();
+			List<Object[]> list = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_LANGUAGE_PREF_VALUES).
+					setParameter("orgId", orgId).list();
+			System.out.println("**************pref"+list);
+			if(null != list && list.size()>0){
+				langPref = new ArrayList<LanguageMasterDTO>();
+				for (Object[] pref : list) {
+					dto = new LanguageMasterDTO();
+					System.out.println("===Long.getLong(lookupvalue[0].toString())===="+pref[0].toString());
+					dto.setLangId(Long.valueOf(pref[0].toString()));
+					dto.setLangName(pref[1].toString());
+					dto.setLangIsoCode(pref[2].toString());
+					//dto.setLangDisplayName(pref[3].toString());
+					/*dto.setPrefValueId(Long.valueOf(pref[0].toString()));
+					dto.setPrefValue(pref[1].toString());*/
+					langPref.add(dto);
+				}
+			}
+			return langPref;
+		}
+	 	
+	 	/*for getting language preferences by id (krupali 13/11/2017)*/
+	 	@SuppressWarnings("unchecked")
+		@Override
+		public LanguageMasterDTO getLangPrefById(Long languagePrefID) {
+			// TODO Auto-generated method stub
+			LanguageMasterDTO langPref = new LanguageMasterDTO();
+			List<Object[]> list = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_USER_LANGUAGE_PREF_VALUES).
+					setParameter("langId", languagePrefID).list();
+			System.out.println(list);
+			if(null != list && list.size()>0){
+				for (Object[] pref : list) {
+					langPref.setLangId(Long.valueOf(pref[0].toString()));
+					langPref.setLangName(pref[1].toString());
+					langPref.setLangIsoCode(pref[2].toString());
+				}
+			}
+			return langPref;
+		}
 		
-	
+	 	@SuppressWarnings("unchecked")
+		@Override
+		public List<OrganizationTemplateDTO> getOrganizationTemplates(Long orgId,Long langID,Integer levelId) {
+			List<OrganizationTemplateDTO> templates = null;
+			OrganizationTemplateDTO dto = new OrganizationTemplateDTO();
+			StringBuffer query= new StringBuffer("select SmsTemplateID, TemplateText, LanguageID, Level"
+					+ " from ORGANIZATIONTEMPLATE ot"
+					+ " where ot.OrgID=:orgId and ot.LanguageID=:langID and ot.Active=1");
+			
+			if(levelId!=null) {
+				query=query.append(" and ot.Level=:levelId");
+			}
+			
+			//String queryStr=query.toString();
+			SQLQuery queryStr=sessionFactory.getCurrentSession().createSQLQuery(query.toString());
+			queryStr.setParameter("orgId", orgId);
+			queryStr.setParameter("langID", langID);
+			if(levelId!=null) {
+				queryStr.setParameter("levelId", levelId);
+			}
+			
+			List<Object[]> list = queryStr.list();
+			System.out.println("***********pref"+list);
+			if(null != list && list.size()>0){
+				templates = new ArrayList<OrganizationTemplateDTO>();
+				for (Object[] template : list) {
+					dto = new OrganizationTemplateDTO();
+					dto.setSmsTemplateID(Long.valueOf(template[0].toString()));
+					dto.setTemplateText(template[1].toString());
+					dto.setLanguageID(Long.valueOf(template[2].toString()));
+					dto.setLevel(Integer.valueOf(template[3].toString()));
+					/*dto.setPrefValueId(Long.valueOf(lookupvalue[0].toString()));
+					dto.setPrefValue(lookupvalue[1].toString());*/
+					templates.add(dto);
+				}
+			}
+
+
+			return templates;
+		}
+	 	
+		@Override
+		public ScreensaverDTO getOrganizationScreensaver(long orgId) {
+			ScreensaverDTO screensaver = new ScreensaverDTO();
+			List<Object[]> list = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_SCREENSAVER).
+					setParameter("orgId", orgId).list();
+			System.out.println(list);
+			if(null != list && list.size()>0){
+				for (Object[] dto : list) {
+					screensaver.setScreensaverFlag(dto[0].toString());
+					screensaver.setScreensaverFile(dto[1].toString());
+				}
+			}
+			return screensaver;
+		}
+	 	
+	 	@SuppressWarnings("unchecked")
+		@Override
+	 	public void saveSmsLog(Guest guest, Long orgId, Long templateId, String smsText){
+	 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	 		Date date = new Date();
+	 		System.out.println(dateFormat.format(date));
+	 		
+			SmsLog log = new SmsLog();
+			log.setOrgID(orgId);
+			log.setGuestID(guest.getGuestID());
+			log.setPhoneNo(guest.getSms());
+			log.setMsgText(smsText);
+			log.setProcess("P");
+			log.setCreatedBy("admin");
+			log.setCreatedAt(dateFormat.format(date));
+			log.setModifiedAt(dateFormat.format(date));
+			
+			if(templateId!=null){
+			Integer templateLevel = fetchTemplateLevel(orgId, templateId);
+			log.setTemplateID(templateId);
+			log.setTempLevel(templateLevel);
+			}
+			
+			Long i = (Long) sessionFactory.getCurrentSession().save(log);
+			System.out.println("*************"+i);
+		}
+	 	
+	 	@SuppressWarnings("unchecked")
+		@Override
+	 	public Integer fetchTemplateLevel(Long orgId, Long templateId){
+	 		Integer templateLevel=null;
+	 		
+	 		List<Integer> lists = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_SMS_TEMPLATE_LEVEL_BY_ID).
+	 				setParameter("orgId", orgId).setParameter("templateID", templateId).list();
+	 				
+	 				System.out.println(lists);
+	 				for (Integer level : lists) {
+	 					templateLevel = level;
+	 				}
+	 				
+	 		return templateLevel;
+	 	}
+	 	
+	 	public WaitlistMetrics convertToObject(Map<String, String> metricsMap) {
+			WaitlistMetrics wMetrics=new WaitlistMetrics();
+			//wMetrics.setGuestId();
+			wMetrics.setNowServingParty(Integer.parseInt(metricsMap.get(Constants.RSNT_GUEST_RANK_MIN)));
+			wMetrics.setTotalWaitTime(Integer.parseInt(metricsMap.get(Constants.RSNT_ORG_TOTAL_WAIT_TIME)));
+			wMetrics.setGuestToBeNotified(Integer.parseInt(metricsMap.get("OP_GUESTTOBENOTIFIED")));
+			wMetrics.setTotalWaitingGuest(Integer.parseInt(metricsMap.get(Constants.RSNT_ORG_GUEST_COUNT)));
+			wMetrics.setNoOfPartiesAhead(Integer.parseInt(metricsMap.get("OP_NOOFPARTIESAHEAD")));
+			//wMetrics.setGuestRank(Integer.parseInt(metricsMap.get("OP_NOOFPARTIESAHEAD")));
+			wMetrics.setGuestNotifiedWaitTime(Integer.parseInt(metricsMap.get("OP_GUESTNOTIFIEDWAITTIME")));
+			wMetrics.setClientBase(metricsMap.get("CLIENT_BASE"));
+			return wMetrics;		
+		}
 }

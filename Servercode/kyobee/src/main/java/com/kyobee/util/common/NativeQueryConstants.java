@@ -1,5 +1,6 @@
 package com.kyobee.util.common;
 
+
 public class NativeQueryConstants {
 	
 	public static final String GET_ORG_AUTO_RENEW_OPTION = "SELECT AutoRenew from ORGANIZATION where ORGANIZATIONID = ?1";
@@ -432,8 +433,15 @@ public class NativeQueryConstants {
 	public static final String HQL_GET_GUEST_BY_UUID = "FROM Guest g WHERE g.status ='CHECKIN' and  g.resetTime is null and uuid=:UUID";
 	public static final String GET_ORG_SEATING_PREF_VALUES = "select lkp.LookupID,lkp.Name from ORGANIZATION org inner join ORGANIZATIONCATEGORY oc on org.organizationID=oc.organizationID "+
                                                               " inner join LOOKUP lkp on oc.CategoryValueID=lkp.LookupID where oc.organizationID=:orgId and oc.CategoryTypeID=:catTypeId";
+	public static final String GET_ORG_LANGUAGE_PREF_VALUES = "select LangID, LangName, LangIsoCode from "+
+																"ORGANIZATIONLANG ol inner join LANGMASTER lm on lm.LangID = ol.LanguageID "+
+																"where ol.OrganizationID=:orgId and ol.Active=1";
+	public static final String GET_USER_LANGUAGE_PREF_VALUES = "select LangID, LangName, LangIsoCode from LANGMASTER lm where lm.LangID=:langId";
+	public static final String GET_ORG_SMS_TEMPLATE_VALUES = "select SmsTemplateID, TemplateText, LanguageID, Level from ORGANIZATIONTEMPLATE ot where ot.OrgID=:orgId and ot.LanguageID=:langID and ot.Active=1";
+	public static final String GET_ORG_SMS_TEMPLATE_LEVEL_BY_ID  = "select Level from ORGANIZATIONTEMPLATE ot where ot.OrgID=:orgId and ot.Active=1 and ot.SmsTemplateID=:templateID";
+	public static final String GET_ORG_SCREENSAVER = "select ScreensaverFlag, ScreensaverFileName from ORGANIZATION o where o.OrganizationID=:orgId";
 	//Added for Guest Reset functionality
-	public static final String HQL_GET_GUESTS = "FROM Guest where OrganizationID = ?1";
+	public static final String HQL_GET_GUESTS = "FROM Guest where OrganizationID = :orgId";
 	//public static final String HQL_GET_GUESTS_PREFERENCES = "FROM GuestPreferences";
 	public static final String HQL_DELETE_GUESTS = "DELETE FROM Guest where OrganizationID = ?1";
 	//public static final String HQL_DELETE_GUESTS_PREFERENCES = "DELETE FROM GuestPreferences";

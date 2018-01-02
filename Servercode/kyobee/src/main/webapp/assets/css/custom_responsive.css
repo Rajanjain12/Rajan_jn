@@ -287,7 +287,8 @@ img.roundarrow {width: 14px;}
 }
 #footer-logo h1{    font-size: 2.5em;margin-left: 5px;    margin-top: 0;}
 .close-theme {right: 15px; top: 10px;}
-
+.send-sms-textarea{width:276px;}
+.footerleft img{margin-top:19px;}
 }
 
 
@@ -349,8 +350,8 @@ img.roundarrow {width: 14px;}
     left: 120px !important;
 }
 /*latest footer changes*/
-.padding-bottom-130 { padding-bottom: 175px;}
-
+.padding-bottom-130 { padding-bottom: 240px;}
+.resp-marginbottom{margin-bottom:130px;}
 }
 
 

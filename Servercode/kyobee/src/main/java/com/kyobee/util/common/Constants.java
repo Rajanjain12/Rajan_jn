@@ -131,6 +131,7 @@ public class Constants {
 	
 	public static final String NOTIF_MARK_AS_SEATED = "MARK_AS_SEATED";
 	public static final String NOTIF_THRESHOLD_ENTERED = "THRESHOLD_ENTERED";
+	public static final String NOTIF_CHECKIN = "NORMAL";
     
 	public static final int REALTIME_API_GET_SUCCESS_CODE = 200;
 	public static final int REALTIME_API_POST_SUCCESS_CODE = 201;

@@ -24,6 +24,6 @@ KyobeeUnsecuredService.factory('KyobeeUnsecuredService', [ '$resource', '$http',
 					isArray : false
 				}
 			});
-		},
+		}
 	};
 } ]);

@@ -27,13 +27,17 @@ KyobeeControllers.controller('guestCtrl',
 								noOfPeople : null,
 								quoteTime : null,
 								partyType : null,
-								prefType : null,
+								prefType : 'sms',
+								languagePref :{
+									langIsoCode: 'en',
+									langName: 'English',
+									langId: 1
+								},
 								email : null,
 								sms : null,
-								optin : false,
+								optin : true,
 								note : null
 						}
-						$scope.errorMsg = null;
 						
 						// we have loaded the seat prefs in main controller to avoid loading again & again on child controller. 
 						//But if user refreshes page or directly goes to add page via url, 
@@ -92,7 +96,7 @@ KyobeeControllers.controller('guestCtrl',
 							return;
 						}                                                         
 						
-						if(($scope.guestDTO.prefType == 'sms' || $scope.guestDTO.prefType == 'SMS') && ($scope.guestDTO.sms == null || $scope.guestDTO.sms == 'undefined')){
+						if(($scope.userDTO.smsRoute != null && $scope.userDTO.smsRoute != '') && ($scope.guestDTO.prefType == 'sms' || $scope.guestDTO.prefType == 'SMS') && ($scope.guestDTO.sms == null || $scope.guestDTO.sms == 'undefined' || $scope.guestDTO.sms == "")){
 							$scope.errorMsg = "Please enter the contact no.";
 							$scope.loading=false;
 							return;
@@ -117,10 +121,11 @@ KyobeeControllers.controller('guestCtrl',
 						}
 						
 						var selectedGuestPref = [];
-						
-						for(i=0;i<$scope.guestPref.length;i++){
-							if($scope.guestPref[i].selected){
-								selectedGuestPref.push($scope.guestPref[i]);
+						if($scope.guestPref!=null) {
+							for(i=0;i<$scope.guestPref.length;i++){
+								if($scope.guestPref[i].selected){
+									selectedGuestPref.push($scope.guestPref[i]);
+								}
 							}
 						}
 						$scope.guestDTO.guestPreferences = selectedGuestPref;
@@ -175,7 +180,7 @@ KyobeeControllers.controller('guestCtrl',
 							return;
 						}
 						
-						if(($scope.guestDTO.prefType == 'sms' || $scope.guestDTO.prefType == 'SMS') && ($scope.guestDTO.sms == null || $scope.guestDTO.sms == 'undefined')){
+						if(($scope.userDTO.smsRoute != null || $scope.userDTO.smsRoute != '') && ($scope.guestDTO.prefType == 'sms' || $scope.guestDTO.prefType == 'SMS') && ($scope.guestDTO.sms == null || $scope.guestDTO.sms == 'undefined' || $scope.guestDTO.sms=="")){
 							$scope.errorMsg = "Please enter the contact no.";
 							$scope.loading=false;
 							return;
@@ -201,10 +206,12 @@ KyobeeControllers.controller('guestCtrl',
 						
 						var selectedGuestPref = [];
 						
+						if($scope.guestPref!=null) {
 						for(i=0;i<$scope.guestPref.length;i++){
 							if($scope.guestPref[i].selected){
 								selectedGuestPref.push($scope.guestPref[i]);
 							}
+						}
 						}
 						$scope.guestDTO.guestPreferences = selectedGuestPref;
 						/*change by krupali, line 204 (15/06/2017) */
@@ -230,6 +237,36 @@ KyobeeControllers.controller('guestCtrl',
 						
 					}
 					
+					/*$scope.fetchOrgSMSTemplates = function(OrgId) {
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/fetchSMSTemplates?organizationID='+OrgId;
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log("Updated data "+JSON.stringify(data));
+									if (data.status == "SUCCESS") {
+										$scope.guestDTO = data.serviceResult;
+										console.log($scope.guestDTO);
+										$scope.guestPref = angular.copy($scope.seatPrefs);
+										if($scope.guestDTO.guestPreferences!=null)
+										for(var i=0;i< $scope.guestDTO.guestPreferences.length;i++){
+											for(var j=0; j < $scope.guestPref.length ; j++){
+												if($scope.guestDTO.guestPreferences[i].prefValueId == $scope.guestPref[j].prefValueId){
+													$scope.guestPref[j].selected = true;
+													break;
+												}
+											}
+										}
+									} else if (data.status == "FAILURE") {
+										alert('Error while fetching guest details. Please login again or contact support');
+										$scope.logout();
+									}
+								}, function(error) {
+									alert('Error while fetching guest details. Please login again or contact support');
+								});
+					}*/
+					
 					$scope.loadGuestToUpdate = function(guestId) {
 						var postBody = {
 
@@ -237,6 +274,7 @@ KyobeeControllers.controller('guestCtrl',
 						var url = '/kyobee/web/rest/waitlistRestAction/guest?guestid='+guestId;
 						KyobeeService.getDataService(url, '').query(postBody,
 								function(data) {
+									debugger;
 									console.log("Updated data "+JSON.stringify(data));
 									if (data.status == "SUCCESS") {
 										$scope.guestDTO = data.serviceResult;

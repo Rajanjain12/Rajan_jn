@@ -132,6 +132,13 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.2.3</version>
 		</dependency>
+		
+		<!-- json dependency -->
+		<dependency> 
+			<groupId>org.json</groupId> 
+			<artifactId>json</artifactId> 
+			<version>20090211</version> 
+		</dependency>
 
 		<!-- My SQL Driver Jar -->
 		<dependency>
@@ -211,6 +218,12 @@
 		    <artifactId>javase</artifactId>
 		    <version>2.1</version>
 		</dependency>
+		
+		<!-- <dependency>
+    		<groupId>com.googlecode</groupId>
+    		<artifactId>google-api-translate-java</artifactId>
+    		<version>0.92</version>
+		</dependency> -->
 		
 		<dependency>
 		    <groupId>com.github.fernandospr</groupId>

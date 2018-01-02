@@ -37,6 +37,8 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.toggleColumnShowHide = false;
 					
 					$scope.successMsg = null;
+					/*$scope.clientBase = $scope.userDTO.clientBase;
+					alert($scope.clientBase);*/
 					
 					$scope.statusOptions=["All","Not Present","Incomplete"];
 					$scope.selectedStatus=$scope.statusOptions[0];
@@ -60,11 +62,12 @@ KyobeeControllers.controller('waitListCtrl',
 							checkinTime : true,
 							partyType : true,
 							quoteTime : true,
-							/*optIn : true,*/
+							optIn : false,
 							note : true,
 							del : true,
 							partyRank : true,
-							sendText : true
+							sendText : true,
+							langPref : false
 					};
 					
 					/*$scope.offset = new date().getTimezoneOffset();*/
@@ -94,6 +97,7 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.toggleShowHistory = function(){
 						if($scope.showHistory){
 							$scope.showHistory = false;
+							$scope.pager = {};
 							// load normal waitlist
 							$scope.loadWaitListPage(1);
 						}else {
@@ -222,14 +226,14 @@ KyobeeControllers.controller('waitListCtrl',
 								$scope.toggleColumn.quoteTime= true;
 							}
 							break;
-						/*case 'optIn':
+						case 'optIn':
 							if($scope.toggleColumn.optIn == true){
 								$scope.toggleColumn.optIn = false; 
 							}
 							else{
 								$scope.toggleColumn.optIn = true;
 							}
-							break;*/
+							break;
 							
 						case 'note':
 							if($scope.toggleColumn.note == true){
@@ -264,6 +268,15 @@ KyobeeControllers.controller('waitListCtrl',
 							}
 							else{
 								$scope.toggleColumn.sendText = true;
+							}
+							break;
+						
+						case 'langPref':
+							if($scope.toggleColumn.langPref == true){
+								$scope.toggleColumn.langPref = false; 
+							}
+							else{
+								$scope.toggleColumn.langPref = true;
 							}
 							break;
 							
@@ -355,7 +368,6 @@ KyobeeControllers.controller('waitListCtrl',
 						var url = '/kyobee/web/rest/waitlistRestAction/searchuser';
 						KyobeeService.getDataService(url, '').query(postBody,
 								function(data) {
-									console.log("Postbody "+JSON.stringify(postBody));
 									console.log("Waitlist Grid data : "+ JSON.stringify(data));
 									if (data.status == "SUCCESS") {
 										var paginatedResponse = data.serviceResult;
@@ -383,8 +395,6 @@ KyobeeControllers.controller('waitListCtrl',
 								pageSize : $scope.pageSize,
 								pageNo : pageNo
 						}
-						
-						console.log($scope.selectedStatus);
 						
 						/*current timezone (krupali 06/07/2017)*/
 						function pad(value) {
@@ -554,18 +564,66 @@ KyobeeControllers.controller('waitListCtrl',
 						$scope.selectedGuest = guestObj;
 						//$scope.smsContent = 'this is default message from admin';
 						console.log("------------"+JSON.stringify($scope.selectedGuest));
-						switch ($scope.userDTO.clientBase) {
+						/*switch ($scope.userDTO.clientBase) {
 						case "admin":
-							$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/zrpro2s/s/'+$scope.selectedGuest.uuid;
+							if($scope.selectedGuest.languagePref.langId==134){
+								$scope.smsContent = '顧客 '+$scope.selectedGuest.rank+' : 您的桌位 即將 準備就緒。請帶您的全部客人回到餐廳以等待叫到您的號碼。點擊鏈接查詢實時排隊信息: https://tinyurl.com/y9jr7234/s/'+$scope.selectedGuest.uuid;
+							}else{
+								$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y9jr7234/s/'+$scope.selectedGuest.uuid;
+							}
 							break;
 						case "advantech":
-							$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/h5wmc2t/s/'+$scope.selectedGuest.uuid;
+							if($scope.selectedGuest.languagePref.langId==134){
+								$scope.smsContent = '顧客 '+$scope.selectedGuest.rank+' : 您的桌位 即將 準備就緒。請帶您的全部客人回到餐廳以等待叫到您的號碼。點擊鏈接查詢實時排隊信息: https://tinyurl.com/y7jfvtv3/s/'+$scope.selectedGuest.uuid;
+							}else{
+
+								$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y7jfvtv3/s/'+$scope.selectedGuest.uuid;
+							}
 							break;
 						case "sweethoneydessert":
-							$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y76qkpro/s/'+$scope.selectedGuest.uuid;
+							if($scope.selectedGuest.languagePref.langId==134){
+								$scope.smsContent = '顧客 '+$scope.selectedGuest.rank+' : 您的桌位 即將 準備就緒。請帶您的全部客人回到餐廳以等待叫到您的號碼。點擊鏈接查詢實時排隊信息: https://tinyurl.com/y8dxa9s3/s/'+$scope.selectedGuest.uuid;
+							}else{
+								$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y8dxa9s3/s/'+$scope.selectedGuest.uuid;
+							}
 							break;
 						default:
-							$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/zrpro2s/s/'+$scope.selectedGuest.uuid;
+							if($scope.selectedGuest.languagePref.langId==134){
+								$scope.smsContent = '顧客 '+$scope.selectedGuest.rank+' : 您的桌位 即將 準備就緒。請帶您的全部客人回到餐廳以等待叫到您的號碼。點擊鏈接查詢實時排隊信息: https://tinyurl.com/y9jr7234/s/'+$scope.selectedGuest.uuid;
+							}else{
+								$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y9jr7234/s/'+$scope.selectedGuest.uuid;
+							}
+							break;
+						}*/
+						switch ($scope.userDTO.clientBase) {
+						case "admin":
+							if($scope.selectedGuest.languagePref.langId==134){
+								$scope.smsContent = '顧客 '+$scope.selectedGuest.rank+' : 您的桌位 即將 準備就緒。請帶您的全部客人回到餐廳以等待叫到您的號碼。點擊鏈接查詢實時排隊信息: https://tinyurl.com/yc8kfl5m/s/'+$scope.selectedGuest.uuid;
+							}else{
+								$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/yc8kfl5m/s/'+$scope.selectedGuest.uuid;
+							}
+							break;
+						case "advantech":
+							if($scope.selectedGuest.languagePref.langId==134){
+								$scope.smsContent = '顧客 '+$scope.selectedGuest.rank+' : 您的桌位 即將 準備就緒。請帶您的全部客人回到餐廳以等待叫到您的號碼。點擊鏈接查詢實時排隊信息: https://tinyurl.com/y88vbqjx/s/'+$scope.selectedGuest.uuid;
+							}else{
+
+								$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y88vbqjx/s/'+$scope.selectedGuest.uuid;
+							}
+							break;
+						case "sweethoneydessert":
+							if($scope.selectedGuest.languagePref.langId==134){
+								$scope.smsContent = '顧客 '+$scope.selectedGuest.rank+' : 您的桌位 即將 準備就緒。請帶您的全部客人回到餐廳以等待叫到您的號碼。點擊鏈接查詢實時排隊信息: https://tinyurl.com/y8aaxaxy/s/'+$scope.selectedGuest.uuid;
+							}else{
+								$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y8aaxaxy/s/'+$scope.selectedGuest.uuid;
+							}
+							break;
+						default:
+							if($scope.selectedGuest.languagePref.langId==134){
+								$scope.smsContent = '顧客 '+$scope.selectedGuest.rank+' : 您的桌位 即將 準備就緒。請帶您的全部客人回到餐廳以等待叫到您的號碼。點擊鏈接查詢實時排隊信息: https://tinyurl.com/yc8kfl5m/s/'+$scope.selectedGuest.uuid;
+							}else{
+								$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/yc8kfl5m/s/'+$scope.selectedGuest.uuid;
+							}
 							break;
 						}
 						
@@ -686,6 +744,7 @@ KyobeeControllers.controller('waitListCtrl',
 										$scope.loading = false;
 										alert('Error while deleting guest.');
 									}
+									$scope.loading = false;
 								}, function(error) {
 									$scope.loading = false;
 									alert('Error while deleting guest.');
@@ -706,14 +765,20 @@ KyobeeControllers.controller('waitListCtrl',
 						//alert($scope.selectedGuest.guestID);
 
 						//alert($scope.smsContent);
+						
+						$scope.sendSMSWrapper = {
+								guestId : $scope.selectedGuest.guestID,
+								orgId : $scope.userDTO.organizationId,
+								templateId : null,
+								smsContent : $scope.smsContent,
+								metrics :null,
+								templateLevel:null
+						}
 
-						var postBody = {
-
-						};
-						var url = '/kyobee/web/rest/waitlistRestAction/sendSMS?orgId=' + $scope.userDTO.organizationId + '&guestId='+$scope.selectedGuest.guestID 
-																					+ '&templateID=1'
-						 															+ '&smsContent=' +$scope.smsContent ;
-						KyobeeService.getDataService(url, '').query(postBody,
+						var postBody = $scope.sendSMSWrapper;
+						console.log("sendSMS postbody-----"+JSON.stringify(postBody));
+						var url = '/kyobee/web/rest/waitlistRestAction/sendSMS' ;
+						KyobeeService.postDataService(url, '').query(postBody,
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
@@ -866,7 +931,9 @@ KyobeeControllers.controller('waitListCtrl',
 						$scope.loadWaitListPage(1);
 					});
 					
-	
+					$scope.$on('someEvent', function(e) {  
+				        $scope.$parent.msg = $scope.loadWaitListPage(1);            
+				    });
 					/*$(document).ready(function(){
 					    $("#slider-range").slider({
 					    range: true,
@@ -944,9 +1011,7 @@ KyobeeControllers.controller('waitListCtrl',
 						if(text_length == 0){
 							$scope.countMessage = 'Enter the text message';
 						}
-					}		
-			
-
+					}	
 				} ]);
 
 KyobeeControllers.filter('hourMinFilter', function () {

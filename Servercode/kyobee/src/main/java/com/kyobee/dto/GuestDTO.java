@@ -47,6 +47,8 @@ public class GuestDTO implements Serializable{
 	private String seatingPreference;
 	private String deviceType;
 	private String deviceId;
+	private LanguageMasterDTO languagePref;
+	private String tinyUrl;
 
 	
 	@XmlAttribute
@@ -249,6 +251,19 @@ public class GuestDTO implements Serializable{
 		this.seatingPreference = seatingPreference;
 	}
 	
+	@XmlAttribute
+	public LanguageMasterDTO getLanguagePref() {
+		return languagePref;
+	}
+	public void setLanguagePref(LanguageMasterDTO languagePref) {
+		this.languagePref = languagePref;
+	}
+	/*public String getTinyUrl() {
+		return tinyUrl;
+	}
+	public void setTinyUrl(String tinyUrl) {
+		this.tinyUrl = tinyUrl;
+	}*/
 }
 
 

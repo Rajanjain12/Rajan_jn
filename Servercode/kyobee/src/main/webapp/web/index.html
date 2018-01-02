@@ -97,8 +97,8 @@
 	<script src="controller/services.js"></script>
 	<script src="controller/controllers.js"></script>
 	<script src="controller/waitlist-controller.js"></script>
-	<script src="controller/guest-controller.js"></script>
-	<script src="controller/parties-waiting.js"></script>
+	<script src="controller/guest-controller.js" charset="utf-8"></script>
+	<script src="controller/parties-waiting.js" charset="utf-8"></script>
 
 </head>
 
@@ -125,23 +125,26 @@
                         <!-- <h1>Waitlist</h1>    -->
 						<h1>&nbsp;</h1>
                         <ul>
-                            <li><a ng-click="changeView('home')" style="cursor:pointer">Waitlist</a></li>
+                            <!-- <li><a ng-click="changeView('home')" style="cursor:pointer">Waitlist</a></li> -->
+                            <li><a ng-click="showResetPopup();" style="cursor:pointer">Reset Waitlist</a></li>
                             <!-- <li><a href="">Account</a></li> -->
-                            <li><a href="">Help</a></li>
+                            <!-- <li><a href="">Help</a></li> --> <!-- commenting for removing help option from web -->
                         </ul>
                     </div>
 					</div>
 					<div class="col-md-3 col-sm-6 col-xs-12">
-					<div class="kw-dav-2">
+					<!-- add class for temp solution of icon position if add new icon remove icon-position class inline css -->
+					<div class="kw-dav-2 icon-position">
                     
                         <span><p>Hello {{userDTO.firstName}} |</p> <a style="cursor:pointer" ng-click="logout();"> Logout</a> </span>
                         <ul>
                             <!--<li><a href=""><i class="fa fa-clock-o" aria-hidden="true"></i></a></li>
                             <li><a href=""><i class="fa fa-search" aria-hidden="true"></i></a></li>
                             <li><a href=""><i class="fa fa-user-plus" aria-hidden="true"></i></a></li>-->
-                            <li><a href="javascript:void(0)" id="search" ng-click="toggleSearch()"><img src="../assets/img/search.png"></a> </li>
+                            <li style="margin-right:0;"><a href="javascript:void(0)" id="search" ng-click="toggleSearch()"><img src="../assets/img/search.png"></a> </li>
                             <li><a style="cursor:pointer" ng-click="changeView('addGuest')"><img src="../assets/img/userpluse.png"></a> </li>
-                            <li><a style="cursor:pointer" ng-click="changeView('partyWaiting')" ><img src="../assets/img/check-in.png"></a> </li>
+                            <!-- commented for removing self checkin option from web -->
+                            <!-- <li><a style="cursor:pointer" ng-click="changeView('partyWaiting')" ><img src="../assets/img/check-in.png"></a> </li> -->
                         </ul>
                     </div>
 					</div>
@@ -153,10 +156,22 @@
 					</div> -->
 
                 </div>
+                
+                <!-- reset popup -->
+                <div id="resetPopup" class="simplePopup border-color">
+	              <div class="confirm-table-wrap text-center">
+	                    <h2 class="theme-fontcolor">Confirm Reset Organization</h2>
+	                    <div class="btn-guest border-top">
+	                        <button type="button" class="btn btn-orange theme-color" ng-click="resetGuestByOrgid();">RESET</button>
+	                        <button type="button" class="btn btn-orange theme-color" ng-click="cancelReset();">CANCEL</button>
+	                    </div>
+	              </div>
+	           </div>
                       
              </div>
         
         </div>
+        <div class="loader" ng-if="loading"></div>
         </section>
     
 	<div  ng-view></div>
@@ -237,6 +252,19 @@ $("#search").click(function(){
     $("#search-box").toggle();
 });        
 
+<!-- Start of chat.io (www.chat.io) code -->
+
+  (function(c, h, a, t) {
+    c[t]=c[t]||function(){(c[t].q=c[t].q||[]).push(arguments)};
+    c[t].license = 9278780;
+    c[t].d=+new Date;
+    var j = h.createElement(a); j.type = 'text/javascript'; j.async = true;
+    j.src = 'https://cdn.chatio-static.com/widget/init/script.' + c[t].license + '.js';
+    var s = h.getElementsByTagName(a)[0]; s.parentNode.insertBefore(j, s);
+  })(window, document, 'script', '__chatio');
+
+<!-- End of chat.io code -->
+
 </script>
     
     
@@ -254,6 +282,10 @@ $("#search").click(function(){
     <script src="../assets/js/custom_script.js" type="text/javascript"></script>
     
     <script src="../assets/js/localstorage.js" type="text/javascript"></script>
+    
+    <!-- <script src="../assets/js/input-mask.js" type="text/javascript"></script> -->
+    
+    <script src="../assets/js/mask.js" type="text/javascript"></script>
 	
 	<!-- slider js -->
 	

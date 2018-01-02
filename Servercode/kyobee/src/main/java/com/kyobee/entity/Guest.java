@@ -16,6 +16,7 @@ import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name="GUEST")
 public class Guest implements Serializable{
@@ -63,6 +64,7 @@ public class Guest implements Serializable{
 	@Column(columnDefinition = "TINYINT",name="optin", nullable=false)
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean optin;
+	
 	@Column(name="rank")
 	private Long rank;
 	
@@ -104,6 +106,9 @@ public class Guest implements Serializable{
 	
 	@Column(name="seatingPreference")
 	private String seatingPreference;
+	
+	@Column(name="languagePrefID", nullable =false)
+	private Long languagePrefID;
 	
 	@Column(name="deviceID")
 	private String deviceId;
@@ -336,9 +341,12 @@ public class Guest implements Serializable{
 		this.seatingPreference = seatingPreference;
 	}
 
-	
-	
-	
-	
-	
+	public Long getLanguagePrefID() {
+		return languagePrefID;
+	}
+
+	public void setLanguagePrefID(Long languagePrefID) {
+		this.languagePrefID = languagePrefID;
+	}
+
 }

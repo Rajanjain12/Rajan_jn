@@ -71,7 +71,7 @@ public class EmailUtil {
 			helper.setSentDate(new Date());
 
 			StringBuilder htmlContent = new StringBuilder();
-			//htmlContent.append("<div style='text-align:center'><img src='" + beeyaURL +"/unsecured/assets/images/logo.png'></img></div>");
+			//htmlContent.append("<div style='text-align:center'><img src='" + beeyaURL +"/public/assets/images/logo.png'></img></div>");
 			htmlContent.append("<p>Hi " + name + ", </p>");
 			htmlContent.append("<p>Welcome to Kyobee Waitlist.</p>");
 			htmlContent.append("<p>With Kyobee Waitlist at your business, you will have a self check-in "
