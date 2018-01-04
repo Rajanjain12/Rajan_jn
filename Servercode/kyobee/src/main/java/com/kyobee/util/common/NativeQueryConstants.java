@@ -461,6 +461,6 @@ public class NativeQueryConstants {
 	
 	public static final String CHECK_ORGANIZATION_IF_EXISTS = "FROM Organization u WHERE u.organizationName=:orgName";
 	public static final String CHECK_USER_IF_EXISTS = "FROM User u WHERE u.userName=:userName";
-
 	
+	public static final String GET_SMSROUTE_BY_ORGID = "SELECT o.smsRoute from ORGANIZATION o where o.OrganizationID=:orgId";
 }

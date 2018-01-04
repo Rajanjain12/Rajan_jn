@@ -146,14 +146,14 @@
 
 <div id="deletePopup" class="simplePopup border-color">
     <div class="confirm-table-wrap text-center">
-          <h2 class="theme-fontcolor">Confirm Delete Guest</h2>
+          <h2 class="theme-fontcolor">{{currentPageLanguage.confirmDel}}</h2>
           <div class="guest-name">
               <h1>{{guest.rank}}</h1>
               <h1>{{guest.name}}</h1>
           </div>
           <div class="btn-guest border-top">
-              <button type="button" class="btn btn-orange theme-color" ng-click="deleteGuest();">DELETE</button>
-              <button type="button" class="btn btn-orange theme-color" ng-click="cancelDelete();">CANCEL</button>
+              <button type="button" class="btn btn-orange theme-color" ng-click="deleteGuest();">{{currentPageLanguage.dltButton}}</button>
+              <button type="button" class="btn btn-orange theme-color" ng-click="cancelDelete();">{{currentPageLanguage.cnclButton}}</button>
           </div>
     </div>
  </div>
