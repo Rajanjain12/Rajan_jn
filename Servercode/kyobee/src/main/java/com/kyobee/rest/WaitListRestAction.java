@@ -554,7 +554,7 @@ public class WaitListRestAction {
 	//@GET
 	//@Path("/reset")
 	@RequestMapping(value = "/reset", method = RequestMethod.GET, produces = "application/json")
-	public Response<String> resetGuests(@RequestParam(value="orgid", required=false) Long orgid){
+	public Response<String> resetGuests(@RequestParam(value="orgid", required=true) Long orgid){
 		Response<String> response = new Response<String>();
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 		try {

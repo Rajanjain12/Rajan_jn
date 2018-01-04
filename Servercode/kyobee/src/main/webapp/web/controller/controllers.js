@@ -215,6 +215,7 @@ KyobeeControllers.controller('homeCtrl',
 						var postBody = {
 
 						};
+						console.log("resetGuest method - checking orgID"+$scope.userDTO.organizationId);
 						var url = '/kyobee/web/rest/waitlistRestAction/reset?orgid=' + $scope.userDTO.organizationId;
 						KyobeeService.getDataService(url, '').query(postBody,
 								function(data) {
@@ -234,8 +235,6 @@ KyobeeControllers.controller('homeCtrl',
 									$scope.loading=false;
 								});
 					};
-					
-					
 					
 					$scope.logout = function(){
 						var postBody = {

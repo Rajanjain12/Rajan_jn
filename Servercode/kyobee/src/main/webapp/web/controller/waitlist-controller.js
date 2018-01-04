@@ -564,6 +564,8 @@ KyobeeControllers.controller('waitListCtrl',
 						$scope.selectedGuest = guestObj;
 						//$scope.smsContent = 'this is default message from admin';
 						console.log("------------"+JSON.stringify($scope.selectedGuest));
+						
+						//for dev(ordextechnology.com)
 						/*switch ($scope.userDTO.clientBase) {
 						case "admin":
 							if($scope.selectedGuest.languagePref.langId==134){
@@ -595,6 +597,8 @@ KyobeeControllers.controller('waitListCtrl',
 							}
 							break;
 						}*/
+						
+						//for prod(kyobee.com)
 						switch ($scope.userDTO.clientBase) {
 						case "admin":
 							if($scope.selectedGuest.languagePref.langId==134){
