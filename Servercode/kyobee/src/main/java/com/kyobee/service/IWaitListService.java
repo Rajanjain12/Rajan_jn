@@ -254,5 +254,7 @@ public interface IWaitListService {
 	
 	/*converting waitlist map to waitlist object*/
 	public WaitlistMetrics convertToObject(Map<String, String> metricsMap);
+
+	public String getSmsRouteByOrgid(Long orgId) throws Exception;
  
 }

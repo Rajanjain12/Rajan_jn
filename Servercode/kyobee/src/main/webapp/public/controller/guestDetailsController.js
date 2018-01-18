@@ -52,7 +52,11 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						    "fetchError" : "Error while fetching user details. Please login again or contact support",
 						    "updSuccess" : "Guest Information updated successfully",
 						    "updError" : "Error while updating Guest",
-						    "dltError" : "Error while deleting Guest"
+						    "dltError" : "Error while deleting Guest",
+						    "confirmDel" : "Confirm Delete Guest",
+						    "dltButton" : "DELETE",
+						    "cnclButton" : "CANCEL",
+						    "notExist" : "The requested guest doesn't exist anymore."
 						  },
 						  "chi" : {
 						    "nowServing" : "正在服務",
@@ -71,7 +75,11 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 							"fetchError" : "获取用户详细信息时出错。请再次登录或联系支持",
 							"updSuccess" : "客人信息已成功更新",
 							"updError" : "更新来宾时出错",
-							"dltError" : "删除访客时出错"
+							"dltError" : "删除访客时出错",
+							"confirmDel" : "确认删除访客",
+						    "dltButton" : "删除",
+						    "cnclButton" : "取消",
+						    "notExist" : "被请求的客人不存在了。"
 						  }
 						}
 					

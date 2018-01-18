@@ -1865,4 +1865,11 @@ ByOrgRecords(java.lang.Long, int, int)
 			wMetrics.setClientBase(metricsMap.get("CLIENT_BASE"));
 			return wMetrics;		
 		}
+	 	
+		@Override
+		public String getSmsRouteByOrgid(Long orgId) throws Exception {
+			//return sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.GET_SMSROUTE_BY_ORGID).setParameter("orgID",orgID).uniqueResult();
+			
+			return (String) sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_SMSROUTE_BY_ORGID).setParameter("orgId",orgId).uniqueResult();
+		}
 }

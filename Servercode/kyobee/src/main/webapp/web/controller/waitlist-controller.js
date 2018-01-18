@@ -564,37 +564,41 @@ KyobeeControllers.controller('waitListCtrl',
 						$scope.selectedGuest = guestObj;
 						//$scope.smsContent = 'this is default message from admin';
 						console.log("------------"+JSON.stringify($scope.selectedGuest));
+						
+						//for dev(ordextechnology.com)
 						/*switch ($scope.userDTO.clientBase) {
 						case "admin":
 							if($scope.selectedGuest.languagePref.langId==134){
-								$scope.smsContent = '顧客 '+$scope.selectedGuest.rank+' : 您的桌位 即將 準備就緒。請帶您的全部客人回到餐廳以等待叫到您的號碼。點擊鏈接查詢實時排隊信息: https://tinyurl.com/y9jr7234/s/'+$scope.selectedGuest.uuid;
+								$scope.smsContent = '顧客 '+$scope.selectedGuest.rank+' : 您的桌位 即將 準備就緒。請帶您的全部客人回到餐廳以等待叫到您的號碼。點擊鏈接查詢實時排隊信息: https://tinyurl.com/y7zv5wax/s/'+$scope.selectedGuest.uuid;
 							}else{
-								$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y9jr7234/s/'+$scope.selectedGuest.uuid;
+								$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y7zv5wax/s/'+$scope.selectedGuest.uuid;
 							}
 							break;
 						case "advantech":
 							if($scope.selectedGuest.languagePref.langId==134){
-								$scope.smsContent = '顧客 '+$scope.selectedGuest.rank+' : 您的桌位 即將 準備就緒。請帶您的全部客人回到餐廳以等待叫到您的號碼。點擊鏈接查詢實時排隊信息: https://tinyurl.com/y7jfvtv3/s/'+$scope.selectedGuest.uuid;
+								$scope.smsContent = '顧客 '+$scope.selectedGuest.rank+' : 您的桌位 即將 準備就緒。請帶您的全部客人回到餐廳以等待叫到您的號碼。點擊鏈接查詢實時排隊信息: https://tinyurl.com/y7nl9ugt/s/'+$scope.selectedGuest.uuid;
 							}else{
 
-								$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y7jfvtv3/s/'+$scope.selectedGuest.uuid;
+								$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y7nl9ugt/s/'+$scope.selectedGuest.uuid;
 							}
 							break;
 						case "sweethoneydessert":
 							if($scope.selectedGuest.languagePref.langId==134){
-								$scope.smsContent = '顧客 '+$scope.selectedGuest.rank+' : 您的桌位 即將 準備就緒。請帶您的全部客人回到餐廳以等待叫到您的號碼。點擊鏈接查詢實時排隊信息: https://tinyurl.com/y8dxa9s3/s/'+$scope.selectedGuest.uuid;
+								$scope.smsContent = '顧客 '+$scope.selectedGuest.rank+' : 您的桌位 即將 準備就緒。請帶您的全部客人回到餐廳以等待叫到您的號碼。點擊鏈接查詢實時排隊信息: https://tinyurl.com/y95p4eug/s/'+$scope.selectedGuest.uuid;
 							}else{
-								$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y8dxa9s3/s/'+$scope.selectedGuest.uuid;
+								$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y95p4eug/s/'+$scope.selectedGuest.uuid;
 							}
 							break;
 						default:
 							if($scope.selectedGuest.languagePref.langId==134){
-								$scope.smsContent = '顧客 '+$scope.selectedGuest.rank+' : 您的桌位 即將 準備就緒。請帶您的全部客人回到餐廳以等待叫到您的號碼。點擊鏈接查詢實時排隊信息: https://tinyurl.com/y9jr7234/s/'+$scope.selectedGuest.uuid;
+								$scope.smsContent = '顧客 '+$scope.selectedGuest.rank+' : 您的桌位 即將 準備就緒。請帶您的全部客人回到餐廳以等待叫到您的號碼。點擊鏈接查詢實時排隊信息: https://tinyurl.com/y7zv5wax/s/'+$scope.selectedGuest.uuid;
 							}else{
-								$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y9jr7234/s/'+$scope.selectedGuest.uuid;
+								$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y7zv5wax/s/'+$scope.selectedGuest.uuid;
 							}
 							break;
 						}*/
+						
+						//for prod(kyobee.com)
 						switch ($scope.userDTO.clientBase) {
 						case "admin":
 							if($scope.selectedGuest.languagePref.langId==134){

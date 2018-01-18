@@ -554,7 +554,7 @@ public class WaitListRestAction {
 	//@GET
 	//@Path("/reset")
 	@RequestMapping(value = "/reset", method = RequestMethod.GET, produces = "application/json")
-	public Response<String> resetGuests(@RequestParam(value="orgid", required=false) Long orgid){
+	public Response<String> resetGuests(@RequestParam(value="orgid", required=true) Long orgid){
 		Response<String> response = new Response<String>();
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 		try {
@@ -1157,11 +1157,12 @@ public class WaitListRestAction {
 	 Update Guest information
 	 @param guestJSONStr : Guest object in JSON format
 	 @return String - Updated Guest Object
+	 * @throws Exception 
 	 */
 	//@POST
 	//@Path("/deleteGuest")
 	@RequestMapping(value = "/deleteGuest", method = RequestMethod.POST, produces = "application/json")
-	public Response<Map<String, Object>> deleteGuest (@RequestBody GuestDTO guestDTO, HttpServletRequest request) {
+	public Response<Map<String, Object>> deleteGuest (@RequestBody GuestDTO guestDTO, HttpServletRequest request) throws Exception {
 		log.info("Entering into deleteGuest");
 		Response<Map<String, Object>> response = new Response<Map<String,Object>>();
 		Guest guest = new Guest();
@@ -1206,6 +1207,10 @@ public class WaitListRestAction {
 		
 		HttpSession sessionObj= request.getSession();
 		UserDTO userDto=(UserDTO) sessionObj.getAttribute(Constants.USER_OBJ);
+		if(userDto == null){
+			userDto=new UserDTO();
+			userDto.setSmsRoute(waitListService.getSmsRouteByOrgid(guest.getOrganizationID()));
+		}
 		if(userDto.getSmsRoute() != null && !userDto.getSmsRoute().equals("")){
 		if(oWaitlistMetrics.getGuestToBeNotified() != -1){
 			
@@ -1236,6 +1241,7 @@ public class WaitListRestAction {
 			}
 		}
 		}
+		
 		sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
 		response.setServiceResult(rootMap);
 		return response;
