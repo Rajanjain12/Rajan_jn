@@ -1223,6 +1223,7 @@ public class WaitListRestAction {
 					smsContent = templates.get(0).getTemplateText();
 					smsContent=smsContent.replaceAll("tmp1", guestToBeNotified.getRank().toString());
 					smsContent=smsContent.replaceAll("tmp2", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToBeNotified.getUuid()));
+					smsContent=smsContent.replaceAll("tmp3", Integer.toString(oWaitlistMetrics.getTotalWaitingGuest()-1));
 					templateId=templates.get(0).getSmsTemplateID();
 					tempLevel=templates.get(0).getLevel();
 				}
@@ -1395,6 +1396,7 @@ public class WaitListRestAction {
 					smsContent = templates.get(0).getTemplateText();
 					smsContent=smsContent.replaceAll("tmp1", guestToNotify.getRank().toString());
 					smsContent=smsContent.replaceAll("tmp2", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToNotify.getUuid()));
+					smsContent=smsContent.replaceAll("tmp3", Integer.toString(oWaitlistMetrics.getTotalWaitingGuest()-1));
 					templateId=templates.get(0).getSmsTemplateID();
 					tempLevel=templates.get(0).getLevel();
 				}
@@ -1499,6 +1501,7 @@ public class WaitListRestAction {
 					smsContent = templates.get(0).getTemplateText();
 					smsContent=smsContent.replaceAll("tmp1", guestToNotify.getRank().toString());
 					smsContent=smsContent.replaceAll("tmp2", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToNotify.getUuid()));
+					smsContent=smsContent.replaceAll("tmp3", Integer.toString(oWaitlistMetrics.getTotalWaitingGuest()-1));
 					templateId=templates.get(0).getSmsTemplateID();
 					tempLevel=templates.get(0).getLevel();
 				}
@@ -1591,6 +1594,7 @@ public class WaitListRestAction {
 					smsContent = templates.get(0).getTemplateText();
 					smsContent=smsContent.replaceAll("tmp1", guestToNotify.getRank().toString());
 					smsContent=smsContent.replaceAll("tmp2", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToNotify.getUuid()));
+					smsContent=smsContent.replaceAll("tmp3", Integer.toString(oWaitlistMetrics.getTotalWaitingGuest()-1));
 					templateId=templates.get(0).getSmsTemplateID();
 					tempLevel=templates.get(0).getLevel();
 				}
