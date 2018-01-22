@@ -617,9 +617,9 @@ KyobeeControllers.controller('waitListCtrl',
 							break;
 						case "sweethoneydessert":
 							if($scope.selectedGuest.languagePref.langId==134){
-								$scope.smsContent = '顧客 '+$scope.selectedGuest.rank+' : 您的桌位 即將 準備就緒。請帶您的全部客人回到餐廳以等待叫到您的號碼。點擊鏈接查詢實時排隊信息: https://tinyurl.com/y8aaxaxy/s/'+$scope.selectedGuest.uuid;
+								$scope.smsContent = '顧客 '+$scope.selectedGuest.rank+' : 提示 ... ... 已叫到您的號碼。請立即返回杏記甜品，前臺會重新安排您的桌位。謝謝，杏記甜品 Colma';
 							}else{
-								$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y8aaxaxy/s/'+$scope.selectedGuest.uuid;
+								$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Alert…you’ve been called. Please return to the store IMMEDIATELY. See FRONT DESK for re-arrangement. Best regards, SweethoneyDessert Colma';
 							}
 							break;
 						default:
