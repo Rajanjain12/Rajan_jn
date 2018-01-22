@@ -239,7 +239,7 @@ public class WaitListRestAction {
 		if(null != guest.getSeatingPreference())
 			guestObj.setSeatingPreference(guest.getSeatingPreference());
 		if(null != guest.getLanguagePref())
-			guestObj.setLanguagePrefID(guest.getLanguagePref().getLangId());
+			guestObj.setLanguagePrefID(guest.getLanguagePref());
 		if(null != guest && null != guest.getGuestID()) {
 			guestObj.setUpdatedTime(new Date());
 			guestObj.setUuid(guest.getUuid());
@@ -307,9 +307,10 @@ public class WaitListRestAction {
 			if(guest.getPartyType() != null){
 				guestObj.setPartyType(guest.getPartyType());
 			}
-			if(guest.getLanguagePrefID() != null){
+			guestObj.setLanguagePref(guest.getLanguagePrefID());
+			/*if(guest.getLanguagePrefID() != null){
 				guestObj.setLanguagePref(waitListService.getLangPrefById(guest.getLanguagePrefID()));
-			}
+			}*/
 			guestObj.setOptin(guest.isOptin());
 			guestObj.setStatus(guest.getStatus());
 			guestObj.setPrefType(guest.getPrefType());
@@ -394,7 +395,7 @@ public class WaitListRestAction {
 				guestObj.setPartyType(guest.getPartyType());
 			}
 			if(guest.getLanguagePrefID() != null){
-				guestObj.setLanguagePref(waitListService.getLangPrefById(guest.getLanguagePrefID()));
+				guestObj.setLanguagePref(guest.getLanguagePrefID());
 			}
 			guestObj.setOptin(guest.isOptin());
 			guestObj.setStatus(guest.getStatus());
@@ -1218,7 +1219,7 @@ public class WaitListRestAction {
 				/*sendNotification(guestToBeNotified, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED, null);*/
 				
 				//for fetching smsTemplates
-				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToBeNotified.getOrganizationID(),guestToBeNotified.getLanguagePrefID(),2);
+				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToBeNotified.getOrganizationID(),guestToBeNotified.getLanguagePrefID().getLangId(),2);
 				if(templates.size()>0) {
 					smsContent = templates.get(0).getTemplateText();
 					smsContent=smsContent.replaceAll("tmp1", guestToBeNotified.getRank().toString());
@@ -1391,7 +1392,7 @@ public class WaitListRestAction {
 				//sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED, null);
 				
 				//for fetching smsTemplates
-				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID(),2);
+				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID().getLangId(),2);
 				if(templates.size()>0) {
 					smsContent = templates.get(0).getTemplateText();
 					smsContent=smsContent.replaceAll("tmp1", guestToNotify.getRank().toString());
@@ -1496,7 +1497,7 @@ public class WaitListRestAction {
 				/*sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED, null);*/
 				
 				//for fetching smsTemplates
-				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID(),2);
+				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID().getLangId(),2);
 				if(templates.size()>0) {
 					smsContent = templates.get(0).getTemplateText();
 					smsContent=smsContent.replaceAll("tmp1", guestToNotify.getRank().toString());
@@ -1589,7 +1590,7 @@ public class WaitListRestAction {
 				/*sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED,null);*/
 				
 				//for fetching smsTemplates
-				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID(),2);
+				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID().getLangId(),2);
 				if(templates.size()>0) {
 					smsContent = templates.get(0).getTemplateText();
 					smsContent=smsContent.replaceAll("tmp1", guestToNotify.getRank().toString());
@@ -1844,7 +1845,7 @@ public class WaitListRestAction {
 				System.out.println(smsWrapper.getSmsContent());
 				
 				if(tempLevel == 1){
-					List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guest.getOrganizationID(),guest.getLanguagePrefID(),1);
+					List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guest.getOrganizationID(),guest.getLanguagePrefID().getLangId(),1);
 					if(templates.size()>0) {
 						String smsStr = templates.get(0).getTemplateText();
 						smsStr=smsStr.replaceAll("tmp1", guest.getRank().toString());

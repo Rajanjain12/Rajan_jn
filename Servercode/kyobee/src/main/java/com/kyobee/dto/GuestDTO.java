@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 
+import com.kyobee.entity.LangMaster;
 import com.kyobee.util.common.RsntDateSerializer;
 
 
@@ -47,7 +48,7 @@ public class GuestDTO implements Serializable{
 	private String seatingPreference;
 	private String deviceType;
 	private String deviceId;
-	private LanguageMasterDTO languagePref;
+	private LangMaster languagePref;
 	private String tinyUrl;
 
 	
@@ -252,10 +253,10 @@ public class GuestDTO implements Serializable{
 	}
 	
 	@XmlAttribute
-	public LanguageMasterDTO getLanguagePref() {
+	public LangMaster getLanguagePref() {
 		return languagePref;
 	}
-	public void setLanguagePref(LanguageMasterDTO languagePref) {
+	public void setLanguagePref(LangMaster languagePref) {
 		this.languagePref = languagePref;
 	}
 	/*public String getTinyUrl() {

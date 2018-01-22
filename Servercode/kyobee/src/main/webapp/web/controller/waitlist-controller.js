@@ -308,6 +308,7 @@ KyobeeControllers.controller('waitListCtrl',
 								partyType : "C",
 								pagerReqParam : $scope.pagerRequest								
 						};
+						console.log(JSON.stringify(postBody));
 						$scope.loadOrgMetricks();
 						var url = '/kyobee/web/rest/waitlistRestAction/checkinusers';
 						KyobeeService.getDataService(url, '').query(postBody,
@@ -855,7 +856,7 @@ KyobeeControllers.controller('waitListCtrl',
 				                console.log('Unsubscribed from channel: ' + channel);
 				            };
 				            function clientReconnecting(ortc) {
-				                console.log('Reconnecting to ' + connectionUrl);
+				                console.log('Reconnecting to ' + $scope.connectionUrl);
 				            };
 				            function clientReconnected(ortc) {
 				                console.log('Reconnected to: ' + ortc.getUrl());

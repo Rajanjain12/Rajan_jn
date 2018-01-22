@@ -450,7 +450,7 @@ public class WaitListServiceImpl implements IWaitListService {
 			oGuestReset.setOptin(oGuest.isOptin());
 			oGuestReset.setOrganizationID(oGuest.getOrganizationID());
 			oGuestReset.setPrefType(oGuest.getPrefType());
-			oGuestReset.setLanguagePrefID(oGuest.getLanguagePrefID());
+			oGuestReset.setLanguagePrefID(oGuest.getLanguagePrefID().getLangId());
 			oGuestReset.setRank(oGuest.getRank());
 			oGuestReset.setResetTime(oGuest.getResetTime());
 			oGuestReset.setSeatedTime(oGuest.getSeatedTime());
@@ -1211,7 +1211,7 @@ public class WaitListServiceImpl implements IWaitListService {
 						cStmt.setLong(5, guestObj.getNoOfAdults());
 						cStmt.setLong(6, guestObj.getNoOfInfants());
 						cStmt.setLong(7, guestObj.getNoOfPeople());
-						cStmt.setLong(8, guestObj.getLanguagePrefID());
+						cStmt.setLong(8, guestObj.getLanguagePrefID().getLangId());
 						cStmt.setInt(9, guestObj.getQuoteTime());
 						cStmt.setInt(10, guestObj.getPartyType());
 						cStmt.setString(11, guestObj.getDeviceType());
@@ -1321,7 +1321,7 @@ public class WaitListServiceImpl implements IWaitListService {
 						cStmt.setLong(5, guestObj.getNoOfAdults() != null ? guestObj.getNoOfAdults() : 0);
 						cStmt.setLong(6, guestObj.getNoOfInfants() != null ? guestObj.getNoOfInfants() : 0);
 						cStmt.setLong(7, guestObj.getNoOfPeople() != null ? guestObj.getNoOfPeople() : 0);
-						cStmt.setLong(8, guestObj.getLanguagePrefID() != null ? guestObj.getLanguagePrefID() : 0);
+						cStmt.setLong(8, guestObj.getLanguagePrefID() != null ? guestObj.getLanguagePrefID().getLangId() : 0);
 						cStmt.setInt(9, guestObj.getQuoteTime() != null ? guestObj.getQuoteTime() : 0);
 						cStmt.setInt(10, guestObj.getPartyType() != null ? guestObj.getPartyType() : 0);
 						cStmt.setString(11, guestObj.getSms() != null ? guestObj.getSms() : "");
