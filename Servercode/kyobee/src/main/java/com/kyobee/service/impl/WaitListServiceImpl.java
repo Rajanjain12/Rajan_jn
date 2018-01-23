@@ -360,7 +360,9 @@ public class WaitListServiceImpl implements IWaitListService {
 	 */
 	@Override
 	public Guest getGuestById(long guestId) {
-		return (Guest) sessionFactory.getCurrentSession().get(Guest.class, guestId);
+		//return (Guest) sessionFactory.getCurrentSession().get(Guest.class, guestId);
+		Guest guest = (Guest) sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUEST_BY_ID).setParameter("guestId", guestId).uniqueResult();
+		return guest;
 	}
 	/**
 	 * Update organization wait time

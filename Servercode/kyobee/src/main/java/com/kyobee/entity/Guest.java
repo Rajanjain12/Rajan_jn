@@ -112,7 +112,7 @@ public class Guest implements Serializable{
 	@Column(name="seatingPreference")
 	private String seatingPreference;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="languagePrefID", nullable = false)
 	private LangMaster languagePrefID;
 	

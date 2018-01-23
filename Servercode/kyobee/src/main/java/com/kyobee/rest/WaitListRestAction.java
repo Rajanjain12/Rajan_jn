@@ -238,8 +238,9 @@ public class WaitListRestAction {
 		}
 		if(null != guest.getSeatingPreference())
 			guestObj.setSeatingPreference(guest.getSeatingPreference());
-		if(null != guest.getLanguagePref())
-			guestObj.setLanguagePrefID(guest.getLanguagePref());
+		/*if(null != guest.getLanguagePref())
+			guestObj.setLanguagePrefID(guest.getLanguagePref());*/
+		guestObj.setLanguagePrefID(guest.getLanguagePref());
 		if(null != guest && null != guest.getGuestID()) {
 			guestObj.setUpdatedTime(new Date());
 			guestObj.setUuid(guest.getUuid());
