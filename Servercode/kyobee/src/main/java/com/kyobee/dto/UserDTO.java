@@ -36,6 +36,8 @@ public class UserDTO {
 	//Added Later
 	private String smsRoute;
 	
+	private Integer maxParty;
+	
 	private String clientBase;
 
 	public Long getUserId() {
@@ -140,6 +142,14 @@ public class UserDTO {
 
 	public void setSmsRoute(String smsRoute) {
 		this.smsRoute = smsRoute;
+	}
+
+	public Integer getMaxParty() {
+		return maxParty;
+	}
+
+	public void setMaxParty(Integer maxParty) {
+		this.maxParty = maxParty;
 	}
 
 	public String getClientBase() {

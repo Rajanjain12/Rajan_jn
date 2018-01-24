@@ -457,7 +457,7 @@ public class NativeQueryConstants {
 	public static final String UPDATE_ORG_TOTAL_WAITTIME_INCREMENT = "update ORGANIZATION set TotalWaitTime = TotalWaitTime +  waitTime where organizationId = ?1";
 	public static final String UPDATE_ORG_TOTAL_WAITTIME_DECREMENT = "update ORGANIZATION set TotalWaitTime = TotalWaitTime -  waitTime where organizationId = ?1";
 	public static final String HQL_GET_TOP_GUEST_DETAILS_NOTMARKED = "from Guest WHERE status='CHECKIN' AND incompleteParty is NULL AND calloutCount is NULL AND resetTime is null AND OrganizationID =?1";
-	public static final String GET_USER_LOGIN_AUTH = "SELECT PASSWORD, ORGUSR.ORGANIZATIONID, ORG.logoFileName, ORG.clientBase , ORG.smsRoute FROM USER U INNER JOIN ORGANIZATIONUSER ORGUSR ON U.USERID = ORGUSR.USERID INNER JOIN ORGANIZATION ORG ON ORGUSR.ORGANIZATIONID = ORG.ORGANIZATIONID AND ORG.ACTIVEORGANIZATIONPLANID IS NOT NULL WHERE U.USERNAME=:username AND U.ACTIVE=1";
+	public static final String GET_USER_LOGIN_AUTH = "SELECT PASSWORD, ORGUSR.ORGANIZATIONID, ORG.logoFileName, ORG.clientBase , ORG.smsRoute , ORG.MaxParty FROM USER U INNER JOIN ORGANIZATIONUSER ORGUSR ON U.USERID = ORGUSR.USERID INNER JOIN ORGANIZATION ORG ON ORGUSR.ORGANIZATIONID = ORG.ORGANIZATIONID AND ORG.ACTIVEORGANIZATIONPLANID IS NOT NULL WHERE U.USERNAME=:username AND U.ACTIVE=1";
 	
 	public static final String CHECK_ORGANIZATION_IF_EXISTS = "FROM Organization u WHERE u.organizationName=:orgName";
 	public static final String CHECK_USER_IF_EXISTS = "FROM User u WHERE u.userName=:userName";

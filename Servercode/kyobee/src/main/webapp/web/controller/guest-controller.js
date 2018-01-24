@@ -94,7 +94,13 @@ KyobeeControllers.controller('guestCtrl',
 							$scope.errorMsg = "Adults must be greater than 0";
 							$scope.loading=false;
 							return;
-						}                                                         
+						}  
+						
+						if($scope.userDTO.maxParty != null && $scope.userDTO.maxParty != "" && ($scope.guestDTO.noOfChildren + $scope.guestDTO.noOfAdults + $scope.guestDTO.noOfInfants) > $scope.userDTO.maxParty){
+							$scope.errorMsg = "Sorry we can only allow maximum "+$scope.userDTO.maxParty+" people per table at a given time";
+							$scope.loading = false;
+							return;
+						}
 						
 						if(($scope.userDTO.smsRoute != null && $scope.userDTO.smsRoute != '') && ($scope.guestDTO.prefType == 'sms' || $scope.guestDTO.prefType == 'SMS') && ($scope.guestDTO.sms == null || $scope.guestDTO.sms == 'undefined' || $scope.guestDTO.sms == "")){
 							$scope.errorMsg = "Please enter the contact no.";
@@ -177,6 +183,12 @@ KyobeeControllers.controller('guestCtrl',
 						if(($scope.guestDTO.noOfAdults != null && $scope.guestDTO.noOfAdults == 0)){
 							$scope.errorMsg = "Adults must be greater than 0";
 							$scope.loading=false;
+							return;
+						}
+						
+						if($scope.userDTO.maxParty != null && $scope.userDTO.maxParty != "" && ($scope.guestDTO.noOfChildren + $scope.guestDTO.noOfAdults + $scope.guestDTO.noOfInfants) > $scope.userDTO.maxParty){
+							$scope.errorMsg = "Sorry we can only allow maximum "+$scope.userDTO.maxParty+" people per table at a given time";
+							$scope.loading = false;
 							return;
 						}
 						

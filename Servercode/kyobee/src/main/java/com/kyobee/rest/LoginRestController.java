@@ -126,6 +126,12 @@ public class LoginRestController {
 				else
 					rootMap.put("smsRoute", loginDetail[4]);
 				
+				if(loginDetail[5]!=null){
+					rootMap.put("MaxParty", loginDetail[5].toString());
+				}else{
+					rootMap.put("MaxParty", 0);
+				}
+				
 				ScreensaverDTO screensaver = null;
 				try {
 					screensaver = waitListService.getOrganizationScreensaver(Long.valueOf(loginDetail[1].toString()).longValue());
@@ -222,6 +228,7 @@ public class LoginRestController {
 		userDTO.setOrganizationId((Long) sessionContextUtil.get(Constants.CONST_ORGID));
 		Organization org=orgService.getOrganizationById((Long) sessionContextUtil.get(Constants.CONST_ORGID));
 		userDTO.setSmsRoute(org.getSmsRoute());
+		userDTO.setMaxParty(org.getMaxParty());
 		final List<String> userPermissions = securityService.getUserPermissions(loginUser.getUserId());
 		if (userPermissions != null && !userPermissions.isEmpty()) {
 			for (final String permission : userPermissions) {
