@@ -222,7 +222,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								'optin' : $scope.guest.optin,
 								'status': 'CHECKIN',
 								'guestPreferences' : selectedGuestPref,
-								'languagePref' : {'langId':$scope.guest.languagePrefID}
+								'languagePref' : $scope.guest.languagePrefID
 						}
 						console.log(JSON.stringify(postBody));
 						var url = '/kyobee/web/rest/waitlistRestAction/updateGuestInfo';
@@ -314,10 +314,10 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 							var promise = $scope.loadGuestPage();
 							promise.then(function(){
 								debugger;
-								if($scope.guest.languagePrefID == 1){
+								if($scope.guest.languagePrefID.langId == 1){
 									$scope.currentPageLanguage = $scope.pageLanguage.en;
 								}
-								else if($scope.guest.languagePrefID == 134){
+								else if($scope.guest.languagePrefID.langId == 134){
 									$scope.currentPageLanguage = $scope.pageLanguage.chi;
 								}
 							},function(error){

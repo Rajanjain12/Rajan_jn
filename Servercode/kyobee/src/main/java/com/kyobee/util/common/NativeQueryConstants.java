@@ -430,7 +430,7 @@ public class NativeQueryConstants {
 	public static final String HQL_GET_GUESTS_COUNT_CHECKIN_BY_ORG = "select count(*) FROM Guest g WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId";
 	public static final String HQL_GET_GUESTS_HISTORY = "FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN') and g.OrganizationID=:orgId order by g.rank asc";
 	public static final String HQL_GET_GUESTS_COUNT_HISTORY = "select count(*) FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN') and g.OrganizationID=:orgId order by g.rank asc";
-	public static final String HQL_GET_GUEST_BY_UUID = "FROM Guest g WHERE g.status ='CHECKIN' and  g.resetTime is null and uuid=:UUID";
+	public static final String HQL_GET_GUEST_BY_UUID = "FROM Guest g left join fetch g.languagePrefID WHERE g.status ='CHECKIN' and  g.resetTime is null and uuid=:UUID";
 	public static final String GET_ORG_SEATING_PREF_VALUES = "select lkp.LookupID,lkp.Name from ORGANIZATION org inner join ORGANIZATIONCATEGORY oc on org.organizationID=oc.organizationID "+
                                                               " inner join LOOKUP lkp on oc.CategoryValueID=lkp.LookupID where oc.organizationID=:orgId and oc.CategoryTypeID=:catTypeId";
 	public static final String GET_ORG_LANGUAGE_PREF_VALUES = "select LangID, LangName, LangIsoCode from "+
