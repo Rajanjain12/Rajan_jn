@@ -225,11 +225,6 @@ public class SecurityServiceImpl implements ISecurityService {
 		List<Object[]> result =  sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_USER_LOGIN_AUTH).setParameter("username", userName.toLowerCase()).list();
 		if(result.size()>0) {
 	   		Object[] loginDetail = result.get(0);
-	   		
-			System.out.println(loginDetail[0].toString());
-			System.out.println(loginDetail[1].toString());
-			System.out.println(loginDetail[2].toString());
-			System.out.println(loginDetail[3].toString());
 			//new BigDecimal(fdbackQtnrData[1].toString()).longValue()
 			
 			return result;

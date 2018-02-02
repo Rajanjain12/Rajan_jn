@@ -46,7 +46,6 @@ public class RealtimefameworkPusher {
 	public  static OrtcClient client = null;
 	public RealtimefameworkPusher()
 	{
-		System.out.println("Welcome to Realtime API");
 		Ortc api = new Ortc();
 		OrtcFactory factory = null;
 		try {
