@@ -661,6 +661,8 @@ public class WaitListServiceImpl implements IWaitListService {
 		metricks.put(Constants.TOTAL_WAIT_TIME, String.valueOf(guestCount <=0 ?orgwaitTime:((guestCount)*orgwaitTime)+orgwaitTime));
 		metricks.put(Constants.RSNT_ORG_WAIT_TIME, orgwaitTimeObj.toString());
 		metricks.put(Constants.RSNT_GUEST_AHEAD_COUNT, String.valueOf(guestCount <=0 ?0:(guestCount)));
+		Integer maxParty = (Integer) sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_MAX_PARTY).setParameter("orgId", orgId).uniqueResult();
+		metricks.put(Constants.ORG_MAX_PARTY, maxParty.toString());
 		return metricks;
 	}
 

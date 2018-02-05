@@ -418,6 +418,7 @@ public class NativeQueryConstants {
 	public static final String GET_GUEST_AHEAD_COUNT = "SELECT count(*) FROM GUEST where  STATUS='CHECKIN' and resetTime is  null and calloutCount is null and incompleteParty is null and guestID<:guestId and OrganizationID =:orgId";
 	public static final String GET_ORG_NAME_BY_ID = "SELECT OrganizationName FROM ORGANIZATION where OrganizationId=?1";
 	public static final String GET_ORG_GUEST_MAX_RANK = "SELECT IF(max(rank) IS NULL ,0,max(rank))  from GUEST WHERE OrganizationID =?1 and status in('CHECKIN','SEATED','DELETED','REMOVED') and resetTime is null";
+	public static final String GET_ORG_MAX_PARTY = "SELECT MaxParty FROM ORGANIZATION where  OrganizationID =:orgId";
 	
 	//changes by krupali, line 422 to 425 (16/06/2017)
 	public static final String HQL_GET_GUESTS_CHECKIN_BY_ORG_COMMON = "FROM Guest g left join fetch g.languagePrefID WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId order by g.rank asc";
