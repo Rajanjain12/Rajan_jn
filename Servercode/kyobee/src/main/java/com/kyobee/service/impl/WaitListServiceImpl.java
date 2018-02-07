@@ -301,7 +301,7 @@ public class WaitListServiceImpl implements IWaitListService {
 		try {
  			int firstPage = (pageNumber == 1) ? 0 : (recordsPerPage*(pageNumber-1));
  			String name = searchName;
- 			StringBuffer query=new StringBuffer("FROM Guest g WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId");
+ 			StringBuffer query=new StringBuffer("FROM Guest g left join fetch g.languagePrefID WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId");
  			if(name != null) {
  				query=query.append(" and g.name like :Name");
  			}
@@ -1521,7 +1521,7 @@ ByOrgRecords(java.lang.Long, int, int)
 	 			
 	 			String sliderMinTimeString = sliderMinTime+":00";
 	 			String sliderMaxTimeString = sliderMaxTime+":01";
-	 			StringBuffer query=new StringBuffer("FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
+	 			StringBuffer query=new StringBuffer("FROM Guest g left join fetch g.languagePrefID WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
 	 					+ " and g.OrganizationID=:orgId and ((time(convert_tz(g.checkinTime,'-05:00', :ClientTimezone)) between time(:SliderMinValue) and time(:SliderMaxValue)))");
 	 			/*convert_tz(g.checkinTime,'+05:30','-05:00'*/
 	 			if(statusOption.equals("Not Present")) {
@@ -1548,7 +1548,7 @@ ByOrgRecords(java.lang.Long, int, int)
 	 			String name = searchName;
 	 			String sliderMinTimeString = sliderMinTime+":00";
 	 			String sliderMaxTimeString = sliderMaxTime+":01";
-	 			StringBuffer query=new StringBuffer("FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
+	 			StringBuffer query=new StringBuffer("FROM Guest g left join fetch g.languagePrefID WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
 	 					+ " and g.OrganizationID=:orgId and ((time(convert_tz(g.checkinTime,'-05:00', :ClientTimezone)) between time(:SliderMinValue) and time(:SliderMaxValue)))");
 	 			if(statusOption.equals("Not Present")) {
 	 				query=query.append(" and calloutCount > 0");
