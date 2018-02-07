@@ -7,8 +7,9 @@ KyobeeControllers.controller('waitListCtrl',
 				'$timeout',
 				'$interval',
 				'$routeParams',
+				'$q',
 				'KyobeeService',
-				function($scope, $rootScope,$location, $timeout, $interval, $routeParams , KyobeeService) {
+				function($scope, $rootScope,$location, $timeout, $interval, $routeParams, $q , KyobeeService) {
 						
 					/*$scope.sliderStartTime = 'hello';*/
 					$rootScope.hideHeader=false;//To hide show header in index.html
@@ -308,6 +309,7 @@ KyobeeControllers.controller('waitListCtrl',
 								partyType : "C",
 								pagerReqParam : $scope.pagerRequest								
 						};
+						console.log(JSON.stringify(postBody));
 						$scope.loadOrgMetricks();
 						var url = '/kyobee/web/rest/waitlistRestAction/checkinusers';
 						KyobeeService.getDataService(url, '').query(postBody,
@@ -556,8 +558,56 @@ KyobeeControllers.controller('waitListCtrl',
 						$('#deletePopup').simplePopup();
 						$scope.selectedGuest = guestObj;
 					}
-				
+					
+					$scope.fetchSmsContent = function(guestObj,level){
+						var defered=$q.defer();
+						$scope.smsContentParam = {
+								orgId : $scope.userDTO.organizationId,
+								langId : guestObj.languagePref.langId,
+								tempLevel : level,
+								gusetRank : guestObj.rank,
+								clientBase : $scope.userDTO.clientBase,
+								guestUuid : guestObj.uuid
+						}
+						
+						var postBody = $scope.smsContentParam;
+						console.log("sendSMS postbody-----"+JSON.stringify(postBody));
+						var url = '/kyobee/web/rest/waitlistRestAction/fetchSmsContent' ;
+						KyobeeService.postDataService(url,'').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										$scope.smsContent = data.serviceResult;
+										defered.resolve();
+									} else if (data.status == "FAILURE") {
+										$scope.loading=false;
+										alert('Error while fetching sms content');
+									}
+								}, function(error) {
+									defered.reject();
+									$scope.loading=false;
+									alert('Error while fetching sms content');
+								});
+						return defered.promise;
+					}
+					
 					$scope.showSendSMSPopup = function(guestObj){
+						$scope.loading=true;
+						$scope.countMessage = 'Max Character limit 150';
+						$scope.errorMessage = null;
+						$scope.selectedGuest = guestObj;
+						var promise=$scope.fetchSmsContent(guestObj,3);
+						promise.then(function(){
+							debugger;
+							$('#sendSMSPopup').simplePopup();
+							$scope.loading=false;
+						},function(error){
+							
+						});
+						
+					}
+					
+					/*$scope.showSendSMSPopup = function(guestObj){
 						$scope.countMessage = 'Max Character limit 150';
 						$scope.errorMessage = null;
 						$('#sendSMSPopup').simplePopup();
@@ -566,7 +616,7 @@ KyobeeControllers.controller('waitListCtrl',
 						console.log("------------"+JSON.stringify($scope.selectedGuest));
 						
 						//for dev(ordextechnology.com)
-						/*switch ($scope.userDTO.clientBase) {
+						switch ($scope.userDTO.clientBase) {
 						case "admin":
 							if($scope.selectedGuest.languagePref.langId==134){
 								$scope.smsContent = '顧客 '+$scope.selectedGuest.rank+' : 您的桌位 即將 準備就緒。請帶您的全部客人回到餐廳以等待叫到您的號碼。點擊鏈接查詢實時排隊信息: https://tinyurl.com/y7zv5wax/s/'+$scope.selectedGuest.uuid;
@@ -596,7 +646,7 @@ KyobeeControllers.controller('waitListCtrl',
 								$scope.smsContent = 'Guest '+$scope.selectedGuest.rank+' : Table is almost ready. Come back and wait for your name to be called. For updates: https://tinyurl.com/y7zv5wax/s/'+$scope.selectedGuest.uuid;
 							}
 							break;
-						}*/
+						}
 						
 						//for prod(kyobee.com)
 						switch ($scope.userDTO.clientBase) {
@@ -631,7 +681,7 @@ KyobeeControllers.controller('waitListCtrl',
 							break;
 						}
 						
-					}
+					}*/
 					
 					$scope.incrementCalloutCount = function(){
 						$scope.loading=true;													/* for loader(krupali 07/07/2017)*/
@@ -857,7 +907,7 @@ KyobeeControllers.controller('waitListCtrl',
 				                console.log('Unsubscribed from channel: ' + channel);
 				            };
 				            function clientReconnecting(ortc) {
-				                console.log('Reconnecting to ' + connectionUrl);
+				                console.log('Reconnecting to ' + $scope.connectionUrl);
 				            };
 				            function clientReconnected(ortc) {
 				                console.log('Reconnected to: ' + ortc.getUrl());

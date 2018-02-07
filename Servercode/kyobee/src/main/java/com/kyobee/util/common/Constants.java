@@ -103,6 +103,7 @@ public class Constants {
 	public static final String RSNT_GUEST_FAIL= "FAIL";
 	
 	public static final String TOTAL_WAIT_TIME = "TOTAL_WAIT_TIME";
+	public static final String ORG_MAX_PARTY = "ORG_MAX_PARTY";
 	
 	public static final String RSNT_ORG_WAIT_TIME ="ORG_WAIT_TIME";
 	public static final String RSNT_ORG_TOTAL_WAIT_TIME ="ORG_TOTAL_WAIT_TIME";

@@ -55,7 +55,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Session;
-
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
@@ -1533,8 +1532,7 @@ public class CommonUtil {
 			System.out.println(payload);
 
 		} catch (Exception e) {
-			System.out.println(e + " inside the getJSONPushMessage method");
-
+			LoggerUtil.logError(e.getMessage()+" inside the getJSONPushMessage method",e);
 		}
 		return payload;
 
@@ -1566,7 +1564,7 @@ public class CommonUtil {
 			System.out.println(payload);
 
 		} catch (Exception e) {
-			System.out.println(e + " inside the getJSONPushMessage method");
+			LoggerUtil.logError(e.getMessage()+" inside the getJSONPushMessage method",e);
 
 		}
 		return payload;
@@ -1587,12 +1585,10 @@ public class CommonUtil {
 			rootMap.put("Id", optionId);
 			rootMap.put("success", 1);
 			final JSONObject jsonObject = JSONObject.fromObject(rootMap);
-			System.out.println(jsonObject.toString());
 			returnString = jsonObject.toString();
 
 		} catch (Exception e) {
-			System.out.println(e + " inside the getJSONPushMessage method");
-
+			LoggerUtil.logError(e.getMessage()+" inside the getJSONPushMessage method",e);
 		}
 		return returnString;
 
@@ -1611,12 +1607,10 @@ public class CommonUtil {
 			// been received");
 			rootMap.put("success", 1);
 			final JSONObject jsonObject = JSONObject.fromObject(rootMap);
-			System.out.println(jsonObject.toString());
 			returnString = jsonObject.toString();
 
 		} catch (Exception e) {
-			System.out.println(e + " inside the getJSONPushMessage method");
-
+			LoggerUtil.logError(e.getMessage()+" inside the getJSONPushMessage method",e);
 		}
 		return returnString;
 
@@ -1865,7 +1859,7 @@ public class CommonUtil {
 			ByteBuffer bbuf = encoder.encode(CharBuffer.wrap(String.valueOf(+1)));
 			b = bbuf.array();
 		} catch (CharacterCodingException e) {
-			System.out.println(e.getMessage());
+			LoggerUtil.logError(e.getMessage(),e);
 		}
 
 		String data;
@@ -1882,7 +1876,7 @@ public class CommonUtil {
 				hints.put(EncodeHintType.MARGIN, 1);
 				matrix = writer.encode(data, com.google.zxing.BarcodeFormat.QR_CODE, w, h, hints);
 			} catch (com.google.zxing.WriterException e) {
-				System.out.println(e.getMessage());
+				LoggerUtil.logError(e.getMessage(),e);
 			}
 
 			// change this path to match yours (this is my mac home folder, you
@@ -1932,10 +1926,10 @@ public class CommonUtil {
 				//// System.out.println("printing to " +
 				//// file.getAbsolutePath());
 			} catch (IOException e) {
-				System.out.println(e.getMessage());
+				LoggerUtil.logError(e.getMessage(),e);
 			}
 		} catch (UnsupportedEncodingException e) {
-			System.out.println(e.getMessage());
+			LoggerUtil.logError(e.getMessage(),e);
 		}
 		return boeOutput.toByteArray();
 	}

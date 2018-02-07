@@ -126,7 +126,6 @@ public class WaitListServiceImpl implements IWaitListService {
 			log.info("numberOfUsers =="+numberOfUsers);
 			List<Object[]> list = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_TOP_GUEST_DETAILS).setParameter(2, numberOfUsers).setParameter(1, orgid)
 					.list();
-			System.out.println("size is==>"+list.size());
 			//Bugtracker ID:230, notify only when the guest comes in threshold. 
 			/*for (Object[] guestObject : list) {
 				  Map<String, String> map= getGuesteMetrics(Long.parseLong(guestObject[0].toString()), orgid);
@@ -302,7 +301,7 @@ public class WaitListServiceImpl implements IWaitListService {
 		try {
  			int firstPage = (pageNumber == 1) ? 0 : (recordsPerPage*(pageNumber-1));
  			String name = searchName;
- 			StringBuffer query=new StringBuffer("FROM Guest g WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId");
+ 			StringBuffer query=new StringBuffer("FROM Guest g left join fetch g.languagePrefID WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId");
  			if(name != null) {
  				query=query.append(" and g.name like :Name");
  			}
@@ -310,7 +309,6 @@ public class WaitListServiceImpl implements IWaitListService {
  				query=query.append(" and incompleteParty > 0");
  			}*/
  			query=query.append(" order by g.rank asc");
- 			System.out.println("Query : "+ query);
  			//HQL_GET_GUESTS_HISTORY
  			return sessionFactory.getCurrentSession().createQuery(query.toString())
  					.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("Name", "%"+name+"%").setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
@@ -332,7 +330,6 @@ public class WaitListServiceImpl implements IWaitListService {
  				query=query.append(" and incompleteParty > 0");
  			}*/
  			query=query.append(" order by g.rank asc");
- 			System.out.println("Query : "+ query);
 			return (Long) sessionFactory.getCurrentSession().createQuery(query.toString())
 					.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("Name", "%"+name+"%").uniqueResult();
 		} catch (Exception e) {
@@ -360,7 +357,9 @@ public class WaitListServiceImpl implements IWaitListService {
 	 */
 	@Override
 	public Guest getGuestById(long guestId) {
-		return (Guest) sessionFactory.getCurrentSession().get(Guest.class, guestId);
+		//return (Guest) sessionFactory.getCurrentSession().get(Guest.class, guestId);
+		Guest guest = (Guest) sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUEST_BY_ID).setParameter("guestId", guestId).uniqueResult();
+		return guest;
 	}
 	/**
 	 * Update organization wait time
@@ -430,9 +429,7 @@ public class WaitListServiceImpl implements IWaitListService {
 	private void resetGuestTables(Long orgId)
 	{
 		//Copy Guest to GuestReset
-		/*System.out.println(sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUESTS).setParameter(1, orgId));*/
 		List<Guest> guestList = sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUESTS).setParameter("orgId", orgId).list();
-		System.out.println(guestList);
 		GuestReset oGuestReset;
 		//List<GuestReset> guestResetList = new ArrayList<GuestReset>();
 		for(Guest oGuest : guestList)
@@ -450,7 +447,7 @@ public class WaitListServiceImpl implements IWaitListService {
 			oGuestReset.setOptin(oGuest.isOptin());
 			oGuestReset.setOrganizationID(oGuest.getOrganizationID());
 			oGuestReset.setPrefType(oGuest.getPrefType());
-			oGuestReset.setLanguagePrefID(oGuest.getLanguagePrefID());
+			oGuestReset.setLanguagePrefID(oGuest.getLanguagePrefID().getLangId());
 			oGuestReset.setRank(oGuest.getRank());
 			oGuestReset.setResetTime(oGuest.getResetTime());
 			oGuestReset.setSeatedTime(oGuest.getSeatedTime());
@@ -600,10 +597,6 @@ public class WaitListServiceImpl implements IWaitListService {
 				
 					
 					cStmt.execute();
-					System.out.println(cStmt.getInt(4));
-					System.out.println(cStmt.getInt(3));
-					System.out.println(cStmt.getInt(8));
-					System.out.println(cStmt.getInt(9));
 					metricks.put(Constants.RSNT_ORG_GUEST_COUNT, String.valueOf(cStmt.getInt(3)));//OP_TOTALWAITINGGUEST
 					metricks.put(Constants.RSNT_ORG_TOTAL_WAIT_TIME, String.valueOf(cStmt.getInt(4)));//OP_TOTALWAITTIME
 					metricks.put(Constants.RSNT_ORG_WAIT_TIME, String.valueOf(cStmt.getInt(8)));//OP_PERPARTYWAITTIME
@@ -668,6 +661,8 @@ public class WaitListServiceImpl implements IWaitListService {
 		metricks.put(Constants.TOTAL_WAIT_TIME, String.valueOf(guestCount <=0 ?orgwaitTime:((guestCount)*orgwaitTime)+orgwaitTime));
 		metricks.put(Constants.RSNT_ORG_WAIT_TIME, orgwaitTimeObj.toString());
 		metricks.put(Constants.RSNT_GUEST_AHEAD_COUNT, String.valueOf(guestCount <=0 ?0:(guestCount)));
+		Integer maxParty = (Integer) sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_MAX_PARTY).setParameter("orgId", orgId).uniqueResult();
+		metricks.put(Constants.ORG_MAX_PARTY, maxParty.toString());
 		return metricks;
 	}
 
@@ -705,9 +700,6 @@ public class WaitListServiceImpl implements IWaitListService {
 			guestNotificationBean.setSmsRoute(smsDetails.getSmsRoute());
 			guestNotificationBean.setSmsSignature(smsDetails.getSmsSignature());			
 			guestNotificationBean.setSmsRouteNo(smsDetails.getSmsRouteNo());
-				
-			System.out.println("-----------------------"+smsDetails.getSmsRoute());
-			System.out.println("-----------------------"+ smsDetails.getSmsSignature());
 
 			//ObjectMessage objectMessage = 
 			//		session.createObjectMessage(guestNotificationBean);
@@ -715,8 +707,7 @@ public class WaitListServiceImpl implements IWaitListService {
 			//sender.send(objectMessage);
 			notificationQueueSender.sendMessage(guestNotificationBean);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
+			LoggerUtil.logError(e.getMessage(),e);
 		}
 		finally {
 			/*try {
@@ -740,7 +731,6 @@ public class WaitListServiceImpl implements IWaitListService {
 			
 			smsDetails =  (SMSDetailsWrapper) (query.setResultTransformer(
 					new AliasToBeanResultTransformer(SMSDetailsWrapper.class)).uniqueResult());
-			System.out.println(smsDetails);
 			/*rootMap.put("smsSignature", smsDetails.getSmsSignature());
 			rootMap.put("smsRoute", smsDetails.getSmsRoute());
 			rootMap.put("smsRouteNo", smsDetails.getSmsRouteNo());*/
@@ -862,12 +852,10 @@ public class WaitListServiceImpl implements IWaitListService {
 		GuestPreferencesDTO dto = new GuestPreferencesDTO();
 		List<Object[]> list = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_SEATING_PREF_VALUES).
 				setParameter("orgId", orgId).setParameter("catTypeId", Constants.CONT_LOOKUPTYPE_SEATTYPE).list();
-		System.out.println("***********pref"+list);
 		if(null != list && list.size()>0){
 			pref = new ArrayList<GuestPreferencesDTO>();
 			for (Object[] lookupvalue : list) {
 				dto = new GuestPreferencesDTO();
-				System.out.println("===Long.getLong(lookupvalue[0].toString())===="+lookupvalue[0].toString());
 				dto.setPrefValueId(Long.valueOf(lookupvalue[0].toString()));
 				dto.setPrefValue(lookupvalue[1].toString());
 				pref.add(dto);
@@ -1211,7 +1199,7 @@ public class WaitListServiceImpl implements IWaitListService {
 						cStmt.setLong(5, guestObj.getNoOfAdults());
 						cStmt.setLong(6, guestObj.getNoOfInfants());
 						cStmt.setLong(7, guestObj.getNoOfPeople());
-						cStmt.setLong(8, guestObj.getLanguagePrefID());
+						cStmt.setLong(8, guestObj.getLanguagePrefID().getLangId());
 						cStmt.setInt(9, guestObj.getQuoteTime());
 						cStmt.setInt(10, guestObj.getPartyType());
 						cStmt.setString(11, guestObj.getDeviceType());
@@ -1321,7 +1309,7 @@ public class WaitListServiceImpl implements IWaitListService {
 						cStmt.setLong(5, guestObj.getNoOfAdults() != null ? guestObj.getNoOfAdults() : 0);
 						cStmt.setLong(6, guestObj.getNoOfInfants() != null ? guestObj.getNoOfInfants() : 0);
 						cStmt.setLong(7, guestObj.getNoOfPeople() != null ? guestObj.getNoOfPeople() : 0);
-						cStmt.setLong(8, guestObj.getLanguagePrefID() != null ? guestObj.getLanguagePrefID() : 0);
+						cStmt.setLong(8, guestObj.getLanguagePrefID() != null ? guestObj.getLanguagePrefID().getLangId() : 0);
 						cStmt.setInt(9, guestObj.getQuoteTime() != null ? guestObj.getQuoteTime() : 0);
 						cStmt.setInt(10, guestObj.getPartyType() != null ? guestObj.getPartyType() : 0);
 						cStmt.setString(11, guestObj.getSms() != null ? guestObj.getSms() : "");
@@ -1530,77 +1518,10 @@ ByOrgRecords(java.lang.Long, int, int)
 	 	public List<Guest> loadGuestsHistoryByOrgRecords(Long orgid, int recordsPerPage, int pageNumber,String statusOption, int sliderMinTime, int sliderMaxTime, String clientTimezone) throws RsntException {
 	 		try {
 	 			int firstPage = (pageNumber == 1) ? 0 : (recordsPerPage*(pageNumber-1));
-	 			/*int minDiff = minuitDifference;*/
-	 			/*TimeZone t1 = Calendar.getInstance().getTimeZone();
-	 			TimeZone t2 =  TimeZone.getTimeZone("EDT");
-	 			long offset = (t1.getRawOffset() - t2.getRawOffset())/100000;
-	 			int offset = t1.getRawOffset();
-	 			String gmtTZ = String.format("%s%02d", 
-	 			               offset < 0 ? "-" : "+", 
-	 			               Math.abs(offset) / 3600000,
-	 			               Math.abs(offset) / 60000 % 60);
-	 			int gmtTZint = Integer.parseInt(gmtTZ);
-	 			int secondsOfHour = offset.getTotalSeconds() % (60 * 60);
-	 		    String out = String.format("%35s %10s%n", t1, offset);
-	 			System.out.println("krupali"+gmtTZ);*/
 	 			
-	 			/*Calendar c = new GregorianCalendar(Calendar.getInstance().getTimeZone());*/
-	 			/*Calendar c = new GregorianCalendar(TimeZone.getTimeZone("UTC+05:30"));
-	 			c.setTimeInMillis(new Date().getTime());
-	 			int EastCoastHourOfDay = c.get(Calendar.HOUR_OF_DAY);
-	 			int EastCoastDayOfMonth = c.get(Calendar.DAY_OF_MONTH);
-
-	 			// Local Time
-	 			int localHourOfDay = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-	 			int localDayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-
-	 			// Alaska
-	 			Calendar c1 = new GregorianCalendar(TimeZone.getTimeZone("EDT"));
-	 			c1.setTimeInMillis(new Date().getTime());
-	 			int AlaskaHourOfDay = c1.get(Calendar.HOUR_OF_DAY);
-	 			int AlaskaDayOfMonth = c1.get(Calendar.DAY_OF_MONTH);
-	 			
-	 			int hourDifference = AlaskaHourOfDay - EastCoastHourOfDay;
-	 			int dayDifference = AlaskaDayOfMonth - EastCoastDayOfMonth;
-	 			if (dayDifference != 0) {
-	 			hourDifference = hourDifference + 24;
-	 			}
-	 			System.out.println(hourDifference);*/
-
-	 			/*int SliderMinValue = sliderMinTime;
-	 			int SliderMaxValueLessOne = SliderMaxTimeLessOne;
-	 			int SliderMaxValue = sliderMaxTime;*/
-
-	 			/*// Difference between New York and Local Time (for me Germany)
-	 			hourDifference = EastCoastHourOfDay - localHourOfDay;
-	 			dayDifference = EastCoastDayOfMonth - localDayOfMonth;
-	 			if (dayDifference != 0) {
-	 			hourDifference = hourDifference + 24;
-	 			}
-	 			System.out.println(hourDifference);*/
-
-	 			/*if(sliderMinTime >=24){
-	 				convertedSliderMin = 0+(sliderMinTime-24);
-	 			}
-	 			else if(sliderMinTime < 0){
-	 				convertedSliderMin = 24+sliderMinTime;
-	 			}
-	 			else{
-	 				convertedSliderMin = sliderMinTime;
-	 			}
-	 			if(sliderMaxTime >=24){
-	 				convertedSliderMax = 0+(sliderMaxTime-24);
-	 			}
-	 			else if(sliderMaxTime <0){
-	 				convertedSliderMax = 24+sliderMaxTime;
-	 			}
-	 			else{
-	 				convertedSliderMax = sliderMaxTime;
-	 			}*/
-	 			 
 	 			String sliderMinTimeString = sliderMinTime+":00";
 	 			String sliderMaxTimeString = sliderMaxTime+":01";
-	 			StringBuffer query=new StringBuffer("FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
+	 			StringBuffer query=new StringBuffer("FROM Guest g left join fetch g.languagePrefID WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
 	 					+ " and g.OrganizationID=:orgId and ((time(convert_tz(g.checkinTime,'-05:00', :ClientTimezone)) between time(:SliderMinValue) and time(:SliderMaxValue)))");
 	 			/*convert_tz(g.checkinTime,'+05:30','-05:00'*/
 	 			if(statusOption.equals("Not Present")) {
@@ -1610,7 +1531,6 @@ ByOrgRecords(java.lang.Long, int, int)
 	 				query=query.append(" and incompleteParty > 0");
 	 			}
 	 			query=query.append(" order by g.rank asc");
-	 			System.out.println("Query : "+ query);
 	 			//HQL_GET_GUESTS_HISTORY
 	 			return sessionFactory.getCurrentSession().createQuery(query.toString())
 	 					.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("SliderMinValue", sliderMinTimeString).setParameter("SliderMaxValue", sliderMaxTimeString).setParameter("ClientTimezone", clientTimezone).setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
@@ -1628,7 +1548,7 @@ ByOrgRecords(java.lang.Long, int, int)
 	 			String name = searchName;
 	 			String sliderMinTimeString = sliderMinTime+":00";
 	 			String sliderMaxTimeString = sliderMaxTime+":01";
-	 			StringBuffer query=new StringBuffer("FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
+	 			StringBuffer query=new StringBuffer("FROM Guest g left join fetch g.languagePrefID WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
 	 					+ " and g.OrganizationID=:orgId and ((time(convert_tz(g.checkinTime,'-05:00', :ClientTimezone)) between time(:SliderMinValue) and time(:SliderMaxValue)))");
 	 			if(statusOption.equals("Not Present")) {
 	 				query=query.append(" and calloutCount > 0");
@@ -1640,7 +1560,6 @@ ByOrgRecords(java.lang.Long, int, int)
 	 				query=query.append(" and g.name like :Name");
 	 			}
 	 			query=query.append(" order by g.rank asc");
-	 			System.out.println("Query : "+ query);
 	 			//HQL_GET_GUESTS_HISTORY
 	 			return sessionFactory.getCurrentSession().createQuery(query.toString())
 	 					.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("SliderMinValue", sliderMinTimeString).setParameter("SliderMaxValue", sliderMaxTimeString).setParameter("ClientTimezone", clientTimezone).setParameter("Name", "%"+name+"%").setFirstResult(firstPage).setMaxResults(recordsPerPage).list();
@@ -1669,7 +1588,6 @@ ByOrgRecords(java.lang.Long, int, int)
 	 				query=query.append(" and incompleteParty > 0");
 	 			}
 	 			query=query.append(" order by g.rank asc");
-	 			System.out.println("Query : "+ query);
 				return (Long) sessionFactory.getCurrentSession().createQuery(query.toString())
 						.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("SliderMinValue", sliderMinTimeString).setParameter("SliderMaxValue", sliderMaxTimeString).setParameter("ClientTimezone", clientTimezone).uniqueResult();
 			} catch (Exception e) {
@@ -1698,7 +1616,6 @@ ByOrgRecords(java.lang.Long, int, int)
 	 				query=query.append(" and g.name like :Name");
 	 			}
 	 			query=query.append(" order by g.rank asc");
-	 			System.out.println("Query : "+ query);
 				return (Long) sessionFactory.getCurrentSession().createQuery(query.toString())
 						.setParameter(Constants.RSNT_ORG_ID,orgid).setParameter("SliderMinValue", sliderMinTimeString).setParameter("SliderMaxValue", sliderMaxTimeString).setParameter("ClientTimezone", clientTimezone).setParameter("Name", "%"+name+"%").uniqueResult();
 			} catch (Exception e) {
@@ -1716,12 +1633,10 @@ ByOrgRecords(java.lang.Long, int, int)
 			LanguageMasterDTO dto = new LanguageMasterDTO();
 			List<Object[]> list = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_LANGUAGE_PREF_VALUES).
 					setParameter("orgId", orgId).list();
-			System.out.println("**************pref"+list);
 			if(null != list && list.size()>0){
 				langPref = new ArrayList<LanguageMasterDTO>();
 				for (Object[] pref : list) {
 					dto = new LanguageMasterDTO();
-					System.out.println("===Long.getLong(lookupvalue[0].toString())===="+pref[0].toString());
 					dto.setLangId(Long.valueOf(pref[0].toString()));
 					dto.setLangName(pref[1].toString());
 					dto.setLangIsoCode(pref[2].toString());
@@ -1742,7 +1657,6 @@ ByOrgRecords(java.lang.Long, int, int)
 			LanguageMasterDTO langPref = new LanguageMasterDTO();
 			List<Object[]> list = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_USER_LANGUAGE_PREF_VALUES).
 					setParameter("langId", languagePrefID).list();
-			System.out.println(list);
 			if(null != list && list.size()>0){
 				for (Object[] pref : list) {
 					langPref.setLangId(Long.valueOf(pref[0].toString()));
@@ -1775,7 +1689,6 @@ ByOrgRecords(java.lang.Long, int, int)
 			}
 			
 			List<Object[]> list = queryStr.list();
-			System.out.println("***********pref"+list);
 			if(null != list && list.size()>0){
 				templates = new ArrayList<OrganizationTemplateDTO>();
 				for (Object[] template : list) {
@@ -1799,7 +1712,6 @@ ByOrgRecords(java.lang.Long, int, int)
 			ScreensaverDTO screensaver = new ScreensaverDTO();
 			List<Object[]> list = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_SCREENSAVER).
 					setParameter("orgId", orgId).list();
-			System.out.println(list);
 			if(null != list && list.size()>0){
 				for (Object[] dto : list) {
 					screensaver.setScreensaverFlag(dto[0].toString());
@@ -1814,7 +1726,6 @@ ByOrgRecords(java.lang.Long, int, int)
 	 	public void saveSmsLog(Guest guest, Long orgId, Long templateId, String smsText){
 	 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	 		Date date = new Date();
-	 		System.out.println(dateFormat.format(date));
 	 		
 			SmsLog log = new SmsLog();
 			log.setOrgID(orgId);
@@ -1833,7 +1744,6 @@ ByOrgRecords(java.lang.Long, int, int)
 			}
 			
 			Long i = (Long) sessionFactory.getCurrentSession().save(log);
-			System.out.println("*************"+i);
 		}
 	 	
 	 	@SuppressWarnings("unchecked")
@@ -1843,8 +1753,6 @@ ByOrgRecords(java.lang.Long, int, int)
 	 		
 	 		List<Integer> lists = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_SMS_TEMPLATE_LEVEL_BY_ID).
 	 				setParameter("orgId", orgId).setParameter("templateID", templateId).list();
-	 				
-	 				System.out.println(lists);
 	 				for (Integer level : lists) {
 	 					templateLevel = level;
 	 				}

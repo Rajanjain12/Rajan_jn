@@ -418,19 +418,20 @@ public class NativeQueryConstants {
 	public static final String GET_GUEST_AHEAD_COUNT = "SELECT count(*) FROM GUEST where  STATUS='CHECKIN' and resetTime is  null and calloutCount is null and incompleteParty is null and guestID<:guestId and OrganizationID =:orgId";
 	public static final String GET_ORG_NAME_BY_ID = "SELECT OrganizationName FROM ORGANIZATION where OrganizationId=?1";
 	public static final String GET_ORG_GUEST_MAX_RANK = "SELECT IF(max(rank) IS NULL ,0,max(rank))  from GUEST WHERE OrganizationID =?1 and status in('CHECKIN','SEATED','DELETED','REMOVED') and resetTime is null";
+	public static final String GET_ORG_MAX_PARTY = "SELECT MaxParty FROM ORGANIZATION where  OrganizationID =:orgId";
 	
 	//changes by krupali, line 422 to 425 (16/06/2017)
-	public static final String HQL_GET_GUESTS_CHECKIN_BY_ORG_COMMON = "FROM Guest g WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId order by g.rank asc";
-	public static final String HQL_GET_GUESTS_CHECKIN_BY_ORG_SMALL = "FROM Guest g WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId and g.partyType=0 order by g.rank asc";
-	public static final String HQL_GET_GUESTS_CHECKIN_BY_ORG_LARGE = "FROM Guest g WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId and g.partyType=1 order by g.rank asc";
-	public static final String HQL_GET_GUESTS_CHECKIN_BY_ORG_BOTH = "FROM Guest g WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId and (g.partyType in (0,1)) order by g.rank asc";
+	public static final String HQL_GET_GUESTS_CHECKIN_BY_ORG_COMMON = "FROM Guest g left join fetch g.languagePrefID WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId order by g.rank asc";
+	public static final String HQL_GET_GUESTS_CHECKIN_BY_ORG_SMALL = "FROM Guest g left join fetch g.languagePrefID WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId and g.partyType=0 order by g.rank asc";
+	public static final String HQL_GET_GUESTS_CHECKIN_BY_ORG_LARGE = "FROM Guest g left join fetch g.languagePrefID WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId and g.partyType=1 order by g.rank asc";
+	public static final String HQL_GET_GUESTS_CHECKIN_BY_ORG_BOTH = "FROM Guest g left join fetch g.languagePrefID WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId and (g.partyType in (0,1)) order by g.rank asc";
 	public static final String HQL_GET_GUESTS_CHECKIN_BY_ORG_COMMON_SEARCH = "FROM Guest g WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId and g.name=:Name order by g.rank asc";
 	//Added Later for Gen enhancement
 	public static final String GET_GUESTS_CHECKIN_BY_ORG = "Select @row \\:= @row + 1 AS row, g.* , ( @row * oo.waitTime) WaitTime FROM GUEST g, (SELECT @row \\:= 0) x , ORGANIZATION oo WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId and oo.OrganizationID=:orgId order by g.rank asc";
 	public static final String HQL_GET_GUESTS_COUNT_CHECKIN_BY_ORG = "select count(*) FROM Guest g WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId";
 	public static final String HQL_GET_GUESTS_HISTORY = "FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN') and g.OrganizationID=:orgId order by g.rank asc";
 	public static final String HQL_GET_GUESTS_COUNT_HISTORY = "select count(*) FROM Guest g WHERE g.resetTime is  null and g.status not in ('CHECKIN') and g.OrganizationID=:orgId order by g.rank asc";
-	public static final String HQL_GET_GUEST_BY_UUID = "FROM Guest g WHERE g.status ='CHECKIN' and  g.resetTime is null and uuid=:UUID";
+	public static final String HQL_GET_GUEST_BY_UUID = "FROM Guest g left join fetch g.languagePrefID WHERE g.status ='CHECKIN' and  g.resetTime is null and uuid=:UUID";
 	public static final String GET_ORG_SEATING_PREF_VALUES = "select lkp.LookupID,lkp.Name from ORGANIZATION org inner join ORGANIZATIONCATEGORY oc on org.organizationID=oc.organizationID "+
                                                               " inner join LOOKUP lkp on oc.CategoryValueID=lkp.LookupID where oc.organizationID=:orgId and oc.CategoryTypeID=:catTypeId";
 	public static final String GET_ORG_LANGUAGE_PREF_VALUES = "select LangID, LangName, LangIsoCode from "+
@@ -457,10 +458,12 @@ public class NativeQueryConstants {
 	public static final String UPDATE_ORG_TOTAL_WAITTIME_INCREMENT = "update ORGANIZATION set TotalWaitTime = TotalWaitTime +  waitTime where organizationId = ?1";
 	public static final String UPDATE_ORG_TOTAL_WAITTIME_DECREMENT = "update ORGANIZATION set TotalWaitTime = TotalWaitTime -  waitTime where organizationId = ?1";
 	public static final String HQL_GET_TOP_GUEST_DETAILS_NOTMARKED = "from Guest WHERE status='CHECKIN' AND incompleteParty is NULL AND calloutCount is NULL AND resetTime is null AND OrganizationID =?1";
-	public static final String GET_USER_LOGIN_AUTH = "SELECT PASSWORD, ORGUSR.ORGANIZATIONID, ORG.logoFileName, ORG.clientBase , ORG.smsRoute FROM USER U INNER JOIN ORGANIZATIONUSER ORGUSR ON U.USERID = ORGUSR.USERID INNER JOIN ORGANIZATION ORG ON ORGUSR.ORGANIZATIONID = ORG.ORGANIZATIONID AND ORG.ACTIVEORGANIZATIONPLANID IS NOT NULL WHERE U.USERNAME=:username AND U.ACTIVE=1";
+	public static final String GET_USER_LOGIN_AUTH = "SELECT PASSWORD, ORGUSR.ORGANIZATIONID, ORG.logoFileName, ORG.clientBase , ORG.smsRoute , ORG.MaxParty FROM USER U INNER JOIN ORGANIZATIONUSER ORGUSR ON U.USERID = ORGUSR.USERID INNER JOIN ORGANIZATION ORG ON ORGUSR.ORGANIZATIONID = ORG.ORGANIZATIONID AND ORG.ACTIVEORGANIZATIONPLANID IS NOT NULL WHERE U.USERNAME=:username AND U.ACTIVE=1";
 	
 	public static final String CHECK_ORGANIZATION_IF_EXISTS = "FROM Organization u WHERE u.organizationName=:orgName";
 	public static final String CHECK_USER_IF_EXISTS = "FROM User u WHERE u.userName=:userName";
 	
 	public static final String GET_SMSROUTE_BY_ORGID = "SELECT o.smsRoute from ORGANIZATION o where o.OrganizationID=:orgId";
+
+	public static final String HQL_GET_GUEST_BY_ID = "FROM Guest g left join fetch g.languagePrefID WHERE g.guestID=:guestId";
 }

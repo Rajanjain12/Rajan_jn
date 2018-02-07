@@ -29,6 +29,7 @@ import com.kyobee.exception.RsntException;
 import com.kyobee.util.AppInitializer;
 import com.kyobee.util.EmailUtil;
 import com.kyobee.util.common.Constants;
+import com.kyobee.util.common.LoggerUtil;
 import com.kyobee.util.pusher.IPusher;
 import com.kyobee.util.pusher.factory.PusherFactory;
 import com.telerivet.Project;
@@ -193,22 +194,20 @@ public class NotificationMessageReceiver implements MessageListener{
 			
 			if(guestNotificationBean.getTempLevel() == 0){
 				msg1 = guestNotificationBean.getMessage();
-				if(!guestNotificationBean.getSmsSignature().equals("SweetHoneyDessert")){
-				msg2 = " -"+guestNotificationBean.getSmsSignature()+"\n";
+				if(guestNotificationBean.getSmsSignature()!=null && !guestNotificationBean.getSmsSignature().equals("") && !guestNotificationBean.getSmsSignature().equals("SweetHoneyDessert")){
+				msg2 = " - "+guestNotificationBean.getSmsSignature()+"\n";
 				}
 			}
 			else if(guestNotificationBean.getTempLevel() == 1){
 				msg1 = guestNotificationBean.getMessage();
-				System.out.println(msg1);
-				if(!guestNotificationBean.getSmsSignature().equals("SweetHoneyDessert")){
-				msg2 = " -"+guestNotificationBean.getSmsSignature()+"\n";
+				if(guestNotificationBean.getSmsSignature()!=null && !guestNotificationBean.getSmsSignature().equals("") && !guestNotificationBean.getSmsSignature().equals("SweetHoneyDessert")){
+				msg2 = " - "+guestNotificationBean.getSmsSignature()+"\n";
 				}
 			}
 			else if(guestNotificationBean.getTempLevel() == 2){
 				msg1 = guestNotificationBean.getMessage();
-				System.out.println(msg1);
-				if(!guestNotificationBean.getSmsSignature().equals("SweetHoneyDessert")){
-				msg2 = " -"+guestNotificationBean.getSmsSignature()+"\n";
+				if(guestNotificationBean.getSmsSignature()!=null && !guestNotificationBean.getSmsSignature().equals("") && !guestNotificationBean.getSmsSignature().equals("SweetHoneyDessert")){
+				msg2 = " - "+guestNotificationBean.getSmsSignature()+"\n";
 				}
 			}
 			
@@ -378,7 +377,7 @@ public class NotificationMessageReceiver implements MessageListener{
                  .withMessageAttributes(smsAttributes));
 		 
 		}catch(Exception e) {
-			System.out.println(e.getMessage());
+			LoggerUtil.logError(e.getMessage(),e);
 		}
 	}
 

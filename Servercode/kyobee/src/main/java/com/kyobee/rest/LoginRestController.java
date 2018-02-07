@@ -113,11 +113,6 @@ public class LoginRestController {
 	   		Object[] loginDetail = result.get(0);
 	   		
 			if(loginDetail[0].toString().equals(CommonUtil.encryptPassword(password))){
-				/*System.out.println("password--"+loginDetail[0].toString());
-				System.out.println("OrgId--"+loginDetail[1].toString());
-				System.out.println("logofile name--"+loginDetail[2].toString());
-				if(loginDetail[4]!=null)
-					System.out.println("sms route--"+loginDetail[4].toString());*/
 				rootMap.put("OrgId",loginDetail[1].toString());
 				rootMap.put("logofile name",loginDetail[2].toString());
 				rootMap.put("clientBase",loginDetail[3].toString());
@@ -126,13 +121,19 @@ public class LoginRestController {
 				else
 					rootMap.put("smsRoute", loginDetail[4]);
 				
+				if(loginDetail[5]!=null){
+					rootMap.put("MaxParty", loginDetail[5].toString());
+				}else{
+					rootMap.put("MaxParty", 0);
+				}
+				
 				ScreensaverDTO screensaver = null;
 				try {
 					screensaver = waitListService.getOrganizationScreensaver(Long.valueOf(loginDetail[1].toString()).longValue());
 					rootMap.put("screensaver", screensaver);
 				} catch (Exception e) {
 					e.printStackTrace();
-					LoggerUtil.logError(e.toString());
+					LoggerUtil.logError(e.getMessage(), e);
 				}
 				
 				List<LanguageMasterDTO> langPref = null;
@@ -140,7 +141,7 @@ public class LoginRestController {
 					langPref = waitListService.getOrganizationLanguagePref(Long.valueOf(loginDetail[1].toString()).longValue());
 					rootMap.put("languagepref",langPref);
 				} catch (Exception e) {
-					System.out.println(e);
+					LoggerUtil.logError(e.getMessage(), e);
 				}
 				
 				List<OrganizationTemplateDTO> orgTemplates =  null;
@@ -149,7 +150,7 @@ public class LoginRestController {
 					orgTemplates =	waitListService.getOrganizationTemplates(Long.valueOf(loginDetail[1].toString()).longValue(),langID,null);
 					rootMap.put("smsTemplates",orgTemplates);
 				}catch(Exception e){
-					System.out.println(e);
+					LoggerUtil.logError(e.getMessage(), e);
 				}
 				
 				List<GuestPreferencesDTO> searPref =  null;
@@ -158,7 +159,7 @@ public class LoginRestController {
 					rootMap.put("success", "0");
 					rootMap.put("seatpref",searPref);
 				}catch(Exception e){
-					System.out.println(e);
+					LoggerUtil.logError(e.getMessage(), e);
 				}
 			}else{
 				rootMap.put("success", "-1");
@@ -222,6 +223,7 @@ public class LoginRestController {
 		userDTO.setOrganizationId((Long) sessionContextUtil.get(Constants.CONST_ORGID));
 		Organization org=orgService.getOrganizationById((Long) sessionContextUtil.get(Constants.CONST_ORGID));
 		userDTO.setSmsRoute(org.getSmsRoute());
+		userDTO.setMaxParty(org.getMaxParty());
 		final List<String> userPermissions = securityService.getUserPermissions(loginUser.getUserId());
 		if (userPermissions != null && !userPermissions.isEmpty()) {
 			for (final String permission : userPermissions) {

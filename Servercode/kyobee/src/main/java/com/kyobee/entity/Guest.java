@@ -6,9 +6,12 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -16,6 +19,8 @@ import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.hibernate.annotations.Type;
+
+import com.kyobee.dto.LanguageMasterDTO;
 
 @Entity
 @Table(name="GUEST")
@@ -107,8 +112,9 @@ public class Guest implements Serializable{
 	@Column(name="seatingPreference")
 	private String seatingPreference;
 	
-	@Column(name="languagePrefID", nullable =false)
-	private Long languagePrefID;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="languagePrefID", nullable = false)
+	private LangMaster languagePrefID;
 	
 	@Column(name="deviceID")
 	private String deviceId;
@@ -341,11 +347,11 @@ public class Guest implements Serializable{
 		this.seatingPreference = seatingPreference;
 	}
 
-	public Long getLanguagePrefID() {
+	public LangMaster getLanguagePrefID() {
 		return languagePrefID;
 	}
 
-	public void setLanguagePrefID(Long languagePrefID) {
+	public void setLanguagePrefID(LangMaster languagePrefID) {
 		this.languagePrefID = languagePrefID;
 	}
 

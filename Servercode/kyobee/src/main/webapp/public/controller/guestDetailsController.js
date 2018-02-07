@@ -16,6 +16,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					$scope.guestRankMin = null;
 					$scope.guestAheadCount = null;
 					$scope.orgWaitTime = null;
+					$scope.orgMaxParty = null;
 					$scope.errorMsg = null;
 					
 					$scope.appKey = null;
@@ -56,7 +57,10 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						    "confirmDel" : "Confirm Delete Guest",
 						    "dltButton" : "DELETE",
 						    "cnclButton" : "CANCEL",
-						    "notExist" : "The requested guest doesn't exist anymore."
+						    "notExist" : "The requested guest doesn't exist anymore.",
+						    "orgMaxParty1" : "Sorry we can only allow maximum ",
+						    "orgMaxParty2" : " people per table at a given time"
+						    
 						  },
 						  "chi" : {
 						    "nowServing" : "正在服務",
@@ -79,7 +83,9 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 							"confirmDel" : "确认删除访客",
 						    "dltButton" : "删除",
 						    "cnclButton" : "取消",
-						    "notExist" : "被请求的客人不存在了。"
+						    "notExist" : "被请求的客人不存在了。",
+						    "orgMaxParty1" : "对不起，我们只能允许最多 ",
+						    "orgMaxParty2" : " 每个人在特定时间的人数"
 						  }
 						}
 					
@@ -188,6 +194,12 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 							return;
 						}
 						
+						if($scope.orgMaxParty != null && $scope.orgMaxParty != "" && ($scope.guest.noOfChildren + $scope.guest.noOfAdults + $scope.guest.noOfInfants) > $scope.orgMaxParty){
+							$scope.errorMsg = $scope.currentPageLanguage.orgMaxParty1+$scope.orgMaxParty+$scope.currentPageLanguage.orgMaxParty2;
+							$scope.loading = false; 
+							return;
+						}
+						
 						if ($("#children").val() == "") {
 						     $("#children").val("0");
 						}
@@ -222,7 +234,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								'optin' : $scope.guest.optin,
 								'status': 'CHECKIN',
 								'guestPreferences' : selectedGuestPref,
-								'languagePref' : {'langId':$scope.guest.languagePrefID}
+								'languagePref' : $scope.guest.languagePrefID
 						}
 						console.log(JSON.stringify(postBody));
 						var url = '/kyobee/web/rest/waitlistRestAction/updateGuestInfo';
@@ -298,6 +310,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 										$scope.guestRankMin = data.serviceResult.GUEST_RANK_MIN;
 										$scope.guestAheadCount = data.serviceResult.GUEST_AHEAD_COUNT;
 										$scope.orgWaitTime = data.serviceResult.ORG_WAIT_TIME;
+										$scope.orgMaxParty = data.serviceResult.ORG_MAX_PARTY;
 									} else if (data.status == "FAILURE") {
 										alert($scope.currentPageLanguage.fetchError);
 										$scope.logout();
@@ -314,10 +327,10 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 							var promise = $scope.loadGuestPage();
 							promise.then(function(){
 								debugger;
-								if($scope.guest.languagePrefID == 1){
+								if($scope.guest.languagePrefID.langId == 1){
 									$scope.currentPageLanguage = $scope.pageLanguage.en;
 								}
-								else if($scope.guest.languagePrefID == 134){
+								else if($scope.guest.languagePrefID.langId == 134){
 									$scope.currentPageLanguage = $scope.pageLanguage.chi;
 								}
 							},function(error){

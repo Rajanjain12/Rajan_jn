@@ -155,6 +155,19 @@ public class Organization extends BaseEntity {
 	@Column(name="smsRouteNo")
 	private String smsRouteNo;
 	
+	@Column(name="MaxParty")
+	private Integer maxParty;
+	
+	public Integer getMaxParty() {
+		return maxParty;
+	}
+
+
+	public void setMaxParty(Integer maxParty) {
+		this.maxParty = maxParty;
+	}
+
+
 	public String getSmsSignature() {
 		return smsSignature;
 	}

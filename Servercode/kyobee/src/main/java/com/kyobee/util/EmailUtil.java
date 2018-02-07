@@ -12,6 +12,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
 import com.kyobee.exception.RsntException;
+import com.kyobee.util.common.LoggerUtil;
 
 
 
@@ -38,13 +39,6 @@ public class EmailUtil {
 
 	public void sendEmail(String to, String subject, String content) throws RsntException {
 		try {
-			System.out.println("Inside send email");
-			System.out.println("TO : "+ to );
-			System.out.println("from : "+ from );
-			System.out.println("Start----");
-			System.out.println("content : "+ content );	
-			System.out.println("---Stop");
-			System.out.println("Subject : "+ subject);
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			mimeMessage.setFrom(new InternetAddress(from));
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
@@ -55,7 +49,7 @@ public class EmailUtil {
 			helper.setSentDate(new Date());			
 			mailSender.send(mimeMessage);
 		} catch (Exception e) {
-			System.out.println("Exception: ==>>> " + e);
+			LoggerUtil.logError(e.getMessage(),e);
 			throw new RsntException(e);
 		}
 	}

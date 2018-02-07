@@ -1636,3 +1636,15 @@ input[type=number]::-webkit-inner-spin-button {
 .icon-position ul li{
 	float:right;
 }
+/*forgot and reset password*/
+.pass-title{
+	color:#b1b1b1;
+	font-weight:bold;
+	font-size:25px;
+	margin-bottom:50px;
+	margin-top:20px;
+}
+.sub-title{
+	color:#b1b1b1;
+	font-size:16px;
+}
