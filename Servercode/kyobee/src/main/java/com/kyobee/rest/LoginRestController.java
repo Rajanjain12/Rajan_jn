@@ -104,21 +104,21 @@ public class LoginRestController {
 		return response;
 	}
 	//Pampaniya Shweta for Forgot Password....
-	@RequestMapping(value = "/forgotPassword", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/forgotPwd", method = RequestMethod.GET, produces = "application/json")
 	   public Response<String> forgotPassword(@RequestParam String email) throws RsntException 
 	   {
 			Response<String> response = new Response<String>();
 			try
 			{	
 				User user = securityService.forgotPassword(email);
-				response.setServiceResult("Forgot Password Email Sent Successfully");
+				response.setServiceResult("Email has been sent to your registered email Id. Please follow the steps to reset your password");
 				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "");
 				return response;
 			} catch (RsntException e)
 			{
 				response.setServiceResult("ERROR");
 				CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",
-							"Error while sending email");
+							"Error while sending forgot password email");
 				LoggerUtil.logError("Error while sending forgot password email", e);
 			}
 			return response;

@@ -99,7 +99,7 @@ public class SecurityServiceImpl implements ISecurityService {
 	@Override
 	public String getAuthCode(Integer userId) throws RsntException 
 	{
-		String query = "Select authcode from User u where u.userId=:userId";
+		String query = "Select authcode from USER u where u.userId=:userId";
 		return (String) sessionFactory.getCurrentSession().createSQLQuery(query).setParameter("userId",userId).uniqueResult();
 	}
 	
