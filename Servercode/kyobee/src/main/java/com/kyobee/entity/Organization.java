@@ -162,7 +162,6 @@ public class Organization extends BaseEntity {
 		return maxParty;
 	}
 
-
 	public void setMaxParty(Integer maxParty) {
 		this.maxParty = maxParty;
 	}

@@ -28,7 +28,9 @@ import org.hibernate.annotations.Type;
 			@NamedQuery(name=User.GET_USER_BY_USERNAME_ONLY,query="Select u from User u where lower(u.userName)=?1 "),
 			@NamedQuery(name=User.GET_USER_BY_USERNAME,query="Select u from User u inner join u.organizationUser organizationUser " +
 					"where lower(u.userName)=?1  and organizationUser.organization.organizationId = ?2 "),
-			@NamedQuery(name=User.GET_USER_BY_EMAIL,query="Select u from User u where lower(u.email)=?1 and active is true")
+			//pampaniya shweta for get user by userid
+			@NamedQuery(name=User.GET_USER_BY_EMAIL,query="Select u from User u join fetch u.organizationUser ou join fetch ou.organization o where lower(u.email)=:email and u.active=:active and o.activeFlag=:oactive")
+	
 				})
 public class User extends BaseEntity implements Serializable {
 	
@@ -85,6 +87,10 @@ public class User extends BaseEntity implements Serializable {
 	
 	@Column(name="ActivationID")
 	private String activationId;
+	
+	//Pampaniya Shweta for Add AuthCode for Sending Email for Forgot Password
+	@Column(name="AuthCode")
+	private String authcode;
 	
 	public Long getUserId() {
 		return userId;
@@ -181,6 +187,15 @@ public class User extends BaseEntity implements Serializable {
 
 	public void setActivationId(String activationId) {
 		this.activationId = activationId;
+	}
+	
+	//Pampaniya Shweta For ForgotPassword
+	public String getAuthcode() {
+		return authcode;
+	}
+
+	public String setAuthcode(String authcode) {
+		return this.authcode = authcode;
 	}
 
 	public String getPassword() {

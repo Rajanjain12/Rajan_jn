@@ -43,4 +43,11 @@ public interface ISecurityService {
 	public User signupUser(Credential credentials) throws RsntException;
 
 	public Boolean isDuplicateOrganization(String userName) throws RsntException;
+	
+	//Pampaniya Shweta for forgot password.
+	public User forgotPassword(String Email)throws RsntException;
+	//pampaniya shweta for check url validation
+	public String getAuthCode(Integer userId) throws RsntException;
+	//pampaniya shweta for reset password
+	public User resetPassword(long userId,String password) throws RsntException;
 }

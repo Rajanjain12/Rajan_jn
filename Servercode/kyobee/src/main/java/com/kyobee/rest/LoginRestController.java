@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,7 @@ import com.kyobee.util.SessionContextUtil;
 import com.kyobee.util.common.CommonUtil;
 import com.kyobee.util.common.Constants;
 import com.kyobee.util.common.LoggerUtil;
+import com.sun.net.httpserver.Authenticator.Success;
 
 import net.sf.json.JSONObject;
 
@@ -40,6 +42,7 @@ import net.sf.json.JSONObject;
 @RequestMapping("/rest")
 public class LoginRestController {
 
+	
 	@Autowired
 	ISecurityService securityService;
 	
@@ -51,7 +54,6 @@ public class LoginRestController {
 	
 	@Autowired
 	SessionContextUtil sessionContextUtil;
-
 	
 	/*
 	 * This api is used only for browser and it is validated as per clientbase as of 2-Mar-2017
@@ -101,7 +103,70 @@ public class LoginRestController {
 		}
 		return response;
 	}
+	//Pampaniya Shweta for Forgot Password....
+	@RequestMapping(value = "/forgotPassword", method = RequestMethod.GET, produces = "application/json")
+	   public Response<String> forgotPassword(@RequestParam String email) throws RsntException 
+	   {
+			Response<String> response = new Response<String>();
+			try
+			{	
+				User user = securityService.forgotPassword(email);
+				response.setServiceResult("Forgot Password Email Sent Successfully");
+				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "");
+				return response;
+			} catch (RsntException e)
+			{
+				response.setServiceResult("ERROR");
+				CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",
+							"Error while sending email");
+				LoggerUtil.logError("Error while sending forgot password email", e);
+			}
+			return response;
+		}
+	 
+	  //Pampaniya Shweta for check url is correct or not...
+	@RequestMapping(value = "/validateResetPwdurl", method = RequestMethod.GET, produces = "application/json")
+	 public Response<String> validateResetPwdurl(@RequestParam Integer userId, @RequestParam String authcode) throws RsntException 
+	{
+	  Response<String> response = new Response<String>();
+	  try {
+		    String userAuthcode =securityService.getAuthCode(userId);
+		    if(authcode.equals(userAuthcode))
+		    {
+		    	response.setServiceResult("URl validated successfully");
+		    	CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "");
+		    }
+		   else
+		   {
+			   response.setServiceResult("Invalid URL. Verification failure. Please check the url again or contact support");
+			   CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",
+						"Error Occur");
+		   }
+		   return response;
+	  }catch (Exception e) 
+	  {
+		   throw new RsntException(e);
+	  }
+	}
 	
+	//Pampaniya Shweta for reset password...
+	@RequestMapping(value = "/resetPassword", method = RequestMethod.GET, produces = "application/json")
+	 public Response<String> resetPassword(@RequestParam Integer userId, @RequestParam String password) throws RsntException 
+	{
+	  Response<String> response = new Response<String>();
+	  try
+	  {
+		  	User user = securityService.resetPassword(userId, password);	
+		  	response.setServiceResult("PassWord Reset SucessFully");
+		  	CommonUtil.setWebserviceResponse(response,Constants.SUCCESS, "");
+	  }catch(RsntException e)
+	  {
+		  response.setServiceResult("Error occured while resetting the passord. Please contact support or try again later.");
+		  CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",
+					"Error Occur");
+	  }
+	   return response;
+	 }
 	/*
 	 * This api is used by app(iOS/Android) clientbase doesnot affect here as of 2-Mar-2017
 	 */

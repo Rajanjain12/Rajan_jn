@@ -83,7 +83,45 @@ public class SecurityServiceImpl implements ISecurityService {
 			throw new RsntException("SecurityServiceImpl.getSecurityUserDetails()", e);
     	}
      }
-    
+    //pampaniya shweta for forgot password
+	public User forgotPassword(String email) throws RsntException {	
+		User user = (User) sessionFactory.getCurrentSession().getNamedQuery(User.GET_USER_BY_EMAIL).setParameter("email", email.toLowerCase()).setParameter("active", true).setParameter("oactive", true)
+	            .uniqueResult();
+		String clientbase = user.getOrganizationUser().getOrganization().getClientBase();
+		String authcode = CommonUtil.generateRandomToken().toString();
+		//emailUtil.sendForgotPasswardEmail(user.getEmail(),user.getFirstName(),user.getLastName(),clientbase,authcode,user.getUserId());
+		user.setAuthcode(authcode);
+		sessionFactory.getCurrentSession().saveOrUpdate(user);
+		return user;
+	}
+
+      // Pampaniya Shweta for check url is right or not
+	@Override
+	public String getAuthCode(Integer userId) throws RsntException 
+	{
+		String query = "Select authcode from User u where u.userId=:userId";
+		return (String) sessionFactory.getCurrentSession().createSQLQuery(query).setParameter("userId",userId).uniqueResult();
+	}
+	
+	//Pampaniya Shweta for reset password
+	
+	@Override
+	 public User resetPassword(long userId,String password) throws RsntException 
+	{
+		try
+		{
+		  String query = "from User u where u.userId=:userId";
+		  User user = (User) sessionFactory.getCurrentSession().createQuery(query).setParameter("userId", userId).uniqueResult();
+		  user.setPassword(CommonUtil.encryptPassword(password));
+		  user.setAuthcode(null);
+		  sessionFactory.getCurrentSession().saveOrUpdate(user);
+		  return user;
+		}catch (Exception e)
+		{
+			 throw new RsntException(e);
+		}
+	}
+	
     @SuppressWarnings("unchecked")
     public List<String> getUserPermissions(final Long userId) {
         List<String> permissions = null;
@@ -103,7 +141,7 @@ public class SecurityServiceImpl implements ISecurityService {
     public User getUserFromEmail(String emailId) throws RsntException{
     	try{
     		return (User) sessionFactory.getCurrentSession().getNamedQuery(User.GET_USER_BY_EMAIL)
-            .setParameter(1, emailId.toLowerCase()).list();
+            .setParameter("email", emailId.toLowerCase()).list();
 
     	}
     	catch(Exception e){
