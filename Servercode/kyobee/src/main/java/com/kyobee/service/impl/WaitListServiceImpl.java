@@ -1697,8 +1697,6 @@ ByOrgRecords(java.lang.Long, int, int)
 					dto.setTemplateText(template[1].toString());
 					dto.setLanguageID(Long.valueOf(template[2].toString()));
 					dto.setLevel(Integer.valueOf(template[3].toString()));
-					/*dto.setPrefValueId(Long.valueOf(lookupvalue[0].toString()));
-					dto.setPrefValue(lookupvalue[1].toString());*/
 					templates.add(dto);
 				}
 			}

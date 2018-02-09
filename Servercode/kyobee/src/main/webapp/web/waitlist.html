@@ -234,7 +234,7 @@
 	              </div>
 	           </div>
 	           
-	             <div id="sendSMSPopup" class="simplePopup border-color">
+	             <!-- <div id="sendSMSPopup" class="simplePopup border-color">
 	              <div class="confirm-table-wrap text-center">
 	                    <h2 class="theme-fontcolor">Send Text</h2>
 	                    <div class="guest-name">
@@ -250,7 +250,48 @@
 	                        <button type="button" class="btn btn-orange theme-color" ng-click="cancelSendSMS();">CANCEL</button>
 	                    </div>
 	              </div>
-	           </div>
+	           </div> -->
+	           
+	           <!-- popup with tab ruchi -->
+	           <div id="sendSMSPopup" class="simplePopup border-color">
+	              <div class="confirm-table-wrap text-center">
+	              <h2 class="theme-fontcolor">Send Text</h2>
+            <div class="guest-name">
+	                        <h1>Guest #{{selectedGuest.rank}}</h1>
+	                        <h1>{{selectedGuest.name}}</h1>
+	                        <div class="panel with-nav-tabs panel-default margin-top-20">
+                <div class="panel-heading">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="javascript:void(0)" data-target="#tab1default" data-toggle="tab" ng-click="activeId=1">Level 1</a></li>
+                            <li><a href="javascript:void(0)" data-target="#tab2default" data-toggle="tab" ng-click="activeId=2">Level 2</a></li>
+                            <li><a href="javascript:void(0)" data-target="#tab3default" data-toggle="tab" ng-click="activeId=3">Level 3</a></li>
+                        </ul>
+                </div>
+                <div class="panel-body">
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="tab1default"><p class="highlite"><textarea class="send-sms-textarea highlite" id="smsContent1" name="smsContent1" ng-model="smsContentLevel1" maxlength="225" ng-keyup="setCountMessage(1)"/>
+	                        <h6 class="pull-left" id="count_message" ng-hide="errorMessage!=null" ng-bind="countMessage1"></h6>
+	                        <h6 class="pull-left error-text" id="count_message" ng-show="errorMessage!=null" ng-bind="errorMessage"></h6>
+	                        </p></div>
+                        <div class="tab-pane fade" id="tab2default"><p class="highlite"><textarea class="send-sms-textarea highlite" id="smsContent2" name="smsContent2" ng-model="smsContentLevel2" maxlength="225" ng-keyup="setCountMessage(2)"/>
+	                        <h6 class="pull-left" id="count_message" ng-hide="errorMessage!=null" ng-bind="countMessage2"></h6>
+	                        <h6 class="pull-left error-text" id="count_message" ng-show="errorMessage!=null" ng-bind="errorMessage"></h6>
+	                        </p></div>
+                        <div class="tab-pane fade" id="tab3default"><p class="highlite"><textarea class="send-sms-textarea highlite" id="smsContent3" name="smsContent3" ng-model="smsContentLevel3" maxlength="225" ng-keyup="setCountMessage(3)"/>
+	                        <h6 class="pull-left" id="count_message" ng-hide="errorMessage!=null" ng-bind="countMessage3"></h6>
+	                        <h6 class="pull-left error-text" id="count_message" ng-show="errorMessage!=null" ng-bind="errorMessage"></h6>
+	                        </p></div>
+                    </div>
+                </div>
+            </div>
+	                    </div>
+	                    <div class="btn-guest border-top">
+	                        <button type="button" class="btn btn-orange theme-color" ng-click="sendSMS(activeId);">SEND SMS</button>
+	                        <button type="button" class="btn btn-orange theme-color" ng-click="cancelSendSMS();">CANCEL</button>
+	                    </div>
+            </div>
+            </div>
+            <!-- end tab ruchi -->
 	           	 
 	           	<div class="alert alert-success" role="alert" style="margin-left: 10px; margin-right: 10px;" ng-show="successMsg != null && successMsg != ''">
 					<button type="button" class="close" ng-click="hideSuccessMsg();">&times;</button>
