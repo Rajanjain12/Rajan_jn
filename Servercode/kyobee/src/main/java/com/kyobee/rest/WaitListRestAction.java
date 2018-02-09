@@ -1878,16 +1878,18 @@ public class WaitListRestAction {
 				List<OrganizationTemplateDTO> organizationTemplateDTOs = waitListService.getOrganizationTemplates(smsContentParam.getOrgId(),smsContentParam.getLangId(),null);
 				Map<String, String> smsContents = new HashMap<String,String>();
 				
-				Map<String, String> oWaitlistMetrics = waitListService.getTotalPartyWaitTimeMetrics(smsContentParam.getOrgId());
-				System.out.println("owaitlistMatrics : "+oWaitlistMetrics);
-				WaitlistMetrics metrics = waitListService.convertToObject(waitListService.getTotalPartyWaitTimeMetrics(smsContentParam.getOrgId()));
+				//Map<String, String> oWaitlistMetrics = waitListService.getTotalPartyWaitTimeMetrics(smsContentParam.getOrgId());
+				//System.out.println("owaitlistMatrics : "+oWaitlistMetrics);
+				//WaitlistMetrics metrics = waitListService.convertToObject(waitListService.getTotalPartyWaitTimeMetrics(smsContentParam.getOrgId()));
+				Map<String, String> metrics = waitListService.getGuesteMetrics(smsContentParam.getGuestId(),smsContentParam.getOrgId());
+				//System.out.println("usermetrics : "+metrciks);
 				
 				for (OrganizationTemplateDTO organizationTemplateDTO : organizationTemplateDTOs) {
 					String smsContent = organizationTemplateDTO.getTemplateText();
 					smsContent = smsContent.replace("G_rank", smsContentParam.getGusetRank().toString());
 					smsContent = smsContent.replace("Turl", messageReceiver.buildURL(smsContentParam.getClientBase(),smsContentParam.getGuestUuid()));
-					smsContent = smsContent.replace("P_ahead", String.valueOf(metrics.getTotalWaitingGuest()-1));
-					smsContent = smsContent.replace("W_time",String.valueOf(metrics.getTotalWaitTime()));
+					smsContent = smsContent.replace("P_ahead", metrics.get("GUEST_AHEAD_COUNT"));
+					smsContent = smsContent.replace("W_time",metrics.get("TOTAL_WAIT_TIME"));
 					smsContents.put("smsLevel"+organizationTemplateDTO.getLevel(), smsContent	);
 				}
 				response.setServiceResult(smsContents);

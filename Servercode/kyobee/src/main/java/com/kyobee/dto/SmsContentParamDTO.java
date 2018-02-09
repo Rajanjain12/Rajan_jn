@@ -2,6 +2,7 @@ package com.kyobee.dto;
 
 public class SmsContentParamDTO {
 	private Long orgId;
+	private Long guestId;
 	private Long langId;
 	private Integer tempLevel;
 	private Integer gusetRank;
@@ -12,6 +13,12 @@ public class SmsContentParamDTO {
 	}
 	public void setOrgId(Long orgId) {
 		this.orgId = orgId;
+	}
+	public Long getGuestId() {
+		return guestId;
+	}
+	public void setGuestId(Long guestId) {
+		this.guestId = guestId;
 	}
 	public Long getLangId() {
 		return langId;

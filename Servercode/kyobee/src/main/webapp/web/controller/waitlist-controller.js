@@ -567,6 +567,7 @@ KyobeeControllers.controller('waitListCtrl',
 						var defered=$q.defer();
 						$scope.smsContentParam = {
 								orgId : $scope.userDTO.organizationId,
+								guestId : guestObj.guestID,
 								langId : guestObj.languagePref.langId,
 								tempLevel : level,
 								gusetRank : guestObj.rank,
