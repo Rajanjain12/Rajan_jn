@@ -28,8 +28,12 @@ import org.hibernate.annotations.Type;
 			@NamedQuery(name=User.GET_USER_BY_USERNAME_ONLY,query="Select u from User u where lower(u.userName)=?1 "),
 			@NamedQuery(name=User.GET_USER_BY_USERNAME,query="Select u from User u inner join u.organizationUser organizationUser " +
 					"where lower(u.userName)=?1  and organizationUser.organization.organizationId = ?2 "),
-			//pampaniya shweta for get user by userid
+			//pampaniya shweta for get user by email
 			@NamedQuery(name=User.GET_USER_BY_EMAIL,query="Select u from User u join fetch u.organizationUser ou join fetch ou.organization o where lower(u.email)=:email and u.active=:active and o.activeFlag=:oactive")
+			//pampaniya shweta for get user by id 
+			//@NamedQuery(name=User.GET_USER_BY_ID,query="from User u where u.userId=:userId"),
+			//@NamedQuery(name=User.GET_AUTH_CODE_BY_ID,query="Select u.authcode from User u where u.userId=:userId")
+			//@NamedQuery(name=User.GET_USER_AUTHCODE,query="Select authcode from USER u where u.userId=:userId")
 	
 				})
 public class User extends BaseEntity implements Serializable {
@@ -40,7 +44,10 @@ public class User extends BaseEntity implements Serializable {
 	public static final String GET_USER_ORGANIZATION = "getUserOrganization";
 	public static final String GET_USER_BY_USERNAME = "getUserByUserName";
 	public static final String GET_USER_BY_USERNAME_ONLY = "getUserByUserNameOnly";
-	public static final String GET_USER_BY_EMAIL= "getUserByEmail";	
+	public static final String GET_USER_BY_EMAIL= "getUserByEmail";
+	//pampaniya Shweta for get user
+	//public static final String GET_USER_BY_ID= "getUserById";
+	//public static final String GET_AUTH_CODE_BY_ID = "getAuthCodeByID";
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

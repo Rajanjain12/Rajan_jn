@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kyobee.dao.impl.UserDAO;
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
 import com.kyobee.dto.OrganizationTemplateDTO;
@@ -42,6 +43,8 @@ import net.sf.json.JSONObject;
 @RequestMapping("/rest")
 public class LoginRestController {
 
+	@Autowired
+	UserDAO userDao;
 	
 	@Autowired
 	ISecurityService securityService;
@@ -113,7 +116,6 @@ public class LoginRestController {
 				User user = securityService.forgotPassword(email);
 				response.setServiceResult("Forgot Password Email Sent Successfully");
 				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "");
-				return response;
 			} catch (RsntException e)
 			{
 				response.setServiceResult("ERROR");
@@ -150,7 +152,7 @@ public class LoginRestController {
 	}
 	
 	//Pampaniya Shweta for reset password...
-	@RequestMapping(value = "/resetPassword", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/resetPwd", method = RequestMethod.GET, produces = "application/json")
 	 public Response<String> resetPassword(@RequestParam Integer userId, @RequestParam String password) throws RsntException 
 	{
 	  Response<String> response = new Response<String>();
