@@ -1698,3 +1698,27 @@ input[type=number]::-webkit-inner-spin-button {
     color: #fff;
     background-color: #555;
 }
+/*passowrd failure*/
+.white-box-wrapper{
+	width:60%;
+	margin:0 auto;
+}
+.box-wrapper-content{
+	background-color:#fff;
+	text-align:center;
+	border: 1px solid #ccc;
+	border-radius:4px;
+	margin:20% 0;
+}
+.box-msg-content{
+	width: 52%;
+	margin: 0 auto;
+	padding-bottom:20px;
+}
+.box-pass-heading{
+	color:#b1b1b1;
+	font-weight:bold;
+	font-size:25px;
+	margin-bottom:30px;
+}
+.forgot-link a {text-decoration: none;top: 81px; position: absolute; right: 15px;font-weight: bold; cursor:pointer;}

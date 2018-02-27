@@ -53,6 +53,10 @@ KyobeeUnSecuredController.controller('homeCtrl',
 							$location.path("/signup");
 							$location.search({});
 							break;
+						case "forgotPwd":
+							$location.path("/forgotpwd");
+							$location.search({});
+							break;	
 						default:
 							$location.path("/login");
 							$location.search({});

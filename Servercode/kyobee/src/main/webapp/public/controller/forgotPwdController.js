@@ -10,8 +10,10 @@ KyobeeUnSecuredController.controller('forgotPwdCtrl', [
 			
 			$scope.email = null;
 			$scope.successMsg = null;
+			$scope.errorMsg = null;
 			
 			$scope.forgotPwd = function() {
+				$scope.loading = true;
 				var postBody = {
 
 				};
@@ -21,11 +23,14 @@ KyobeeUnSecuredController.controller('forgotPwdCtrl', [
 							console.log(data);
 							if (data.status == "SUCCESS") {
 								$scope.successMsg = data.serviceResult;
+								$scope.loading = false;
 							} else if (data.status == "FAILURE") {
-								alert(data.serviceResult);
+								$scope.errorMsg = data.serviceResult;
+								$scope.loading = false;
 							}
 						}, function(error) {
 							alert("Error while sending forgot password email");
+							$scope.loading = false;
 						});
 			};
 			

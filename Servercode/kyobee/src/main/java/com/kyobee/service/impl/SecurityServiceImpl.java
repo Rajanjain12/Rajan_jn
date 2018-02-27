@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
+import com.kyobee.dao.impl.UserDAO;
 import com.kyobee.dto.common.Credential;
 import com.kyobee.entity.Organization;
 import com.kyobee.entity.OrganizationCategory;
@@ -35,7 +36,10 @@ import com.kyobee.util.common.NativeQueryConstants;
 @AppTransactional
 @Repository
 public class SecurityServiceImpl implements ISecurityService {
-
+	
+	@Autowired
+	UserDAO userDao;
+	
 	@Autowired
     private SessionFactory sessionFactory;
 	
@@ -84,41 +88,48 @@ public class SecurityServiceImpl implements ISecurityService {
     	}
      }
     //pampaniya shweta for forgot password
-	public User forgotPassword(String email) throws RsntException {	
-		User user = (User) sessionFactory.getCurrentSession().getNamedQuery(User.GET_USER_BY_EMAIL).setParameter("email", email.toLowerCase()).setParameter("active", true).setParameter("oactive", true)
+	public User forgotPassword(String email) throws RsntException 
+	{	
+		try
+		{
+			User user = (User) sessionFactory.getCurrentSession().getNamedQuery(User.GET_USER_BY_EMAIL).setParameter("email", email.toLowerCase()).setParameter("active", true).setParameter("oactive", true)
 	            .uniqueResult();
-		String clientbase = user.getOrganizationUser().getOrganization().getClientBase();
-		String authcode = CommonUtil.generateRandomToken().toString();
-		//emailUtil.sendForgotPasswardEmail(user.getEmail(),user.getFirstName(),user.getLastName(),clientbase,authcode,user.getUserId());
-		user.setAuthcode(authcode);
-		sessionFactory.getCurrentSession().saveOrUpdate(user);
-		return user;
+			String clientbase = user.getOrganizationUser().getOrganization().getClientBase();
+			String authcode = CommonUtil.generateRandomToken().toString();
+			emailUtil.sendForgotPasswardEmail(user.getEmail(),user.getFirstName(),user.getLastName(),clientbase,authcode,user.getUserId());
+			user.setAuthcode(authcode);
+			sessionFactory.getCurrentSession().saveOrUpdate(user);
+			return user;
+		}catch (Exception e){
+			log.error("SecurityServiceImpl.forgotPassword()",e);
+			throw new RsntException(e);
+		}
 	}
-
-      // Pampaniya Shweta for check url is right or not
+	//Pampaniya Shweta for check url is right or not
 	@Override
-	public String getAuthCode(Integer userId) throws RsntException 
-	{
-		String query = "Select authcode from USER u where u.userId=:userId";
-		return (String) sessionFactory.getCurrentSession().createSQLQuery(query).setParameter("userId",userId).uniqueResult();
-	}
-	
-	//Pampaniya Shweta for reset password
-	
-	@Override
-	 public User resetPassword(long userId,String password) throws RsntException 
+	public String getAuthCode(long userId) throws RsntException
 	{
 		try
 		{
-		  String query = "from User u where u.userId=:userId";
-		  User user = (User) sessionFactory.getCurrentSession().createQuery(query).setParameter("userId", userId).uniqueResult();
-		  user.setPassword(CommonUtil.encryptPassword(password));
-		  user.setAuthcode(null);
-		  sessionFactory.getCurrentSession().saveOrUpdate(user);
-		  return user;
+			String authCode = userDao.getUserAuthCode(userId);
+			return authCode;
 		}catch (Exception e)
 		{
-			 throw new RsntException(e);
+			throw new RsntException(e);
+		}
+	}
+   	//Pampaniya Shweta for reset password
+	@Override
+	public User resetPassword(long userId,String password) throws RsntException 
+	{
+		try
+		{
+			User user = userDao.resetPassword(userId, password);
+			return user;
+			
+		}catch (Exception e) 
+		{
+			throw new RsntException(e);
 		}
 	}
 	
@@ -390,5 +401,6 @@ public class SecurityServiceImpl implements ISecurityService {
 			throw new RsntException("SecurityServiceImpl.signupUser()", e);
     	}
 	}
+	
     
 }

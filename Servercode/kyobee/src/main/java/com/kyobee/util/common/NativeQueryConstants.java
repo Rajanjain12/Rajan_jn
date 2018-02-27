@@ -466,4 +466,10 @@ public class NativeQueryConstants {
 	public static final String GET_SMSROUTE_BY_ORGID = "SELECT o.smsRoute from ORGANIZATION o where o.OrganizationID=:orgId";
 
 	public static final String HQL_GET_GUEST_BY_ID = "FROM Guest g left join fetch g.languagePrefID WHERE g.guestID=:guestId";
+	
+	//pampaniya shweta for get authcode.
+	public static final String GET_AUTH_CODE_BY_USERID ="SELECT u.authcode from USER u where u.userId=:userId";
+	
+	//pampaniya shweta for get user from id
+	public static final String HQL_GET_USER_BY_ID ="from User u where u.userId=:userId";
 }

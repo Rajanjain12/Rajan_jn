@@ -13,8 +13,11 @@ KyobeeAppUnsecured.config([ '$routeProvider', function($routeProvider) {
 	}).when('/forgotpwd', {
 		templateUrl : 'forgotpassword.html',
 		controller : 'forgotPwdCtrl'
-	}).when('/resetpassword', {
-		templateUrl : 'resetpassword.html'
+	}).when('/resetpwd/r/:userId/:authcode', {
+		templateUrl : function(params) {
+			return 'resetpassword.html?userId='+params.userId+'&authcode='+params.authcode;
+		},
+		controller : 'resetPwdCtrl'
 	}).when('/s/:tid', {
 		templateUrl : function(params) {
 			return 'guestcheckin.html?tid='+params.tid;

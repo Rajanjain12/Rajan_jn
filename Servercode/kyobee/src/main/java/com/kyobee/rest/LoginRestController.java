@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kyobee.dao.impl.UserDAO;
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
 import com.kyobee.dto.OrganizationTemplateDTO;
+import com.kyobee.dto.ResetPasswordDTO;
 import com.kyobee.dto.UserDTO;
 import com.kyobee.dto.common.Credential;
 import com.kyobee.dto.common.Response;
@@ -42,6 +44,8 @@ import net.sf.json.JSONObject;
 @RequestMapping("/rest")
 public class LoginRestController {
 
+	@Autowired
+	UserDAO userDao;
 	
 	@Autowired
 	ISecurityService securityService;
@@ -113,10 +117,9 @@ public class LoginRestController {
 				User user = securityService.forgotPassword(email);
 				response.setServiceResult("Email has been sent to your registered email Id. Please follow the steps to reset your password");
 				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "");
-				return response;
 			} catch (RsntException e)
 			{
-				response.setServiceResult("ERROR");
+				response.setServiceResult("Invalid Email. Please enter valid Email");
 				CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",
 							"Error while sending forgot password email");
 				LoggerUtil.logError("Error while sending forgot password email", e);
@@ -133,12 +136,12 @@ public class LoginRestController {
 		    String userAuthcode =securityService.getAuthCode(userId);
 		    if(authcode.equals(userAuthcode))
 		    {
-		    	response.setServiceResult("URl validated successfully");
+		    	response.setServiceResult("URL validated successfully");
 		    	CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "");
 		    }
 		   else
 		   {
-			   response.setServiceResult("Invalid URL. Verification failure. Please check the url again or contact support");
+			   response.setServiceResult("Invalid URL. Verification failure. Please check the url again or contact support.");
 			   CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",
 						"Error Occur");
 		   }
@@ -150,20 +153,20 @@ public class LoginRestController {
 	}
 	
 	//Pampaniya Shweta for reset password...
-	@RequestMapping(value = "/resetPassword", method = RequestMethod.GET, produces = "application/json")
-	 public Response<String> resetPassword(@RequestParam Integer userId, @RequestParam String password) throws RsntException 
+	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST, produces = "application/json")
+	 public Response<String> resetPassword(@RequestBody ResetPasswordDTO resetPasswordDTO) throws RsntException 
 	{
 	  Response<String> response = new Response<String>();
 	  try
 	  {
-		  	User user = securityService.resetPassword(userId, password);	
-		  	response.setServiceResult("PassWord Reset SucessFully");
+		  	User user = securityService.resetPassword(resetPasswordDTO.getUserId(), resetPasswordDTO.getPassword());	
+		  	response.setServiceResult("Password Reset SucessFully. Please login to continue.");
 		  	CommonUtil.setWebserviceResponse(response,Constants.SUCCESS, "");
 	  }catch(RsntException e)
 	  {
-		  response.setServiceResult("Error occured while resetting the passord. Please contact support or try again later.");
+		  response.setServiceResult("Error occured while resetting the password. Please contact support or try again later.");
 		  CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",
-					"Error Occur");
+					"Error occured while resetting the passord. Please contact support or try again later.");
 	  }
 	   return response;
 	 }

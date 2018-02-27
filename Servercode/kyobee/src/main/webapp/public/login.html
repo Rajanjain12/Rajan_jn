@@ -36,6 +36,7 @@
                                 </div>
                                 <div class="password-area" ng-class="{'has-error' : loginForm.pwd.$invalid && (!loginForm.pwd.$pristine || loginForm.$submitted)}">
                                     <input type="password" name="pwd" class="form-control" ng-model="password"  placeholder="Password" required>
+                                    <div class="help-block text-right forgot-link"><a class="theme-fontcolor" ng-click="changeView('forgotPwd');">Forget?</a></div>
                                     <div ng-messages="loginForm.pwd.$error" ng-show=" (!loginForm.pwd.$pristine || loginForm.$submitted)" class="help-block">
 								        <div ng-message="required" style="color:white; text-align: left">Password cannot be blank</div>
 								    </div>

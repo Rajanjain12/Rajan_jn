@@ -105,21 +105,24 @@ public class EmailUtil {
 			mimeMessage.setFrom(new InternetAddress(from));
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 			
-			helper.setTo(emailTo);
+			helper.setTo("krupalibaldaniya925@gmail.com");
 			helper.setFrom(from);
 			helper.setSubject("Forgot Passward Email");
 			helper.setSentDate(new Date());
 			
-			String forgotPasswordURL = forgotpassInitialUrl +clientbase+ "." + forgotpassSuffixUrl + authcode + "/" + userId ;
+			String forgotPasswordURL = forgotpassInitialUrl +clientbase+ "." + forgotpassSuffixUrl + userId + "/" + authcode ;
 			System.out.println(forgotPasswordURL);
 			
 			StringBuilder htmlContent = new StringBuilder();
-			htmlContent.append("<p>Hi " + firstName + lastName+ ", </p>");
-			htmlContent.append("<p>We received a request to change your password, we are happy to help!");
-			htmlContent.append("<p><a href='"+ forgotPasswordURL +"'>Click here</a> to change your password.");
-			htmlContent.append("<p>If you think you have received this email in error, you don't need to take further action. Simply delete this email and pretend it never happened.</p>");
-			htmlContent.append("<p>Thank You</p>");
-			htmlContent.append("<p>Kyobee Team</p>");
+			//htmlContent.append("<div style='text-align:center'><img src='" + beeyaURL +"/public/assets/images/logo.png'></img></div>");
+			htmlContent.append("<p>Hi " + firstName + " " + lastName + ", </p>");
+			htmlContent.append("<p>We received a request to reset your password for your Kyobee account: "+ emailTo +". We are here to help!");
+			htmlContent.append("<p>Use the link below to set up a new password for your account.</p>");
+			htmlContent.append("<p><a href='"+ forgotPasswordURL +"'>Click here</a></p>");
+			htmlContent.append("<p>If you did not request to reset your password, then simply ignore this mail.</p>");
+			htmlContent.append("<p>We love hearing from you.</p>");
+			htmlContent.append("<p>Email us at "+ from +" if you have any other questions! </p>");
+			htmlContent.append("<p>Best,<br/>Kyobee</p>");
 
 			helper.setText(htmlContent.toString(), true);
 			mailSender.send(mimeMessage);
