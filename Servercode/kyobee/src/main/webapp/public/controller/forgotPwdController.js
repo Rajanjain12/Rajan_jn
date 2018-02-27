@@ -12,7 +12,10 @@ KyobeeUnSecuredController.controller('forgotPwdCtrl', [
 			$scope.successMsg = null;
 			$scope.errorMsg = null;
 			
-			$scope.forgotPwd = function() {
+			$scope.forgotPwd = function(invalid) {
+				if(invalid){
+					return;
+				}
 				$scope.loading = true;
 				var postBody = {
 

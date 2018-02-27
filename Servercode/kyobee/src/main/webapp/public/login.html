@@ -27,19 +27,19 @@
 						</div>
                         
                         <div class="login-center-1">                                              
-                            <form class="form-signin" name="loginForm">
+                            <form class="form-signin" name="loginForm" novalidate>
 								<div ng-class="{'has-error' : loginForm.uname.$invalid && (!loginForm.uname.$pristine || loginForm.$submitted)}">
                                 	<input type="text" name="uname" class="form-control" placeholder="Username" ng-model="username" required autofocus>
                                 	<div ng-messages="loginForm.uname.$error" ng-show=" (!loginForm.uname.$pristine || loginForm.$submitted)" class="help-block">
-								        <div ng-message="required" style="color:white; text-align: left">Username/Email cannot be blank</div>
+								        <div ng-message="required" class="error">Username/Email cannot be blank</div>
 								    </div>
                                 </div>
                                 <div class="password-area" ng-class="{'has-error' : loginForm.pwd.$invalid && (!loginForm.pwd.$pristine || loginForm.$submitted)}">
                                     <input type="password" name="pwd" class="form-control" ng-model="password"  placeholder="Password" required>
-                                    <div class="help-block text-right forgot-link"><a class="theme-fontcolor" ng-click="changeView('forgotPwd');">Forget?</a></div>
                                     <div ng-messages="loginForm.pwd.$error" ng-show=" (!loginForm.pwd.$pristine || loginForm.$submitted)" class="help-block">
-								        <div ng-message="required" style="color:white; text-align: left">Password cannot be blank</div>
+								        <div ng-message="required" class="error">Password cannot be blank</div>
 								    </div>
+								    <div class="help-block text-right forgot-link"><a class="theme-fontcolor" ng-click="changeView('forgotPwd');">Forget Password?</a></div>
                                 </div>
 
                                 <div class="checkbox checkbox-success checkbox-inline">
