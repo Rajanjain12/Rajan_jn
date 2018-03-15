@@ -1812,7 +1812,7 @@ public class WaitListRestAction {
 				tempLevel = smsWrapper.getTemplateLevel();
 				}
 				
-				if(smsWrapper.getMetrics() == null){
+				if(smsWrapper.getMetrics() != null){
 				Map<String, String> oWaitlistMetrics = waitListService.getTotalPartyWaitTimeMetrics(guest.getOrganizationID());
 				smsWrapper.setMetrics(waitListService.convertToObject(oWaitlistMetrics));
 				}
