@@ -1,0 +1,13 @@
+
+/* theme stylesheet-RBSushi */
+
+.theme-color{ background: #d11718;}
+.theme-fontcolor{ color: #d11718;}
+.border-color{border: 1px solid #d11718;}
+.border-color-3{border: 3px solid #d11718; border-radius:4px; }
+.border-top{border-top: 1px solid #d11718;}
+#border-right{border-right: 4px solid #d11718;}
+.close-theme{color:#d11718; right: 20px; top: 15px; cursor: pointer; z-index: 2; position: absolute; font-size: 18px;}
+.background{background-color: #e8e8e8;}
+.ngrs-range-slider .ngrs-join{background-color: #d11718 !important;}
+#theme-icon-sms { fill: #d11718; height: 30px; width: 30px;}
