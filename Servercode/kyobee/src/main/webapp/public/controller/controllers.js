@@ -96,6 +96,7 @@ KyobeeUnSecuredController.controller('homeCtrl',
 							return;
 						}
 						
+						$scope.loading=true;
 						$scope.errorMsg = null;
 						
 						var postBody = {
@@ -111,16 +112,15 @@ KyobeeUnSecuredController.controller('homeCtrl',
 									console.log(data);
 									if (data.status == "SUCCESS") {
 										$scope.changeView('dashboard');
+										$scope.loading=false;
 									} else if (data.status == "FAILURE") {
 										$scope.errorMsg = data.errorDescription;
+										$scope.loading=false;
 									}
 								}, function(error) {
 									alert('Session Timed Out');
-								});
-						
-						console.log($scope.username);
-						console.log($scope.password);
-						console.log("Login called");							
+									$scope.loading=false;
+								});							
 					};
 					
 					/**

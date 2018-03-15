@@ -1222,6 +1222,7 @@ public class WaitListRestAction {
 				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToBeNotified.getOrganizationID(),guestToBeNotified.getLanguagePrefID().getLangId(),2);
 				if(templates.size()>0) {
 					smsContent = templates.get(0).getTemplateText();
+					smsContent=smsContent.replaceAll("G_name", guestToBeNotified.getName());
 					smsContent=smsContent.replaceAll("G_rank", guestToBeNotified.getRank().toString());
 					smsContent=smsContent.replaceAll("Turl", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToBeNotified.getUuid()));
 					smsContent=smsContent.replaceAll("P_ahead", Integer.toString(oWaitlistMetrics.getTotalWaitingGuest()-1));
@@ -1394,6 +1395,7 @@ public class WaitListRestAction {
 				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID().getLangId(),2);
 				if(templates.size()>0) {
 					smsContent = templates.get(0).getTemplateText();
+					smsContent=smsContent.replaceAll("G_name", guestToNotify.getName());
 					smsContent=smsContent.replaceAll("G_rank", guestToNotify.getRank().toString());
 					smsContent=smsContent.replaceAll("Turl", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToNotify.getUuid()));
 					smsContent=smsContent.replaceAll("P_ahead", Integer.toString(oWaitlistMetrics.getTotalWaitingGuest()-1));
@@ -1487,6 +1489,7 @@ public class WaitListRestAction {
 				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID().getLangId(),2);
 				if(templates.size()>0) {
 					smsContent = templates.get(0).getTemplateText();
+					smsContent=smsContent.replaceAll("G_name", guestToNotify.getName());
 					smsContent=smsContent.replaceAll("G_rank", guestToNotify.getRank().toString());
 					smsContent=smsContent.replaceAll("Turl", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToNotify.getUuid()));
 					smsContent=smsContent.replaceAll("P_ahead", Integer.toString(oWaitlistMetrics.getTotalWaitingGuest()-1));
@@ -1579,6 +1582,7 @@ public class WaitListRestAction {
 				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID().getLangId(),2);
 				if(templates.size()>0) {
 					smsContent = templates.get(0).getTemplateText();
+					smsContent=smsContent.replaceAll("G_name", guestToNotify.getName());
 					smsContent=smsContent.replaceAll("G_rank", guestToNotify.getRank().toString());
 					smsContent=smsContent.replaceAll("Turl", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToNotify.getUuid()));
 					smsContent=smsContent.replaceAll("P_ahead", Integer.toString(oWaitlistMetrics.getTotalWaitingGuest()-1));
@@ -1808,7 +1812,7 @@ public class WaitListRestAction {
 				tempLevel = smsWrapper.getTemplateLevel();
 				}
 				
-				if(smsWrapper.getMetrics() != null){
+				if(smsWrapper.getMetrics() == null){
 				Map<String, String> oWaitlistMetrics = waitListService.getTotalPartyWaitTimeMetrics(guest.getOrganizationID());
 				smsWrapper.setMetrics(waitListService.convertToObject(oWaitlistMetrics));
 				}
@@ -1817,6 +1821,7 @@ public class WaitListRestAction {
 					List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guest.getOrganizationID(),guest.getLanguagePrefID().getLangId(),1);
 					if(templates.size()>0) {
 						String smsStr = templates.get(0).getTemplateText();
+						smsStr=smsStr.replaceAll("G_name", guest.getName());
 						smsStr=smsStr.replaceAll("G_rank", guest.getRank().toString());
 						smsStr=smsStr.replaceAll("P_ahead", String.valueOf(smsWrapper.getMetrics().getTotalWaitingGuest()-1));
 						smsStr=smsStr.replaceAll("W_time", String.valueOf(smsWrapper.getMetrics().getTotalWaitTime()));
@@ -1886,6 +1891,7 @@ public class WaitListRestAction {
 				
 				for (OrganizationTemplateDTO organizationTemplateDTO : organizationTemplateDTOs) {
 					String smsContent = organizationTemplateDTO.getTemplateText();
+					smsContent = smsContent.replaceAll("G_name", smsContentParam.getGuestName());
 					smsContent = smsContent.replace("G_rank", smsContentParam.getGusetRank().toString());
 					smsContent = smsContent.replace("Turl", messageReceiver.buildURL(smsContentParam.getClientBase(),smsContentParam.getGuestUuid()));
 					smsContent = smsContent.replace("P_ahead", metrics.get("GUEST_AHEAD_COUNT"));

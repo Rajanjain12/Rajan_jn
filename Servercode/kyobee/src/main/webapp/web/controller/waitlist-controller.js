@@ -568,6 +568,7 @@ KyobeeControllers.controller('waitListCtrl',
 						$scope.smsContentParam = {
 								orgId : $scope.userDTO.organizationId,
 								guestId : guestObj.guestID,
+								guestName : guestObj.name,
 								langId : guestObj.languagePref.langId,
 								tempLevel : level,
 								gusetRank : guestObj.rank,
