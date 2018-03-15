@@ -105,7 +105,7 @@ public class EmailUtil {
 			mimeMessage.setFrom(new InternetAddress(from));
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 			
-			helper.setTo("krupalibaldaniya925@gmail.com");
+			helper.setTo(emailTo);
 			helper.setFrom(from);
 			helper.setSubject("Forgot Passward Email");
 			helper.setSentDate(new Date());
