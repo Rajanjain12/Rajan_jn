@@ -1,17 +1,13 @@
 package com.kyobee.util.jms;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
-
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -32,9 +28,6 @@ import com.kyobee.util.common.Constants;
 import com.kyobee.util.common.LoggerUtil;
 import com.kyobee.util.pusher.IPusher;
 import com.kyobee.util.pusher.factory.PusherFactory;
-import com.telerivet.Project;
-import com.telerivet.TelerivetAPI;
-import com.telerivet.Util;
 
 /*import com.bandwidth.sdk.*;*/
 
@@ -319,7 +312,7 @@ public class NotificationMessageReceiver implements MessageListener{
 		else if(smsRoute.equalsIgnoreCase("Bandwidth")) {
 			sendSMSToGuestViaBW(number,msg,smsRouteNo);
 		}
-		else {
+		/*else {
 			
 			try {
 				TelerivetAPI tr = new TelerivetAPI(smsApiKey);
@@ -334,7 +327,7 @@ public class NotificationMessageReceiver implements MessageListener{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 	
 	
