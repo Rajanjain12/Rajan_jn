@@ -7,15 +7,15 @@
 
 /** Change Theme by Color code **/
 
-.theme-color{background: #dd4124;}
+/* .theme-color{background: #dd4124;}
 .theme-fontcolor{color: #dd4124;}
 .border-color{border: 2px solid #dd4124;}
 .border-top{border-top: 1px solid #dc4123;}
-/*.border-right{border-right: 4px solid #dc4123;}*/
+.border-right{border-right: 4px solid #dc4123;}
 #border-right{border-right: 4px solid #dc4123;}
 .close-theme{color:#dd4124; right: 40px; top: 30px; cursor: pointer; z-index: 2; position: absolute; font-size: 18px;}
-
-#theme-icon-sms { fill: #EA0A0A; height: 30px; width: 30px;}
+*/
+  
 /*.theme-color{background: #004b85;}
 .theme-fontcolor{color: #004b85;}
 .border-color{border: 1px solid #004b85;}
@@ -624,7 +624,7 @@ p.text-msg-pswd { color: #c9ced1; font-size: 16px;  text-align: left;    display
     border-radius: 3px;
 }
 .sm-txt {
-    color: #9e978e;
+    color: #ffffff;
     font-size: 13px;
 }
 
@@ -1670,17 +1670,18 @@ input[type=number]::-webkit-inner-spin-button {
 .with-nav-tabs.panel-default .nav-tabs > li > a:hover,
 .with-nav-tabs.panel-default .nav-tabs > li > a:focus {
     color: #777;
-	background-color: #ddd;
+	/* background-color: #ddd; */
 	border-color: transparent;
 }
-.with-nav-tabs.panel-default .nav-tabs > li.active > a,
+/* .with-nav-tabs.panel-default .nav-tabs > li.active > a,
 .with-nav-tabs.panel-default .nav-tabs > li.active > a:hover,
 .with-nav-tabs.panel-default .nav-tabs > li.active > a:focus {
 	color: #555;
-	background-color: #ddd;
-	/* border-color: #ddd; */
-	/* border-bottom-color: transparent; */
-}
+	background-color: #fff;
+    border-bottom: 1px solid #dd4124;
+	border-color: #ddd;
+	border-bottom-color: transparent;
+} */
 .with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu {
     background-color: #f5f5f5;
     border-color: #ddd;
@@ -1697,6 +1698,9 @@ input[type=number]::-webkit-inner-spin-button {
 .with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
     color: #fff;
     background-color: #555;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus{
+	border:none;
 }
 /*passowrd failure*/
 .white-box-wrapper{
