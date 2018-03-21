@@ -17,3 +17,13 @@
 .ngrs-range-slider .ngrs-join{background-color: #004b85 !important;}
 
 #theme-icon-sms { fill: #004b85; height: 30px; width: 30px;}
+
+/*code for send sms tab*/
+.with-nav-tabs.panel-default .nav-tabs > li.active > a,
+.with-nav-tabs.panel-default .nav-tabs > li.active > a:hover,
+.with-nav-tabs.panel-default .nav-tabs > li.active > a:focus {
+	color: #555;
+	background-color: #fff;
+    border-bottom: 2px solid #004b85;
+	font-weight:bold;
+}

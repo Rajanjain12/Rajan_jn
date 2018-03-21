@@ -1223,6 +1223,7 @@ public class WaitListRestAction {
 				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToBeNotified.getOrganizationID(),guestToBeNotified.getLanguagePrefID().getLangId(),2);
 				if(templates.size()>0) {
 					smsContent = templates.get(0).getTemplateText();
+					smsContent=smsContent.replaceAll("G_name", guestToBeNotified.getName());
 					smsContent=smsContent.replaceAll("G_rank", guestToBeNotified.getRank().toString());
 					smsContent=smsContent.replaceAll("Turl", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToBeNotified.getUuid()));
 					smsContent=smsContent.replaceAll("P_ahead", Integer.toString(oWaitlistMetrics.getTotalWaitingGuest()-1));
@@ -1395,6 +1396,7 @@ public class WaitListRestAction {
 				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID().getLangId(),2);
 				if(templates.size()>0) {
 					smsContent = templates.get(0).getTemplateText();
+					smsContent=smsContent.replaceAll("G_name", guestToNotify.getName());
 					smsContent=smsContent.replaceAll("G_rank", guestToNotify.getRank().toString());
 					smsContent=smsContent.replaceAll("Turl", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToNotify.getUuid()));
 					smsContent=smsContent.replaceAll("P_ahead", Integer.toString(oWaitlistMetrics.getTotalWaitingGuest()-1));
@@ -1489,6 +1491,7 @@ public class WaitListRestAction {
 				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID().getLangId(),2);
 				if(templates.size()>0) {
 					smsContent = templates.get(0).getTemplateText();
+					smsContent=smsContent.replaceAll("G_name", guestToNotify.getName());
 					smsContent=smsContent.replaceAll("G_rank", guestToNotify.getRank().toString());
 					smsContent=smsContent.replaceAll("Turl", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToNotify.getUuid()));
 					smsContent=smsContent.replaceAll("P_ahead", Integer.toString(oWaitlistMetrics.getTotalWaitingGuest()-1));
@@ -1581,6 +1584,7 @@ public class WaitListRestAction {
 				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID().getLangId(),2);
 				if(templates.size()>0) {
 					smsContent = templates.get(0).getTemplateText();
+					smsContent=smsContent.replaceAll("G_name", guestToNotify.getName());
 					smsContent=smsContent.replaceAll("G_rank", guestToNotify.getRank().toString());
 					smsContent=smsContent.replaceAll("Turl", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToNotify.getUuid()));
 					smsContent=smsContent.replaceAll("P_ahead", Integer.toString(oWaitlistMetrics.getTotalWaitingGuest()-1));
@@ -1819,6 +1823,7 @@ public class WaitListRestAction {
 					List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guest.getOrganizationID(),guest.getLanguagePrefID().getLangId(),1);
 					if(templates.size()>0) {
 						String smsStr = templates.get(0).getTemplateText();
+						smsStr=smsStr.replaceAll("G_name", guest.getName());
 						smsStr=smsStr.replaceAll("G_rank", guest.getRank().toString());
 						smsStr=smsStr.replaceAll("P_ahead", String.valueOf(smsWrapper.getMetrics().getTotalWaitingGuest()-1));
 						smsStr=smsStr.replaceAll("W_time", String.valueOf(smsWrapper.getMetrics().getTotalWaitTime()));
@@ -1874,14 +1879,28 @@ public class WaitListRestAction {
 		//@Path("/fetchSMSTemplates")
 		//@Produces(MediaType.APPLICATION_JSON)
 		@RequestMapping(value = "/fetchSmsContent", method = RequestMethod.POST, produces = "application/json")
-		public Response<String> fetchSmsContent(@RequestBody SmsContentParamDTO smsContentParam){
-			Response<String> response = new Response<String>();
+		public Response<Map<String, String>> fetchSmsContent(@RequestBody SmsContentParamDTO smsContentParam){
+			Response<Map<String, String>> response = new Response<Map<String, String>>();
 			try {
-				List<OrganizationTemplateDTO> organizationTemplateDTO = waitListService.getOrganizationTemplates(smsContentParam.getOrgId(),smsContentParam.getLangId(),smsContentParam.getTempLevel());
-				String smsContent = organizationTemplateDTO.get(0).getTemplateText();
-				smsContent = smsContent.replace("G_rank", smsContentParam.getGusetRank().toString());
-				smsContent = smsContent.replace("Turl", messageReceiver.buildURL(smsContentParam.getClientBase(),smsContentParam.getGuestUuid()));
-				response.setServiceResult(smsContent);
+				List<OrganizationTemplateDTO> organizationTemplateDTOs = waitListService.getOrganizationTemplates(smsContentParam.getOrgId(),smsContentParam.getLangId(),null);
+				Map<String, String> smsContents = new HashMap<String,String>();
+				
+				//Map<String, String> oWaitlistMetrics = waitListService.getTotalPartyWaitTimeMetrics(smsContentParam.getOrgId());
+				//System.out.println("owaitlistMatrics : "+oWaitlistMetrics);
+				//WaitlistMetrics metrics = waitListService.convertToObject(waitListService.getTotalPartyWaitTimeMetrics(smsContentParam.getOrgId()));
+				Map<String, String> metrics = waitListService.getGuesteMetrics(smsContentParam.getGuestId(),smsContentParam.getOrgId());
+				//System.out.println("usermetrics : "+metrciks);
+				
+				for (OrganizationTemplateDTO organizationTemplateDTO : organizationTemplateDTOs) {
+					String smsContent = organizationTemplateDTO.getTemplateText();
+					smsContent = smsContent.replaceAll("G_name", smsContentParam.getGuestName());
+					smsContent = smsContent.replace("G_rank", smsContentParam.getGusetRank().toString());
+					smsContent = smsContent.replace("Turl", messageReceiver.buildURL(smsContentParam.getClientBase(),smsContentParam.getGuestUuid()));
+					smsContent = smsContent.replace("P_ahead", metrics.get("GUEST_AHEAD_COUNT"));
+					smsContent = smsContent.replace("W_time",metrics.get("TOTAL_WAIT_TIME"));
+					smsContents.put("smsLevel"+organizationTemplateDTO.getLevel(), smsContent	);
+				}
+				response.setServiceResult(smsContents);
 				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 			} catch (Exception e) {
 				log.error("fetchOrgSMSTemplatesById(orgId) - failed:", e);

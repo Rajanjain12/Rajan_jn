@@ -53,6 +53,10 @@ KyobeeUnSecuredController.controller('homeCtrl',
 							$location.path("/signup");
 							$location.search({});
 							break;
+						case "forgotPwd":
+							$location.path("/forgotpwd");
+							$location.search({});
+							break;	
 						default:
 							$location.path("/login");
 							$location.search({});
@@ -92,6 +96,7 @@ KyobeeUnSecuredController.controller('homeCtrl',
 							return;
 						}
 						
+						$scope.loading=true;
 						$scope.errorMsg = null;
 						
 						var postBody = {
@@ -107,16 +112,15 @@ KyobeeUnSecuredController.controller('homeCtrl',
 									console.log(data);
 									if (data.status == "SUCCESS") {
 										$scope.changeView('dashboard');
+										$scope.loading=false;
 									} else if (data.status == "FAILURE") {
 										$scope.errorMsg = data.errorDescription;
+										$scope.loading=false;
 									}
 								}, function(error) {
 									alert('Session Timed Out');
-								});
-						
-						console.log($scope.username);
-						console.log($scope.password);
-						console.log("Login called");							
+									$scope.loading=false;
+								});							
 					};
 					
 					/**

@@ -21,7 +21,12 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.client = null;
 					$scope.countMsgChannel = 0;
 					$scope.textSent = true;
+					$scope.smsContents=null;
 					$scope.smsContent=null;
+					$scope.smsContentLevel1 = null;
+					$scope.smsContentLevel2 = null;
+					$scope.smsContentLevel3 = null;
+					$scope.activeId=null;
 					
 					$scope.loading = false; /* for loader(krupali 07/07/2017)*/
 					$scope.searchName = null;
@@ -45,10 +50,9 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.selectedStatus=$scope.statusOptions[0];
 					
 					$scope.userCount = null;  /*for solving footer issue (krupali 17/07/2017)*/
-					$scope.countMessage = 'Max Character limit 150';
-					/*for getting current timezone(krupali 06/07/2017)*/
-					
-					
+					$scope.countMessage1 = 'Max Character limit 225';
+					$scope.countMessage2 = 'Max Character limit 225';
+					$scope.countMessage3 = 'Max Character limit 225';
 					
 					$scope.hideSuccessMsg = function(){
 						$scope.successMsg = null;
@@ -563,6 +567,8 @@ KyobeeControllers.controller('waitListCtrl',
 						var defered=$q.defer();
 						$scope.smsContentParam = {
 								orgId : $scope.userDTO.organizationId,
+								guestId : guestObj.guestID,
+								guestName : guestObj.name,
 								langId : guestObj.languagePref.langId,
 								tempLevel : level,
 								gusetRank : guestObj.rank,
@@ -577,7 +583,10 @@ KyobeeControllers.controller('waitListCtrl',
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
-										$scope.smsContent = data.serviceResult;
+										$scope.smsContents = data.serviceResult;
+										$scope.smsContentLevel1 = $scope.smsContents.smsLevel1;
+										$scope.smsContentLevel2 = $scope.smsContents.smsLevel2;
+										$scope.smsContentLevel3 = $scope.smsContents.smsLevel3;
 										defered.resolve();
 									} else if (data.status == "FAILURE") {
 										$scope.loading=false;
@@ -593,7 +602,9 @@ KyobeeControllers.controller('waitListCtrl',
 					
 					$scope.showSendSMSPopup = function(guestObj){
 						$scope.loading=true;
-						$scope.countMessage = 'Max Character limit 150';
+						$scope.countMessage1 = 'Max Character limit 225';
+						$scope.countMessage2 = 'Max Character limit 225';
+						$scope.countMessage3 = 'Max Character limit 225';
 						$scope.errorMessage = null;
 						$scope.selectedGuest = guestObj;
 						var promise=$scope.fetchSmsContent(guestObj,3);
@@ -806,7 +817,27 @@ KyobeeControllers.controller('waitListCtrl',
 						
 					}
 					
-					$scope.sendSMS = function(){
+					$scope.sendSMS = function(activeId){
+						if(activeId == null){
+							activeId = 1;
+						}
+						switch (activeId) {
+						case 1:
+							$scope.smsContent = $scope.smsContentLevel1;
+							break;
+							
+						case 2:
+							$scope.smsContent = $scope.smsContentLevel2;
+							break;
+							
+						case 3:
+							$scope.smsContent = $scope.smsContentLevel3;
+							break;
+
+						default:
+							break;
+						}
+						
 						if ($scope.smsContent == null || $scope.smsContent == '') {
 							$scope.errorMessage = 'Text message cannot be blank';
 							return;
@@ -814,11 +845,6 @@ KyobeeControllers.controller('waitListCtrl',
 						$scope.loading=true;
 						$scope.successMsg = null;
 						$scope.errorMessage = null;
-						
-						//alert($scope.userDTO.organizationId);
-						//alert($scope.selectedGuest.guestID);
-
-						//alert($scope.smsContent);
 						
 						$scope.sendSMSWrapper = {
 								guestId : $scope.selectedGuest.guestID,
@@ -1054,17 +1080,45 @@ KyobeeControllers.controller('waitListCtrl',
 					});
 					});*/
 					
-					$scope.setCountMessage = function(){
+					$scope.setCountMessage = function(level){
 						$scope.errorMessage=null;
-						var text_max = 150;
-						var text_length = $('#smsContent').val().length;
+						var text_max = 225;
+						switch (level) {
+						case 1:
+							var text_length = $('#smsContent1').val().length;
+							var text_remaining = text_max - text_length;
+							$scope.countMessage1 = text_remaining + ' characters left';  
+							if(text_length == 0){
+								$scope.countMessage = 'Enter the text message';
+							}
+							break;
+						case 2:
+							var text_length = $('#smsContent2').val().length;
+							var text_remaining = text_max - text_length;
+							$scope.countMessage2 = text_remaining + ' characters left';  
+							if(text_length == 0){
+								$scope.countMessage = 'Enter the text message';
+							}
+							break;
+						case 3:
+							var text_length = $('#smsContent3').val().length;
+							var text_remaining = text_max - text_length;
+							$scope.countMessage3 = text_remaining + ' characters left';  
+							if(text_length == 0){
+								$scope.countMessage = 'Enter the text message';
+							}
+							break;
+						default:
+							break;
+						}
+						/*var text_length = $('#smsContent').val().length;
 						var text_remaining = text_max - text_length;
 						
 						$scope.countMessage = text_remaining + ' characters left';
 						  
 						if(text_length == 0){
 							$scope.countMessage = 'Enter the text message';
-						}
+						}*/
 					}	
 				} ]);
 

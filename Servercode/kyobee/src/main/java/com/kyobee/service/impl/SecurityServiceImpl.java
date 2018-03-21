@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
+import com.kyobee.dao.impl.UserDAO;
 import com.kyobee.dto.common.Credential;
 import com.kyobee.entity.Organization;
 import com.kyobee.entity.OrganizationCategory;
@@ -35,7 +36,10 @@ import com.kyobee.util.common.NativeQueryConstants;
 @AppTransactional
 @Repository
 public class SecurityServiceImpl implements ISecurityService {
-
+	
+	@Autowired
+	UserDAO userDao;
+	
 	@Autowired
     private SessionFactory sessionFactory;
 	
@@ -83,7 +87,52 @@ public class SecurityServiceImpl implements ISecurityService {
 			throw new RsntException("SecurityServiceImpl.getSecurityUserDetails()", e);
     	}
      }
-    
+    //pampaniya shweta for forgot password
+	public User forgotPassword(String email) throws RsntException 
+	{	
+		try
+		{
+			User user = (User) sessionFactory.getCurrentSession().getNamedQuery(User.GET_USER_BY_EMAIL).setParameter("email", email.toLowerCase()).setParameter("active", true).setParameter("oactive", true)
+	            .uniqueResult();
+			String clientbase = user.getOrganizationUser().getOrganization().getClientBase();
+			String authcode = CommonUtil.generateRandomToken().toString();
+			emailUtil.sendForgotPasswardEmail(user.getEmail(),user.getFirstName(),user.getLastName(),clientbase,authcode,user.getUserId());
+			user.setAuthcode(authcode);
+			sessionFactory.getCurrentSession().saveOrUpdate(user);
+			return user;
+		}catch (Exception e){
+			log.error("SecurityServiceImpl.forgotPassword()",e);
+			throw new RsntException(e);
+		}
+	}
+	//Pampaniya Shweta for check url is right or not
+	@Override
+	public String getAuthCode(long userId) throws RsntException
+	{
+		try
+		{
+			String authCode = userDao.getUserAuthCode(userId);
+			return authCode;
+		}catch (Exception e)
+		{
+			throw new RsntException(e);
+		}
+	}
+   	//Pampaniya Shweta for reset password
+	@Override
+	public User resetPassword(long userId,String password) throws RsntException 
+	{
+		try
+		{
+			User user = userDao.resetPassword(userId, password);
+			return user;
+			
+		}catch (Exception e) 
+		{
+			throw new RsntException(e);
+		}
+	}
+	
     @SuppressWarnings("unchecked")
     public List<String> getUserPermissions(final Long userId) {
         List<String> permissions = null;
@@ -103,7 +152,7 @@ public class SecurityServiceImpl implements ISecurityService {
     public User getUserFromEmail(String emailId) throws RsntException{
     	try{
     		return (User) sessionFactory.getCurrentSession().getNamedQuery(User.GET_USER_BY_EMAIL)
-            .setParameter(1, emailId.toLowerCase()).list();
+            .setParameter("email", emailId.toLowerCase()).list();
 
     	}
     	catch(Exception e){
@@ -352,5 +401,6 @@ public class SecurityServiceImpl implements ISecurityService {
 			throw new RsntException("SecurityServiceImpl.signupUser()", e);
     	}
 	}
+	
     
 }

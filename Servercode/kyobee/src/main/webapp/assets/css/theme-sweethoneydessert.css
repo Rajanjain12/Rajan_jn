@@ -11,3 +11,13 @@
 .background{background-color: #e8e8e8;}
 .ngrs-range-slider .ngrs-join{background-color: #4a1b1b !important;}
 #theme-icon-sms { fill: #4a1b1b; height: 30px; width: 30px;}
+
+/*code for send sms tab*/
+.with-nav-tabs.panel-default .nav-tabs > li.active > a,
+.with-nav-tabs.panel-default .nav-tabs > li.active > a:hover,
+.with-nav-tabs.panel-default .nav-tabs > li.active > a:focus {
+	color: #555;
+	background-color: #fff;
+    border-bottom: 2px solid #4a1b1b;
+    font-weight:bold;
+}

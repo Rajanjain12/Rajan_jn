@@ -1,7 +1,5 @@
 package com.kyobee.service.impl;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -9,16 +7,11 @@ import java.sql.Types;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.TimeZone;
-
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -29,12 +22,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.swing.plaf.SliderUI;
-import javax.swing.text.StyleContext.SmallAttributeSet;
-
-import org.apache.log4j.helpers.QuietWriter;
-import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.jdbc.ReturningWork;
@@ -44,8 +31,6 @@ import org.hibernate.type.StringType;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.terracotta.modules.ehcache.store.nonstop.NonStopStoreWrapper;
-
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
 import com.kyobee.dto.OrganizationTemplateDTO;
@@ -65,9 +50,6 @@ import com.kyobee.util.common.*;
 import com.kyobee.util.common.Constants;
 import com.kyobee.util.common.NativeQueryConstants;
 import com.kyobee.util.jms.NotificationQueueSender;
-import com.telerivet.Project;
-import com.telerivet.TelerivetAPI;
-import com.telerivet.Util;
 
 
 @AppTransactional
@@ -184,7 +166,7 @@ public class WaitListServiceImpl implements IWaitListService {
 						sendMail(guestObject.getEmail(), msg1+msg2,"Your estimated wait time ");
 
 					}else if(guestObject.getPrefType().equalsIgnoreCase(Constants.RSNT_SMS)){
-						sendSMStoGuest(guestObject.getSms(),guestObject.getName(),msg1+msg2);
+						//sendSMStoGuest(guestObject.getSms(),guestObject.getName(),msg1+msg2);
 						//sendSMStoGuest(guestObject[4].toString(),guestObject[2].toString(),msg2);
 
 					}
@@ -817,7 +799,7 @@ public class WaitListServiceImpl implements IWaitListService {
 
 
 		if(guest.getPrefType().equalsIgnoreCase(Constants.RSNT_SMS)){
-			sendSMStoGuest(guest.getSms(), guest.getUuid(),msg);
+			//sendSMStoGuest(guest.getSms(), guest.getUuid(),msg);
 		}else if(guest.getPrefType().equalsIgnoreCase("email")){
 			sendMail(guest.getEmail(), msg,"We are ready for you");
 		}
@@ -1104,7 +1086,7 @@ public class WaitListServiceImpl implements IWaitListService {
 		//		}
 	}
 
-	public void sendSMStoGuest(String number, String uuid, String msg) {
+	/*public void sendSMStoGuest(String number, String uuid, String msg) {
 		log.info("------Inside sendSMStoGuest------");
 		String PROJECT_API_KEY = System.getProperty("sms.api.key");//"uCa1TCCMti3B9buAZGTIaBYGfOzb7C60";
 		String PROJECT_ID = System.getProperty("sms.project.id");//"PJe726ee67deeb1949";
@@ -1124,7 +1106,7 @@ public class WaitListServiceImpl implements IWaitListService {
 			log.error("Error :: sendSMStoGuest ::",e);
 		}
 
-	}
+	}*/
 
 	private String getGuestNoPrefix(long orgId){
 		String prefix = "";
@@ -1697,8 +1679,6 @@ ByOrgRecords(java.lang.Long, int, int)
 					dto.setTemplateText(template[1].toString());
 					dto.setLanguageID(Long.valueOf(template[2].toString()));
 					dto.setLevel(Integer.valueOf(template[3].toString()));
-					/*dto.setPrefValueId(Long.valueOf(lookupvalue[0].toString()));
-					dto.setPrefValue(lookupvalue[1].toString());*/
 					templates.add(dto);
 				}
 			}
@@ -1715,7 +1695,11 @@ ByOrgRecords(java.lang.Long, int, int)
 			if(null != list && list.size()>0){
 				for (Object[] dto : list) {
 					screensaver.setScreensaverFlag(dto[0].toString());
-					screensaver.setScreensaverFile(dto[1].toString());
+					if(screensaver.getScreensaverFile() != null){
+						screensaver.setScreensaverFile(dto[1].toString());
+					}else{
+						screensaver.setScreensaverFile(null);
+					}
 				}
 			}
 			return screensaver;

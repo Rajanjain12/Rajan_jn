@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kyobee.dao.impl.UserDAO;
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
 import com.kyobee.dto.OrganizationTemplateDTO;
+import com.kyobee.dto.ResetPasswordDTO;
 import com.kyobee.dto.UserDTO;
 import com.kyobee.dto.common.Credential;
 import com.kyobee.dto.common.Response;
@@ -33,6 +36,7 @@ import com.kyobee.util.SessionContextUtil;
 import com.kyobee.util.common.CommonUtil;
 import com.kyobee.util.common.Constants;
 import com.kyobee.util.common.LoggerUtil;
+import com.sun.net.httpserver.Authenticator.Success;
 
 import net.sf.json.JSONObject;
 
@@ -40,6 +44,9 @@ import net.sf.json.JSONObject;
 @RequestMapping("/rest")
 public class LoginRestController {
 
+	@Autowired
+	UserDAO userDao;
+	
 	@Autowired
 	ISecurityService securityService;
 	
@@ -51,7 +58,6 @@ public class LoginRestController {
 	
 	@Autowired
 	SessionContextUtil sessionContextUtil;
-
 	
 	/*
 	 * This api is used only for browser and it is validated as per clientbase as of 2-Mar-2017
@@ -101,7 +107,69 @@ public class LoginRestController {
 		}
 		return response;
 	}
+	//Pampaniya Shweta for Forgot Password....
+	@RequestMapping(value = "/forgotPwd", method = RequestMethod.GET, produces = "application/json")
+	   public Response<String> forgotPassword(@RequestParam String email) throws RsntException 
+	   {
+			Response<String> response = new Response<String>();
+			try
+			{	
+				User user = securityService.forgotPassword(email);
+				response.setServiceResult("Email has been sent to your registered email Id. Please follow the steps to reset your password");
+				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "");
+			} catch (RsntException e)
+			{
+				response.setServiceResult("Invalid Email. Please enter valid Email");
+				CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",
+							"Error while sending forgot password email");
+				LoggerUtil.logError("Error while sending forgot password email", e);
+			}
+			return response;
+		}
+	 
+	  //Pampaniya Shweta for check url is correct or not...
+	@RequestMapping(value = "/validateResetPwdurl", method = RequestMethod.GET, produces = "application/json")
+	 public Response<String> validateResetPwdurl(@RequestParam Integer userId, @RequestParam String authcode) throws RsntException 
+	{
+	  Response<String> response = new Response<String>();
+	  try {
+		    String userAuthcode =securityService.getAuthCode(userId);
+		    if(authcode.equals(userAuthcode))
+		    {
+		    	response.setServiceResult("URL validated successfully");
+		    	CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "");
+		    }
+		   else
+		   {
+			   response.setServiceResult("Invalid URL. Verification failure. Please check the url again or contact support.");
+			   CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",
+						"Error Occur");
+		   }
+		   return response;
+	  }catch (Exception e) 
+	  {
+		   throw new RsntException(e);
+	  }
+	}
 	
+	//Pampaniya Shweta for reset password...
+	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST, produces = "application/json")
+	 public Response<String> resetPassword(@RequestBody ResetPasswordDTO resetPasswordDTO) throws RsntException 
+	{
+	  Response<String> response = new Response<String>();
+	  try
+	  {
+		  	User user = securityService.resetPassword(resetPasswordDTO.getUserId(), resetPasswordDTO.getPassword());	
+		  	response.setServiceResult("Password Reset SucessFully. Please login to continue.");
+		  	CommonUtil.setWebserviceResponse(response,Constants.SUCCESS, "");
+	  }catch(RsntException e)
+	  {
+		  response.setServiceResult("Error occured while resetting the password. Please contact support or try again later.");
+		  CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",
+					"Error occured while resetting the passord. Please contact support or try again later.");
+	  }
+	   return response;
+	 }
 	/*
 	 * This api is used by app(iOS/Android) clientbase doesnot affect here as of 2-Mar-2017
 	 */

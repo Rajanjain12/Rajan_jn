@@ -1972,7 +1972,11 @@ public class CommonUtil {
 			result.setServiceIdentifier(serviceIdentifier);
 
 		}
-
+		//GenerateRandomToken for forgotpassword change by pampaniya shweta from line no-1982 to 1985
+		public static Long generateRandomToken() 
+		{
+			  return (long) (Math.random() * 1000000000);
+		}
 		/**
 		 * Sets response for web service
 		 * 

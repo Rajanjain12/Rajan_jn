@@ -14,8 +14,6 @@ public interface ISecurityService {
 /*	public String SEAM_NAME = "securityService";
 	public String JNDI_NAME="SecurityServiceImpl";*/
 
-	
-
 	 public User loginAndFetchUser(final String userLogin, final String password, final String clientBase) throws RsntException;
 	 
 	 public Long getUserRoleDetail(final String userLogin) throws RsntException;
@@ -43,4 +41,11 @@ public interface ISecurityService {
 	public User signupUser(Credential credentials) throws RsntException;
 
 	public Boolean isDuplicateOrganization(String userName) throws RsntException;
+	
+	//Pampaniya Shweta for forgot password.
+	public User forgotPassword(String Email)throws RsntException;
+	//pampaniya shweta for check url validation
+	public String getAuthCode(long userId) throws RsntException;
+	//pampaniya shweta for reset password
+	public User resetPassword(long userId,String password) throws RsntException;
 }
