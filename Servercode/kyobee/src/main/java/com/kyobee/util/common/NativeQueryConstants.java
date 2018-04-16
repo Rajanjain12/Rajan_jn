@@ -472,4 +472,11 @@ public class NativeQueryConstants {
 	
 	//pampaniya shweta for get user from id
 	public static final String HQL_GET_USER_BY_ID ="from User u where u.userId=:userId";
+	
+	//queries for fetching report data
+	public static final String GET_ORG_TOTAL_SMS_COUNT = "SELECT count(*) FROM SMSLOG where OrgID=:orgId and date(CreatedAt) between date(:fromDate) and date(:toDate)";
+	
+	public static final String GET_ORG_MISSED_GUESTS = "FROM Guest g left join fetch g.languagePrefID where g.OrganizationID=:orgId and g.status='DELETED' and date(g.checkinTime) between date(:fromDate) and date(:toDate)";
+	
+	public static final String Get_ORG_LOYAL_CUSTOMER_COUNT = "SELECT name, COUNT(*) AS totalVisit FROM GUEST where OrganizationID=:orgId and date(checkinTime) between date(:fromDate) and date(:toDate) GROUP BY sms HAVING totalVisit >=:visitCount";
 }

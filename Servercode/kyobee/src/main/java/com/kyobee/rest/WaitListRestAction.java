@@ -1715,7 +1715,7 @@ public class WaitListRestAction {
 		waitListService.sendNotificationToGuest(guestNotificationBean);
 	}
 	
-	private Map<Integer, String> getGuestSeatingPrefMap() throws NumberFormatException, RsntException
+	public Map<Integer, String> getGuestSeatingPrefMap() throws NumberFormatException, RsntException
 	{
 		List<Object[]> guestPrefLookupObjArr = null;
 		guestPrefLookupObjArr = waitListService.getLookupsForLookupType(new Long(Constants.CONT_LOOKUPTYPE_GUEST_PREF));
