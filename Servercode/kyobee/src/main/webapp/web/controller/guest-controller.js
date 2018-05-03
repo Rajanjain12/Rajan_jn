@@ -22,7 +22,7 @@ KyobeeControllers.controller('guestCtrl',
 								name: null,
 								organizationID : $scope.userDTO.organizationId,
 								noOfAdults : null,
-								noOfChiildren : null,	//changes by krupali, line 24 to 29 (15/06/2017)
+								noOfChildren : null,	//changes by krupali, line 24 to 29 (15/06/2017)
 								noOfInfants : null,
 								noOfPeople : null,
 								quoteTime : null,
@@ -97,7 +97,8 @@ KyobeeControllers.controller('guestCtrl',
 						}  
 						
 						if($scope.userDTO.maxParty != null && $scope.userDTO.maxParty != "" && ($scope.guestDTO.noOfChildren + $scope.guestDTO.noOfAdults + $scope.guestDTO.noOfInfants) > $scope.userDTO.maxParty){
-							$scope.errorMsg = "Sorry we can only allow maximum "+$scope.userDTO.maxParty+" people per table at a given time";
+							//$scope.errorMsg = "Sorry we can only allow maximum "+$scope.userDTO.maxParty+" people per table at a given time";
+							$scope.errorMsg = "Please check in with host for parties larger than "+$scope.userDTO.maxParty+" people."
 							$scope.loading = false;
 							return;
 						}
@@ -187,7 +188,8 @@ KyobeeControllers.controller('guestCtrl',
 						}
 						
 						if($scope.userDTO.maxParty != null && $scope.userDTO.maxParty != "" && ($scope.guestDTO.noOfChildren + $scope.guestDTO.noOfAdults + $scope.guestDTO.noOfInfants) > $scope.userDTO.maxParty){
-							$scope.errorMsg = "Sorry we can only allow maximum "+$scope.userDTO.maxParty+" people per table at a given time";
+							//$scope.errorMsg = "Sorry we can only allow maximum "+$scope.userDTO.maxParty+" people per table at a given time";
+							$scope.errorMsg = "Please check in with host for parties larger than "+$scope.userDTO.maxParty+" people."
 							$scope.loading = false;
 							return;
 						}

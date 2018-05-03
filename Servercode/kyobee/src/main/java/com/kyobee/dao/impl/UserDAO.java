@@ -17,7 +17,7 @@ import com.kyobee.util.common.NativeQueryConstants;
 public class UserDAO implements IUserDAO 
 {
 	@Autowired
-    private SessionFactory sessionFactory;
+  private SessionFactory sessionFactory;
 	
 	@Override
 	public String getUserAuthCode(long userId)

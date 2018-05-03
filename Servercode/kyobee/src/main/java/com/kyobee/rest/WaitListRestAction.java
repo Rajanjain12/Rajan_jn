@@ -332,7 +332,7 @@ public class WaitListRestAction {
 		}*/
 			
 			String seatingPrefForDTO = "";
-			if(null != guest.getSeatingPreference() && !"".equals(guest.getSeatingPreference())) {
+			if(null != guest.getSeatingPreference() && !"null".equals(guest.getSeatingPreference()) && !"".equals(guest.getSeatingPreference())) {
 				try {
 				String seatingPrefIdArr[] = guest.getSeatingPreference().split(",");
 				for(int i = 0; i < seatingPrefIdArr.length; ++i) {

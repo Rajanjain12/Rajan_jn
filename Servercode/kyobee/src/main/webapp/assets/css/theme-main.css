@@ -732,7 +732,8 @@ a.headersh {display: none;}
     margin: 10px 0;
 }
 .guest-name {
-    display: inline-block;
+    width: 100%;
+    overflow: hidden;
 }
 .btn-orange {    
     color: #FFF;
@@ -1605,12 +1606,14 @@ input[type=number]::-webkit-inner-spin-button {
 .logo-set-footer{
 	width:270px;
 	height:auto;
+
 }
 .send-sms-textarea{
-	width: 700px;
+ 	width: 100%;
     height: 100px;
     border: 1px solid #777;
     margin-top: 20px;
+    padding:5px;
 }
 .highlite textarea:focus{
 	border:1px solid #dd4124 !important;

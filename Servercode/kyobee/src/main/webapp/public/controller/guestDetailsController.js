@@ -58,9 +58,8 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						    "dltButton" : "DELETE",
 						    "cnclButton" : "CANCEL",
 						    "notExist" : "The requested guest doesn't exist anymore.",
-						    "orgMaxParty1" : "Sorry we can only allow maximum ",
-						    "orgMaxParty2" : " people per table at a given time"
-						    
+						    "orgMaxParty1" : "Please check in with host for parties larger than ",
+						    "orgMaxParty2" : " people."
 						  },
 						  "chi" : {
 						    "nowServing" : "正在服務",
@@ -84,8 +83,8 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						    "dltButton" : "删除",
 						    "cnclButton" : "取消",
 						    "notExist" : "被请求的客人不存在了。",
-						    "orgMaxParty1" : "对不起，我们只能允许最多 ",
-						    "orgMaxParty2" : " 每个人在特定时间的人数"
+						    "orgMaxParty1" : "请与主办方检查大于 ",
+						    "orgMaxParty2" : " 人。"
 						  }
 						}
 					
