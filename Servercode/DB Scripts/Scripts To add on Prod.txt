@@ -1,0 +1,7 @@
+SET GLOBAL event_scheduler = ON;
+Create EVENT resetAllat1
+    ON SCHEDULE Every 24 Hour 
+    STARTS '2018-04-18 13:00:00'
+    ON COMPLETION PRESERVE ENABLE 
+    DO
+     Call RESETGUEST();

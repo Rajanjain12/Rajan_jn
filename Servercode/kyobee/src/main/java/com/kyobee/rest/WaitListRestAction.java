@@ -332,7 +332,7 @@ public class WaitListRestAction {
 		}*/
 			
 			String seatingPrefForDTO = "";
-			if(null != guest.getSeatingPreference() && !"".equals(guest.getSeatingPreference())) {
+			if(null != guest.getSeatingPreference() && !"null".equals(guest.getSeatingPreference()) && !"".equals(guest.getSeatingPreference())) {
 				try {
 				String seatingPrefIdArr[] = guest.getSeatingPreference().split(",");
 				for(int i = 0; i < seatingPrefIdArr.length; ++i) {
@@ -1717,7 +1717,7 @@ public class WaitListRestAction {
 		waitListService.sendNotificationToGuest(guestNotificationBean);
 	}
 	
-	private Map<Integer, String> getGuestSeatingPrefMap() throws NumberFormatException, RsntException
+	public Map<Integer, String> getGuestSeatingPrefMap() throws NumberFormatException, RsntException
 	{
 		List<Object[]> guestPrefLookupObjArr = null;
 		guestPrefLookupObjArr = waitListService.getLookupsForLookupType(new Long(Constants.CONT_LOOKUPTYPE_GUEST_PREF));
