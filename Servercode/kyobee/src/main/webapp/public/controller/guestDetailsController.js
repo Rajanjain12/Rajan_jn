@@ -86,6 +86,31 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						    "orgMaxParty1" : "请与主办方检查大于 ",
 						    "orgMaxParty2" : " 人。"
 						  },
+						  "zhHant" : {
+					           "nowServing" : "現在服務",
+					           "partiesWaiting" : "各方等待",
+					           "estWaitTime" : "東。等待時間",
+					           "seatingPref" : "座位偏好",
+					           "optInReceive" : "（選擇接收促銷/特價）",
+					           "rmvWaitlist" : "從WAITLIST中刪除",
+					           "saveChanges" : "保存更改",
+					           "enterNameError" : "錯誤！請輸入一個有效的名字",
+					           "enterNumError" : "錯誤！請輸入聯繫號碼。",
+					           "adultSizeError" : "錯誤！成人必須大於0",
+					           "selectSmsError" : "錯誤！請選擇短信或電子郵件",
+					           "enterEmailError" : "錯誤！請輸入電子郵件",
+					           "validNumError" : "請輸入有效號碼",
+					           "fetchError" : "獲取用戶詳細信息時出錯。請重新登錄或聯繫支持",
+					           "updSuccess" : "訪客信息已成功更新",
+					           "updError" : "更新Guest時出錯",
+					           "dltError" : "刪除Guest時出錯",
+					           "confirmDel" : "確認刪除訪客",
+					           "dltButton" : "刪除",
+					           "cnclButton" : "取消",
+					           "notExist" : "請求的客人不再存在。",
+					           "orgMaxParty1" : "請與主辦方聯繫，以便舉辦大於",
+					           "orgMaxParty2" : " 人。"
+					         },
 						  "ko" : {
 							    "nowServing" : "이번 손님",
 							    "partiesWaiting" : "파티 대기",
@@ -359,6 +384,9 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								}
 								else if($scope.guest.languagePrefID.langId == 61){
 									$scope.currentPageLanguage = $scope.pageLanguage.ko;
+								}
+								else if($scope.guest.languagePrefID.langId == 137){
+									$scope.currentPageLanguage = $scope.pageLanguage.zhHant;
 								}
 							},function(error){
 								
