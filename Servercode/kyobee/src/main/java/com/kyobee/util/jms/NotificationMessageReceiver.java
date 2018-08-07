@@ -68,6 +68,9 @@ public class NotificationMessageReceiver implements MessageListener{
 	@Value("${rsnt.base.url.rbsushi}")
 	private String rbSushiURL;
 	
+	@Value("${rsnt.base.url.masterkim}")
+	private String masterkimURL;
+	
 	
 	/*@Override
 	public void onMessage(Message message) {
@@ -411,6 +414,8 @@ public class NotificationMessageReceiver implements MessageListener{
 			url = sweethoneydessertURL + "/s/" + uuid;
 		} else if ("rbsushi".equals(clientBase)){
 			url = rbSushiURL + "/s/" + uuid;
+		} else if ("masterkim".equals(clientBase)){
+			url = masterkimURL + "/s/" + uuid;
 		}
 		else {
 			url = urlInitial + clientBase + "." + urlSuffix + uuid;

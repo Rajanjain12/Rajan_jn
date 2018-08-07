@@ -85,7 +85,57 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						    "notExist" : "被请求的客人不存在了。",
 						    "orgMaxParty1" : "请与主办方检查大于 ",
 						    "orgMaxParty2" : " 人。"
-						  }
+						  },
+						  "zhHant" : {
+					           "nowServing" : "現在服務",
+					           "partiesWaiting" : "各方等待",
+					           "estWaitTime" : "東。等待時間",
+					           "seatingPref" : "座位偏好",
+					           "optInReceive" : "（選擇接收促銷/特價）",
+					           "rmvWaitlist" : "從WAITLIST中刪除",
+					           "saveChanges" : "保存更改",
+					           "enterNameError" : "錯誤！請輸入一個有效的名字",
+					           "enterNumError" : "錯誤！請輸入聯繫號碼。",
+					           "adultSizeError" : "錯誤！成人必須大於0",
+					           "selectSmsError" : "錯誤！請選擇短信或電子郵件",
+					           "enterEmailError" : "錯誤！請輸入電子郵件",
+					           "validNumError" : "請輸入有效號碼",
+					           "fetchError" : "獲取用戶詳細信息時出錯。請重新登錄或聯繫支持",
+					           "updSuccess" : "訪客信息已成功更新",
+					           "updError" : "更新Guest時出錯",
+					           "dltError" : "刪除Guest時出錯",
+					           "confirmDel" : "確認刪除訪客",
+					           "dltButton" : "刪除",
+					           "cnclButton" : "取消",
+					           "notExist" : "請求的客人不再存在。",
+					           "orgMaxParty1" : "請與主辦方聯繫，以便舉辦大於",
+					           "orgMaxParty2" : " 人。"
+					         },
+						  "ko" : {
+							    "nowServing" : "이번 손님",
+							    "partiesWaiting" : "파티 대기",
+							    "estWaitTime" : "대기시간",
+							    "seatingPref" : "좌석 선호도",
+							    "optInReceive" : "(프로모션 / 특별 혜택 받기)",
+							    "rmvWaitlist" : "대기 목록에서 제거",
+							    "saveChanges" : "변경 사항을 저장하다",
+							    "enterNameError" : "오류! 올바른 이름을 입력하십시오.",
+							    "enterNumError" : "오류! 연락처 번호를 입력하십시오.",
+							    "adultSizeError" : "오류! 성인은 0보다 커야합니다.",
+							    "selectSmsError" : "오류! SMS 또는 전자 메일을 선택하십시오.",
+							    "enterEmailError" : "오류! 이메일을 입력하십시오.",
+							    "validNumError" : "유효한 번호를 입력하십시오.",
+							    "fetchError" : "사용자 세부 정보를 가져 오는 중에 오류가 발생했습니다. 다시 로그인하거나 지원 팀에 문의하십시오.",
+							    "updSuccess" : "게스트 정보가 성공적으로 업데이트되었습니다.",
+							    "updError" : "게스트를 업데이트하는 중 오류가 발생했습니다.",
+							    "dltError" : "게스트를 삭제하는 중 오류가 발생했습니다.",
+							    "confirmDel" : "손님 삭제 확인",
+							    "dltButton" : "지우다",
+							    "cnclButton" : "취소",
+							    "notExist" : "요청한 손님이 더 이상 존재하지 않습니다.",
+							    "orgMaxParty1" : "10명 이상일경우 안내원에게 확인하세요 ",
+							    "orgMaxParty2" : " 사람."
+							  }
 						}
 					
 					$scope.loadGuestPage = function(){
@@ -331,6 +381,12 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								}
 								else if($scope.guest.languagePrefID.langId == 134){
 									$scope.currentPageLanguage = $scope.pageLanguage.chi;
+								}
+								else if($scope.guest.languagePrefID.langId == 61){
+									$scope.currentPageLanguage = $scope.pageLanguage.ko;
+								}
+								else if($scope.guest.languagePrefID.langId == 137){
+									$scope.currentPageLanguage = $scope.pageLanguage.zhHant;
 								}
 							},function(error){
 								
