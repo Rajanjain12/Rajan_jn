@@ -1262,6 +1262,22 @@ public class WaitListServiceImpl implements IWaitListService {
 							addMarketing.setModifiedBy(null);
 						
 							addMarketingPref(addMarketing);
+						}else{
+							
+							AddMarketing addMarketing = new AddMarketing();
+							addMarketing.setGuestID(cStmt.getInt(19));
+							addMarketing.setOrgID(Integer.parseInt(guestObj.getOrganizationID().toString()));
+							addMarketing.setFacebookStatus(0);
+							addMarketing.setInstagramStatus(0);
+							addMarketing.setGooglePlusStatus(0);
+							addMarketing.setWordofMouthStatus(0);
+							addMarketing.setCreatedAt(new Date());
+							addMarketing.setCreatedBy(null);
+							addMarketing.setActive(1);
+							addMarketing.setModifiedAt(new Date());
+							addMarketing.setModifiedBy(null);
+						
+							addMarketingPref(addMarketing);
 						}
 						
 						
