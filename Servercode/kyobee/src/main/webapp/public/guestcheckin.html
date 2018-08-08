@@ -117,10 +117,10 @@
 							</div>
 
 							<div
-								class="form-group col-md-6 col-sm-6 col-xs-12 multipaleselect1 font-color-fix"
+								class="form-group col-md-3 col-sm-3 col-xs-12 multipaleselect1 font-color-fix"
 								ng-show="seatPrefs != null">
 								<label class="control-label">{{currentPageLanguage.seatingPref}}</label>
-								<select id="example-multiple-selected" multiple="multiple" ng-model="selectedSeatPref">
+								<select id="example-multiple-selected" class="col-md-12 col-sm-12 col-xs-12" multiple="multiple" ng-model="selectedSeatPref">
 									<option ng-repeat="opt in seatPrefs" ng-value="opt.prefValueId">{{opt.prefValue}}</option>
 								</select>
 							</div>
@@ -129,10 +129,10 @@
 
 							<!-- change by sunny (31-07-2018) -->
 							<div
-								class="form-group col-md-6 col-sm-6 col-xs-12 multipaleselect1 font-color-fix"
+								class="form-group col-md-3 col-sm-3 col-xs-12 multipaleselect1 font-color-fix"
 								ng-show="marketingPref != null">
 								<label class="control-label">How did you hear about us</label> <select
-									id="example-multiple-selected" multiple="multiple"
+									id="example-multiple-selected" class="col-md-12 col-sm-12 col-xs-12" multiple="multiple"
 									ng-model="selectedGuestMarketingPref">
 									<option ng-repeat="opt in marketingPref"
 										ng-value="opt.guestMarketPrefValueId">{{opt.guestMarketPrefValue}}</option>
