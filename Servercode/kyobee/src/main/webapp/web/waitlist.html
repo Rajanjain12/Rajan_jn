@@ -1,73 +1,138 @@
 <section>
-    
-    
-       <!--  <a href="javascript:void(0)" class="headersh"><i class="fa fa-bars" aria-hidden="true"></i></a> -->
-		
-		
-			
-		<div class="col-md-12 col-sm-12 col-xs-12">
-			<div class="showhidewrap">
-			
+
+
+	<!--  <a href="javascript:void(0)" class="headersh"><i class="fa fa-bars" aria-hidden="true"></i></a> -->
+
+
+
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="showhidewrap">
+
 			<div class="pull-left">
-				<a href="javascript:void(0);" ng-show="showHistory == false" class="theme-fontcolor" id="waittimebtn" style="padding: 0 10px; cursor:pointer; font-weight:bold; text-decoration: underline;">Show Wait Time Settings</a>
+				<a href="javascript:void(0);" ng-show="showHistory == false"
+					class="theme-fontcolor" id="waittimebtn"
+					style="padding: 0 10px; cursor: pointer; font-weight: bold; text-decoration: underline;">Show
+					Wait Time Settings</a>
 			</div>
-									
+
 			<!-- <div class="pull-right col-md-12 col-sm-12 col-xs-12"> -->
-				<div class="row col-md-2 col-sm-3 col-xs-12 pull-right">			
-					<h5 class="pull-right" ng-show="showHistory == false" style="margin-bottom:5px;"><a style="padding: 0 10px; cursor:pointer; font-weight:bold; text-decoration: underline;" class="theme-fontcolor" ng-click="toggleShowHistory();">Show History</a></h5>
-					<h5 class="pull-right select-margin" ng-show="showHistory == true" style="margin-bottom:5px;"><a style="padding: 0 10px; cursor:pointer; font-weight:bold; text-decoration: underline;" class="theme-fontcolor" ng-click="toggleShowHistory();">Hide History</a></h5>
-				</div>
-			
-			
+			<div class="row col-md-2 col-sm-3 col-xs-12 pull-right">
+				<h5 class="pull-right" ng-show="showHistory == false"
+					style="margin-bottom: 5px;">
+					<a
+						style="padding: 0 10px; cursor: pointer; font-weight: bold; text-decoration: underline;"
+						class="theme-fontcolor" ng-click="toggleShowHistory();">Show
+						History</a>
+				</h5>
+				<h5 class="pull-right select-margin" ng-show="showHistory == true"
+					style="margin-bottom: 5px;">
+					<a
+						style="padding: 0 10px; cursor: pointer; font-weight: bold; text-decoration: underline;"
+						class="theme-fontcolor" ng-click="toggleShowHistory();">Hide
+						History</a>
+				</h5>
+			</div>
+
+
 			<!-- <div class="col-md-12 col-sm-12 col-xs-12"> -->
-			
+
 			<div class="col-md-2 col-sm-2 col-xs-12 select-margin">
-       			<label ng-show="showHistory == true">Check-in Time</label>
+				<label ng-show="showHistory == true">Check-in Time</label>
 			</div>
-			
-						
-			<div class="col-md-4 col-sm-4 col-xs-12" ng-show="showHistory == true">
-      			<div range-slider id="timeSlider" show-values="true" filter="hourMinFilter" attach-handle-values="true"  min="slider.range.min" max="slider.range.max" model-min="slider.minTime" model-max="slider.maxTime" step="1" prevent-equal-min-max="true" on-handle-up="loadHistoryPage(1)"></div>
-       		</div>
-       		
-			<div class="col-md-2 col-sm-2 col-xs-12" ng-show="showHistory == true">
-				<select name="statusOptions" ng-change="loadHistoryPage(1)" ng-model="selectedStatus" class="form-control" ng-model="" ng-options="status for status in statusOptions" required>
-                </select> 
+
+
+			<div class="col-md-4 col-sm-4 col-xs-12"
+				ng-show="showHistory == true">
+				<div range-slider id="timeSlider" show-values="true"
+					filter="hourMinFilter" attach-handle-values="true"
+					min="slider.range.min" max="slider.range.max"
+					model-min="slider.minTime" model-max="slider.maxTime" step="1"
+					prevent-equal-min-max="true" on-handle-up="loadHistoryPage(1)"></div>
 			</div>
-		<!-- </div> -->
-		<!-- </div> -->
-		
-		<div class="row col-md-12 col-sm-12 col-xs-12 margin-top-15">
-			<div class="row toggle-col col-md-8 col-sm-8 col-xs-12">
-				
-				<label ng-show="toggleColumnShowHide == false" ><a style="cursor:pointer; font-weight:bold; text-decoration: underline;" class="theme-fontcolor" ng-click="showToggleColumn();">Show Toggle Column</a></label>
-				<label ng-show="toggleColumnShowHide == true" ><a href="javascript:" style="text-decoration: underline;" class="theme-fontcolor" ng-click="showToggleColumn();">Hide Toggle Column</a></label><!-- <label ng-show="toggleColumn == false" >Show Toggle Column</label>
-				<a href="javascript:" ng-click="toggleColumns('seat')" ng-model="toggleColumn.seat" ng-switch="toggleColumn.seat">Seat</a> --><!-- <a href="javascript:" ng-click="toggleColumns('no')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.no == true}">No.</a> -->
-				<a href="javascript:" ng-click="toggleColumns('partyRank')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.partyRank == true}">Party Rank</a>
-				<a href="javascript:" ng-click="toggleColumns('partyType')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.partyType == true}">Party Type</a>
-				<a href="javascript:" ng-click="toggleColumns('noOfParty')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.noOfParty == true}">No. Of Party</a>
-				<a href="javascript:" ng-click="toggleColumns('name')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.name == true}"">Name</a>
-				<a href="javascript:" ng-click="toggleColumns('checkinTime')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.checkinTime == true}">Checkin Time</a>
-				<a href="javascript:" ng-click="toggleColumns('quoteTime')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.quoteTime == true}">Quote Time</a>
-				<a href="javascript:" ng-click="toggleColumns('langPref')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.langPref == true}">Language Pref.</a>
-				<!-- <a href="javascript:" ng-click="toggleColumns('seatingPref')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.seatingPref == true}">Seating Pref.</a> -->
-				<a href="javascript:" ng-click="toggleColumns('optIn')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.optIn == true}">Opt-In</a>
-				<a href="javascript:" ng-click="toggleColumns('note')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.note == true}">Note</a>
-				<a href="javascript:" ng-click="toggleColumns('sendText')" ng-show="userDTO.smsRoute != null && userDTO.smsRoute != '' && toggleColumnShowHide == true && showHistory == false" ng-class="{textBold: toggleColumn.sendText == true}">Send Text</a>
-				<!-- <a href="javascript:" ng-click="toggleColumns('del')">Delete</a> -->
-				
+
+			<div class="col-md-2 col-sm-2 col-xs-12"
+				ng-show="showHistory == true">
+				<select name="statusOptions" ng-change="loadHistoryPage(1)"
+					ng-model="selectedStatus" class="form-control" ng-model=""
+					ng-options="status for status in statusOptions" required>
+				</select>
+			</div>
+			<!-- </div> -->
+			<!-- </div> -->
+
+			<div class="row col-md-12 col-sm-12 col-xs-12 margin-top-15">
+				<div class="row toggle-col col-md-8 col-sm-8 col-xs-12">
+
+					<label ng-show="toggleColumnShowHide == false"><a
+						style="cursor: pointer; font-weight: bold; text-decoration: underline;"
+						class="theme-fontcolor" ng-click="showToggleColumn();">Show
+							Toggle Column</a></label> <label ng-show="toggleColumnShowHide == true"><a
+						href="javascript:" style="text-decoration: underline;"
+						class="theme-fontcolor" ng-click="showToggleColumn();">Hide
+							Toggle Column</a></label>
+					<!-- <label ng-show="toggleColumn == false" >Show Toggle Column</label>
+				<a href="javascript:" ng-click="toggleColumns('seat')" ng-model="toggleColumn.seat" ng-switch="toggleColumn.seat">Seat</a> -->
+					<!-- <a href="javascript:" ng-click="toggleColumns('no')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.no == true}">No.</a> -->
+					<a href="javascript:" ng-click="toggleColumns('partyRank')"
+						ng-show="toggleColumnShowHide == true"
+						ng-class="{textBold: toggleColumn.partyRank == true}">Party
+						Rank</a> <a href="javascript:" ng-click="toggleColumns('partyType')"
+						ng-show="toggleColumnShowHide == true"
+						ng-class="{textBold: toggleColumn.partyType == true}">Party
+						Type</a> <a href="javascript:" ng-click="toggleColumns('noOfParty')"
+						ng-show="toggleColumnShowHide == true"
+						ng-class="{textBold: toggleColumn.noOfParty == true}">No. Of
+						Party</a> <a href="javascript:" ng-click="toggleColumns('name')"
+						ng-show="toggleColumnShowHide == true"
+						ng-class="{textBold: toggleColumn.name == true}"">Name</a> <a
+						href="javascript:" ng-click="toggleColumns('checkinTime')"
+						ng-show="toggleColumnShowHide == true"
+						ng-class="{textBold: toggleColumn.checkinTime == true}">Checkin
+						Time</a> <a href="javascript:" ng-click="toggleColumns('quoteTime')"
+						ng-show="toggleColumnShowHide == true"
+						ng-class="{textBold: toggleColumn.quoteTime == true}">Quote
+						Time</a> <a href="javascript:" ng-click="toggleColumns('langPref')"
+						ng-show="toggleColumnShowHide == true"
+						ng-class="{textBold: toggleColumn.langPref == true}">Language
+						Pref.</a>
+					<!-- <a href="javascript:" ng-click="toggleColumns('seatingPref')" ng-show="toggleColumnShowHide == true" ng-class="{textBold: toggleColumn.seatingPref == true}">Seating Pref.</a> -->
+					<a href="javascript:" ng-click="toggleColumns('optIn')"
+						ng-show="toggleColumnShowHide == true"
+						ng-class="{textBold: toggleColumn.optIn == true}">Opt-In</a> <a
+						href="javascript:" ng-click="toggleColumns('note')"
+						ng-show="toggleColumnShowHide == true"
+						ng-class="{textBold: toggleColumn.note == true}">Note</a> <a
+						href="javascript:" ng-click="toggleColumns('sendText')"
+						ng-show="userDTO.smsRoute != null && userDTO.smsRoute != '' && toggleColumnShowHide == true && showHistory == false"
+						ng-class="{textBold: toggleColumn.sendText == true}">Send Text</a>
+					<!-- <a href="javascript:" ng-click="toggleColumns('del')">Delete</a> -->
+
 				</div>
-				
+
 				<div class="col-md-4 col-sm-4 col-xs-12 margin-left-30">
-					<div class="col-md-12 col-sm-12 col-xs-12 row pull-right margin-bottom-10" id="search-box" ng-show="searchStatus == true && showHistory == false">
-						<input type="text" class="form-control" placeholder="Enter your search here..." ng-model="searchName"><a href="javascript:void(0)" class="seach-box theme-fontcolor"><i class="glyphicon glyphicon-search" ng-click="searchGrid(searchName)"></i></a>
+					<div
+						class="col-md-12 col-sm-12 col-xs-12 row pull-right margin-bottom-10"
+						id="search-box"
+						ng-show="searchStatus == true && showHistory == false">
+						<input type="text" class="form-control"
+							placeholder="Enter your search here..." ng-model="searchName"><a
+							href="javascript:void(0)" class="seach-box theme-fontcolor"><i
+							class="glyphicon glyphicon-search"
+							ng-click="searchGrid(searchName)"></i></a>
 					</div>
-					<div class="col-md-12 col-sm-12 col-xs-12 row pull-right margin-bottom-10" id="search-box" ng-show="searchStatus == true && showHistory == true">
-						<input type="text" class="form-control" placeholder="Enter your search here..." ng-model="searchName"><a href="javascript:void(0)" class="seach-box theme-fontcolor"><i class="glyphicon glyphicon-search" ng-click="searchGridOnHistory(searchName)"></i></a>
+					<div
+						class="col-md-12 col-sm-12 col-xs-12 row pull-right margin-bottom-10"
+						id="search-box"
+						ng-show="searchStatus == true && showHistory == true">
+						<input type="text" class="form-control"
+							placeholder="Enter your search here..." ng-model="searchName"><a
+							href="javascript:void(0)" class="seach-box theme-fontcolor"><i
+							class="glyphicon glyphicon-search"
+							ng-click="searchGridOnHistory(searchName)"></i></a>
 					</div>
 				</div>
-		
-		</div>
+
+			</div>
 		</div>
 		<!--
 		
@@ -77,24 +142,27 @@
 			</div>
         </div> -->
 
-		
-        <!-- <div class="container"> -->
-			<div class="waitlist-section-2 row" id="waittimesetting"  style="display: none;" ng-show="showHistory == false">
-            
-         <!-- <div class="container">  -->  
-             
-			
-<!-- <div range-slider min="slider.range.min" max="slider.range.max" model-min="slider.minTime" model-max="slider.maxTime" step="1" prevent-equal-min-max="true"></div> -->
-				
-			
 
-			
-            
-                <div class="row waitlistbox2 theme-color theme-color-rbshushi theme-color-masterkim margin-bottom-20">
+		<!-- <div class="container"> -->
+		<div class="waitlist-section-2 row" id="waittimesetting"
+			style="display: none;" ng-show="showHistory == false">
 
-                    <div class="col-md-4 col-sm-4 text-center countres">
-                        <label class="lblres">Approximate Wait Time</label>
-                        <div class="input-group time-x">
+			<!-- <div class="container">  -->
+
+
+			<!-- <div range-slider min="slider.range.min" max="slider.range.max" model-min="slider.minTime" model-max="slider.maxTime" step="1" prevent-equal-min-max="true"></div> -->
+
+
+
+
+
+			<div
+				class="row waitlistbox2 theme-color theme-color-rbshushi margin-bottom-20">
+				<!-- <div class="col-md-1 col-sm-1 "></div> -->
+				<div class="col-md-4 col-sm-4 col-xs-12 text-center countres waittime-setting waitandnotify-setting">
+				<!-- <div class="col-md-3 col-sm-3 col-xs-12 text-center waittime-setting"> -->
+					<label class="lblres">Approximate Wait Time</label>
+					<!-- <div class="input-group time-x">
                               <span class="input-group-btn">
                                   <button type="button" class="btn btn-red btn-number theme-color theme-color-rbshushi-btn theme-color-masterkim-btn"  data-type="minus" data-field="quant[1]">
                                       <span class="glyphicon glyphicon-minus"></span>
@@ -106,46 +174,65 @@
                                       <span class="glyphicon glyphicon-plus"></span>
                                   </button>
                               </span>
-                          </div>
-                          <label class="sm-txt">Minute</label>
-                        
-                    </div>
-                    
-                    <div class="col-md-4 col-sm-4 col-xs-12 text-center countres">
-                        <label class="lblres">Notify First</label>
-                        <div class="input-group time-x">
-                              <span class="input-group-btn">
-                                  <button type="button" class="btn btn-red btn-number theme-color theme-color-rbshushi-btn theme-color-masterkim-btn" data-type="minus" data-field="quant[2]">
-                                      <span class="glyphicon glyphicon-minus"></span>
-                                  </button>
-                              </span>
-                              <input type="text" name="quant[2]" class="form-control input-number" ng-model="notifyFirst" min="1" max="10" readonly>
-                              <span class="input-group-btn">
-                                  <button type="button" class="btn btn-red btn-number theme-color theme-color-rbshushi-btn theme-color-masterkim-btn" data-type="plus" data-field="quant[2]">
-                                      <span class="glyphicon glyphicon-plus"></span>
-                                  </button>
-                              </span>
-                          </div> 
-                        <label class="sm-txt">Party</label>
-                    </div> 
-                    
-                    
-                    <div class="col-md-4 col-sm-4 col-xs-12 text-center">
-                        <label class="lblres">Total Wait Time</label>
-                        <div class="time-x">
-                        	<h2 class="border-color">{{convertMinstoMMHH(totalWaitTime)}}</h2>
-                        </div>
-                        <label class="sm-txt">Hour:Minute</label>
-                        
-                    </div>
-                   
-                </div>
-                      
-        <!-- </div> -->
-        
-       	
-		
-		<!-- <div id="time-range" ng-show="showHistory == true" >
+                          </div> -->
+					
+					<!-- Change by sunny (25-07-2018) -->
+
+					<select  name="quant[1]"
+						ng-model="waitTime" class="form-control waittime-text ">
+						<option ng-repeat="wiatOption in wiatTimeOption"
+							value="{{wiatOption}}" ng-selected="{{waitTime}}">{{wiatOption}}</option>
+					</select> <label class="sm-txt">Minute</label>
+
+				</div>
+
+				<div class="col-md-4 col-sm-4 col-xs-12 text-center countres waittime-setting waitandnotify-setting">
+				<!-- <div class="col-md-1 col-sm-1 "></div>
+				<div class="col-md-3 col-sm-3 col-xs-12 text-center waittime-setting"> -->
+					<label class="lblres">Notify First</label>
+					<!-- <div class="input-group time-x">
+						<span class="input-group-btn">
+							<button type="button"
+								class="btn btn-red btn-number theme-color theme-color-rbshushi-btn"
+								data-type="minus" data-field="quant[2]">
+								<span class="glyphicon glyphicon-minus"></span>
+							</button>
+						</span> <input type="text" name="quant[2]"
+							class="form-control input-number" ng-model="notifyFirst" min="1"
+							max="10" readonly> <span class="input-group-btn">
+							<button type="button"
+								class="btn btn-red btn-number theme-color theme-color-rbshushi-btn"
+								data-type="plus" data-field="quant[2]">
+								<span class="glyphicon glyphicon-plus"></span>
+							</button>
+						</span>
+					</div> -->
+					
+					<!-- Change by sunny (25-07-2018) -->
+					<select  name="quant[2]"
+						ng-model="notifyFirst" class="form-control waittime-text">
+						<option ng-repeat="notify in notifyOption"
+							value="{{notify}}" ng-selected="{{notifyFirst}}">{{notify}}</option>
+					</select> <label class="sm-txt">Party</label>
+				</div>
+
+
+				<div class="col-md-4 col-sm-4 col-xs-12 text-center">
+					<label class="lblres">Total Wait Time</label>
+					<div class="time-x">
+						<h2 class="border-color">{{convertMinstoMMHH(totalWaitTime)}}</h2>
+					</div>
+					<label class="sm-txt">Hour:Minute</label>
+
+				</div>
+
+			</div>
+
+			<!-- </div> -->
+
+
+
+			<!-- <div id="time-range" ng-show="showHistory == true" >
 			<div class="col-md-12 col-sm-12 col-xs-12 padding-bottom-30 padding-top-25">
 				<p>Time Range: <span id="slider-time" class="slider-time">9:00 AM</span> - <span class="slider-time2">5:00 PM</span></p>
 				<div class="sliders_step1">
@@ -154,23 +241,25 @@
 			</div>
 		</div>
     	<span>{{sliderStartTime}}hello</span> -->
-    	
-    	
-			
+
+
+
 
 		</div>
-		
+
 		<!-- <a href="javascript:void(0)" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="Your Note. mjhhygdgsdhghdfshjshdg dhghdbhvcdbvdg ghfdghsfdhfvcdg dghfdhfgdhfgdh">Click me</a> -->
 		<!-- <a href="#" title="Header" data-toggle="popover" data-placement="top" data-content="Content">Top</a> -->
-		
 
-<!-- <div range-slider min="slider.range.min" max="slider.range.max" model-min="slider.minTime" model-max="slider.maxTime" step="1" prevent-equal-min-max="true"></div> --> 
-    
-       <div ng-class="{'table-wrap-web': userCount <= 5 , 'table-wrap': userCount>5}"> <!--for fixing footer- krupali(18/07/2017) -->
-     
 
-                         
-                   <!--  <div class="dropdown">
+		<!-- <div range-slider min="slider.range.min" max="slider.range.max" model-min="slider.minTime" model-max="slider.maxTime" step="1" prevent-equal-min-max="true"></div> -->
+
+		<div
+			ng-class="{'table-wrap-web': userCount <= 5 , 'table-wrap': userCount>5}">
+			<!--for fixing footer- krupali(18/07/2017) -->
+
+
+
+			<!--  <div class="dropdown">
                       <a class="dropbtn"><i class="fa fa-th fa-2x" aria-hidden="true"></i></a>
                       <div class="dropdown-content">
                         <div class="checkbox checkbox-success">
@@ -204,37 +293,42 @@
                         <div class="default-1"><a href="">Default</a></div>
                       </div>                
                     </div> -->
-                
-                <div id="showpopup" class="simplePopup border-color">
-	              <div class="confirm-table-wrap text-center">
-	                    <h2 class="theme-fontcolor">Confirm Table Ready For</h2>
-	                    <div class="guest-name">
-	                        <h1>Guest #{{selectedGuest.rank}}</h1>
-	                        <h1>{{selectedGuest.name}}</h1>
-	                    </div>
-	                    <div class="btn-guest border-top">
-	                        <button type="button" class="btn btn-orange theme-color" ng-click="incrementCalloutCount();">NOT PRESENT</button>
-	                        <button type="button" class="btn btn-orange theme-color" ng-click="markasIncomplete();">INCOMPLETE</button>
-	                        <button type="button" class="btn btn-orange theme-color" ng-click="markasSeated();">YES</button>
-	                    </div>
-	              </div>
-	           </div>
-	           
-	           <div id="deletePopup" class="simplePopup border-color">
-	              <div class="confirm-table-wrap text-center">
-	                    <h2 class="theme-fontcolor">Confirm Delete Guest</h2>
-	                    <div class="guest-name">
-	                        <h1>Guest #{{selectedGuest.rank}}</h1>
-	                        <h1>{{selectedGuest.name}}</h1>
-	                    </div>
-	                    <div class="btn-guest border-top">
-	                        <button type="button" class="btn btn-orange theme-color" ng-click="deleteGuest();">DELETE</button>
-	                        <button type="button" class="btn btn-orange theme-color" ng-click="cancelDelete();">CANCEL</button>
-	                    </div>
-	              </div>
-	           </div>
-	           
-	             <!-- <div id="sendSMSPopup" class="simplePopup border-color">
+
+			<div id="showpopup" class="simplePopup border-color">
+				<div class="confirm-table-wrap text-center">
+					<h2 class="theme-fontcolor">Confirm Table Ready For</h2>
+					<div class="guest-name">
+						<h1>Guest #{{selectedGuest.rank}}</h1>
+						<h1>{{selectedGuest.name}}</h1>
+					</div>
+					<div class="btn-guest border-top">
+						<button type="button" class="btn btn-orange theme-color"
+							ng-click="incrementCalloutCount();">NOT PRESENT</button>
+						<button type="button" class="btn btn-orange theme-color"
+							ng-click="markasIncomplete();">INCOMPLETE</button>
+						<button type="button" class="btn btn-orange theme-color"
+							ng-click="markasSeated();">YES</button>
+					</div>
+				</div>
+			</div>
+
+			<div id="deletePopup" class="simplePopup border-color">
+				<div class="confirm-table-wrap text-center">
+					<h2 class="theme-fontcolor">Confirm Delete Guest</h2>
+					<div class="guest-name">
+						<h1>Guest #{{selectedGuest.rank}}</h1>
+						<h1>{{selectedGuest.name}}</h1>
+					</div>
+					<div class="btn-guest border-top">
+						<button type="button" class="btn btn-orange theme-color"
+							ng-click="deleteGuest();">DELETE</button>
+						<button type="button" class="btn btn-orange theme-color"
+							ng-click="cancelDelete();">CANCEL</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- <div id="sendSMSPopup" class="simplePopup border-color">
 	              <div class="confirm-table-wrap text-center">
 	                    <h2 class="theme-fontcolor">Send Text</h2>
 	                    <div class="guest-name">
@@ -251,196 +345,335 @@
 	                    </div>
 	              </div>
 	           </div> -->
-	           
-	           <!-- popup with tab ruchi -->
-	           <div id="sendSMSPopup" class="simplePopup border-color">
-	              <div class="confirm-table-wrap text-center">
-	              <h2 class="theme-fontcolor">Send Text</h2>
-            <div class="guest-name">
-	                        <h1>Guest #{{selectedGuest.rank}}</h1>
-	                        <h1>{{selectedGuest.name}}</h1>
-	                        <div class="panel with-nav-tabs panel-default margin-top-20">
-                <div class="panel-heading">
-                        <ul class="nav nav-tabs">
-                            <li><a href="javascript:void(0)" data-target="#tab1default" data-toggle="tab" ng-click="activeId=1">Level 1</a></li>
-                            <li><a href="javascript:void(0)" data-target="#tab2default" data-toggle="tab" ng-click="activeId=2">Level 2</a></li>
-                            <li class="active"><a href="javascript:void(0)" data-target="#tab3default" data-toggle="tab" ng-click="activeId=3">Level 3</a></li>
-                        </ul>
-                </div>
-                <div class="panel-body">
-                    <div class="tab-content">
-                        <div class="tab-pane fade in active" id="tab1default"><p class="highlite"><textarea class="send-sms-textarea highlite" id="smsContent1" name="smsContent1" ng-model="smsContentLevel1" maxlength="225" ng-keyup="setCountMessage(1)"/>
-	                        <h6 class="pull-left" id="count_message" ng-hide="errorMessage!=null" ng-bind="countMessage1"></h6>
-	                        <h6 class="pull-left error-text" id="count_message" ng-show="errorMessage!=null" ng-bind="errorMessage"></h6>
-	                        </p></div>
-                        <div class="tab-pane fade" id="tab2default"><p class="highlite"><textarea class="send-sms-textarea highlite" id="smsContent2" name="smsContent2" ng-model="smsContentLevel2" maxlength="225" ng-keyup="setCountMessage(2)"/>
-	                        <h6 class="pull-left" id="count_message" ng-hide="errorMessage!=null" ng-bind="countMessage2"></h6>
-	                        <h6 class="pull-left error-text" id="count_message" ng-show="errorMessage!=null" ng-bind="errorMessage"></h6>
-	                        </p></div>
-                        <div class="tab-pane fade" id="tab3default"><p class="highlite"><textarea class="send-sms-textarea highlite" id="smsContent3" name="smsContent3" ng-model="smsContentLevel3" maxlength="225" ng-keyup="setCountMessage(3)"/>
-	                        <h6 class="pull-left" id="count_message" ng-hide="errorMessage!=null" ng-bind="countMessage3"></h6>
-	                        <h6 class="pull-left error-text" id="count_message" ng-show="errorMessage!=null" ng-bind="errorMessage"></h6>
-	                        </p></div>
-                    </div>
-                </div>
-            </div>
-	                    </div>
-	                    <div class="btn-guest border-top">
-	                        <button type="button" class="btn btn-orange theme-color" ng-click="sendSMS(activeId);">SEND SMS</button>
-	                        <button type="button" class="btn btn-orange theme-color" ng-click="cancelSendSMS();">CANCEL</button>
-	                    </div>
-            </div>
-            </div>
-            <!-- end tab ruchi -->
-	           	 
-	           	<div class="alert alert-success" role="alert" style="margin-left: 10px; margin-right: 10px;" ng-show="successMsg != null && successMsg != ''">
-					<button type="button" class="close" ng-click="hideSuccessMsg();">&times;</button>
-					<strong>Done ! </strong>{{successMsg}}
+
+			<!-- popup with tab ruchi -->
+			<div id="sendSMSPopup" class="simplePopup border-color">
+				<div class="confirm-table-wrap text-center">
+					<h2 class="theme-fontcolor">Send Text</h2>
+					<div class="guest-name">
+						<h1>Guest #{{selectedGuest.rank}}</h1>
+						<h1>{{selectedGuest.name}}</h1>
+						<div class="panel with-nav-tabs panel-default margin-top-20">
+							<div class="panel-heading">
+								<ul class="nav nav-tabs">
+									<li><a href="javascript:void(0)"
+										data-target="#tab1default" data-toggle="tab"
+										ng-click="activeId=1">Level 1</a></li>
+									<li><a href="javascript:void(0)"
+										data-target="#tab2default" data-toggle="tab"
+										ng-click="activeId=2">Level 2</a></li>
+									<li class="active"><a href="javascript:void(0)"
+										data-target="#tab3default" data-toggle="tab"
+										ng-click="activeId=3">Level 3</a></li>
+								</ul>
+							</div>
+							<div class="panel-body">
+								<div class="tab-content">
+									<div class="tab-pane fade in active" id="tab1default">
+										<p class="highlite">
+											<textarea class="send-sms-textarea highlite" id="smsContent1"
+												name="smsContent1" ng-model="smsContentLevel1"
+												maxlength="225" ng-keyup="setCountMessage(1)" /><h6
+													class="pull-left" id="count_message"
+													ng-hide="errorMessage!=null" ng-bind="countMessage1"></h6>
+										<h6 class="pull-left error-text" id="count_message"
+													ng-show="errorMessage!=null" ng-bind="errorMessage"></h6>
+
+
+
+										
+										</p>
+									</div>
+									<div class="tab-pane fade" id="tab2default">
+										<p class="highlite">
+											<textarea class="send-sms-textarea highlite" id="smsContent2"
+												name="smsContent2" ng-model="smsContentLevel2"
+												maxlength="225" ng-keyup="setCountMessage(2)" /><h6
+													class="pull-left" id="count_message"
+													ng-hide="errorMessage!=null" ng-bind="countMessage2"></h6>
+										<h6 class="pull-left error-text" id="count_message"
+													ng-show="errorMessage!=null" ng-bind="errorMessage"></h6>
+
+
+
+										
+										</p>
+									</div>
+									<div class="tab-pane fade" id="tab3default">
+										<p class="highlite">
+											<textarea class="send-sms-textarea highlite" id="smsContent3"
+												name="smsContent3" ng-model="smsContentLevel3"
+												maxlength="225" ng-keyup="setCountMessage(3)" /><h6
+													class="pull-left" id="count_message"
+													ng-hide="errorMessage!=null" ng-bind="countMessage3"></h6>
+										<h6 class="pull-left error-text" id="count_message"
+													ng-show="errorMessage!=null" ng-bind="errorMessage"></h6>
+
+
+
+										
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="btn-guest border-top">
+						<button type="button" class="btn btn-orange theme-color"
+							ng-click="sendSMS(activeId);">SEND SMS</button>
+						<button type="button" class="btn btn-orange theme-color"
+							ng-click="cancelSendSMS();">CANCEL</button>
+					</div>
 				</div>
-				
-				<!-- for togglecolumn on grid (krupali) -->
-				
-				
-				
-					           	
-				
-	           	<div ng-show="showHistory == false">
-	           		<table id="waitlisttable" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th class="numeric" ng-show="toggleColumn.seat">Seat</th>
-                                <!-- <th class="numeric" ng-show="toggleColumn.no">No.</th> -->
-                                <th class="numeric" ng-show="toggleColumn.partyRank">Party Rank</th>
-                                <th class="numeric" ng-show="toggleColumn.partyType">Party Type</th>
-                                <th class="numeric" ng-show="toggleColumn.noOfParty">No. Of Party</th>
-                                <th class="numeric" ng-show="toggleColumn.name">Name</th>
-                                <th class="numeric" ng-show="toggleColumn.checkinTime">Checkin Time</th>
-                                <th class="numeric" ng-show="toggleColumn.quoteTime">Quote Time</th>
-                                <th class="numeric" ng-show="toggleColumn.langPref">Language Pref.</th>
-                                <th class="numeric" ng-show="toggleColumn.optIn">Opt-In</th>  
-                                <th class="numeric" ng-show="toggleColumn.note">Note</th>
-                                <th class="numeric">Delete</th>  
-                                <th class="numeric" ng-show="userDTO.smsRoute != null && userDTO.smsRoute != '' && toggleColumn.sendText">Send Text</th>
-                                <!-- <th class="numeric" ng-show="toggleColumn.seatingPref">Seating Pref.</th> -->
-                                
-                                                               
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="record in guestWaitList">
-                                <td data-title="Seat" class="numeric" ng-show="toggleColumn.seat"><a class="clickpopup" style="cursor:pointer" ng-click="showPopup(record);"><img src="../assets/img/greenarrow.png"></a></td>
-                                <!-- <td data-title="No." class="numeric" ng-show="toggleColumn.no">{{record.rank}}</td> -->
-                                <td data-title="partyRank" class="numeric" ng-show="toggleColumn.partyRank">{{record.rank}}</td>
-                                <td data-title="partyType" class="numeric" ng-show="toggleColumn.partyType">
-                                	<span ng-if="record.partyType == 0" ng-class="{'highlight_smallparty' : record.partyType == 0 }">Small</span>
-                                	<span ng-if="record.partyType == 1" ng-class="{'highlight_largeparty' : record.partyType == 1 }">Large</span>
-                                	<span ng-if="record.partyType == -1">-</span>
-                                </td>
-                                <td data-title="No.of Party" class="numeric" ng-show="toggleColumn.noOfParty && (record.noOfChildren != 0 && record.noOfInfants != 0)">Total-{{record.noOfPeople}}</br>[A-{{record.noOfAdults}}, C-{{record.noOfChildren}}, I-{{record.noOfInfants}}] </td>
-                                <td data-title="No.of Party" class="numeric" ng-show="toggleColumn.noOfParty && (record.noOfChildren == 0 && record.noOfInfants == 0)">Total-{{record.noOfPeople}}</br>[A-{{record.noOfAdults}}]</td>
-                                <td data-title="No.of Party" class="numeric" ng-show="toggleColumn.noOfParty && (record.noOfChildren == 0 && record.noOfInfants != 0)">Total-{{record.noOfPeople}}</br>[A-{{record.noOfAdults}}, I-{{record.noOfInfants}}] </td>
-                                <td data-title="No.of Party" class="numeric" ng-show="toggleColumn.noOfParty && (record.noOfChildren != 0 && record.noOfInfants == 0)">Total-{{record.noOfPeople}}</br>[A-{{record.noOfAdults}}, C-{{record.noOfChildren}}] </td>
-                                <td data-title="Name" class="numeric" ng-show="toggleColumn.name">
-                                	<a ng-click="moveToUpdateGuest(record.guestID)" ng-class="{'hightlight_name' : record.incompleteParty != null }" style="cursor:pointer"><u>{{record.name}}</u></a> &nbsp;
-                                	<span ng-show="record.calloutCount != null" ng-repeat="item in getArrayFromNum(record.calloutCount) track by $index">
-                                	<img src="../assets/img/downhand.png" class="downarrow"> &nbsp;
-                                	</span>
-                                </td>
-                                <!-- <td data-title="Seating Pref." class="numeric" ng-show="toggleColumn.seatingPref">
+			</div>
+			<!-- end tab ruchi -->
+
+			<div class="alert alert-success" role="alert"
+				style="margin-left: 10px; margin-right: 10px;"
+				ng-show="successMsg != null && successMsg != ''">
+				<button type="button" class="close" ng-click="hideSuccessMsg();">&times;</button>
+				<strong>Done ! </strong>{{successMsg}}
+			</div>
+
+			<!-- for togglecolumn on grid (krupali) -->
+
+
+
+
+
+			<div ng-show="showHistory == false">
+				<table id="waitlisttable" class="table table-striped table-bordered"
+					cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<th class="numeric" ng-show="toggleColumn.seat">Seat</th>
+							<!-- <th class="numeric" ng-show="toggleColumn.no">No.</th> -->
+							<th class="numeric" ng-show="toggleColumn.partyRank">Party
+								Rank</th>
+							<th class="numeric" ng-show="toggleColumn.partyType">Party
+								Type</th>
+							<th class="numeric" ng-show="toggleColumn.noOfParty">No. Of
+								Party</th>
+							<th class="numeric" ng-show="toggleColumn.name">Name</th>
+							<th class="numeric" ng-show="toggleColumn.checkinTime">Checkin
+								Time</th>
+							<th class="numeric" ng-show="toggleColumn.quoteTime">Quote
+								Time</th>
+							<th class="numeric" ng-show="toggleColumn.langPref">Language
+								Pref.</th>
+							<th class="numeric" ng-show="toggleColumn.optIn">Opt-In</th>
+							<th class="numeric" ng-show="toggleColumn.note">Note</th>
+							<th class="numeric">Delete</th>
+							<th class="numeric"
+								ng-show="userDTO.smsRoute != null && userDTO.smsRoute != '' && toggleColumn.sendText">Send
+								Text</th>
+							<!-- <th class="numeric" ng-show="toggleColumn.seatingPref">Seating Pref.</th> -->
+
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="record in guestWaitList">
+							<td data-title="Seat" class="numeric" ng-show="toggleColumn.seat"><a
+								class="clickpopup" style="cursor: pointer"
+								ng-click="showPopup(record);"><img
+									src="../assets/img/greenarrow.png"></a></td>
+							<!-- <td data-title="No." class="numeric" ng-show="toggleColumn.no">{{record.rank}}</td> -->
+							<td data-title="partyRank" class="numeric"
+								ng-show="toggleColumn.partyRank">{{record.rank}}</td>
+							<td data-title="partyType" class="numeric"
+								ng-show="toggleColumn.partyType"><span
+								ng-if="record.partyType == 0"
+								ng-class="{'highlight_smallparty' : record.partyType == 0 }">Small</span>
+								<span ng-if="record.partyType == 1"
+								ng-class="{'highlight_largeparty' : record.partyType == 1 }">Large</span>
+								<span ng-if="record.partyType == -1">-</span></td>
+							<td data-title="No.of Party" class="numeric"
+								ng-show="toggleColumn.noOfParty && (record.noOfChildren != 0 && record.noOfInfants != 0)">Total-{{record.noOfPeople}}</br>[A-{{record.noOfAdults}},
+								C-{{record.noOfChildren}}, I-{{record.noOfInfants}}]
+							</td>
+							<td data-title="No.of Party" class="numeric"
+								ng-show="toggleColumn.noOfParty && (record.noOfChildren == 0 && record.noOfInfants == 0)">Total-{{record.noOfPeople}}</br>[A-{{record.noOfAdults}}]
+							</td>
+							<td data-title="No.of Party" class="numeric"
+								ng-show="toggleColumn.noOfParty && (record.noOfChildren == 0 && record.noOfInfants != 0)">Total-{{record.noOfPeople}}</br>[A-{{record.noOfAdults}},
+								I-{{record.noOfInfants}}]
+							</td>
+							<td data-title="No.of Party" class="numeric"
+								ng-show="toggleColumn.noOfParty && (record.noOfChildren != 0 && record.noOfInfants == 0)">Total-{{record.noOfPeople}}</br>[A-{{record.noOfAdults}},
+								C-{{record.noOfChildren}}]
+							</td>
+							<td data-title="Name" class="numeric" ng-show="toggleColumn.name">
+								<a ng-click="moveToUpdateGuest(record.guestID)"
+								ng-class="{'hightlight_name' : record.incompleteParty != null }"
+								style="cursor: pointer"><u>{{record.name}}</u></a> &nbsp; <span
+								ng-show="record.calloutCount != null"
+								ng-repeat="item in getArrayFromNum(record.calloutCount) track by $index">
+									<img src="../assets/img/downhand.png" class="downarrow">
+									&nbsp;
+							</span>
+							</td>
+							<!-- <td data-title="Seating Pref." class="numeric" ng-show="toggleColumn.seatingPref">
                                 <span ng-show="record.seatingPreference != null"><span ng-show="record.seatingPreference==''">&nbsp;</span>{{record.seatingPreference}}</span>
                                 <span ng-show="record.seatingPreference == null">-</span>
                                 </td> -->
-                                <!-- <span ng-show="record.seatingPreference==''">&nbsp;</span>{{record.seatingPreference}}</td> -->
-                                <td data-title="checkinTime" class="numeric" ng-show="toggleColumn.checkinTime">{{record.checkinTime | date :  "short"}}</td>
-                                <td data-title="quoteTime" class="numeric" ng-show="toggleColumn.quoteTime">{{record.quoteTime }}</td>
-                                <td data-title="langPref" class="numeric" ng-show="toggleColumn.langPref">{{record.languagePref.langName}}</td>
-                                <td data-title="Opt-In" class="numeric" ng-show="toggleColumn.optIn"><span ng-show="record.optin == false">&nbsp;</span><img ng-show="record.optin == true" src="../assets/img/roundarrow.png" class="roundarrow"></td>
-                                
-								<td data-title="Note" class="numeric" ng-show="toggleColumn.note"><span ng-show="record.note == null || record.note ==''">&nbsp;</span><a popover href="javascript:void(0)" data-toggle="popover-hide" data-placement="top" data-trigger="focus" data-content="{{record.note}}"><img ng-show="record.note != null && record.note !=''" src="../assets/img/roundarrow.png" class="roundarrow"></a></td>
-                                <td data-title="Delete" class="numeric"><a style="cursor:pointer" ng-click="showDeletePopup(record);"><img src="../assets/img/delete.png" class="deleteimg"></a></td>
-                                <!-- <td data-title="Send Text" class="numeric" ng-show="userDTO.smsRoute != null && userDTO.smsRoute != '' && toggleColumn.sendText"><a style="cursor:pointer" ng-click="showSendSMSPopup(record);"><img src="../assets/img/ic_send-sms.png" ></a></td>-->
-                                <td data-title="Send Text" class="numeric" ng-show="userDTO.smsRoute != null && userDTO.smsRoute != '' && toggleColumn.sendText">
-                                
-                                <a style="cursor:pointer" ng-click="showSendSMSPopup(record);">
-	                                <svg version="1.1" id="theme-icon-sms" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-										viewBox="0 0 800 800" enable-background="new 0 0 800 800" xml:space="preserve">
+							<!-- <span ng-show="record.seatingPreference==''">&nbsp;</span>{{record.seatingPreference}}</td> -->
+							<td data-title="checkinTime" class="numeric"
+								ng-show="toggleColumn.checkinTime">{{record.checkinTime |
+								date : "short"}}</td>
+							<td data-title="quoteTime" class="numeric"
+								ng-show="toggleColumn.quoteTime">{{record.quoteTime }}</td>
+							<td data-title="langPref" class="numeric"
+								ng-show="toggleColumn.langPref">{{record.languagePref.langName}}</td>
+							<td data-title="Opt-In" class="numeric"
+								ng-show="toggleColumn.optIn"><span
+								ng-show="record.optin == false">&nbsp;</span><img
+								ng-show="record.optin == true"
+								src="../assets/img/roundarrow.png" class="roundarrow"></td>
+
+							<td data-title="Note" class="numeric" ng-show="toggleColumn.note"><span
+								ng-show="record.note == null || record.note ==''">&nbsp;</span><a
+								popover href="javascript:void(0)" data-toggle="popover-hide"
+								data-placement="top" data-trigger="focus"
+								data-content="{{record.note}}"><img
+									ng-show="record.note != null && record.note !=''"
+									src="../assets/img/roundarrow.png" class="roundarrow"></a></td>
+							<td data-title="Delete" class="numeric"><a
+								style="cursor: pointer" ng-click="showDeletePopup(record);"><img
+									src="../assets/img/delete.png" class="deleteimg"></a></td>
+							<!-- <td data-title="Send Text" class="numeric" ng-show="userDTO.smsRoute != null && userDTO.smsRoute != '' && toggleColumn.sendText"><a style="cursor:pointer" ng-click="showSendSMSPopup(record);"><img src="../assets/img/ic_send-sms.png" ></a></td>-->
+							<td data-title="Send Text" class="numeric"
+								ng-show="userDTO.smsRoute != null && userDTO.smsRoute != '' && toggleColumn.sendText">
+
+								<a style="cursor: pointer" ng-click="showSendSMSPopup(record);">
+									<svg version="1.1" id="theme-icon-sms"
+										xmlns="http://www.w3.org/2000/svg"
+										xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+										viewBox="0 0 800 800" enable-background="new 0 0 800 800"
+										xml:space="preserve">
 									<g id="Shape_1">
 										<g>
-											<path fill-rule="evenodd" clip-rule="evenodd" d="M718.309,0H83.691C38.085,0,1,37.732,1,84.127v426.444
+											<path fill-rule="evenodd" clip-rule="evenodd"
+											d="M718.309,0H83.691C38.085,0,1,37.732,1,84.127v426.444
 												c0,46.396,37.085,84.128,82.691,84.128h90.381V800L424.34,594.697h293.969c41.24,0,75.509-30.857,81.691-71.071V71.071
 												C793.817,30.857,759.549,0,718.309,0z M750.999,510.571c0,18.816-14.673,34.144-32.69,34.144H406.47L224.073,694.323V544.715
 												H83.693c-18.018,0-32.69-15.327-32.69-34.144V84.127c0-18.816,14.673-34.144,32.69-34.144h634.616
 												c18.018,0,32.69,15.327,32.69,34.144V510.571z M224.681,318.668h452.636v-49.984H224.681V318.668z M324.683,441.186h352.635
-												v-49.983H324.683V441.186z M124.682,196.126h552.635v-49.984H124.682V196.126z"/>
+												v-49.983H324.683V441.186z M124.682,196.126h552.635v-49.984H124.682V196.126z" />
 										</g>
 									</g>
 									</svg>
-                                </a></td>
-                                
-                            </tr>
-                       	</tbody>
-                	</table>                
-            		<div class="clearfix"></div>
-                	<!-- <div class="paginations">
+							</a>
+							</td>
+
+						</tr>
+					</tbody>
+				</table>
+				<div class="clearfix"></div>
+				<!-- <div class="paginations">
 	                   	<div class="pagination-inner">Page<span>{{pager.currentPage}}</span>of {{pager.totalPages}} 
 	                       <a style="cursor:pointer" ng-click="loadWaitListPage(pager.currentPage-1)" class="priv"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
 	                       <a style="cursor:pointer" ng-click="loadWaitListPage(pager.currentPage+1)" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
 	                    </div>                                    
                		</div>	 -->
-	           	 </div>
-	           	 
-	           	 <div ng-show="showHistory == true">
-	           	 	<table id="waitlisttable" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <!-- <th class="numeric1" ng-show="toggleColumn.no">No.</th> -->
-                                <th class="numeric">Seated</br>or</br>Deleted</th>						<!-- krupali(10/07/2017) -->
-                                <th class="numeric" ng-show="toggleColumn.partyRank">Party Rank</th>
-                                <th class="numeric1" ng-show="toggleColumn.partyType">Party Type</th>
-                                <th class="numeric1" ng-show="toggleColumn.noOfParty">No. Of Party</th>
-                                <th class="numeric1" ng-show="toggleColumn.name">Name</th>
-                                <th class="numeric1" ng-show="toggleColumn.checkinTime">Checkin Time</th>
-                                <!-- <th class="numeric1" ng-show="toggleColumn.seatingPref">Seating Pref.</th> -->
-                                <th class="numeric1" ng-show="toggleColumn.quoteTime">Quote Time</th>
-                                <th class="numeric" ng-show="toggleColumn.langPref">Language Pref.</th>
-                                <th class="numeric1" ng-show="toggleColumn.optIn">Opt-In</th> 
-                                <th class="numeric1" ng-show="toggleColumn.note">Note</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="record in guestWaitList">
-                                <!-- <td data-title="No." class="numeric1" ng-show="toggleColumn.no">{{record.rank}}</td> -->
-                                <td data-title="seatedOrDeleted" class="numeric">								<!-- krupali(10/07/2017) -->
-                                	<img ng-if="record.status == 'SEATED'" src="../assets/img/seated.png" >
-                                	<img ng-if="record.status == 'DELETED'" src="../assets/img/deleted.png">
-                                </td>
-                                <td data-title="partyRank" class="numeric" ng-show="toggleColumn.partyRank">{{record.rank}}</td>
-                                <td data-title="partyType" class="numeric1" ng-show="toggleColumn.partyType">
-                                	<span ng-if="record.partyType == 0" ng-class="{'highlight_smallparty' : record.partyType == 0 }">Small</span>
-                                	<span ng-if="record.partyType == 1" ng-class="{'highlight_largeparty' : record.partyType == 1 }">Large</span>
-                                	<span ng-if="record.partyType == -1">-</span>
-                                </td>
-                                <td data-title="No.Of Party" class="numeric1" ng-show="toggleColumn.noOfParty && (record.noOfChildren != 0 && record.noOfInfants != 0)">Total-{{record.noOfPeople}}</br>[A-{{record.noOfAdults}}, C-{{record.noOfChildren}}, I-{{record.noOfInfants}}]</td>
-                                <td data-title="No.Of Party" class="numeric1" ng-show="toggleColumn.noOfParty && (record.noOfChildren == 0 && record.noOfInfants == 0)">Total-{{record.noOfPeople}}</br>[A-{{record.noOfAdults}}]</td>
-                                <td data-title="No.Of Party" class="numeric1" ng-show="toggleColumn.noOfParty && (record.noOfChildren == 0 && record.noOfInfants != 0)">Total-{{record.noOfPeople}}</br>[A-{{record.noOfAdults}}, I-{{record.noOfInfants}}]</td>
-                                <td data-title="No.Of Party" class="numeric1" ng-show="toggleColumn.noOfParty && (record.noOfChildren != 0 && record.noOfInfants == 0)">Total-{{record.noOfPeople}}</br>[A-{{record.noOfAdults}}, C-{{record.noOfChildren}}]</td>
-                                <td data-title="Name" class="numeric1" ng-show="toggleColumn.name">
-                                	<a ng-click="moveToUpdateGuest(record.guestID)" ng-class="{'hightlight_name' : record.incompleteParty != null }" style="cursor:pointer"><u>{{record.name}}</u></a> &nbsp;
-                                	<span ng-show="record.calloutCount != null" ng-repeat="item in getArrayFromNum(record.calloutCount) track by $index">
-                                	<img src="../assets/img/downhand.png" class="downarrow"> &nbsp;
-                                	</span>
-                                </td>
-                                <!-- <td data-title="Seating Pref." class="numeric1" ng-show="toggleColumn.seatingPref"><span ng-show="record.seatingPreference==''">&nbsp;</span>{{record.seatingPreference}}</td> -->
-                                <td data-title="checkinTime" class="numeric1" ng-show="toggleColumn.checkinTime">{{record.checkinTime | date :  "short"}}</td>
-                                <td data-title="quoteTime" class="numeric1" ng-show="toggleColumn.quoteTime">{{record.quoteTime}}</td>
-                                <td data-title="langPref" class="numeric" ng-show="toggleColumn.langPref">{{record.languagePref.langName}}</td>
-                                <td data-title="Opt-In" class="numeric1" ng-show="toggleColumn.optIn"><span ng-show="record.optin == false">&nbsp;</span><img ng-show="record.optin == true" src="../assets/img/roundarrow.png" class="roundarrow"></td>
-                                 <td data-title="Note" class="numeric1" ng-show="toggleColumn.note"><span ng-show="record.note == null || record.note ==''">&nbsp;</span><a popover href="javascript:void(0)" data-toggle="popover-show" data-placement="top" data-trigger="focus" data-content="{{record.note}}"><img ng-show="record.note != null && record.note !=''" src="../assets/img/roundarrow.png" class="roundarrow"></a></td>
-                            </tr>
-                       	</tbody>
-                	</table>                
-<!--    		   <div class="clearfix"></div>-->
-       				<!-- <div class="pagination-block">
+			</div>
+
+			<div ng-show="showHistory == true">
+				<table id="waitlisttable" class="table table-striped table-bordered"
+					cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<!-- <th class="numeric1" ng-show="toggleColumn.no">No.</th> -->
+							<th class="numeric">Seated</br>or</br>Deleted
+							</th>
+							<!-- krupali(10/07/2017) -->
+							<th class="numeric" ng-show="toggleColumn.partyRank">Party
+								Rank</th>
+							<th class="numeric1" ng-show="toggleColumn.partyType">Party
+								Type</th>
+							<th class="numeric1" ng-show="toggleColumn.noOfParty">No. Of
+								Party</th>
+							<th class="numeric1" ng-show="toggleColumn.name">Name</th>
+							<th class="numeric1" ng-show="toggleColumn.checkinTime">Checkin
+								Time</th>
+							<!-- <th class="numeric1" ng-show="toggleColumn.seatingPref">Seating Pref.</th> -->
+							<th class="numeric1" ng-show="toggleColumn.quoteTime">Quote
+								Time</th>
+							<th class="numeric" ng-show="toggleColumn.langPref">Language
+								Pref.</th>
+							<th class="numeric1" ng-show="toggleColumn.optIn">Opt-In</th>
+							<th class="numeric1" ng-show="toggleColumn.note">Note</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="record in guestWaitList">
+							<!-- <td data-title="No." class="numeric1" ng-show="toggleColumn.no">{{record.rank}}</td> -->
+							<td data-title="seatedOrDeleted" class="numeric">
+								<!-- krupali(10/07/2017) --> <img
+								ng-if="record.status == 'SEATED'" src="../assets/img/seated.png">
+								<img ng-if="record.status == 'DELETED'"
+								src="../assets/img/deleted.png">
+							</td>
+							<td data-title="partyRank" class="numeric"
+								ng-show="toggleColumn.partyRank">{{record.rank}}</td>
+							<td data-title="partyType" class="numeric1"
+								ng-show="toggleColumn.partyType"><span
+								ng-if="record.partyType == 0"
+								ng-class="{'highlight_smallparty' : record.partyType == 0 }">Small</span>
+								<span ng-if="record.partyType == 1"
+								ng-class="{'highlight_largeparty' : record.partyType == 1 }">Large</span>
+								<span ng-if="record.partyType == -1">-</span></td>
+							<td data-title="No.Of Party" class="numeric1"
+								ng-show="toggleColumn.noOfParty && (record.noOfChildren != 0 && record.noOfInfants != 0)">Total-{{record.noOfPeople}}</br>[A-{{record.noOfAdults}},
+								C-{{record.noOfChildren}}, I-{{record.noOfInfants}}]
+							</td>
+							<td data-title="No.Of Party" class="numeric1"
+								ng-show="toggleColumn.noOfParty && (record.noOfChildren == 0 && record.noOfInfants == 0)">Total-{{record.noOfPeople}}</br>[A-{{record.noOfAdults}}]
+							</td>
+							<td data-title="No.Of Party" class="numeric1"
+								ng-show="toggleColumn.noOfParty && (record.noOfChildren == 0 && record.noOfInfants != 0)">Total-{{record.noOfPeople}}</br>[A-{{record.noOfAdults}},
+								I-{{record.noOfInfants}}]
+							</td>
+							<td data-title="No.Of Party" class="numeric1"
+								ng-show="toggleColumn.noOfParty && (record.noOfChildren != 0 && record.noOfInfants == 0)">Total-{{record.noOfPeople}}</br>[A-{{record.noOfAdults}},
+								C-{{record.noOfChildren}}]
+							</td>
+							<td data-title="Name" class="numeric1"
+								ng-show="toggleColumn.name"><a
+								ng-click="moveToUpdateGuest(record.guestID)"
+								ng-class="{'hightlight_name' : record.incompleteParty != null }"
+								style="cursor: pointer"><u>{{record.name}}</u></a> &nbsp; <span
+								ng-show="record.calloutCount != null"
+								ng-repeat="item in getArrayFromNum(record.calloutCount) track by $index">
+									<img src="../assets/img/downhand.png" class="downarrow">
+									&nbsp;
+							</span></td>
+							<!-- <td data-title="Seating Pref." class="numeric1" ng-show="toggleColumn.seatingPref"><span ng-show="record.seatingPreference==''">&nbsp;</span>{{record.seatingPreference}}</td> -->
+							<td data-title="checkinTime" class="numeric1"
+								ng-show="toggleColumn.checkinTime">{{record.checkinTime |
+								date : "short"}}</td>
+							<td data-title="quoteTime" class="numeric1"
+								ng-show="toggleColumn.quoteTime">{{record.quoteTime}}</td>
+							<td data-title="langPref" class="numeric"
+								ng-show="toggleColumn.langPref">{{record.languagePref.langName}}</td>
+							<td data-title="Opt-In" class="numeric1"
+								ng-show="toggleColumn.optIn"><span
+								ng-show="record.optin == false">&nbsp;</span><img
+								ng-show="record.optin == true"
+								src="../assets/img/roundarrow.png" class="roundarrow"></td>
+							<td data-title="Note" class="numeric1"
+								ng-show="toggleColumn.note"><span
+								ng-show="record.note == null || record.note ==''">&nbsp;</span><a
+								popover href="javascript:void(0)" data-toggle="popover-show"
+								data-placement="top" data-trigger="focus"
+								data-content="{{record.note}}"><img
+									ng-show="record.note != null && record.note !=''"
+									src="../assets/img/roundarrow.png" class="roundarrow"></a></td>
+						</tr>
+					</tbody>
+				</table>
+				<!--    		   <div class="clearfix"></div>-->
+				<!-- <div class="pagination-block">
                        <div class="col-md-12 col-sm-12 col-xs-12">
                        <div class="paginations">
 	                   <div class="pagination-inner">Page<span>{{pager.currentPage}}</span>of {{pager.totalPages}} 
@@ -451,35 +684,45 @@
                			</div>
                        </div>
        				 </div> -->
-                 	
-	           	 </div>
-	           	 
-	           	 
-                        
-     </div>
 
-    	 <div class="pagination-block">
-<!--                        <div class="col-md-12 col-sm-12 col-xs-12">-->
-                       <div ng-show="showHistory == false" class="paginations">
-	                   <div class="pagination-inner">Page<span>{{pager.currentPage}}</span>of {{pager.totalPages}} 
-	                       <a style="cursor:pointer" ng-click="loadWaitListPage(pager.currentPage-1)" class="priv"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-	                       <a style="cursor:pointer" ng-click="loadWaitListPage(pager.currentPage+1)" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
-	                    </div> 
-                                    
-               			</div>
-               			
-           			 <div ng-show="showHistory == true" class="paginations">
-	                   <div class="pagination-inner">Page<span>{{pager.currentPage}}</span>of {{pager.totalPages}} 
-	                       <a style="cursor:pointer" ng-click="loadHistoryPage(pager.currentPage-1)" class="priv"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-	                       <a style="cursor:pointer" ng-click="loadHistoryPage(pager.currentPage+1)" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
-	                    </div>
-                                    
-               		 </div>
+			</div>
 
-       			</div><!-- End of pagination block -->
-			
-			<div class="loader" ng-if="loading"></div>
-       
+
+
+		</div>
+
+		<div class="pagination-block">
+			<!--                        <div class="col-md-12 col-sm-12 col-xs-12">-->
+			<div ng-show="showHistory == false" class="paginations">
+				<div class="pagination-inner">
+					Page<span>{{pager.currentPage}}</span>of {{pager.totalPages}} <a
+						style="cursor: pointer"
+						ng-click="loadWaitListPage(pager.currentPage-1)" class="priv"><i
+						class="fa fa-angle-left" aria-hidden="true"></i></a> <a
+						style="cursor: pointer"
+						ng-click="loadWaitListPage(pager.currentPage+1)" class="next"><i
+						class="fa fa-angle-right" aria-hidden="true"></i></a>
+				</div>
+
+			</div>
+
+			<div ng-show="showHistory == true" class="paginations">
+				<div class="pagination-inner">
+					Page<span>{{pager.currentPage}}</span>of {{pager.totalPages}} <a
+						style="cursor: pointer"
+						ng-click="loadHistoryPage(pager.currentPage-1)" class="priv"><i
+						class="fa fa-angle-left" aria-hidden="true"></i></a> <a
+						style="cursor: pointer"
+						ng-click="loadHistoryPage(pager.currentPage+1)" class="next"><i
+						class="fa fa-angle-right" aria-hidden="true"></i></a>
+				</div>
+
+			</div>
+
+		</div>
+		<!-- End of pagination block -->
+
+		<div class="loader" ng-if="loading"></div>
 </section>
 
 
@@ -582,8 +825,8 @@ $(".input-number").keydown(function (e) {
 	
 </script>
 
- <!-- ion_range -->
-  <script>
+<!-- ion_range -->
+<script>
  /*  $(document).ready(function(){
     $("#slider-range").slider({
     range: true,
@@ -646,10 +889,10 @@ $(".input-number").keydown(function (e) {
 });
 });	 */
   </script>
-  <!-- /ion_range -->
- 
- <!-- note -->
- <script>
+<!-- /ion_range -->
+
+<!-- note -->
+<script>
 $(document).ready(function(){
     $('[data-toggle="popover-hide"]').popover();  
 	$('[data-toggle="popover-show"]').popover();	

@@ -19,6 +19,7 @@ KyobeeControllers.controller('homeCtrl',
 					$rootScope.hideHeader=false;//To hide show header in index.html
 					$scope.userDTO = null;
 		            $scope.seatPrefs = null;
+		            $scope.marketingPref = null; // change by sunny (27-07-2018)
 		            $scope.authToken = 'Unno1adyiSooIAkAEt';
 		            $scope.connectionUrl = 'https://ortc-developers.realtime.co/server/2.1';
 		            $scope.homeCtrlLoaded = null;
@@ -210,6 +211,35 @@ KyobeeControllers.controller('homeCtrl',
 								});
 					};
 					
+					// change by sunny (27-07-2018)
+					$scope.loadMarketingPref = function() {
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/orgMarketingPref?orgid='
+								+ $scope.userDTO.organizationId;
+						;
+						KyobeeService
+								.getDataService(url, '')
+								.query(
+										postBody,
+										function(data) {
+											console.log(data);
+											if (data.status == "SUCCESS") {
+												$scope.marketingPref = data.serviceResult;
+											} else if (data.status == "FAILURE") {
+												alert('Error while fetching user details. Please login again or contact support');
+												$scope.logout();
+											}
+										},
+										function(error) {
+											alert('Error while fetching user details. Please login again or contact support');
+										});
+					
+							};
+
+
+					
 					$scope.resetGuestByOrgid = function() {
 						$scope.loading=true;
 						var postBody = {
@@ -262,6 +292,8 @@ KyobeeControllers.controller('homeCtrl',
 					
 					$scope.loadDataForPage = function(){	
 						$scope.loadSeatingPref();
+						$scope.loadMarketingPref();
+						
 					}
 					
 					$scope.getArrayFromNum = function(num){

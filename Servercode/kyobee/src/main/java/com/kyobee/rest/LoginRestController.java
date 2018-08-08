@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kyobee.dao.impl.UserDAO;
+import com.kyobee.dto.GuestMarketingPreference;
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
 import com.kyobee.dto.OrganizationTemplateDTO;
@@ -229,6 +230,16 @@ public class LoginRestController {
 				}catch(Exception e){
 					LoggerUtil.logError(e.getMessage(), e);
 				}
+				// change by sunny for get Marketing Preference List (2018-07-06)
+				List<GuestMarketingPreference> marketingPref =  null;
+				try {
+					marketingPref=	waitListService.getOrganizationMarketingPref(Long.valueOf(loginDetail[1].toString()).longValue());
+					rootMap.put("success", "0");
+					rootMap.put("marketingPref",marketingPref);
+				}catch(Exception e){
+					LoggerUtil.logError(e.getMessage(), e);
+				}
+				
 			}else{
 				rootMap.put("success", "-1");
 				rootMap.put(Constants.RSNT_ERROR, "Invalid Username or Password.");

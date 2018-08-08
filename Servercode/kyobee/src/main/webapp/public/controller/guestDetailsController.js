@@ -12,6 +12,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					$scope.guest = null;
 					$scope.tid = null;
 					$scope.seatPrefs = null;
+					$scope.marketingPref = null;
 					$scope.totalWaitTime = null;
 					$scope.guestRankMin = null;
 					$scope.guestAheadCount = null;
@@ -30,6 +31,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					$scope.countMsgChannel = 0;
 					
 					$scope.selectedSeatPref = [];
+					$scope.selectedGuestMarketingPref = [];
 					$scope.loading = false;
 					
 					$scope.currentPageLanguage = null;
@@ -157,11 +159,27 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 										var seatingPrefs = $scope.guest.seatingPreference.split(',');
 										if(seatingPrefs != null && seatingPrefs != 'undefined'){
 											for(var i=0; i<seatingPrefs.length; i++){
-												$scope.selectedSeatPref.push(seatingPrefs[i]);
+												console.log("sunny"+seatingPrefs);
+												$scope.selectedSeatPref[i] = seatingPrefs[i];
+												
 											}
 										}
 										console.log($scope.selectedSeatPref);
 									}
+									
+									
+									/*change by sunny (31-07-2018)*/
+									$scope.selectedGuestMarketingPref = [];
+									if($scope.guest.marketingPreference != null && $scope.guest.marketingPreference != 'undefined'){
+										var marketingPref = $scope.guest.marketingPreference.split(',');
+										if(marketingPref != null && marketingPref != 'undefined'){
+											for(var i=0; i<marketingPref.length; i++){
+												$scope.selectedGuestMarketingPref.push(marketingPref[i]);
+											}
+										}
+										console.log($scope.selectedGuestMarketingPref);
+									}
+									
 
 									if($scope.guest.prefType == 'sms' || $scope.guest.prefType == 'SMS'){
 										$scope.guest.sms = Number.parseInt($scope.guest.sms);
@@ -173,6 +191,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 									}
 									
 									$scope.loadSeatingPref($scope.guest.organizationID);
+									$scope.loadMarketingPref($scope.guest.organizationID);
 									$scope.loadUserMetricks($scope.guest.organizationID, $scope.guest.guestID);
 									defered.resolve();
 								} else if (data.status == "FAILURE") {
@@ -203,6 +222,27 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 									alert($scope.currentPageLanguage.fetchError);
 								});
 					};
+					
+					/*change by sunny (31-07-2018)*/
+					$scope.loadMarketingPref = function(orgId) {
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/orgMarketingPref?orgid=' + orgId;
+						KyobeeUnsecuredService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log(data);
+									if (data.status == "SUCCESS") {
+										$scope.marketingPref = data.serviceResult;
+									} else if (data.status == "FAILURE") {
+										alert($scope.currentPageLanguage.fetchError);
+										$scope.logout();
+									}
+								}, function(error) {
+									alert($scope.currentPageLanguage.fetchError);
+								});
+					};
+					
 					
 					$scope.updateGuest = function(){
 						
@@ -269,6 +309,23 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 							}
 						}
 						
+						// change by sunny (31-07-2018)
+						
+						var selectedGuestMarketingPref = [];
+						
+						if($scope.marketingPref!=null) {
+							for(i=0;i<$scope.marketingPref.length;i++){
+								for(j=0; j<$scope.selectedGuestMarketingPref.length;j++){
+									if($scope.marketingPref[i].guestMarketPrefValueId == $scope.selectedGuestMarketingPref[j]){
+										selectedGuestMarketingPref.push($scope.marketingPref[i]);
+										break;
+									}
+								}								
+							}
+						}
+						
+						
+						
 						var postBody = {
 								'name' : 	$scope.guest.name,
 								'guestID' : $scope.guest.guestID,
@@ -283,6 +340,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								'optin' : $scope.guest.optin,
 								'status': 'CHECKIN',
 								'guestPreferences' : selectedGuestPref,
+								'guestMarketingPreferences': selectedGuestMarketingPref,
 								'languagePref' : $scope.guest.languagePrefID
 						}
 						console.log(JSON.stringify(postBody));

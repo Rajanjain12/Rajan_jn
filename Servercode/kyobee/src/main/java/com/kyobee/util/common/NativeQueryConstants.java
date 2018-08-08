@@ -3,6 +3,8 @@ package com.kyobee.util.common;
 
 public class NativeQueryConstants {
 	
+	public static final String GET_GUEST_MISS_COUNT = "SELECT count(*) from Guest where createdTime >=:first and createdTime <=:last and status=:status";
+	
 	public static final String GET_ORG_AUTO_RENEW_OPTION = "SELECT AutoRenew from ORGANIZATION where ORGANIZATIONID = ?1";
 	
 	public static final String GET_ORGANIZATION_PLAN_TYPE="SELECT count(*) FROM ORGANIZATION OT "+
@@ -434,6 +436,10 @@ public class NativeQueryConstants {
 	public static final String HQL_GET_GUEST_BY_UUID = "FROM Guest g left join fetch g.languagePrefID WHERE g.status ='CHECKIN' and  g.resetTime is null and uuid=:UUID";
 	public static final String GET_ORG_SEATING_PREF_VALUES = "select lkp.LookupID,lkp.Name from ORGANIZATION org inner join ORGANIZATIONCATEGORY oc on org.organizationID=oc.organizationID "+
                                                               " inner join LOOKUP lkp on oc.CategoryValueID=lkp.LookupID where oc.organizationID=:orgId and oc.CategoryTypeID=:catTypeId order by lkp.Position";
+	
+	public static final String GET_ORG_MARKETING_PREF_VALUES = "select lkp.LookupID,lkp.Name from ORGANIZATION org inner join ORGANIZATIONCATEGORY oc on org.organizationID=oc.organizationID "+
+            " inner join LOOKUP lkp on oc.CategoryValueID=lkp.LookupID where oc.organizationID=:orgId and oc.CategoryTypeID=:catTypeId order by lkp.Position";
+	
 	public static final String GET_ORG_LANGUAGE_PREF_VALUES = "select LangID, LangName, LangIsoCode from "+
 																"ORGANIZATIONLANG ol inner join LANGMASTER lm on lm.LangID = ol.LanguageID "+
 																"where ol.OrganizationID=:orgId and ol.Active=1";

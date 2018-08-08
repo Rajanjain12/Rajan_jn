@@ -38,6 +38,7 @@ public class GuestDTO implements Serializable{
 	private Long rank;
 	private String prefType;
 	private List<GuestPreferencesDTO> guestPreferences;
+	private List<GuestMarketingPreference> guestMarketingPreferences;// change by sunny for marketing preference (2018-07-05)
 	private boolean optin;
 	private Long calloutCount;
 	private Date checkinTime;
@@ -46,12 +47,27 @@ public class GuestDTO implements Serializable{
 	private Date updatedTime;
 	private Long incompleteParty;
 	private String seatingPreference;
+	private String marketingPreference;// change by sunny 2018-07-04..
+	private String customPreference;// change by sunny 2018-07-04..
 	private String deviceType;
 	private String deviceId;
 	private LangMaster languagePref;
 	private String tinyUrl;
 
-	
+	@XmlAttribute
+	public String getMarketingPreference() {
+		return marketingPreference;
+	}
+	public void setMarketingPreference(String marketingPreference) {
+		this.marketingPreference = marketingPreference;
+	}
+	@XmlAttribute
+	public String getCustomPreference() {
+		return customPreference;
+	}
+	public void setCustomPreference(String customPreference) {
+		this.customPreference = customPreference;
+	}
 	@XmlAttribute
 	public String getDeviceType() {
 		return deviceType;
@@ -225,6 +241,12 @@ public class GuestDTO implements Serializable{
 
 	public void setCalloutCount(Long calloutCount) {
 		this.calloutCount = calloutCount;
+	}
+	public List<GuestMarketingPreference> getGuestMarketingPreferences() {
+		return guestMarketingPreferences;
+	}
+	public void setGuestMarketingPreferences(List<GuestMarketingPreference> guestMarketingPreferences) {
+		this.guestMarketingPreferences = guestMarketingPreferences;
 	}
 	@XmlAttribute
 	public List<GuestPreferencesDTO> getGuestPreferences() {

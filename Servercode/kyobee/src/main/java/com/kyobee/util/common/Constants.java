@@ -124,6 +124,7 @@ public class Constants {
 	public static final String RSNT_NOW_SERVING_GUEST_ID = "NOW_SERVING_GUEST_ID";
 	public static final String RSNT_NEXT_TO_NOTIFY_GUEST_ID =  "NEXT_TO_NOTIFY_GUEST_ID";
 	public static final String CONT_LOOKUPTYPE_GUEST_PREF = "18";
+	public static final String CONT_LOOKUPTYPE_GUEST_MARKETING_PREF = "19";
 	public static final int WAITLIST_UPDATE_GUEST = 1;
 	public static final int WAITLIST_UPDATE_CALLOUT = 2;
 	public static final int WAITLIST_UPDATE_MARK_AS_SEATED = 3;

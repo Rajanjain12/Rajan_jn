@@ -20,6 +20,7 @@ import javax.persistence.Transient;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.hibernate.annotations.Type;
 
+import com.kyobee.dto.GuestMarketingPreference;
 import com.kyobee.dto.LanguageMasterDTO;
 
 @Entity
@@ -80,6 +81,10 @@ public class Guest implements Serializable{
 	@JsonManagedReference
 	private List<GuestPreferences> guestPreferences;
 	
+	@Transient
+	@JsonManagedReference
+	private List<GuestMarketingPreference> guestMarketingPreferences;
+	
 	@Column(name="checkinTime")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date checkinTime;
@@ -112,6 +117,12 @@ public class Guest implements Serializable{
 	@Column(name="seatingPreference")
 	private String seatingPreference;
 	
+	@Column(name="marketingPreference")
+	private String marketingPreference;// change by sunny 2018-07-04..
+	
+	@Column(name="customPreference")
+	private String customPreference;// change by sunny 2018-07-04..
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="languagePrefID", nullable = false)
 	private LangMaster languagePrefID;
@@ -129,6 +140,22 @@ public class Guest implements Serializable{
 
 	public void setDeviceId(String deviceId) {
 		this.deviceId = deviceId;
+	}
+
+	public String getMarketingPreference() {
+		return marketingPreference;
+	}
+
+	public void setMarketingPreference(String marketingPreference) {
+		this.marketingPreference = marketingPreference;
+	}
+
+	public String getCustomPreference() {
+		return customPreference;
+	}
+
+	public void setCustomPreference(String customPreference) {
+		this.customPreference = customPreference;
 	}
 
 	public String getDeviceType() {
@@ -355,4 +382,13 @@ public class Guest implements Serializable{
 		this.languagePrefID = languagePrefID;
 	}
 
+	public List<GuestMarketingPreference> getGuestMarketingPreferences() {
+		return guestMarketingPreferences;
+	}
+
+	public void setGuestMarketingPreferences(List<GuestMarketingPreference> guestMarketingPreferences) {
+		this.guestMarketingPreferences = guestMarketingPreferences;
+	}
+
+	
 }

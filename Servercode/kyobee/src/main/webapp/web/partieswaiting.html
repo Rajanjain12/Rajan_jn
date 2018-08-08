@@ -212,7 +212,25 @@
                         <input type="checkbox" id="pref{{sPerf.prefValueId}}"  ng-model="sPerf.selected" >
                         <label for="pref{{sPerf.prefValueId}}">{{sPerf.prefValue}}</label>
                     </div>
+                    
+                    
                     </div>
+                 
+                </div>
+                <!-- Change by sunny (31-07-2018) -->
+                <div class="form-group panel-form" ng-show="marketingPref != null">
+                    <div class="addf1">
+                        <label>Marketing Preference:</label>
+                    </div>
+                    <div class="addf2">
+                  <div class="checkbox checkbox-success checkbox-inline" ng-repeat="mPerf in marketingPref">
+                        <input type="checkbox" id="pref{{mPerf.guestMarketPrefValueId}}"  ng-model="mPerf.selected" >
+                        <label for="pref{{mPerf.guestMarketPrefValueId}}">{{mPerf.guestMarketPrefValue}}</label>
+                    </div>
+                    
+                    
+                    </div>
+                    
                 </div>
                   
                 <div class="addf4 panel-form-1">

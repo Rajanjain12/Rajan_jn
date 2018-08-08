@@ -1,6 +1,7 @@
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 
 </head>
@@ -8,159 +9,193 @@
 
 
 <section class="waitlist-wrap">
-  
-    <div class="container"> 
-        <div class="col-md-10 marginauto">
-        	
-        	<div ng-show="guest == null" style="height:80%" class="guest_list_wrap content-sm row">
-        	<!-- <div  style="height:80%" class="guest_list_wrap content-sm row"> -->
-        		<h4>The requested guest doesn't exist anymore.</h4>
-        	</div>
-        	
-        	 <div class="alert alert-danger" role="alert" ng-show="errorMsg != null && errorMsg != ''" style="margin-top: 10px;">
-						<button type="button" class="close" ng-click="hideErrorMsg();" >&times;</button>
-						{{errorMsg}}
+
+	<div class="container">
+		<div class="col-md-10 marginauto">
+
+			<div ng-show="guest == null" style="height: 80%"
+				class="guest_list_wrap content-sm row">
+				<!-- <div  style="height:80%" class="guest_list_wrap content-sm row"> -->
+				<h4>The requested guest doesn't exist anymore.</h4>
 			</div>
-        	
-            <div ng-show="guest != null" class="guest_list_wrap content-sm row">
-			<!-- <div class="guest_list_wrap content-sm row"> -->
-                <div class="fontpopup section">
 
-                    <div class="row">
-                        
-                      <div id="waitlist-box">
-                          
-                          <div class="col-md-5 text-center fontsize1 theme-fontcolor">
-                            <h2>{{currentPageLanguage.nowServing}}</h2>
-                            <h3>#{{guestRankMin}}</h3>
-                          </div>
-                           <div class="col-md-2 text-center fontsize1 graycolor">
-                            <h2>({{guestAheadCount}})</h2>
-                            <p class="fontpsize">{{currentPageLanguage.partiesWaiting}}</p>
-                          </div>
-                          <div class="col-md-5 text-center fontsize1 theme-fontcolor">
-                            <h2>{{currentPageLanguage.estWaitTime}}</h2>
-                            <h3>{{convertMinstoMMHH(totalWaitTime)}}</h3>
-                          </div>
-                        
-                      </div>
-                    </div>
-                </div>
-                
-                <div class="fontpopup1">
-                    <form class="guest_check well-guest" name="addGuestForm">
-                        
-                        <div class="col-md-12">
+			<div class="alert alert-danger" role="alert"
+				ng-show="errorMsg != null && errorMsg != ''"
+				style="margin-top: 10px;">
+				<button type="button" class="close" ng-click="hideErrorMsg();">&times;</button>
+				{{errorMsg}}
+			</div>
 
-                            <div class="form-group col-md-6 col-sm-6 col-xs-12 margin-top-20">
-                           
-                            <input type="text" name="field1" class="form-control" ng-model="guest.name"/>
-                            </div>
+			<div ng-show="guest != null" class="guest_list_wrap content-sm row">
+				<!-- <div class="guest_list_wrap content-sm row"> -->
+				<div class="fontpopup section">
 
-							<div class="form-group col-md-6 col-sm-6 col-xs-12 margin-top-20" >
-			                    
-			       <label class="control-label"></label>             
-			      <div class="col-md-6 col-sm-4 col-xs-12">
-				  <input type="number" id="adults" name="adults" min=0 max=100 class="form-control col-md-4 col-sm-4 col-xs-12" ng-model="guest.noOfAdults" required placeholder="Adults" />
-				  <!-- <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
+					<div class="row">
+
+						<div id="waitlist-box">
+
+							<div class="col-md-5 text-center fontsize1 theme-fontcolor">
+								<h2>{{currentPageLanguage.nowServing}}</h2>
+								<h3>#{{guestRankMin}}</h3>
+							</div>
+							<div class="col-md-2 text-center fontsize1 graycolor">
+								<h2>({{guestAheadCount}})</h2>
+								<p class="fontpsize">{{currentPageLanguage.partiesWaiting}}</p>
+							</div>
+							<div class="col-md-5 text-center fontsize1 theme-fontcolor">
+								<h2>{{currentPageLanguage.estWaitTime}}</h2>
+								<h3>{{convertMinstoMMHH(totalWaitTime)}}</h3>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="fontpopup1">
+					<form class="guest_check well-guest" name="addGuestForm">
+
+						<div class="col-md-12">
+
+							<div class="form-group col-md-6 col-sm-6 col-xs-12 margin-top-20">
+
+								<input type="text" name="field1" class="form-control"
+									ng-model="guest.name" />
+							</div>
+
+							<div class="form-group col-md-6 col-sm-6 col-xs-12 margin-top-20">
+
+								<label class="control-label"></label>
+								<div class="col-md-6 col-sm-4 col-xs-12">
+									<input type="number" id="adults" name="adults" min=0 max=100
+										class="form-control col-md-4 col-sm-4 col-xs-12"
+										ng-model="guest.noOfAdults" required placeholder="Adults" />
+									<!-- <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
 				        <h5 ng-message="required">Adults cannot be blank</h5>
 				  </span> -->
-				  </div>
-                
-                 <div class="col-md-6 col-sm-2 col-xs-12">
-                  <input type="number" id="children" name="children" class="form-control" min=0 max=100 ng-model="guest.noOfChildren" placeholder="Children"/>
-                  <!-- <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
+								</div>
+
+								<div class="col-md-6 col-sm-2 col-xs-12">
+									<input type="number" id="children" name="children"
+										class="form-control" min=0 max=100
+										ng-model="guest.noOfChildren" placeholder="Children" />
+									<!-- <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
 				        <h5 ng-message="required">Children cannot be blank</h5>
                   </span>  -->
-                  </div>
-				  
-				 <!--  <div class="col-md-4 col-sm-2 col-xs-12">
+								</div>
+
+								<!--  <div class="col-md-4 col-sm-2 col-xs-12">
 				  <input type="number" id="infants" name="infants" min=0 max=100 class="form-control col-md-4 col-sm-4 col-xs-12" ng-model="guest.noOfInfants" placeholder="Infants" ng-disabled="guest.noOfChildren == 0 && guest.noOfAdults == 0" title="{{(guest.noOfChildren == 0 && guest.noOfAdults == 0) ? 'You must have to add at least one child or adult' : 'Please fill out this field'}}" />
 				  <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
 				        <h5 ng-message="required">Infants cannot be blank</h5>
 				  </span>
                   </div> -->
-			                </div>
-                  
+							</div>
 
-                           
-                            	<div class="form-group col-md-6 col-sm-6 col-xs-12">
 
-									<div id="smshide1">
-                                        <input type="text" id="masked" name="field2SMS" ng-model="guest.sms" ui-mask="(999) 999-9999" ui-mask-placeholder ui-mask-placeholder-char="_" 
-                                        class="form-control input-no-spinner"
-                                 			ng-class="{'has-error' : addGuestForm.field2SMS.$invalid && (!addGuestForm.field2SMS.$pristine || addGuestForm.$submitted)}" />
-                                 			
-                                 			<span class="help-inline">
-			                                    <div class="has-error-mask" ng-show="guest.sms.length <10">{{currentPageLanguage.validNumError}}</div>
-			                                </span>
-                                    <!-- <div ng-messages="addGuestForm.field2SMS.$error" ng-show="(!addGuestForm.field2SMS.$pristine || addGuestForm.$submitted)" class="help-block has-error-mask">
+
+							<div class="form-group col-md-6 col-sm-6 col-xs-12">
+
+								<div id="smshide1">
+									<input type="text" id="masked" name="field2SMS"
+										ng-model="guest.sms" ui-mask="(999) 999-9999"
+										ui-mask-placeholder ui-mask-placeholder-char="_"
+										class="form-control input-no-spinner"
+										ng-class="{'has-error' : addGuestForm.field2SMS.$invalid && (!addGuestForm.field2SMS.$pristine || addGuestForm.$submitted)}" />
+
+									<span class="help-inline">
+										<div class="has-error-mask" ng-show="guest.sms.length <10">{{currentPageLanguage.validNumError}}</div>
+									</span>
+									<!-- <div ng-messages="addGuestForm.field2SMS.$error" ng-show="(!addGuestForm.field2SMS.$pristine || addGuestForm.$submitted)" class="help-block has-error-mask">
                                  		<div ng-message="required">Phone number cannot be blank</div>									
 										<div ng-message="pattern" >Please enter a valid phone number</div>
 										<div ng-message="minlength" >Minimum length for phone number is 10</div>
 										<div ng-message="maxlength" >Maximum length for phone number is 10</div>
 									</div> -->
-                                        
-                                    </div>
-                                    
-                               </div>
-							
-                            <div class="form-group col-md-6 col-sm-6 col-xs-12 multipaleselect1 font-color-fix" ng-show="seatPrefs != null">
-                                    <label class="control-label">{{currentPageLanguage.seatingPref}}</label>
-                                    <select id="example-multiple-selected" multiple="multiple" ng-model="selectedSeatPref">
-                                    	<option ng-repeat="opt in seatPrefs" ng-value="opt.prefValueId">{{opt.prefValue}}</option>
-                                    </select>
-                            </div>
-                    </div>
-					<div class="clearfix"></div>
-                    <div class="form-group col-md-12 font-color-fix">
 
-                        <div class="checkbox radio-danger">
-                            <input type="checkbox" name="radio1" id="optionin" ng-model='guest.optin'>
-                            <label for="optionin">{{currentPageLanguage.optInReceive}}</label>
-                        </div>
+								</div>
 
-                    </div>
+							</div>
 
-                    <div class="col-md-12">
+							<div
+								class="form-group col-md-6 col-sm-6 col-xs-12 multipaleselect1 font-color-fix"
+								ng-show="seatPrefs != null">
+								<label class="control-label">{{currentPageLanguage.seatingPref}}</label>
+								<select id="example-multiple-selected" multiple="multiple" ng-model="selectedSeatPref">
+									<option ng-repeat="opt in seatPrefs" ng-value="opt.prefValueId">{{opt.prefValue}}</option>
+								</select>
+							</div>
 
-                        <div class="form-group text-center col-md-6 col-xs-12">
-                          <button type="button" class="btn btn-rfw theme-color" ng-click="showDeletePopup();">{{currentPageLanguage.rmvWaitlist}}</button>
-                        </div>
+						
 
-                        <div class="form-group text-center col-md-6 col-xs-12">
-                          <button type="button" class="btn btn-rfw theme-color" ng-click="updateGuest();">{{currentPageLanguage.saveChanges}}</button>
-                        </div>
-                    </div>
-                          
-                    </form>
-                </div>
-                   
-            </div><!-- #guest_list_wrap -->
-        </div>
-    </div>        
-    
-   <div class="loader" ng-if="loading"></div>
+							<!-- change by sunny (31-07-2018) -->
+							<div
+								class="form-group col-md-6 col-sm-6 col-xs-12 multipaleselect1 font-color-fix"
+								ng-show="marketingPref != null">
+								<label class="control-label">How did you hear about us</label> <select
+									id="example-multiple-selected" multiple="multiple"
+									ng-model="selectedGuestMarketingPref">
+									<option ng-repeat="opt in marketingPref"
+										ng-value="opt.guestMarketPrefValueId">{{opt.guestMarketPrefValue}}</option>
+								</select>
+
+
+
+							</div>
+						</div>
+						<div class="clearfix"></div>
+						<div class="form-group col-md-12 font-color-fix">
+
+							<div class="checkbox radio-danger">
+								<input type="checkbox" name="radio1" id="optionin"
+									ng-model='guest.optin'> <label for="optionin">{{currentPageLanguage.optInReceive}}</label>
+							</div>
+
+						</div>
+
+						<div class="col-md-12">
+
+							<div class="form-group text-center col-md-6 col-xs-12">
+								<button type="button" class="btn btn-rfw theme-color"
+									ng-click="showDeletePopup();">{{currentPageLanguage.rmvWaitlist}}</button>
+							</div>
+
+							<div class="form-group text-center col-md-6 col-xs-12">
+								<button type="button" class="btn btn-rfw theme-color"
+									ng-click="updateGuest();">{{currentPageLanguage.saveChanges}}</button>
+							</div>
+						</div>
+
+					</form>
+				</div>
+
+			</div>
+			<!-- #guest_list_wrap -->
+		</div>
+	</div>
+
+	<div class="loader" ng-if="loading"></div>
 
 </section>
 
 <div id="deletePopup" class="simplePopup border-color">
-    <div class="confirm-table-wrap text-center">
-          <h2 class="theme-fontcolor">{{currentPageLanguage.confirmDel}}</h2>
-          <div class="guest-name">
-              <h1>{{guest.rank}}</h1>
-              <h1>{{guest.name}}</h1>
-          </div>
-          <div class="btn-guest border-top">
-              <button type="button" class="btn btn-orange theme-color" ng-click="deleteGuest();">{{currentPageLanguage.dltButton}}</button>
-              <button type="button" class="btn btn-orange theme-color" ng-click="cancelDelete();">{{currentPageLanguage.cnclButton}}</button>
-          </div>
-    </div>
- </div>
-    
-    
-<!----------End Waitlist-Section-------->        
-     
+	<div class="confirm-table-wrap text-center">
+		<h2 class="theme-fontcolor">{{currentPageLanguage.confirmDel}}</h2>
+		<div class="guest-name">
+			<h1>{{guest.rank}}</h1>
+			<h1>{{guest.name}}</h1>
+		</div>
+		<div class="btn-guest border-top">
+			<button type="button" class="btn btn-orange theme-color"
+				ng-click="deleteGuest();">{{currentPageLanguage.dltButton}}</button>
+			<button type="button" class="btn btn-orange theme-color"
+				ng-click="cancelDelete();">{{currentPageLanguage.cnclButton}}</button>
+		</div>
+	</div>
+</div>
+
+
+<!----------End Waitlist-Section-------->
+
 <script type="text/javascript">
 
 function showsms1(){
@@ -174,4 +209,4 @@ function showemail1(){
     
 }       
 
-</script>  
+</script>

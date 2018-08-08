@@ -40,9 +40,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bandwidth.sdk.model.events.SmsEvent;
+import com.kyobee.dto.AddMarketingPrefDTO;
 /*import com.google.api.translate.Language;
 import com.google.api.translate.Translate;*/
 import com.kyobee.dto.GuestDTO;
+import com.kyobee.dto.GuestMarketingPreference;
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
 import com.kyobee.dto.OrganizationTemplateDTO;
@@ -53,6 +55,7 @@ import com.kyobee.dto.WaitlistMetrics;
 import com.kyobee.dto.common.PaginatedResponse;
 import com.kyobee.dto.common.PaginationReqParam;
 import com.kyobee.dto.common.Response;
+import com.kyobee.entity.AddMarketing;
 import com.kyobee.entity.Guest;
 import com.kyobee.entity.GuestNotificationBean;
 import com.kyobee.entity.GuestPreferences;
@@ -192,15 +195,15 @@ public class WaitListRestAction {
 	 * @param guest --GuestVO object
 	 * @return Guest-Guest Entity
 	 */
-	public Guest convertGuesVoToEntity(GuestDTO guest){
+	public Guest convertGuesVoToEntity(GuestDTO guest) {
 		Guest guestObj = new Guest();
 		guestObj.setName(guest.getName());
 		guestObj.setNote(guest.getNote());
 		guestObj.setOrganizationID(guest.getOrganizationID());
 		guestObj.setEmail(guest.getEmail());
 		guestObj.setSms(guest.getSms());
-		guestObj.setOrganizationID(guest.getOrganizationID());	
-		guestObj.setNoOfChildren(guest.getNoOfChildren());	//change by krupali, line 181 to line 183 and line 185,186 (14/06/2017)
+		guestObj.setOrganizationID(guest.getOrganizationID());
+		guestObj.setNoOfChildren(guest.getNoOfChildren()); // change by krupali, line 181 to line 183 and line 185,186 (14/06/2017)
 		guestObj.setNoOfAdults(guest.getNoOfAdults());
 		guestObj.setNoOfInfants(guest.getNoOfInfants());
 		guestObj.setNoOfPeople(guest.getNoOfPeople());
@@ -209,54 +212,82 @@ public class WaitListRestAction {
 		guestObj.setOptin(guest.isOptin());
 		guestObj.setStatus(guest.getStatus());
 		guestObj.setPrefType(guest.getPrefType());
-		/*if(null != guest.getGuestPreferences()) {
-			GuestPreferences guestPref = null;
-			List<GuestPreferences> guestPreferences = new ArrayList<GuestPreferences>(guest.getGuestPreferences().size());
-			for (GuestPreferencesDTO pref : guest.getGuestPreferences()) {
-				guestPref = new GuestPreferences();
-				guestPref.setGuestPrefId(pref.getGuestPrefId());
-				guestPref.setPrefValueId(pref.getPrefValueId());
-				guestPref.setPrefValue(pref.getPrefValue());
-				guestPref.setGuest(guestObj);
-				guestPreferences.add(guestPref);
-			}
-			guestObj.setGuestPreferences(guestPreferences);
-		}*/
-		if(null != guest.getDeviceId())
+
+		/*
+		 * if(null != guest.getGuestPreferences()) { GuestPreferences guestPref
+		 * = null; List<GuestPreferences> guestPreferences = new
+		 * ArrayList<GuestPreferences>(guest.getGuestPreferences().size()); for
+		 * (GuestPreferencesDTO pref : guest.getGuestPreferences()) { guestPref
+		 * = new GuestPreferences();
+		 * guestPref.setGuestPrefId(pref.getGuestPrefId());
+		 * guestPref.setPrefValueId(pref.getPrefValueId());
+		 * guestPref.setPrefValue(pref.getPrefValue());
+		 * guestPref.setGuest(guestObj); guestPreferences.add(guestPref); }
+		 * guestObj.setGuestPreferences(guestPreferences); }
+		 */
+		// change by sunny for marketing preference line 231 to245 at 2018-07-04
+		
+		if (null != guest.getCustomPreference()) 
+			guestObj.setCustomPreference(guest.getCustomPreference());
+		
+		if (null != guest.getGuestMarketingPreferences()) {
+			String marketingPreference = null;
+			List<GuestMarketingPreference> guestMarketingPrefList = guest.getGuestMarketingPreferences();
+			for (GuestMarketingPreference o : guestMarketingPrefList) {
+				if (null == marketingPreference)
+					marketingPreference = o.getGuestMarketPrefValueId() + "";
+				else
+					marketingPreference = marketingPreference + "," + o.getGuestMarketPrefValueId();
+			 }
+			guestObj.setMarketingPreference(marketingPreference);
+			guest.setMarketingPreference(marketingPreference);
+		}
+
+		if (null != guest.getDeviceId())
 			guestObj.setDeviceId(guest.getDeviceId());
-		if(null != guest.getDeviceType())
+
+		if (null != guest.getDeviceType())
 			guestObj.setDeviceType(guest.getDeviceType());
-		if(null != guest.getGuestPreferences()) {
+		
+		
+		if(null != guest.getGuestMarketingPreferences()){
+			
+			guestObj.setGuestMarketingPreferences(guest.getGuestMarketingPreferences());
+		}
+		
+		if (null != guest.getGuestPreferences()) {
 			String seatingPreference = null;
 			List<GuestPreferencesDTO> guestPrefList = guest.getGuestPreferences();
-			for(GuestPreferencesDTO o : guestPrefList) {
-					if(null == seatingPreference)
-						seatingPreference = o.getPrefValueId()+"";
-					else
-						seatingPreference = seatingPreference + "," + o.getPrefValueId();
+			for (GuestPreferencesDTO o : guestPrefList) {
+				if (null == seatingPreference)
+					seatingPreference = o.getPrefValueId() + "";
+				else
+					seatingPreference = seatingPreference + "," + o.getPrefValueId();
 			}
 			guestObj.setSeatingPreference(seatingPreference);
 			guest.setSeatingPreference(seatingPreference);
 		}
-		if(null != guest.getSeatingPreference())
+		if (null != guest.getSeatingPreference())
 			guestObj.setSeatingPreference(guest.getSeatingPreference());
-		/*if(null != guest.getLanguagePref())
-			guestObj.setLanguagePrefID(guest.getLanguagePref());*/
+		/*
+		 * if(null != guest.getLanguagePref())
+		 * guestObj.setLanguagePrefID(guest.getLanguagePref());
+		 */
 		guestObj.setLanguagePrefID(guest.getLanguagePref());
-		if(null != guest && null != guest.getGuestID()) {
+		if (null != guest && null != guest.getGuestID()) {
 			guestObj.setUpdatedTime(new Date());
 			guestObj.setUuid(guest.getUuid());
 			guestObj.setGuestID(guest.getGuestID());
 			guestObj.setRank(guest.getRank());
 			guestObj.setCalloutCount(guest.getCalloutCount());
-		}else{
+		} else {
 			guestObj.setUuid(UUID.randomUUID().toString().substring(0, 8));
 			guestObj.setCreatedTime(new Date());
 			guestObj.setCheckinTime(new Date());
 		}
 		return guestObj;
 	}
-
+	
 	public List<GuestPreferences> convertSeatingPreferencesVotoEntity(List<GuestPreferencesDTO>  prefDto,Guest guest) {
 		if(null != prefDto) {
 			GuestPreferences guestPref = null;
@@ -284,70 +315,96 @@ public class WaitListRestAction {
 	 * @param guest -Guest Entity
 	 * @return GuestDTO
 	 */
-	public GuestDTO convertGuesEntityToVo(Guest guest, Map<Integer, String> guestPreferenceMap){
+	public GuestDTO convertGuesEntityToVo(Guest guest, Map<Integer, String> guestPreferenceMap,
+			Map<Integer, String> guestMarketingPreferenceMap) {
 		GuestDTO guestObj = null;
-		try{
-			guestObj= new GuestDTO();
+		try {
+			guestObj = new GuestDTO();
 			guestObj.setName(guest.getName());
 			guestObj.setNote(guest.getNote());
 			guestObj.setOrganizationID(guest.getOrganizationID());
 			guestObj.setEmail(guest.getEmail());
 			guestObj.setSms(guest.getSms());
 			guestObj.setOrganizationID(guest.getOrganizationID());
-			if(guest.getNoOfChildren() != null){
+			if (guest.getNoOfChildren() != null) {
 				guestObj.setNoOfChildren(guest.getNoOfChildren());
 			}
-			if(guest.getNoOfAdults() != null){
+			if (guest.getNoOfAdults() != null) {
 				guestObj.setNoOfAdults(guest.getNoOfAdults());
 			}
-			if(guest.getNoOfInfants() != null){
+			if (guest.getNoOfInfants() != null) {
 				guestObj.setNoOfInfants(guest.getNoOfInfants());
 			}
 			guestObj.setNoOfPeople(guest.getNoOfPeople());
-			if(guest.getQuoteTime() != null){
+			if (guest.getQuoteTime() != null) {
 				guestObj.setQuoteTime(guest.getQuoteTime());
 			}
-			if(guest.getPartyType() != null){
+			if (guest.getPartyType() != null) {
 				guestObj.setPartyType(guest.getPartyType());
 			}
 			guestObj.setLanguagePref(guest.getLanguagePrefID());
-			
+
 			guestObj.setOptin(guest.isOptin());
 			guestObj.setStatus(guest.getStatus());
 			guestObj.setPrefType(guest.getPrefType());
 			guestObj.setIncompleteParty(guest.getIncompleteParty());
-			/*if(null != guest.getGuestPreferences()) {
-			GuestPreferencesDTO guestPref = null;
-			List<GuestPreferencesDTO> guestPreferences = new ArrayList<GuestPreferencesDTO>(guest.getGuestPreferences().size());
-			for (GuestPreferences pref : guest.getGuestPreferences()) {
-				guestPref = new GuestPreferencesDTO();
-				guestPref.setGuestPrefId(pref.getGuestPrefId());
-				guestPref.setPrefValueId(pref.getPrefValueId());
-				System.out.println("pref.getPrefValue()"+pref.getPrefValue());
-				guestPref.setPrefValue(pref.getPrefValue());
-				//guestPref.setGuest(guestObj);
-				guestPreferences.add(guestPref);
-			}
-			guestObj.setGuestPreferences(guestPreferences);
-		}*/
-			
+			/*
+			 * if(null != guest.getGuestPreferences()) { GuestPreferencesDTO
+			 * guestPref = null; List<GuestPreferencesDTO> guestPreferences =
+			 * new
+			 * ArrayList<GuestPreferencesDTO>(guest.getGuestPreferences().size()
+			 * ); for (GuestPreferences pref : guest.getGuestPreferences()) {
+			 * guestPref = new GuestPreferencesDTO();
+			 * guestPref.setGuestPrefId(pref.getGuestPrefId());
+			 * guestPref.setPrefValueId(pref.getPrefValueId());
+			 * System.out.println("pref.getPrefValue()"+pref.getPrefValue());
+			 * guestPref.setPrefValue(pref.getPrefValue());
+			 * //guestPref.setGuest(guestObj); guestPreferences.add(guestPref);
+			 * } guestObj.setGuestPreferences(guestPreferences); }
+			 */
+
 			String seatingPrefForDTO = "";
-			if(null != guest.getSeatingPreference() && !"null".equals(guest.getSeatingPreference()) && !"".equals(guest.getSeatingPreference())) {
+			if (null != guest.getSeatingPreference() && !"null".equals(guest.getSeatingPreference())
+					&& !"".equals(guest.getSeatingPreference())) {
 				try {
-				String seatingPrefIdArr[] = guest.getSeatingPreference().split(",");
-				for(int i = 0; i < seatingPrefIdArr.length; ++i) {
-					String seatingPrefDesc = guestPreferenceMap.get(Integer.parseInt(seatingPrefIdArr[i]));
-					if(i == 0)
-						seatingPrefForDTO = seatingPrefDesc;
-					else 
-						seatingPrefForDTO = seatingPrefForDTO + "," + seatingPrefDesc;
-				}
-				} catch ( NumberFormatException nfe) {
+					String seatingPrefIdArr[] = guest.getSeatingPreference().split(",");
+					for (int i = 0; i < seatingPrefIdArr.length; ++i) {
+						String seatingPrefDesc = guestPreferenceMap.get(Integer.parseInt(seatingPrefIdArr[i]));
+						if (i == 0)
+							seatingPrefForDTO = seatingPrefDesc;
+						else
+							seatingPrefForDTO = seatingPrefForDTO + "," + seatingPrefDesc;
+					}
+				} catch (NumberFormatException nfe) {
 					LoggerUtil.logError(nfe.getMessage(), nfe);
 				}
 			}
 			guestObj.setSeatingPreference(seatingPrefForDTO);
-			if(null != guest && null != guest.getGuestID()) {
+			
+			// change by sunny for get MarktingPref and customPref line 394 to 416 (2018-07-05)
+			
+			if (guest.getCustomPreference() != null) {
+				guestObj.setCustomPreference(guest.getCustomPreference());;
+			}
+			String marketingPrefForDTO = "";
+			if (null != guest.getMarketingPreference() && !"null".equals(guest.getMarketingPreference())
+					&& !"".equals(guest.getMarketingPreference())) {
+				try {
+					String marketingPrefIdArr[] = guest.getMarketingPreference().split(",");
+					for (int i = 0; i < marketingPrefIdArr.length; ++i) {
+						String marketingPrefDesc = guestMarketingPreferenceMap.get(Integer.parseInt(marketingPrefIdArr[i]));
+						if (i == 0)
+							marketingPrefForDTO = marketingPrefDesc;
+						else
+							marketingPrefForDTO = marketingPrefForDTO + "," + marketingPrefDesc;
+					}
+				} catch (NumberFormatException nfe) {
+					LoggerUtil.logError(nfe.getMessage(), nfe);
+				}
+			}
+			guestObj.setMarketingPreference(marketingPrefForDTO);
+			
+			if (null != guest && null != guest.getGuestID()) {
 				guestObj.setUpdatedTime(new Date());
 				guestObj.setUuid(guest.getUuid());
 				guestObj.setGuestID(guest.getGuestID());
@@ -357,45 +414,45 @@ public class WaitListRestAction {
 				guestObj.setCreatedTime(new Date());
 				guestObj.setCheckinTime(guest.getCheckinTime());
 
-			}else{
+			} else {
 				guestObj.setUuid(UUID.randomUUID().toString().substring(0, 8));
 				guestObj.setCreatedTime(new Date());
 				guestObj.setCheckinTime(guest.getCheckinTime());
 			}
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return guestObj;
 	}
-	
-	
-	public GuestDTO convertGuesEntityToDTO(Guest guest, Map<Integer, String> guestPreferenceMap){
+
+
+	public GuestDTO convertGuesEntityToDTO(Guest guest, Map<Integer, String> guestPreferenceMap, Map<Integer, String> guestMarketingPreferenceMap) {
 		GuestDTO guestObj = null;
-		try{
-			guestObj= new GuestDTO();
+		try {
+			guestObj = new GuestDTO();
 			guestObj.setName(guest.getName());
 			guestObj.setNote(guest.getNote());
 			guestObj.setOrganizationID(guest.getOrganizationID());
 			guestObj.setEmail(guest.getEmail());
 			guestObj.setSms(guest.getSms());
 			guestObj.setOrganizationID(guest.getOrganizationID());
-			if(guest.getNoOfChildren() != null){
+			if (guest.getNoOfChildren() != null) {
 				guestObj.setNoOfChildren(guest.getNoOfChildren());
 			}
-			if(guest.getNoOfAdults() != null){
+			if (guest.getNoOfAdults() != null) {
 				guestObj.setNoOfAdults(guest.getNoOfAdults());
 			}
-			if(guest.getNoOfInfants() != null){
+			if (guest.getNoOfInfants() != null) {
 				guestObj.setNoOfInfants(guest.getNoOfInfants());
 			}
 			guestObj.setNoOfPeople(guest.getNoOfPeople());
-			if(guest.getQuoteTime() != null){
+			if (guest.getQuoteTime() != null) {
 				guestObj.setQuoteTime(guest.getQuoteTime());
 			}
-			if(guest.getPartyType() != null){
+			if (guest.getPartyType() != null) {
 				guestObj.setPartyType(guest.getPartyType());
 			}
-			if(guest.getLanguagePrefID() != null){
+			if (guest.getLanguagePrefID() != null) {
 				guestObj.setLanguagePref(guest.getLanguagePrefID());
 			}
 			guestObj.setOptin(guest.isOptin());
@@ -403,46 +460,77 @@ public class WaitListRestAction {
 			guestObj.setPrefType(guest.getPrefType());
 			guestObj.setIncompleteParty(guest.getIncompleteParty());
 			guestObj.setCheckinTime(guest.getCheckinTime());
-			/*if(null != guest.getGuestPreferences()) {
-			GuestPreferencesDTO guestPref = null;
-			List<GuestPreferencesDTO> guestPreferences = new ArrayList<GuestPreferencesDTO>(guest.getGuestPreferences().size());
-			for (GuestPreferences pref : guest.getGuestPreferences()) {
-				guestPref = new GuestPreferencesDTO();
-				guestPref.setGuestPrefId(pref.getGuestPrefId());
-				guestPref.setPrefValueId(pref.getPrefValueId());
-				System.out.println("pref.getPrefValue()"+pref.getPrefValue());
-				guestPref.setPrefValue(pref.getPrefValue());
-				//guestPref.setGuest(guestObj);
-				guestPreferences.add(guestPref);
-			}
-			guestObj.setGuestPreferences(guestPreferences);
-		}*/
+			/*
+			 * if(null != guest.getGuestPreferences()) { GuestPreferencesDTO
+			 * guestPref = null; List<GuestPreferencesDTO> guestPreferences =
+			 * new
+			 * ArrayList<GuestPreferencesDTO>(guest.getGuestPreferences().size()
+			 * ); for (GuestPreferences pref : guest.getGuestPreferences()) {
+			 * guestPref = new GuestPreferencesDTO();
+			 * guestPref.setGuestPrefId(pref.getGuestPrefId());
+			 * guestPref.setPrefValueId(pref.getPrefValueId());
+			 * System.out.println("pref.getPrefValue()"+pref.getPrefValue());
+			 * guestPref.setPrefValue(pref.getPrefValue());
+			 * //guestPref.setGuest(guestObj); guestPreferences.add(guestPref);
+			 * } guestObj.setGuestPreferences(guestPreferences); }
+			 */
 			String seatingPrefForDTO = "";
-			if(null != guest.getSeatingPreference() && !"".equals(guest.getSeatingPreference())) {
+			if (null != guest.getSeatingPreference() && !"".equals(guest.getSeatingPreference())) {
 				try {
-				String seatingPrefIdArr[] = guest.getSeatingPreference().split(",");
-				for(int i = 0; i < seatingPrefIdArr.length; ++i) {
-					String seatingPrefDesc = guestPreferenceMap.get(Integer.parseInt(seatingPrefIdArr[i]));
-					if(i == 0){
-						guestObj.setGuestPreferences(new ArrayList<GuestPreferencesDTO>());
-						GuestPreferencesDTO gPrefDTO = new GuestPreferencesDTO();
-						gPrefDTO.setPrefValueId(Long.parseLong(seatingPrefIdArr[i]));
-						gPrefDTO.setPrefValue(seatingPrefDesc);
-						guestObj.getGuestPreferences().add(gPrefDTO);
+					String seatingPrefIdArr[] = guest.getSeatingPreference().split(",");
+					for (int i = 0; i < seatingPrefIdArr.length; ++i) {
+						String seatingPrefDesc = guestPreferenceMap.get(Integer.parseInt(seatingPrefIdArr[i]));
+						if (i == 0) {
+							guestObj.setGuestPreferences(new ArrayList<GuestPreferencesDTO>());
+							GuestPreferencesDTO gPrefDTO = new GuestPreferencesDTO();
+							gPrefDTO.setPrefValueId(Long.parseLong(seatingPrefIdArr[i]));
+							gPrefDTO.setPrefValue(seatingPrefDesc);
+							guestObj.getGuestPreferences().add(gPrefDTO);
+						} else {
+							GuestPreferencesDTO gPrefDTO = new GuestPreferencesDTO();
+							gPrefDTO.setPrefValueId(Long.parseLong(seatingPrefIdArr[i]));
+							gPrefDTO.setPrefValue(seatingPrefDesc);
+							guestObj.getGuestPreferences().add(gPrefDTO);
+						}
 					}
-					else {
-						GuestPreferencesDTO gPrefDTO = new GuestPreferencesDTO();
-						gPrefDTO.setPrefValueId(Long.parseLong(seatingPrefIdArr[i]));
-						gPrefDTO.setPrefValue(seatingPrefDesc);
-						guestObj.getGuestPreferences().add(gPrefDTO);
-					}
-				}
-				} catch ( NumberFormatException nfe) {
-					
+				} catch (NumberFormatException nfe) {
+
 				}
 			}
 			guestObj.setSeatingPreference(seatingPrefForDTO);
-			if(null != guest && null != guest.getGuestID()) {
+			
+			// change by sunny for geting Marketing Preference line 511 to 541 (2018-07-05)
+			
+			String marketingPrefDTO = "";
+			if (null != guest.getMarketingPreference() && !"".equals(guest.getMarketingPreference())) {
+				try {
+					String marketingPrefIdArr[] = guest.getMarketingPreference().split(",");
+					for (int i = 0; i < marketingPrefIdArr.length; ++i) {
+						String marketingPrefDesc = guestMarketingPreferenceMap.get(Integer.parseInt(marketingPrefIdArr[i]));
+						if (i == 0) {
+							guestObj.setGuestMarketingPreferences(new ArrayList<GuestMarketingPreference>());
+							GuestMarketingPreference guestMarketingPref = new GuestMarketingPreference();
+							guestMarketingPref.setGuestMarketPrefValueId(Long.parseLong(marketingPrefIdArr[i]));
+							guestMarketingPref.setGuestMarketPrefValue(marketingPrefDesc);
+							guestObj.getGuestMarketingPreferences().add(guestMarketingPref);
+						} else {
+							GuestMarketingPreference guestMarketingPref = new GuestMarketingPreference();
+							guestMarketingPref.setGuestMarketPrefValueId(Long.parseLong(marketingPrefIdArr[i]));
+							guestMarketingPref.setGuestMarketPrefValue(marketingPrefDesc);
+							guestObj.getGuestMarketingPreferences().add(guestMarketingPref);
+						}
+					}
+				} catch (NumberFormatException nfe) {
+
+				}
+			}
+			guestObj.setMarketingPreference(marketingPrefDTO);
+
+			if (guest.getCustomPreference() != null) {
+				guestObj.setCustomPreference(guest.getCustomPreference());
+			}
+			
+			if (null != guest && null != guest.getGuestID()) {
 				guestObj.setUpdatedTime(new Date());
 				guestObj.setUuid(guest.getUuid());
 				guestObj.setGuestID(guest.getGuestID());
@@ -450,18 +538,18 @@ public class WaitListRestAction {
 				guestObj.setCalloutCount(guest.getCalloutCount());
 				guestObj.setIncompleteParty(guest.getIncompleteParty());
 
-			}else{
+			} else {
 				guestObj.setUuid(UUID.randomUUID().toString().substring(0, 8));
 				guestObj.setCreatedTime(new Date());
 				guestObj.setCheckinTime(new Date());
 			}
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return guestObj;
 	}
-	
-	
+
+
 	/**
 	 * Notify top N guests by organization Id
 	 * @param numberOfUsers
@@ -591,30 +679,36 @@ public class WaitListRestAction {
 	//@Produces(MediaType.APPLICATION_JSON)
 	//changes by krupali line 514,532 (16/06/2017)
 	@RequestMapping(value = "/checkinusers", method = RequestMethod.GET, produces = "application/json")
-	public Response<PaginatedResponse<GuestDTO>> fetchCheckinUsers(@RequestParam("orgid") Long orgid,  @RequestParam("partyType") String partyType,
-			 @RequestParam String pagerReqParam){
-		log.info("Entering :: fetchCheckinUsers --OrgId::"+orgid);
+	public Response<PaginatedResponse<GuestDTO>> fetchCheckinUsers(@RequestParam("orgid") Long orgid,
+			@RequestParam("partyType") String partyType, @RequestParam String pagerReqParam) {
+		log.info("Entering :: fetchCheckinUsers --OrgId::" + orgid);
 		Response<PaginatedResponse<GuestDTO>> response = new Response<PaginatedResponse<GuestDTO>>();
 		List<GuestDTO> guestDTOs = null;
 		PaginatedResponse<GuestDTO> paginatedResponse = new PaginatedResponse<GuestDTO>();
-		//final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
-		//final List<String> errorArray = new ArrayList<String>(0);
+		// final Map<String, Object> rootMap = new LinkedHashMap<String,
+		// Object>();
+		// final List<String> errorArray = new ArrayList<String>(0);
 		Map<Integer, String> guestPreferenceMap;
-		List<Guest> guests;	
-		
-		
+		// change by sunny for marketing preference (2018-07-05)
+		Map<Integer, String> guestMarketingPreferenceMap; 
+		List<Guest> guests;
+
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			PaginationReqParam paginationReqParam = mapper.readValue(pagerReqParam, PaginationReqParam.class);
 			guestPreferenceMap = getGuestSeatingPrefMap();
-			guests = waitListService.loadAllCheckinUsers(orgid, paginationReqParam.getPageSize(), paginationReqParam.getPageNo(), partyType);
+			// change by sunny for get Marketing PreferenceMap (2018-07-05)
+			guestMarketingPreferenceMap = getGuestMarketingPrefMap();
+																	
+			guests = waitListService.loadAllCheckinUsers(orgid, paginationReqParam.getPageSize(),
+					paginationReqParam.getPageNo(), partyType);
 			Long guestsTotalCount = waitListService.getAllCheckinUsersCount(orgid);
-			if(null != guests && guests.size()>0){
+			if (null != guests && guests.size() > 0) {
 				guestDTOs = new ArrayList<GuestDTO>(guests.size());
 				for (Guest guest : guests) {
-					guestDTOs.add(convertGuesEntityToVo(guest, guestPreferenceMap));
+					guestDTOs.add(convertGuesEntityToVo(guest, guestPreferenceMap, guestMarketingPreferenceMap));
 				}
-				
+
 				paginatedResponse.setRecords(guestDTOs);
 				paginatedResponse.setPageNo(paginationReqParam.getPageNo());
 				paginatedResponse.setTotalRecords(guestsTotalCount.intValue());
@@ -628,18 +722,18 @@ public class WaitListRestAction {
 			log.error("fetchCheckinUsers() - failed:", e);
 			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
 					"System Error - fetchCheckinUsers failed");
-		} catch (Exception  e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			log.error("fetchCheckinUsers() - failed:", e);
 			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
 					"System Error - fetchCheckinUsers failed");
-		} 
-		//rootMap.put(Constants.RSNT_ERROR, "");
-		//rootMap.put("guests",guestDTOs);
-		//final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+		}
+		// rootMap.put(Constants.RSNT_ERROR, "");
+		// rootMap.put("guests",guestDTOs);
+		// final JSONObject jsonObject = JSONObject.fromObject(rootMap);
 		return response;
 	}
-	
+
 	/**
 	 * Search Guests by name
 	 * @param orgid
@@ -650,30 +744,37 @@ public class WaitListRestAction {
 	//@Produces(MediaType.APPLICATION_JSON)
 	//changes by krupali line 514,532 (16/06/2017)
 	@RequestMapping(value = "/searchuser", method = RequestMethod.GET, produces = "application/json")
-	public Response<PaginatedResponse<GuestDTO>> searchuserGrid(@RequestParam("orgid") Long orgid,  @RequestParam("partyType") String partyType,
-			@RequestParam String searchName, @RequestParam String pagerReqParam){
-		log.info("Entering :: searchuser --OrgId::"+orgid);
+	public Response<PaginatedResponse<GuestDTO>> searchuserGrid(@RequestParam("orgid") Long orgid,
+			@RequestParam("partyType") String partyType, @RequestParam String searchName,
+			@RequestParam String pagerReqParam) {
+		log.info("Entering :: searchuser --OrgId::" + orgid);
 		Response<PaginatedResponse<GuestDTO>> response = new Response<PaginatedResponse<GuestDTO>>();
 		List<GuestDTO> guestDTOs = null;
 		PaginatedResponse<GuestDTO> paginatedResponse = new PaginatedResponse<GuestDTO>();
-		//final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
-		//final List<String> errorArray = new ArrayList<String>(0);
+		// final Map<String, Object> rootMap = new LinkedHashMap<String,
+		// Object>();
+		// final List<String> errorArray = new ArrayList<String>(0);
 		Map<Integer, String> guestPreferenceMap;
-		List<Guest> guests;	
-		
-		
+		// change by sunny for marketing preference (2018-07-05)
+		Map<Integer, String> guestMarketingPreferenceMap; 	
+
+		List<Guest> guests;
+
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			PaginationReqParam paginationReqParam = mapper.readValue(pagerReqParam, PaginationReqParam.class);
 			guestPreferenceMap = getGuestSeatingPrefMap();
-			guests = waitListService.searchAllCheckinUsersByName(orgid, paginationReqParam.getPageSize(), paginationReqParam.getPageNo(), partyType, searchName);
-			Long guestsTotalCount = waitListService.getAllCheckinUsersCountByName(orgid,searchName);
-			if(null != guests && guests.size()>0){
+			// change by sunny for get Marketing PreferenceMap (2018-07-05)
+			guestMarketingPreferenceMap = getGuestMarketingPrefMap();
+			guests = waitListService.searchAllCheckinUsersByName(orgid, paginationReqParam.getPageSize(),
+					paginationReqParam.getPageNo(), partyType, searchName);
+			Long guestsTotalCount = waitListService.getAllCheckinUsersCountByName(orgid, searchName);
+			if (null != guests && guests.size() > 0) {
 				guestDTOs = new ArrayList<GuestDTO>(guests.size());
 				for (Guest guest : guests) {
-					guestDTOs.add(convertGuesEntityToVo(guest, guestPreferenceMap));
+					guestDTOs.add(convertGuesEntityToVo(guest, guestPreferenceMap, guestMarketingPreferenceMap));
 				}
-				
+
 				paginatedResponse.setRecords(guestDTOs);
 				paginatedResponse.setPageNo(paginationReqParam.getPageNo());
 				paginatedResponse.setTotalRecords(guestsTotalCount.intValue());
@@ -687,17 +788,18 @@ public class WaitListRestAction {
 			log.error("searchuserGrid() - failed:", e);
 			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
 					"System Error - searchuserGrid failed");
-		} catch (Exception  e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			log.error("searchuserGrid() - failed:", e);
 			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
 					"System Error - searchuserGrid failed");
-		} 
-		//rootMap.put(Constants.RSNT_ERROR, "");
-		//rootMap.put("guests",guestDTOs);
-		//final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+		}
+		// rootMap.put(Constants.RSNT_ERROR, "");
+		// rootMap.put("guests",guestDTOs);
+		// final JSONObject jsonObject = JSONObject.fromObject(rootMap);
 		return response;
 	}
+
 	/**
 	 * Fetch Guest Details By Id
 	 * @param guestid
@@ -707,26 +809,29 @@ public class WaitListRestAction {
 	//@Path("/guest")
 	//@Produces(MediaType.APPLICATION_JSON)
 	@RequestMapping(value = "/guest", method = RequestMethod.GET, produces = "application/json")
-	public Response<GuestDTO> fetchGuestById(@RequestParam("guestid") int guestid){
-		log.info("Entering :: fetchGuestById :: guestId"+guestid);
-		//final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
-		//final List<String> errorArray = new ArrayList<String>(0);
+	public Response<GuestDTO> fetchGuestById(@RequestParam("guestid") int guestid) {
+		log.info("Entering :: fetchGuestById :: guestId" + guestid);
+		// final Map<String, Object> rootMap = new LinkedHashMap<String,
+		// Object>();
+		// final List<String> errorArray = new ArrayList<String>(0);
 		Response<GuestDTO> response = new Response<GuestDTO>();
-		Guest guestObject= null;
+		Guest guestObject = null;
 		try {
 			Map<Integer, String> guestPreferenceMap = getGuestSeatingPrefMap();
+			// change by sunny for marketing preference (2018-07-05)
+			Map<Integer, String> guestMarketingPreferenceMap = getGuestMarketingPrefMap(); 
 			guestObject = waitListService.getGuestById(guestid);
-			GuestDTO guestDTO = convertGuesEntityToDTO(guestObject, guestPreferenceMap);
+			GuestDTO guestDTO = convertGuesEntityToDTO(guestObject, guestPreferenceMap, guestMarketingPreferenceMap);
 			response.setServiceResult(guestDTO);
 			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
-			//nonCloseParent(guestObject.getGuestPreferences());
+			// nonCloseParent(guestObject.getGuestPreferences());
 		} catch (Exception e) {
 			log.error("fetchCheckinUsers() - failed:", e);
-			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
-					"System Error - fetch Guest");
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null, "System Error - fetch Guest");
 		}
 		return response;
 	}
+
 	/**
 	 * Get the Unique Guest Detail by UUID
 	 * @param uuid
@@ -767,85 +872,88 @@ public class WaitListRestAction {
 	//@Path("/history")
 	//@Produces(MediaType.APPLICATION_JSON)
 	@RequestMapping(value = "/history", method = RequestMethod.GET, produces = "application/json")
-	//changed for history pagination
-	//public String fetchGuestsHistory(@QueryParam("orgid") Long orgid){
-	public Response<PaginatedResponse<GuestDTO>> fetchGuestsHistory(
-			@RequestParam("orgid") Long orgid,
-			@RequestParam("statusOption") String statusOption,
-			@RequestParam("sliderMinTime") Integer sliderMinTime,
-			@RequestParam("sliderMaxTime") Integer sliderMaxTime,
-			@RequestParam("clientTimezone") String clientTimezone,
+	// changed for history pagination
+	// public String fetchGuestsHistory(@QueryParam("orgid") Long orgid){
+	public Response<PaginatedResponse<GuestDTO>> fetchGuestsHistory(@RequestParam("orgid") Long orgid,
+			@RequestParam("statusOption") String statusOption, @RequestParam("sliderMinTime") Integer sliderMinTime,
+			@RequestParam("sliderMaxTime") Integer sliderMaxTime, @RequestParam("clientTimezone") String clientTimezone,
 			@RequestParam String pagerReqParam) {
-		log.info("Entering :: fetchGuestsHistory ::orgid "+orgid);		
+		log.info("Entering :: fetchGuestsHistory ::orgid " + orgid);
 		Response<PaginatedResponse<GuestDTO>> response = new Response<PaginatedResponse<GuestDTO>>();
 		List<GuestDTO> guestDTOs = null;
 		PaginatedResponse<GuestDTO> paginatedResponse = new PaginatedResponse<GuestDTO>();
-		
-		//List<GuestDTO> guestDTOs = null;
-		//final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
-		//final List<String> errorArray = new ArrayList<String>(0);
+
+		// List<GuestDTO> guestDTOs = null;
+		// final Map<String, Object> rootMap = new LinkedHashMap<String,
+		// Object>();
+		// final List<String> errorArray = new ArrayList<String>(0);
 		List<Guest> guests;
 		Map<Integer, String> guestPreferenceMap;
+		// change by sunny for marketing preference (2018-07-05)
+		Map<Integer, String> guestMarketingPreferenceMap; 
 		try {
-			//changed for history pagination
-			//guests = waitListService.loadGuestsHistoryByOrg(orgid);
-			
-			/*Calendar c = new GregorianCalendar(TimeZone.getTimeZone("GMT-05:00"));
- 			c.setTimeInMillis(new Date().getTime());
- 			int EastCoastHourOfDay = c.get(Calendar.HOUR_OF_DAY);
- 			int EastCoastDayOfMonth = c.get(Calendar.DAY_OF_MONTH);
- 			int EastCoastMinuitOfDay = c.get(Calendar.MINUTE);
- 			int offset1 = TimeZone.getTimeZone("GMT-05:00").getOffset(new Date().getTime());*/
+			// changed for history pagination
+			// guests = waitListService.loadGuestsHistoryByOrg(orgid);
 
- 			
+			/*
+			 * Calendar c = new
+			 * GregorianCalendar(TimeZone.getTimeZone("GMT-05:00"));
+			 * c.setTimeInMillis(new Date().getTime()); int EastCoastHourOfDay =
+			 * c.get(Calendar.HOUR_OF_DAY); int EastCoastDayOfMonth =
+			 * c.get(Calendar.DAY_OF_MONTH); int EastCoastMinuitOfDay =
+			 * c.get(Calendar.MINUTE); int offset1 =
+			 * TimeZone.getTimeZone("GMT-05:00").getOffset(new
+			 * Date().getTime());
+			 */
 
- 			/*// Local Time
- 			int localHourOfDay = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
- 			int localDayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);*/
+			/*
+			 * // Local Time int localHourOfDay =
+			 * Calendar.getInstance().get(Calendar.HOUR_OF_DAY); int
+			 * localDayOfMonth =
+			 * Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+			 */
 
- 			// Alaska
- 			/*c = new GregorianCalendar(TimeZone.getTimeZone("GMT+05:30"));
- 			c.setTimeInMillis(new Date().getTime());
- 			int AlaskaHourOfDay = c.get(Calendar.HOUR_OF_DAY);
- 			int AlaskaDayOfMonth = c.get(Calendar.DAY_OF_MONTH);
- 			int AlaskaMinuitOfDay = c.get(Calendar.MINUTE);
- 			int offset2 = TimeZone.getTimeZone("GMT+05:30").getOffset(new Date().getTime());
- 			
- 			int hourDifference = AlaskaHourOfDay - EastCoastHourOfDay;
- 			int dayDifference = AlaskaDayOfMonth - EastCoastDayOfMonth;
- 			int minuitDifference = AlaskaMinuitOfDay - EastCoastMinuitOfDay;
- 			int offsetDifference = (offset1-offset2)/1000/60/60;
- 			
- 			if(minuitDifference == 60){
- 				hourDifference = hourDifference+1;
- 			}
- 			if(minuitDifference < 0){
- 				hourDifference = hourDifference-1;
- 				minuitDifference = 60+minuitDifference;
- 			}
- 			if (dayDifference != 0) {
- 			hourDifference = hourDifference + 24;
- 			}
- 			System.out.println(hourDifference+":"+minuitDifference);
-			if(offset1 >= offset2){
- 			sliderMinTime = sliderMinTime+hourDifference;
- 			sliderMaxTime = sliderMaxTime+hourDifference;
-			}
-			else{
-				sliderMinTime = sliderMinTime-hourDifference;
-	 			sliderMaxTime = sliderMaxTime-hourDifference;
-			}*/
+			// Alaska
+			/*
+			 * c = new GregorianCalendar(TimeZone.getTimeZone("GMT+05:30"));
+			 * c.setTimeInMillis(new Date().getTime()); int AlaskaHourOfDay =
+			 * c.get(Calendar.HOUR_OF_DAY); int AlaskaDayOfMonth =
+			 * c.get(Calendar.DAY_OF_MONTH); int AlaskaMinuitOfDay =
+			 * c.get(Calendar.MINUTE); int offset2 =
+			 * TimeZone.getTimeZone("GMT+05:30").getOffset(new
+			 * Date().getTime());
+			 * 
+			 * int hourDifference = AlaskaHourOfDay - EastCoastHourOfDay; int
+			 * dayDifference = AlaskaDayOfMonth - EastCoastDayOfMonth; int
+			 * minuitDifference = AlaskaMinuitOfDay - EastCoastMinuitOfDay; int
+			 * offsetDifference = (offset1-offset2)/1000/60/60;
+			 * 
+			 * if(minuitDifference == 60){ hourDifference = hourDifference+1; }
+			 * if(minuitDifference < 0){ hourDifference = hourDifference-1;
+			 * minuitDifference = 60+minuitDifference; } if (dayDifference != 0)
+			 * { hourDifference = hourDifference + 24; }
+			 * System.out.println(hourDifference+":"+minuitDifference);
+			 * if(offset1 >= offset2){ sliderMinTime =
+			 * sliderMinTime+hourDifference; sliderMaxTime =
+			 * sliderMaxTime+hourDifference; } else{ sliderMinTime =
+			 * sliderMinTime-hourDifference; sliderMaxTime =
+			 * sliderMaxTime-hourDifference; }
+			 */
 			ObjectMapper mapper = new ObjectMapper();
 			PaginationReqParam paginationReqParam = mapper.readValue(pagerReqParam, PaginationReqParam.class);
 			guestPreferenceMap = getGuestSeatingPrefMap();
-			guests = waitListService.loadGuestsHistoryByOrgRecords(orgid,paginationReqParam.getPageSize(), paginationReqParam.getPageNo(),statusOption,sliderMinTime,sliderMaxTime,clientTimezone);
-			
-			Long guestsTotalCount = waitListService.getHistoryUsersCountForOrg(orgid,statusOption,sliderMinTime,sliderMaxTime,clientTimezone);
-			
-			if(null != guests && guests.size()>0){
+			// change by sunny for get Marketing PreferenceMap (2018-07-05)
+			guestMarketingPreferenceMap = getGuestMarketingPrefMap();
+			guests = waitListService.loadGuestsHistoryByOrgRecords(orgid, paginationReqParam.getPageSize(),
+					paginationReqParam.getPageNo(), statusOption, sliderMinTime, sliderMaxTime, clientTimezone);
+
+			Long guestsTotalCount = waitListService.getHistoryUsersCountForOrg(orgid, statusOption, sliderMinTime,
+					sliderMaxTime, clientTimezone);
+
+			if (null != guests && guests.size() > 0) {
 				guestDTOs = new ArrayList<GuestDTO>(guests.size());
 				for (Guest guest : guests) {
-					guestDTOs.add(convertGuesEntityToVo(guest, guestPreferenceMap));
+					guestDTOs.add(convertGuesEntityToVo(guest, guestPreferenceMap, guestMarketingPreferenceMap));
 				}
 				paginatedResponse.setRecords(guestDTOs);
 				paginatedResponse.setPageNo(paginationReqParam.getPageNo());
@@ -854,7 +962,9 @@ public class WaitListRestAction {
 				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 
 			}
-			/*changes by vruddhi(when there is no data as defined in condition)*/
+			/*
+			 * changes by vruddhi(when there is no data as defined in condition)
+			 */
 			else {
 				guestDTOs = new ArrayList<GuestDTO>(guests.size());
 				paginatedResponse.setRecords(guestDTOs);
@@ -867,22 +977,23 @@ public class WaitListRestAction {
 		} catch (RsntException e) {
 			e.printStackTrace();
 			log.error("fetchGuestsHistory() - failed:", e);
-			//rootMap.put("id", -1);
-			//rootMap.put(Constants.RSNT_ERROR, "System Error - fetchCheckinUsers failed");
-			//rootMap.put("fieldErrors", errorArray);
-			//final JSONObject jsonObject = JSONObject.fromObject(rootMap);
-			//return jsonObject.toString();
+			// rootMap.put("id", -1);
+			// rootMap.put(Constants.RSNT_ERROR, "System Error -
+			// fetchCheckinUsers failed");
+			// rootMap.put("fieldErrors", errorArray);
+			// final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+			// return jsonObject.toString();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
-		//rootMap.put(Constants.RSNT_ERROR, "");
-		//rootMap.put("guests",guestDTOs);
-		//final JSONObject jsonObject = JSONObject.fromObject(rootMap);
-		//return jsonObject.toString();
+		}
+		// rootMap.put(Constants.RSNT_ERROR, "");
+		// rootMap.put("guests",guestDTOs);
+		// final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+		// return jsonObject.toString();
 		return response;
 	}
-	
+
 	/**
 	 * Get the Guests History by Name
 	 * @param searchName
@@ -895,38 +1006,42 @@ public class WaitListRestAction {
 	@RequestMapping(value = "/searchhistoryuser", method = RequestMethod.GET, produces = "application/json")
 	//changed for history pagination
 	//public String searchhistoryuser(@QueryParam("orgid") Long orgid){
-	public Response<PaginatedResponse<GuestDTO>> searchhistoryuserGrid(
-			@RequestParam("orgid") Long orgid,
-			@RequestParam("statusOption") String statusOption,
-			@RequestParam("sliderMinTime") Integer sliderMinTime,
-			@RequestParam("sliderMaxTime") Integer sliderMaxTime,
-			@RequestParam("clientTimezone") String clientTimezone,
-			@RequestParam("searchName") String searchName,
-			@RequestParam String pagerReqParam) {
-		log.info("Entering :: searchhistoryuser ::orgid "+orgid);		
+	public Response<PaginatedResponse<GuestDTO>> searchhistoryuserGrid(@RequestParam("orgid") Long orgid,
+			@RequestParam("statusOption") String statusOption, @RequestParam("sliderMinTime") Integer sliderMinTime,
+			@RequestParam("sliderMaxTime") Integer sliderMaxTime, @RequestParam("clientTimezone") String clientTimezone,
+			@RequestParam("searchName") String searchName, @RequestParam String pagerReqParam) {
+		log.info("Entering :: searchhistoryuser ::orgid " + orgid);
 		Response<PaginatedResponse<GuestDTO>> response = new Response<PaginatedResponse<GuestDTO>>();
 		List<GuestDTO> guestDTOs = null;
 		PaginatedResponse<GuestDTO> paginatedResponse = new PaginatedResponse<GuestDTO>();
-		
-		//List<GuestDTO> guestDTOs = null;
-		//final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
-		//final List<String> errorArray = new ArrayList<String>(0);
+
+		// List<GuestDTO> guestDTOs = null;
+		// final Map<String, Object> rootMap = new LinkedHashMap<String,
+		// Object>();
+		// final List<String> errorArray = new ArrayList<String>(0);
 		List<Guest> guests;
 		Map<Integer, String> guestPreferenceMap;
+		// change by sunny for marketing preference (2018-07-05)
+		Map<Integer, String> guestMarketingPreferenceMap; 
 		try {
-			//changed for history pagination
-			//guests = waitListService.loadGuestsHistoryByOrg(orgid);
+			// changed for history pagination
+			// guests = waitListService.loadGuestsHistoryByOrg(orgid);
 			ObjectMapper mapper = new ObjectMapper();
 			PaginationReqParam paginationReqParam = mapper.readValue(pagerReqParam, PaginationReqParam.class);
 			guestPreferenceMap = getGuestSeatingPrefMap();
-			guests = waitListService.loadGuestsHistoryByName(orgid,paginationReqParam.getPageSize(), paginationReqParam.getPageNo(),statusOption,sliderMinTime,sliderMaxTime,searchName,clientTimezone);
-			
-			Long guestsTotalCount = waitListService.getHistoryUsersCountForName(orgid,statusOption,sliderMinTime,sliderMaxTime,searchName,clientTimezone);
-			
-			if(null != guests && guests.size()>0){
+			// change by sunny for get Marketing PreferenceMap (2018-07-05)
+			guestMarketingPreferenceMap = getGuestMarketingPrefMap();
+			guests = waitListService.loadGuestsHistoryByName(orgid, paginationReqParam.getPageSize(),
+					paginationReqParam.getPageNo(), statusOption, sliderMinTime, sliderMaxTime, searchName,
+					clientTimezone);
+
+			Long guestsTotalCount = waitListService.getHistoryUsersCountForName(orgid, statusOption, sliderMinTime,
+					sliderMaxTime, searchName, clientTimezone);
+
+			if (null != guests && guests.size() > 0) {
 				guestDTOs = new ArrayList<GuestDTO>(guests.size());
 				for (Guest guest : guests) {
-					guestDTOs.add(convertGuesEntityToVo(guest, guestPreferenceMap));
+					guestDTOs.add(convertGuesEntityToVo(guest, guestPreferenceMap, guestMarketingPreferenceMap));
 				}
 				paginatedResponse.setRecords(guestDTOs);
 				paginatedResponse.setPageNo(paginationReqParam.getPageNo());
@@ -935,7 +1050,9 @@ public class WaitListRestAction {
 				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 
 			}
-			/*changes by vruddhi(when there is no data as defined in condition)*/
+			/*
+			 * changes by vruddhi(when there is no data as defined in condition)
+			 */
 			else {
 				guestDTOs = new ArrayList<GuestDTO>(guests.size());
 				paginatedResponse.setRecords(guestDTOs);
@@ -948,21 +1065,23 @@ public class WaitListRestAction {
 		} catch (RsntException e) {
 			e.printStackTrace();
 			log.error("searchhistoryuser() - failed:", e);
-			//rootMap.put("id", -1);
-			//rootMap.put(Constants.RSNT_ERROR, "System Error - fetchCheckinUsers failed");
-			//rootMap.put("fieldErrors", errorArray);
-			//final JSONObject jsonObject = JSONObject.fromObject(rootMap);
-			//return jsonObject.toString();
+			// rootMap.put("id", -1);
+			// rootMap.put(Constants.RSNT_ERROR, "System Error -
+			// fetchCheckinUsers failed");
+			// rootMap.put("fieldErrors", errorArray);
+			// final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+			// return jsonObject.toString();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
-		//rootMap.put(Constants.RSNT_ERROR, "");
-		//rootMap.put("guests",guestDTOs);
-		//final JSONObject jsonObject = JSONObject.fromObject(rootMap);
-		//return jsonObject.toString();
+		}
+		// rootMap.put(Constants.RSNT_ERROR, "");
+		// rootMap.put("guests",guestDTOs);
+		// final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+		// return jsonObject.toString();
 		return response;
 	}
+
 	
 	/**
 	 * Get Event Listener Configuration details 
@@ -1000,7 +1119,7 @@ public class WaitListRestAction {
 		Response<List<GuestPreferencesDTO>> response = new Response<List<GuestPreferencesDTO>>();
 		List<GuestPreferencesDTO> searPref =  null;
 		try {
-			searPref=	waitListService.getOrganizationSeatingPref(orgid);
+			searPref=waitListService.getOrganizationSeatingPref(orgid);
 			response.setServiceResult(searPref);
 			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 			//rootMap.put(Constants.RSNT_ERROR, "");
@@ -1020,6 +1139,32 @@ public class WaitListRestAction {
 		return response;
 
 	}
+	
+	/* Get Organization Marketing Preference
+	 * Create by sunny (2018-07-05)
+	 * */ 
+	@RequestMapping(value = "/orgMarketingPref", method = RequestMethod.GET, produces = "application/json")
+	public Response<List<GuestMarketingPreference>> getOrganizationMarketingPreferences(@RequestParam("orgid") Long orgid) {
+		log.info("Entring :: OPrganization Marketing Preference");
+		Response<List<GuestMarketingPreference>> response = new Response<List<GuestMarketingPreference>>();
+		List<GuestMarketingPreference> marketingPref = null;
+		try {
+			marketingPref = waitListService.getOrganizationMarketingPref(orgid);
+			response.setServiceResult(marketingPref);
+			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+			
+		} catch (Exception e) {
+			log.error("getOrganizationMarketingPreferences() - failed:", e);
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - getOrganizationMarketingPreferences failed");
+			
+		}
+
+		
+		return response;
+		
+	}
+
 	private boolean checkMarkerForStatusChange(Guest guest){
 		boolean sendNotification = false;
 		if(guest.getCalloutCount() == null && guest.getIncompleteParty() == null)
@@ -1097,6 +1242,77 @@ public class WaitListRestAction {
 		return prefix;
 	}
 
+/*change by sunny for adding how did you hear about us at (1-08-2018)*/
+	
+	@RequestMapping(value="/addMarketingPref", method = RequestMethod.POST, produces = "application/json")
+	public Response<Map<String, Object>> addMarketingPref(@RequestBody AddMarketingPrefDTO addMarketingPrefDTO) {
+		log.info("Entering into addGuestMarketingPref");
+		Response<Map<String, Object>> response = new Response<Map<String, Object>>();
+		
+		try{
+		GuestDTO guestDTO = new GuestDTO();
+		Response<GuestDTO> responseDTO = new Response<GuestDTO>();
+		AddMarketing addMarketing = null;
+		//addMarketing = convertAddMarketingDtoTOEntity(addMarketingPrefDTO);
+		//response =  waitListService.addMarketingPref(addMarketing);
+		responseDTO = fetchGuestById(addMarketingPrefDTO.getGuestID());
+		guestDTO = responseDTO.getServiceResult();
+		if(0 != addMarketingPrefDTO.getGuestMarketingPreference().size() ){
+		guestDTO.setGuestMarketingPreferences(addMarketingPrefDTO.getGuestMarketingPreference());
+		}else{
+			guestDTO.setGuestMarketingPreferences(null);
+		}
+		updateGuestInfo(guestDTO);
+		
+		
+		CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+		}catch (Exception e) {
+			log.error(e);
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null, "System Error - add MarketingPref failed");
+		}
+		
+		return response;
+	}
+	
+	/*change by sunny for converting Marketing Pref DTO to Entity (1-08-2018)*/
+
+	/*private AddMarketing convertAddMarketingDtoTOEntity(AddMarketingPrefDTO addMarketingPrefDTO) {
+		AddMarketing addMarketing = new AddMarketing();
+		addMarketing.setGuestID(addMarketingPrefDTO.getGuestID());
+		addMarketing.setOrgID(addMarketingPrefDTO.getOrgID());
+		
+		for(int i= 0; i<addMarketingPrefDTO.getGuestMarketingPreference().size(); i++){
+			
+			GuestMarketingPreference guestMarketingPreference = new GuestMarketingPreference();
+			guestMarketingPreference = addMarketingPrefDTO.getGuestMarketingPreference().get(i);
+			
+			// set Facebook
+			if(true == guestMarketingPreference.isSelected() && guestMarketingPreference.getGuestMarketPrefValue().equals("Facebook")){
+				addMarketing.setFacebookStatus(1);
+			}
+			// set Instagram
+			if(true == guestMarketingPreference.isSelected() && guestMarketingPreference.getGuestMarketPrefValue().equals("Instagram")){
+				addMarketing.setInstagramStatus(1);
+			}
+			// set Google+
+			if(true == guestMarketingPreference.isSelected() && guestMarketingPreference.getGuestMarketPrefValue().equals("Google+")){
+				addMarketing.setGooglePlusStatus(1);
+			}
+			// set Word of Mouth
+			if(true == guestMarketingPreference.isSelected() && guestMarketingPreference.getGuestMarketPrefValue().equals("Word of Mouth")){
+				addMarketing.setWordofMouthStatus(1);
+			}
+		}
+		addMarketing.setCreatedAt(new Date());
+		addMarketing.setCreatedBy(null);
+		addMarketing.setActive(1);
+		addMarketing.setModifiedAt(new Date());
+		addMarketing.setModifiedBy(null);
+		
+		return addMarketing;
+	}
+*/
+
 	/**
 	 Update Guest information
 	 @param guestJSONStr : Guest object in JSON format
@@ -1145,7 +1361,6 @@ public class WaitListRestAction {
 		rootMap.put("orgid", guest.getOrganizationID());
 		rootMap.put("totalWaitTime", oWaitlistMetrics.getTotalWaitTime());
 		rootMap.put("partyType", guest.getPartyType());
-		
 		//sendNotification(guest, guestCount, totalWaitTime);
 
 		sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
@@ -1473,8 +1688,8 @@ public class WaitListRestAction {
 		rootMap.put("updguest", guest);
 		rootMap.put("FROM", "ADMIN");
 		rootMap.put("ORG_GUEST_COUNT", guestCount);
+
 		rootMap.put("totalWaitTime", oWaitlistMetrics.getTotalWaitTime());
-		rootMap.put("partyType", guest.getPartyType());
 
 		rootMap.put("orgid", guest.getOrganizationID());
 		rootMap.put("partyType", guest.getPartyType());
@@ -1621,11 +1836,9 @@ public class WaitListRestAction {
 		// TODO - uncomment and make below code working. - rohit
 		/*log.info("Entering into scanQRCode");
 		JSONObject jsonObjectMobile = null;
-
 		JSONObject jsonObjectPublish = null;
 		final Map<String, Object> rootMapPublish = new LinkedHashMap<String, Object>();
 		final Map<String, Object> rootMapMobile = new LinkedHashMap<String, Object>();
-
 		try {
 	
 			//Validate QRcode
@@ -1636,8 +1849,6 @@ public class WaitListRestAction {
 			rootMapMobile.put("msg", "Thank you for using waitlist service, Fill up your detail on the device");
 			
 			jsonObjectMobile = JSONObject.fromObject(rootMapMobile);
-
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1660,7 +1871,6 @@ public class WaitListRestAction {
 	  }
 
 	/*private JSONObject sendPusherMessage(final Map<String, Object> rootMap) {
-
 		Ortc api = new Ortc();
 		OrtcFactory factory = null;
 		try {
@@ -1675,7 +1885,6 @@ public class WaitListRestAction {
 		RealtimefameworkPusher.client = factory.createClient();
 		RealtimefameworkPusher.client.setClusterUrl(RealtimefameworkPusher.serverUrl);
 		RealtimefameworkPusher.client.setConnectionMetadata("UserConnectionMetadata"); 
-
 		RealtimefameworkPusher.client.onConnected = new OnConnected() {
 			@Override
 			public void run(OrtcClient sender) {
@@ -1684,7 +1893,6 @@ public class WaitListRestAction {
 				System.out.println("messge send");
 			}
 		}; 
-
 		RealtimefameworkPusher.client.connect(RealtimefameworkPusher.applicationKey, RealtimefameworkPusher.authenticationToken);
 		JSONObject jsonObject = JSONObject.fromObject(rootMap);
 		return jsonObject;
@@ -1728,6 +1936,19 @@ public class WaitListRestAction {
 		return guestPreferenceMap;
 	}
 	
+	// change by sunny for getting marketing preference map (2018-07-05)
+		public Map<Integer, String> getGuestMarketingPrefMap() throws NumberFormatException, RsntException {
+			List<Object[]> guestMarketingPrefLookupObjArr = null;
+			guestMarketingPrefLookupObjArr = waitListService
+					.getLookupsForLookupType(new Long(Constants.CONT_LOOKUPTYPE_GUEST_MARKETING_PREF));
+			Map<Integer, String> guestMarketingPreferenceMap = new HashMap<Integer, String>();
+
+			for (Object[] lookupObj : guestMarketingPrefLookupObjArr) {
+				guestMarketingPreferenceMap.put((Integer) lookupObj[0], (String) lookupObj[1]);
+			}
+
+			return guestMarketingPreferenceMap;
+		}
 	private Map<String, Integer> getGuestSeatingPrefMapDescKey() throws NumberFormatException, RsntException
 	{
 		List<Object[]> guestPrefLookupObjArr = null;

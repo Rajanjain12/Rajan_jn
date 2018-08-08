@@ -45,6 +45,7 @@ KyobeeControllers.controller('partyWaitingCtrl',
 					};
 					$scope.guestRank=0;
 					$scope.guestPref = null;
+					$scope.guestMarketingPref = null;// change by sunny (31-07-2018)
 					
 					$scope.getData = function () {
 						
@@ -99,7 +100,10 @@ KyobeeControllers.controller('partyWaitingCtrl',
 						$scope.initAddGuest();
 						$scope.guestPref = angular.copy($scope.seatPrefs);
 						console.log("GuestPRef popup : "+ JSON.stringify($scope.guestPref));
-					}
+						//change by sunny (30-07-2018)
+						$scope.guestMarketingPref = angular.copy($scope.marketingPref);
+						console.log("GuestMarktingPRef popup : "+ JSON.stringify($scope.guestMarketingPref));
+					};
 					
 					$scope.hidePopup = function() {		
 						//document.getElementById("addGuestForm").reset();						
@@ -140,7 +144,38 @@ KyobeeControllers.controller('partyWaitingCtrl',
 							console.log("GuestPRef : "+ JSON.stringify($scope.guestPref));
 						}
 						
+						if($scope.marketingPref == null || $scope.marketingPref == undefined){
+							$scope.loadMarketingPref();
+						} else {
+							$scope.guestMarketingPref = angular.copy($scope.marketingPref);
+							console.log("GuestMarktingPRef : "+ JSON.stringify($scope.guestMarketingPref));
+						}
+						
 					}
+					
+					$scope.loadMarketingPref = function() {
+						var postBody = {
+
+						};
+						var url = '/kyobee/web/rest/waitlistRestAction/orgMarketingPref?orgid=' + $scope.userDTO.organizationId;;
+						KyobeeService.getDataService(url, '').query(postBody,
+								function(data) {
+									console.log("orgMarketingPref"+data);
+									if (data.status == "SUCCESS") {
+										$scope.guestMarketingPref = data.serviceResult;
+										$scope.marketingPref = data.serviceResult;
+										console.log("GuestMarketingPRef : "+ $scope.guestMarketingPref);
+									} else if (data.status == "FAILURE") {
+										alert('Error while fetching user details. Please login again or contact support');
+										$scope.logout();
+									}
+								}, function(error) {
+									alert('Error while fetching user details. Please login again or contact support');
+								});
+						
+						console.log("GuestMarketingPRef : "+ JSON.stringify($scope.guestMarketingPref));
+					};
+
 					
 					$scope.loadSeatingPref = function() {
 						var postBody = {
@@ -224,6 +259,19 @@ KyobeeControllers.controller('partyWaitingCtrl',
 							}
 						}
 						$scope.guestDTO.guestPreferences = selectedGuestPref;
+						
+						
+						/*change by sunny (31-07-2018)*/
+						var selectedGuestMarketingPref = [];
+						if($scope.marketingPref!=null) {
+							for(i=0;i<$scope.marketingPref.length;i++){
+								if($scope.marketingPref[i].selected){
+									selectedGuestMarketingPref.push($scope.marketingPref[i]);
+								}
+							}
+						}
+						$scope.guestDTO.guestMarketingPreferences = selectedGuestMarketingPref;
+						
 						
 						/*change by krupali, line 204 (15/06/2017) */
 						if($scope.guestDTO.noOfChildren == null){
