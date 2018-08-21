@@ -6,7 +6,7 @@ package com.kyobee.service;
 import java.util.List;
 import java.util.Map;
 
-import com.kyobee.dto.AddMarketingPrefDTO;
+import com.kyobee.dto.MarketingPreferenceDTO;
 import com.kyobee.dto.GuestMarketingPreference;
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
@@ -14,7 +14,7 @@ import com.kyobee.dto.OrganizationTemplateDTO;
 import com.kyobee.dto.ScreensaverDTO;
 import com.kyobee.dto.WaitlistMetrics;
 import com.kyobee.dto.common.Response;
-import com.kyobee.entity.AddMarketing;
+import com.kyobee.entity.MarketingPreference;
 import com.kyobee.entity.Guest;
 import com.kyobee.entity.GuestNotificationBean;
 import com.kyobee.entity.GuestPreferences;
@@ -263,7 +263,7 @@ public interface IWaitListService {
 
 	public List<GuestMarketingPreference> getOrganizationMarketingPref(Long orgid);
 
-	public Response<Map<String, Object>> addMarketingPref(AddMarketing addMarketing);
+	public Response<Map<String, Object>> addMarketingPref(MarketingPreference addMarketing);
 
 	
  

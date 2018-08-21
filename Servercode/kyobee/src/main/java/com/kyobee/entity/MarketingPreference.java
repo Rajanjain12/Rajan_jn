@@ -18,7 +18,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="ORGMARKETING")
-public class AddMarketing {
+public class MarketingPreference {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

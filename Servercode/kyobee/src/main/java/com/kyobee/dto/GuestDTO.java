@@ -48,7 +48,6 @@ public class GuestDTO implements Serializable{
 	private Long incompleteParty;
 	private String seatingPreference;
 	private String marketingPreference;// change by sunny 2018-07-04..
-	private String customPreference;// change by sunny 2018-07-04..
 	private String deviceType;
 	private String deviceId;
 	private LangMaster languagePref;
@@ -60,13 +59,6 @@ public class GuestDTO implements Serializable{
 	}
 	public void setMarketingPreference(String marketingPreference) {
 		this.marketingPreference = marketingPreference;
-	}
-	@XmlAttribute
-	public String getCustomPreference() {
-		return customPreference;
-	}
-	public void setCustomPreference(String customPreference) {
-		this.customPreference = customPreference;
 	}
 	@XmlAttribute
 	public String getDeviceType() {

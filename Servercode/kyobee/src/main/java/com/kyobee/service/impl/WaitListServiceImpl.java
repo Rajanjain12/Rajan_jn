@@ -42,7 +42,7 @@ import com.kyobee.dto.SMSDetailsWrapper;
 import com.kyobee.dto.ScreensaverDTO;
 import com.kyobee.dto.WaitlistMetrics;
 import com.kyobee.dto.common.Response;
-import com.kyobee.entity.AddMarketing;
+import com.kyobee.entity.MarketingPreference;
 import com.kyobee.entity.Guest;
 import com.kyobee.entity.GuestNotificationBean;
 import com.kyobee.entity.GuestPreferences;
@@ -1183,7 +1183,7 @@ public class WaitListServiceImpl implements IWaitListService {
 				@Override
 				public WaitlistMetrics execute(Connection connection) throws SQLException {
 					CallableStatement cStmt = connection.prepareCall("{call addGuest(?, ?, ?, ?, "
-							+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+							+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
 					WaitlistMetrics oWaitlistMetrics = new WaitlistMetrics();
 
 					try {
@@ -1215,7 +1215,6 @@ public class WaitListServiceImpl implements IWaitListService {
 						cStmt.registerOutParameter(25, Types.INTEGER);
 						cStmt.registerOutParameter(26, Types.VARCHAR);
 						cStmt.setString(27, guestObj.getMarketingPreference());// change by sunny line 1195 to 1196 at 2018-07-04
-						cStmt.setString(28, guestObj.getCustomPreference());
 						cStmt.execute();
 						oWaitlistMetrics.setGuestId(cStmt.getInt(19));
 						oWaitlistMetrics.setGuestRank(cStmt.getInt(20));
@@ -1229,7 +1228,7 @@ public class WaitListServiceImpl implements IWaitListService {
 						// change by sunny for addMarketing Pref (3-08-2018)
 						if(null != guestObj.getGuestMarketingPreferences()){
 							
-							AddMarketing addMarketing = new AddMarketing();
+							MarketingPreference addMarketing = new MarketingPreference();
 							
 							addMarketing.setGuestID(cStmt.getInt(19));
 							addMarketing.setOrgID(Integer.parseInt(guestObj.getOrganizationID().toString()));
@@ -1264,7 +1263,7 @@ public class WaitListServiceImpl implements IWaitListService {
 							addMarketingPref(addMarketing);
 						}else{
 							
-							AddMarketing addMarketing = new AddMarketing();
+							MarketingPreference addMarketing = new MarketingPreference();
 							addMarketing.setGuestID(cStmt.getInt(19));
 							addMarketing.setOrgID(Integer.parseInt(guestObj.getOrganizationID().toString()));
 							addMarketing.setFacebookStatus(0);
@@ -1357,7 +1356,7 @@ public class WaitListServiceImpl implements IWaitListService {
 				@Override
 				public WaitlistMetrics execute(Connection connection) throws SQLException {
 					CallableStatement cStmt = connection.prepareCall("{call UPDATEGUEST(?, ?, ?, ?,"
-							+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?," + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+							+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?," + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
 					WaitlistMetrics oWaitlistMetrics = new WaitlistMetrics();
 					try {
 						cStmt.setLong(1, guestObj.getOrganizationID() != null ? guestObj.getOrganizationID() : 0);
@@ -1392,8 +1391,6 @@ public class WaitListServiceImpl implements IWaitListService {
 						// change by sunny for updating Marketing Pref
 						cStmt.setString(28,
 								guestObj.getMarketingPreference() != null ? guestObj.getMarketingPreference() : "");
-						cStmt.setString(29,
-								guestObj.getCustomPreference() != null ? guestObj.getCustomPreference() : "");
 						cStmt.execute();
 
 						oWaitlistMetrics.setGuestId(guestObj.getGuestID().intValue());
@@ -1405,13 +1402,15 @@ public class WaitListServiceImpl implements IWaitListService {
 						oWaitlistMetrics.setGuestNotifiedWaitTime(cStmt.getInt(26));
 						oWaitlistMetrics.setClientBase(cStmt.getString(27));
 						// change by sunny line 1482 to 1522 (03-08-2018)
+						
+						
 						if(null != guestObj.getGuestMarketingPreferences()){
-							AddMarketing addMarketing = new AddMarketing();
-							Query query = sessionFactory.openSession().createQuery("FROM AddMarketing WHERE guestID ="+ Integer.parseInt(guestObj.getGuestID().toString()));
+							MarketingPreference addMarketing = new MarketingPreference();
+							Query query = sessionFactory.getCurrentSession().createQuery("FROM MarketingPreference WHERE guestID ="+ Integer.parseInt(guestObj.getGuestID().toString()));
 							List guestMarketingList = query.list();
-							System.out.println(guestMarketingList.size());
+							
 							for(int i=0; i<guestMarketingList.size();i++){
-								addMarketing = (AddMarketing) guestMarketingList.get(i);
+								addMarketing = (MarketingPreference) guestMarketingList.get(i);
 								addMarketing.setFacebookStatus(0);
 								addMarketing.setInstagramStatus(0);
 								addMarketing.setGooglePlusStatus(0);
@@ -1422,19 +1421,19 @@ public class WaitListServiceImpl implements IWaitListService {
 								guestMarketingPreference = guestObj.getGuestMarketingPreferences().get(i);
 								
 								// set Facebook
-								if(true == guestMarketingPreference.isSelected() && guestMarketingPreference.getGuestMarketPrefValue().equals("Facebook")){
+								if((true == guestMarketingPreference.isSelected() && guestMarketingPreference.getGuestMarketPrefValue().equals("Facebook"))|| (guestMarketingPreference.getGuestMarketPrefValueId() == 45)){
 									addMarketing.setFacebookStatus(1);
 								}
 								// set Instagram
-								if(true == guestMarketingPreference.isSelected() && guestMarketingPreference.getGuestMarketPrefValue().equals("Instagram")){
+								if((true == guestMarketingPreference.isSelected() && guestMarketingPreference.getGuestMarketPrefValue().equals("Instagram"))|| (guestMarketingPreference.getGuestMarketPrefValueId() == 46)){
 									addMarketing.setInstagramStatus(1);
 								}
 								// set Google+
-								if(true == guestMarketingPreference.isSelected() && guestMarketingPreference.getGuestMarketPrefValue().equals("Google+")){
+								if((true == guestMarketingPreference.isSelected() && guestMarketingPreference.getGuestMarketPrefValue().equals("Google+"))|| (guestMarketingPreference.getGuestMarketPrefValueId() == 47)){
 									addMarketing.setGooglePlusStatus(1);
 								}
 								// set Word of Mouth
-								if(true == guestMarketingPreference.isSelected() && guestMarketingPreference.getGuestMarketPrefValue().equals("Word of Mouth")){
+								if((true == guestMarketingPreference.isSelected() && guestMarketingPreference.getGuestMarketPrefValue().equals("Word of Mouth"))|| (guestMarketingPreference.getGuestMarketPrefValueId() == 48)){
 									addMarketing.setWordofMouthStatus(1);
 								}
 							}
@@ -1882,7 +1881,7 @@ ByOrgRecords(java.lang.Long, int, int)
 		}
 		/*change by sunny For add Marketing Pre (31-07-2018)*/
 		@Override
-		public Response<Map<String, Object>> addMarketingPref(AddMarketing addMarketing) {
+		public Response<Map<String, Object>> addMarketingPref(MarketingPreference addMarketing) {
 			Response<Map<String, Object>> response = new Response<Map<String, Object>>();
 			try{	
 				sessionFactory.getCurrentSession().saveOrUpdate(addMarketing);

@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
 
-public class AddMarketingPrefDTO {
+public class MarketingPreferenceDTO {
 	
 	private int orgID;
 	private int guestID;

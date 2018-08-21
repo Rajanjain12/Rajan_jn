@@ -120,8 +120,6 @@ public class Guest implements Serializable{
 	@Column(name="marketingPreference")
 	private String marketingPreference;// change by sunny 2018-07-04..
 	
-	@Column(name="customPreference")
-	private String customPreference;// change by sunny 2018-07-04..
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="languagePrefID", nullable = false)
@@ -149,15 +147,7 @@ public class Guest implements Serializable{
 	public void setMarketingPreference(String marketingPreference) {
 		this.marketingPreference = marketingPreference;
 	}
-
-	public String getCustomPreference() {
-		return customPreference;
-	}
-
-	public void setCustomPreference(String customPreference) {
-		this.customPreference = customPreference;
-	}
-
+	
 	public String getDeviceType() {
 		return deviceType;
 	}

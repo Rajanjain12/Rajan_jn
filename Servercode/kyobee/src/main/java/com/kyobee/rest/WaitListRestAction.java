@@ -40,13 +40,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bandwidth.sdk.model.events.SmsEvent;
-import com.kyobee.dto.AddMarketingPrefDTO;
 /*import com.google.api.translate.Language;
 import com.google.api.translate.Translate;*/
 import com.kyobee.dto.GuestDTO;
 import com.kyobee.dto.GuestMarketingPreference;
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
+import com.kyobee.dto.MarketingPreferenceDTO;
 import com.kyobee.dto.OrganizationTemplateDTO;
 import com.kyobee.dto.SendSMSWrapper;
 import com.kyobee.dto.SmsContentParamDTO;
@@ -55,10 +55,10 @@ import com.kyobee.dto.WaitlistMetrics;
 import com.kyobee.dto.common.PaginatedResponse;
 import com.kyobee.dto.common.PaginationReqParam;
 import com.kyobee.dto.common.Response;
-import com.kyobee.entity.AddMarketing;
 import com.kyobee.entity.Guest;
 import com.kyobee.entity.GuestNotificationBean;
 import com.kyobee.entity.GuestPreferences;
+import com.kyobee.entity.MarketingPreference;
 import com.kyobee.entity.Organization;
 import com.kyobee.exception.RsntException;
 import com.kyobee.service.IWaitListService;
@@ -227,9 +227,6 @@ public class WaitListRestAction {
 		 */
 		// change by sunny for marketing preference line 231 to245 at 2018-07-04
 		
-		if (null != guest.getCustomPreference()) 
-			guestObj.setCustomPreference(guest.getCustomPreference());
-		
 		if (null != guest.getGuestMarketingPreferences()) {
 			String marketingPreference = null;
 			List<GuestMarketingPreference> guestMarketingPrefList = guest.getGuestMarketingPreferences();
@@ -383,9 +380,7 @@ public class WaitListRestAction {
 			
 			// change by sunny for get MarktingPref and customPref line 394 to 416 (2018-07-05)
 			
-			if (guest.getCustomPreference() != null) {
-				guestObj.setCustomPreference(guest.getCustomPreference());;
-			}
+			
 			String marketingPrefForDTO = "";
 			if (null != guest.getMarketingPreference() && !"null".equals(guest.getMarketingPreference())
 					&& !"".equals(guest.getMarketingPreference())) {
@@ -525,10 +520,6 @@ public class WaitListRestAction {
 				}
 			}
 			guestObj.setMarketingPreference(marketingPrefDTO);
-
-			if (guest.getCustomPreference() != null) {
-				guestObj.setCustomPreference(guest.getCustomPreference());
-			}
 			
 			if (null != guest && null != guest.getGuestID()) {
 				guestObj.setUpdatedTime(new Date());
@@ -1245,14 +1236,14 @@ public class WaitListRestAction {
 /*change by sunny for adding how did you hear about us at (1-08-2018)*/
 	
 	@RequestMapping(value="/addMarketingPref", method = RequestMethod.POST, produces = "application/json")
-	public Response<Map<String, Object>> addMarketingPref(@RequestBody AddMarketingPrefDTO addMarketingPrefDTO) {
+	public String addMarketingPref(@RequestBody MarketingPreferenceDTO addMarketingPrefDTO) {
 		log.info("Entering into addGuestMarketingPref");
-		Response<Map<String, Object>> response = new Response<Map<String, Object>>();
+		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 		
 		try{
 		GuestDTO guestDTO = new GuestDTO();
 		Response<GuestDTO> responseDTO = new Response<GuestDTO>();
-		AddMarketing addMarketing = null;
+		MarketingPreference addMarketing = null;
 		//addMarketing = convertAddMarketingDtoTOEntity(addMarketingPrefDTO);
 		//response =  waitListService.addMarketingPref(addMarketing);
 		responseDTO = fetchGuestById(addMarketingPrefDTO.getGuestID());
@@ -1264,55 +1255,20 @@ public class WaitListRestAction {
 		}
 		updateGuestInfo(guestDTO);
 		
-		
-		CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+		rootMap.put("status", Constants.SUCCESS);
+		rootMap.put("message","Add Marketing Preference Successfully.");
+		//CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "Add Marketing Prefernce Successfully.");
 		}catch (Exception e) {
-			log.error(e);
-			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null, "System Error - add MarketingPref failed");
+			log.error("AddOrganizationMarketingPreferences() - failed:", e);
+			rootMap.put("status", "0");
+			rootMap.put("message","Add Marketing Preference Failed.");
 		}
 		
-		return response;
+		final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+		return jsonObject.toString();
 	}
 	
-	/*change by sunny for converting Marketing Pref DTO to Entity (1-08-2018)*/
-
-	/*private AddMarketing convertAddMarketingDtoTOEntity(AddMarketingPrefDTO addMarketingPrefDTO) {
-		AddMarketing addMarketing = new AddMarketing();
-		addMarketing.setGuestID(addMarketingPrefDTO.getGuestID());
-		addMarketing.setOrgID(addMarketingPrefDTO.getOrgID());
-		
-		for(int i= 0; i<addMarketingPrefDTO.getGuestMarketingPreference().size(); i++){
-			
-			GuestMarketingPreference guestMarketingPreference = new GuestMarketingPreference();
-			guestMarketingPreference = addMarketingPrefDTO.getGuestMarketingPreference().get(i);
-			
-			// set Facebook
-			if(true == guestMarketingPreference.isSelected() && guestMarketingPreference.getGuestMarketPrefValue().equals("Facebook")){
-				addMarketing.setFacebookStatus(1);
-			}
-			// set Instagram
-			if(true == guestMarketingPreference.isSelected() && guestMarketingPreference.getGuestMarketPrefValue().equals("Instagram")){
-				addMarketing.setInstagramStatus(1);
-			}
-			// set Google+
-			if(true == guestMarketingPreference.isSelected() && guestMarketingPreference.getGuestMarketPrefValue().equals("Google+")){
-				addMarketing.setGooglePlusStatus(1);
-			}
-			// set Word of Mouth
-			if(true == guestMarketingPreference.isSelected() && guestMarketingPreference.getGuestMarketPrefValue().equals("Word of Mouth")){
-				addMarketing.setWordofMouthStatus(1);
-			}
-		}
-		addMarketing.setCreatedAt(new Date());
-		addMarketing.setCreatedBy(null);
-		addMarketing.setActive(1);
-		addMarketing.setModifiedAt(new Date());
-		addMarketing.setModifiedBy(null);
-		
-		return addMarketing;
-	}
-*/
-
+	
 	/**
 	 Update Guest information
 	 @param guestJSONStr : Guest object in JSON format
