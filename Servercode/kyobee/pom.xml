@@ -20,18 +20,18 @@
 
 	</properties>
 
-	<dependencyManagement>
+	<!-- <dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>com.amazonaws</groupId>
 				<artifactId>aws-java-sdk-bom</artifactId>
 				<version>1.11.113</version>
-				<!-- <version>1.10.43</version> -->
+				<version>1.10.43</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
 		</dependencies>
-	</dependencyManagement>
+	</dependencyManagement> -->
 
 	<dependencies>
 		<dependency>
@@ -278,17 +278,18 @@
 		</dependency>
 
 		<!-- Amazon s3 dependencies -->
-
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3 -->
 		<dependency>
-			<groupId>com.amazonaws</groupId>
-			<artifactId>aws-java-sdk-s3</artifactId>
+		    <groupId>com.amazonaws</groupId>
+		    <artifactId>aws-java-sdk-s3</artifactId>
+		    <version>1.11.474</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-sns -->
 		<dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk-sns</artifactId>
-			<version>1.11.113</version>
+			<version>1.11.474</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.bandwidth.sdk/bandwidth-java-sdk -->

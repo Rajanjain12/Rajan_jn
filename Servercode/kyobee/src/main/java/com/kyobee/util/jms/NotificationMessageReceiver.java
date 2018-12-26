@@ -13,11 +13,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.sns.AmazonSNS;
 import com.amazonaws.services.sns.AmazonSNSClient;
+import com.amazonaws.services.sns.AmazonSNSClientBuilder;
+import com.amazonaws.services.sns.model.GetSMSAttributesRequest;
 import com.amazonaws.services.sns.model.MessageAttributeValue;
 import com.amazonaws.services.sns.model.PublishRequest;
 import com.amazonaws.services.sns.model.PublishResult;
+import com.amazonaws.services.sns.model.SetSMSAttributesRequest;
 import com.bandwidth.sdk.BandwidthClient;
 import com.bandwidth.sdk.model.ReceiptRequest;
 import com.kyobee.entity.GuestNotificationBean;
@@ -28,6 +33,7 @@ import com.kyobee.util.common.Constants;
 import com.kyobee.util.common.LoggerUtil;
 import com.kyobee.util.pusher.IPusher;
 import com.kyobee.util.pusher.factory.PusherFactory;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 /*import com.bandwidth.sdk.*;*/
 
@@ -358,22 +364,49 @@ public class NotificationMessageReceiver implements MessageListener{
 		// TODO Auto-generated method stub
 		
 		System.out.println(org.apache.http.conn.ssl.SSLConnectionSocketFactory.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		
 		Map<String, MessageAttributeValue> smsAttributes =
 		        new HashMap<String, MessageAttributeValue>();
 		smsAttributes.put("AWS.SNS.SMS.SenderID", new MessageAttributeValue()
-		        .withStringValue("KYOBEE") //The sender ID shown on the device.
+		        .withStringValue(Constants.SNS_DEFAULT_SENDER_ID) //The sender ID shown on the device.
 		        .withDataType("String"));		
 		smsAttributes.put("AWS.SNS.SMS.SMSType", new MessageAttributeValue()
-		        .withStringValue("Transactional")
+		        .withStringValue(Constants.SNS_DEFAULT_SMS_TYPE)
 		        .withDataType("String"));
+		
 		AWSCredentials awsCredentials=new BasicAWSCredentials(Constants.AWS_ACCESS_KEY_ID, Constants.AWS_SECRET_KEY);
 		try {
-		// AmazonSNSClient snsClient = new AmazonSNSClient(awsCredential);
-			AmazonSNSClient snsClient=new AmazonSNSClient(awsCredentials);
+			//commenting as this is deprecated constructor
+			//AmazonSNSClient snsClient=new AmazonSNSClient(awsCredentials);
+			
+			AmazonSNS snsClient = AmazonSNSClient.builder().withRegion("us-west-2").withCredentials(new AWSStaticCredentialsProvider(awsCredentials)).build();
+			
+			System.out.println("My Default SMS attributes:");
+			
+			SetSMSAttributesRequest setRequest = new SetSMSAttributesRequest()
+					.addAttributesEntry("DefaultSenderID", Constants.SNS_DEFAULT_SENDER_ID)
+					.addAttributesEntry("MonthlySpendLimit", Constants.SNS_MONTHLY_SPEND_LIMIT)
+					.addAttributesEntry("DeliveryStatusIAMRole", Constants.SNS_DELIVERY_STATUS_IAM_ROLE)
+					.addAttributesEntry("DeliveryStatusSuccessSamplingRate", Constants.SNS_DELIVERY_STATUS_SUCCESS_SAMPLING_RATE)
+					.addAttributesEntry("DefaultSMSType", Constants.SNS_DEFAULT_SMS_TYPE)
+					.addAttributesEntry("UsageReportS3Bucket", Constants.SNS_USAGE_REPORT_S3_BUCKET);
+			snsClient.setSMSAttributes(setRequest);
+			
+			
+			Map<String, String> myAttributes = snsClient.getSMSAttributes(new GetSMSAttributesRequest())
+				.getAttributes();
+			System.out.println("My NEW  SMS attributes:");
+			for (String key : myAttributes.keySet()) {
+				System.out.println(key + " = " + myAttributes.get(key));
+			}
+					
+			
 		 PublishResult result = snsClient.publish(( new PublishRequest()
                  .withMessage(msg))
                  .withPhoneNumber("+1"+phoneNumber)
                  .withMessageAttributes(smsAttributes));
+		 
+		 LoggerUtil.logInfo("sms sent successfully to phone no: "+phoneNumber+" result:"+result);
 		 
 		}catch(Exception e) {
 			LoggerUtil.logError(e.getMessage(),e);

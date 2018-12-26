@@ -143,6 +143,13 @@ public class Constants {
 	public static final String AWS_ACCESS_KEY_ID="AKIAJQJN2NTV6IWMZXMQ";
 	public static final String AWS_SECRET_KEY="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";
 	
+	public static final String SNS_DEFAULT_SENDER_ID = "KYOBEE";
+	public static final String SNS_MONTHLY_SPEND_LIMIT = "1000";
+	public static final String SNS_DELIVERY_STATUS_IAM_ROLE = "arn:aws:iam::437586897314:role/snscloudwatchrole";
+	public static final String SNS_DELIVERY_STATUS_SUCCESS_SAMPLING_RATE = "100";
+	public static final String SNS_DEFAULT_SMS_TYPE = "Transactional";
+	public static final String SNS_USAGE_REPORT_S3_BUCKET = "smsusagekyobee";
+	
 	
 	
 }
