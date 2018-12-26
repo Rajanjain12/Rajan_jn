@@ -17,7 +17,6 @@ import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.sns.AmazonSNS;
 import com.amazonaws.services.sns.AmazonSNSClient;
-import com.amazonaws.services.sns.AmazonSNSClientBuilder;
 import com.amazonaws.services.sns.model.GetSMSAttributesRequest;
 import com.amazonaws.services.sns.model.MessageAttributeValue;
 import com.amazonaws.services.sns.model.PublishRequest;
@@ -33,7 +32,6 @@ import com.kyobee.util.common.Constants;
 import com.kyobee.util.common.LoggerUtil;
 import com.kyobee.util.pusher.IPusher;
 import com.kyobee.util.pusher.factory.PusherFactory;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 /*import com.bandwidth.sdk.*;*/
 
