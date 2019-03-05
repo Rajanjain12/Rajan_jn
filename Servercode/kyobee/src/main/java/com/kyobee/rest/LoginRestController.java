@@ -80,11 +80,11 @@ public class LoginRestController {
 								"Account is active. Please contact customer support.");
 						return response;
 					}
-
+					
 					HttpSession sessionObj = request.getSession();
 					loadOrgContextData(loginUser.getUserId());
 					UserDTO userDTO = prepareUserObj(loginUser);
-					userDTO.setClientBase(credenitals.getClientBase());
+					//userDTO.setClientBase(credenitals.getClientBase());
 					sessionObj.setAttribute(Constants.USER_OBJ, userDTO);
 					response.setServiceResult(userDTO);
 					LoggerUtil.logInfo("---- Login successful ----- : " + userDTO.getUserName());
@@ -196,6 +196,10 @@ public class LoginRestController {
 					rootMap.put("MaxParty", 0);
 				}
 				
+				if(loginDetail[6]!=null){
+					rootMap.put("defaultLangId", loginDetail[6].toString());
+				}
+				
 				ScreensaverDTO screensaver = null;
 				try {
 					screensaver = waitListService.getOrganizationScreensaver(Long.valueOf(loginDetail[1].toString()).longValue());
@@ -303,6 +307,8 @@ public class LoginRestController {
 		Organization org=orgService.getOrganizationById((Long) sessionContextUtil.get(Constants.CONST_ORGID));
 		userDTO.setSmsRoute(org.getSmsRoute());
 		userDTO.setMaxParty(org.getMaxParty());
+		userDTO.setDefaultLangId(org.getDefaultLangId());
+		userDTO.setClientBase(org.getClientBase());
 		final List<String> userPermissions = securityService.getUserPermissions(loginUser.getUserId());
 		if (userPermissions != null && !userPermissions.isEmpty()) {
 			for (final String permission : userPermissions) {

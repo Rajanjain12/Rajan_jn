@@ -38,6 +38,8 @@ public class UserDTO {
 	
 	private Integer maxParty;
 	
+	private Integer defaultLangId;
+	
 	private String clientBase;
 
 	public Long getUserId() {
@@ -150,6 +152,14 @@ public class UserDTO {
 
 	public void setMaxParty(Integer maxParty) {
 		this.maxParty = maxParty;
+	}
+	
+	public Integer getDefaultLangId() {
+		return defaultLangId;
+	}
+
+	public void setDefaultLangId(Integer defaultLangId) {
+		this.defaultLangId = defaultLangId;
 	}
 
 	public String getClientBase() {

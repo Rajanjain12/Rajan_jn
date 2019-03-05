@@ -158,6 +158,9 @@ public class Organization extends BaseEntity {
 	@Column(name="MaxParty")
 	private Integer maxParty;
 	
+	@Column(name="DefaultLangId")
+	private Integer defaultLangId;
+	
 	public Integer getMaxParty() {
 		return maxParty;
 	}
@@ -165,7 +168,14 @@ public class Organization extends BaseEntity {
 	public void setMaxParty(Integer maxParty) {
 		this.maxParty = maxParty;
 	}
+	
+	public Integer getDefaultLangId() {
+		return defaultLangId;
+	}
 
+	public void setDefaultLangId(Integer defaultLangId) {
+		this.defaultLangId = defaultLangId;
+	}
 
 	public String getSmsSignature() {
 		return smsSignature;
