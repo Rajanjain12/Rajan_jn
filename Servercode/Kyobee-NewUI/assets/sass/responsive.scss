@@ -1,0 +1,39 @@
+$sizebar-size:125px;
+@media only screen and (max-width: 767px){
+	.container-box{width:100%;float:none}
+	header{
+		img{
+			width:50%
+		}
+	}
+	.w-res-100{width:100%}
+	#sidebar-wrapper .sidebar-nav {
+		li {
+			a {
+			    display: inline-block;
+			    height: 40px;
+			    width: 40px;
+			    line-height: 38px;
+			    margin-left: 2.5px;
+			}
+			img{
+				width: 45%
+			}
+		}
+	}
+}
+@media only screen and (min-width: 992px) {
+    #wrapper {
+    	padding-left: $sizebar-size;
+        #sidebar-wrapper {
+            width: $sizebar-size
+        }
+    }
+}
+@media only screen and (max-width: 992px) {
+    #wrapper {
+        #sidebar-wrapper {
+            width: 45px;
+        }
+    }
+}

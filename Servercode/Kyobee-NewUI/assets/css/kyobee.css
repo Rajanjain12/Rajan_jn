@@ -1,0 +1,32 @@
+/*common color code*/
+a:hover {
+  color: #e14b28; }
+
+.font-color {
+  color: #e14b28; }
+
+.background-color {
+  background-color: #e14b28; }
+
+.done-icon-shadow {
+  box-shadow: 0px 3px 13px 0px rgba(221, 56, 36, 0.56); }
+
+/*sidebar*/
+#sidebar-wrapper .sidebar-nav li a.profile-icon img {
+  opacity: 0; }
+
+.active {
+  background-color: #e14b28 !important;
+  background-image: url("../images/profile-hover-icon.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 1; }
+
+.border-right {
+  border-right: 4px solid #e14b28; }
+
+/*footer*/
+footer {
+  background-color: #e14b28; }
+
+/*# sourceMappingURL=kyobee.css.map */
