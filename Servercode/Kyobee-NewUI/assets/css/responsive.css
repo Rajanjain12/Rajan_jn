@@ -19,9 +19,9 @@
     width: 45%; } }
 @media only screen and (min-width: 992px) {
   #wrapper {
-    padding-left: 125px; }
+    padding-left: 100px; }
     #wrapper #sidebar-wrapper {
-      width: 125px; } }
+      width: 100px; } }
 @media only screen and (max-width: 992px) {
   #wrapper #sidebar-wrapper {
     width: 45px; } }

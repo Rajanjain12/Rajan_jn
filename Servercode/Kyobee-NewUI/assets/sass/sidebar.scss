@@ -1,5 +1,4 @@
 $white-color:#ffffff;
-$sizebar-size:125px;
 
 #wrapper {
     padding-left: 0;
@@ -12,10 +11,10 @@ $sizebar-size:125px;
 #sidebar-wrapper {
     /*z-index: 1000;*/
     position: fixed;
-    left: $sizebar-size;
+    left: 100px;
     width: 0;
     height: 100%;
-    margin-left: -$sizebar-size;
+    margin-left: -100px;
     overflow-y: auto;
     background: $white-color;
     box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.08);
@@ -26,14 +25,14 @@ $sizebar-size:125px;
     .sidebar-nav {
         position: absolute;
         top: 0;
-        width: $sizebar-size;
+        width: 100px;
         font-size: 14px;
         margin: 0;
         padding: 0;
         list-style: none;
         li {
             text-indent: 0;
-            line-height: 30px;
+            line-height: 45px;
         }
         a {
             display: block;
