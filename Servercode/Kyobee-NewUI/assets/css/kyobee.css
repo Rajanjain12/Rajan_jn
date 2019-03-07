@@ -1,6 +1,7 @@
 /*common color code*/
 a:hover {
-  color: #e14b28; }
+  color: #e14b28;
+  text-decoration: none; }
 
 .font-color {
   color: #e14b28; }
@@ -16,11 +17,10 @@ a:hover {
   opacity: 0; }
 
 .active {
-  background-color: #e14b28 !important;
-  background-image: url("../images/profile-hover-icon.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  z-index: 1; }
+  background-color: #e14b28 !important; }
+
+.active i {
+  color: #fff; }
 
 .border-right {
   border-right: 4px solid #e14b28; }

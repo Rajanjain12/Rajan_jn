@@ -1,10 +1,10 @@
 /*header design*/
 header {
   box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.1);
-  padding: 15px;
+  padding: 10px;
   background-color: #fff; }
   header img {
-    width: 12%;
+    width: 8%;
     height: auto; }
 
 /*common declaration*/
@@ -28,6 +28,9 @@ h1, h2, h3, h4, h5, h6, nav, div, span, img, a, p, footer, ul, li {
   text-decoration: none;
   list-style: none; }
 
+a {
+  color: #000; }
+
 .btn.focus, .btn:focus {
   box-shadow: none; }
 
@@ -35,6 +38,10 @@ h1, h2, h3, h4, h5, h6, nav, div, span, img, a, p, footer, ul, li {
   color: #ffffff; }
 
 /*common css*/
+.custom-container {
+  width: 52%;
+  margin: 0 auto; }
+
 .font-12 {
   font-size: 12px; }
 
@@ -60,6 +67,9 @@ h1, h2, h3, h4, h5, h6, nav, div, span, img, a, p, footer, ul, li {
 
 .font-weight-semibold {
   font-weight: 600; }
+
+.grey {
+  color: #9b9a9a; }
 
 /*header and footer on top and bottom*/
 html {
@@ -377,5 +387,13 @@ fieldset {
   background: #d9534f;
   left: 0;
   width: 100%; }
+
+.fix-header {
+  position: fixed;
+  width: 100%;
+  z-index: 1; }
+
+.fix-wrapper {
+  padding-top: 5%; }
 
 /*# sourceMappingURL=style.css.map */

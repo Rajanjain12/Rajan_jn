@@ -11,15 +11,18 @@ $font-weight-semibold:600;
 *{padding:0;margin:0;}
 body{margin:0;padding:0;font-family: 'Source Sans Pro', sans-serif;font-size: 14px; color: $body-font-color;}
 h1,h2,h3,h4,h5,h6,nav,div,span,img,a,p,footer,ul,li{margin:0;padding:0;border:0;outline:none;text-decoration:none;list-style:none;}
+a{color:#000;}
 .btn.focus, .btn:focus{box-shadow: none}
 .btn:hover{color: $white-color;}
 
 /*common css*/
+.custom-container{width: 52%;margin:0 auto;}
 .font-12{font-size: 12px}
 .btn-grey-theme{padding: 5px 30px;border-radius:10px;color:$white-color;background-color: $grey-color;box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.26); }
 .btn-grey-theme:hover{opacity: 0.9}
 .btn-theme{padding: 5px 40px;border-radius:10px;color:$white-color;box-shadow: 0px 5px 10px 0px rgba(221, 56, 36, 0.53);&:hover{background-color:$grey-color;color:$white-color;box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.26);}}
 .font-weight-semibold{font-weight:$font-weight-semibold;}
+.grey{color: $grey-color}
 
 /*header and footer on top and bottom*/
 html{ height:100%;}
@@ -331,4 +334,12 @@ fieldset {
   background: #d9534f;
   left: 0;
   width: 100%;
+}
+.fix-header{
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+}
+.fix-wrapper{
+  padding-top: 5%;
 }

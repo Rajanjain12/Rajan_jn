@@ -1,4 +1,7 @@
 @media only screen and (max-width: 767px) {
+  .custom-container {
+    width: 85%; }
+
   .container-box {
     width: 100%;
     float: none; }
@@ -19,9 +22,11 @@
     width: 45%; } }
 @media only screen and (min-width: 992px) {
   #wrapper {
-    padding-left: 100px; }
+    padding-left: 125px; }
     #wrapper #sidebar-wrapper {
-      width: 100px; } }
+      width: 125px; }
+    #wrapper footer {
+      width: 89%; } }
 @media only screen and (max-width: 992px) {
   #wrapper #sidebar-wrapper {
     width: 45px; } }

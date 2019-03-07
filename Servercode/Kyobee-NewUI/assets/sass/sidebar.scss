@@ -1,4 +1,5 @@
 $white-color:#ffffff;
+$sizebar-size:125px;
 
 #wrapper {
     padding-left: 0;
@@ -11,10 +12,10 @@ $white-color:#ffffff;
 #sidebar-wrapper {
     /*z-index: 1000;*/
     position: fixed;
-    left: 100px;
+    left: $sizebar-size;
     width: 0;
     height: 100%;
-    margin-left: -100px;
+    margin-left: -$sizebar-size;
     overflow-y: auto;
     background: $white-color;
     box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.08);
@@ -25,14 +26,14 @@ $white-color:#ffffff;
     .sidebar-nav {
         position: absolute;
         top: 0;
-        width: 100px;
+        width: $sizebar-size;
         font-size: 14px;
         margin: 0;
         padding: 0;
         list-style: none;
         li {
             text-indent: 0;
-            line-height: 45px;
+            line-height: 30px;
         }
         a {
             display: block;
@@ -48,8 +49,11 @@ $white-color:#ffffff;
             margin: 0 auto;
             border-radius: 50px;
             line-height: 57px;
-        } & :hover{
+            i{
+                font-size: 28px;
+            }
+        } /*& :hover{
             opacity: 0.90;
-        }
+        }*/
     }
 }

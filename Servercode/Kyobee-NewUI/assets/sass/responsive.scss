@@ -1,4 +1,6 @@
+$sizebar-size:125px;
 @media only screen and (max-width: 767px){
+	.custom-container{width: 85%}
 	.container-box{width:100%;float:none}
 	header{
 		img{
@@ -23,9 +25,12 @@
 }
 @media only screen and (min-width: 992px) {
     #wrapper {
-    	padding-left: 100px;
+    	padding-left: $sizebar-size;
         #sidebar-wrapper {
-            width: 100px;
+            width: $sizebar-size
+        }
+        footer{
+        	width: 89%;
         }
     }
 }
