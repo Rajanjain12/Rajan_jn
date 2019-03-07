@@ -1,3 +1,10 @@
+/*common color code*/
+/* Font Style Variable*/
+/* Shadow to Container Box*/
+/* Sidebar Variable */
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 600px !important; } }
 @media only screen and (max-width: 767px) {
   .custom-container {
     width: 85%; }
@@ -26,7 +33,7 @@
     #wrapper #sidebar-wrapper {
       width: 125px; }
     #wrapper footer {
-      width: 89%; } }
+      width: 90.7%; } }
 @media only screen and (max-width: 992px) {
   #wrapper #sidebar-wrapper {
     width: 45px; } }

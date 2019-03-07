@@ -1,4 +1,5 @@
-/*common color code*/
+@import 'variable';
+
 $theme-color:#e14b28;
 
 a:hover{color:$theme-color;text-decoration: none;}
@@ -10,9 +11,11 @@ a:hover{color:$theme-color;text-decoration: none;}
 // #sidebar-wrapper .sidebar-nav li a.profile-icon:hover{background-color: $theme-color;background-image: url('../images/profile-hover-icon.png');background-repeat: no-repeat;background-position: center;z-index: 1;}
 // #sidebar-wrapper .sidebar-nav li a.paln-payment-icon:hover{background-color: $theme-color;background-image: url('../images/plans&payment-hover-icon.png');background-repeat: no-repeat;background-position: center;z-index: 1;}
 #sidebar-wrapper .sidebar-nav li a.profile-icon img{opacity: 0;}
-// .active{background-color: $theme-color!important;background-image: url('../images/profile-hover-icon.png');background-repeat: no-repeat;background-position: center;z-index: 1;}
-.active{background-color: $theme-color!important;}
-.active i{color:#fff;}
+// .activeState{background-color: $theme-color!important;background-image: url('../images/profile-hover-icon.png');background-repeat: no-repeat;background-position: center;z-index: 1;}
+.activeState{background-color: $theme-color!important;}
+.activeState i{color:#fff;}
+.active-pagination{background-color:$theme-color;color:$white-color;box-shadow: 0px 5px 10px 0px rgba(237, 59, 47, 0.78);}
+.active-pagination:hover{background-color:$theme-color;color:$white-color}
 .border-right{border-right: 4px solid $theme-color;}
 /*footer*/
 footer{background-color:$theme-color;}

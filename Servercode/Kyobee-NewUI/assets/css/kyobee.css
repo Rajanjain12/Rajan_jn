@@ -1,4 +1,7 @@
 /*common color code*/
+/* Font Style Variable*/
+/* Shadow to Container Box*/
+/* Sidebar Variable */
 a:hover {
   color: #e14b28;
   text-decoration: none; }
@@ -16,11 +19,20 @@ a:hover {
 #sidebar-wrapper .sidebar-nav li a.profile-icon img {
   opacity: 0; }
 
-.active {
+.activeState {
   background-color: #e14b28 !important; }
 
-.active i {
+.activeState i {
   color: #fff; }
+
+.active-pagination {
+  background-color: #e14b28;
+  color: #ffffff;
+  box-shadow: 0px 5px 10px 0px rgba(237, 59, 47, 0.78); }
+
+.active-pagination:hover {
+  background-color: #e14b28;
+  color: #ffffff; }
 
 .border-right {
   border-right: 4px solid #e14b28; }

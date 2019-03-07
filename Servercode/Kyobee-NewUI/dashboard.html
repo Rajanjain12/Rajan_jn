@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Kyobee</title>
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/sidebar.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/dashboard.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/flaticon.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/kyobee.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/responsive.css">
+</head>
+<body>
+	<header class="fix-header">
+		<div class="container-fluid">
+			<a href="login.html"><img src="assets/images/logo.png" alt="logo"></a>
+			<span class="pl-5">
+				<a href=""><i class="flaticon-clipboard pr-4 d-inline"></i></a>
+				<a href=""><i class="flaticon-mail-send pr-4"></i></a>
+				<a href=""><i class="flaticon-dining-room-furniture-of-a-table-with-chairs pr-4"></i></a>
+				<a href=""><i class="flaticon-avatar pr-4"></i></a>
+			</span>
+		</div>
+	</header>
+	<div class="pb-5 fix-wrapper">
+		<section>
+			<div id="wrapper">
+		        <div id="sidebar-wrapper">
+		            <aside id="sidebar">
+		                <ul id="sidemenu" class="sidebar-nav text-center">
+		                    <li class="pt-3 pb-3">
+		                        <a href="#" class="activeState">
+		                        	<i class="flaticon-house-outline grey"></i>
+		                        	<!-- <img src="assets/images/profile-normal-icon.png" alt="profile"> -->
+		                            <!-- <span class="sidebar-icon"><i class="fa fa-dashboard"></i></span>
+		                            <span class="sidebar-title">Home</span> -->
+		                        </a>
+		                        <span class="font-12 font-weight-semibold">Dashboard</span>
+		                    </li>
+		                    <li class="pb-3">
+		                        <a class="paln-payment-icon" href="#">
+		                        	<i class="flaticon-add-user grey"></i>
+		                        	<!-- <img src="assets/images/plans&payment-normal-icon.png" alt="profile"> -->
+		                            <!-- <span class="sidebar-icon"><i class="fa fa-dashboard"></i></span>
+		                            <span class="sidebar-title">Home</span> -->
+		                        </a>
+		                        <span class="font-12 font-weight-semibold">Add User</span>
+		                    </li>
+		                    <li class="pb-3">
+		                        <a class="paln-payment-icon" href="#">
+		                        	<i class="flaticon-history grey"></i>
+		                        	<!-- <img src="assets/images/plans&payment-normal-icon.png" alt="profile"> -->
+		                            <!-- <span class="sidebar-icon"><i class="fa fa-dashboard"></i></span>
+		                            <span class="sidebar-title">Home</span> -->
+		                        </a>
+		                        <span class="font-12 font-weight-semibold">History</span>
+		                    </li>
+		                    <li class="pb-3">
+		                        <a class="paln-payment-icon" href="#">
+		                        	<i class="flaticon-settings grey"></i>
+		                        	<!-- <img src="assets/images/plans&payment-normal-icon.png" alt="profile"> -->
+		                            <!-- <span class="sidebar-icon"><i class="fa fa-dashboard"></i></span>
+		                            <span class="sidebar-title">Home</span> -->
+		                        </a>
+		                        <span class="font-12 font-weight-semibold">Setting</span>
+		                    </li>
+		                    <li class="pb-3">
+		                        <a class="paln-payment-icon" href="#">
+		                        	<i class="flaticon-settings-1 grey"></i>
+		                        	<!-- <img src="assets/images/plans&payment-normal-icon.png" alt="profile"> -->
+		                            <!-- <span class="sidebar-icon"><i class="fa fa-dashboard"></i></span>
+		                            <span class="sidebar-title">Home</span> -->
+		                        </a>
+		                        <span class="font-12 font-weight-semibold">Reset</span>
+		                    </li>
+		                </ul>
+		            </aside>            
+		        </div>
+		        <main id="page-content-wrapper" role="main">
+		        	<section class="container pt-4">
+		        		<div class="row">
+		        			<div class="col-lg-9">
+				        		<div class="pb-4">
+				        			<a class="table-column-btn" href="" data-toggle="modal" data-target="#tableColumnModal">Table Column<i class="flaticon-filter ml-4"></i></a>
+				        			<span class="table-column-btn ml-3">
+				        				<span>Approximate Wait Time 
+				        					<select>
+				        						<option>15 Min.</option>
+				        						<option>30 Min.</option>
+				        						<option>45 Min.</option>
+				        					</select>
+				        				</span>
+				        				<span class="mx-5">Notify First
+				        					<select>
+				        						<option>1</option>
+				        						<option>2</option>
+				        						<option>3</option>
+				        					</select>
+				        				</span>
+				        				<span>Total Wait Time
+				        					<span class="text-white background-color py-1 px-4 rounded">00.30</span>
+				        				</span>
+				        			</span>
+				        		</div>
+				        	</div>
+				        	<div class="col-lg-3 text-right">
+				        		<input class="form-control search" type="text" name="" placeholder="Search">
+				        	</div>
+			        	</div>
+		        		<div style="display: none;">
+			        		<div class="table-responsive">
+			        			<table class="table">
+			        				<thead class="background-color text-white">
+			        					<tr>
+			        						<th class="font-weight-semibold">Seat</th>
+			        						<th class="font-weight-semibold">Party Rank</th>
+			        						<th class="font-weight-semibold">PartyType</th>
+			        						<th class="font-weight-semibold">No. of Party</th>
+			        						<th class="font-weight-semibold">Name</th>
+			        						<th class="font-weight-semibold">Check In time</th>
+			        						<th class="font-weight-semibold">Quote Time</th>
+			        						<th class="font-weight-semibold">Note</th>
+			        						<th class="font-weight-semibold">Delete</th>
+			        						<th class="font-weight-semibold">Send Text</th>
+			        					</tr>
+			        				</thead>
+			        			</table>
+			        		</div>
+			        		<div class="col-lg-12 text-center">
+			        			<img class="no-data-img" src="assets/images/dashboard-illu.png" alt="image">
+			        		</div>
+			        	</div>
+			        	<div>
+			        		<div class="table-responsive pb-5">
+			        			<table class="table table-striped table-border text-center">
+			        				<thead class="background-color text-white">
+			        					<tr>
+			        						<th class="font-weight-semibold">Seat</th>
+			        						<th class="font-weight-semibold">Party Rank</th>
+			        						<th class="font-weight-semibold">PartyType</th>
+			        						<th class="font-weight-semibold">No. of Party</th>
+			        						<th class="font-weight-semibold">Name</th>
+			        						<th class="font-weight-semibold">Check In time</th>
+			        						<th class="font-weight-semibold">Quote Time</th>
+			        						<th class="font-weight-semibold">Note</th>
+			        						<th class="font-weight-semibold">Delete</th>
+			        						<th class="font-weight-semibold">Send Text</th>
+			        					</tr>
+			        				</thead>
+			        				<tbody>
+			        					<tr>
+			        						<td><a href="" data-toggle="modal" data-target="#seatModal"><img src="assets/images/seat-icon.png" alt="seat"></a></td>
+			        						<td>1</td>
+			        						<td>Small</td>
+			        						<td>Total 5 [ A-3   C-2]</td>
+			        						<td>ABC<img src="assets/images/not-present.png" class="pl-2" alt="not present"></td>
+			        						<td>22 Feb. 2019 12:06 PM</td>
+			        						<td>10 Min.</td>
+			        						<td>
+			        							<span class="info-icon custom-tooltip">
+													<img src="assets/images/note-icon.png" alt="note">
+													<span class="tooltiptext">
+														<p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+													</span>
+												</span>
+			        						</td>
+			        						<td><img src="assets/images/delete-icon.png" alt="delete"></td>
+			        						<td><img src="assets/images/message-icon.png" alt="message"></td>
+			        					</tr>
+			        					<tr>
+			        						<td><a href="" data-toggle="modal" data-target="#seatModal"><img src="assets/images/seat-icon.png" alt="seat"></a></td>
+			        						<td>1</td>
+			        						<td>Small</td>
+			        						<td>Total 5 [ A-3   C-2]</td>
+			        						<td><span class="incomplete">ABC</span></td>
+			        						<td>22 Feb. 2019 12:06 PM</td>
+			        						<td>10 Min.</td>
+			        						<td>
+			        							<span class="info-icon custom-tooltip">
+													<img src="assets/images/note-icon.png" alt="note">
+													<span class="tooltiptext">
+														<p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+													</span>
+												</span>
+			        						</td>
+			        						<td><img src="assets/images/delete-icon.png" alt="delete"></td>
+			        						<td><img src="assets/images/message-icon.png" alt="message"></td>
+			        					</tr>
+			        					<tr>
+			        						<td><a href="" data-toggle="modal" data-target="#seatModal"><img src="assets/images/seat-icon.png" alt="seat"></a></td>
+			        						<td>1</td>
+			        						<td>Small</td>
+			        						<td>Total 5 [ A-3   C-2]</td>
+			        						<td>ABC</td>
+			        						<td>22 Feb. 2019 12:06 PM</td>
+			        						<td>10 Min.</td>
+			        						<td><img src="assets/images/empty-note-icon.png" alt="note"></td>
+			        						<td><img src="assets/images/delete-icon.png" alt="delete"></td>
+			        						<td><img src="assets/images/message-icon.png" alt="message"></td>
+			        					</tr>
+			        					<tr>
+			        						<td><a href="" data-toggle="modal" data-target="#seatModal"><img src="assets/images/seat-icon.png" alt="seat"></a></td>
+			        						<td>1</td>
+			        						<td>Small</td>
+			        						<td>Total 5 [ A-3   C-2]</td>
+			        						<td>ABC</td>
+			        						<td>22 Feb. 2019 12:06 PM</td>
+			        						<td>10 Min.</td>
+			        						<td>
+			        							<span class="info-icon custom-tooltip">
+													<img src="assets/images/note-icon.png" alt="note">
+													<span class="tooltiptext">
+														<p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+													</span>
+												</span>
+			        						</td>
+			        						<td><img src="assets/images/delete-icon.png" alt="delete"></td>
+			        						<td><img src="assets/images/message-icon.png" alt="message"></td>
+			        					</tr>
+			        					<tr>
+			        						<td><a href="" data-toggle="modal" data-target="#seatModal"><img src="assets/images/seat-icon.png" alt="seat"></a></td>
+			        						<td>1</td>
+			        						<td>Small</td>
+			        						<td>Total 5 [ A-3   C-2]</td>
+			        						<td>ABC</td>
+			        						<td>22 Feb. 2019 12:06 PM</td>
+			        						<td>10 Min.</td>
+			        						<td>
+			        							<span class="info-icon custom-tooltip">
+													<img src="assets/images/note-icon.png" alt="note">
+													<span class="tooltiptext">
+														<p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+													</span>
+												</span>
+			        						</td>
+			        						<td><img src="assets/images/delete-icon.png" alt="delete"></td>
+			        						<td><img src="assets/images/message-icon.png" alt="message"></td>
+			        					</tr>
+			        					<!-- <tr>
+			        						<td><a href="" data-toggle="modal" data-target="#seatModal"><img src="assets/images/seat-icon.png" alt="seat"></a></td>
+			        						<td>1</td>
+			        						<td>Small</td>
+			        						<td>Total 5 [ A-3   C-2]</td>
+			        						<td>ABC</td>
+			        						<td>22 Feb. 2019 12:06 PM</td>
+			        						<td>10 Min.</td>
+			        						<td>
+			        							<span class="info-icon custom-tooltip">
+													<img src="assets/images/note-icon.png" alt="note">
+													<span class="tooltiptext">
+														<p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+													</span>
+												</span>
+			        						</td>
+			        						<td><img src="assets/images/delete-icon.png" alt="delete"></td>
+			        						<td><img src="assets/images/message-icon.png" alt="message"></td>
+			        					</tr> -->
+			        				</tbody>
+			        			</table>
+			        		</div>
+			        		<div class="float-right">
+				        		<ul class="pagination">
+								  <li class="page-item disabled"><a class="page-link" href="#"><</a></li>
+								  <li class="page-item"><a class="page-link active-pagination" href="#">1</a></li>
+								  <li class="page-item"><a class="page-link" href="#">2</a></li>
+								  <li class="page-item"><a class="page-link" href="#">3</a></li>
+								  <li class="page-item"><a class="page-link" href="#">></a></li>
+								</ul>
+							</div>
+			        	</div>
+			        	<!-- table column popup -->
+			        	<div class="modal fade" id="tableColumnModal">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header background-color">
+						        <p class="modal-title text-white">Table Column</p>
+						        <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+						      </div>
+						      <div class="modal-body">
+						        <div class="row">
+						        	<div class="col-lg-4">
+						        		<div class="checkbox mt-3">
+									      <label>
+									        <input checked="checked" type="checkbox"/><i class="helper"></i>Seat
+									      </label>
+									    </div>
+									    <div class="checkbox mt-3">
+									      <label>
+									        <input checked="checked" type="checkbox"/><i class="helper"></i>Party Rank
+									      </label>
+									    </div>
+									    <div class="checkbox mt-3">
+									      <label>
+									        <input checked="checked" type="checkbox"/><i class="helper"></i>Party Type
+									      </label>
+									    </div>
+									    <div class="checkbox mt-3">
+									      <label>
+									        <input checked="checked" type="checkbox"/><i class="helper"></i>No. of Party
+									      </label>
+									    </div>
+						        	</div>
+						        	<div class="col-lg-4">
+						        		<div class="checkbox mt-3">
+									      <label>
+									        <input checked="checked" type="checkbox"/><i class="helper"></i>Name
+									      </label>
+									    </div>
+									    <div class="checkbox mt-3">
+									      <label>
+									        <input checked="checked" type="checkbox"/><i class="helper"></i>Check In Time
+									      </label>
+									    </div>
+									    <div class="checkbox mt-3">
+									      <label>
+									        <input checked="checked" type="checkbox"/><i class="helper"></i>Quote Time
+									      </label>
+									    </div>
+									    <div class="checkbox mt-3">
+									      <label>
+									        <input checked="checked" type="checkbox"/><i class="helper"></i>Note
+									      </label>
+									    </div>
+						        	</div>
+						        	<div class="col-lg-4">
+						        		<div class="checkbox mt-3">
+									      <label>
+									        <input checked="checked" type="checkbox"/><i class="helper"></i>Delete
+									      </label>
+									    </div>
+									    <div class="checkbox mt-3">
+									      <label>
+									        <input checked="checked" type="checkbox"/><i class="helper"></i>Send Text
+									      </label>
+									    </div>
+									    <div class="checkbox mt-3">
+									      <label>
+									        <input type="checkbox"/><i class="helper"></i>Language Prefrence
+									      </label>
+									    </div>
+									    <div class="checkbox mt-3">
+									      <label>
+									        <input type="checkbox"/><i class="helper"></i>Opt - In
+									      </label>
+									    </div>
+						        	</div>
+						        	<div class="col-lg-12 text-center pb-3">
+						        		<button type="button" class="btn btn-theme background-color">Done</button>
+						        	</div>
+						        </div>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+						<div class="modal fade" id="seatModal">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header background-color">
+						        <p class="modal-title text-white">Confirm Table Ready</p>
+						        <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+						      </div>
+						      <div class="modal-body text-center">
+						        <h4 class="pt-3 pb-2">Guest 1</h4>
+						        <h4>ABC</h4>
+						        <div class="pt-5 pb-4">
+						        	<button type="button" class="btn btn-theme background-color">Not Present</button>
+						        	<button type="button" class="btn btn-theme background-color mx-5">Incomplete</button>
+						        	<button type="button" class="btn btn-theme background-color px-5">Yes</button>
+						        </div>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+		        	</section>
+		        	<footer>
+					<div class="row m-0">
+						<div class="col-lg-6 text-md-left text-center">
+							<h5 class="text-white">KYOBEE</h5>
+						</div>
+						<div class="col-lg-6 text-md-right text-center">
+							<span class="text-white font-12">Copyright KYOBEE. All Rights Reserved - Version 1.3 - 02/05/2018 7:00 AM PST</span>
+						</div>
+					</div>
+				</footer>
+		        </main>
+		        
+		    </div>
+		</section>
+	</div>
+	<script type="text/javascript" src="assets/js/jquery.min.js"></script>
+	<script type="text/javascript" src="assets/js/popper.min.js"></script>
+	<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+</body>
+</html>

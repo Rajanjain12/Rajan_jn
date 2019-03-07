@@ -1,11 +1,5 @@
 @import 'header';
-
-/*common declaration*/
-$body-font-color:#000000;
-$white-color:#ffffff;
-$grey-color:#9b9a9a;
-$box-shadow: 0px 1px 18px 0px rgba(0, 0, 0, 0.1);
-$font-weight-semibold:600;
+@import 'variable';
 
 /*resrt default css*/
 *{padding:0;margin:0;}

@@ -1,4 +1,11 @@
-$sizebar-size:125px;
+@import 'variable';
+
+@media (min-width: 576px){
+	.modal-dialog {
+	    max-width: 600px!important;
+	}
+}
+
 @media only screen and (max-width: 767px){
 	.custom-container{width: 85%}
 	.container-box{width:100%;float:none}
@@ -30,7 +37,7 @@ $sizebar-size:125px;
             width: $sizebar-size
         }
         footer{
-        	width: 89%;
+        	width: 90.7%;
         }
     }
 }
