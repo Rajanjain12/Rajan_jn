@@ -20,7 +20,8 @@ a:hover {
   opacity: 0; }
 
 .activeState {
-  background-color: #e14b28 !important; }
+  background-color: #e14b28 !important;
+  color: #ffffff !important; }
 
 .activeState i {
   color: #fff; }
@@ -36,6 +37,16 @@ a:hover {
 
 .border-right {
   border-right: 4px solid #e14b28; }
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+  border-bottom: 2px solid #e14b28 !important;
+  color: #e14b28 !important;
+  border-top-color: transparent !important;
+  border-left-color: transparent !important;
+  border-right-color: transparent !important; }
+
+.nav-tabs .nav-link {
+  border: 0; }
 
 /*footer*/
 footer {

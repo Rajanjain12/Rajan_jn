@@ -1,9 +1,9 @@
 /*for active menu*/
-$('.activeIcon a').click( function() {
-  $(this).addClass('active').siblings().removeClass('active');
-  // $('.activeIcon li').addClass('border-right').siblings().removeClass('border-right');
+$('.activeIcon li a').click(function() {
+  $('li a').removeClass("activeState");
+  $(this).addClass("activeState");
+  localStorage.setItem('activeState', $(this).parent().index());
 });
-// $('#sidebar .sidebar-nav a').on('click', function () {
-// 	$('#sidebar .sidebar-nav').find('li.active').removeClass('active');
-// 	$( this ).parent('li').addClass('active');
-// });
+
+var ele = localStorage.getItem('activeState');
+$('.activeIcon li:eq(' + ele + ')').find('a').addClass('activeState');

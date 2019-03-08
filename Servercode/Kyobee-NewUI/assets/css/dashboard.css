@@ -7,8 +7,8 @@
 
 .table-column-btn {
   border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 8px 15px; }
+  border-radius: 10px;
+  padding: 9px 15px; }
 
 .page-item {
   margin-right: 10px; }
@@ -43,18 +43,26 @@
   position: absolute;
   z-index: 1;
   top: 0;
-  left: 36px; }
+  right: 36px; }
 
 /* Tooltip arrow */
 .custom-tooltip .tooltiptext::after {
-  content: "";
+  /*content: "";
   position: absolute;
   top: 5%;
   left: 0;
   margin-left: -16px;
   border-width: 8px;
   border-style: solid;
-  border-color: transparent #ffffff transparent transparent; }
+  border-color: transparent $white-color transparent transparent;*/
+  content: "";
+  position: absolute;
+  top: 5%;
+  right: -16px;
+  margin-left: -16px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: transparent transparent transparent #fff; }
 
 /* Show the tooltip text when you mouse over the tooltip container */
 .custom-tooltip:hover .tooltiptext {
@@ -69,6 +77,18 @@
   padding-left: 45px;
   background-repeat: no-repeat;
   background-position: 10px;
-  background-image: url("../images/search.png"); }
+  background-image: url("../images/search.png");
+  border-radius: 10px; }
+
+.sms-tab-container {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding-bottom: 20px; }
+
+.alert-custom {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  color: red;
+  border-radius: 10px; }
 
 /*# sourceMappingURL=dashboard.css.map */
