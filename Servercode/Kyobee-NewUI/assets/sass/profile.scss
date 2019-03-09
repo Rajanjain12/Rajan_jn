@@ -1,0 +1,6 @@
+@import "variable";
+
+.profile-img { width: $profile-img-size; height: $profile-img-size; line-height: $profile-img-size; border: 1px solid $theme-color;
+	img { width: $profile-img-size; height: $profile-img-size; }
+}
+/* .profile-img */

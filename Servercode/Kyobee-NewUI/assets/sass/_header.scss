@@ -1,11 +1,115 @@
+// header{
+// 		box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.1);
+// 		padding: 10px;
+// 		background-color: $white-color;
+// 		img
+// 			{
+// 				width: 8%;height:auto;
+// 			}
+// 	  }
 /*header design*/
-$white-color:#fff;
+@import 'variable';
+
 header{
-		box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.1);
-		padding: 10px;
-		background-color: $white-color;
-		img
-			{
-				width: 8%;height:auto;
-			}
-	  }
+	box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.1);
+	padding: 10px;
+	background-color: $white-color;
+	.logo{
+		width:20%;
+		img{
+			width: 8%;height:auto;
+		}
+	}
+	// width: 100%;
+	// position:sticky;
+	// top: 0;
+	// z-index: 9999;
+	// box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.1);
+	// background-color: $white-color;
+	// a.logo {
+	// 	position:relative;
+	// 	float: left;
+	// 	display: inline-block;
+	// 	width: $sidebar-size;
+	// 	padding: 9px 15px;
+	// 	height:auto;
+	// 	img { width: 100%; }
+	// }
+	/* div.logo */
+	.navToggle {
+		display: none;
+	}
+	.topnav {
+		height: 100%;
+		position:relative;
+		float: left;
+		padding: 0 0 0 20px;
+		button {
+			border:none;
+		}
+		ul {
+			height: 100%;
+			list-style: none;
+			li {
+				height: 100%;
+				display: inline-block;
+				a {
+					height: 100%;
+					padding:5px 24px;
+					text-decoration: none;
+					text-align:center;
+					display: block;
+					border-bottom: 3px solid $white-color;
+					font-size: 28px;
+					/* img */
+					p {
+						font-size: $sidebar-font-size;
+						color: $black-color;
+					}
+					/* p */
+					/* .ico-m */
+					&:hover {
+						background-color: $white-color !important;
+						i {
+							color: $theme-color;
+						}
+						/* .ico-m */
+						p {
+							color: $black-color;
+						}
+						/* p */
+					}
+				} 
+				/* a */
+				a.active {
+					background-color: $white-color !important;
+					border-bottom: 3px solid $theme-color;
+					i {
+						color: $theme-color;
+					}
+					/* .ico-m */
+					p {
+						color: $black-color;
+					}
+					/* p */
+				}
+				/* a.active; */
+			} 
+			/* li */
+		}
+		/* ul */
+	}
+	/* topbar*/
+	.username {
+		float: right;
+		padding: 24px;
+		color: $grey-color;
+		span {
+			color: $black-color;
+		}
+	}
+}
+.small-header{
+	width: 8%!important;
+}
+/* header design*/

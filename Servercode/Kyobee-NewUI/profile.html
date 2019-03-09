@@ -40,7 +40,7 @@
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav m-0">
 						<li class="nav-item">
-							<a href="dashboard.html" class="active">
+							<a href="dashboard.html">
 								<i class="flaticon-clipboard"></i>
 								<p>WishList</p>
 							</a>
@@ -58,7 +58,7 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="profile.html">
+							<a href="profile.html" class="active">
 								<i class="flaticon-avatar"></i>
 								<p>My Account</p>
 							</a>
@@ -78,34 +78,16 @@
 		            <aside id="sidebar">
 		                <ul id="sidemenu" class="sidebar-nav text-center pt-2 activeIcon">
 		                    <li class="border-bottom">
-		                        <a href="dashboard.html">
+		                        <a href="profile.html" class="activeState">
 		                        	<i class="flaticon-house-outline grey"></i>
 		                        </a>
-		                        <span class="font-12 font-weight-semibold">Dashboard</span>
+		                        <span class="font-12 font-weight-semibold">Organization Profile</span>
 		                    </li>
 		                    <li class="border-bottom">
-		                        <a class="" href="add-user.html">
+		                        <a class="" href="#">
 		                        	<i class="flaticon-add-user grey"></i>
 		                        </a>
-		                        <span class="font-12 font-weight-semibold">Add User</span>
-		                    </li>
-		                    <li class="border-bottom">
-		                        <a href="history.html">
-		                        	<i class="flaticon-history grey"></i>
-		                        </a>
-		                        <span class="font-12 font-weight-semibold">History</span>
-		                    </li>
-		                    <li class="border-bottom">
-		                        <a href="setting.html">
-		                        	<i class="flaticon-settings grey"></i>
-		                        </a>
-		                        <span class="font-12 font-weight-semibold">Setting</span>
-		                    </li>
-		                    <li class="border-bottom">
-		                        <a href="" data-toggle="modal" data-target="#resetModal">
-		                        	<i class="flaticon-settings-1 grey"></i>
-		                        </a>
-		                        <span class="font-12 font-weight-semibold">Reset</span>
+		                        <span class="font-12 font-weight-semibold">Plans & Payment</span>
 		                    </li>
 		                </ul>
 		            </aside>
@@ -113,87 +95,55 @@
 		        <main id="page-content-wrapper" role="main">
 		        	<section class="container pt-5">
 		        		<div class="row normal-box-container">
-			        		<div class="col-lg-9">
-			        			<form>
-			        				<div class="col-lg-10">
-									    <div class="form-group mb-0">
-									      <input type="text" value="ABC" required="required"/>
-									      <label for="input" class="control-label">Name</label><i class="bar"></i>
-									      <span class="error">error</span>
-									    </div>
-									    <div class="row">
-										    <div class="form-group mb-0 col-lg-6">
-										      <select>
-										        <option>0</option>
-										        <option>1</option>
-										      </select>
-										      <label for="select" class="control-label padding-left-18">Adults</label><i class="bar"></i>
-										    </div>
-										    <div class="form-group mb-0 col-lg-6">
-										      <select>
-										        <option>0</option>
-										        <option>1</option>
-										      </select>
-										      <label for="select" class="control-label padding-left-18">Children</label><i class="bar"></i>
-										    </div>
+			        		<form>
+								<div class="row">
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12 form-group mt-0">
+										<div class="profile-img mx-auto rounded">
+											<img src="assets/images/user.png" class="img-fluid rounded mx-auto d-block">
+											<div class="col-lg-12 form-group mt-0">
+												<input type="file" id="select-img" class="d-none" required="required"/>
+											</div>
 										</div>
-										<div class="form-group mb-3">
-									      <input type="text" id="phone" required="required"/>
-									      <label for="input" class="control-label">Mobile Number</label><i class="bar"></i>
-									    </div>
-									    <div class="checkbox mt-0 mb-4">
-									      <label>
-									        <input type="checkbox"/><i class="helper"></i>Opt-in for special Promotions and adv.
-									      </label>
-									    </div>
-									    <div class="checkbox">
-									      <span class="mr-5 font-weight-semibold">Seating Prefrence</span>
-									      <label class="mr-3">
-									        <input checked="checked" type="checkbox"/><i class="helper"></i>First Available
-									      </label>
-									      <label class="mr-3">
-									        <input checked="checked" type="checkbox"/><i class="helper"></i>Patio
-									      </label>
-									      <label class="mr-3">
-									        <input checked="checked" type="checkbox"/><i class="helper"></i>Bar
-									      </label>
-									      <label class="mr-3">
-									        <input type="checkbox"/><i class="helper"></i>Booth
-									      </label>
-									      <label>
-									        <input type="checkbox"/><i class="helper"></i>Table
-									      </label>
-									    </div>
-									    <div class="checkbox">
-									      <span class="mr-5 font-weight-semibold">How did you hear about us</span>
-									      <label class="mr-3">
-									        <input type="checkbox"/><i class="helper"></i>Facebook
-									      </label>
-									      <label class="mr-3">
-									        <input type="checkbox"/><i class="helper"></i>Instagram
-									      </label>
-									      <label class="mr-3">
-									        <input type="checkbox"/><i class="helper"></i>Google+
-									      </label>
-									      <label>
-									        <input checked="checked" type="checkbox"/><i class="helper"></i>Word of Mouth
-									      </label>
-									    </div>
-									    <div class="form-group">
-									      <textarea required="required">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</textarea>
-									      <label for="textarea" class="control-label">Note</label><i class="bar"></i>
-									    </div>
-									    <div class="col-ld-12 text-center pb-3">
-										    <button type="button" class="btn btn-theme background-color"><span>Add User</span></button>
-										</div>
+										<button action="#select-img" class="">Choose Image</button>
+										<!-- <label for="input" class="control-label">Choose Image</label><i class="bar"></i> -->
 									</div>
-								</form>
-			        		</div>
-			        		<div class="col-lg-3">
-			        			<select class="form-control">
-			        				<option>English</option>
-			        			</select>
-			        		</div>
+									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 form-group mt-0">
+										<input type="text" required="required"/>
+										<label for="input" class="control-label">First Name</label><i class="bar"></i>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 form-group mt-0">
+										<input type="text" required="required"/>
+										<label for="input" class="control-label">Last Name</label><i class="bar"></i>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 form-group mt-0">
+										<input type="text" required="required"/>
+										<label for="input" class="control-label">User Name</label><i class="bar"></i>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 form-group mt-0">
+										<input type="email" required="required"/>
+										<label for="input" class="control-label">Email</label><i class="bar"></i>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 form-group mt-0">
+										<input type="text" required="required"/>
+										<label for="input" class="control-label">Store Name</label><i class="bar"></i>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 form-group mt-0">
+										<input type="number" required="required"/>
+										<label for="input" class="control-label">Mobile No</label><i class="bar"></i>
+									</div>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12 form-group mt-0">
+										<input type="text" required="required"/>
+										<label for="input" class="control-label">Address</label><i class="bar"></i>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 form-group mt-0">
+										<input type="password" required="required"/>
+										<label for="input" class="control-label">Password</label><i class="bar"></i>
+									</div>
+								</div><!-- row -->
+							</form>
+							<div class="col-lg-12 text-center pb-3">
+								<button type="button" class="btn btn-theme background-color"><span>Save</span></button>
+							</div>
 			        	</div>
 			        	<!-- reset popup -->
 						<div class="modal fade" id="resetModal">

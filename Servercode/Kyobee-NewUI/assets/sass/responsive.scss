@@ -10,11 +10,18 @@
 	.custom-container{width: 85%}
 	.container-box{width:100%;float:none}
 	header{
-		img{
-			width:50%
+		a.logo{
+			width:45%;
+		}
+	}
+	header {
+		.username{
+			padding:22px
 		}
 	}
 	.w-res-100{width:100%}
+	.fix-wrapper {padding-top: 20%;}
+	#page-content-wrapper{margin-left: 45px}
 	#sidebar-wrapper .sidebar-nav {
 		li {
 			a {
@@ -35,9 +42,6 @@
     	padding-left: $sizebar-size;
         #sidebar-wrapper {
             width: $sizebar-size
-        }
-        footer{
-        	width: 90.7%;
         }
     }
 }

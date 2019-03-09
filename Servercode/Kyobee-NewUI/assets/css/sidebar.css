@@ -2,6 +2,7 @@
 /* Font Style Variable*/
 /* Shadow to Container Box*/
 /* Sidebar Variable */
+/*profile*/
 #wrapper {
   padding-left: 0;
   -webkit-transition: all .5s ease;
@@ -12,10 +13,10 @@
 #sidebar-wrapper {
   /*z-index: 1000;*/
   position: fixed;
-  left: 125px;
+  left: 140px;
   width: 0;
   height: 100%;
-  margin-left: -125px;
+  margin-left: -140px;
   overflow-y: auto;
   background: #ffffff;
   box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.08);
@@ -26,7 +27,7 @@
   #sidebar-wrapper .sidebar-nav {
     position: absolute;
     top: 0;
-    width: 125px;
+    width: 140px;
     font-size: 14px;
     margin: 0;
     padding: 0;

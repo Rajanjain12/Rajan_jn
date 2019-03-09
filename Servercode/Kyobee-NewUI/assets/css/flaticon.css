@@ -33,12 +33,12 @@
 .flaticon-house-outline:before { content: "\f100"; }
 .flaticon-settings:before { content: "\f101"; }
 .flaticon-add-user:before { content: "\f102"; }
-.flaticon-avatar:before { content: "\f103"; }
-.flaticon-clipboard:before { content: "\f104"; }
-.flaticon-mail-send:before { content: "\f105"; }
-.flaticon-dining-room-furniture-of-a-table-with-chairs:before { content: "\f106"; }
+.flaticon-avatar:before { content: "\f103";font-size: 28px }
+.flaticon-clipboard:before { content: "\f104";font-size: 28px }
+.flaticon-mail-send:before { content: "\f105";font-size: 28px }
+.flaticon-dining-room-furniture-of-a-table-with-chairs:before { content: "\f106";font-size: 28px }
 .flaticon-history:before { content: "\f107"; }
 .flaticon-settings-1:before { content: "\f108"; }
-.flaticon-power-button:before { content: "\f109"; }
+.flaticon-power-button:before { content: "\f109";font-size:15px; }
 .flaticon-filter:before { content: "\f10a"; font-size: 18px;}
 .flaticon-magnifier:before { content: "\f10b"; }

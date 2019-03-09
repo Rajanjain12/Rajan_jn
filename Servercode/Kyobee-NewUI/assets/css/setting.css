@@ -1,0 +1,37 @@
+/*common color code*/
+/* Font Style Variable*/
+/* Shadow to Container Box*/
+/* Sidebar Variable */
+/*profile*/
+.selectBox {
+  position: relative; }
+
+.overSelect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0; }
+
+#checkboxes {
+  display: none;
+  border: 1px #dadada solid; }
+  #checkboxes label {
+    display: block;
+    padding: 5px 10px;
+    margin-bottom: 0 !important; }
+    #checkboxes label input {
+      margin-right: 10px;
+      margin-top: 2px; }
+
+.showDropdown {
+  display: block !important;
+  width: 85%;
+  background-color: #ffffff;
+  z-index: 1;
+  position: absolute; }
+
+.hideDropdown {
+  display: none; }
+
+/*# sourceMappingURL=setting.css.map */

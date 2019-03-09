@@ -1,7 +1,7 @@
 {
 "version": 3,
-"mappings": "",
-"sources": [],
+"mappings": "AACA,qBAAqB;AAQrB,wBAAwB;AAGxB,4BAA4B;AAI5B,sBAAsB;AAKtB,WAAW;ACnBX,YAAa;EAAE,KAAK,EDoBF,KAAK;ECpBkB,MAAM,EDoB7B,KAAK;ECpB6C,WAAW,EDoB7D,KAAK;ECpB6E,MAAM,EAAE,iBAAsB;EACjI,gBAAI;IAAE,KAAK,EDmBM,KAAK;ICnBU,MAAM,EDmBrB,KAAK;;ACjBvB,kBAAkB",
+"sources": ["../sass/_variable.scss","../sass/profile.scss"],
 "names": [],
 "file": "profile.css"
 }
