@@ -14,12 +14,10 @@ header{
 	box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.1);
 	padding: 10px;
 	background-color: $white-color;
-	.logo{
-		width:20%;
 		img{
-			width: 8%;height:auto;
+			width: 115px;
+			height:auto;
 		}
-	}
 	// width: 100%;
 	// position:sticky;
 	// top: 0;
@@ -40,10 +38,6 @@ header{
 		display: none;
 	}
 	.topnav {
-		height: 100%;
-		position:relative;
-		float: left;
-		padding: 0 0 0 20px;
 		button {
 			border:none;
 		}
@@ -100,14 +94,14 @@ header{
 		/* ul */
 	}
 	/* topbar*/
-	.username {
-		float: right;
-		padding: 24px;
-		color: $grey-color;
-		span {
-			color: $black-color;
-		}
-	}
+	// .username {
+	// 	float: right;
+	// 	padding: 24px;
+	// 	color: $grey-color;
+	// 	span {
+	// 		color: $black-color;
+	// 	}
+	// }
 }
 .small-header{
 	width: 8%!important;

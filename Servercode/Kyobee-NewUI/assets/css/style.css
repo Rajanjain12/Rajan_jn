@@ -10,18 +10,12 @@ header {
   background-color: #ffffff;
   /* div.logo */
   /* topbar*/ }
-  header .logo {
-    width: 20%; }
-    header .logo img {
-      width: 8%;
-      height: auto; }
+  header img {
+    width: 115px;
+    height: auto; }
   header .navToggle {
     display: none; }
   header .topnav {
-    height: 100%;
-    position: relative;
-    float: left;
-    padding: 0 0 0 20px;
     /* ul */ }
     header .topnav button {
       border: none; }
@@ -65,12 +59,6 @@ header {
             color: #e14b28; }
           header .topnav ul li a.active p {
             color: #000000; }
-  header .username {
-    float: right;
-    padding: 24px;
-    color: #9b9a9a; }
-    header .username span {
-      color: #000000; }
 
 .small-header {
   width: 8% !important; }

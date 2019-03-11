@@ -14,17 +14,22 @@
     width: 100%;
     float: none; }
 
-  header a.logo {
-    width: 45%; }
+  header .topnav ul li a {
+    text-align: left; }
+    header .topnav ul li a i {
+      margin-right: 10px; }
+    header .topnav ul li a p {
+      display: initial; }
 
-  header .username {
-    padding: 22px; }
+  .logout-res {
+    width: 100%;
+    text-align: right; }
 
   .w-res-100 {
     width: 100%; }
 
   .fix-wrapper {
-    padding-top: 20%; }
+    padding-top: 100px; }
 
   #page-content-wrapper {
     margin-left: 45px; }

@@ -14,31 +14,15 @@
 	<link rel="stylesheet" type="text/css" href="assets/css/responsive.css">
 </head>
 <body>
-	<!-- <header class="fix-header">
-		<div class="container-fluid">
-			<a href="login.html"><img src="assets/images/logo.png" alt="logo"></a>
-			<span class="pl-5">
-				<a href=""><i class="flaticon-clipboard pr-4 d-inline"></i></a>
-				<a href=""><i class="flaticon-mail-send pr-4"></i></a>
-				<a href=""><i class="flaticon-dining-room-furniture-of-a-table-with-chairs pr-4"></i></a>
-				<a href=""><i class="flaticon-avatar pr-4"></i></a>
-			</span>
-		</div>
-	</header> -->
 	<header class="fix-header p-0">
 		<div class="container-fluid">
-			<!-- <a href="login.html"><img src="assets/images/logo.png" alt="logo"></a> -->
-			<!-- <a class="logo" href="login.html"><img src="assets/images/logo.png" class="img-fluid"></a> -->
-			<!-- <span class="pl-5">
-				<a href=""><i class="flaticon-clipboard pr-4 d-inline"></i></a>
-				<a href=""><i class="flaticon-mail-send pr-4"></i></a>
-				<a href=""><i class="flaticon-dining-room-furniture-of-a-table-with-chairs pr-4"></i></a>
-				<a href=""><i class="flaticon-avatar pr-4"></i></a>
-			</span> -->
-			<nav class="navbar navbar-expand-lg navbar-light topnav p-0">
-				<a class="logo" href="dashboard.html"><img class="w-75" src="assets/images/logo.png" class="img-fluid"></a>
+			<nav class="navbar navbar-expand-lg navbar-light topnav p-md-0">
+				<a class="navbar-brand" href="dashboard.html"><img src="assets/images/logo.png"></a>
+				  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				    <span class="navbar-toggler-icon"></span>
+				  </button>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav m-0">
+					<ul class="navbar-nav m-0 mr-auto">
 						<li class="nav-item">
 							<a href="dashboard.html" class="active">
 								<i class="flaticon-list"></i>
@@ -65,10 +49,10 @@
 						</li>
 					</ul>
 				</div>
+				<div class="ml-auto logout-res">
+					Hello, <span>Kyobee</span> | <a class="ml-3" href="login.html"><i class="error flaticon-logout mr-2"></i><span class="font-weight-semibold">Logout</span></a>
+				</div>
 			</nav>
-			<div class="username">
-				Hello, <span>Kyobee</span> | <a class="error ml-3" href="login.html"><i class="flaticon-logout mr-2"></i><span class="font-weight-semibold">Logout</span></a>
-			</div>
 		</div>
 	</header>
 	<div class="pb-5 fix-wrapper">
