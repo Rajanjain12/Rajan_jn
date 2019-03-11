@@ -1,6 +1,6 @@
 	/*
   	Flaticon icon font: Flaticon
-  	Creation date: 06/03/2019 10:16
+  	Creation date: 07/03/2019 06:29
   	*/
 
 @font-face {
@@ -24,21 +24,28 @@
 
 [class^="flaticon-"]:before, [class*=" flaticon-"]:before,
 [class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
-        font-family: Flaticon;
-        font-size: 20px;
-        font-style: normal;
-        /*margin-left: 20px;*/
+  font-family: Flaticon;
+  font-size: 22px;
+  font-style: normal;
 }
 
-.flaticon-house-outline:before { content: "\f100"; }
-.flaticon-settings:before { content: "\f101"; }
-.flaticon-add-user:before { content: "\f102"; }
-.flaticon-avatar:before { content: "\f103";font-size: 28px }
-.flaticon-clipboard:before { content: "\f104";font-size: 28px }
-.flaticon-mail-send:before { content: "\f105";font-size: 28px }
-.flaticon-dining-room-furniture-of-a-table-with-chairs:before { content: "\f106";font-size: 28px }
-.flaticon-history:before { content: "\f107"; }
-.flaticon-settings-1:before { content: "\f108"; }
-.flaticon-power-button:before { content: "\f109";font-size:15px; }
-.flaticon-filter:before { content: "\f10a"; font-size: 18px;}
-.flaticon-magnifier:before { content: "\f10b"; }
+.flaticon-mail:before { content: "\f100"; }
+.flaticon-dinner:before { content: "\f101"; }
+.flaticon-dinner-1:before { content: "\f102"; }
+.flaticon-user:before { content: "\f103"; }
+.flaticon-filter:before { content: "\f104";font-size: 16px; }
+.flaticon-home:before { content: "\f105"; }
+.flaticon-history:before { content: "\f106"; }
+.flaticon-gear:before { content: "\f107"; }
+.flaticon-add:before { content: "\f108"; }
+.flaticon-list:before { content: "\f109"; }
+.flaticon-search:before { content: "\f10a"; }
+.flaticon-avatar:before { content: "\f10b"; }
+.flaticon-list-1:before { content: "\f10c"; }
+.flaticon-reload:before { content: "\f10d"; }
+.flaticon-user-1:before { content: "\f10e"; }
+.flaticon-eye:before { content: "\f10f"; }
+.flaticon-logout:before { content: "\f110";font-size: 15px;font-weight: 600 }
+.flaticon-logout-1:before { content: "\f111"; }
+
+.big-font .flaticon-reload:before{font-size: 50px}
