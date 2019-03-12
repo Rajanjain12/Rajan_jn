@@ -84,12 +84,14 @@
 								<form>
 									<div class="row p-3">
 										<div class="col-lg-12 mb-4">
-											<div class="profile-img mx-auto">
-												<img src="assets/images/user.png" id="btnProfile" class="img-fluid rounded mx-auto d-block">
-												<div class="form-group file-input mb-0">
-													<input type="file" id="select-img" class="d-none" required="required"/>
-												</div>
-											</div>
+											<div class="text-center">
+								                <label class=newbtn>
+												    <img src="assets/images/user.png" >
+												    <input id="pic" type="file">
+												    <p class="label-info">Upload Profile</p>
+												    <p class="label-info" style="display: none;">Change Image</p>
+												</label>
+								            </div>
 										</div>
 										<div class="col-lg-6">
 											<div class="form-group mt-0">
@@ -123,13 +125,13 @@
 										</div>
 										<div class="col-lg-6">
 											<div class="form-group mt-0">
-												<input type="number" required="required"/>
+												<input type="text" id="phone" required="required"/>
 												<label for="input" class="control-label">Mobile No</label><i class="bar"></i>
 											</div>
 										</div>
 										<div class="col-lg-12">
 											<div class="form-group mt-0">
-												<input type="text" required="required"/>
+												<textarea required="required"></textarea>
 												<label for="input" class="control-label">Address</label><i class="bar"></i>
 											</div>
 										</div>

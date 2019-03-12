@@ -3,32 +3,51 @@
 /* Shadow to Container Box*/
 /* Sidebar Variable */
 /*profile*/
-/* line 3, ../sass/profile.scss */
 .profile-img {
   position: relative;
   width: 100px;
   height: 100px;
   align-content: center;
-  /* file-input */
-}
-/* line 5, ../sass/profile.scss */
-.profile-img img {
-  width: 100px;
-  height: 100px;
-  border: 1px solid #e14b28;
-}
+  /* file-input */ }
+  .profile-img img {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #e14b28; }
 
-/* line 11, ../sass/profile.scss */
 .pass-link {
   position: absolute;
   right: 0;
-  top: 5px;
-}
+  top: 5px; }
 
-/* line 21, ../sass/profile.scss */
 .modal [class^="flaticon-"]:before, .modal [class*=" flaticon-"]:before,
 .modal [class^="flaticon-"]:after, .modal [class*=" flaticon-"]:after {
   font-family: Flaticon;
   font-size: 14px;
-  font-style: normal;
-}
+  font-style: normal; }
+
+#pic {
+  display: none; }
+
+.newbtn {
+  cursor: pointer;
+  border: 1px solid #e14b28;
+  border-radius: 4px;
+  position: relative; }
+  .newbtn img {
+    height: 125px; }
+  .newbtn .label-info {
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.6);
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.3s;
+    padding: 3px; }
+
+.newbtn:hover .label-info {
+  visibility: visible;
+  opacity: 1; }
+
+/*# sourceMappingURL=profile.css.map */
