@@ -1,6 +1,28 @@
 @import "variable";
 
-.profile-img { width: $profile-img-size; height: $profile-img-size; line-height: $profile-img-size; border: 1px solid $theme-color;
-	img { width: $profile-img-size; height: $profile-img-size; }
+.profile-img { position:relative; width: $profile-img-size; height: $profile-img-size; align-content: center;
+
+	img { width: $profile-img-size; height: $profile-img-size; border:1px solid $theme-color; }
+	// .file-input { position: absolute; bottom:0px; margin: 0px; width: $profile-img-size; 
+	// }
+	/* file-input */
 }
-/* .profile-img */
+
+.pass-link {
+	position: absolute;
+	right: 0;
+	top: 5px;
+}
+
+.modal {
+	// top: 20%;
+	// left: 40%;
+
+	[class^="flaticon-"]:before, [class*=" flaticon-"]:before,
+	[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
+		font-family: Flaticon;
+		font-size: 14px;
+		font-style: normal;
+	}
+}
+
