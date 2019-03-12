@@ -18,7 +18,7 @@
 		<div class="container-fluid">
 			<nav class="navbar navbar-expand-lg navbar-light topnav p-md-0">
 				<a class="navbar-brand" href="dashboard.html"><img src="assets/images/logo.png"></a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<button class="navbar-toggler p-0 asidebar" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -50,27 +50,38 @@
 					</ul>
 				</div>
 				<div class="ml-auto logout-res">
+					<button class="navbar-toggler float-left p-0 asidebar" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
 					Hello, <span>Kyobee</span> | <a class="ml-3" href="login.html"><i class="error flaticon-logout mr-2"></i><span class="font-weight-semibold">Logout</span></a>
 				</div>
 			</nav>
 		</div>
 	</header>
+	<div class="clearfix"></div>
 	<div class="pb-5 fix-wrapper">
 		<section>
-			<div id="wrapper">
-				<div id="sidebar-wrapper">
+			<div id="wrapper" class="navbar-expand-lg navbar-expand-md">
+				<div id="sidebar-wrapper" class="collapse navbar-collapse">
+					<button class="navbar-toggler float-right asidebar" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="flaticon-logout"></span>
+					</button>
 					<aside id="sidebar">
 						<ul id="sidemenu" class="sidebar-nav text-center pt-2 activeIcon">
-							<li class="border-bottom">
-								<a href="profile.html" class="activeState">
-									<i class="flaticon-avatar"></i>
-								</a>
+							<li class="border-bottom active">
+								<div class="borderRight">
+									<a href="profile.html" class="activeState">
+										<i class="flaticon-avatar"></i>
+									</a>
+								</div>
 								<span class="font-12 font-weight-semibold">Organization Profile</span>
 							</li>
 							<li class="border-bottom">
-								<a class="" href="#">
-									<i class="flaticon-list-1 grey"></i>
-								</a>
+								<div class="borderRight">
+									<a class="" href="#">
+										<i class="flaticon-list-1 grey"></i>
+									</a>
+								</div>
 								<span class="font-12 font-weight-semibold">Plans & Payment</span>
 							</li>
 						</ul>
@@ -85,13 +96,13 @@
 									<div class="row p-3">
 										<div class="col-lg-12 mb-4">
 											<div class="text-center">
-								                <label class=newbtn>
-												    <img src="assets/images/user.png" >
-												    <input id="pic" type="file">
-												    <p class="label-info">Upload Profile</p>
-												    <p class="label-info" style="display: none;">Change Image</p>
+												<label class=newbtn>
+													<img src="assets/images/user.png" class="img-fluid">
+													<input id="pic" type="file">
+													<p class="label-info">Upload Profile</p>
+													<p class="label-info" style="display: none;">Change Image</p>
 												</label>
-								            </div>
+											</div>
 										</div>
 										<div class="col-lg-6">
 											<div class="form-group mt-0">

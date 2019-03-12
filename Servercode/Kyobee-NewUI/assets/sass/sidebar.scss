@@ -18,10 +18,9 @@
     overflow-y: auto;
     background: $white-color;
     box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.08);
-    -webkit-transition: all .5s ease;
-    -moz-transition: all .5s ease;
-    -o-transition: all .5s ease;
-    transition: all .5s ease;
+    -webkit-transition: all .5s ease-out;
+    -moz-transition: all .5s ease-out;
+    -o-transition: all .5s ease-out;
     .sidebar-nav {
         position: absolute;
         top: 0;
@@ -32,28 +31,32 @@
         list-style: none;
         li {
             text-indent: 0;
-            /*line-height: 30px;*/
-            padding:8px;
-        }
-        a {
-            display: block;
-            text-decoration: none;
-            text-align: center;
-            /*color: #428bca;*/
-            /*background-image:url('../images/profile-normal-icon.png');
-            background-repeat:no-repeat;
-            background-position:center;*/
-            background-color: #dfdfdf;
-            height: 50px;
-            width: 50px;
-            margin: 0 auto;
-            border-radius: 50px;
-            line-height: 45px;
-            i{
-                font-size: 28px;
-            }
-        } /*& :hover{
+            padding: 8px 0;
+            .borderRight {
+                border-right: 3px solid $white-color;
+                a {
+                    display: block;
+                    text-decoration: none;
+                    text-align: center;
+                    background-color: #dfdfdf;
+                    height: 50px;
+                    width: 50px;
+                    margin: 0 auto;
+                    border-radius: 50px;
+                    line-height: 45px;
+                    i{
+                        font-size: 28px;
+                    }
+                }
+            } 
+            /*& :hover{
             opacity: 0.90;
-        }*/
+            }*/
+        }
+        li.active {
+            .borderRight {
+                border-right: 3px solid $theme-color;
+            }
+        }
     }
 }
