@@ -44,8 +44,10 @@
 .flaticon-list-1:before { content: "\f10c"; }
 .flaticon-reload:before { content: "\f10d"; }
 .flaticon-user-1:before { content: "\f10e"; }
-.flaticon-eye:before { content: "\f10f"; }
+.flaticon-eye:before { content: "\f10f";font-size: 20px }
 .flaticon-logout:before { content: "\f110";font-size: 15px;font-weight: 600 }
 .flaticon-logout-1:before { content: "\f111"; }
+.flaticon-eye-1:before { content: "\f112"; }
+.flaticon-eye-2:before { content: "\f113"; }
 
 .big-font .flaticon-reload:before{font-size: 50px}
