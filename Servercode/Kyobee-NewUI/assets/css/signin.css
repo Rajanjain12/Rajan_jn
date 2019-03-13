@@ -3,12 +3,14 @@
 /* Shadow to Container Box*/
 /* Sidebar Variable */
 /*profile*/
+/* line 3, ../sass/signin.scss */
 .padding-top-fix {
-  padding-top: 7%; }
+  padding-top: 7%;
+}
 
+/* line 6, ../sass/signin.scss */
 .forgot-pass-link {
   position: absolute;
   right: 0;
-  top: 5px; }
-
-/*# sourceMappingURL=signin.css.map */
+  top: 5px;
+}

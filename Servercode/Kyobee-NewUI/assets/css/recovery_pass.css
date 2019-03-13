@@ -3,10 +3,10 @@
 /* Shadow to Container Box*/
 /* Sidebar Variable */
 /*profile*/
+/* line 3, ../sass/recovery_pass.scss */
 .done-icon {
   height: 50px;
   width: 50px;
   border-radius: 50px;
-  padding: 12px; }
-
-/*# sourceMappingURL=recovery_pass.css.map */
+  padding: 12px;
+}

@@ -3,36 +3,51 @@
 /* Shadow to Container Box*/
 /* Sidebar Variable */
 /*profile*/
+/* line 3, ../sass/dashboard.scss */
 .no-data-img {
-  width: 32%; }
+  width: 32%;
+}
 
+/* line 4, ../sass/dashboard.scss */
 .table-column-btn {
   border: 1px solid #ccc;
   border-radius: 10px;
-  padding: 9px 15px; }
+  padding: 9px 15px;
+}
 
+/* line 9, ../sass/dashboard.scss */
 .page-item {
-  margin-right: 10px; }
+  margin-right: 10px;
+}
 
+/* line 10, ../sass/dashboard.scss */
 .page-link {
   color: #000000;
   border-radius: 50px !important;
   background-color: #ffffff;
   border: 0 !important;
   padding: 0.3rem 0.6rem !important;
-  box-shadow: 0px 5px 24px 0px rgba(0, 0, 0, 0.22); }
+  box-shadow: 0px 5px 24px 0px rgba(0, 0, 0, 0.22);
+}
 
+/* line 18, ../sass/dashboard.scss */
 .page-link:hover {
-  background-color: inherit; }
+  background-color: inherit;
+}
 
+/* line 21, ../sass/dashboard.scss */
 .table-border {
   border: 1px solid #c0c0c0;
-  border-radius: 4px; }
+  border-radius: 4px;
+}
 
+/* line 22, ../sass/dashboard.scss */
 .custom-tooltip {
-  position: relative; }
+  position: relative;
+}
 
 /* Tooltip text */
+/* line 24, ../sass/dashboard.scss */
 .custom-tooltip .tooltiptext {
   visibility: hidden;
   width: 200px;
@@ -44,9 +59,11 @@
   position: absolute;
   z-index: 1;
   top: 0;
-  right: 36px; }
+  right: 36px;
+}
 
 /* Tooltip arrow */
+/* line 39, ../sass/dashboard.scss */
 .custom-tooltip .tooltiptext::after {
   /*content: "";
   position: absolute;
@@ -63,33 +80,42 @@
   margin-left: -16px;
   border-width: 8px;
   border-style: solid;
-  border-color: transparent transparent transparent #fff; }
+  border-color: transparent transparent transparent #fff;
+}
 
 /* Show the tooltip text when you mouse over the tooltip container */
+/* line 58, ../sass/dashboard.scss */
 .custom-tooltip:hover .tooltiptext {
   visibility: visible;
-  opacity: 1; }
+  opacity: 1;
+}
 
+/* line 62, ../sass/dashboard.scss */
 .incomplete {
   background-color: #fae274;
-  padding: 1px 8px; }
+  padding: 1px 8px;
+}
 
+/* line 63, ../sass/dashboard.scss */
 .search {
   padding-left: 45px;
   background-repeat: no-repeat;
   background-position: 10px;
   background-image: url("../images/search.png");
-  border-radius: 10px; }
+  border-radius: 10px;
+}
 
+/* line 70, ../sass/dashboard.scss */
 .sms-tab-container {
   border: 1px solid #ccc;
   border-radius: 10px;
-  padding-bottom: 20px; }
+  padding-bottom: 20px;
+}
 
+/* line 71, ../sass/dashboard.scss */
 .alert-custom {
   background-color: #fff;
   border: 1px solid #ccc;
   color: red;
-  border-radius: 10px; }
-
-/*# sourceMappingURL=dashboard.css.map */
+  border-radius: 10px;
+}

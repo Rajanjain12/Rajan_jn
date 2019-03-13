@@ -3,13 +3,16 @@
 /* Shadow to Container Box*/
 /* Sidebar Variable */
 /*profile*/
+/* line 3, ../sass/sidebar.scss */
 #wrapper {
   padding-left: 0;
   -webkit-transition: all .5s ease;
   -moz-transition: all .5s ease;
   -o-transition: all .5s ease;
-  transition: all .5s ease; }
+  transition: all .5s ease;
+}
 
+/* line 11, ../sass/sidebar.scss */
 #sidebar-wrapper {
   /*z-index: 1000;*/
   position: fixed;
@@ -20,40 +23,49 @@
   overflow-y: auto;
   background: #ffffff;
   box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.08);
-  -webkit-transition: all .5s ease;
-  -moz-transition: all .5s ease;
-  -o-transition: all .5s ease;
-  transition: all .5s ease; }
-  #sidebar-wrapper .sidebar-nav {
-    position: absolute;
-    top: 0;
-    width: 140px;
-    font-size: 14px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  -webkit-transition: all .5s ease-out;
+  -moz-transition: all .5s ease-out;
+  -o-transition: all .5s ease-out;
+}
+/* line 24, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav {
+  position: absolute;
+  top: 0;
+  width: 140px;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* line 32, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li {
+  text-indent: 0;
+  padding: 8px 0;
   /*& :hover{
-    opacity: 0.90;
-}*/ }
-    #sidebar-wrapper .sidebar-nav li {
-      text-indent: 0;
-      /*line-height: 30px;*/
-      padding: 8px; }
-    #sidebar-wrapper .sidebar-nav a {
-      display: block;
-      text-decoration: none;
-      text-align: center;
-      /*color: #428bca;*/
-      /*background-image:url('../images/profile-normal-icon.png');
-      background-repeat:no-repeat;
-      background-position:center;*/
-      background-color: #dfdfdf;
-      height: 50px;
-      width: 50px;
-      margin: 0 auto;
-      border-radius: 50px;
-      line-height: 45px; }
-      #sidebar-wrapper .sidebar-nav a i {
-        font-size: 28px; }
-
-/*# sourceMappingURL=sidebar.css.map */
+  opacity: 0.90;
+  }*/
+}
+/* line 35, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li .borderRight {
+  border-right: 3px solid #ffffff;
+}
+/* line 37, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li .borderRight a {
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  background-color: #dfdfdf;
+  height: 50px;
+  width: 50px;
+  margin: 0 auto;
+  border-radius: 50px;
+  line-height: 45px;
+}
+/* line 47, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li .borderRight a i {
+  font-size: 28px;
+}
+/* line 58, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li.active .borderRight {
+  border-right: 3px solid #e14b28;
+}

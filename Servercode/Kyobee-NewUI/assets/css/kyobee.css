@@ -3,54 +3,78 @@
 /* Shadow to Container Box*/
 /* Sidebar Variable */
 /*profile*/
+/* line 5, ../sass/kyobee.scss */
 a:hover {
   color: #e14b28;
-  text-decoration: none; }
+  text-decoration: none;
+}
 
+/* line 6, ../sass/kyobee.scss */
 .font-color {
-  color: #e14b28; }
+  color: #e14b28;
+}
 
+/* line 7, ../sass/kyobee.scss */
 .background-color {
-  background-color: #e14b28; }
+  background-color: #e14b28;
+}
 
+/* line 8, ../sass/kyobee.scss */
 .done-icon-shadow {
-  box-shadow: 0px 3px 13px 0px rgba(221, 56, 36, 0.56); }
+  box-shadow: 0px 3px 13px 0px rgba(221, 56, 36, 0.56);
+}
 
 /*sidebar*/
+/* line 13, ../sass/kyobee.scss */
 #sidebar-wrapper .sidebar-nav li a.profile-icon img {
-  opacity: 0; }
+  opacity: 0;
+}
 
+/* line 15, ../sass/kyobee.scss */
 .activeState {
   background-color: #e14b28 !important;
-  color: #ffffff !important; }
+  color: #ffffff !important;
+}
 
+/* line 16, ../sass/kyobee.scss */
 .activeState i {
-  color: #fff; }
+  color: #fff;
+}
 
+/* line 17, ../sass/kyobee.scss */
 .active-pagination {
   background-color: #e14b28;
   color: #ffffff;
-  box-shadow: 0px 5px 10px 0px rgba(237, 59, 47, 0.78); }
+  box-shadow: 0px 5px 10px 0px rgba(237, 59, 47, 0.78);
+}
 
+/* line 18, ../sass/kyobee.scss */
 .active-pagination:hover {
   background-color: #e14b28;
-  color: #ffffff; }
+  color: #ffffff;
+}
 
+/* line 19, ../sass/kyobee.scss */
 .border-right {
-  border-right: 4px solid #e14b28; }
+  border-right: 4px solid #e14b28;
+}
 
+/* line 20, ../sass/kyobee.scss */
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
   border-bottom: 2px solid #e14b28 !important;
   color: #e14b28 !important;
   border-top-color: transparent !important;
   border-left-color: transparent !important;
-  border-right-color: transparent !important; }
+  border-right-color: transparent !important;
+}
 
+/* line 21, ../sass/kyobee.scss */
 .nav-tabs .nav-link {
-  border: 0; }
+  border: 0;
+}
 
 /*footer*/
+/* line 23, ../sass/kyobee.scss */
 footer {
-  background-color: #e14b28; }
-
-/*# sourceMappingURL=kyobee.css.map */
+  background-color: #e14b28;
+}
