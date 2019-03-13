@@ -49,5 +49,8 @@
 .flaticon-logout-1:before { content: "\f111"; }
 .flaticon-eye-1:before { content: "\f112"; }
 .flaticon-eye-2:before { content: "\f113"; }
+.flaticon-close:before { content: "\f114"; }
+.flaticon-right:before { content: "\f115"; }
+.flaticon-back:before { content: "\f116"; }
 
 .big-font .flaticon-reload:before{font-size: 50px}
