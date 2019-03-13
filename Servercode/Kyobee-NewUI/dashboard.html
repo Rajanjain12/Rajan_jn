@@ -7,10 +7,10 @@
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/sidebar.css">
-	<link rel="stylesheet" type="text/css" href="assets/css/dashboard.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/flaticon.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/kyobee.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/dashboard.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/responsive.css">
 </head>
 <body>
@@ -26,7 +26,7 @@
 			</span> -->
 			<nav class="navbar navbar-expand-lg navbar-light topnav p-md-0">
 				<a class="navbar-brand" href="dashboard.html"><img src="assets/images/logo.png"></a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<button class="navbar-toggler p-0 asidebar" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -58,440 +58,417 @@
 					</ul>
 				</div>
 				<div class="ml-auto logout-res">
+					<button class="navbar-toggler float-left p-0 asidebar" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
 					Hello, <span>Kyobee</span> | <a class="ml-3" href="login.html"><i class="error flaticon-logout mr-2"></i><span class="font-weight-semibold">Logout</span></a>
 				</div>
 			</nav>
-			
-			<!-- <nav class="navbar navbar-expand-lg navbar-light white-color">
-			  <a class="navbar-brand logo" href="#"><img src="assets/images/logo.png"></a>
-			  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			    <span class="navbar-toggler-icon"></span>
-			  </button>
-
-			  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-			    <ul class="navbar-nav m-0 mr-auto">
-					<li class="nav-item">
-						<a href="dashboard.html" class="active nav-link">
-							<i class="flaticon-list"></i>
-							<p>WishList</p>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="">
-							<i class="flaticon-mail"></i>
-							<p>Text Marketing</p>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="">
-							<i class="flaticon-dinner"></i>
-							<p>Table Management</p>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="profile.html">
-							<i class="flaticon-user"></i>
-							<p>My Account</p>
-						</a>
-					</li>
-				</ul>
-			 	<div class="username">
-					Hello, <span>Kyobee</span> | <a class="error ml-3" href="login.html"><i class="flaticon-logout mr-2"></i><span class="font-weight-semibold">Logout</span></a>
-				</div>
-			  </div>
-			</nav> -->
 		</div>
 	</header>
+	<div class="clearfix"></div>
 	<div class="pb-5 fix-wrapper">
-		<section>
-			<div id="wrapper">
-				<div id="sidebar-wrapper">
-					<aside id="sidebar">
-						<ul id="sidemenu" class="sidebar-nav text-center pt-2 activeIcon">
-							<li class="border-bottom">
-								<a class="activeState" href="dashboard.html">
+		<div id="wrapper" class="navbar-expand-lg navbar-expand-md">
+			<div id="sidebar-wrapper" class="collapse navbar-collapse">
+				<button class="navbar-toggler float-right asidebar" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="flaticon-logout"></span>
+				</button>
+				<aside id="sidebar">
+					<ul id="sidemenu" class="sidebar-nav text-center pt-2">
+						<li class="border-bottom active">
+							<div class="borderRight">
+								<a href="dashboard.html">
 									<i class="flaticon-home grey"></i>
 								</a>
-								<span class="font-12 font-weight-semibold">Dashboard</span>
-							</li>
-							<li class="border-bottom">
+							</div>
+							<span class="font-12 font-weight-semibold">Dashboard</span>
+						</li>
+						<li class="border-bottom">
+							<div class="borderRight">
 								<a href="add-user.html">
 									<i class="flaticon-add grey"></i>
 								</a>
-								<span class="font-12 font-weight-semibold">Add User</span>
-							</li>
-							<li class="border-bottom">
+							</div>
+							<span class="font-12 font-weight-semibold">Add User</span>
+						</li>
+						<li class="border-bottom">
+							<div class="borderRight">
 								<a href="history.html">
 									<i class="flaticon-history grey"></i>
 								</a>
-								<span class="font-12 font-weight-semibold">History</span>
-							</li>
-							<li class="border-bottom">
+							</div>
+							<span class="font-12 font-weight-semibold">History</span>
+						</li>
+						<li class="border-bottom">
+							<div class="borderRight">
 								<a href="setting.html">
 									<i class="flaticon-gear grey"></i>
 								</a>
-								<span class="font-12 font-weight-semibold">Setting</span>
-							</li>
-							<li class="border-bottom">
+							</div>
+							<span class="font-12 font-weight-semibold">Setting</span>
+						</li>
+						<li class="border-bottom">
+							<div class="borderRight">
 								<a href="" data-toggle="modal" data-target="#resetModal">
 									<i class="flaticon-reload grey"></i>
 								</a>
-								<span class="font-12 font-weight-semibold">Reset</span>
-							</li>
-		                    <!-- <li>
-		                        <a href="login.html" class="d-inline error no-bg">
-		                        	<i class="flaticon-power-button mr-2"></i>
-		                        	<span class="font-weight-semibold">Logout</span>
-		                        </a>
-		                    </li> -->
-		                </ul>
-		            </aside>
-		        </div>
-		        <main id="page-content-wrapper" role="main">
-		        	<section class="container pt-4">
-		        		<div class="alert alert-custom alert-dismissible" style="display: none;">
-		        			<button type="button" class="close" data-dismiss="alert">&times;</button>
-		        			<p>Notification about renewing plan. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-		        		</div>
-		        		<div class="row">
-		        			<div class="col-lg-9 mt-1">
-		        				<div class="pb-4">
-		        					<a class="table-column-btn" href="" data-toggle="modal" data-target="#tableColumnModal">Table Column<i class="flaticon-filter ml-4"></i></a>
-		        					<span class="table-column-btn ml-3">
-		        						<span>Approximate Wait Time 
-		        							<select>
-		        								<option>15 Min.</option>
-		        								<option>30 Min.</option>
-		        								<option>45 Min.</option>
-		        							</select>
-		        						</span>
-		        						<span class="mx-5">Notify First
-		        							<select>
-		        								<option>1</option>
-		        								<option>2</option>
-		        								<option>3</option>
-		        							</select>
-		        						</span>
-		        						<span>Total Wait Time
-		        							<span class="text-white background-color py-1 px-4 rounded">00.30</span>
-		        						</span>
-		        					</span>
-		        				</div>
-		        			</div>
-		        			<div class="col-lg-3 text-right">
-		        				<input class="form-control search" type="text" name="" placeholder="Search">
-		        			</div>
-		        		</div>
-		        		<div style="display: none;">
-		        			<div class="table-responsive">
-		        				<table class="table">
-		        					<thead class="background-color text-white">
-		        						<tr>
-		        							<th class="font-weight-semibold">Seat</th>
-		        							<th class="font-weight-semibold">Party Rank</th>
-		        							<th class="font-weight-semibold">PartyType</th>
-		        							<th class="font-weight-semibold">No. of Party</th>
-		        							<th class="font-weight-semibold">Name</th>
-		        							<th class="font-weight-semibold">Check In time</th>
-		        							<th class="font-weight-semibold">Quote Time</th>
-		        							<th class="font-weight-semibold">Note</th>
-		        							<th class="font-weight-semibold">Delete</th>
-		        							<th class="font-weight-semibold">Send Text</th>
-		        						</tr>
-		        					</thead>
-		        				</table>
-		        			</div>
-		        			<div class="col-lg-12 text-center">
-		        				<img class="no-data-img" src="assets/images/dashboard-illu.png" alt="image">
-		        			</div>
-		        		</div>
-		        		<div>
-		        			<div class="table-responsive pb-5">
-		        				<table class="table table-striped table-border text-center">
-		        					<thead class="background-color text-white">
-		        						<tr>
-		        							<th class="font-weight-semibold">Seat</th>
-		        							<th class="font-weight-semibold">Party Rank</th>
-		        							<th class="font-weight-semibold">PartyType</th>
-		        							<th class="font-weight-semibold">No. of Party</th>
-		        							<th class="font-weight-semibold">Name</th>
-		        							<th class="font-weight-semibold">Check In time</th>
-		        							<th class="font-weight-semibold">Quote Time</th>
-		        							<th class="font-weight-semibold">Note</th>
-		        							<th class="font-weight-semibold">Delete</th>
-		        							<th class="font-weight-semibold">Send Text</th>
-		        						</tr>
-		        					</thead>
-		        					<tbody>
-		        						<tr>
-		        							<td><a href="" data-toggle="modal" data-target="#seatModal"><img src="assets/images/seat-icon.png" alt="seat"></a></td>
-		        							<td>1</td>
-		        							<td>Small</td>
-		        							<td>Total 5 [ A-3   C-2]</td>
-		        							<td>ABC<img src="assets/images/not-present.png" class="pl-2" alt="not present"></td>
-		        							<td>22 Feb. 2019 12:06 PM</td>
-		        							<td>10 Min.</td>
-		        							<td>
-		        								<span class="info-icon custom-tooltip">
-		        									<img src="assets/images/note-icon.png" alt="note">
-		        									<span class="tooltiptext">
-		        										<p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-		        									</span>
-		        								</span>
-		        							</td>
-		        							<td><img src="assets/images/delete-icon.png" alt="delete"></td>
-		        							<td><a href="" data-toggle="modal" data-target="#smsModal"><img src="assets/images/message-icon.png" alt="message"></a></td>
-		        						</tr>
-		        						<tr>
-		        							<td><a href="" data-toggle="modal" data-target="#seatModal"><img src="assets/images/seat-icon.png" alt="seat"></a></td>
-		        							<td>1</td>
-		        							<td>Small</td>
-		        							<td>Total 5 [ A-3   C-2]</td>
-		        							<td><span class="incomplete">ABC</span></td>
-		        							<td>22 Feb. 2019 12:06 PM</td>
-		        							<td>10 Min.</td>
-		        							<td>
-		        								<span class="info-icon custom-tooltip">
-		        									<img src="assets/images/note-icon.png" alt="note">
-		        									<span class="tooltiptext">
-		        										<p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-		        									</span>
-		        								</span>
-		        							</td>
-		        							<td><img src="assets/images/delete-icon.png" alt="delete"></td>
-		        							<td><a href="" data-toggle="modal" data-target="#smsModal"><img src="assets/images/message-icon.png" alt="message"></a></td>
-		        						</tr>
-		        						<tr>
-		        							<td><a href="" data-toggle="modal" data-target="#seatModal"><img src="assets/images/seat-icon.png" alt="seat"></a></td>
-		        							<td>1</td>
-		        							<td>Small</td>
-		        							<td>Total 5 [ A-3   C-2]</td>
-		        							<td>ABC</td>
-		        							<td>22 Feb. 2019 12:06 PM</td>
-		        							<td>10 Min.</td>
-		        							<td><img src="assets/images/empty-note-icon.png" alt="note"></td>
-		        							<td><img src="assets/images/delete-icon.png" alt="delete"></td>
-		        							<td><a href="" data-toggle="modal" data-target="#smsModal"><img src="assets/images/message-icon.png" alt="message"></a></td>
-		        						</tr>
-		        						<tr>
-		        							<td><a href="" data-toggle="modal" data-target="#seatModal"><img src="assets/images/seat-icon.png" alt="seat"></a></td>
-		        							<td>1</td>
-		        							<td>Small</td>
-		        							<td>Total 5 [ A-3   C-2]</td>
-		        							<td>ABC</td>
-		        							<td>22 Feb. 2019 12:06 PM</td>
-		        							<td>10 Min.</td>
-		        							<td>
-		        								<span class="info-icon custom-tooltip">
-		        									<img src="assets/images/note-icon.png" alt="note">
-		        									<span class="tooltiptext">
-		        										<p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-		        									</span>
-		        								</span>
-		        							</td>
-		        							<td><img src="assets/images/delete-icon.png" alt="delete"></td>
-		        							<td><a href="" data-toggle="modal" data-target="#smsModal"><img src="assets/images/message-icon.png" alt="message"></a></td>
-		        						</tr>
-		        						<tr>
-		        							<td><a href="" data-toggle="modal" data-target="#seatModal"><img src="assets/images/seat-icon.png" alt="seat"></a></td>
-		        							<td>1</td>
-		        							<td>Small</td>
-		        							<td>Total 5 [ A-3   C-2]</td>
-		        							<td>ABC</td>
-		        							<td>22 Feb. 2019 12:06 PM</td>
-		        							<td>10 Min.</td>
-		        							<td>
-		        								<span class="info-icon custom-tooltip">
-		        									<img src="assets/images/note-icon.png" alt="note">
-		        									<span class="tooltiptext">
-		        										<p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-		        									</span>
-		        								</span>
-		        							</td>
-		        							<td><img src="assets/images/delete-icon.png" alt="delete"></td>
-		        							<td><a href="" data-toggle="modal" data-target="#smsModal"><img src="assets/images/message-icon.png" alt="message"></a></td>
-		        						</tr>
-		        					</tbody>
-		        				</table>
-		        			</div>
-		        			<div class="float-right">
-		        				<ul class="pagination">
-		        					<li class="page-item disabled"><a class="page-link" href="#"><</a></li>
-		        					<li class="page-item"><a class="page-link active-pagination" href="#">1</a></li>
-		        					<li class="page-item"><a class="page-link" href="#">2</a></li>
-		        					<li class="page-item"><a class="page-link" href="#">3</a></li>
-		        					<li class="page-item"><a class="page-link" href="#">></a></li>
-		        				</ul>
-		        			</div>
-		        		</div>
-		        		<!-- table column popup -->
-		        		<div class="modal fade" id="tableColumnModal">
-		        			<div class="modal-dialog">
-		        				<div class="modal-content border-radius border-0">
-		        					<div class="custom-modal-header background-color">
-		        						<span class="modal-title text-white">Table Column</span>
-		        						<button type="button" class="close text-white" data-dismiss="modal">&times;</button>
-		        					</div>
-		        					<div class="modal-body">
-		        						<div class="row">
-		        							<div class="col-lg-4">
-		        								<div class="checkbox mt-3">
-		        									<label>
-		        										<input checked="checked" type="checkbox"/><i class="helper"></i>Seat
-		        									</label>
-		        								</div>
-		        								<div class="checkbox mt-3">
-		        									<label>
-		        										<input checked="checked" type="checkbox"/><i class="helper"></i>Party Rank
-		        									</label>
-		        								</div>
-		        								<div class="checkbox mt-3">
-		        									<label>
-		        										<input checked="checked" type="checkbox"/><i class="helper"></i>Party Type
-		        									</label>
-		        								</div>
-		        								<div class="checkbox mt-3">
-		        									<label>
-		        										<input checked="checked" type="checkbox"/><i class="helper"></i>No. of Party
-		        									</label>
-		        								</div>
-		        							</div>
-		        							<div class="col-lg-4">
-		        								<div class="checkbox mt-3">
-		        									<label>
-		        										<input checked="checked" type="checkbox"/><i class="helper"></i>Name
-		        									</label>
-		        								</div>
-		        								<div class="checkbox mt-3">
-		        									<label>
-		        										<input checked="checked" type="checkbox"/><i class="helper"></i>Check In Time
-		        									</label>
-		        								</div>
-		        								<div class="checkbox mt-3">
-		        									<label>
-		        										<input checked="checked" type="checkbox"/><i class="helper"></i>Quote Time
-		        									</label>
-		        								</div>
-		        								<div class="checkbox mt-3">
-		        									<label>
-		        										<input checked="checked" type="checkbox"/><i class="helper"></i>Note
-		        									</label>
-		        								</div>
-		        							</div>
-		        							<div class="col-lg-4">
-		        								<div class="checkbox mt-3">
-		        									<label>
-		        										<input checked="checked" type="checkbox"/><i class="helper"></i>Delete
-		        									</label>
-		        								</div>
-		        								<div class="checkbox mt-3">
-		        									<label>
-		        										<input checked="checked" type="checkbox"/><i class="helper"></i>Send Text
-		        									</label>
-		        								</div>
-		        								<div class="checkbox mt-3">
-		        									<label>
-		        										<input type="checkbox"/><i class="helper"></i>Language Prefrence
-		        									</label>
-		        								</div>
-		        								<div class="checkbox mt-3">
-		        									<label>
-		        										<input type="checkbox"/><i class="helper"></i>Opt - In
-		        									</label>
-		        								</div>
-		        							</div>
-		        							<div class="col-lg-12 text-center pb-3">
-		        								<button type="button" class="btn btn-theme background-color">Done</button>
-		        							</div>
-		        						</div>
-		        					</div>
-		        				</div>
-		        			</div>
-		        		</div>
-		        		<!-- seat modal -->
-		        		<div class="modal fade" id="seatModal">
-		        			<div class="modal-dialog">
-		        				<div class="modal-content border-radius border-0">
-		        					<div class="custom-modal-header background-color">
-		        						<span class="modal-title text-white">Confirm Table Ready</span>
-		        						<button type="button" class="close text-white" data-dismiss="modal">&times;</button>
-		        					</div>
-		        					<div class="modal-body text-center">
-		        						<h4 class="pt-3 pb-2">Guest 1</h4>
-		        						<h4>ABC</h4>
-		        						<div class="pt-5 pb-4">
-		        							<button type="button" class="btn btn-theme background-color">Not Present</button>
-		        							<button type="button" class="btn btn-theme background-color mx-5">Incomplete</button>
-		        							<button type="button" class="btn btn-theme background-color px-5">Yes</button>
-		        						</div>
-		        					</div>
-		        				</div>
-		        			</div>
-		        		</div>
-		        		<!-- sms modal -->
-		        		<div class="modal fade" id="smsModal">
-		        			<div class="modal-dialog">
-		        				<div class="modal-content border-radius border-0">
-		        					<div class="custom-modal-header background-color">
-		        						<span class="modal-title text-white">Send Text</span>
-		        						<button type="button" class="close text-white" data-dismiss="modal">&times;</button>
-		        					</div>
-		        					<div class="modal-body">
-		        						<h4 class="pt-3 pb-3 text-center">Guest 1 (ABC)</h4>
-		        						<div class="pt-3 sms-tab-container">
-		        							<ul class="nav nav-tabs nav-justified" role="tablist">
-		        								<li class="nav-item">
-		        									<a class="nav-link active" data-toggle="tab" href="#level1">Level 1</a>
-		        								</li>
-		        								<li class="nav-item">
-		        									<a class="nav-link" data-toggle="tab" href="#level2">Level 2</a>
-		        								</li>
-		        								<li class="nav-item">
-		        									<a class="nav-link" data-toggle="tab" href="#level3">Level 3</a>
-		        								</li>
-		        							</ul>
-		        							<div class="tab-content">
-		        								<div id="level1" class="container tab-pane active"><br>
-		        									<p>Guest #1: There are 0 parties ahead of you w/ approx. wait-time of 6 min. For LIVE updates: https://tinyurl.com/yc8kfl5m/s/eb2702fb</p>
-		        								</div>
-		        								<div id="level2" class="container tab-pane fade"><br>
-		        									<p>Guest #2: There are 0 parties ahead of you w/ approx. wait-time of 6 min. For LIVE updates: https://tinyurl.com/yc8kfl5m/s/eb2702fb</p>
-		        								</div>
-		        								<div id="level3" class="container tab-pane fade"><br>
-		        									<p>Guest #3: There are 0 parties ahead of you w/ approx. wait-time of 6 min. For LIVE updates: https://tinyurl.com/yc8kfl5m/s/eb2702fb</p>
-		        								</div>
-		        							</div>
-		        						</div>
-		        						<div class="pt-5 pb-4 text-center">
-		        							<button type="button" class="btn btn-theme background-color mr-5">Send SMS</button>
-		        							<button type="button" class="btn btn-theme background-color" data-dismiss="modal">Cancel</button>
-		        						</div>
-		        					</div>
-		        				</div>
-		        			</div>
-		        		</div>
-		        		<!-- reset popup -->
-		        		<div class="modal fade" id="resetModal">
-		        			<div class="modal-dialog">
-		        				<div class="modal-content border-radius border-0">
-		        					<div class="custom-modal-header background-color">
-		        						<span class="modal-title text-white">Confirm Reset Organization</span>
-		        						<button type="button" class="close text-white" data-dismiss="modal">&times;</button>
-		        					</div>
-		        					<div class="modal-body text-center">
-		        						<h3 class="big-font"><i class="flaticon-reload font-color"></i></h3>
-		        						<h4 class="pt-3 pb-3">If you want to remove all your data, You can reset the data.</h4>
-		        						<div class="pt-3 pb-4">
-		        							<button type="button" class="btn btn-theme background-color">Reset</button>
-		        						</div>
-		        					</div>
-		        				</div>
-		        			</div>
-		        		</div>
-		        	</section>
-		        </main>
-		    </div>
-		</section>
+							</div>
+							<span class="font-12 font-weight-semibold">Reset</span>
+						</li>
+					</ul>
+				</aside>
+			</div>
+
+			<main id="page-content-wrapper" role="main">
+				<section class="container pt-5" id="dashboardPage">
+					<div class="alert alert-custom alert-dismissible" style="display: none;">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<p>Notification about renewing plan. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+					</div>
+					<div class="row">
+						<div class="col-lg-9">
+							<div class="row pb-2">
+								<div class="col-lg-3 pb-2">
+									<a class="table-column-btn" href="" data-toggle="modal" data-target="#tableColumnModal">Table Column<i class="flaticon-filter float-right"></i></a>
+								</div>
+								<div class="col-lg-9 pb-2">
+									<span class="table-column-btn">
+										<span class="sub-btn">Approximate Wait Time 
+											<select>
+												<option>15 Min.</option>
+												<option>30 Min.</option>
+												<option>45 Min.</option>
+											</select>
+										</span>
+										<span class="sub-btn mx-5">Notify First
+											<select>
+												<option>1</option>
+												<option>2</option>
+												<option>3</option>
+											</select>
+										</span>
+										<span class="sub-btn">Total Wait Time
+											<span class="text-white background-color py-1 px-4 rounded">00.30</span>
+										</span>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3 text-right pb-2">
+							<input class="form-control search" type="text" name="" placeholder="Search" ">
+						</div>
+					</div>
+					<div style="display: none;">
+						<div class="table-responsive">
+							<table class="table">
+								<thead class="background-color text-white">
+									<tr>
+										<th class="font-weight-semibold">Seat</th>
+										<th class="font-weight-semibold">Party Rank</th>
+										<th class="font-weight-semibold">PartyType</th>
+										<th class="font-weight-semibold">No. of Party</th>
+										<th class="font-weight-semibold">Name</th>
+										<th class="font-weight-semibold">Check In time</th>
+										<th class="font-weight-semibold">Quote Time</th>
+										<th class="font-weight-semibold">Note</th>
+										<th class="font-weight-semibold">Delete</th>
+										<th class="font-weight-semibold">Send Text</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+						<div class="col-lg-12 text-center">
+							<img class="no-data-img" src="assets/images/dashboard-illu.png" alt="image">
+						</div>
+					</div>
+					<div>
+						<div class="table-responsive pb-2">
+							<table class="table table-striped table-border text-center">
+								<thead class="background-color text-white">
+									<tr>
+										<th class="font-weight-semibold">Seat</th>
+										<th class="font-weight-semibold">Party Rank</th>
+										<th class="font-weight-semibold">PartyType</th>
+										<th class="font-weight-semibold">No. of Party</th>
+										<th class="font-weight-semibold">Name</th>
+										<th class="font-weight-semibold">Check In time</th>
+										<th class="font-weight-semibold">Quote Time</th>
+										<th class="font-weight-semibold">Note</th>
+										<th class="font-weight-semibold">Delete</th>
+										<th class="font-weight-semibold">Send Text</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><a href="" data-toggle="modal" data-target="#seatModal"><img src="assets/images/seat-icon.png" alt="seat"></a></td>
+										<td>1</td>
+										<td>Small</td>
+										<td>Total 5 [ A-3   C-2]</td>
+										<td>ABC<img src="assets/images/not-present.png" class="pl-2" alt="not present"></td>
+										<td>22 Feb. 2019 12:06 PM</td>
+										<td>10 Min.</td>
+										<td>
+											<span class="info-icon custom-tooltip">
+												<img src="assets/images/note-icon.png" alt="note">
+												<span class="tooltiptext">
+													<p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+												</span>
+											</span>
+										</td>
+										<td><img src="assets/images/delete-icon.png" alt="delete"></td>
+										<td><a href="" data-toggle="modal" data-target="#smsModal"><img src="assets/images/message-icon.png" alt="message"></a></td>
+									</tr>
+									<tr>
+										<td><a href="" data-toggle="modal" data-target="#seatModal"><img src="assets/images/seat-icon.png" alt="seat"></a></td>
+										<td>1</td>
+										<td>Small</td>
+										<td>Total 5 [ A-3   C-2]</td>
+										<td><span class="incomplete">ABC</span></td>
+										<td>22 Feb. 2019 12:06 PM</td>
+										<td>10 Min.</td>
+										<td>
+											<span class="info-icon custom-tooltip">
+												<img src="assets/images/note-icon.png" alt="note">
+												<span class="tooltiptext">
+													<p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+												</span>
+											</span>
+										</td>
+										<td><img src="assets/images/delete-icon.png" alt="delete"></td>
+										<td><a href="" data-toggle="modal" data-target="#smsModal"><img src="assets/images/message-icon.png" alt="message"></a></td>
+									</tr>
+									<tr>
+										<td><a href="" data-toggle="modal" data-target="#seatModal"><img src="assets/images/seat-icon.png" alt="seat"></a></td>
+										<td>1</td>
+										<td>Small</td>
+										<td>Total 5 [ A-3   C-2]</td>
+										<td>ABC</td>
+										<td>22 Feb. 2019 12:06 PM</td>
+										<td>10 Min.</td>
+										<td><img src="assets/images/empty-note-icon.png" alt="note"></td>
+										<td><img src="assets/images/delete-icon.png" alt="delete"></td>
+										<td><a href="" data-toggle="modal" data-target="#smsModal"><img src="assets/images/message-icon.png" alt="message"></a></td>
+									</tr>
+									<tr>
+										<td><a href="" data-toggle="modal" data-target="#seatModal"><img src="assets/images/seat-icon.png" alt="seat"></a></td>
+										<td>1</td>
+										<td>Small</td>
+										<td>Total 5 [ A-3   C-2]</td>
+										<td>ABC</td>
+										<td>22 Feb. 2019 12:06 PM</td>
+										<td>10 Min.</td>
+										<td>
+											<span class="info-icon custom-tooltip">
+												<img src="assets/images/note-icon.png" alt="note">
+												<span class="tooltiptext">
+													<p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+												</span>
+											</span>
+										</td>
+										<td><img src="assets/images/delete-icon.png" alt="delete"></td>
+										<td><a href="" data-toggle="modal" data-target="#smsModal"><img src="assets/images/message-icon.png" alt="message"></a></td>
+									</tr>
+									<tr>
+										<td><a href="" data-toggle="modal" data-target="#seatModal"><img src="assets/images/seat-icon.png" alt="seat"></a></td>
+										<td>1</td>
+										<td>Small</td>
+										<td>Total 5 [ A-3   C-2]</td>
+										<td>ABC</td>
+										<td>22 Feb. 2019 12:06 PM</td>
+										<td>10 Min.</td>
+										<td>
+											<span class="info-icon custom-tooltip">
+												<img src="assets/images/note-icon.png" alt="note">
+												<span class="tooltiptext">
+													<p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+												</span>
+											</span>
+										</td>
+										<td><img src="assets/images/delete-icon.png" alt="delete"></td>
+										<td><a href="" data-toggle="modal" data-target="#smsModal"><img src="assets/images/message-icon.png" alt="message"></a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="float-right pb-2">
+							<ul class="pagination">
+								<li class="page-item disabled"><a class="page-link" href="#"><</a></li>
+								<li class="page-item"><a class="page-link active-pagination" href="#">1</a></li>
+								<li class="page-item"><a class="page-link" href="#">2</a></li>
+								<li class="page-item"><a class="page-link" href="#">3</a></li>
+								<li class="page-item"><a class="page-link" href="#">></a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<!-- table column popup -->
+					<div class="modal fade" id="tableColumnModal">
+						<div class="modal-dialog">
+							<div class="modal-content border-radius border-0">
+								<div class="custom-modal-header background-color">
+									<span class="modal-title text-white">Table Column</span>
+									<button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+								</div>
+								<div class="modal-body">
+									<div class="row">
+										<div class="col-lg-4">
+											<div class="checkbox mt-3">
+												<label>
+													<input checked="checked" type="checkbox"/><i class="helper"></i>Seat
+												</label>
+											</div>
+											<div class="checkbox mt-3">
+												<label>
+													<input checked="checked" type="checkbox"/><i class="helper"></i>Party Rank
+												</label>
+											</div>
+											<div class="checkbox mt-3">
+												<label>
+													<input checked="checked" type="checkbox"/><i class="helper"></i>Party Type
+												</label>
+											</div>
+											<div class="checkbox mt-3">
+												<label>
+													<input checked="checked" type="checkbox"/><i class="helper"></i>No. of Party
+												</label>
+											</div>
+										</div>
+										<div class="col-lg-4">
+											<div class="checkbox mt-3">
+												<label>
+													<input checked="checked" type="checkbox"/><i class="helper"></i>Name
+												</label>
+											</div>
+											<div class="checkbox mt-3">
+												<label>
+													<input checked="checked" type="checkbox"/><i class="helper"></i>Check In Time
+												</label>
+											</div>
+											<div class="checkbox mt-3">
+												<label>
+													<input checked="checked" type="checkbox"/><i class="helper"></i>Quote Time
+												</label>
+											</div>
+											<div class="checkbox mt-3">
+												<label>
+													<input checked="checked" type="checkbox"/><i class="helper"></i>Note
+												</label>
+											</div>
+										</div>
+										<div class="col-lg-4">
+											<div class="checkbox mt-3">
+												<label>
+													<input checked="checked" type="checkbox"/><i class="helper"></i>Delete
+												</label>
+											</div>
+											<div class="checkbox mt-3">
+												<label>
+													<input checked="checked" type="checkbox"/><i class="helper"></i>Send Text
+												</label>
+											</div>
+											<div class="checkbox mt-3">
+												<label>
+													<input type="checkbox"/><i class="helper"></i>Language Prefrence
+												</label>
+											</div>
+											<div class="checkbox mt-3">
+												<label>
+													<input type="checkbox"/><i class="helper"></i>Opt - In
+												</label>
+											</div>
+										</div>
+										<div class="col-lg-12 text-center pb-3">
+											<button type="button" class="btn btn-theme background-color">Done</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- seat modal -->
+					<div class="modal fade" id="seatModal">
+						<div class="modal-dialog">
+							<div class="modal-content border-radius border-0">
+								<div class="custom-modal-header background-color">
+									<span class="modal-title text-white">Confirm Table Ready</span>
+									<button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+								</div>
+								<div class="modal-body text-center">
+									<h4 class="pt-3 pb-2">Guest 1</h4>
+									<h4>ABC</h4>
+									<div class="pt-5 pb-4">
+										<button type="button" class="btn btn-theme background-color">Not Present</button>
+										<button type="button" class="btn btn-theme background-color mx-5">Incomplete</button>
+										<button type="button" class="btn btn-theme background-color px-5">Yes</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- sms modal -->
+					<div class="modal fade" id="smsModal">
+						<div class="modal-dialog">
+							<div class="modal-content border-radius border-0">
+								<div class="custom-modal-header background-color">
+									<span class="modal-title text-white">Send Text</span>
+									<button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+								</div>
+								<div class="modal-body">
+									<h4 class="pt-3 pb-3 text-center">Guest 1 (ABC)</h4>
+									<div class="pt-3 sms-tab-container">
+										<ul class="nav nav-tabs nav-justified" role="tablist">
+											<li class="nav-item">
+												<a class="nav-link active" data-toggle="tab" href="#level1">Level 1</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" data-toggle="tab" href="#level2">Level 2</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" data-toggle="tab" href="#level3">Level 3</a>
+											</li>
+										</ul>
+										<div class="tab-content">
+											<div id="level1" class="container tab-pane active"><br>
+												<p>Guest #1: There are 0 parties ahead of you w/ approx. wait-time of 6 min. For LIVE updates: https://tinyurl.com/yc8kfl5m/s/eb2702fb</p>
+											</div>
+											<div id="level2" class="container tab-pane fade"><br>
+												<p>Guest #2: There are 0 parties ahead of you w/ approx. wait-time of 6 min. For LIVE updates: https://tinyurl.com/yc8kfl5m/s/eb2702fb</p>
+											</div>
+											<div id="level3" class="container tab-pane fade"><br>
+												<p>Guest #3: There are 0 parties ahead of you w/ approx. wait-time of 6 min. For LIVE updates: https://tinyurl.com/yc8kfl5m/s/eb2702fb</p>
+											</div>
+										</div>
+									</div>
+									<div class="pt-5 pb-4 text-center">
+										<button type="button" class="btn btn-theme background-color mr-5">Send SMS</button>
+										<button type="button" class="btn btn-theme background-color" data-dismiss="modal">Cancel</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- reset popup -->
+					<div class="modal fade" id="resetModal">
+						<div class="modal-dialog">
+							<div class="modal-content border-radius border-0">
+								<div class="custom-modal-header background-color">
+									<span class="modal-title text-white">Confirm Reset Organization</span>
+									<button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+								</div>
+								<div class="modal-body text-center">
+									<h3 class="big-font"><i class="flaticon-reload font-color"></i></h3>
+									<h4 class="pt-3 pb-3">If you want to remove all your data, You can reset the data.</h4>
+									<div class="pt-3 pb-4">
+										<button type="button" class="btn btn-theme background-color">Reset</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</main>
+		</div>
+		<div class="clearfix"></div>
 		<footer>
 			<div class="row m-0">
 				<div class="col-lg-6 text-md-left text-center">

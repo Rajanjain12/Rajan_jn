@@ -9,9 +9,9 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
 	<link rel="stylesheet" type="text/css" href="assets/css/sidebar.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/flaticon.css">
-	<link rel="stylesheet" type="text/css" href="assets/css/setting.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/kyobee.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/setting.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/responsive.css">
 </head>
 <body>
@@ -19,9 +19,9 @@
 		<div class="container-fluid">
 			<nav class="navbar navbar-expand-lg navbar-light topnav p-md-0">
 				<a class="navbar-brand" href="dashboard.html"><img src="assets/images/logo.png"></a>
-				  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				    <span class="navbar-toggler-icon"></span>
-				  </button>
+				<button class="navbar-toggler p-0 asidebar" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav m-0 mr-auto">
 						<li class="nav-item">
@@ -51,113 +51,124 @@
 					</ul>
 				</div>
 				<div class="ml-auto logout-res">
+					<button class="navbar-toggler float-left p-0 asidebar" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
 					Hello, <span>Kyobee</span> | <a class="ml-3" href="login.html"><i class="error flaticon-logout mr-2"></i><span class="font-weight-semibold">Logout</span></a>
 				</div>
 			</nav>
 		</div>
 	</header>
+	<div class="clearfix"></div>
 	<div class="pb-5 fix-wrapper">
-		<section>
-			<div id="wrapper">
-		        <div id="sidebar-wrapper">
-		            <aside id="sidebar">
-		                <ul id="sidemenu" class="sidebar-nav text-center pt-2 activeIcon">
-		                    <li class="border-bottom">
-		                        <a href="dashboard.html">
-		                        	<i class="flaticon-home grey"></i>
-		                        </a>
-		                        <span class="font-12 font-weight-semibold">Dashboard</span>
-		                    </li>
-		                    <li class="border-bottom">
-		                        <a href="add-user.html">
-		                        	<i class="flaticon-add grey"></i>
-		                        </a>
-		                        <span class="font-12 font-weight-semibold">Add User</span>
-		                    </li>
-		                    <li class="border-bottom">
-		                        <a href="history.html">
-		                        	<i class="flaticon-history grey"></i>
-		                        </a>
-		                        <span class="font-12 font-weight-semibold">History</span>
-		                    </li>
-		                    <li class="border-bottom">
-		                        <a href="setting.html">
-		                        	<i class="flaticon-gear grey"></i>
-		                        </a>
-		                        <span class="font-12 font-weight-semibold">Setting</span>
-		                    </li>
-		                    <li class="border-bottom">
-		                        <a href="" data-toggle="modal" data-target="#resetModal">
-		                        	<i class="flaticon-reload grey"></i>
-		                        </a>
-		                        <span class="font-12 font-weight-semibold">Reset</span>
-		                    </li>
-		                    <!-- <li>
-		                        <a href="login.html" class="d-inline error no-bg">
-		                        	<i class="flaticon-power-button mr-2"></i>
-		                        	<span class="font-weight-semibold">Logout</span>
-		                        </a>
-		                    </li> -->
-		                </ul>
-		            </aside>
-		        </div>
-		        <main id="page-content-wrapper" role="main">
-		        	<section class="container pt-5">
-		        		<div class="row normal-box-container">
-		        			<form class="col-lg-12">
-							    <div class="checkbox my-0 py-2 border-bottom">
-							    	<div class="row">
-							    		<div class="col-lg-3">
-									      <span class="font-weight-semibold">Seating Prefrence</span>
-									  </div>
-									  <div class="col-lg-9">
-									      <label class="mr-3">
-									        <input checked="checked" type="checkbox"/><i class="helper"></i>First Available
-									      </label>
-									      <label class="mr-3">
-									        <input checked="checked" type="checkbox"/><i class="helper"></i>Patio
-									      </label>
-									      <label class="mr-3">
-									        <input checked="checked" type="checkbox"/><i class="helper"></i>Bar
-									      </label>
-									      <label class="mr-3">
-									        <input checked="checked" type="checkbox"/><i class="helper"></i>Booth
-									      </label>
-									      <label>
-									        <input checked="checked" type="checkbox"/><i class="helper"></i>Table
-									      </label>
-									  </div>
+		<div id="wrapper" class="navbar-expand-lg navbar-expand-md">
+			<div id="sidebar-wrapper" class="collapse navbar-collapse">
+				<button class="navbar-toggler float-right asidebar" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="flaticon-logout"></span>
+				</button>
+				<aside id="sidebar">
+					<ul id="sidemenu" class="sidebar-nav text-center pt-2">
+						<li class="border-bottom">
+							<div class="borderRight">
+								<a href="dashboard.html">
+									<i class="flaticon-home grey"></i>
+								</a>
+							</div>
+							<span class="font-12 font-weight-semibold">Dashboard</span>
+						</li>
+						<li class="border-bottom">
+							<div class="borderRight">
+								<a href="add-user.html">
+									<i class="flaticon-add grey"></i>
+								</a>
+							</div>
+							<span class="font-12 font-weight-semibold">Add User</span>
+						</li>
+						<li class="border-bottom">
+							<div class="borderRight">
+								<a href="history.html">
+									<i class="flaticon-history grey"></i>
+								</a>
+							</div>
+							<span class="font-12 font-weight-semibold">History</span>
+						</li>
+						<li class="border-bottom active">
+							<div class="borderRight">
+								<a href="setting.html">
+									<i class="flaticon-gear grey"></i>
+								</a>
+							</div>
+							<span class="font-12 font-weight-semibold">Setting</span>
+						</li>
+						<li class="border-bottom">
+							<div class="borderRight">
+								<a href="" data-toggle="modal" data-target="#resetModal">
+									<i class="flaticon-reload grey"></i>
+								</a>
+							</div>
+							<span class="font-12 font-weight-semibold">Reset</span>
+						</li>
+					</ul>
+				</aside>
+			</div>
+
+			<main id="page-content-wrapper" role="main">
+				<section class="container pt-5" id="dashboardPage">
+					<div class="row normal-box-container">
+						<form class="col-lg-12">
+							<div class="checkbox my-0 py-2 border-bottom">
+								<div class="row">
+									<div class="col-lg-3 my-1">
+										<span class="font-weight-semibold">Seating Prefrence</span>
 									</div>
-							    </div>
-							    <div class="checkbox my-0 py-3 border-bottom">
-							    	<div class="row">
-							    		<div class="col-lg-3">
-									      <span class="font-weight-semibold">Marketing Prefrence</span>
-									  </div>
-									  <div class="col-lg-9">
-									      <label class="mr-3 mb-0">
-									        <input checked="checked" type="checkbox"/><i class="helper"></i>Facebook
-									      </label>
-									      <label class="mr-3 mb-0">
-									        <input checked="checked" type="checkbox"/><i class="helper"></i>Instagram
-									      </label>
-									      <label class="mr-3 mb-0">
-									        <input checked="checked" type="checkbox"/><i class="helper"></i>Google+
-									      </label>
-									      <label class="mb-0">
-									        <input checked="checked" type="checkbox"/><i class="helper"></i>Word of Mouth
-									      </label>
-									  </div>
-								  	</div>
-							    </div>
-							    <div class="py-3 border-bottom">
-							    	<div class="row">
-								    	<div class="col-lg-3">
-								    		<span class="font-weight-semibold">SMS Language</span>
-								    	</div>
-								    	<div class="col-lg-9">
-								    		<div class="row">
-								    			<div class="col-lg-3">
+									<div class="col-lg-9 my-1">
+										<label class="mr-3 my-1 sm-block">
+											<input checked="checked" type="checkbox"/><i class="helper"></i>First Available
+										</label>
+										<label class="mr-3 my-1 sm-block">
+											<input checked="checked" type="checkbox"/><i class="helper"></i>Patio
+										</label>
+										<label class="mr-3 my-1 sm-block">
+											<input checked="checked" type="checkbox"/><i class="helper"></i>Bar
+										</label>
+										<label class="mr-3 my-1 sm-block">
+											<input checked="checked" type="checkbox"/><i class="helper"></i>Booth
+										</label>
+										<label class="mr-3 my-1 sm-block">
+											<input checked="checked" type="checkbox"/><i class="helper"></i>Table
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="checkbox my-0 py-2 border-bottom">
+								<div class="row">
+									<div class="col-lg-3 my-1">
+										<span class="font-weight-semibold">Marketing Prefrence</span>
+									</div>
+									<div class="col-lg-9 my-1">
+										<label class="mr-3 my-1 sm-block">
+											<input checked="checked" type="checkbox"/><i class="helper"></i>Facebook
+										</label>
+										<label class="mr-3 my-1 sm-block">
+											<input checked="checked" type="checkbox"/><i class="helper"></i>Instagram
+										</label>
+										<label class="mr-3 my-1 sm-block">
+											<input checked="checked" type="checkbox"/><i class="helper"></i>Google+
+										</label>
+										<label class="mr-3 my-1 sm-block">
+											<input checked="checked" type="checkbox"/><i class="helper"></i>Word of Mouth
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="py-2 border-bottom">
+								<div class="row">
+									<div class="col-lg-3 my-1">
+										<span class="font-weight-semibold">SMS Language</span>
+									</div>
+									<div class="col-lg-9 my-1">
+										<div class="row">
+											<div class="col-lg-3 my-1">
 								    				<!-- <select class="form-control">
 								    					<option>
 								    					<input type="checkbox" name=""> Select Language
@@ -170,100 +181,102 @@
 													  <option>Language 4</option>
 													  <option>Language 5</option>
 													</select> -->
-								    				<div class="multiselect">
-													    <div class="selectBox" onclick="showCheckboxes()">
-													      <select class="form-control">
-													        <option>Select Language</option>
-													      </select>
-													      <div class="overSelect"></div>
-													    </div>
-													    <div id="checkboxes">
-													      <label for="one">
-													        <input type="checkbox" id="one" />Language 1</label>
-													      <label for="two">
-													        <input type="checkbox" id="two" />Language 2</label>
-													      <label for="three">
-													        <input type="checkbox" id="three" />Language 3</label>
-													    </div>
-													  </div>
-								    			</div>
-								    			<div class="col-lg-3">
-								    				<select class="form-control">
-								    					<option>Default Language</option>
-								    				</select>
-								    			</div>
-								    		</div>
-								    	</div>
-								    </div>
-							    </div>
-							    <div class="py-3">
-							    	<div class="row">
-								    	<div class="col-lg-3">
-								    		<span class="font-weight-semibold">SMS Templete</span>
-								    	</div>
-								    	<div class="col-lg-9">
-								    		<div class="col-lg-3 pl-0">
-								    			<select class="form-control">
-							    					<option>English</option>
-							    				</select>
-								    		</div>
-								    		<div class="form-group">
-										      <textarea required="required">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</textarea>
-										      <label for="textarea" class="control-label">Level 1</label><i class="bar"></i>
-										    </div>
-										    <div class="form-group">
-										      <textarea required="required">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</textarea>
-										      <label for="textarea" class="control-label">Level 2</label><i class="bar"></i>
-										    </div>
-										    <div class="form-group mb-3">
-										      <textarea required="required">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</textarea>
-										      <label for="textarea" class="control-label">Level 3</label><i class="bar"></i>
-										    </div>
-								    	</div>
-								    </div>
-							    </div>
-							    <div class="col-lg-12 text-center pb-3 pt-2">
-								    <button type="button" class="btn btn-theme background-color"><span>Save</span></button>
+													<div class="multiselect">
+														<div class="selectBox" onclick="showCheckboxes()">
+															<select class="form-control">
+																<option>Select Language</option>
+															</select>
+															<div class="overSelect"></div>
+														</div>
+														<div id="checkboxes">
+															<label for="one">
+																<input type="checkbox" id="one" />Language 1
+															</label>
+															<label for="two">
+																<input type="checkbox" id="two" />Language 2
+															</label>
+															<label for="three">
+																<input type="checkbox" id="three" />Language 3
+															</label>
+														</div>
+													</div>
+												</div>
+												<div class="col-lg-3 my-1">
+													<select class="form-control">
+														<option>Default Language</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="py-2">
+									<div class="row">
+										<div class="col-lg-3 my-1">
+											<span class="font-weight-semibold">SMS Templete</span>
+										</div>
+										<div class="col-lg-9 my-1">
+											<div class="col-lg-3 pl-0">
+												<select class="form-control">
+													<option>English</option>
+												</select>
+											</div>
+											<div class="form-group">
+												<textarea required="required">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</textarea>
+												<label for="textarea" class="control-label">Level 1</label><i class="bar"></i>
+											</div>
+											<div class="form-group">
+												<textarea required="required">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</textarea>
+												<label for="textarea" class="control-label">Level 2</label><i class="bar"></i>
+											</div>
+											<div class="form-group mb-3">
+												<textarea required="required">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</textarea>
+												<label for="textarea" class="control-label">Level 3</label><i class="bar"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-12 text-center pb-3 pt-2">
+									<button type="button" class="btn btn-theme background-color"><span>Save</span></button>
 								</div>
 							</form>
-			        	</div>
-			        	<!-- reset popup -->
-						<div class="modal fade" id="resetModal">
-						  <div class="modal-dialog">
-						    <div class="modal-content border-radius border-0">
-						      <div class="custom-modal-header background-color">
-						        <span class="modal-title text-white">Confirm Reset Organization</span>
-						        <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
-						      </div>
-						      <div class="modal-body text-center">
-						      	<h3 class="big-font"><i class="flaticon-reload font-color"></i></h3>
-						        <h4 class="pt-3 pb-3">If you want to remove all your data, You can reset the data.</h4>
-						        <div class="pt-3 pb-4">
-						        	<button type="button" class="btn btn-theme background-color">Reset</button>
-						        </div>
-						      </div>
-						    </div>
-						  </div>
 						</div>
-		        	</section>
-		        </main>
-		    </div>
-		</section>
-		<footer>
-			<div class="row m-0">
-				<div class="col-lg-6 text-md-left text-center">
-					<h5 class="text-white">KYOBEE</h5>
-				</div>
-				<div class="col-lg-6 text-md-right text-center">
-					<span class="text-white font-12">Copyright KYOBEE. All Rights Reserved - Version 1.3 - 02/05/2018 7:00 AM PST</span>
-				</div>
+						<!-- reset popup -->
+						<div class="modal fade" id="resetModal">
+							<div class="modal-dialog">
+								<div class="modal-content border-radius border-0">
+									<div class="custom-modal-header background-color">
+										<span class="modal-title text-white">Confirm Reset Organization</span>
+										<button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+									</div>
+									<div class="modal-body text-center">
+										<h3 class="big-font"><i class="flaticon-reload font-color"></i></h3>
+										<h4 class="pt-3 pb-3">If you want to remove all your data, You can reset the data.</h4>
+										<div class="pt-3 pb-4">
+											<button type="button" class="btn btn-theme background-color">Reset</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</main>
 			</div>
-		</footer>
-	</div>
-	<script type="text/javascript" src="assets/js/jquery.min.js"></script>
-	<script type="text/javascript" src="assets/js/popper.min.js"></script>
-	<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-	<script type="text/javascript" src="assets/js/custom.js"></script>
-</body>
-</html>
+			<div class="clearfix"></div>
+			<footer>
+				<div class="row m-0">
+					<div class="col-lg-6 text-md-left text-center">
+						<h5 class="text-white">KYOBEE</h5>
+					</div>
+					<div class="col-lg-6 text-md-right text-center">
+						<span class="text-white font-12">Copyright KYOBEE. All Rights Reserved - Version 1.3 - 02/05/2018 7:00 AM PST</span>
+					</div>
+				</div>
+			</footer>
+		</div>
+		<script type="text/javascript" src="assets/js/jquery.min.js"></script>
+		<script type="text/javascript" src="assets/js/popper.min.js"></script>
+		<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="assets/js/custom.js"></script>
+	</body>
+	</html>

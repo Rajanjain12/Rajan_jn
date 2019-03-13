@@ -81,10 +81,17 @@
 // }
 
 
-// Extra small devices (portrait phones, less than 576px)
+// small devices (portrait phones, less than 576px)
 @media (max-width: 767.98px) {
-	.custom-container{width: 85%}
+	/* Common CSS */
+	.container.pt-5 {
+		padding-bottom: 1rem;
+	}
+	.custom-container{ width: 85%; }
 	.container-box{width:100%;float:none}
+	.sm-block {
+		display: block !important;
+	}
 	header{
 		.topnav{
 			padding: 0.5rem;
@@ -170,11 +177,35 @@
 		}
 	}
 	/* page-content-wrapper */
+
+	/* Common CSS Ends */
+
+	/* dashboardPage */
+	#dashboardPage {
+		.sub-btn{
+			display: block;
+			margin: 0px 0px 10px 0px !important;
+		}
+	}
+
+	/* addUserPage */
+	#addUserPage {
+		.first-lang {
+			flex-direction: column-reverse;
+		}
+	}
+
 }
 
 
 // Medium devices (tablets, 768px and up)
 @media (min-width: 768px) and (max-width: 991.98px) { 
+
+	/* Common CSS */
+	.custom-container { width: 90%; }
+	.md-block {
+		display: block !important;
+	}
 	.modal-dialog {
 		max-width: 600px!important;
 	}
@@ -188,6 +219,7 @@
 	.asidebar {
 		display: none;
 	}
+
 
 	/* sidebar-wrapper */
 	#page-content-wrapper {
@@ -203,10 +235,31 @@
 		}
 	}
 	/* page-content-wrapper */
+
+	/* Common CSS Ends */
+
+	
+	/* dashboardPage */
+	#dashboardPage {
+		.sub-btn{
+			display: block;
+			margin: 0px 0px 10px 0px !important;
+		}
+	}
+
+
+	/* addUserPage */
+	#addUserPage {
+		.first-lang {
+			flex-direction: column-reverse;
+		}
+	}
 }
 
 // Large devices (desktops, 992px and up)
 @media (min-width: 992px) and (max-width: 1199.98px) {
+
+	/* Common CSS */
 	.modal-dialog {
 		max-width: 600px!important;
 	}
@@ -223,10 +276,14 @@
 		}
 	}
 	/* page-content-wrapper */
+
+	/* Common CSS Ends */
 }
 
 // Extra large devices (large desktops, 1200px and up)
 @media (min-width: 1200px) { 
+
+	/* Common CSS */
 	.modal-dialog {
 		max-width: 600px!important;
 	}
@@ -236,4 +293,6 @@
 			width: $sizebar-size;
 		}
 	}
+
+	/* Common CSS Ends */
 }

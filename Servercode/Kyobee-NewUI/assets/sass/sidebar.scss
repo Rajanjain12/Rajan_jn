@@ -53,11 +53,20 @@
             opacity: 0.90;
             }*/
         }
-        
+        /* li */
         li.active {
             .borderRight {
                 border-right: 3px solid $theme-color;
+                a{
+                    background-color: $theme-color;
+                    i {
+                        color: $white-color;
+                    }
+                }
             }
         }
+        /* li.active */
     }
+    /* .sidebar-nav */
 }
+/* #sidebar-wrapper */
