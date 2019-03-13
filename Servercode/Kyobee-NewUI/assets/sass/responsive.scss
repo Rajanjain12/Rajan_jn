@@ -119,9 +119,10 @@
 	}
 	#sidebar-wrapper {
 		width: 100%;
+		height: all;
 		top: 0;
 		left:0;
-		position: absolute;
+		position: fixed;
 		z-index: 11;
 		margin: 0;
 		padding: 0;
