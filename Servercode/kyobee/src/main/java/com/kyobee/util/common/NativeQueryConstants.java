@@ -485,4 +485,10 @@ public class NativeQueryConstants {
 	public static final String GET_ORG_MISSED_GUESTS = "FROM Guest g left join fetch g.languagePrefID where g.OrganizationID=:orgId and g.status='DELETED' and date(g.checkinTime) between date(:fromDate) and date(:toDate)";
 	
 	public static final String Get_ORG_LOYAL_CUSTOMER_COUNT = "SELECT name, COUNT(*) AS totalVisit FROM GUEST where OrganizationID=:orgId and date(checkinTime) between date(:fromDate) and date(:toDate) GROUP BY sms HAVING totalVisit >=:visitCount";
+
+	//User Account Activation by Aarshi(11/03/2019)
+	public static final String CHECK_AUTH_CODE_BY_USERID ="SELECT count(userId) from USER u where u.userId=:userId and u.authCode=:authCode";
+	
+	//Change password by Aarshu(13/03/2019)
+//	public static final String SET_PASSWORD_BY_USERID="UPDATE USER SET password=:newPassword where userId=:userId and password=:oldPassword";
 }

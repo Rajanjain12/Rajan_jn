@@ -1,24 +1,31 @@
 //created by pampaniya shweta for forgot password
 package com.kyobee.dao.impl;
 
+import java.math.BigInteger;
+
 import javax.management.Query;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import com.kyobee.dao.IUserDAO;
 import com.kyobee.entity.User;
 import com.kyobee.exception.RsntException;
 import com.kyobee.util.common.CommonUtil;
+import com.kyobee.util.common.LoggerUtil;
 import com.kyobee.util.common.NativeQueryConstants;
 
 @Repository
-public class UserDAO implements IUserDAO 
+public class UserDAO extends GenericDAOImpl<User,Long> implements IUserDAO
 {
 	@Autowired
-  private SessionFactory sessionFactory;
+ private SessionFactory sessionFactory;
 	
+
 	@Override
 	public String getUserAuthCode(long userId)
 	{
@@ -36,4 +43,25 @@ public class UserDAO implements IUserDAO
 		  return user;
 		
 	}
+
+    //User Account Activation by Aarshi(11/03/2019)
+	@Override
+	public Boolean Verifyauthcode(Integer userId, String authCode) {
+		// TODO Auto-generated method stub
+		BigInteger isVerified =  (BigInteger)sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.CHECK_AUTH_CODE_BY_USERID).setParameter("userId",userId).setParameter("authCode",authCode).uniqueResult();
+		if(isVerified.intValue()==1){
+			return true;
+		}else{
+			return false;
+		}
+
+
+	}
+	
+    
+
+
+
+	
+	
 }

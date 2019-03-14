@@ -13,6 +13,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
 import com.kyobee.dto.common.Credential;
+import com.kyobee.entity.User;
 import com.kyobee.exception.RsntException;
 import com.kyobee.rest.WaitListRestAction;
 import com.kyobee.util.common.CommonUtil;
@@ -47,8 +48,9 @@ public class EmailUtil {
 	@Value("${rsnt.base.forgotpassword.url.suffix}")
     private String forgotpassSuffixUrl;
 
+	@Value("${AuthCode_link}")
+    private String AuthCode_link;
 
-	
 	public void setMailSender(JavaMailSender mailSender) {
 		this.mailSender = mailSender;
 	}
@@ -132,5 +134,34 @@ public class EmailUtil {
 		
 		}
 	}
+
+	//Send authentication mail to user(12/03/2019)
+	public void senAuthCodeEmail(User user) throws RsntException{
+		// TODO Auto-generated method stub
+		try{
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+			mimeMessage.setFrom(new InternetAddress(from));
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+			helper.setTo(user.getUserName());
+			helper.setFrom(from);
+			helper.setSubject("User Authentication");
+			helper.setSentDate(new Date());
+			StringBuilder htmlContent = new StringBuilder();
+			htmlContent.append("<p>Hi " + user.getFirstName() +  user.getLastName() +", </p>");
+			htmlContent.append("<p>Welcome to Kyobee Waitlist.</p>");
+			htmlContent.append("<p>Your authentication code for account activation" +user.getAuthcode() +",</p>");
+			htmlContent.append("<p><a href='"+ AuthCode_link +"'>Click here</a></p>");
+			htmlContent.append("<p>Thank You</p>");
+			htmlContent.append("<p>Kyobee Team</p>");
+			helper.setText(htmlContent.toString(), true);
+	        mailSender.send(mimeMessage);
+		 }catch(Exception ex){
+			 LoggerUtil.logError("Error while sending activation Email "+user.getUserId(), ex);
+			throw new RsntException(ex);
+		}
+		
+	}
+
+
 
 }

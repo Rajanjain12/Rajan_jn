@@ -7,7 +7,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +33,7 @@ import com.kyobee.util.EmailUtil;
 import com.kyobee.util.SessionContextUtil;
 import com.kyobee.util.common.CommonUtil;
 import com.kyobee.util.common.Constants;
+import com.kyobee.util.common.LoggerUtil;
 import com.kyobee.util.common.NativeQueryConstants;
 
 @AppTransactional
@@ -52,6 +55,22 @@ public class SecurityServiceImpl implements ISecurityService {
 	@Value("${smsRouteId}")
 	private String smsRoute;
 	
+	//Set max number of party  from properties file by Aarshi(01/03/2019)
+	@Value("${maxParty}")
+	private Integer maxParty;
+	
+	//Set smsRouteNo By Aarshi(01/03/2019)
+	@Value("${setRouteno}")
+	private String setRouteno;
+	
+	//Set waitTime By Aarshi(01/03/2019)
+	@Value("${waitTime}")
+	private Long waitTime;
+	//Set notifyUserCount  by Aarshi(01/03/2019)
+	@Value("${notifyUserCount}")
+	private Long notifyUserCount;
+	
+
 	/*@Logger
 	private Log log;*/
 	private Logger log = Logger.getLogger(SecurityServiceImpl.class);
@@ -314,7 +333,9 @@ public class SecurityServiceImpl implements ISecurityService {
 			signUpUser.setFirstName(credentials.getFirstName());
 			signUpUser.setLastName(credentials.getLastName());
 			signUpUser.setUserRole(new UserRole());
-			signUpUser.setActive(true);
+			
+			
+			signUpUser.setActive(false);
 			//Audit User
 			signUpUser.setCreatedDate(new Date());
 			signUpUser.setModifiedDate(new Date());
@@ -339,8 +360,9 @@ public class SecurityServiceImpl implements ISecurityService {
 			organization.setCreatedDate(new Date());
 			organization.setClientBase(credentials.getClientBase());
 			organization.setSmsSignature(organization.getOrganizationName());
-			organization.setSmsRoute(smsRoute);
 			
+			organization.setSmsRoute(smsRoute);
+
 			OrganizationPlanSubscription organizationPlanSubscription = new OrganizationPlanSubscription();
 			organizationPlanSubscription.setAmountPerUnit(new BigDecimal(0.0));
 			organizationPlanSubscription.setCostPerAd(new BigDecimal(0.0));
@@ -388,10 +410,193 @@ public class SecurityServiceImpl implements ISecurityService {
 			organizationUserList.add(organizationUser);
 			organization.setOrganizationUserList(organizationUserList);
 			signUpUser.setOrganizationUser(organizationUser);
+		
 			
 			Long i = (Long) sessionFactory.getCurrentSession().save(signUpUser); 
 			
 			if (i != null) {	
+				emailUtil.sendWelcomeEmail(signUpUser.getUserName(), signUpUser.getFirstName() + " " + signUpUser.getLastName());
+				return signUpUser;
+			}
+			return null;
+		} catch(Exception e){
+    		log.error("SecurityServiceImpl.signupUser()", e);
+			throw new RsntException("SecurityServiceImpl.signupUser()", e);
+    	}
+	}
+    //	User Account Activation  by Aarshi(11/03/2019)
+	public Boolean authVerification(Integer userId, String authCode) throws RsntException {
+
+		try {
+			Boolean authVerification = userDao.Verifyauthcode(userId, authCode);
+			Long userid = userId.longValue();
+
+			if (authVerification.equals(true)) {
+				User user=userDao.find(userid);
+				user.setActive(true);
+				user.setModifiedBy(user.getUserName());
+				user.setModifiedDate(new Date());
+				System.out.println("The PassWord is" +user.getPassword());
+				user.setAuthcode(null);
+				userDao.update(user);
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception ex) {
+			LoggerUtil.logError("Error During Verification AuthCode", ex);
+			throw new RsntException("UserAccount Activication"+userId, ex);
+
+		}
+	}
+   //Send authentication mail to user by Aarshi(12/03/2019)
+	@Override
+	public void sendActivationMail(Integer userId)throws RsntException {
+		// TODO Auto-generated method stub
+		 Long userid=userId.longValue();
+		try
+		{
+			User user=userDao.find(userid);
+            emailUtil.senAuthCodeEmail(user);
+		    
+		}catch(Exception ex){
+	      LoggerUtil.logError("Error while Send AuthCode", ex);
+	      throw new RsntException("SendAuthCode Mail"+userId, ex);
+	        
+		}
+		
+	}
+	//Change password  by Aarshi(13/03/2019)
+	@Override
+	public Boolean changePassword(Integer userId,String oldPassword,String newPassowrd) throws RsntException {
+		// TODO Auto-generated method stub
+		try{
+			 String password=CommonUtil.encryptPassword(oldPassword);
+			 //Long userid=userId.longValue();
+			 User user=userDao.find(userId.longValue());
+			 if(password.equals(user.getPassword())){
+				//String newPassWord=CommonUtil.encryptPassword(newPassowrd);
+				user.setPassword(CommonUtil.encryptPassword(newPassowrd));
+				user.setModifiedBy(user.getUserName());
+				user.setModifiedDate(new Date());
+				
+				//user.setModifiedDate();
+				userDao.update(user);
+			    return true;
+			}else{
+				return false;
+			}
+			
+		}catch(Exception ex){
+			LoggerUtil.logError("Error while Change Password", ex);
+		    throw new RsntException("ChangePassword"+userId, ex);
+		        
+		}
+	}
+	@Override
+	public User signupUserV2(Credential credentials) throws RsntException {
+		try {
+			// Creating User
+			User signUpUser = new User();
+			signUpUser.setUserName(credentials.getUsername());
+			signUpUser.setEmail(credentials.getUsername());
+			signUpUser.setPassword(credentials.getPassword());
+			signUpUser.setPrimaryContactNo(credentials.getCompanyPrimaryPhone());
+			signUpUser.setFirstName(credentials.getFirstName());
+			signUpUser.setLastName(credentials.getLastName());
+			signUpUser.setUserRole(new UserRole());
+			
+			
+			signUpUser.setActive(false);
+			//Audit User
+			signUpUser.setCreatedDate(new Date());
+			signUpUser.setModifiedDate(new Date());
+			signUpUser.setCreatedBy(signUpUser.getUserName());
+			signUpUser.setModifiedBy(signUpUser.getUserName());
+			
+			UserRole userRole = new UserRole();
+			userRole.setRoleId((long) Constants.CONT_LOOKUP_ROLE_RSNTADMIN);
+			userRole.setCreatedBy(credentials.getUsername());
+			userRole.setCreatedDate(new Date());
+			userRole.setUser(signUpUser);
+			signUpUser.setUserRole(userRole);
+			
+			Organization organization = new Organization();
+			organization.setOrganizationName(credentials.getCompanyName());
+			organization.setEmail(credentials.getCompanyEmail());
+			organization.setPromotionalCode(credentials.getPromotionalCode());
+			organization.setPrimaryPhone(Long.parseLong(credentials.getCompanyPrimaryPhone()));
+			organization.setActiveFlag(true);
+			organization.setOrganizationTypeId((long) Constants.CONST_ORG_TYPE_ID);
+			organization.setCreatedBy(credentials.getUsername());
+			organization.setCreatedDate(new Date());
+			organization.setClientBase(credentials.getClientBase());
+			organization.setSmsSignature(organization.getOrganizationName());
+			
+			organization.setSmsRoute(smsRoute);
+			//Set max party By Aarshi(01/03/2019)
+			organization.setMaxParty(maxParty);
+			//Set smsRouteNo By Aarshi(01/03/2019)
+			organization.setSmsRouteNo(setRouteno);
+			//Set  waitTime By Aarshi(01/03/2019)
+			organization.setWaitTime(waitTime);
+			//Set notifyUserCount  by Aarshi(01/03/2019)
+			organization.setNotifyUserCount(notifyUserCount);
+
+			OrganizationPlanSubscription organizationPlanSubscription = new OrganizationPlanSubscription();
+			organizationPlanSubscription.setAmountPerUnit(new BigDecimal(0.0));
+			organizationPlanSubscription.setCostPerAd(new BigDecimal(0.0));
+			organizationPlanSubscription.setCreatedBy(credentials.getUsername());
+			organizationPlanSubscription.setCreatedDate(new Date());
+			organizationPlanSubscription.setCurrencyId(11L);
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(new Date());
+			cal.add(Calendar.MONTH, 1);
+			organizationPlanSubscription.setEndDate(cal.getTime());
+			organizationPlanSubscription.setModifiedBy(credentials.getUsername());
+			organizationPlanSubscription.setModifiedDate(new Date());
+			organizationPlanSubscription.setNoOfAdsPerUnit(0L);
+			organizationPlanSubscription.setNumberOfUnits(0L);
+			organizationPlanSubscription.setOrganization(organization);
+			Plan plan = new Plan();
+			plan.setPlanId(3L);
+			organizationPlanSubscription.setPlan(plan);
+			organizationPlanSubscription.setStartDate(new Date());
+			organizationPlanSubscription.setTerminateDate(null);
+			organizationPlanSubscription.setTotalAmount(new BigDecimal(0.0));
+			organizationPlanSubscription.setUnitId(9L);
+			organization.setActiveOrgPlanSubscription(organizationPlanSubscription);
+			organization.setOrganizationPlanSubscriptionList(new ArrayList<>());
+			organization.getOrganizationPlanSubscriptionList().add(organizationPlanSubscription);
+			
+			organization.setOrganizationCategoryList(new ArrayList<>());
+			for(long i=39; i<=43; i++){
+				OrganizationCategory orgCat = new OrganizationCategory();
+				orgCat.setOrganization(organization);
+				orgCat.setCategoryTypeId(18L);
+				orgCat.setCategoryValueId(i);
+				organization.getOrganizationCategoryList().add(orgCat);
+			}
+			
+			BigDecimal adsBalance = new BigDecimal(0);
+			organization.setAdsBalance(adsBalance);
+			
+			OrganizationUser organizationUser = new OrganizationUser();
+			organizationUser.setOrganization(organization);
+			organizationUser.setCreatedBy(credentials.getUsername());
+			organizationUser.setCreatedDate(new Date());
+			organizationUser.setUser(signUpUser);
+			List<OrganizationUser> organizationUserList = new ArrayList<>();
+			organizationUserList.add(organizationUser);
+			organization.setOrganizationUserList(organizationUserList);
+			signUpUser.setOrganizationUser(organizationUser);
+		
+			
+			Long i = (Long) sessionFactory.getCurrentSession().save(signUpUser); 
+			
+			if (i != null) {	
+				//Comment done by aarshi 
+				//because error give to send mail in local
 				emailUtil.sendWelcomeEmail(signUpUser.getUserName(), signUpUser.getFirstName() + " " + signUpUser.getLastName());
 				return signUpUser;
 			}

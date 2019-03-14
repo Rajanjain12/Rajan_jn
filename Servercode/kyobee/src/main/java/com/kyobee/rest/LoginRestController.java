@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,9 +47,6 @@ import net.sf.json.JSONObject;
 public class LoginRestController {
 
 	@Autowired
-	UserDAO userDao;
-	
-	@Autowired
 	ISecurityService securityService;
 	
 	@Autowired
@@ -59,6 +57,29 @@ public class LoginRestController {
 	
 	@Autowired
 	SessionContextUtil sessionContextUtil;
+
+	//Print success message from property file  by Aarshi(11/03/2019)
+	 @Value("${Successful_verification}")
+	 private String  Successful_verification;
+			
+    //Print Error message from property file  by Aarshi(11/03/2019)
+    @Value("${Unsuccessful_verification}")
+	private String Unsuccessful_verification;
+			
+    //Set Successful verification  mail message by Aarshi(12/03/2019)
+    @Value("${ACTIVATION_MAIL_SUCCESS}")
+    private String  ACTIVATION_MAIL_SUCCESS;
+	
+    //Set Unsuccessful verification  mail message by Aarshi(12/03/2019)
+    @Value("${ACTIVATION_MAIL_FAIL}")
+	private String ACTIVATION_MAIL_FAIL;
+    
+    @Value("${CHANGE_PASSWORD_SUCCESS}")
+	private String CHANGE_PASSWORD_SUCCESS;
+	
+    
+    @Value("${CHANGE_PASSWORD_FAIL}")
+	private String CHANGE_PASSWORD_FAIL;
 	
 	/*
 	 * This api is used only for browser and it is validated as per clientbase as of 2-Mar-2017
@@ -68,7 +89,8 @@ public class LoginRestController {
 		Response<UserDTO> response = new Response<UserDTO>();
 		User loginUser = null;
 		try {
-			if (credenitals != null && credenitals.getUsername() != null && credenitals.getPassword() != null && credenitals.getClientBase() != null) {
+			if (credenitals != null && credenitals.getUsername() != null  && credenitals.getPassword() != null && credenitals.getClientBase() != null) {
+			
 				loginUser = securityService.loginAndFetchUser(credenitals.getUsername(), credenitals.getPassword(),
 						credenitals.getClientBase());
 
@@ -363,5 +385,146 @@ public class LoginRestController {
 		return userDetails;
 	}
 
+	//User Account Activation  by Aarshi(11/03/2019)
 
+
+	@RequestMapping(value = "/activateUser", method = RequestMethod.POST, produces = "application/json")
+	public Response<String> activateUser(@RequestParam String authCode,@RequestParam  Integer  userId)throws RsntException{
+		
+		Response<String> response = new Response<String>();
+	   Boolean isVeried=securityService.authVerification(userId, authCode);
+     	try
+	    {
+	    	if(isVeried.equals(true)){
+	             response.setServiceResult(Successful_verification);
+	             CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "", "",
+	            		 Successful_verification);
+	        }else{
+		        response.setServiceResult(Unsuccessful_verification);
+		        CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",
+		        		Unsuccessful_verification);
+			
+	        }
+	    }catch(Exception ex)
+     	{
+	    	LoggerUtil.logError("Error AuthCode Verification", ex);
+			response.setServiceResult(Unsuccessful_verification);
+			CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",
+					Unsuccessful_verification);
+			throw new RsntException("Activing User"+userId, ex);
+		
+     	}
+	   return response;
+	   }
+
+      //Send authentication mail to user by Aarshi(12/03/2019)
+    	@RequestMapping(value = "/activationmail", method = RequestMethod.POST, produces = "application/json")
+        public Response<String> activationmail(@RequestParam Integer userId)throws RsntException{
+    		Response<String> response = new Response<String>();
+			
+    		try{
+    			securityService.sendActivationMail(userId);
+    			 response.setServiceResult(ACTIVATION_MAIL_SUCCESS);
+    		     CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "", "",
+ 	 					ACTIVATION_MAIL_SUCCESS);
+ 	        
+    		}catch(Exception ex){
+    			LoggerUtil.logError("Error Send account activtion mail", ex);
+    			response.setServiceResult(ACTIVATION_MAIL_FAIL);
+    			CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",
+    					ACTIVATION_MAIL_FAIL);
+    			throw new RsntException("SendAuthCode Mail"+userId, ex);
+    		}
+    		return response;
+	    }
+    	
+    	// Forgot Password By Aarshi Patel(13-03-2019)
+    	@RequestMapping(value = "/forgotPwd/V2", method = RequestMethod.GET, produces = "application/json")
+    	   public Response<String> forgotPasswordT(@RequestParam String email) throws RsntException 
+    	   {
+    			Response<String> response = new Response<String>();
+    			try
+    			{	
+    				User user = securityService.forgotPassword(email);
+    				response.setServiceResult("Email has been sent to your registered email Id. Please follow the steps to reset your password");
+    				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "");
+    			} catch (RsntException e)
+    			{
+    				response.setServiceResult("Invalid Email. Please enter valid Email");
+    				CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",
+    							"Error while sending forgot password email");
+    				LoggerUtil.logError("Error while sending forgot password email", e);
+    			}
+    			return response;
+    		}
+    	 
+    
+
+    	 //Change Password By Aarshi(13/03/2019)
+    	@RequestMapping(value = "/changePassword", method = RequestMethod.POST, produces = "application/json")
+        public Response<String> changePassword(@RequestParam Integer userId,@RequestParam String oldPassword,@RequestParam String newPassowrd)throws RsntException{
+    		Response<String> response = new Response<String>();
+    	try{
+    			
+    		Boolean checkStatus=securityService.changePassword(userId,oldPassword,newPassowrd);
+    			
+    		if(checkStatus.equals(true)){
+    			response.setServiceResult(CHANGE_PASSWORD_SUCCESS);
+				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "","",CHANGE_PASSWORD_SUCCESS);
+    		}else{
+    			CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",CHANGE_PASSWORD_FAIL);
+			    LoggerUtil.logError("Password not match"+userId);
+    		 }
+    		}catch(Exception ex){
+    			CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",CHANGE_PASSWORD_FAIL);
+			LoggerUtil.logError("Error while change password"+userId, ex);
+    		}
+    		return response;
+	    }
+    	
+    	@RequestMapping(value = "/signup/V2", method = RequestMethod.POST, produces = "application/json")
+    	public Response<Boolean> signupV2(@RequestBody Credential credentials) throws Exception {
+    		Response<Boolean> userDetails = new Response<Boolean>();
+    		try {
+
+    			if (credentials.getCompanyName() != null && credentials.getCompanyPrimaryPhone() != null && 
+    					credentials.getCompanyEmail() != null 
+    					&& credentials.getFirstName() != null && credentials.getLastName() != null && credentials.getUsername() != null
+    					&& credentials.getPassword() != null && credentials.getConfirmPassword() != null) {
+    				
+    				if(securityService.isDuplicateUser(credentials.getUsername())){
+    					userDetails.setServiceResult(false);
+    					CommonUtil.setWebserviceResponse(userDetails, Constants.FAILURE, "", "",
+    							"Username/Email already exists. Please try a different one.");
+    					return userDetails;
+    				}
+    				
+    				if(securityService.isDuplicateOrganization(credentials.getCompanyName())){
+    					userDetails.setServiceResult(false);
+    					CommonUtil.setWebserviceResponse(userDetails, Constants.FAILURE, "", "",
+    							"Company name already exists. Please try a different one.");
+    					return userDetails;
+    				}
+    				
+    				credentials.setPassword(CommonUtil.encryptPassword(credentials.getPassword()));
+    				
+    				User signedUpUser = securityService.signupUser(credentials);
+    				
+    				if (signedUpUser != null) {
+    					userDetails.setServiceResult(true);
+    					CommonUtil.setWebserviceResponse(userDetails, Constants.SUCCESS, "");
+    				} else {
+    					userDetails.setServiceResult(false);
+    					CommonUtil.setWebserviceResponse(userDetails, Constants.FAILURE, "");
+    				}
+    			}
+    		} catch (Exception e) {
+    			LoggerUtil.logError("Error while login", e);
+    			userDetails.setServiceResult(false);
+    			CommonUtil.setWebserviceResponse(userDetails, Constants.FAILURE, "", "",
+    					"Error occured while sign up. Please contact support");
+    		}
+    		return userDetails;
+    	}
+    	
 }

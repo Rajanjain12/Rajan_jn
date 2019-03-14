@@ -42,6 +42,29 @@ public class UserDTO {
 	
 	private String clientBase;
 
+	
+	//Aarshi
+	private String authCode;
+	
+	//change password by Aarshi(13/03/2019)
+	private String password;
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getAuthCode() {
+		return authCode;
+	}
+
+	public void setAuthCode(String authCode) {
+		this.authCode = authCode;
+	}
+
 	public Long getUserId() {
 		return userId;
 	}
