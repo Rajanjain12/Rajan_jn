@@ -211,9 +211,9 @@ fieldset {
   display: block;
   font-size: 1rem;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   color: #999;
 }
 .radio .helper::before, .radio .helper::after {
@@ -233,7 +233,7 @@ fieldset {
 }
 .radio .helper::after {
   -webkit-transform: scale(0);
-          transform: scale(0);
+  transform: scale(0);
   background-color: $grey-color;
   border-color: $grey-color;
 }
@@ -242,7 +242,7 @@ fieldset {
 }
 .radio input:checked ~ .helper::after {
   -webkit-transform: scale(0.5);
-          transform: scale(0.5);
+  transform: scale(0.5);
 }
 .radio input:checked ~ .helper::before {
   color: $grey-color;
@@ -272,7 +272,7 @@ fieldset {
   background-color: $grey-color;
   display: block;
   -webkit-transform-origin: left top;
-          transform-origin: left top;
+  transform-origin: left top;
   border-radius: 0.25rem;
   content: '';
   -webkit-transition: opacity 0.28s ease, height 0s linear 0.28s;
@@ -283,14 +283,14 @@ fieldset {
   top: 0.65rem;
   left: 0.38rem;
   -webkit-transform: rotate(-135deg);
-          transform: rotate(-135deg);
+  transform: rotate(-135deg);
   box-shadow: 0 0 0 0.0625rem #fff;
 }
 .checkbox .helper::after {
   top: 0.3rem;
   left: 0;
   -webkit-transform: rotate(-45deg);
-          transform: rotate(-45deg);
+  transform: rotate(-45deg);
 }
 .checkbox label:hover .helper {
   color: $grey-color;
@@ -309,7 +309,7 @@ fieldset {
 .checkbox input:checked ~ .helper::before {
   height: 1.2rem;
   -webkit-transition-delay: 0.28s;
-          transition-delay: 0.28s;
+  transition-delay: 0.28s;
 }
 
 .radio + .radio,

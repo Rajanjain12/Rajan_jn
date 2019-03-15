@@ -42,19 +42,22 @@
 }
 /* line 32, ../sass/sidebar.scss */
 #sidebar-wrapper .sidebar-nav li {
+  background-color: #ffffff;
   text-indent: 0;
-  padding: 8px 0;
-  /*& :hover{
-  opacity: 0.90;
-  }*/
 }
 /* line 35, ../sass/sidebar.scss */
-#sidebar-wrapper .sidebar-nav li .borderRight {
-  border-right: 3px solid #ffffff;
-}
-/* line 37, ../sass/sidebar.scss */
-#sidebar-wrapper .sidebar-nav li .borderRight a {
+#sidebar-wrapper .sidebar-nav li a {
   display: block;
+  padding: 8px 0;
+  color: #000000;
+}
+/* line 39, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li a .icon-border-right {
+  border-right: 3px solid #ffffff;
+  margin: 0;
+}
+/* line 42, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li a .icon-border-right .icon-circle {
   text-decoration: none;
   text-align: center;
   background-color: #dfdfdf;
@@ -62,21 +65,33 @@
   width: 50px;
   margin: 0 auto;
   border-radius: 50px;
-  line-height: 45px;
+  line-height: 47px;
 }
-/* line 47, ../sass/sidebar.scss */
-#sidebar-wrapper .sidebar-nav li .borderRight a i {
+/* line 51, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li a .icon-border-right .icon-circle i {
   font-size: 28px;
 }
-/* line 58, ../sass/sidebar.scss */
+/* line 59, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li.active a .icon-border-right {
+  border-right: 3px solid #e14b28;
+}
+/* line 61, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li.active a .icon-border-right .icon-circle {
+  background-color: #e14b28;
+}
+/* line 63, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li.active a .icon-border-right .icon-circle i {
+  color: #ffffff;
+}
+/* line 72, ../sass/sidebar.scss */
 #sidebar-wrapper .sidebar-nav li.active .borderRight {
   border-right: 3px solid #e14b28;
 }
-/* line 60, ../sass/sidebar.scss */
+/* line 74, ../sass/sidebar.scss */
 #sidebar-wrapper .sidebar-nav li.active .borderRight a {
   background-color: #e14b28;
 }
-/* line 62, ../sass/sidebar.scss */
+/* line 76, ../sass/sidebar.scss */
 #sidebar-wrapper .sidebar-nav li.active .borderRight a i {
   color: #ffffff;
 }

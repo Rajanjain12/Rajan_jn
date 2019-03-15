@@ -66,28 +66,17 @@
 			background-color: #fff;
 			height: 100%;
 			li {
-				text-align: left;
-				padding: 8px 8px;
-				.borderRight {
-					display:inline-block;
-					padding: 0px 8px;
-					border:none;
-					a {
-						display:inline-block;
+				a {
+					text-align: left;
+					.icon-border-right {
+						padding: 8px;
+						display: inline-block;
+						border-right: none;
 					}
 				}
 			}
-			li.active {
-				text-align: left;
-				padding: 8px 8px;
-				.borderRight {
-					display:inline-block;
-					padding: 0px 8px;
-					border:none;
-					a {
-						display:inline-block;
-					}
-				}
+			li.active a .icon-border-right {
+				border-right:none;
 			}
 		}
 	}
