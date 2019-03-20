@@ -58,7 +58,7 @@
 					</ul>
 				</div>
 				<div class="ml-auto logout-res">
-					<button class="navbar-toggler float-left p-0 asidebar" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
+					<button class="navbar-toggler float-left p-0 asidebar" id="asidetogglebtn" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="flaticon-right"></span>
 					</button>
 					Hello, <span>Kyobee</span> | <a class="ml-3" href="login.html"><i class="error flaticon-logout mr-2"></i><span class="font-weight-semibold">Logout</span></a>
@@ -69,12 +69,12 @@
 	<div class="clearfix"></div>
 	<section class="pb-5 fix-wrapper">
 		<div id="wrapper" class="navbar-expand-lg navbar-expand-md">
-			<div id="sidebar-wrapper" class="collapse navbar-collapse">
-				<button class="navbar-toggler float-right asidebar" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
+			<div id="sidebar-wrapper" class="collapse navbar-collapse sidehide">
+				<button class="navbar-toggler float-right asidebar sidehide" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="flaticon-close"></span>
 				</button>
 				<aside id="sidebar">
-					<ul id="sidemenu" class="sidebar-nav text-center pt-2">
+					<ul id="sidemenu" class="sidebar-nav sidehide text-center pt-2">
 						<li class="border-bottom active">
 							<a href="dashboard.html">
 								<div class="icon-border-right">
@@ -116,7 +116,7 @@
 							</a>
 						</li>
 						<li class="border-bottom">
-							<a href="" data-toggle="modal" data-target="#resetModal">
+							<a href="" class="sidehide" data-toggle="modal" data-target="#resetModal">
 								<div class="icon-border-right">
 									<div class="icon-circle">
 										<i class="flaticon-reload grey"></i>
@@ -125,7 +125,7 @@
 								<span class="font-12 font-weight-semibold">Reset</span>
 							</a>
 						</li>
-						<li class="border-bottom" style="visibility: hidden;">
+						<li class="border-bottom sm-d-none" style="visibility: hidden;">
 							<a href="" data-toggle="modal" data-target="#resetModal">
 								<div class="icon-border-right">
 									<div class="icon-circle">
@@ -153,21 +153,21 @@
 								</div>
 								<div class="col-lg-9 pb-2">
 									<span class="table-column-btn">
-										<span class="sub-btn">Approximate Wait Time 
+										<span class="col-lg-4 col-md-4 col-sm-6">Approximate Wait Time 
 											<select>
 												<option>15 Min.</option>
 												<option>30 Min.</option>
 												<option>45 Min.</option>
 											</select>
 										</span>
-										<span class="sub-btn mx-5">Notify First
+										<span class="col-lg-4 col-md-4 col-sm-6">Notify First
 											<select>
 												<option>1</option>
 												<option>2</option>
 												<option>3</option>
 											</select>
 										</span>
-										<span class="sub-btn">Total Wait Time
+										<span class="col-lg-4 col-md-4 col-sm-6">Total Wait Time
 											<span class="text-white background-color py-1 px-4 rounded">00.30</span>
 										</span>
 									</span>
@@ -178,7 +178,7 @@
 							<input class="form-control search" type="text" name="" placeholder="Search">
 						</div><!-- col -->
 					</div><!-- row -->
-					<div style="display: none;">
+					<div class="d-none">
 						<div class="table-responsive">
 							<table class="table">
 								<thead class="background-color text-white">
@@ -330,7 +330,7 @@
 									<button type="button" class="close text-white" data-dismiss="modal">&times;</button>
 								</div>
 								<div class="modal-body">
-									<div class="row">
+									<div class="row d-none">
 										<div class="col-lg-4 col-md-6 col-sm-12 checkbox my-1">
 											<label>
 												<input checked="checked" type="checkbox"/><i class="helper"></i>Seat
@@ -391,13 +391,79 @@
 												<input type="checkbox"/><i class="helper"></i>Opt - In
 											</label>
 										</div><!-- checkbox -->
-										<div class="col-lg-12 text-center py-2">
+										<div class="col-lg-12 col-md-12 col-sm-12 text-center modal-btn my-2">
 											<button type="button" class="btn btn-theme background-color">Done</button>
-										</div><!-- col -->
+										</div>
 									</div><!-- row -->
+									<div class="row">
+										<div class="col-lg-4 col-md-6 col-sm-6 col-6 checkbox my-1">
+											<label>
+												<input checked="checked" type="checkbox"/><i class="helper"></i>Seat
+											</label>
+										</div><!-- checkbox -->
+										<div class="col-lg-4 col-md-6 col-sm-6 col-6 checkbox my-1">
+											<label>
+												<input checked="checked" type="checkbox"/><i class="helper"></i>Party Rank
+											</label>
+										</div><!-- checkbox -->
+										<div class="col-lg-4 col-md-6 col-sm-6 col-6 checkbox my-1">
+											<label>
+												<input checked="checked" type="checkbox"/><i class="helper"></i>Party Type
+											</label>
+										</div><!-- checkbox -->
+										<div class="col-lg-4 col-md-6 col-sm-6 col-6 checkbox my-1">
+											<label>
+												<input checked="checked" type="checkbox"/><i class="helper"></i>No. of Party
+											</label>
+										</div><!-- checkbox -->
+										<div class="col-lg-4 col-md-6 col-sm-6 col-6 checkbox my-1">
+											<label>
+												<input checked="checked" type="checkbox"/><i class="helper"></i>Name
+											</label>
+										</div><!-- checkbox -->
+										<div class="col-lg-4 col-md-6 col-sm-6 col-6 checkbox my-1">
+											<label>
+												<input checked="checked" type="checkbox"/><i class="helper"></i>Check In Time
+											</label>
+										</div><!-- checkbox -->
+										<div class="col-lg-4 col-md-6 col-sm-6 col-6 checkbox my-1">
+											<label>
+												<input checked="checked" type="checkbox"/><i class="helper"></i>Quote Time
+											</label>
+										</div><!-- checkbox -->
+										<div class="col-lg-4 col-md-6 col-sm-6 col-6 checkbox my-1">
+											<label>
+												<input checked="checked" type="checkbox"/><i class="helper"></i>Note
+											</label>
+										</div><!-- checkbox -->
+										<div class="col-lg-4 col-md-6 col-sm-6 col-6 checkbox my-1">
+											<label>
+												<input checked="checked" type="checkbox"/><i class="helper"></i>Delete
+											</label>
+										</div><!-- checkbox -->
+										<div class="col-lg-4 col-md-6 col-sm-6 col-6 checkbox my-1">
+											<label>
+												<input checked="checked" type="checkbox"/><i class="helper"></i>Send Text
+											</label>
+										</div><!-- checkbox -->
+										<div class="col-lg-4 col-md-6 col-sm-6 col-6 checkbox my-1">
+											<label>
+												<input type="checkbox"/><i class="helper"></i>Language Prefrence
+											</label>
+										</div><!-- checkbox -->
+										<div class="col-lg-4 col-md-6 col-sm-6 col-6 checkbox my-1">
+											<label>
+												<input type="checkbox"/><i class="helper"></i>Opt - In
+											</label>
+										</div><!-- checkbox -->
+										<div class="col-lg-12 col-md-12 col-sm-12 text-center modal-btn my-2">
+											<button type="button" class="btn btn-theme background-color">Done</button>
+										</div>
+									</div><!-- row -->
+
 								</div><!-- modal-body -->
 							</div><!-- "modal-content -->
-						</div><!-- model-dialog -->
+						</div><!-- modal-dialog -->
 					</div><!-- modal fade -->
 					<!-- seat modal -->
 					<div class="modal fade" id="seatModal">
@@ -411,14 +477,14 @@
 									<h4 class="pt-3 pb-2">Guest 1</h4>
 									<h4>ABC</h4>
 									<div class="row py-4">
-										<div class="col-lg-4 col-md-4 col-sm-12 my-2">
-											<button type="button" class="btn btn-theme w-100 background-color">Not Present</button>
+										<div class="col-lg-4 col-md-4 col-sm-12 text-right modal-btn my-2">
+											<button type="button" class="btn btn-theme background-color">Not Present</button>
 										</div>
-										<div class="col-lg-4 col-md-4 col-sm-12 my-2">
-											<button type="button" class="btn btn-theme w-100 background-color">Incomplete</button>
+										<div class="col-lg-4 col-md-4 col-sm-12 text-center modal-btn my-2">
+											<button type="button" class="btn btn-theme background-color">Incomplete</button>
 										</div>
-										<div class="col-lg-4 col-md-4 col-sm-12 my-2">
-											<button type="button" class="btn btn-theme w-100 background-color">Yes</button>
+										<div class="col-lg-4 col-md-4 col-sm-12 text-left modal-btn my-2">
+											<button type="button" class="btn btn-theme background-color">Yes</button>
 										</div>
 									</div>
 								</div>
@@ -437,11 +503,11 @@
 								<div class="modal-body text-center">
 									<h4>Are you sure ?</h4>
 									<div class="row py-4">
-										<div class="col-lg-6 col-md-6 col-sm-12 my-2">
+										<div class="col-lg-6 col-md-6 col-sm-12 text-right modal-btn my-2">
 											<button type="button" class="btn btn-theme background-color">cancle</button>
 										</div>
-										<div class="col-lg-6 col-md-6 col-sm-12 my-2">
-											<button type="button" class="btn btn-theme background-color">Yes</button>
+										<div class="col-lg-6 col-md-6 col-sm-12 text-left modal-btn my-2">
+											<button type="button" class="btn btn-theme background-color" data-dismiss="modal">Yes</button>
 										</div>
 									</div>
 								</div>
@@ -485,11 +551,11 @@
 									</div>
 
 									<div class="row py-4">
-										<div class="col-lg-6 col-md-6 col-sm-12 my-2 text-center">
-											<button type="button" class="btn btn-theme background-color mx-auto">Send SMS</button>
+										<div class="col-lg-6 col-md-6 col-sm-12 text-right modal-btn my-2">
+											<button type="button" class="btn btn-theme background-color">Send SMS</button>
 										</div>
-										<div class="col-lg-6 col-md-6 col-sm-12 my-2 text-center">
-											<button type="button" class="btn btn-theme background-color mx-auto" data-dismiss="modal">Cancel</button>
+										<div class="col-lg-6 col-md-6 col-sm-12 text-left modal-btn my-2">
+											<button type="button" class="btn btn-theme background-color" data-dismiss="modal">Cancel</button>
 										</div>
 									</div>
 									<!-- <div class="pt-5 pb-4 text-center">

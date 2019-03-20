@@ -11,6 +11,9 @@
 	.sm-block {
 		display: block !important;
 	}
+	.sm-d-none {
+		display: none !important;
+	}
 	.sm-pl-0 {
 		padding-left: 0;
 	}
@@ -20,6 +23,15 @@
 	.sm-mx-auto {
 		margin: auto;
 	}
+	.modal {
+		.modal-btn {
+			text-align: center !important;
+			.btn-theme {
+				width: 80% !important;
+			}
+		}
+	}
+
 	header{
 		.topnav{
 			padding: 0.5rem;
@@ -62,7 +74,7 @@
 			right: 0;
 		}
 		.sidebar-nav {
-			width: 60%;
+			width: 50%;
 			background-color: #fff;
 			height: 100%;
 			li {
@@ -112,6 +124,13 @@
 			flex-direction: column-reverse;
 		}
 	}
+	// .modal {
+	// 	.model-btn { text-align: center !important; 
+	// 		.btn-theme {
+	// 			width: 80% !important;
+	// 		}
+	// 	}
+	// }
 
 }
 
@@ -156,12 +175,22 @@
 
 	/* Common CSS Ends */
 
+	/* login */
+	#login {
+		.custom-container {
+			padding-top: 3rem!important;
+			// .container-box {
+			// 	float: none;
+			// 	margin: auto;
+			// }
+		}
+	}
 	
 	/* dashboardPage */
 	#dashboardPage {
 		.sub-btn{
-			display: block;
-			margin: 0px 0px 10px 0px !important;
+			// display: block;
+			// margin: 0px 0px 10px 0px !important;
 		}
 	}
 

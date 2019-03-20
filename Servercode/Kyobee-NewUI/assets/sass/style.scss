@@ -14,12 +14,14 @@ a{color:#000;}
 .font-12{font-size: 12px}
 .btn-grey-theme{padding: 5px 30px;border-radius:10px;color:$white-color;background-color: $grey-color;box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.26); }
 .btn-grey-theme:hover{opacity: 0.9}
-.btn-theme{padding: 5px 40px;border-radius:10px;color:$white-color;box-shadow: 0px 5px 10px 0px rgba(221, 56, 36, 0.53);&:hover{background-color:$grey-color;color:$white-color;box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.26);}}
+.btn-theme{padding: 5px 10px; min-width: 120px; border-radius:10px;color:$white-color;box-shadow: 0px 5px 10px 0px rgba(221, 56, 36, 0.53);&:hover{background-color:$grey-color;color:$white-color;box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.26);}}
 .font-weight-semibold{font-weight:$font-weight-semibold;}
 .grey{color: $grey-color}
 .padding-left-18{padding-left:18px!important;}
 .border-radius{border-radius:$border-radius!important;}
 .no-bg{background-color:transparent!important;}
+.w-80 { width: 80%; }
+.w-30 { width: 30%; }
 
 /*header and footer on top and bottom*/
 html{ height:100%;}

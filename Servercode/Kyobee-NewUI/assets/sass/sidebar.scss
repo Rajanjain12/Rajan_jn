@@ -82,5 +82,11 @@
         /* li.active */
     }
     /* .sidebar-nav */
+    [class^="flaticon-close"]:before, [class*=" flaticon-close"]:before,
+    [class^="flaticon-close"]:after, [class*=" flaticon-close"]:after {   
+      font-family: Flaticon;
+      font-size: 10px;
+      font-style: normal;
+  }
 }
 /* #sidebar-wrapper */
