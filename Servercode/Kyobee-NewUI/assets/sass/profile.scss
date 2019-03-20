@@ -1,0 +1,54 @@
+@import "variable";
+
+.profile-img { position:relative; width: $profile-img-size; height: $profile-img-size; align-content: center;
+
+	img { width: $profile-img-size; height: $profile-img-size; border:1px solid $theme-color; }
+	// .file-input { position: absolute; bottom:0px; margin: 0px; width: $profile-img-size; 
+	// }
+	/* file-input */
+}
+
+.pass-link {
+	position: absolute;
+	right: 0;
+	top: 5px;
+}
+
+.modal {
+	// top: 20%;
+	// left: 40%;
+
+	[class^="flaticon-"]:before, [class*=" flaticon-"]:before,
+	[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
+		font-family: Flaticon;
+		font-size: 14px;
+		font-style: normal;
+	}
+}
+
+#pic{display: none;}
+.newbtn {
+  cursor: pointer;
+  border:1px solid $theme-color;
+  border-radius: 4px;
+  position:relative;
+  img{
+  	height: 125px;
+  }
+  .label-info{
+  	  visibility: hidden;
+	  background-color: rgba(255,255,255,0.6);
+	  position: absolute;
+	  z-index: 1;
+	  bottom: 0;
+	  width: 100%;
+	  opacity: 0;
+	  transition: opacity 0.3s;
+	  padding: 3px;
+  }
+}
+
+.newbtn:hover .label-info {
+  visibility: visible;
+  opacity: 1;
+}

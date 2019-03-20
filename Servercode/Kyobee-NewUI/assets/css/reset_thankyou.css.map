@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AACA,qBAAqB;AAQrB,wBAAwB;AAGxB,4BAA4B;AAI5B,sBAAsB;AAKtB,WAAW;ACnBX,oBAAoB;EAAC,OAAO,EAAE,KAAK;;AACnC,eAAe;EAAC,WAAW,EAAE,mBAAmB;EAAC,SAAS,EAAE,IAAI",
+"sources": ["../sass/_variable.scss","../sass/reset_thankyou.scss"],
+"names": [],
+"file": "reset_thankyou.css"
+}

@@ -1,0 +1,86 @@
+@import 'variable';
+
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    -o-transition: all .5s ease;
+    transition: all .5s ease;
+}
+
+#sidebar-wrapper {
+    /*z-index: 1000;*/
+    position: fixed;
+    left: $sizebar-size;
+    width: 0;
+    height: 100%;
+    margin-left: -$sizebar-size;
+    overflow-y: auto;
+    background: $white-color;
+    box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.08);
+    -webkit-transition: all .5s ease-out;
+    -moz-transition: all .5s ease-out;
+    -o-transition: all .5s ease-out;
+    .sidebar-nav {
+        position: absolute;
+        top: 0;
+        width: $sizebar-size;
+        font-size: 14px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        li {
+            background-color: $white-color;
+            text-indent: 0;
+            a {
+                display: block;
+                padding: 8px 0;
+                color: $black-color;
+                .icon-border-right {
+                    border-right: 3px solid $white-color;
+                    margin: 0;
+                    .icon-circle {
+                        text-decoration: none;
+                        text-align: center;
+                        background-color: #dfdfdf;
+                        height: 50px;
+                        width: 50px;
+                        margin: 0 auto;
+                        border-radius: 50px;
+                        line-height: 47px;
+                        i {
+                            font-size: 28px;
+                        }
+                    }
+                }
+            }
+        }
+        li.active {
+            a .icon-border-right{
+                border-right: 3px solid $theme-color;
+                .icon-circle {
+                    background-color: $theme-color;
+                    i{
+                        color: $white-color;
+                    }
+                }
+            }
+        }
+
+        /* li */
+        li.active {
+            .borderRight {
+                border-right: 3px solid $theme-color;
+                a{
+                    background-color: $theme-color;
+                    i {
+                        color: $white-color;
+                    }
+                }
+            }
+        }
+        /* li.active */
+    }
+    /* .sidebar-nav */
+}
+/* #sidebar-wrapper */

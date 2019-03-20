@@ -1,0 +1,40 @@
+<section class="pb-3">
+		<section class="custom-container ">
+			<div class="row">
+				<div class="col-12 pt-3">
+					<h2 class="text-center font-weight-semibold">Welcome !</h2>
+					<p class="text-center pb-3">Sign in by entering the information below.</p>
+				</div>
+				<div class="col-lg-6">
+					<img [src]="signinPageImageSrc" class="img-fluid" alt="image">
+				</div>
+				<div class="col-lg-6 pb-5 pt-3 pb-md-0">
+					<div class="container-box">
+						<form #loginForm="ngForm" novalidate>
+							<div class="form-group mt-0">
+								<input type="text" required="required" name="uname" #uname="ngModel" [(ngModel)]="username" />
+                <label for="input" class="control-label">Email/Username</label><i class="bar"></i>
+                <div [hidden]="uname.valid || (uname.pristine && !loginForm.submitted)" class="error">Username/Email cannot be blank</div>
+							</div>
+							<div class="form-group">
+								<input type="password" required="required" name="pwd" #pwd="ngModel" [(ngModel)]="password" />
+                <label for="input" class="control-label">Password</label><i class="bar"></i>
+                <div [hidden]="pwd.valid || (pwd.pristine && !loginForm.submitted)" class="error">Password cannot be blank</div>
+								<a (click)="changeView('public/forgotpwd');" class="font-color forgot-pass-link font-weight-semibold">Forgot Password?</a>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox"/><i class="helper"></i>Remember Me
+								</label>
+              </div>
+              <div class="col-ld-12 text-center pb-3">
+                <button type="submit" class="btn btn-theme background-color" (click)="login(loginForm.invalid)"><span>Sign In</span></button>
+              </div>
+						</form>
+						<p class="text-center">You don’t have an account? <a class="font-color font-weight-semibold" (click)="changeView('public/signup');">Sign Up</a></p>
+					</div>
+				</div>
+			</div>
+		</section>
+	</section>
+	<div class="clearfix"></div>

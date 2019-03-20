@@ -1,0 +1,15 @@
+/*common color code*/
+/* Font Style Variable*/
+/* Shadow to Container Box*/
+/* Sidebar Variable */
+/*profile*/
+/* line 3, ../sass/reset_thankyou.scss */
+.thank-you-container {
+  padding: 10% 0;
+}
+
+/* line 4, ../sass/reset_thankyou.scss */
+.thank-you-text {
+  font-family: 'Pacifico', cursive;
+  font-size: 60px;
+}

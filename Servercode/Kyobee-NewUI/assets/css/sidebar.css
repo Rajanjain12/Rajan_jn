@@ -1,0 +1,99 @@
+/*common color code*/
+/* Font Style Variable*/
+/* Shadow to Container Box*/
+/* Sidebar Variable */
+/*profile*/
+/* line 3, ../sass/sidebar.scss */
+#wrapper {
+  padding-left: 0;
+  -webkit-transition: all .5s ease;
+  -moz-transition: all .5s ease;
+  -o-transition: all .5s ease;
+  transition: all .5s ease;
+}
+
+/* line 11, ../sass/sidebar.scss */
+#sidebar-wrapper {
+  /*z-index: 1000;*/
+  position: fixed;
+  left: 140px;
+  width: 0;
+  height: 100%;
+  margin-left: -140px;
+  overflow-y: auto;
+  background: #ffffff;
+  box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.08);
+  -webkit-transition: all .5s ease-out;
+  -moz-transition: all .5s ease-out;
+  -o-transition: all .5s ease-out;
+  /* .sidebar-nav */
+}
+/* line 24, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav {
+  position: absolute;
+  top: 0;
+  width: 140px;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  /* li */
+  /* li.active */
+}
+/* line 32, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li {
+  background-color: #ffffff;
+  text-indent: 0;
+}
+/* line 35, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li a {
+  display: block;
+  padding: 8px 0;
+  color: #000000;
+}
+/* line 39, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li a .icon-border-right {
+  border-right: 3px solid #ffffff;
+  margin: 0;
+}
+/* line 42, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li a .icon-border-right .icon-circle {
+  text-decoration: none;
+  text-align: center;
+  background-color: #dfdfdf;
+  height: 50px;
+  width: 50px;
+  margin: 0 auto;
+  border-radius: 50px;
+  line-height: 47px;
+}
+/* line 51, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li a .icon-border-right .icon-circle i {
+  font-size: 28px;
+}
+/* line 59, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li.active a .icon-border-right {
+  border-right: 3px solid #e14b28;
+}
+/* line 61, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li.active a .icon-border-right .icon-circle {
+  background-color: #e14b28;
+}
+/* line 63, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li.active a .icon-border-right .icon-circle i {
+  color: #ffffff;
+}
+/* line 72, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li.active .borderRight {
+  border-right: 3px solid #e14b28;
+}
+/* line 74, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li.active .borderRight a {
+  background-color: #e14b28;
+}
+/* line 76, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li.active .borderRight a i {
+  color: #ffffff;
+}
+
+/* #sidebar-wrapper */
