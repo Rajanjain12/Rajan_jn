@@ -62,6 +62,10 @@ public class AuthenticationFilter implements Filter {
 
 		HttpServletRequest httpReq = (HttpServletRequest) request;
 		HttpServletResponse httpRes= (HttpServletResponse) response;
+		httpRes.setHeader("Access-Control-Allow-Origin", "*");
+		httpRes.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+		httpRes.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+		httpRes.setContentType("application/json");
 		String requestURI = httpReq.getRequestURI();
 		//ObjectMapper oMapper = new ObjectMapper();
 		

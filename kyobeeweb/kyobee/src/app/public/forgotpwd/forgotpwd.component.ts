@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { imgLinks } from '../../app-routing.module';
 
 @Component({
   selector: 'app-forgotpwd',
@@ -8,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
 export class ForgotpwdComponent implements OnInit {
 
   constructor() { }
+
+  public forgotPwdPageImageSrc: string = imgLinks.forgotPwdPageImageSrc;
 
   ngOnInit() {
   }

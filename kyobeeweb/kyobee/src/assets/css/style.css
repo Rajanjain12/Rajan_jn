@@ -147,6 +147,10 @@ a {
 .no-bg {
   background-color: transparent !important; }
 
+.pointer {
+  cursor: pointer;
+  color: #e14b28 !important; }
+
 /*header and footer on top and bottom*/
 html {
   height: 100%; }
