@@ -27,3 +27,5 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 export const routerComponents =  [LoginComponent, WaitlistComponent, SignupComponent, ForgotpwdComponent]
+export const imgLinks = { "signinPageImageSrc": "../assets/img/sign-in-illu.png",
+                          "forgotPwdPageImageSrc":"../assets/img/recovery-pass-illu.png"}

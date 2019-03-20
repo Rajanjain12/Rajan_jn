@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/services/http.service';
 import { DataService } from 'src/app/services/data.service';
+import { imgLinks } from '../../app-routing.module';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private httpService: HttpService, private dataService: DataService) { }
 
-  public signinPageImageSrc: string = "../assets/img/sign-in-illu.png";
+  public signinPageImageSrc: string = imgLinks.signinPageImageSrc;
   public subdomain: string;
   public username = null;
   public password = null;
@@ -60,7 +61,6 @@ export class LoginComponent implements OnInit {
   }
 
   changeView(path: string){
-    alert("path: "+path);
     this.dataService.changeView(path);
   }
 }

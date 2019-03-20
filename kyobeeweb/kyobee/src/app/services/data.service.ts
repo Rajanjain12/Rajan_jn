@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
   public subdomain: string;
-  constructor(private router: Router) { }
+  constructor(private router: Router, private httpClient: HttpClient) { }
 
   setData(subdomain:string){
     this.subdomain = subdomain;
@@ -17,8 +18,11 @@ export class DataService {
     }
   }
 
+  getImgLinkData(){
+    return this.httpClient.get(dataObjectLink.imgLinkData);
+  }
+
   changeView(path:string){
-    alert("abt to navigate");
     this.router.navigate([path]);
   }
 }
