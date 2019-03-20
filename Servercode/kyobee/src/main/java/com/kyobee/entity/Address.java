@@ -16,7 +16,7 @@ public class Address extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="AddressId")
-	private Long addressId;
+	private Integer addressId;
 	
 	@Column(name="AddressLineOne")
 	private String addressLineOne;
@@ -42,14 +42,25 @@ public class Address extends BaseEntity {
 	@Column(name="Longitude")
 	private BigDecimal addressLong;
 	
+	@Column(name="ActiveFlag")
+	private Integer activeFlag;
+
+	public Integer getActiveFlag() {
+		return activeFlag;
+	}
+
+	public void setActiveFlag(Integer activeFlag) {
+		this.activeFlag = activeFlag;
+	}
+
 	/*@OneToOne(mappedBy="Address", fetch= FetchType.LAZY, cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
 	private Organization organization;
 */
-	public Long getAddressId() {
+	public Integer getAddressId() {
 		return addressId;
 	}
 
-	public void setAddressId(Long addressId) {
+	public void setAddressId(Integer addressId) {
 		this.addressId = addressId;
 	}
 

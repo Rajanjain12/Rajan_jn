@@ -41,8 +41,27 @@ public class UserDTO {
 	private Integer defaultLangId;
 	
 	private String clientBase;
-
+//Aarshi
+	private String companyEmail;
+	//Aarshi
+	private String companyName;
 	
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public String getCompanyEmail() {
+		return companyEmail;
+	}
+
+	public void setCompanyEmail(String companyEmail) {
+		this.companyEmail = companyEmail;
+	}
+
 	//Aarshi
 	private String authCode;
 	

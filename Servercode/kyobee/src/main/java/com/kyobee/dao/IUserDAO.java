@@ -3,6 +3,8 @@ package com.kyobee.dao;
 
 import org.springframework.stereotype.Repository;
 
+import com.kyobee.dto.common.Credential;
+import com.kyobee.entity.Organization;
 import com.kyobee.entity.User;
 import com.kyobee.exception.RsntException;
 
@@ -14,6 +16,8 @@ public interface IUserDAO  extends  IGenericDAO<User, Long>
 	public User resetPassword(long userId,String password) throws RsntException; 
 	//User Account Activation by Aarshi(11/03/2019)
 	public Boolean Verifyauthcode(Integer userId,String authCode);
-	
+
+	//Aarshi
+	public Integer checkExistingAddress(Credential credential);
 	
 }

@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import com.kyobee.dao.IUserDAO;
+import com.kyobee.dto.common.Credential;
+import com.kyobee.entity.Organization;
 import com.kyobee.entity.User;
 import com.kyobee.exception.RsntException;
 import com.kyobee.util.common.CommonUtil;
@@ -57,6 +59,16 @@ public class UserDAO extends GenericDAOImpl<User,Long> implements IUserDAO
 
 
 	}
+
+	@Override
+	public Integer checkExistingAddress(Credential credential) {
+		// TODO Auto-generated method stub
+		Integer isVerified =  (Integer)sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.FIND_ADDRESS_ID).setParameter("addressLine1",credential.getAddressDTO().getAddressLine1()).setParameter("addressLine2",credential.getAddressDTO().getAddressLine2()).uniqueResult();
+		System.out.println(isVerified);
+		return isVerified;
+	}
+
+
 	
     
 

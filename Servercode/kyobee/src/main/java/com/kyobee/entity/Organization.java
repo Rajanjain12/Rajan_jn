@@ -49,7 +49,7 @@ public class Organization extends BaseEntity {
 	@OneToOne(fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
 	@JoinColumn(name="AddressId")
 	private Address address;
-	
+
 	@Column(name="OrganizationTypeId")
 	private Long organizationTypeId;
 	
@@ -281,7 +281,7 @@ public class Organization extends BaseEntity {
 	}
 
 
-	public void setSecondaryPhone(Long secondaryPhone) {
+		public void setSecondaryPhone(Long secondaryPhone) {
 		this.secondaryPhone = secondaryPhone;
 	}
 

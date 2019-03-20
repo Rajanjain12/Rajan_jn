@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kyobee.dao.impl.UserDAO;
+import com.kyobee.dto.AddressDTO;
+import com.kyobee.dto.GuestDTO;
 import com.kyobee.dto.GuestMarketingPreference;
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
@@ -476,11 +478,12 @@ public class LoginRestController {
 			    LoggerUtil.logError("Password not match"+userId);
     		 }
     		}catch(Exception ex){
+    			response.setServiceResult(CHANGE_PASSWORD_SUCCESS);
     			CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",CHANGE_PASSWORD_FAIL);
 			LoggerUtil.logError("Error while change password"+userId, ex);
     		}
     		return response;
-	    }
+	    }	
     	
     	@RequestMapping(value = "/signup/V2", method = RequestMethod.POST, produces = "application/json")
     	public Response<Boolean> signupV2(@RequestBody Credential credentials) throws Exception {
@@ -526,5 +529,7 @@ public class LoginRestController {
     		}
     		return userDetails;
     	}
+    	
+   
     	
 }

@@ -4,7 +4,15 @@ package com.kyobee.util.common;
 public class NativeQueryConstants {
 	
 	public static final String GET_GUEST_MISS_COUNT = "SELECT count(*) from Guest where createdTime >=:first and createdTime <=:last and status=:status";
+	public static final String FIND_ADDRESS_ID = "SELECT addressId from ADDRESS where addressLineOne=:addressLine1 and addressLineTwo=:addressLine2 ";
+	public static final String COUNT_ADDRESS_ID = "SELECT count(*) from USER where AddressId=:addressId";
+	public static final String COUNT_USERNAME = "SELECT count(*) from USER where userName=:username";
+	public static final String COUNT_USEREMAIL = "SELECT count(*) from USER where email=:email";
 	
+	
+	public static final String FIND_PROFILE_BY_USERLOGIN ="Select u from User u join u.organizationUser ou join ou.organization o where lower(u.email)=:username or u.userName=:username and u.password =:password ";
+	
+
 	public static final String GET_ORG_AUTO_RENEW_OPTION = "SELECT AutoRenew from ORGANIZATION where ORGANIZATIONID = ?1";
 	
 	public static final String GET_ORGANIZATION_PLAN_TYPE="SELECT count(*) FROM ORGANIZATION OT "+
@@ -489,6 +497,7 @@ public class NativeQueryConstants {
 	//User Account Activation by Aarshi(11/03/2019)
 	public static final String CHECK_AUTH_CODE_BY_USERID ="SELECT count(userId) from USER u where u.userId=:userId and u.authCode=:authCode";
 	
-	//Change password by Aarshu(13/03/2019)
-//	public static final String SET_PASSWORD_BY_USERID="UPDATE USER SET password=:newPassword where userId=:userId and password=:oldPassword";
+	public static final String FIND_USER="SELECT *  FROM USER  where userName=:userName and password=:password";
+
+	
 }

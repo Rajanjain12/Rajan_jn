@@ -55,4 +55,7 @@ public interface ISecurityService {
 	public void sendActivationMail(Integer userId)throws RsntException;
     //Change password  by Aarshi(13/03/2019)
 	public Boolean changePassword(Integer userId,String oldPassword,String newPassowrd) throws RsntException;
+	//Check the userName and email id of User  by Aarshi(19/03/2019)
+	public String checkIfExistingUser(String userId,String userName,String email)throws RsntException;
+	
 }

@@ -13,6 +13,7 @@ import com.kyobee.dto.LanguageMasterDTO;
 import com.kyobee.dto.OrganizationTemplateDTO;
 import com.kyobee.dto.ScreensaverDTO;
 import com.kyobee.dto.WaitlistMetrics;
+import com.kyobee.dto.common.Credential;
 import com.kyobee.dto.common.Response;
 import com.kyobee.entity.MarketingPreference;
 import com.kyobee.entity.Guest;
@@ -264,6 +265,8 @@ public interface IWaitListService {
 	public List<GuestMarketingPreference> getOrganizationMarketingPref(Long orgid);
 
 	public Response<Map<String, Object>> addMarketingPref(MarketingPreference addMarketing);
+	//updateOrSaveProfile by Aarshi(14/03/2019)
+	public Boolean updateOrSaveProfile(Credential credentials)throws RsntException;
 
 	
  

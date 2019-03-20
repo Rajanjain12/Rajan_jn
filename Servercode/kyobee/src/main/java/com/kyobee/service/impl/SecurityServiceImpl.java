@@ -15,8 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
+import com.kyobee.dao.impl.AddressDAO;
+import com.kyobee.dao.impl.OrganizationDAO;
 import com.kyobee.dao.impl.UserDAO;
+import com.kyobee.dto.AddressDTO;
 import com.kyobee.dto.common.Credential;
+import com.kyobee.entity.Address;
 import com.kyobee.entity.Organization;
 import com.kyobee.entity.OrganizationCategory;
 import com.kyobee.entity.OrganizationPlanSubscription;
@@ -42,6 +46,12 @@ public class SecurityServiceImpl implements ISecurityService {
 	
 	@Autowired
 	UserDAO userDao;
+	
+	@Autowired
+	OrganizationDAO organizationDao;
+	
+	@Autowired
+	AddressDAO addressDao;
 	
 	@Autowired
     private SessionFactory sessionFactory;
@@ -114,7 +124,7 @@ public class SecurityServiceImpl implements ISecurityService {
 			User user = (User) sessionFactory.getCurrentSession().getNamedQuery(User.GET_USER_BY_EMAIL).setParameter("email", email.toLowerCase()).setParameter("active", true).setParameter("oactive", true)
 	            .uniqueResult();
 			String clientbase = user.getOrganizationUser().getOrganization().getClientBase();
-			String authcode = CommonUtil.generateRandomToken().toString();
+			String authcode = CommonUtil.generateRandomToken().toString(); 
 			emailUtil.sendForgotPasswardEmail(user.getEmail(),user.getFirstName(),user.getLastName(),clientbase,authcode,user.getUserId());
 			user.setAuthcode(authcode);
 			sessionFactory.getCurrentSession().saveOrUpdate(user);
@@ -360,7 +370,7 @@ public class SecurityServiceImpl implements ISecurityService {
 			organization.setCreatedDate(new Date());
 			organization.setClientBase(credentials.getClientBase());
 			organization.setSmsSignature(organization.getOrganizationName());
-			
+		
 			organization.setSmsRoute(smsRoute);
 
 			OrganizationPlanSubscription organizationPlanSubscription = new OrganizationPlanSubscription();
@@ -429,10 +439,10 @@ public class SecurityServiceImpl implements ISecurityService {
 
 		try {
 			Boolean authVerification = userDao.Verifyauthcode(userId, authCode);
-			Long userid = userId.longValue();
+		
 
 			if (authVerification.equals(true)) {
-				User user=userDao.find(userid);
+				User user=userDao.find(userId.longValue());
 				user.setActive(true);
 				user.setModifiedBy(user.getUserName());
 				user.setModifiedDate(new Date());
@@ -453,10 +463,10 @@ public class SecurityServiceImpl implements ISecurityService {
 	@Override
 	public void sendActivationMail(Integer userId)throws RsntException {
 		// TODO Auto-generated method stub
-		 Long userid=userId.longValue();
+		
 		try
 		{
-			User user=userDao.find(userid);
+			User user=userDao.find(userId.longValue());
             emailUtil.senAuthCodeEmail(user);
 		    
 		}catch(Exception ex){
@@ -472,15 +482,11 @@ public class SecurityServiceImpl implements ISecurityService {
 		// TODO Auto-generated method stub
 		try{
 			 String password=CommonUtil.encryptPassword(oldPassword);
-			 //Long userid=userId.longValue();
 			 User user=userDao.find(userId.longValue());
 			 if(password.equals(user.getPassword())){
-				//String newPassWord=CommonUtil.encryptPassword(newPassowrd);
 				user.setPassword(CommonUtil.encryptPassword(newPassowrd));
 				user.setModifiedBy(user.getUserName());
 				user.setModifiedDate(new Date());
-				
-				//user.setModifiedDate();
 				userDao.update(user);
 			    return true;
 			}else{
@@ -606,6 +612,41 @@ public class SecurityServiceImpl implements ISecurityService {
 			throw new RsntException("SecurityServiceImpl.signupUser()", e);
     	}
 	}
+	//Check the userName and email id of User  by Aarshi(19/03/2019)
+	@Override
+	public String checkIfExistingUser(String userId, String userName,String email) throws RsntException {
+		// TODO Auto-generated method stub
+		//checkIfExistingUser
+		try{
+				User user=userDao.find(Long.parseLong(userId));
+				if(user.getEmail().equals(email) && user.getUserName().equals(userName)){
+					return Constants.STATUS;
+				}else{
+					BigInteger countUserName=(BigInteger)sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.COUNT_USERNAME).setParameter("username", userName).uniqueResult();
+					BigInteger countUserEmail=(BigInteger)sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.COUNT_USEREMAIL).setParameter("email",email.toLowerCase()).uniqueResult();
+		
+					if((countUserName.intValue())>=2) {
+						return Constants.CHECK_USER;
+					}else if((countUserEmail.intValue())>=2){
+						return Constants.CHECK_EMAIL;
+					}else{
+						return  Constants.STATUS;
+					}
+			
+				}
+			
+		}catch(Exception ex){
+			log.error("Error while check username end email", ex);
+			throw new RsntException("Error while checkIfExistingUser", ex);
+		}
+		
+	}
+
+
+	
+	
+		
+}	
+
 	
     
-}
