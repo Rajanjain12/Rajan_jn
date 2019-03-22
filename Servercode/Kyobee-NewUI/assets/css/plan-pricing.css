@@ -4,82 +4,55 @@
 /* Sidebar Variable */
 /*profile*/
 /*plan and pricing*/
-/* line 3, ../sass/plan-pricing.scss */
 .nav-pills {
-  box-shadow: 0px 5px 32px 0px rgba(0, 0, 0, 0.18) !important;
-}
-/* line 6, ../sass/plan-pricing.scss */
-.nav-pills a {
-  color: #e14b28;
-}
+  box-shadow: 0px 5px 32px 0px rgba(0, 0, 0, 0.18) !important; }
+  .nav-pills a {
+    color: #e14b28; }
 
-/* line 11, ../sass/plan-pricing.scss */
 .pricing-box {
   border: 1px solid #ddd;
-  padding: 3% 2%;
-}
+  padding: 3% 2%; }
 
-/* line 15, ../sass/plan-pricing.scss */
 .border-red, .border-blue, .border-green, .border-yellow {
   width: 80%;
-  margin: 0 auto;
-}
+  margin: 0 auto; }
 
-/* line 19, ../sass/plan-pricing.scss */
 .border-red {
-  border-bottom: 4px solid #ca5250;
-}
+  border-bottom: 4px solid #ca5250; }
 
-/* line 23, ../sass/plan-pricing.scss */
 .border-blue {
-  border-bottom: 4px solid #15a7ea;
-}
+  border-bottom: 4px solid #15a7ea; }
 
-/* line 27, ../sass/plan-pricing.scss */
 .border-green {
-  border-bottom: 4px solid #48a00a;
-}
+  border-bottom: 4px solid #48a00a; }
 
-/* line 31, ../sass/plan-pricing.scss */
 .border-yellow {
-  border-bottom: 4px solid #f28900;
-}
+  border-bottom: 4px solid #f28900; }
 
-/* line 35, ../sass/plan-pricing.scss */
 .line-height-2 {
-  line-height: 2;
-}
+  line-height: 2; }
 
-/* line 38, ../sass/plan-pricing.scss */
 .pricing-box {
   background-color: #fff;
   position: relative;
   transition: all .5s ease 0s;
   cursor: pointer;
-  display: block;
-}
+  display: block; }
 
-/* line 39, ../sass/plan-pricing.scss */
 .pricing-box:hover {
-  transform: scale(1.1);
-}
+  transform: scale(1.1); }
 
-/* line 40, ../sass/plan-pricing.scss */
 .pricing-box:hover .ribbon {
-  z-index: 0;
-}
+  z-index: 0; }
 
-/* line 42, ../sass/plan-pricing.scss */
 .ribbon :before, .ribbon :after {
   content: "";
   z-index: -1;
   border-left: 3px solid #E14B28;
   border-right: 3px solid transparent;
   border-bottom: 3px solid transparent;
-  border-top: 3px solid #E14B28;
-}
+  border-top: 3px solid #E14B28; }
 
-/* line 50, ../sass/plan-pricing.scss */
 .ribbon {
   position: absolute;
   left: -5px;
@@ -88,36 +61,31 @@
   overflow: hidden;
   width: 85px;
   height: 85px;
-  text-align: right;
-}
-/* line 57, ../sass/plan-pricing.scss */
-.ribbon span {
-  font-size: 10px;
-  font-weight: 600;
-  color: #FFF;
-  text-transform: capitalize;
-  text-align: center;
-  line-height: 20px;
-  transform: rotate(-45deg);
-  -webkit-transform: rotate(-45deg);
-  width: 100px;
-  display: block;
-  background: #79A70A;
-  background: linear-gradient(#E14B28 0%, #E14B28 100%);
-  box-shadow: 0 3px 10px -5px black;
-  position: absolute;
-  top: 19px;
-  left: -21px;
-}
-/* line 73, ../sass/plan-pricing.scss */
-.ribbon :before {
-  position: absolute;
-  left: 0px;
-  top: 100%;
-}
-/* line 76, ../sass/plan-pricing.scss */
-.ribbon :after {
-  position: absolute;
-  right: 0px;
-  top: 100%;
-}
+  text-align: right; }
+  .ribbon span {
+    font-size: 10px;
+    font-weight: 600;
+    color: #FFF;
+    text-transform: capitalize;
+    text-align: center;
+    line-height: 20px;
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    width: 100px;
+    display: block;
+    background: #79A70A;
+    background: linear-gradient(#E14B28 0%, #E14B28 100%);
+    box-shadow: 0 3px 10px -5px black;
+    position: absolute;
+    top: 19px;
+    left: -21px; }
+  .ribbon :before {
+    position: absolute;
+    left: 0px;
+    top: 100%; }
+  .ribbon :after {
+    position: absolute;
+    right: 0px;
+    top: 100%; }
+
+/*# sourceMappingURL=plan-pricing.css.map */

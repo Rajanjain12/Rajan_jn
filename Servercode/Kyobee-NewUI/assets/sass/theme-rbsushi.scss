@@ -1,0 +1,22 @@
+@import 'variable';
+
+$theme-color:#d11718;
+
+a:hover{color:$theme-color;text-decoration: none;}
+.font-color{color:$theme-color;}
+.background-color{background-color:$theme-color;}
+.shadow{box-shadow: 0px 3px 13px 0px rgba(221, 56, 36, 0.56)!important;}
+#sidebar-wrapper .sidebar-nav li a.profile-icon img{opacity: 0;}
+.activeState{background-color: $theme-color!important;color:$white-color!important;}
+.activeState i{color:#fff;}
+.active-pagination {background-color:$theme-color !important;color:$white-color !important;box-shadow: 0px 5px 10px 0px rgba(221, 56, 36, 0.78) !important;}
+.active-pagination:hover{background-color:$theme-color;color:$white-color}
+.border-right{border-right: 4px solid $theme-color;}
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{border-bottom:2px solid $theme-color!important;color: $theme-color!important;border-top-color: transparent!important;border-left-color: transparent!important;border-right-color: transparent!important;}
+.nav-tabs .nav-link{border:0;}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link{background-color: $theme-color;border-radius: 0;}
+/*code for plan box hover border and button*/
+.pricing-box:hover{box-shadow: 0 1rem 2rem rgba(0,0,0,.1);transform: scale(1.1);z-index: 2;border:0;}
+.pricing-box:hover .btn-grey-theme{color:#fff;background-color:$theme-color;transition: all ease-in-out 0.3s;}
+/*footer*/
+footer{background-color:#000;}

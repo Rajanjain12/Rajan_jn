@@ -1,0 +1,145 @@
+/*common color code*/
+/* Font Style Variable*/
+/* Shadow to Container Box*/
+/* Sidebar Variable */
+/*profile*/
+/*header design*/
+/*common color code*/
+/* Font Style Variable*/
+/* Shadow to Container Box*/
+/* Sidebar Variable */
+/*profile*/
+header {
+  box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  background-color: #ffffff;
+  animation-name: slid-down;
+  animation-duration: 1s;
+  /* div.logo */
+  /* topbar*/ }
+  header img {
+    width: 115px;
+    height: auto;
+    padding: 6px; }
+  header .navToggle {
+    display: none; }
+  header .topnav {
+    /* ul */ }
+    header .topnav button {
+      border: none; }
+    header .topnav ul {
+      height: 100%;
+      list-style: none;
+      /* li */ }
+      header .topnav ul li {
+        height: 100%;
+        display: inline-block;
+        /* a */
+        /* a.active; */ }
+        header .topnav ul li a {
+          height: 100%;
+          padding: 5px 24px;
+          text-decoration: none;
+          text-align: center;
+          display: block;
+          border-bottom: 3px solid #ffffff;
+          font-size: 28px;
+          /* img */
+          /* p */
+          /* .ico-m */ }
+          header .topnav ul li a p {
+            font-size: 10px;
+            color: #000000; }
+          header .topnav ul li a:hover {
+            background-color: #ffffff !important;
+            /* .ico-m */
+            /* p */ }
+            header .topnav ul li a:hover i {
+              color: #e14b28; }
+            header .topnav ul li a:hover p {
+              color: #000000; }
+        header .topnav ul li a.active {
+          background-color: #ffffff !important;
+          border-bottom: 3px solid #e14b28;
+          /* .ico-m */
+          /* p */ }
+          header .topnav ul li a.active i {
+            color: #e14b28; }
+          header .topnav ul li a.active p {
+            color: #000000; }
+
+.small-header {
+  width: 8% !important; }
+
+.logout-res {
+  color: #9b9a9a; }
+  .logout-res span {
+    color: #000000; }
+
+/* header design*/
+a:hover {
+  color: #8e684a;
+  text-decoration: none; }
+
+.font-color {
+  color: #8e684a; }
+
+.background-color {
+  background-color: #8e684a; }
+
+.shadow {
+  box-shadow: 0px 3px 13px 0px rgba(142, 104, 74, 0.56) !important; }
+
+#sidebar-wrapper .sidebar-nav li a.profile-icon img {
+  opacity: 0; }
+
+.activeState {
+  background-color: #8e684a !important;
+  color: #ffffff !important; }
+
+.activeState i {
+  color: #fff; }
+
+.active-pagination {
+  background-color: #8e684a !important;
+  color: #ffffff !important;
+  box-shadow: 0px 5px 10px 0px rgba(142, 104, 74, 0.78) !important; }
+
+.active-pagination:hover {
+  background-color: #8e684a;
+  color: #ffffff; }
+
+.border-right {
+  border-right: 4px solid #8e684a; }
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+  border-bottom: 2px solid #8e684a !important;
+  color: #8e684a !important;
+  border-top-color: transparent !important;
+  border-left-color: transparent !important;
+  border-right-color: transparent !important; }
+
+.nav-tabs .nav-link {
+  border: 0; }
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  background-color: #8e684a;
+  border-radius: 0; }
+
+/*code for plan box hover border and button*/
+.pricing-box:hover {
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+  transform: scale(1.1);
+  z-index: 2;
+  border: 0; }
+
+.pricing-box:hover .btn-grey-theme {
+  color: #fff;
+  background-color: #8e684a;
+  transition: all ease-in-out 0.3s; }
+
+/*footer*/
+footer {
+  background-color: #594f45; }
+
+/*# sourceMappingURL=theme-masterkim.css.map */

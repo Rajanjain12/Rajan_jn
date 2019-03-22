@@ -5,100 +5,61 @@
 /*profile*/
 @media (max-width: 767.98px) {
   /* Common CSS */
-  /* line 6, ../sass/responsive.scss */
   .container.pt-5 {
-    padding-bottom: 1rem;
-  }
+    padding-bottom: 1rem; }
 
-  /* line 9, ../sass/responsive.scss */
   .custom-container {
-    width: 85%;
-  }
+    width: 85%; }
 
-  /* line 10, ../sass/responsive.scss */
   .container-box {
     width: 100%;
-    float: none;
-  }
+    float: none; }
 
-  /* line 11, ../sass/responsive.scss */
   .pricing-box {
-    padding: 8% 5%;
-  }
+    padding: 8% 5%; }
 
-  /* line 12, ../sass/responsive.scss */
   .sm-block {
-    display: block !important;
-  }
+    display: block !important; }
 
-  /* line 15, ../sass/responsive.scss */
   .sm-d-none {
-    display: none !important;
-  }
+    display: none !important; }
 
-  /* line 18, ../sass/responsive.scss */
   .sm-pl-0 {
-    padding-left: 0;
-  }
+    padding-left: 0; }
 
-  /* line 21, ../sass/responsive.scss */
   .sm-pr-0 {
-    padding-right: 0;
-  }
+    padding-right: 0; }
 
-  /* line 24, ../sass/responsive.scss */
   .sm-mx-auto {
-    margin: auto;
-  }
+    margin: auto; }
 
-  /* line 28, ../sass/responsive.scss */
   .modal .modal-btn {
-    text-align: center !important;
-  }
-  /* line 30, ../sass/responsive.scss */
-  .modal .modal-btn .btn-theme {
-    width: 80% !important;
-  }
+    text-align: center !important; }
+    .modal .modal-btn .btn-theme {
+      width: 80% !important; }
 
-  /* line 37, ../sass/responsive.scss */
   header .topnav {
-    padding: 0.5rem;
-  }
-  /* line 41, ../sass/responsive.scss */
-  header .topnav ul li a {
-    text-align: left;
-  }
-  /* line 43, ../sass/responsive.scss */
-  header .topnav ul li a i {
-    margin-right: 10px;
-  }
-  /* line 46, ../sass/responsive.scss */
-  header .topnav ul li a p {
-    display: initial;
-  }
+    padding: 0.5rem; }
+    header .topnav ul li a {
+      text-align: left; }
+      header .topnav ul li a i {
+        margin-right: 10px; }
+      header .topnav ul li a p {
+        display: initial; }
 
-  /* line 54, ../sass/responsive.scss */
   .logout-res {
     width: 100%;
-    text-align: right;
-  }
+    text-align: right; }
 
-  /* line 55, ../sass/responsive.scss */
   .w-res-100 {
-    width: 100%;
-  }
+    width: 100%; }
 
-  /* line 56, ../sass/responsive.scss */
   .fix-wrapper {
-    padding-top: 80px;
-  }
+    padding-top: 80px; }
 
-  /* line 58, ../sass/responsive.scss */
   .modal-dialog {
-    max-width: 600px !important;
-  }
+    max-width: 600px !important; }
 
-  /* line 61, ../sass/responsive.scss */
   #sidebar-wrapper {
     width: 100%;
     height: all;
@@ -110,168 +71,109 @@
     padding: 0;
     background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8));
     animation-name: slid-right;
-    animation-duration: 1s;
-  }
-  /* line 73, ../sass/responsive.scss */
-  #sidebar-wrapper button {
-    color: #fff;
-    position: fixed;
-    top: 0;
-    right: 0;
-  }
-  /* line 79, ../sass/responsive.scss */
-  #sidebar-wrapper .sidebar-nav {
-    width: 50%;
-    background-color: #fff;
-    height: 100%;
-  }
-  /* line 84, ../sass/responsive.scss */
-  #sidebar-wrapper .sidebar-nav li a {
-    text-align: left;
-  }
-  /* line 86, ../sass/responsive.scss */
-  #sidebar-wrapper .sidebar-nav li a .icon-border-right {
-    padding: 8px;
-    display: inline-block;
-    border-right: none;
-  }
-  /* line 93, ../sass/responsive.scss */
-  #sidebar-wrapper .sidebar-nav li.active a .icon-border-right {
-    border-right: none;
-  }
+    animation-duration: 1s; }
+    #sidebar-wrapper button {
+      color: #fff;
+      position: fixed;
+      top: 0;
+      right: 0; }
+    #sidebar-wrapper .sidebar-nav {
+      width: 50%;
+      background-color: #fff;
+      height: 100%; }
+      #sidebar-wrapper .sidebar-nav li a {
+        text-align: left; }
+        #sidebar-wrapper .sidebar-nav li a .icon-border-right {
+          padding: 8px;
+          display: inline-block;
+          border-right: none; }
+      #sidebar-wrapper .sidebar-nav li.active a .icon-border-right {
+        border-right: none; }
 
   /* #sidebar-wrapper */
-  /* line 101, ../sass/responsive.scss */
   #page-content-wrapper .normal-box-container {
     margin: 0.25rem;
-    padding: 0;
-  }
-  /* line 104, ../sass/responsive.scss */
-  #page-content-wrapper .normal-box-container .row {
-    padding: 0;
-  }
-  /* line 106, ../sass/responsive.scss */
-  #page-content-wrapper .normal-box-container .row .col {
-    padding: 0;
-  }
+    padding: 0; }
+    #page-content-wrapper .normal-box-container .row {
+      padding: 0; }
+      #page-content-wrapper .normal-box-container .row .col {
+        padding: 0; }
 
   /* page-content-wrapper */
   /* Common CSS Ends */
   /* dashboardPage */
-  /* line 118, ../sass/responsive.scss */
   #dashboardPage .sub-btn {
     display: block;
-    margin: 0px 0px 10px 0px !important;
-  }
+    margin: 0px 0px 10px 0px !important; }
 
   /* addUserPage */
-  /* line 126, ../sass/responsive.scss */
   #addUserPage .first-lang {
-    flex-direction: column-reverse;
-  }
-}
+    flex-direction: column-reverse; } }
 @media (min-width: 768px) and (max-width: 991.98px) {
   /* Common CSS */
-  /* line 145, ../sass/responsive.scss */
   .custom-container {
-    width: 90%;
-  }
+    width: 90%; }
 
-  /* line 146, ../sass/responsive.scss */
   .md-block {
-    display: block !important;
-  }
+    display: block !important; }
 
-  /* line 149, ../sass/responsive.scss */
   .modal-dialog {
-    max-width: 600px !important;
-  }
+    max-width: 600px !important; }
 
-  /* line 152, ../sass/responsive.scss */
   #wrapper {
     margin-top: 3%;
-    padding-left: 140px;
-  }
-  /* line 155, ../sass/responsive.scss */
-  #wrapper #sidebar-wrapper {
-    width: 140px;
-  }
+    padding-left: 140px; }
+    #wrapper #sidebar-wrapper {
+      width: 140px; }
 
-  /* line 159, ../sass/responsive.scss */
   .asidebar {
-    display: none;
-  }
+    display: none; }
 
   /* sidebar-wrapper */
-  /* line 166, ../sass/responsive.scss */
   #page-content-wrapper .normal-box-container {
     margin: 0.25rem;
-    padding: 0;
-  }
-  /* line 169, ../sass/responsive.scss */
-  #page-content-wrapper .normal-box-container .row {
-    padding: 0;
-  }
-  /* line 171, ../sass/responsive.scss */
-  #page-content-wrapper .normal-box-container .row .col {
-    padding: 0;
-  }
+    padding: 0; }
+    #page-content-wrapper .normal-box-container .row {
+      padding: 0; }
+      #page-content-wrapper .normal-box-container .row .col {
+        padding: 0; }
 
   /* page-content-wrapper */
   /* Common CSS Ends */
   /* login */
-  /* line 183, ../sass/responsive.scss */
   #login .custom-container {
-    padding-top: 3rem !important;
-  }
+    padding-top: 3rem !important; }
 
   /* dashboardPage */
   /* addUserPage */
-  /* line 203, ../sass/responsive.scss */
   #addUserPage .first-lang {
-    flex-direction: column-reverse;
-  }
-}
+    flex-direction: column-reverse; } }
 @media (min-width: 992px) and (max-width: 1199.98px) {
   /* Common CSS */
-  /* line 213, ../sass/responsive.scss */
   .modal-dialog {
-    max-width: 600px !important;
-  }
+    max-width: 600px !important; }
 
-  /* line 216, ../sass/responsive.scss */
   #wrapper {
-    padding-left: 140px;
-  }
-  /* line 218, ../sass/responsive.scss */
-  #wrapper #sidebar-wrapper {
-    width: 140px;
-  }
+    padding-left: 140px; }
+    #wrapper #sidebar-wrapper {
+      width: 140px; }
 
-  /* line 223, ../sass/responsive.scss */
   #page-content-wrapper .normal-box-container {
     margin: 0.25rem;
-    padding: 0;
-  }
+    padding: 0; }
 
   /* page-content-wrapper */
-  /* Common CSS Ends */
-}
+  /* Common CSS Ends */ }
 @media (min-width: 1200px) {
   /* Common CSS */
-  /* line 237, ../sass/responsive.scss */
   .modal-dialog {
-    max-width: 600px !important;
-  }
+    max-width: 600px !important; }
 
-  /* line 240, ../sass/responsive.scss */
   #wrapper {
-    padding-left: 140px;
-  }
-  /* line 242, ../sass/responsive.scss */
-  #wrapper #sidebar-wrapper {
-    width: 140px;
-  }
+    padding-left: 140px; }
+    #wrapper #sidebar-wrapper {
+      width: 140px; }
 
-  /* Common CSS Ends */
-}
+  /* Common CSS Ends */ }
+
+/*# sourceMappingURL=responsive.css.map */
