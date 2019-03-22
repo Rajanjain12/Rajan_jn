@@ -3,13 +3,16 @@
 /* Shadow to Container Box*/
 /* Sidebar Variable */
 /*profile*/
+/* line 3, ../sass/sidebar.scss */
 #wrapper {
   padding-left: 0;
   -webkit-transition: all .5s ease;
   -moz-transition: all .5s ease;
   -o-transition: all .5s ease;
-  transition: all .5s ease; }
+  transition: all .5s ease;
+}
 
+/* line 11, ../sass/sidebar.scss */
 #sidebar-wrapper {
   /*z-index: 1000;*/
   position: fixed;
@@ -20,59 +23,84 @@
   overflow-y: auto;
   background: #ffffff;
   box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.08);
-  -webkit-transition: all .5s ease-out;
-  -moz-transition: all .5s ease-out;
-  -o-transition: all .5s ease-out;
-  /* .sidebar-nav */ }
-  #sidebar-wrapper .sidebar-nav {
-    position: absolute;
-    top: 0;
-    width: 140px;
-    font-size: 14px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    /* li */
-    /* li.active */ }
-    #sidebar-wrapper .sidebar-nav li {
-      background-color: #ffffff;
-      text-indent: 0; }
-      #sidebar-wrapper .sidebar-nav li a {
-        display: block;
-        padding: 8px 0;
-        color: #000000; }
-        #sidebar-wrapper .sidebar-nav li a .icon-border-right {
-          border-right: 3px solid #ffffff;
-          margin: 0; }
-          #sidebar-wrapper .sidebar-nav li a .icon-border-right .icon-circle {
-            text-decoration: none;
-            text-align: center;
-            background-color: #dfdfdf;
-            height: 50px;
-            width: 50px;
-            margin: 0 auto;
-            border-radius: 50px;
-            line-height: 47px; }
-            #sidebar-wrapper .sidebar-nav li a .icon-border-right .icon-circle i {
-              font-size: 28px; }
-    #sidebar-wrapper .sidebar-nav li.active a .icon-border-right {
-      border-right: 3px solid #e14b28; }
-      #sidebar-wrapper .sidebar-nav li.active a .icon-border-right .icon-circle {
-        background-color: #e14b28; }
-        #sidebar-wrapper .sidebar-nav li.active a .icon-border-right .icon-circle i {
-          color: #ffffff; }
-    #sidebar-wrapper .sidebar-nav li.active .borderRight {
-      border-right: 3px solid #e14b28; }
-      #sidebar-wrapper .sidebar-nav li.active .borderRight a {
-        background-color: #e14b28; }
-        #sidebar-wrapper .sidebar-nav li.active .borderRight a i {
-          color: #ffffff; }
-  #sidebar-wrapper [class^="flaticon-close"]:before, #sidebar-wrapper [class*=" flaticon-close"]:before,
-  #sidebar-wrapper [class^="flaticon-close"]:after, #sidebar-wrapper [class*=" flaticon-close"]:after {
-    font-family: Flaticon;
-    font-size: 10px;
-    font-style: normal; }
+  z-index: 20;
+  animation-name: slid-right;
+  animation-duration: 1s;
+  /* .sidebar-nav */
+}
+/* line 27, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav {
+  position: absolute;
+  top: 0;
+  width: 140px;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  /* li */
+  /* li.active */
+}
+/* line 35, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li {
+  background-color: #ffffff;
+  text-indent: 0;
+}
+/* line 38, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li a {
+  display: block;
+  padding: 8px 0;
+  color: #000000;
+}
+/* line 42, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li a .icon-border-right {
+  border-right: 3px solid #ffffff;
+  margin: 0;
+}
+/* line 45, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li a .icon-border-right .icon-circle {
+  text-decoration: none;
+  text-align: center;
+  background-color: #dfdfdf;
+  height: 50px;
+  width: 50px;
+  margin: 0 auto;
+  border-radius: 50px;
+  line-height: 47px;
+}
+/* line 54, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li a .icon-border-right .icon-circle i {
+  font-size: 28px;
+}
+/* line 62, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li.active a .icon-border-right {
+  border-right: 3px solid #e14b28;
+}
+/* line 64, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li.active a .icon-border-right .icon-circle {
+  background-color: #e14b28;
+}
+/* line 66, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li.active a .icon-border-right .icon-circle i {
+  color: #ffffff;
+}
+/* line 75, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li.active .borderRight {
+  border-right: 3px solid #e14b28;
+}
+/* line 77, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li.active .borderRight a {
+  background-color: #e14b28;
+}
+/* line 79, ../sass/sidebar.scss */
+#sidebar-wrapper .sidebar-nav li.active .borderRight a i {
+  color: #ffffff;
+}
+/* line 88, ../sass/sidebar.scss */
+#sidebar-wrapper [class^="flaticon-close"]:before, #sidebar-wrapper [class*=" flaticon-close"]:before,
+#sidebar-wrapper [class^="flaticon-close"]:after, #sidebar-wrapper [class*=" flaticon-close"]:after {
+  font-family: Flaticon;
+  font-size: 10px;
+  font-style: normal;
+}
 
 /* #sidebar-wrapper */
-
-/*# sourceMappingURL=sidebar.css.map */

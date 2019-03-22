@@ -1,13 +1,19 @@
+/* line 1, ../sass/plan-detail.scss */
 .plan-detail table td {
-  padding: 5px; }
+  padding: 5px;
+}
 
+/* line 2, ../sass/plan-detail.scss */
 .border-bottom {
-  border-bottom: 1px solid #c0c0c0; }
+  border-bottom: 1px solid #c0c0c0;
+}
 
+/* line 3, ../sass/plan-detail.scss */
 .width-1 {
-  width: 150px; }
+  width: 150px;
+}
 
+/* line 4, ../sass/plan-detail.scss */
 .width-2 {
-  width: 200px; }
-
-/*# sourceMappingURL=plan-detail.css.map */
+  width: 200px;
+}

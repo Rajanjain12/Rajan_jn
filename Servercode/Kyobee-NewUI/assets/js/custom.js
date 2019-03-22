@@ -19,7 +19,13 @@ function showCheckboxes() {
     expanded = false;
   }
 }
-
+/* Filter Button Activate */
+$('#tableColumnModalBtn').click(function() {
+  $(this).addClass("active-filter");
+});
+$('#tableColumnModal .close').click(function() {
+  $('#tableColumnModalBtn').removeClass("active-filter");
+});
 
 /*show hide password*/
 $(".toggle-password").click(function() {
@@ -34,7 +40,9 @@ $(".toggle-password").click(function() {
 
 /*hide sidebar*/
 $(".sidehide").click(function(){
-  $("#asidetogglebtn").click();
+  $("#sidebar-wrapper").css("animation-name","slid-Left");
+  $("#asidetogglebtn").delay(100000).click();
+  $("#sidebar-wrapper").css("animation-name","slid-right");
 });
 
 /*input mask for mobile number*/

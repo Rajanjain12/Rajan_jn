@@ -3,15 +3,17 @@
 /* Shadow to Container Box*/
 /* Sidebar Variable */
 /*profile*/
+/* line 3, ../sass/signup.scss */
 .eye-icon {
   position: absolute;
   right: 5px;
-  top: 10px; }
+  top: 10px;
+}
 
+/* line 8, ../sass/signup.scss */
 .captcha-size {
   transform: scale(0.77);
   -webkit-transform: scale(0.77);
   transform-origin: 0 0;
-  -webkit-transform-origin: 0 0; }
-
-/*# sourceMappingURL=signup.css.map */
+  -webkit-transform-origin: 0 0;
+}
