@@ -81,4 +81,11 @@
         color: red;
         border-radius: $border-radius;
     }
+    [class^="flaticon-user"]:before, [class*=" flaticon-user"]:before,
+    [class^="flaticon-user"]:after, [class*=" flaticon-user"]:after 
+    {   
+      font-family: Flaticon;
+      font-size: 10px;
+      font-style: normal;
+  }
 }

@@ -120,3 +120,10 @@
   color: red;
   border-radius: 10px;
 }
+/* line 84, ../sass/dashboard.scss */
+#dashboardPage [class^="flaticon-user"]:before, #dashboardPage [class*=" flaticon-user"]:before,
+#dashboardPage [class^="flaticon-user"]:after, #dashboardPage [class*=" flaticon-user"]:after {
+  font-family: Flaticon;
+  font-size: 10px;
+  font-style: normal;
+}

@@ -23,9 +23,9 @@
   overflow-y: auto;
   background: #ffffff;
   box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.08);
-  z-index: 20;
+  z-index: 19;
   animation-name: slid-right;
-  animation-duration: 1s;
+  animation-duration: 0.5s;
   /* .sidebar-nav */
 }
 /* line 27, ../sass/sidebar.scss */

@@ -109,46 +109,48 @@
     margin: 0;
     padding: 0;
     background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8));
+    animation-name: slid-right;
+    animation-duration: 1s;
   }
-  /* line 71, ../sass/responsive.scss */
+  /* line 73, ../sass/responsive.scss */
   #sidebar-wrapper button {
     color: #fff;
     position: fixed;
     top: 0;
     right: 0;
   }
-  /* line 77, ../sass/responsive.scss */
+  /* line 79, ../sass/responsive.scss */
   #sidebar-wrapper .sidebar-nav {
     width: 50%;
     background-color: #fff;
     height: 100%;
   }
-  /* line 82, ../sass/responsive.scss */
+  /* line 84, ../sass/responsive.scss */
   #sidebar-wrapper .sidebar-nav li a {
     text-align: left;
   }
-  /* line 84, ../sass/responsive.scss */
+  /* line 86, ../sass/responsive.scss */
   #sidebar-wrapper .sidebar-nav li a .icon-border-right {
     padding: 8px;
     display: inline-block;
     border-right: none;
   }
-  /* line 91, ../sass/responsive.scss */
+  /* line 93, ../sass/responsive.scss */
   #sidebar-wrapper .sidebar-nav li.active a .icon-border-right {
     border-right: none;
   }
 
   /* #sidebar-wrapper */
-  /* line 99, ../sass/responsive.scss */
+  /* line 101, ../sass/responsive.scss */
   #page-content-wrapper .normal-box-container {
     margin: 0.25rem;
     padding: 0;
   }
-  /* line 102, ../sass/responsive.scss */
+  /* line 104, ../sass/responsive.scss */
   #page-content-wrapper .normal-box-container .row {
     padding: 0;
   }
-  /* line 104, ../sass/responsive.scss */
+  /* line 106, ../sass/responsive.scss */
   #page-content-wrapper .normal-box-container .row .col {
     padding: 0;
   }
@@ -156,61 +158,61 @@
   /* page-content-wrapper */
   /* Common CSS Ends */
   /* dashboardPage */
-  /* line 116, ../sass/responsive.scss */
+  /* line 118, ../sass/responsive.scss */
   #dashboardPage .sub-btn {
     display: block;
     margin: 0px 0px 10px 0px !important;
   }
 
   /* addUserPage */
-  /* line 124, ../sass/responsive.scss */
+  /* line 126, ../sass/responsive.scss */
   #addUserPage .first-lang {
     flex-direction: column-reverse;
   }
 }
 @media (min-width: 768px) and (max-width: 991.98px) {
   /* Common CSS */
-  /* line 143, ../sass/responsive.scss */
+  /* line 145, ../sass/responsive.scss */
   .custom-container {
     width: 90%;
   }
 
-  /* line 144, ../sass/responsive.scss */
+  /* line 146, ../sass/responsive.scss */
   .md-block {
     display: block !important;
   }
 
-  /* line 147, ../sass/responsive.scss */
+  /* line 149, ../sass/responsive.scss */
   .modal-dialog {
     max-width: 600px !important;
   }
 
-  /* line 150, ../sass/responsive.scss */
+  /* line 152, ../sass/responsive.scss */
   #wrapper {
     margin-top: 3%;
     padding-left: 140px;
   }
-  /* line 153, ../sass/responsive.scss */
+  /* line 155, ../sass/responsive.scss */
   #wrapper #sidebar-wrapper {
     width: 140px;
   }
 
-  /* line 157, ../sass/responsive.scss */
+  /* line 159, ../sass/responsive.scss */
   .asidebar {
     display: none;
   }
 
   /* sidebar-wrapper */
-  /* line 164, ../sass/responsive.scss */
+  /* line 166, ../sass/responsive.scss */
   #page-content-wrapper .normal-box-container {
     margin: 0.25rem;
     padding: 0;
   }
-  /* line 167, ../sass/responsive.scss */
+  /* line 169, ../sass/responsive.scss */
   #page-content-wrapper .normal-box-container .row {
     padding: 0;
   }
-  /* line 169, ../sass/responsive.scss */
+  /* line 171, ../sass/responsive.scss */
   #page-content-wrapper .normal-box-container .row .col {
     padding: 0;
   }
@@ -218,35 +220,35 @@
   /* page-content-wrapper */
   /* Common CSS Ends */
   /* login */
-  /* line 181, ../sass/responsive.scss */
+  /* line 183, ../sass/responsive.scss */
   #login .custom-container {
     padding-top: 3rem !important;
   }
 
   /* dashboardPage */
   /* addUserPage */
-  /* line 201, ../sass/responsive.scss */
+  /* line 203, ../sass/responsive.scss */
   #addUserPage .first-lang {
     flex-direction: column-reverse;
   }
 }
 @media (min-width: 992px) and (max-width: 1199.98px) {
   /* Common CSS */
-  /* line 211, ../sass/responsive.scss */
+  /* line 213, ../sass/responsive.scss */
   .modal-dialog {
     max-width: 600px !important;
   }
 
-  /* line 214, ../sass/responsive.scss */
+  /* line 216, ../sass/responsive.scss */
   #wrapper {
     padding-left: 140px;
   }
-  /* line 216, ../sass/responsive.scss */
+  /* line 218, ../sass/responsive.scss */
   #wrapper #sidebar-wrapper {
     width: 140px;
   }
 
-  /* line 221, ../sass/responsive.scss */
+  /* line 223, ../sass/responsive.scss */
   #page-content-wrapper .normal-box-container {
     margin: 0.25rem;
     padding: 0;
@@ -257,16 +259,16 @@
 }
 @media (min-width: 1200px) {
   /* Common CSS */
-  /* line 235, ../sass/responsive.scss */
+  /* line 237, ../sass/responsive.scss */
   .modal-dialog {
     max-width: 600px !important;
   }
 
-  /* line 238, ../sass/responsive.scss */
+  /* line 240, ../sass/responsive.scss */
   #wrapper {
     padding-left: 140px;
   }
-  /* line 240, ../sass/responsive.scss */
+  /* line 242, ../sass/responsive.scss */
   #wrapper #sidebar-wrapper {
     width: 140px;
   }

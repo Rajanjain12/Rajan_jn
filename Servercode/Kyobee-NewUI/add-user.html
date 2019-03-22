@@ -61,12 +61,12 @@
 	<div class="clearfix"></div>
 	<div class="pb-5 fix-wrapper">
 		<div id="wrapper" class="navbar-expand-lg navbar-expand-md">
-			<div id="sidebar-wrapper" class="collapse navbar-collapse">
-				<button class="navbar-toggler float-right asidebar" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
+			<div id="sidebar-wrapper" class="collapse navbar-collapse sidehide">
+				<button class="navbar-toggler float-right asidebar sidehide" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="flaticon-close"></span>
 				</button>
 				<aside id="sidebar">
-					<ul id="sidemenu" class="sidebar-nav text-center pt-2">
+					<ul id="sidemenu" class="sidebar-nav sidehide text-center pt-2">
 						<li class="border-bottom">
 							<a href="dashboard.html">
 								<div class="icon-border-right">
@@ -108,7 +108,7 @@
 							</a>
 						</li>
 						<li class="border-bottom">
-							<a href="" data-toggle="modal" data-target="#resetModal">
+							<a href="" class="sidehide" data-toggle="modal" data-target="#resetModal">
 								<div class="icon-border-right">
 									<div class="icon-circle">
 										<i class="flaticon-reload grey"></i>
@@ -117,7 +117,7 @@
 								<span class="font-12 font-weight-semibold">Reset</span>
 							</a>
 						</li>
-						<li class="border-bottom" style="visibility: hidden;">
+						<li class="border-bottom sm-d-none" style="visibility: hidden;">
 							<a href="" data-toggle="modal" data-target="#resetModal">
 								<div class="icon-border-right">
 									<div class="icon-circle">
@@ -132,8 +132,8 @@
 			</div>
 
 			<main id="page-content-wrapper" role="main">
-				<section class="container pt-5" id="addUserPage">
-					<div class="row normal-box-container first-lang">
+				<section class="container  pt-lg-2 pt-md-2 pt-sm-3 pt-3" id="addUserPage">
+					<div class="row first-lang">
 						<div class="col-lg-9">
 							<form>
 								<div class="col-lg-10">
