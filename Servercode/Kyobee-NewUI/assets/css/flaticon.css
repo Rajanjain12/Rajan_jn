@@ -44,10 +44,10 @@
 .flaticon-list-1:before { content: "\f10c"; }
 .flaticon-reload:before { content: "\f10d"; }
 .flaticon-user-1:before { content: "\f10e"; }
-.flaticon-eye:before { content: "\f10f";font-size: 20px }
+.flaticon-eye:before { content: "\f10f";font-size: 14px }
 .flaticon-logout:before { content: "\f110";font-size: 15px;font-weight: 600 }
 .flaticon-logout-1:before { content: "\f111"; }
-.flaticon-eye-1:before { content: "\f112"; }
+.flaticon-eye-1:before { content: "\f112";font-size: 14px }
 .flaticon-eye-2:before { content: "\f113"; }
 .flaticon-close:before { content: "\f114";font-size: 15px; }
 .flaticon-right:before { content: "\f115"; }

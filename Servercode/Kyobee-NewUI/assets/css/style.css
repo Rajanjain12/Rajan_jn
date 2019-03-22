@@ -4,106 +4,70 @@
 /* Shadow to Container Box*/
 /* Sidebar Variable */
 /*profile*/
-/* line 13, ../sass/_header.scss */
 header {
   box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.1);
   padding: 10px;
   background-color: #ffffff;
   /* div.logo */
-  /* topbar*/
-}
-/* line 17, ../sass/_header.scss */
-header img {
-  width: 115px;
-  height: auto;
-  padding: 6px;
-}
-/* line 38, ../sass/_header.scss */
-header .navToggle {
-  display: none;
-}
-/* line 41, ../sass/_header.scss */
-header .topnav {
-  /* ul */
-}
-/* line 42, ../sass/_header.scss */
-header .topnav button {
-  border: none;
-}
-/* line 45, ../sass/_header.scss */
-header .topnav ul {
-  height: 100%;
-  list-style: none;
-  /* li */
-}
-/* line 48, ../sass/_header.scss */
-header .topnav ul li {
-  height: 100%;
-  display: inline-block;
-  /* a */
-  /* a.active; */
-}
-/* line 51, ../sass/_header.scss */
-header .topnav ul li a {
-  height: 100%;
-  padding: 5px 24px;
-  text-decoration: none;
-  text-align: center;
-  display: block;
-  border-bottom: 3px solid #ffffff;
-  font-size: 28px;
-  /* img */
-  /* p */
-  /* .ico-m */
-}
-/* line 60, ../sass/_header.scss */
-header .topnav ul li a p {
-  font-size: 10px;
-  color: #000000;
-}
-/* line 66, ../sass/_header.scss */
-header .topnav ul li a:hover {
-  background-color: #ffffff !important;
-  /* .ico-m */
-  /* p */
-}
-/* line 68, ../sass/_header.scss */
-header .topnav ul li a:hover i {
-  color: #e14b28;
-}
-/* line 72, ../sass/_header.scss */
-header .topnav ul li a:hover p {
-  color: #000000;
-}
-/* line 79, ../sass/_header.scss */
-header .topnav ul li a.active {
-  background-color: #ffffff !important;
-  border-bottom: 3px solid #e14b28;
-  /* .ico-m */
-  /* p */
-}
-/* line 82, ../sass/_header.scss */
-header .topnav ul li a.active i {
-  color: #e14b28;
-}
-/* line 86, ../sass/_header.scss */
-header .topnav ul li a.active p {
-  color: #000000;
-}
+  /* topbar*/ }
+  header img {
+    width: 115px;
+    height: auto;
+    padding: 6px; }
+  header .navToggle {
+    display: none; }
+  header .topnav {
+    /* ul */ }
+    header .topnav button {
+      border: none; }
+    header .topnav ul {
+      height: 100%;
+      list-style: none;
+      /* li */ }
+      header .topnav ul li {
+        height: 100%;
+        display: inline-block;
+        /* a */
+        /* a.active; */ }
+        header .topnav ul li a {
+          height: 100%;
+          padding: 5px 24px;
+          text-decoration: none;
+          text-align: center;
+          display: block;
+          border-bottom: 3px solid #ffffff;
+          font-size: 28px;
+          /* img */
+          /* p */
+          /* .ico-m */ }
+          header .topnav ul li a p {
+            font-size: 10px;
+            color: #000000; }
+          header .topnav ul li a:hover {
+            background-color: #ffffff !important;
+            /* .ico-m */
+            /* p */ }
+            header .topnav ul li a:hover i {
+              color: #e14b28; }
+            header .topnav ul li a:hover p {
+              color: #000000; }
+        header .topnav ul li a.active {
+          background-color: #ffffff !important;
+          border-bottom: 3px solid #e14b28;
+          /* .ico-m */
+          /* p */ }
+          header .topnav ul li a.active i {
+            color: #e14b28; }
+          header .topnav ul li a.active p {
+            color: #000000; }
 
-/* line 107, ../sass/_header.scss */
 .small-header {
-  width: 8% !important;
-}
+  width: 8% !important; }
 
-/* line 111, ../sass/_header.scss */
 .logout-res {
-  color: #9b9a9a;
-}
-/* line 113, ../sass/_header.scss */
-.logout-res span {
-  color: #000000;
-}
+  color: #9b9a9a; }
+  .logout-res span {
+    color: #000000; }
 
 /* header design*/
 /*common color code*/
@@ -112,211 +76,158 @@ header .topnav ul li a.active p {
 /* Sidebar Variable */
 /*profile*/
 /*resrt default css*/
-/* line 5, ../sass/style.scss */
 * {
   padding: 0;
-  margin: 0;
-}
+  margin: 0; }
 
-/* line 6, ../sass/style.scss */
 body {
   margin: 0;
   padding: 0;
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 14px;
-  color: #000000;
-}
+  color: #000000; }
 
-/* line 7, ../sass/style.scss */
 h1, h2, h3, h4, h5, h6, nav, div, span, img, a, p, footer, ul, li {
   margin: 0;
   padding: 0;
   border: 0;
   outline: none;
   text-decoration: none;
-  list-style: none;
-}
+  list-style: none; }
 
-/* line 8, ../sass/style.scss */
 a {
-  color: #000;
-}
+  color: #000; }
 
-/* line 9, ../sass/style.scss */
 .btn.focus, .btn:focus {
-  box-shadow: none;
-}
+  box-shadow: none; }
 
-/* line 10, ../sass/style.scss */
 .btn:hover {
-  color: #ffffff;
-}
+  color: #ffffff; }
 
 /*common css*/
-/* line 13, ../sass/style.scss */
 .custom-container {
   width: 52%;
-  margin: 0 auto;
-}
+  margin: 0 auto; }
 
-/* line 14, ../sass/style.scss */
 .font-12 {
-  font-size: 12px;
-}
+  font-size: 12px; }
 
-/* line 15, ../sass/style.scss */
 .btn-grey-theme {
   padding: 5px 30px;
   border-radius: 10px;
   color: #ffffff;
   background-color: #9b9a9a;
-  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.26);
-}
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.26); }
 
-/* line 16, ../sass/style.scss */
 .btn-grey-theme:hover {
-  opacity: 0.9;
-}
+  opacity: 0.9; }
 
-/* line 17, ../sass/style.scss */
 .btn-theme {
-  padding: 5px 40px;
+  padding: 5px 10px;
+  min-width: 120px;
   border-radius: 10px;
   color: #ffffff;
-  box-shadow: 0px 5px 10px 0px rgba(221, 56, 36, 0.53);
-}
-/* line 17, ../sass/style.scss */
-.btn-theme:hover {
-  background-color: #9b9a9a;
-  color: #ffffff;
-  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.26);
-}
+  box-shadow: 0px 5px 10px 0px rgba(221, 56, 36, 0.53); }
+  .btn-theme:hover {
+    background-color: #9b9a9a;
+    color: #ffffff;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.26); }
 
-/* line 18, ../sass/style.scss */
 .font-weight-semibold {
-  font-weight: 600;
-}
+  font-weight: 600; }
 
-/* line 19, ../sass/style.scss */
 .grey {
-  color: #9b9a9a;
-}
+  color: #9b9a9a; }
 
-/* line 20, ../sass/style.scss */
 .padding-left-18 {
-  padding-left: 18px !important;
-}
+  padding-left: 18px !important; }
 
-/* line 21, ../sass/style.scss */
 .border-radius {
-  border-radius: 10px !important;
-}
+  border-radius: 10px !important; }
 
-/* line 22, ../sass/style.scss */
 .no-bg {
-  background-color: transparent !important;
-}
+  background-color: transparent !important; }
+
+.w-80 {
+  width: 80%; }
+
+.w-30 {
+  width: 30%; }
+
+.margin-top-80 {
+  margin-top: 80px; }
 
 /*header and footer on top and bottom*/
-/* line 25, ../sass/style.scss */
 html {
-  height: 100%;
-}
+  height: 100%; }
 
-/* line 26, ../sass/style.scss */
 body {
   min-height: 100%;
   padding: 0;
   margin: 0;
-  position: relative;
-}
+  position: relative; }
 
-/* line 27, ../sass/style.scss */
 body::after {
   content: '';
   display: block;
-  height: 40px;
-}
+  height: 40px; }
 
-/* line 28, ../sass/style.scss */
 footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  padding: 10px;
-}
+  padding: 10px; }
 
 /*sign in common*/
-/* line 31, ../sass/style.scss */
 .container-box {
   padding: 12% 5%;
   box-shadow: 0px 1px 18px 0px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
   width: 80%;
-  float: right;
-}
+  float: right; }
 
 /*material design form*/
-/* line 39, ../sass/style.scss */
 fieldset {
   margin: 0 0 3rem;
   padding: 0;
-  border: none;
-}
+  border: none; }
 
-/* line 45, ../sass/style.scss */
 .form-radio,
 .form-group {
   position: relative;
   margin-top: 2.25rem;
   margin-bottom: 2.25rem;
-  z-index: 0;
-}
+  z-index: 0; }
 
-/* line 53, ../sass/style.scss */
 .form-inline > .form-group,
 .form-inline > .btn {
   display: inline-block;
-  margin-bottom: 0;
-}
+  margin-bottom: 0; }
 
-/* line 59, ../sass/style.scss */
 .form-help {
   margin-top: 0.125rem;
   margin-left: 0.125rem;
   color: #b3b3b3;
-  font-size: 0.8rem;
-}
+  font-size: 0.8rem; }
 
-/* line 65, ../sass/style.scss */
 .checkbox .form-help, .form-radio .form-help, .form-group .form-help {
   position: absolute;
-  width: 100%;
-}
+  width: 100%; }
 
-/* line 69, ../sass/style.scss */
 .checkbox .form-help {
   position: relative;
-  margin-bottom: 1rem;
-}
+  margin-bottom: 1rem; }
 
-/* line 73, ../sass/style.scss */
 .form-radio .form-help {
   padding-top: 0.25rem;
-  margin-top: -1rem;
-}
+  margin-top: -1rem; }
 
-/* line 78, ../sass/style.scss */
 .form-group input {
-  height: 1.9rem;
-}
+  height: 1.9rem; }
 
-/* line 81, ../sass/style.scss */
 .form-group textarea {
-  resize: none;
-}
+  resize: none; }
 
-/* line 84, ../sass/style.scss */
 .form-group select {
   width: 100%;
   font-size: 1rem;
@@ -325,10 +236,8 @@ fieldset {
   background: none;
   border: none;
   line-height: 1.6;
-  box-shadow: none;
-}
+  box-shadow: none; }
 
-/* line 94, ../sass/style.scss */
 .form-group .control-label {
   position: absolute;
   top: 0.25rem;
@@ -339,17 +248,13 @@ fieldset {
   font-size: 1rem;
   font-weight: normal;
   -webkit-transition: all 0.28s ease;
-  transition: all 0.28s ease;
-}
+  transition: all 0.28s ease; }
 
-/* line 106, ../sass/style.scss */
 .form-group .bar {
   position: relative;
   border-bottom: 0.0625rem solid #999;
-  display: block;
-}
+  display: block; }
 
-/* line 111, ../sass/style.scss */
 .form-group .bar::before {
   content: '';
   height: 0.125rem;
@@ -360,10 +265,8 @@ fieldset {
   background: #9b9a9a;
   -webkit-transition: left 0.28s ease, width 0.28s ease;
   transition: left 0.28s ease, width 0.28s ease;
-  z-index: 2;
-}
+  z-index: 2; }
 
-/* line 123, ../sass/style.scss */
 .form-group input,
 .form-group textarea {
   display: block;
@@ -377,20 +280,14 @@ fieldset {
   color: transparent;
   -webkit-transition: all 0.28s ease;
   transition: all 0.28s ease;
-  box-shadow: none;
-}
+  box-shadow: none; }
 
-/* line 138, ../sass/style.scss */
 .form-group input[type="file"] {
-  line-height: 1;
-}
+  line-height: 1; }
 
-/* line 141, ../sass/style.scss */
 .form-group input[type="file"] ~ .bar {
-  display: none;
-}
+  display: none; }
 
-/* line 144, ../sass/style.scss */
 .form-group select,
 .form-group input:focus,
 .form-group input:valid,
@@ -400,10 +297,8 @@ fieldset {
 .form-group textarea:valid,
 .form-group textarea.form-file,
 .form-group textarea.has-value {
-  color: #333;
-}
+  color: #333; }
 
-/* line 155, ../sass/style.scss */
 .form-group select ~ .control-label,
 .form-group input:focus ~ .control-label,
 .form-group input:valid ~ .control-label,
@@ -416,32 +311,24 @@ fieldset {
   font-size: 0.8rem;
   color: gray;
   top: -1rem;
-  left: 0;
-}
+  left: 0; }
 
-/* line 169, ../sass/style.scss */
 .form-group select:focus,
 .form-group input:focus,
 .form-group textarea:focus {
-  outline: none;
-}
+  outline: none; }
 
-/* line 174, ../sass/style.scss */
 .form-group select:focus ~ .control-label,
 .form-group input:focus ~ .control-label,
 .form-group textarea:focus ~ .control-label {
-  color: #9b9a9a;
-}
+  color: #9b9a9a; }
 
-/* line 179, ../sass/style.scss */
 .form-group select:focus ~ .bar::before,
 .form-group input:focus ~ .bar::before,
 .form-group textarea:focus ~ .bar::before {
   width: 100%;
-  left: 0;
-}
+  left: 0; }
 
-/* line 186, ../sass/style.scss */
 .checkbox label,
 .form-radio label {
   position: relative;
@@ -449,24 +336,18 @@ fieldset {
   padding-left: 1.4rem;
   text-align: left;
   color: #333;
-  display: inline-block;
-}
+  display: inline-block; }
 
-/* line 195, ../sass/style.scss */
 .checkbox input,
 .form-radio input {
   width: auto;
   opacity: 0.00000001;
   position: absolute;
-  left: 0;
-}
+  left: 0; }
 
-/* line 203, ../sass/style.scss */
 .radio {
-  margin-bottom: 1rem;
-}
+  margin-bottom: 1rem; }
 
-/* line 206, ../sass/style.scss */
 .radio .helper {
   position: absolute;
   top: -0.25rem;
@@ -478,10 +359,8 @@ fieldset {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  color: #999;
-}
+  color: #999; }
 
-/* line 219, ../sass/style.scss */
 .radio .helper::before, .radio .helper::after {
   content: '';
   position: absolute;
@@ -495,40 +374,28 @@ fieldset {
   transition: transform 0.28s ease;
   transition: transform 0.28s ease, -webkit-transform 0.28s ease;
   border-radius: 50%;
-  border: 0.125rem solid currentColor;
-}
+  border: 0.125rem solid currentColor; }
 
-/* line 234, ../sass/style.scss */
 .radio .helper::after {
   -webkit-transform: scale(0);
   transform: scale(0);
   background-color: #9b9a9a;
-  border-color: #9b9a9a;
-}
+  border-color: #9b9a9a; }
 
-/* line 240, ../sass/style.scss */
 .radio label:hover .helper {
-  color: #9b9a9a;
-}
+  color: #9b9a9a; }
 
-/* line 243, ../sass/style.scss */
 .radio input:checked ~ .helper::after {
   -webkit-transform: scale(0.5);
-  transform: scale(0.5);
-}
+  transform: scale(0.5); }
 
-/* line 247, ../sass/style.scss */
 .radio input:checked ~ .helper::before {
-  color: #9b9a9a;
-}
+  color: #9b9a9a; }
 
-/* line 251, ../sass/style.scss */
 .checkbox {
   margin-top: 3rem;
-  margin-bottom: 1rem;
-}
+  margin-bottom: 1rem; }
 
-/* line 255, ../sass/style.scss */
 .checkbox .helper {
   color: #999;
   position: absolute;
@@ -540,10 +407,8 @@ fieldset {
   border: 0.125rem solid currentColor;
   border-radius: 0.0625rem;
   -webkit-transition: border-color 0.28s ease;
-  transition: border-color 0.28s ease;
-}
+  transition: border-color 0.28s ease; }
 
-/* line 268, ../sass/style.scss */
 .checkbox .helper::before, .checkbox .helper::after {
   position: absolute;
   height: 0;
@@ -556,111 +421,80 @@ fieldset {
   content: '';
   -webkit-transition: opacity 0.28s ease, height 0s linear 0.28s;
   transition: opacity 0.28s ease, height 0s linear 0.28s;
-  opacity: 0;
-}
+  opacity: 0; }
 
-/* line 282, ../sass/style.scss */
 .checkbox .helper::before {
   top: 0.65rem;
   left: 0.38rem;
   -webkit-transform: rotate(-135deg);
   transform: rotate(-135deg);
-  box-shadow: 0 0 0 0.0625rem #fff;
-}
+  box-shadow: 0 0 0 0.0625rem #fff; }
 
-/* line 289, ../sass/style.scss */
 .checkbox .helper::after {
   top: 0.3rem;
   left: 0;
   -webkit-transform: rotate(-45deg);
-  transform: rotate(-45deg);
-}
+  transform: rotate(-45deg); }
 
-/* line 295, ../sass/style.scss */
 .checkbox label:hover .helper {
-  color: #9b9a9a;
-}
+  color: #9b9a9a; }
 
-/* line 298, ../sass/style.scss */
 .checkbox input:checked ~ .helper {
-  color: #9b9a9a;
-}
+  color: #9b9a9a; }
 
-/* line 301, ../sass/style.scss */
 .checkbox input:checked ~ .helper::after, .checkbox input:checked ~ .helper::before {
   opacity: 1;
   -webkit-transition: height 0.28s ease;
-  transition: height 0.28s ease;
-}
+  transition: height 0.28s ease; }
 
-/* line 306, ../sass/style.scss */
 .checkbox input:checked ~ .helper::after {
-  height: 0.5rem;
-}
+  height: 0.5rem; }
 
-/* line 309, ../sass/style.scss */
 .checkbox input:checked ~ .helper::before {
   height: 1.2rem;
   -webkit-transition-delay: 0.28s;
-  transition-delay: 0.28s;
-}
+  transition-delay: 0.28s; }
 
-/* line 315, ../sass/style.scss */
 .radio + .radio,
 .checkbox + .checkbox {
-  margin-top: 1rem;
-}
+  margin-top: 1rem; }
 
-/* line 320, ../sass/style.scss */
 .has-error .legend.legend, .has-error.form-group .control-label.control-label {
-  color: #d9534f;
-}
+  color: #d9534f; }
 
-/* line 323, ../sass/style.scss */
 .has-error.form-group .form-help,
 .has-error.form-group .helper, .has-error.checkbox .form-help,
 .has-error.checkbox .helper, .has-error.radio .form-help,
 .has-error.radio .helper, .has-error.form-radio .form-help,
 .has-error.form-radio .helper {
-  color: #d9534f;
-}
+  color: #d9534f; }
 
-/* line 330, ../sass/style.scss */
 .has-error .bar::before {
   background: #d9534f;
   left: 0;
-  width: 100%;
-}
+  width: 100%; }
 
-/* line 335, ../sass/style.scss */
 .fix-header {
   position: fixed;
   width: 100%;
-  z-index: 1;
-}
+  z-index: 1; }
 
-/* line 340, ../sass/style.scss */
 .fix-wrapper {
-  padding-top: 5%;
-}
+  padding-top: 5%; }
 
-/* line 343, ../sass/style.scss */
 .custom-modal-header {
   text-align: center;
   font-size: 22px;
   padding: 10px 20px;
   border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
+  border-top-right-radius: 10px; }
 
-/* line 344, ../sass/style.scss */
 .normal-box-container {
   box-shadow: 0px 1px 18px 0px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  border-radius: 10px;
-}
+  border-radius: 10px; }
 
-/* line 345, ../sass/style.scss */
 .error {
-  color: red;
-}
+  color: red; }
+
+/*# sourceMappingURL=style.css.map */
