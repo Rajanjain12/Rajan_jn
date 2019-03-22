@@ -10,7 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="assets/css/flaticon.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/kyobee.css">
-	<link rel="stylesheet" type="text/css" href="assets/css/profile.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/plan-detail.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/responsive.css">
 </head>
 <body>
@@ -102,43 +102,55 @@
 			</div>
 			<main id="page-content-wrapper" role="main">
 				<section class="container pt-3 pb-0">
-					<div class="row py-4 mt-2">
-						<div class="m-auto">
-							<div class="normal-box-container p-4">
-								<form>
-									<h2 class="text-center font-weight-semibold mb-2">Payment</h2>
-									<p class="text-center pb-3">Fill the below credit card details.</p>
-									<div class="form-group my-4">
-										<input type="text" required="required"/>
-										<label for="input" class="control-label">Card Holder Name</label><i class="bar"></i>
-									</div>
-									<div class="form-group my-4">
-										<input type="text" required="required"/>
-										<label for="input" class="control-label">Card Number</label><i class="bar"></i>
-									</div>
-									<div class="row p-0 m-0">
-										<div class="col-lg-6 pl-0 sm-pr-0 m-0">
-											<div class="form-group mt-1">
-												<input type="text" required="required"/>
-												<label for="input" class="control-label" maxLength="3">CVV</label><i class="bar"></i>
-											</div>
-										</div>
-										<div class="col-lg-6 sm-pl-0 pr-0 m-0">
-											<div class="form-group mt-1">
-												<select>
-													<option>MM/YY</option>
-												</select>
-												<label for="select" class="control-label">Expiry Date</label><i class="bar"></i>
-											</div>
-										</div>
-									</div>
-								</form>
-								<div class="col-ld-12 text-center mt-2 pb-3">
-									<button type="button" class="btn btn-theme background-color" onclick="window.open('dashboard.html','_self')"><span>Payment</span></button>
-								</div>
-							</div>
+					<div class="normal-box-container p-3 mt-2 plan-detail">
+						<h5 class="text-center mb-3 font-weight-semibold">Subscribed Plan</h5>
+						<table class="table-responsive d-flex justify-content-center">
+							<tbody>
+								<tr class="p-2">
+									<!-- <td class="width-1">Subscribed Plan</td> -->
+									<td class="grey border-bottom width-1">Plan Name</td>
+									<td class="border-bottom width-2">Silver Plan</td>
+								</tr>
+								<tr>
+									<!-- <td>&nbsp;</td> -->
+									<td class="grey border-bottom">Details</td>
+									<td class="border-bottom">
+										<p>Security</p>
+										<p>TV/OS display</p>
+										<p>Self check-in</p>
+										<p>Guest real-time status</p>
+										<p>Branding / Multiple language support / Custom text message</p>
+										<p>SMS/OR code</p>
+										<p>Pay as you go 0.005 USD/text</p>
+									</td>
+								</tr>
+								<tr>
+									<!-- <td>&nbsp;</td> -->
+									<td class="grey border-bottom">Billing Period</td>
+									<td class="border-bottom">Annual</td>
+								</tr>
+								<tr>
+									<!-- <td>&nbsp;</td> -->
+									<td class="grey border-bottom">Service Effective Date</td>
+									<td class="border-bottom">Feb 26, 2019</td>
+								</tr>
+								<tr>
+									<!-- <td>&nbsp;</td> -->
+									<td class="grey border-bottom">Next Invoice Date</td>
+									<td class="border-bottom">$34.99</td>
+								</tr>
+								<tr>
+									<!-- <td>&nbsp;</td> -->
+									<td class="grey border-bottom">Status</td>
+									<td class="border-bottom">Active</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="col-lg-12 text-center pt-4">
+							<button type="button" class="btn btn-theme background-color mr-4" onclick="window.open('select-plan.html','_self')">Change Plan</button>
+							<button type="button" class="btn btn-theme background-color" onclick="window.open('payment.html','_self')">Pay Now</button>
 						</div>
-					</section>
+					</div>
 				</section>
 			</main>
 		</div>
