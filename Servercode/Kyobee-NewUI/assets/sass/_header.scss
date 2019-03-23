@@ -48,34 +48,7 @@ header{
 						font-size: $sidebar-font-size;
 						color: $black-color;
 					}
-					/* p */
-					/* .ico-m */
-					&:hover {
-						background-color: $white-color !important;
-						i {
-							color: $theme-color;
-						}
-						/* .ico-m */
-						p {
-							color: $black-color;
-						}
-						/* p */
-					}
 				} 
-				/* a */
-				a.active {
-					background-color: $white-color !important;
-					border-bottom: 3px solid $theme-color;
-					i {
-						color: $theme-color;
-					}
-					/* .ico-m */
-					p {
-						color: $black-color;
-					}
-					/* p */
-				}
-				/* a.active; */
 			} 
 			/* li */
 		}
