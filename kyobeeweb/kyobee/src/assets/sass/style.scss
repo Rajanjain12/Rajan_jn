@@ -1,6 +1,35 @@
 @import 'header';
 @import 'variable';
 
+/* animation */
+@keyframes slid-right {
+  0% {
+    transform: translatex(-100em);
+  }
+  100% {
+    transform: translatex(0);
+  }
+}
+
+@keyframes slid-down {
+  0% {
+    transform: translateY(-1.25em);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+
+@keyframes slid-left {
+  0% {
+    transform: translatex(300em);
+  }
+  100% {
+    transform: translatex(0);
+  }
+}
+
 /*resrt default css*/
 *{padding:0;margin:0;}
 body{margin:0;padding:0;font-family: 'Source Sans Pro', sans-serif;font-size: 14px; color: $body-font-color;}
@@ -14,19 +43,37 @@ a{color:#000;}
 .font-12{font-size: 12px}
 .btn-grey-theme{padding: 5px 30px;border-radius:10px;color:$white-color;background-color: $grey-color;box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.26); }
 .btn-grey-theme:hover{opacity: 0.9}
-.btn-theme{padding: 5px 40px;border-radius:10px;color:$white-color;box-shadow: 0px 5px 10px 0px rgba(221, 56, 36, 0.53);&:hover{background-color:$grey-color;color:$white-color;box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.26);}}
+.btn-theme{padding: 5px 10px; min-width: 120px; border-radius:10px;color:$white-color;&:hover{background-color:$grey-color;color:$white-color;box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.26)!important;}}
 .font-weight-semibold{font-weight:$font-weight-semibold;}
 .grey{color: $grey-color}
 .padding-left-18{padding-left:18px!important;}
 .border-radius{border-radius:$border-radius!important;}
 .no-bg{background-color:transparent!important;}
-.pointer{ cursor:pointer; color: $theme-color !important}
-
+.w-80 { width: 80%; }
+.w-30 { width: 30%; }
+.margin-top-80{margin-top:80px;}
+.alert-danger { color: $theme-color; background-color: $white-color; border: 1px solid $light-grey-color; border-radius: 20px; padding: 0;
+  span { position: relative; padding: 0.5em 1em; width: calc(100% - 40px); }
+  button {   position:absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 40px; border:none;
+    height: 100%;
+    outline: none; padding: .5em 1em; border-left: 1px solid $light-grey-color; color: $theme-color; background-color: transparent;
+    [class^="flaticon-close"]:before, [class*=" flaticon-close"]:before, [class^="flaticon-close"]:after, [class*=" flaticon-close"]:after {   
+      font-family: Flaticon;
+      font-size: 10px;
+      font-weight: 600;
+      font-style: normal;
+    }
+  }
+}
 /*header and footer on top and bottom*/
 html{ height:100%;}
 body{ min-height:100%; padding:0; margin:0; position:relative;}
 body::after{ content:''; display:block; height:40px; }
-footer{ position:absolute; bottom:0; width:100%; padding: 10px;}
+footer{ position:absolute; bottom:0; width:100%; padding: 10px; z-index: 20;}
 
 /*sign in common*/
 .container-box{
@@ -336,7 +383,9 @@ fieldset {
 .fix-header{
   position: fixed;
   width: 100%;
-  z-index: 1;
+  z-index: 20;
+  animation-name: slid-down;
+  animation-duration: 1s;
 }
 .fix-wrapper{
   padding-top: 5%;
@@ -344,3 +393,4 @@ fieldset {
 .custom-modal-header{text-align: center;font-size: 22px;padding: 10px 20px;border-top-left-radius: $border-radius;border-top-right-radius: $border-radius;}
 .normal-box-container{box-shadow:$box-shadow;padding:20px;border-radius:$border-radius}
 .error{color: red;}
+.pointer{cursor:pointer; color: $theme-color!important;}

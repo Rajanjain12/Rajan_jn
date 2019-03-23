@@ -8,6 +8,8 @@ header {
   box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.1);
   padding: 10px;
   background-color: #ffffff;
+  animation-name: slid-down;
+  animation-duration: 1s;
   /* div.logo */
   /* topbar*/ }
   header img {
@@ -75,6 +77,25 @@ header {
 /* Shadow to Container Box*/
 /* Sidebar Variable */
 /*profile*/
+/* animation */
+@keyframes slid-right {
+  0% {
+    transform: translatex(-100em); }
+  100% {
+    transform: translatex(0); } }
+
+@keyframes slid-down {
+  0% {
+    transform: translateY(-1.25em); }
+  100% {
+    transform: translateY(0); } }
+
+@keyframes slid-left {
+  0% {
+    transform: translatex(300em); }
+  100% {
+    transform: translatex(0); } }
+
 /*resrt default css*/
 * {
   padding: 0;
@@ -123,14 +144,14 @@ a {
   opacity: 0.9; }
 
 .btn-theme {
-  padding: 5px 40px;
+  padding: 5px 10px;
+  min-width: 120px;
   border-radius: 10px;
-  color: #ffffff;
-  box-shadow: 0px 5px 10px 0px rgba(221, 56, 36, 0.53); }
+  color: #ffffff; }
   .btn-theme:hover {
     background-color: #9b9a9a;
     color: #ffffff;
-    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.26); }
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.26) !important; }
 
 .font-weight-semibold {
   font-weight: 600; }
@@ -147,9 +168,43 @@ a {
 .no-bg {
   background-color: transparent !important; }
 
-.pointer {
-  cursor: pointer;
-  color: #e14b28 !important; }
+.w-80 {
+  width: 80%; }
+
+.w-30 {
+  width: 30%; }
+
+.margin-top-80 {
+  margin-top: 80px; }
+
+.alert-danger {
+  color: #e14b28;
+  background-color: #ffffff;
+  border: 1px solid #dfdfdf;
+  border-radius: 20px;
+  padding: 0; }
+  .alert-danger span {
+    position: relative;
+    padding: 0.5em 1em;
+    width: calc(100% - 40px); }
+  .alert-danger button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 40px;
+    border: none;
+    height: 100%;
+    outline: none;
+    padding: .5em 1em;
+    border-left: 1px solid #dfdfdf;
+    color: #e14b28;
+    background-color: transparent; }
+    .alert-danger button [class^="flaticon-close"]:before, .alert-danger button [class*=" flaticon-close"]:before, .alert-danger button [class^="flaticon-close"]:after, .alert-danger button [class*=" flaticon-close"]:after {
+      font-family: Flaticon;
+      font-size: 10px;
+      font-weight: 600;
+      font-style: normal; }
 
 /*header and footer on top and bottom*/
 html {
@@ -170,7 +225,8 @@ footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  padding: 10px; }
+  padding: 10px;
+  z-index: 20; }
 
 /*sign in common*/
 .container-box {
@@ -471,7 +527,9 @@ fieldset {
 .fix-header {
   position: fixed;
   width: 100%;
-  z-index: 1; }
+  z-index: 20;
+  animation-name: slid-down;
+  animation-duration: 1s; }
 
 .fix-wrapper {
   padding-top: 5%; }
@@ -490,3 +548,7 @@ fieldset {
 
 .error {
   color: red; }
+
+.pointer {
+  cursor: pointer;
+  color: #e14b28 !important; }

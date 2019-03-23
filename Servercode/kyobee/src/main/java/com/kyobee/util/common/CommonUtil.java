@@ -1975,8 +1975,6 @@ public class CommonUtil {
 		//GenerateRandomToken for forgotpassword change by Aarshi Patel(13-03-2019)
 		public static Long generateRandomToken() 
 		{
-			  Long authCode=(long)(Math.random() * 1000000);
-			  System.out.println("The AuthCode is ....."+authCode);
 			  return (long) (Math.random() * 1000000);
 			  //0000
 		}

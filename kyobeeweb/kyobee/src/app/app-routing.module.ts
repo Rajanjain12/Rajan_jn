@@ -4,6 +4,8 @@ import { LoginComponent } from './public/login/login.component';
 import { WaitlistComponent } from './web/waitlist/waitlist.component';
 import { SignupComponent } from './public/signup/signup.component';
 import { ForgotpwdComponent } from './public/forgotpwd/forgotpwd.component';
+import { ResetpwdComponent } from './public/resetpwd/resetpwd.component';
+import { ResetpwdThanksComponent } from './public/resetpwd-thanks/resetpwd-thanks.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'public', pathMatch:'full'},
@@ -13,6 +15,8 @@ const routes: Routes = [
     { path: 'dashboard', redirectTo: '/web/home', pathMatch: 'full' },
     { path: 'signup', component: SignupComponent},
     { path: 'forgotpwd', component: ForgotpwdComponent},
+    { path: 'resetpwd/:userId/:authcode', component: ResetpwdComponent},
+    { path: 'resetpwdThanks', component: ResetpwdThanksComponent},
     { path: '**', redirectTo: 'login', pathMatch: 'full'}
   ]},
   { path: 'web', children: [
@@ -26,6 +30,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export const routerComponents =  [LoginComponent, WaitlistComponent, SignupComponent, ForgotpwdComponent]
-export const imgLinks = { "signinPageImageSrc": "../assets/img/sign-in-illu.png",
-                          "forgotPwdPageImageSrc":"../assets/img/recovery-pass-illu.png"}
+export const routerComponents =  [LoginComponent, WaitlistComponent, SignupComponent, ForgotpwdComponent, ResetpwdComponent, ResetpwdThanksComponent]

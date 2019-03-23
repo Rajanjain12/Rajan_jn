@@ -20,9 +20,9 @@
   overflow-y: auto;
   background: #ffffff;
   box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.08);
-  -webkit-transition: all .5s ease-out;
-  -moz-transition: all .5s ease-out;
-  -o-transition: all .5s ease-out;
+  z-index: 19;
+  animation-name: slid-right;
+  animation-duration: 0.5s;
   /* .sidebar-nav */ }
   #sidebar-wrapper .sidebar-nav {
     position: absolute;
@@ -67,5 +67,10 @@
         background-color: #e14b28; }
         #sidebar-wrapper .sidebar-nav li.active .borderRight a i {
           color: #ffffff; }
+  #sidebar-wrapper [class^="flaticon-close"]:before, #sidebar-wrapper [class*=" flaticon-close"]:before,
+  #sidebar-wrapper [class^="flaticon-close"]:after, #sidebar-wrapper [class*=" flaticon-close"]:after {
+    font-family: Flaticon;
+    font-size: 10px;
+    font-style: normal; }
 
 /* #sidebar-wrapper */

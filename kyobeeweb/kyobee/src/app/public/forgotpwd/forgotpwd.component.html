@@ -9,7 +9,7 @@
         <img [src]="forgotPwdPageImageSrc" class="img-fluid" alt="image">
       </div>
       <div class="col-lg-6 pb-5 pt-3 pb-md-0">
-        <div class="container-box">
+        <div class="container-box" [hidden]="mailSent">
           <h6 class="text-center pb-5">Enter your email and we will send you a link to reset your password</h6>
           <form #forgetPwdForm="ngForm" novalidate>
             <div class="form-group mt-0">
@@ -21,19 +21,19 @@
               </div>
             </div>
             <div class="col-ld-12 text-center pt-2 pb-4">
-              <button type="button" onclick="window.open('reset_password.html', '_self')"
-                class="btn btn-theme background-color"><span>Send</span></button>
+              <button type="submit" (click)="forgotPwd(forgetPwdForm.invalid);"
+                class="btn btn-theme background-color shadow"><span>Send</span></button>
             </div>
           </form>
-          <p class="text-center">You don’t have an account? <a class="font-color font-weight-semibold" href="">Sign
+          <p class="text-center">You don’t have an account? <a class="font-color font-weight-semibold pointer" (click)="changeView('public/signup');">Sign
               Up</a></p>
         </div>
-        <div class="container-box text-center" style="display: none;">
-          <img src="assets/images/correct-sign.png" class="background-color done-icon done-icon-shadow w-100 w-md-auto"
+        <div class="container-box text-center" [hidden]="!mailSent">
+          <img [src]="correctSignImageSrc" class="background-color done-icon shadow w-md-auto"
             alt="correct">
           <h5 class="pb-3 pt-4">We've sent you an email with reset password link and the instructions.</h5>
-          <p class="pb-5">Didn’t receive link? <a class="font-color font-weight-semibold" href="">Resend Now</a></p>
-          <p>You don’t have an account? <a class="font-color font-weight-semibold" href="">Sign Up</a></p>
+          <p class="pb-5">Didn’t receive link? <a class="font-color font-weight-semibold pointer" (click)="forgotPwd(email==null);">Resend Now</a></p>
+          <p>You don’t have an account? <a class="font-color font-weight-semibold pointer" (click)="changeView('public/signup');">Sign Up</a></p>
         </div>
       </div>
     </div>

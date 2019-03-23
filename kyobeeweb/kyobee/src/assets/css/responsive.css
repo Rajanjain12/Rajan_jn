@@ -12,14 +12,22 @@
   .container-box {
     width: 100%;
     float: none; }
+  .pricing-box {
+    padding: 8% 5%; }
   .sm-block {
     display: block !important; }
+  .sm-d-none {
+    display: none !important; }
   .sm-pl-0 {
     padding-left: 0; }
   .sm-pr-0 {
     padding-right: 0; }
   .sm-mx-auto {
     margin: auto; }
+  .modal .modal-btn {
+    text-align: center !important; }
+    .modal .modal-btn .btn-theme {
+      width: 80% !important; }
   header .topnav {
     padding: 0.5rem; }
     header .topnav ul li a {
@@ -43,17 +51,19 @@
     top: 0;
     left: 0;
     position: fixed;
-    z-index: 11;
+    z-index: 21;
     margin: 0;
     padding: 0;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)); }
+    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8));
+    animation-name: slid-right;
+    animation-duration: 1s; }
     #sidebar-wrapper button {
       color: #fff;
       position: fixed;
       top: 0;
       right: 0; }
     #sidebar-wrapper .sidebar-nav {
-      width: 60%;
+      width: 50%;
       background-color: #fff;
       height: 100%; }
       #sidebar-wrapper .sidebar-nav li a {
@@ -107,10 +117,10 @@
         padding: 0; }
   /* page-content-wrapper */
   /* Common CSS Ends */
+  /* login */
+  #login .custom-container {
+    padding-top: 3rem !important; }
   /* dashboardPage */
-  #dashboardPage .sub-btn {
-    display: block;
-    margin: 0px 0px 10px 0px !important; }
   /* addUserPage */
   #addUserPage .first-lang {
     flex-direction: column-reverse; } }

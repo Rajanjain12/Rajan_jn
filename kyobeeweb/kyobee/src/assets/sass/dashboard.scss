@@ -8,6 +8,11 @@
         border-radius:$border-radius;
         padding: 8px 15px;
     }
+    .active-filter { background-color: $theme-color; color: $white-color;
+        i {
+            color: $white-color;
+        }
+    }
     .search {
         padding: 8px 10px 8px 45px;
         background-repeat: no-repeat;
@@ -76,4 +81,11 @@
         color: red;
         border-radius: $border-radius;
     }
+    [class^="flaticon-user"]:before, [class*=" flaticon-user"]:before,
+    [class^="flaticon-user"]:after, [class*=" flaticon-user"]:after 
+    {   
+      font-family: Flaticon;
+      font-size: 10px;
+      font-style: normal;
+  }
 }

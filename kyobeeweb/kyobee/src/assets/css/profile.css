@@ -19,12 +19,6 @@
   right: 0;
   top: 5px; }
 
-.modal [class^="flaticon-"]:before, .modal [class*=" flaticon-"]:before,
-.modal [class^="flaticon-"]:after, .modal [class*=" flaticon-"]:after {
-  font-family: Flaticon;
-  font-size: 14px;
-  font-style: normal; }
-
 #pic {
   display: none; }
 

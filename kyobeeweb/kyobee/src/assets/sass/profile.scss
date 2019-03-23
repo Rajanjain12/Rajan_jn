@@ -13,19 +13,6 @@
 	right: 0;
 	top: 5px;
 }
-
-.modal {
-	// top: 20%;
-	// left: 40%;
-
-	[class^="flaticon-"]:before, [class*=" flaticon-"]:before,
-	[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
-		font-family: Flaticon;
-		font-size: 14px;
-		font-style: normal;
-	}
-}
-
 #pic{display: none;}
 .newbtn {
   cursor: pointer;

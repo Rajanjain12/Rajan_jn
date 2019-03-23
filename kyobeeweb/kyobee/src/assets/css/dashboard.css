@@ -15,6 +15,11 @@
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 8px 15px; }
+  #dashboardPage .active-filter {
+    background-color: #e14b28;
+    color: #ffffff; }
+    #dashboardPage .active-filter i {
+      color: #ffffff; }
   #dashboardPage .search {
     padding: 8px 10px 8px 45px;
     background-repeat: no-repeat;
@@ -81,3 +86,8 @@
     border: 1px solid #ccc;
     color: red;
     border-radius: 10px; }
+  #dashboardPage [class^="flaticon-user"]:before, #dashboardPage [class*=" flaticon-user"]:before,
+  #dashboardPage [class^="flaticon-user"]:after, #dashboardPage [class*=" flaticon-user"]:after {
+    font-family: Flaticon;
+    font-size: 10px;
+    font-style: normal; }

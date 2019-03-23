@@ -4,43 +4,43 @@
 /* Sidebar Variable */
 /*profile*/
 a:hover {
-  color: #e14b28;
+  color: #4a1b1b;
   text-decoration: none; }
 
 .font-color {
-  color: #e14b28; }
+  color: #4a1b1b; }
 
 .background-color {
-  background-color: #e14b28; }
+  background-color: #4a1b1b; }
 
 .shadow {
-  box-shadow: 0px 3px 13px 0px rgba(221, 56, 36, 0.56) !important; }
+  box-shadow: 0px 3px 13px 0px rgba(74, 27, 27, 0.56) !important; }
 
 #sidebar-wrapper .sidebar-nav li a.profile-icon img {
   opacity: 0; }
 
 .activeState {
-  background-color: #e14b28 !important;
+  background-color: #4a1b1b !important;
   color: #ffffff !important; }
 
 .activeState i {
   color: #fff; }
 
 .active-pagination {
-  background-color: #e14b28 !important;
+  background-color: #4a1b1b !important;
   color: #ffffff !important;
-  box-shadow: 0px 5px 10px 0px rgba(237, 59, 47, 0.78) !important; }
+  box-shadow: 0px 5px 10px 0px rgba(74, 27, 27, 0.78) !important; }
 
 .active-pagination:hover {
-  background-color: #e14b28;
+  background-color: #4a1b1b;
   color: #ffffff; }
 
 .border-right {
-  border-right: 4px solid #e14b28; }
+  border-right: 4px solid #4a1b1b; }
 
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-  border-bottom: 2px solid #e14b28 !important;
-  color: #e14b28 !important;
+  border-bottom: 2px solid #4a1b1b !important;
+  color: #4a1b1b !important;
   border-top-color: transparent !important;
   border-left-color: transparent !important;
   border-right-color: transparent !important; }
@@ -49,7 +49,7 @@ a:hover {
   border: 0; }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  background-color: #e14b28;
+  background-color: #4a1b1b;
   border-radius: 0; }
 
 /*code for plan box hover border and button*/
@@ -61,9 +61,9 @@ a:hover {
 
 .pricing-box:hover .btn-grey-theme {
   color: #fff;
-  background-color: #e14b28;
+  background-color: #4a1b1b;
   transition: all ease-in-out 0.3s; }
 
 /*footer*/
 footer {
-  background-color: #e14b28; }
+  background-color: #4a1b1b; }

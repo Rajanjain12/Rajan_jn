@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/services/http.service';
 import { DataService } from 'src/app/services/data.service';
-import { imgLinks } from '../../app-routing.module';
+import { imgLinks } from '../../app.component';
 
 @Component({
   selector: 'app-login',
@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
         clientBase : this.subdomain
       };
       alert(JSON.stringify(postBody));
-      var url = 'http://localhost:8080/kyobee/rest/login';
+      var url = '/kyobee/rest/login';
 
       this.httpService.postService(url, postBody).subscribe(data => {
         

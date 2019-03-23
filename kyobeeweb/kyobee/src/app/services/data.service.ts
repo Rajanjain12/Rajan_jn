@@ -7,19 +7,18 @@ import { HttpClient } from '@angular/common/http';
 })
 export class DataService {
   public subdomain: string;
+  public serverUrl: string;
   constructor(private router: Router, private httpClient: HttpClient) { }
 
-  setData(subdomain:string){
+  setData(subdomain:string, serverUrl:string){
     this.subdomain = subdomain;
+    this.serverUrl = serverUrl;
   }
   getData(){
     return {
-      "subdomain": this.subdomain
+      "subdomain": this.subdomain,
+      "serverUrl": this.serverUrl
     }
-  }
-
-  getImgLinkData(){
-    return this.httpClient.get(dataObjectLink.imgLinkData);
   }
 
   changeView(path:string){

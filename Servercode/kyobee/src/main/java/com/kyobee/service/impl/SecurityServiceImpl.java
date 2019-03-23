@@ -70,8 +70,8 @@ public class SecurityServiceImpl implements ISecurityService {
 	private Integer maxParty;
 	
 	//Set smsRouteNo By Aarshi(01/03/2019)
-	@Value("${setRouteno}")
-	private String setRouteno;
+	@Value("${routeno}")
+	private String routeNo;
 	
 	//Set waitTime By Aarshi(01/03/2019)
 	@Value("${waitTime}")
@@ -124,9 +124,12 @@ public class SecurityServiceImpl implements ISecurityService {
 			User user = (User) sessionFactory.getCurrentSession().getNamedQuery(User.GET_USER_BY_EMAIL).setParameter("email", email.toLowerCase()).setParameter("active", true).setParameter("oactive", true)
 	            .uniqueResult();
 			String clientbase = user.getOrganizationUser().getOrganization().getClientBase();
-			String authcode = CommonUtil.generateRandomToken().toString(); 
-			emailUtil.sendForgotPasswardEmail(user.getEmail(),user.getFirstName(),user.getLastName(),clientbase,authcode,user.getUserId());
+			if(user.getAuthcode()==null){
+			String authcode = CommonUtil.generateRandomToken().toString();
+			LoggerUtil.logInfo("generated Authcode is for user "+user.getUserName()+" is: "+authcode );
 			user.setAuthcode(authcode);
+			}
+			emailUtil.sendForgotPasswardEmail(user.getEmail(),user.getFirstName(),user.getLastName(),clientbase,user.getAuthcode(),user.getUserId());
 			sessionFactory.getCurrentSession().saveOrUpdate(user);
 			return user;
 		}catch (Exception e){
@@ -543,7 +546,7 @@ public class SecurityServiceImpl implements ISecurityService {
 			//Set max party By Aarshi(01/03/2019)
 			organization.setMaxParty(maxParty);
 			//Set smsRouteNo By Aarshi(01/03/2019)
-			organization.setSmsRouteNo(setRouteno);
+			organization.setSmsRouteNo(routeNo);
 			//Set  waitTime By Aarshi(01/03/2019)
 			organization.setWaitTime(waitTime);
 			//Set notifyUserCount  by Aarshi(01/03/2019)
