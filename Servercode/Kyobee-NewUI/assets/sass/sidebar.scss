@@ -58,31 +58,6 @@
                 }
             }
         }
-        li.active {
-            a .icon-border-right{
-                border-right: 3px solid $theme-color;
-                .icon-circle {
-                    background-color: $theme-color;
-                    i{
-                        color: $white-color;
-                    }
-                }
-            }
-        }
-
-        /* li */
-        li.active {
-            .borderRight {
-                border-right: 3px solid $theme-color;
-                a{
-                    background-color: $theme-color;
-                    i {
-                        color: $white-color;
-                    }
-                }
-            }
-        }
-        /* li.active */
     }
     /* .sidebar-nav */
     [class^="flaticon-close"]:before, [class*=" flaticon-close"]:before,
