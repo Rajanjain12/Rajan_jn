@@ -39,6 +39,7 @@ public interface ISecurityService {
 	public Boolean isDuplicateUser(String userName) throws RsntException;
 
 	public User signupUser(Credential credentials) throws RsntException;
+	public User signupUserV2(Credential credentials) throws RsntException;
 
 	public Boolean isDuplicateOrganization(String userName) throws RsntException;
 	
@@ -48,4 +49,13 @@ public interface ISecurityService {
 	public String getAuthCode(long userId) throws RsntException;
 	//pampaniya shweta for reset password
 	public User resetPassword(long userId,String password) throws RsntException;
+    //User Account Activation By Aarshi(11/03/2019)
+	public Boolean authVerification(Integer userId,String authCode)throws RsntException;
+	//Send authentication mail to user By Aarshi(12/03/2019)
+	public void sendActivationMail(Integer userId)throws RsntException;
+    //Change password  by Aarshi(13/03/2019)
+	public Boolean changePassword(Integer userId,String oldPassword,String newPassowrd) throws RsntException;
+	//Check the userName and email id of User  by Aarshi(19/03/2019)
+	public String checkIfExistingUser(String userId,String userName,String email)throws RsntException;
+	
 }

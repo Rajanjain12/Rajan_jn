@@ -21,8 +21,10 @@ import org.hibernate.annotations.Type;
 @Entity
 @Table(name="USER")
 @NamedQueries({	
-	@NamedQuery(name=User.GET_PROFILE_BY_USERLOGIN,query="Select u from User u join u.organizationUser ou join ou.organization o where lower(u.userName)=:username and u.password =:password and o.clientBase =:clientBase"),
-	@NamedQuery(name=User.GET_PROFILE_BY_USERLOGINAPI,query="Select u from User u join u.organizationUser ou join ou.organization o where lower(u.userName)=:username and u.password =:password"),
+	//LogIn useing username or email id change done   by Aarshi(04/03/2019)
+	@NamedQuery(name=User.GET_PROFILE_BY_USERLOGIN,query="Select u from User u join u.organizationUser ou join ou.organization o where lower(u.email)=:username or u.userName=:username and u.password =:password and o.clientBase =:clientBase"),
+//	@NamedQuery(name=User.TEST_PROFILE_BY_USERLOGIN,query="Select u from User u join u.organizationUser ou join ou.organization o where lower(u.email)=:username or u.userName=:username and u.password =:password "),
+	@NamedQuery(name=User.GET_PROFILE_BY_USERLOGINAPI,query="Select u from User u join u.organizationUser ou join ou.organization o where lower(u.email)=:username or u.userName=:username and u.password =:password"),
 	@NamedQuery(name=User.GET_USER_ORGANIZATION,
 			query="Select user.organizationUser.organization from User user join user.organizationUser where user.userId=:userId"),
 			@NamedQuery(name=User.GET_USER_BY_USERNAME_ONLY,query="Select u from User u where lower(u.userName)=?1 "),
@@ -40,6 +42,7 @@ public class User extends BaseEntity implements Serializable {
 	public static final String GET_USER_BY_USERNAME = "getUserByUserName";
 	public static final String GET_USER_BY_USERNAME_ONLY = "getUserByUserNameOnly";
 	public static final String GET_USER_BY_EMAIL= "getUserByEmail";
+	//public static final String TEST_PROFILE_BY_USERLOGIN="getUserByEmail";
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -91,8 +94,23 @@ public class User extends BaseEntity implements Serializable {
 	@Column(name="AuthCode")
 	private String authcode;
 	
+
+	//Aarshi
+	@OneToOne(fetch = FetchType.LAZY, cascade= {javax.persistence.CascadeType.PERSIST, javax.persistence.CascadeType.MERGE, javax.persistence.CascadeType.REMOVE})
+	@JoinColumn(name="AddressId")
+	private Address address1;
+	
+	public Address getAddress1() {
+		return address1;
+	}
+
+	public void setAddress1(Address address1) {
+		this.address1 = address1;
+	}
+
 	public Long getUserId() {
-		return userId;
+	
+	return userId;
 	}
 
 	public void setUserId(Long userId) {

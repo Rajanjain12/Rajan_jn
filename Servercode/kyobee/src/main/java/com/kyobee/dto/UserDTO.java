@@ -41,6 +41,48 @@ public class UserDTO {
 	private Integer defaultLangId;
 	
 	private String clientBase;
+//Aarshi
+	private String companyEmail;
+	//Aarshi
+	private String companyName;
+	
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public String getCompanyEmail() {
+		return companyEmail;
+	}
+
+	public void setCompanyEmail(String companyEmail) {
+		this.companyEmail = companyEmail;
+	}
+
+	//Aarshi
+	private String authCode;
+	
+	//change password by Aarshi(13/03/2019)
+	private String password;
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getAuthCode() {
+		return authCode;
+	}
+
+	public void setAuthCode(String authCode) {
+		this.authCode = authCode;
+	}
 
 	public Long getUserId() {
 		return userId;

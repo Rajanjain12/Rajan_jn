@@ -7,8 +7,9 @@ public class Constants {
 	public static final String SUCCESS = "SUCCESS";
 	public static final String FAILURE = "FAILURE";
 	public static final String FREETEXT = "FREETEXT";
-	
-	
+	public static final String CHECK_USER="MORE THAN ONE USERNAME";
+	public static final String CHECK_EMAIL="MORE THAN ONE EMAIL";
+	public static final String STATUS="FALSE";
 	public static final String USER_OBJ = "USER_SESSION_OBJ";
 	public static final CharSequence LOGOUT_URL = "/logout";
 	

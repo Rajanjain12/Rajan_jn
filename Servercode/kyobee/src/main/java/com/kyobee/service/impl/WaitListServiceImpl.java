@@ -1,5 +1,7 @@
 package com.kyobee.service.impl;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -34,6 +36,9 @@ import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kyobee.dao.impl.AddressDAO;
+import com.kyobee.dao.impl.OrganizationDAO;
+import com.kyobee.dao.impl.UserDAO;
 import com.kyobee.dto.GuestMarketingPreference;
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
@@ -41,20 +46,22 @@ import com.kyobee.dto.OrganizationTemplateDTO;
 import com.kyobee.dto.SMSDetailsWrapper;
 import com.kyobee.dto.ScreensaverDTO;
 import com.kyobee.dto.WaitlistMetrics;
+import com.kyobee.dto.common.Credential;
 import com.kyobee.dto.common.Response;
 import com.kyobee.entity.MarketingPreference;
+import com.kyobee.entity.Address;
 import com.kyobee.entity.Guest;
 import com.kyobee.entity.GuestNotificationBean;
 import com.kyobee.entity.GuestPreferences;
 import com.kyobee.entity.GuestReset;
 import com.kyobee.entity.Organization;
 import com.kyobee.entity.SmsLog;
+import com.kyobee.entity.User;
 import com.kyobee.exception.RsntException;
+import com.kyobee.service.ISecurityService;
 import com.kyobee.service.IWaitListService;
 import com.kyobee.util.AppTransactional;
 import com.kyobee.util.common.*;
-import com.kyobee.util.common.Constants;
-import com.kyobee.util.common.NativeQueryConstants;
 import com.kyobee.util.jms.NotificationQueueSender;
 
 
@@ -68,6 +75,18 @@ public class WaitListServiceImpl implements IWaitListService {
 
 	/*@In
 	private EntityManager entityManager;*/
+	@Autowired
+	ISecurityService securityService;
+	
+	@Autowired
+	UserDAO userDao;
+	
+	@Autowired
+	OrganizationDAO organizationDao;
+	
+	@Autowired
+	AddressDAO addressDao;
+	
 	@Autowired
     private SessionFactory sessionFactory;
 	
@@ -1893,6 +1912,89 @@ ByOrgRecords(java.lang.Long, int, int)
 			}
 			response.setStatus("SUCCESS");
 			return response;
+		}
+		//UpdateOrSaveProfile by Aarshi(19/03/2019)
+		@Override
+		public Boolean updateOrSaveProfile(Credential credentials) throws RsntException {
+			// TODO Auto-generated method stub
+	try{
+		   
+		 
+			Organization organization=organizationDao.find(Long.parseLong(credentials.getOrgId()));
+			organization.setOrganizationName(credentials.getCompanyName());
+			//organization.setPrimaryPhone(Long.parseLong(credentials.getCompanyPrimaryPhone()));
+			organization.setEmail(credentials.getCompanyEmail());
+			organization.setModifiedBy(credentials.getUsername());
+			organization.setModifiedDate(new Date());
+
+			
+			User user=userDao.find(Long.parseLong(credentials.getUserId()));	
+			user.setFirstName(credentials.getFirstName());
+			user.setLastName(credentials.getLastName());
+			user.setUserName(credentials.getUsername());
+			user.setEmail(credentials.getEmail());
+			user.setPrimaryContactNo(credentials.getCompanyPrimaryPhone());
+			user.setModifiedBy(credentials.getUsername());
+			user.setModifiedDate(new Date());
+			
+			Address address=addressDao.find(user.getAddress1().getAddressId());
+			if(!(credentials.getAddressDTO().getAddressLine1().equals(address.getAddressLineOne())) && (credentials.getAddressDTO().getAddressLine2().equals(address.getAddressLineTwo())) ){
+			{
+				//	System.out.println("There is changes......");
+					BigInteger count = addressDao.AddressIdCount(user.getAddress1().getAddressId());
+					System.out.println("The Count is "+count);
+					if((count.intValue())>=2){
+					
+					}else{
+						address.setActiveFlag(0);
+						addressDao.update(address);
+						Integer addressId=userDao.checkExistingAddress(credentials);
+						System.out.println(count);
+						
+						if(addressId!=null && addressId>=1){
+								//	address.setActiveFlag(0);
+								//	addressDao.update(address);
+									Address updateAddress=addressDao.find(addressId);
+									updateAddress.setActiveFlag(1);
+									user.setAddress1(updateAddress);
+									organization.setAddress(updateAddress);
+						}else{
+								Address newAddress=new Address();
+								newAddress.setAddressLineOne(credentials.getAddressDTO().getAddressLine1());
+								newAddress.setAddressLineTwo(credentials.getAddressDTO().getAddressLine2());
+								newAddress.setState(credentials.getAddressDTO().getState());
+								newAddress.setCity(credentials.getAddressDTO().getCity());
+								newAddress.setCountry(credentials.getAddressDTO().getCountry());
+								newAddress.setZipCode(Long.parseLong(credentials.getAddressDTO().getZipCode()));
+								BigDecimal Latitude=new BigDecimal(credentials.getAddressDTO().getAddressLat());
+								newAddress.setAddressLat(Latitude);
+								BigDecimal Longitude=new BigDecimal(credentials.getAddressDTO().getAddressLong());
+								newAddress.setAddressLong(Longitude);
+								//address.setAddressLong(BigDecimal.valueOf(Long.parseLong(credentials.getAddressDTO().getAddressLong())));
+								newAddress.setCreatedBy(credentials.getUsername());
+								newAddress.setCreatedDate(new Date());
+								newAddress.setActiveFlag(1);
+								organization.setAddress(newAddress);
+								user.setAddress1(newAddress);
+						    	addressDao.save(newAddress);
+							}
+					}
+			    	
+				
+			
+			}
+			organizationDao.save(organization);
+			userDao.save(user);
+		}
+			return true;
+
+			}catch(Exception ex){
+			 LoggerUtil.logError("Error saveOrUpdateProfile", ex);
+			 throw new RsntException("Error while SaveOrUpdateProfile", ex);
+			 
+		 }
+	
+	
 		}
 
 }

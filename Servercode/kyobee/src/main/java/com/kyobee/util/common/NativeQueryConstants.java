@@ -4,7 +4,15 @@ package com.kyobee.util.common;
 public class NativeQueryConstants {
 	
 	public static final String GET_GUEST_MISS_COUNT = "SELECT count(*) from Guest where createdTime >=:first and createdTime <=:last and status=:status";
+	public static final String FIND_ADDRESS_ID = "SELECT addressId from ADDRESS where addressLineOne=:addressLine1 and addressLineTwo=:addressLine2 ";
+	public static final String COUNT_ADDRESS_ID = "SELECT count(*) from USER where AddressId=:addressId";
+	public static final String COUNT_USERNAME = "SELECT count(*) from USER where userName=:username";
+	public static final String COUNT_USEREMAIL = "SELECT count(*) from USER where email=:email";
 	
+	
+	public static final String FIND_PROFILE_BY_USERLOGIN ="Select u from User u join u.organizationUser ou join ou.organization o where lower(u.email)=:username or u.userName=:username and u.password =:password ";
+	
+
 	public static final String GET_ORG_AUTO_RENEW_OPTION = "SELECT AutoRenew from ORGANIZATION where ORGANIZATIONID = ?1";
 	
 	public static final String GET_ORGANIZATION_PLAN_TYPE="SELECT count(*) FROM ORGANIZATION OT "+
@@ -485,4 +493,11 @@ public class NativeQueryConstants {
 	public static final String GET_ORG_MISSED_GUESTS = "FROM Guest g left join fetch g.languagePrefID where g.OrganizationID=:orgId and g.status='DELETED' and date(g.checkinTime) between date(:fromDate) and date(:toDate)";
 	
 	public static final String Get_ORG_LOYAL_CUSTOMER_COUNT = "SELECT name, COUNT(*) AS totalVisit FROM GUEST where OrganizationID=:orgId and date(checkinTime) between date(:fromDate) and date(:toDate) GROUP BY sms HAVING totalVisit >=:visitCount";
+
+	//User Account Activation by Aarshi(11/03/2019)
+	public static final String CHECK_AUTH_CODE_BY_USERID ="SELECT count(userId) from USER u where u.userId=:userId and u.authCode=:authCode";
+	
+	public static final String FIND_USER="SELECT *  FROM USER  where userName=:userName and password=:password";
+
+	
 }

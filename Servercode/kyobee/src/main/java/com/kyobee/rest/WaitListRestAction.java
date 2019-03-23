@@ -33,6 +33,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.jboss.logging.Logger;
 import org.jboss.logging.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bandwidth.sdk.model.events.SmsEvent;
+import com.kyobee.dao.impl.UserDAO;
 /*import com.google.api.translate.Language;
 import com.google.api.translate.Translate;*/
 import com.kyobee.dto.GuestDTO;
@@ -52,6 +54,7 @@ import com.kyobee.dto.SendSMSWrapper;
 import com.kyobee.dto.SmsContentParamDTO;
 import com.kyobee.dto.UserDTO;
 import com.kyobee.dto.WaitlistMetrics;
+import com.kyobee.dto.common.Credential;
 import com.kyobee.dto.common.PaginatedResponse;
 import com.kyobee.dto.common.PaginationReqParam;
 import com.kyobee.dto.common.Response;
@@ -60,7 +63,9 @@ import com.kyobee.entity.GuestNotificationBean;
 import com.kyobee.entity.GuestPreferences;
 import com.kyobee.entity.MarketingPreference;
 import com.kyobee.entity.Organization;
+import com.kyobee.entity.User;
 import com.kyobee.exception.RsntException;
+import com.kyobee.service.ISecurityService;
 import com.kyobee.service.IWaitListService;
 import com.kyobee.util.AppInitializer;
 import com.kyobee.util.SessionContextUtil;
@@ -71,6 +76,7 @@ import com.kyobee.util.common.NativeQueryConstants;
 import com.kyobee.util.common.RealtimefameworkPusher;
 import com.kyobee.util.jms.NotificationMessageReceiver;
 import com.stripe.model.Order;
+import com.kyobee.dao.impl.*;
 
 
 
@@ -87,14 +93,27 @@ public class WaitListRestAction {
 	private Logger log = Logger.getLogger(WaitListRestAction.class);
 	
 	@Autowired
+	ISecurityService securityService;
+	
+	@Autowired
 	private IWaitListService waitListService;
 	
 	@Autowired
 	SessionContextUtil sessionContextUtil;
 	
+
+	
 	@Autowired
 	private NotificationMessageReceiver messageReceiver;
 	
+	//Print success message from property file  by Aarshi(19/03/2019)
+		 @Value("${USER_UPDATE_SUCCESS}")
+		 private String  USER_UPDATE_SUCCESS;
+		 
+		 
+	//Print fail message from property file  by Aarshi(19/03/2019)
+	@Value("${USER_UPDATE_FAIL}")
+	private String  USER_UPDATE_FAIL;
 	/**
 	 * Send Notification to guests by user preferences
 	 * @param guestId
@@ -2086,5 +2105,52 @@ public class WaitListRestAction {
 			}
 			return response;
 		}
-	
+		
+		
+		//saveOrupdateProfile by Aarshi(15/03/2019)
+    	@RequestMapping(value = "/saveOrUpdateProfile", method = RequestMethod.POST, produces = "application/json", consumes="application/json")
+    	public Response<UserDTO> saveOrUpdateProfile(@RequestBody Credential credentials,HttpServletRequest request) throws RsntException{
+    		Response<UserDTO> response = new Response<UserDTO>();
+    		try{
+    		
+    			String userExists=securityService.checkIfExistingUser(credentials.getUserId(),credentials.getUsername(),credentials.getEmail());
+    		   if(userExists.equals("FALSE")){
+   				Boolean statusOfUpdate=waitListService.updateOrSaveProfile(credentials);
+    	    		
+					HttpSession sessionObj = request.getSession();
+					UserDTO userDTO = prepareUserObj(credentials);
+					sessionObj.setAttribute(Constants.USER_OBJ, userDTO);
+					response.setServiceResult(userDTO);
+					response.setStatus(USER_UPDATE_SUCCESS);
+					CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, USER_UPDATE_SUCCESS);
+			
+				}else{
+					response.setStatus(USER_UPDATE_FAIL);
+    				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, USER_UPDATE_FAIL);
+    			}
+
+    		}catch(Exception ex){
+    			response.setStatus(USER_UPDATE_FAIL);
+    			LoggerUtil.logError("Error saveOrUpdateProfile", ex);
+    			CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "","",USER_UPDATE_FAIL);
+    		
+    		}
+    		return response;
+    	}
+////USERDTO by Aarshi(19/03/2019)
+    	private UserDTO prepareUserObj(Credential user) {
+    		UserDTO userDTO = new UserDTO();
+    		userDTO.setUserId(Long.parseLong(user.getUserId()));
+    		userDTO.setOrganizationId(Long.parseLong(user.getOrgId()));
+    		userDTO.setClientBase(user.getClientBase());
+    		userDTO.setCompanyEmail(user.getCompanyEmail());
+    		userDTO.setCompanyName(user.getCompanyName());
+    		userDTO.setPrimaryContactNo(user.getCompanyPrimaryPhone());
+    		userDTO.setEmail(user.getEmail());
+    		userDTO.setFirstName(user.getFirstName());
+    		userDTO.setLastName(user.getLastName());
+    		userDTO.setUserName(user.getUsername());
+    		userDTO.setAddress(user.getAddressDTO().toString());
+    		return userDTO;
+    	}
 }

@@ -1,6 +1,10 @@
 package com.kyobee.dto.common;
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.kyobee.dto.AddressDTO;
+import com.kyobee.dto.GuestPreferencesDTO;
 
 public class Credential implements Serializable {
 
@@ -8,6 +12,42 @@ public class Credential implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 3073325363363636663L;
+
+	//Aarshi
+	private String userId;
+	//Aarshi
+	private String orgId;
+	
+	//Aarshi
+	private AddressDTO addressDTO;
+	
+	
+
+	public AddressDTO getAddressDTO() {
+		return addressDTO;
+	}
+
+	public void setAddressDTO(AddressDTO addressDTO) {
+		this.addressDTO = addressDTO;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+
 
 	private String username;
 	private String password;
@@ -19,6 +59,15 @@ public class Credential implements Serializable {
 	private String lastName;
 	private String confirmPassword;
 	private String clientBase;
+	//Aarshi
+	private String email;
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	public String getUsername() {
 		return username;

@@ -265,7 +265,7 @@ public class CommonUtil {
 			 * String in UTF-8 format. You will get Exception if you don't
 			 * convert your address in UTF-8 format. Perhaps google loves UTF-8
 			 * format. :) In parameter we also need to pass "sensor" parameter.
-			 * sensor (required parameter) — Indicates whether or not the
+			 * sensor (required parameter) ï¿½ Indicates whether or not the
 			 * geocoding request comes from a device with a location sensor.
 			 * This value must be either true or false.
 			 
@@ -1972,10 +1972,13 @@ public class CommonUtil {
 			result.setServiceIdentifier(serviceIdentifier);
 
 		}
-		//GenerateRandomToken for forgotpassword change by pampaniya shweta from line no-1982 to 1985
+		//GenerateRandomToken for forgotpassword change by Aarshi Patel(13-03-2019)
 		public static Long generateRandomToken() 
 		{
-			  return (long) (Math.random() * 1000000000);
+			  Long authCode=(long)(Math.random() * 1000000);
+			  System.out.println("The AuthCode is ....."+authCode);
+			  return (long) (Math.random() * 1000000);
+			  //0000
 		}
 		/**
 		 * Sets response for web service
