@@ -6,6 +6,7 @@ import { SignupComponent } from './public/signup/signup.component';
 import { ForgotpwdComponent } from './public/forgotpwd/forgotpwd.component';
 import { ResetpwdComponent } from './public/resetpwd/resetpwd.component';
 import { ResetpwdThanksComponent } from './public/resetpwd-thanks/resetpwd-thanks.component';
+import { OrgProfileComponent } from './web/org-profile/org-profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'public', pathMatch:'full'},
@@ -21,7 +22,10 @@ const routes: Routes = [
   ]},
   { path: 'web', children: [
     { path: '', redirectTo: 'home', pathMatch:'full'},
-    { path: 'home', component: WaitlistComponent }
+    { path: 'home', component: WaitlistComponent },
+    { path: 'myaccount', children: [
+      { path: 'profile', component: OrgProfileComponent}
+    ]}
   ]}
 ];
 
