@@ -10,7 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="assets/css/sidebar.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/flaticon.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-	<link rel="stylesheet" type="text/css" href="assets/css/kyobee.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/theme-admin.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/setting.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/responsive.css">
 </head>
@@ -51,7 +51,7 @@
 					</ul>
 				</div>
 				<div class="ml-auto logout-res">
-					<button class="navbar-toggler float-left p-0 asidebar" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
+					<button class="navbar-toggler float-left p-0 asidebar" id="asidetogglebtn" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="flaticon-right"></span>
 					</button>
 					Hello, <span>Kyobee</span> | <a class="ml-3" href="login.html"><i class="error flaticon-logout mr-2"></i><span class="font-weight-semibold">Logout</span></a>
@@ -63,11 +63,11 @@
 	<div class="pb-5 fix-wrapper">
 		<div id="wrapper" class="navbar-expand-lg navbar-expand-md">
 			<div id="sidebar-wrapper" class="collapse navbar-collapse sidehide">
-				<button class="navbar-toggler float-right asidebar" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
+				<button class="navbar-toggler float-right asidebar sidehide" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="flaticon-close"></span>
 				</button>
 				<aside id="sidebar">
-					<ul id="sidemenu" class="sidebar-nav text-center pt-2">
+					<ul id="sidemenu" class="sidebar-nav sidehide text-center pt-2">
 						<li class="border-bottom">
 							<a href="dashboard.html">
 								<div class="icon-border-right">
@@ -109,7 +109,7 @@
 							</a>
 						</li>
 						<li class="border-bottom">
-							<a href="" data-toggle="modal" data-target="#resetModal">
+							<a href="" class="sidehide" data-toggle="modal" data-target="#resetModal">
 								<div class="icon-border-right">
 									<div class="icon-circle">
 										<i class="flaticon-reload grey"></i>
@@ -118,7 +118,7 @@
 								<span class="font-12 font-weight-semibold">Reset</span>
 							</a>
 						</li>
-						<li class="border-bottom" style="visibility: hidden;">
+						<li class="border-bottom sm-d-none" style="visibility: hidden;">
 							<a href="" data-toggle="modal" data-target="#resetModal">
 								<div class="icon-border-right">
 									<div class="icon-circle">
@@ -133,7 +133,7 @@
 			</div>
 
 			<main id="page-content-wrapper" role="main">
-				<section class="container pt-3" id="dashboardPage">
+				<section class="container pt-lg-3 pt-md-3 pt-sm-4 pt-4" id="dashboardPage">
 					<div class="row">
 						<form class="col-lg-12">
 							<div class="checkbox my-0 py-2 border-bottom">

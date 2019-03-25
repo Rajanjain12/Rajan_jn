@@ -23,7 +23,7 @@ function showCheckboxes() {
 $('#tableColumnModalBtn').click(function() {
   $(this).addClass("active-filter");
 });
-$('#tableColumnModal .close').click(function() {
+$('#tableColumnModal').click(function() {
   $('#tableColumnModalBtn').removeClass("active-filter");
 });
 

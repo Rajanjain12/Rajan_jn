@@ -9,7 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="assets/css/sidebar.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/flaticon.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-	<link rel="stylesheet" type="text/css" href="assets/css/kyobee.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/theme-admin.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/plan-detail.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/responsive.css">
 </head>
@@ -50,8 +50,8 @@
 					</ul>
 				</div>
 				<div class="ml-auto logout-res">
-					<button class="navbar-toggler float-left p-0 asidebar" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
+					<button class="navbar-toggler float-left p-0 asidebar" id="asidetogglebtn" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="flaticon-right"></span>
 					</button>
 					Hello, <span>Kyobee</span> | <a class="ml-3" href="login.html"><i class="error flaticon-logout mr-2"></i><span class="font-weight-semibold">Logout</span></a>
 				</div>
@@ -59,14 +59,14 @@
 		</div>
 	</header>
 	<div class="clearfix"></div>
-	<div class="pb-2 fix-wrapper">
+	<div class="pb-4 fix-wrapper">
 		<div id="wrapper" class="navbar-expand-lg navbar-expand-md">
 			<div id="sidebar-wrapper" class="collapse navbar-collapse sidehide">
-				<button class="navbar-toggler float-right asidebar" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="flaticon-logout"></span>
+				<button class="navbar-toggler float-right asidebar sidehide" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="flaticon-close"></span>
 				</button>
 				<aside id="sidebar">
-					<ul id="sidemenu" class="sidebar-nav text-center pt-2">
+					<ul id="sidemenu" class="sidebar-nav sidehide text-center pt-2">
 						<li class="border-bottom">
 							<a href="profile.html">
 								<div class="icon-border-right">
@@ -87,7 +87,7 @@
 								<span class="font-12 font-weight-semibold">Plans & Payment</span>
 							</a>
 						</li>
-						<li class="border-bottom" style="visibility: hidden;">
+						<li class="border-bottom sm-d-none" style="visibility: hidden;">
 							<a href="" data-toggle="modal" data-target="#resetModal">
 								<div class="icon-border-right">
 									<div class="icon-circle">
@@ -101,8 +101,8 @@
 				</aside>
 			</div>
 			<main id="page-content-wrapper" role="main">
-				<section class="container pt-0 pb-0">
-					<div class="p-3 mt-2 plan-detail">
+				<section class="container pt-lg-0 pt-md-0 pt-sm-4 pt-4">
+					<div class="p-3 plan-detail">
 						<h5 class="text-center mb-3 font-weight-semibold">Subscribed Plan</h5>
 						<table class="table-responsive d-flex justify-content-center">
 							<tbody>
@@ -146,9 +146,15 @@
 								</tr>
 							</tbody>
 						</table>
-						<div class="col-lg-12 text-center pt-4">
-							<button type="button" class="btn btn-theme background-color shadow mr-4" onclick="window.open('select-plan.html','_self')">Change Plan</button>
-							<button type="button" class="btn btn-theme background-color shadow" onclick="window.open('payment.html','_self')">Pay Now</button>
+						<div class="col-lg-12 text-center py-2">
+							<div class="row">
+								<div class="col-lg-6 col-md-6 col-sm-12 text-right sm-center my-2">
+									<button type="button" class="btn btn-theme background-color shadow" onclick="window.open('select-plan.html','_self')">Change Plan</button>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-12 text-left sm-center my-2">
+									<button type="button" class="btn btn-theme background-color shadow" onclick="window.open('payment.html','_self')">Pay Now</button>
+								</div>
+							</div>
 						</div>
 					</div>
 				</section>
