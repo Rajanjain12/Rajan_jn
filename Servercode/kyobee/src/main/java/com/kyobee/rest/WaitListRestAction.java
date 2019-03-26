@@ -22,6 +22,7 @@ import java.util.Properties;
 import java.util.TimeZone;
 import java.util.UUID;
 
+import javax.inject.Qualifier;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -34,6 +35,7 @@ import org.jboss.logging.Logger;
 import org.jboss.logging.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -65,9 +67,11 @@ import com.kyobee.entity.MarketingPreference;
 import com.kyobee.entity.Organization;
 import com.kyobee.entity.User;
 import com.kyobee.exception.RsntException;
+import com.kyobee.service.ConfigurationService;
 import com.kyobee.service.ISecurityService;
 import com.kyobee.service.IWaitListService;
 import com.kyobee.util.AppInitializer;
+
 import com.kyobee.util.SessionContextUtil;
 import com.kyobee.util.common.CommonUtil;
 import com.kyobee.util.common.Constants;
@@ -75,6 +79,8 @@ import com.kyobee.util.common.LoggerUtil;
 import com.kyobee.util.common.NativeQueryConstants;
 import com.kyobee.util.common.RealtimefameworkPusher;
 import com.kyobee.util.jms.NotificationMessageReceiver;
+
+import com.kyobee.util.PropertyUtility;
 import com.stripe.model.Order;
 import com.kyobee.dao.impl.*;
 
@@ -91,9 +97,14 @@ public class WaitListRestAction {
 	//@Logger
 	//private Log log;
 	private Logger log = Logger.getLogger(WaitListRestAction.class);
+	/*@Autowired
+	private ConfigurationService configurationService;*/
 	
 	@Autowired
 	ISecurityService securityService;
+	
+	@Autowired
+	ConfigurationService configurationService;
 	
 	@Autowired
 	private IWaitListService waitListService;
@@ -106,14 +117,7 @@ public class WaitListRestAction {
 	@Autowired
 	private NotificationMessageReceiver messageReceiver;
 	
-	//Print success message from property file  by Aarshi(19/03/2019)
-		 @Value("${USER_UPDATE_SUCCESS}")
-		 private String  USER_UPDATE_SUCCESS;
-		 
-		 
-	//Print fail message from property file  by Aarshi(19/03/2019)
-	@Value("${USER_UPDATE_FAIL}")
-	private String  USER_UPDATE_FAIL;
+	
 	/**
 	 * Send Notification to guests by user preferences
 	 * @param guestId
@@ -2050,9 +2054,12 @@ public class WaitListRestAction {
 		//@GET
 		//@Path("/fetchSMSTemplates")
 		//@Produces(MediaType.APPLICATION_JSON)
+		
 		@RequestMapping(value = "/fetchSMSTemplates", method = RequestMethod.GET, produces = "application/json")
 		public Response<List<OrganizationTemplateDTO>> fetchOrgSMSTemplatesById(@RequestParam("organizationID") Long orgId,@RequestParam("langPrefID") Long langID){
-			log.info("Entering :: fetchSMSTemplates");
+
+			
+			
 			Response<List<OrganizationTemplateDTO>> response = new Response<List<OrganizationTemplateDTO>>();
 			try {
 				List<OrganizationTemplateDTO> organizationTemplateDTOs = waitListService.getOrganizationTemplates(orgId,langID,null);
@@ -2063,7 +2070,9 @@ public class WaitListRestAction {
 				CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
 						"System Error - fetch Organization Templates");
 			}
+			
 			return response;
+			
 		}
 		
 		/**
@@ -2111,8 +2120,14 @@ public class WaitListRestAction {
     	@RequestMapping(value = "/saveOrUpdateProfile", method = RequestMethod.POST, produces = "application/json", consumes="application/json")
     	public Response<UserDTO> saveOrUpdateProfile(@RequestBody Credential credentials,HttpServletRequest request) throws RsntException{
     		Response<UserDTO> response = new Response<UserDTO>();
+    		Properties oProperties=new Properties();
+    		   try {
+    			oProperties = PropertyUtility.fetchPropertyFile(this.getClass(),"rsnt.properties");
+    		} catch (IOException e) {
+    			LoggerUtil.logError("Unable to Fetch file");
+    		}
     		try{
-    		
+    			
     			String userExists=securityService.checkIfExistingUser(credentials.getUserId(),credentials.getUsername(),credentials.getEmail());
     		   if(userExists.equals("FALSE")){
    				Boolean statusOfUpdate=waitListService.updateOrSaveProfile(credentials);
@@ -2121,18 +2136,19 @@ public class WaitListRestAction {
 					UserDTO userDTO = prepareUserObj(credentials);
 					sessionObj.setAttribute(Constants.USER_OBJ, userDTO);
 					response.setServiceResult(userDTO);
-					response.setStatus(USER_UPDATE_SUCCESS);
-					CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, USER_UPDATE_SUCCESS);
+					response.setStatus(oProperties.getProperty(Constants.USER_UPDATE_SUCCESS));
+					CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, oProperties.getProperty(Constants.USER_UPDATE_SUCCESS));
 			
 				}else{
-					response.setStatus(USER_UPDATE_FAIL);
-    				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, USER_UPDATE_FAIL);
+					response.setStatus(oProperties.getProperty(Constants.USER_UPDATE_FAIL));
+    				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, oProperties.getProperty(Constants.USER_UPDATE_FAIL));
     			}
 
     		}catch(Exception ex){
-    			response.setStatus(USER_UPDATE_FAIL);
+    		
+    			response.setStatus(oProperties.getProperty(Constants.USER_UPDATE_FAIL));
     			LoggerUtil.logError("Error saveOrUpdateProfile", ex);
-    			CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "","",USER_UPDATE_FAIL);
+    			CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "","",(oProperties.getProperty(Constants.USER_UPDATE_FAIL)));
     		
     		}
     		return response;
