@@ -168,7 +168,7 @@ public class Constants {
 	//kanaiya 26/03/2019 just for demo purpose
 	public static final String STATUSS="status";
 	public static final String SUCCESSS="Successfulverification";
-	public static final String USERNAME="rsnt.mail.username";
+	
 	
 	
 	

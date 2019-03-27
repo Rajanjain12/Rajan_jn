@@ -66,7 +66,7 @@ public class ConfigurationDaoImpl extends GenericDAOImpl<Configuration, Integer>
 			}
 			catch(Exception e)
 			{
-				new Exception("During Reset Configuration Exception Occur"+e.getMessage());
+				new Exception("During Reset Configuration Exception Occurr"+e.getMessage());
 			}
 		}  
 	
