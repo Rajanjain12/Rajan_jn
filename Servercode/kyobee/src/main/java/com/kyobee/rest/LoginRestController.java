@@ -35,6 +35,7 @@ import com.kyobee.entity.Organization;
 import com.kyobee.entity.User;
 import com.kyobee.exception.NoSuchUsernameException;
 import com.kyobee.exception.RsntException;
+import com.kyobee.service.ConfigurationService;
 import com.kyobee.service.IOrganizationService;
 import com.kyobee.service.ISecurityService;
 import com.kyobee.service.IWaitListService;
@@ -62,6 +63,8 @@ public class LoginRestController {
 	
 	@Autowired
 	SessionContextUtil sessionContextUtil;
+	@Autowired
+	ConfigurationService configurationService;
 
 	
 	/*
@@ -375,7 +378,7 @@ public class LoginRestController {
 	public Response<String> activateUser(@RequestParam String authCode,@RequestParam  Integer  userId)throws RsntException{
 		Properties oProperties=new Properties();
 	   try {
-		oProperties = PropertyUtility.fetchPropertyFile(this.getClass(),"rsnt.properties");
+		oProperties = PropertyUtility.fetchPropertyFile(this.getClass(),Constants.RSNTPROPERTIES);
 	} catch (IOException e) {
 		LoggerUtil.logError("Unable to Fetch file"+userId);
 	}
@@ -412,7 +415,7 @@ public class LoginRestController {
     		Response<String> response = new Response<String>();
     		Properties oProperties=new Properties();
     		try {
-				oProperties = PropertyUtility.fetchPropertyFile(this.getClass(),"rsnt.properties");
+				oProperties = PropertyUtility.fetchPropertyFile(this.getClass(),Constants.RSNTPROPERTIES);
 			} catch (IOException e) {
 				LoggerUtil.logError("Unable to Fetch file"+userId);
 			}
@@ -460,7 +463,7 @@ public class LoginRestController {
     		Response<String> response = new Response<String>();
     		Properties oProperties=new Properties();
     		try {
-				oProperties = PropertyUtility.fetchPropertyFile(this.getClass(),"rsnt.properties");
+				oProperties = PropertyUtility.fetchPropertyFile(this.getClass(),Constants.RSNTPROPERTIES);
 			} catch (IOException e) {
 				LoggerUtil.logError("Unable to Fetch file"+userId);
 			}
@@ -527,6 +530,24 @@ public class LoginRestController {
     		}
     		return userDetails;
     	}
+
+	@RequestMapping(value = "/resetConfiguration", method = RequestMethod.GET, produces = "application/json")
+	public Response<String> resetConfigurationMap() throws Exception {
+		Response<String> response = new Response<String>();
+		try {
+			configurationService.resetConfigurationMap();
+
+			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "");
+			response.setServiceResult("Configurationmap Reset Succesfully");
+			LoggerUtil.logInfo("Reset ConfifgurationMap Successfully");
+		} catch (Exception e) {
+			CommonUtil.setWebserviceResponse(response, Constants.FAILURE, " ");
+			response.setServiceResult("Error Occur while Reset configuration map ");
+			LoggerUtil.logInfo("Error Occur while Reset Configuration map");
+		}
+		return response;
+	}
+    	
     	
    
     	

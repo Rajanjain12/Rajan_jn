@@ -36,7 +36,7 @@ public class ConfigurationDaoImpl extends GenericDAOImpl<Configuration, Integer>
 
 
 	@Override
-	public String getItemValue(String itemKey) {
+	public String getItemValue(String itemKey){
 		 if (configurationMap == null) {
 	            loadAll();
 	        }
@@ -58,7 +58,17 @@ public class ConfigurationDaoImpl extends GenericDAOImpl<Configuration, Integer>
 	        }
 	        return valueStr;
 	    }
-		
+	
+		public void resetConfigurationMap() throws Exception {
+			try
+			{
+			configurationMap=null;
+			}
+			catch(Exception e)
+			{
+				new Exception("During Reset Configuration Exception Occur", e);
+			}
+		}  
 	
 	
 }

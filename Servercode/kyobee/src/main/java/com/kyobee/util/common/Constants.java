@@ -158,6 +158,13 @@ public class Constants {
 	public static final String ACTIVATION_MAIL_FAIL="activationMailFail";
 	public static final String CHANGE_PASSWORD_SUCCESS="changePasswordSuccess";
 	public static final String CHANGE_PASSWORD_FAIL="changePasswordFail";
+	public static final String RSNTPROPERTIES="rsnt.properties";
+	public static final String WAITLISTPROPERTIES="waitlist.properties";
+	public static final String AUTHCODELINK="authCodeLink";
+	public static final String ROUTRNO="routeNo";
+	public static final String MAXPARTY="maxParty";
+	public static final String 	WAITTIME="waitTime";
+	public static final String NOTIFYUSERCOUNT="notifyUserCount";
 	//kanaiya 26/03/2019 just for demo purpose
 	public static final String STATUSS="status";
 	public static final String SUCCESSS="Successfulverification";

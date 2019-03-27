@@ -5,4 +5,5 @@ import com.kyobee.entity.Configuration;
 public interface ConfigurationDao extends  IGenericDAO <Configuration, Integer> {
 	
 	public String getItemValue(String itemKey);
+	public void resetConfigurationMap() throws Exception;
 }

@@ -1,6 +1,8 @@
 package com.kyobee.util;
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.Properties;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -48,8 +50,6 @@ public class EmailUtil {
 	@Value("${rsnt.base.forgotpassword.url.suffix}")
     private String forgotpassSuffixUrl;
 
-	@Value("${AuthCode_link}")
-    private String AuthCode_link;
 
 	public void setMailSender(JavaMailSender mailSender) {
 		this.mailSender = mailSender;
@@ -138,6 +138,12 @@ public class EmailUtil {
 	//Send authentication mail to user(12/03/2019)
 	public void senAuthCodeEmail(User user) throws RsntException{
 		// TODO Auto-generated method stub
+		Properties oProperties=new Properties();
+		try {
+			oProperties = PropertyUtility.fetchPropertyFile(this.getClass(),Constants.RSNTPROPERTIES);
+		} catch (IOException e) {
+			LoggerUtil.logError("error while fetch property file");
+		}
 		try{
             MimeMessage mimeMessage = mailSender.createMimeMessage();
 			mimeMessage.setFrom(new InternetAddress(from));
@@ -150,7 +156,7 @@ public class EmailUtil {
 			htmlContent.append("<p>Hi " + user.getFirstName() +  user.getLastName() +", </p>");
 			htmlContent.append("<p>Welcome to Kyobee Waitlist.</p>");
 			htmlContent.append("<p>Your authentication code for account activation" +user.getAuthcode() +",</p>");
-			htmlContent.append("<p><a href='"+ AuthCode_link +"'>Click here</a></p>");
+			htmlContent.append("<p><a href='"+ oProperties.getProperty(Constants.AUTHCODELINK) +"'>Click here</a></p>");
 			htmlContent.append("<p>Thank You</p>");
 			htmlContent.append("<p>Kyobee Team</p>");
 			helper.setText(htmlContent.toString(), true);

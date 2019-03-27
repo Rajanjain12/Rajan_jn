@@ -1,11 +1,13 @@
 package com.kyobee.service.impl;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -34,6 +36,7 @@ import com.kyobee.exception.RsntException;
 import com.kyobee.service.ISecurityService;
 import com.kyobee.util.AppTransactional;
 import com.kyobee.util.EmailUtil;
+import com.kyobee.util.PropertyUtility;
 import com.kyobee.util.SessionContextUtil;
 import com.kyobee.util.common.CommonUtil;
 import com.kyobee.util.common.Constants;
@@ -64,23 +67,6 @@ public class SecurityServiceImpl implements ISecurityService {
 	
 	@Value("${smsRouteId}")
 	private String smsRoute;
-	
-	//Set max number of party  from properties file by Aarshi(01/03/2019)
-	@Value("${maxParty}")
-	private Integer maxParty;
-	
-	//Set smsRouteNo By Aarshi(01/03/2019)
-	@Value("${routeno}")
-	private String routeNo;
-	
-	//Set waitTime By Aarshi(01/03/2019)
-	@Value("${waitTime}")
-	private Long waitTime;
-	//Set notifyUserCount  by Aarshi(01/03/2019)
-	@Value("${notifyUserCount}")
-	private Long notifyUserCount;
-	
-
 	/*@Logger
 	private Log log;*/
 	private Logger log = Logger.getLogger(SecurityServiceImpl.class);
@@ -495,7 +481,7 @@ public class SecurityServiceImpl implements ISecurityService {
 			}else{
 				return false;
 			}
-			
+			 
 		}catch(Exception ex){
 			LoggerUtil.logError("Error while Change Password", ex);
 		    throw new RsntException("ChangePassword"+userId, ex);
@@ -504,6 +490,12 @@ public class SecurityServiceImpl implements ISecurityService {
 	}
 	@Override
 	public User signupUserV2(Credential credentials) throws RsntException {
+		Properties oProperties=new Properties();
+		try {
+			oProperties = PropertyUtility.fetchPropertyFile(this.getClass(),Constants.RSNTPROPERTIES);
+		} catch (IOException e1) {
+			LoggerUtil.logError("unable to fetch property file");
+		}
 		try {
 			// Creating User
 			User signUpUser = new User();
@@ -543,14 +535,10 @@ public class SecurityServiceImpl implements ISecurityService {
 			organization.setSmsSignature(organization.getOrganizationName());
 			
 			organization.setSmsRoute(smsRoute);
-			//Set max party By Aarshi(01/03/2019)
-			organization.setMaxParty(maxParty);
-			//Set smsRouteNo By Aarshi(01/03/2019)
-			organization.setSmsRouteNo(routeNo);
-			//Set  waitTime By Aarshi(01/03/2019)
-			organization.setWaitTime(waitTime);
-			//Set notifyUserCount  by Aarshi(01/03/2019)
-			organization.setNotifyUserCount(notifyUserCount);
+		    organization.setMaxParty(Integer.parseInt(oProperties.getProperty(Constants.MAXPARTY)));
+			organization.setSmsRouteNo(oProperties.getProperty(Constants.ROUTRNO));
+		    organization.setWaitTime(Long.parseLong(oProperties.getProperty(Constants.WAITTIME)));
+			organization.setNotifyUserCount(Long.parseLong(oProperties.getProperty(Constants.NOTIFYUSERCOUNT)));
 
 			OrganizationPlanSubscription organizationPlanSubscription = new OrganizationPlanSubscription();
 			organizationPlanSubscription.setAmountPerUnit(new BigDecimal(0.0));

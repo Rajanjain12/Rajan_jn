@@ -1981,7 +1981,7 @@ public class WaitListRestAction {
 		Map<String, String> propInfo = new HashMap<String, String>();
 		try{
 		Properties rsntProperties = new Properties();
-		rsntProperties.load(this.getClass().getClassLoader().getResourceAsStream("rsnt.properties"));
+		rsntProperties.load(this.getClass().getClassLoader().getResourceAsStream(Constants.RSNTPROPERTIES));
 		footerMsg = rsntProperties.getProperty("rsnt.footerMsg");
 		propInfo.put(Constants.FOOTER_MSG, footerMsg);
 		//final JSONObject jsonObject = JSONObject.fromObject(eventConfig);
@@ -2059,7 +2059,6 @@ public class WaitListRestAction {
 		public Response<List<OrganizationTemplateDTO>> fetchOrgSMSTemplatesById(@RequestParam("organizationID") Long orgId,@RequestParam("langPrefID") Long langID){
 
 			
-			
 			Response<List<OrganizationTemplateDTO>> response = new Response<List<OrganizationTemplateDTO>>();
 			try {
 				List<OrganizationTemplateDTO> organizationTemplateDTOs = waitListService.getOrganizationTemplates(orgId,langID,null);
@@ -2122,7 +2121,7 @@ public class WaitListRestAction {
     		Response<UserDTO> response = new Response<UserDTO>();
     		Properties oProperties=new Properties();
     		   try {
-    			oProperties = PropertyUtility.fetchPropertyFile(this.getClass(),"rsnt.properties");
+    			oProperties = PropertyUtility.fetchPropertyFile(this.getClass(),Constants.RSNTPROPERTIES);
     		} catch (IOException e) {
     			LoggerUtil.logError("Unable to Fetch file");
     		}
