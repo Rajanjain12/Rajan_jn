@@ -163,7 +163,7 @@ public class Constants {
 	public static final String AUTHCODELINK="authCodeLink";
 	public static final String ROUTRNO="routeNo";
 	public static final String MAXPARTY="maxParty";
-	public static final String 	WAITTIME="waitTime";
+	public static final String WAITTIME="waitTime";
 	public static final String NOTIFYUSERCOUNT="notifyUserCount";
 	//kanaiya 26/03/2019 just for demo purpose
 	public static final String STATUSS="status";

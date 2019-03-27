@@ -536,13 +536,13 @@ public class LoginRestController {
 		Response<String> response = new Response<String>();
 		try {
 			configurationService.resetConfigurationMap();
-
-			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "");
 			response.setServiceResult("Configurationmap Reset Succesfully");
+			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "");
+			
 			LoggerUtil.logInfo("Reset ConfifgurationMap Successfully");
 		} catch (Exception e) {
-			CommonUtil.setWebserviceResponse(response, Constants.FAILURE, " ");
 			response.setServiceResult("Error Occur while Reset configuration map ");
+			CommonUtil.setWebserviceResponse(response, Constants.FAILURE, " ");
 			LoggerUtil.logInfo("Error Occur while Reset Configuration map");
 		}
 		return response;
