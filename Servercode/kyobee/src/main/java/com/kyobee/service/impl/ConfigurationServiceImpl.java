@@ -29,7 +29,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 		}
 		catch(Exception e)
 		{
-			new Exception("Occur During Reset ConfigurationMap in  ConfigurationService"+e.getMessage());
+			new Exception("Occur During Reset ConfigurationMap in  ConfigurationService"+e.getMessage(),e);
 		}
 	    }
 	
