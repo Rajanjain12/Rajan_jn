@@ -393,6 +393,7 @@ fieldset {
 .custom-modal-header{text-align: center;font-size: 22px;padding: 10px 20px;border-top-left-radius: $border-radius;border-top-right-radius: $border-radius;}
 .normal-box-container{box-shadow:$box-shadow;padding:20px;border-radius:$border-radius}
 .error{color: red;}
+.pointer{ cursor:pointer; color: $theme-color !important}
 .loading{
   width: 100%;
   height: 100%;

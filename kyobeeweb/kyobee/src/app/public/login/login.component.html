@@ -10,6 +10,7 @@
 				</div>
 				<div class="col-lg-6 pb-5 pt-3 pb-md-0">
 					<div class="container-box">
+						<span class="error-header" *ngIf="errorMsg!=null">{{errorMsg}}</span>
 						<form #loginForm="ngForm" novalidate>
 							<div class="form-group mt-0">
 								<input type="text" required="required" name="uname" #uname="ngModel" [(ngModel)]="username" />

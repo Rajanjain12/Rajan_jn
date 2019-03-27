@@ -24,12 +24,12 @@
 	.sm-mx-auto {
 		margin: auto;
 	}
+	.sm-center {
+		text-align: center !important;
+	}
 	.modal {
 		.modal-btn {
 			text-align: center !important;
-			.btn-theme {
-				width: 80% !important;
-			}
 		}
 	}
 
@@ -84,9 +84,19 @@
 				a {
 					text-align: left;
 					.icon-border-right {
-						padding: 8px;
+						padding: 5px;
 						display: inline-block;
 						border-right: none;
+						.icon-circle {
+							height: 35px;
+							width: 35px;
+							border-radius: 35px;
+							line-height: 30px;
+							[class^="flaticon-"]:before, [class*=" flaticon-"]:before, [class^="flaticon-"]:after, [class*=" flaticon-"]:after {
+								font-family: Flaticon;
+								font-size: 18px;
+							}
+						}
 					}
 				}
 			}
@@ -134,6 +144,11 @@
 	// 		}
 	// 	}
 	// }
+	.verification-input{
+		width:34px;
+		margin: 0 auto;
+	}
+	#rc-imageselect, .g-recaptcha {transform:scale(0.77);-webkit-transform:scale(0.77);transform-origin:0 0;-webkit-transform-origin:0 0;}
 
 }
 

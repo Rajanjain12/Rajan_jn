@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   public username = null;
   public password = null;
   public loading = false;
-  public errorMsg: string = null;
+  public errorMsg: string = "class to be added";
 
   ngOnInit() {
     this.subdomain = this.dataService.getData().subdomain;

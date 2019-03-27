@@ -178,7 +178,7 @@ a {
   margin-top: 80px; }
 
 .alert-danger {
-  color: #e14b28;
+  color: red;
   background-color: #ffffff;
   border: 1px solid #dfdfdf;
   border-radius: 20px;
@@ -198,7 +198,7 @@ a {
     outline: none;
     padding: .5em 1em;
     border-left: 1px solid #dfdfdf;
-    color: #e14b28;
+    color: red;
     background-color: transparent; }
     .alert-danger button [class^="flaticon-close"]:before, .alert-danger button [class*=" flaticon-close"]:before, .alert-danger button [class^="flaticon-close"]:after, .alert-danger button [class*=" flaticon-close"]:after {
       font-family: Flaticon;
@@ -552,3 +552,12 @@ fieldset {
 .pointer {
   cursor: pointer;
   color: #e14b28 !important; }
+
+.loading {
+  width: 100%;
+  height: 100%;
+  background: url("../src/assets/img/loader.gif") no-repeat center center #fafafa;
+  z-index: 9999;
+  position: fixed;
+  opacity: 0.9;
+  display: block; }

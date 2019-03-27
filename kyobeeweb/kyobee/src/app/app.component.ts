@@ -7,7 +7,7 @@ import { DataService } from './services/data.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  public loading: boolean = true;
+  public loading: boolean = false;
   public url: string;
   public logoImgSrc: string;
   public cssFile: string;
