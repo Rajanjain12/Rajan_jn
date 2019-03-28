@@ -11,7 +11,7 @@ export class ResetpwdThanksComponent implements OnInit {
 
   constructor(private dataService: DataService) { }
 
-  public resetPwdPageImageSrc: string = imgLinks.resetPwdPageImageSrc;
+  public resetPwdPageImageSrc: string = imgLinks.resetPwdPageImg;
 
   ngOnInit() {
   }

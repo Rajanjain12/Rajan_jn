@@ -1,4 +1,4 @@
-@import 'variable';
+@import '../../../assets/sass/variable';
 #dashboardPage {
     .no-data-img{width: 32%}
     .table-column-btn{
@@ -8,16 +8,11 @@
         border-radius:$border-radius;
         padding: 8px 15px;
     }
-    .active-filter { background-color: $theme-color; color: $white-color;
-        i {
-            color: $white-color;
-        }
-    }
     .search {
         padding: 8px 10px 8px 45px;
         background-repeat: no-repeat;
         background-position: 10px;
-        background-image: url('../images/search.png');
+        background-image: url('src/assets/img/search.png');
         border-radius:$border-radius;
     }
     .page-item{margin-right:10px}

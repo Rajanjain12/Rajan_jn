@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private httpService: HttpService, private dataService: DataService) { }
 
-  public signinPageImageSrc: string = imgLinks.signinPageImageSrc;
+  public signinPageImageSrc: string = imgLinks.signinPageImg;
   public subdomain: string;
   public username = null;
   public password = null;

@@ -62,7 +62,12 @@ export class AppComponent implements OnInit {
     this._dataService.setData(this.subdomain, this.serverUrl);
   }
 }
-export const imgLinks = { "signinPageImageSrc": "../assets/img/sign-in-illu.png",
-                          "forgotPwdPageImageSrc":"../assets/img/recovery-pass-illu.png",
-                          "correctSignImageSrc":"../assets/img/correct-sign.png",
-                          "resetPwdPageImageSrc":"../assets/img/reset-pass-illu.png"}
+export const imgLinks = { "signinPageImg": "../assets/img/sign-in-illu.png",
+                          "forgotPwdPageImg":"../assets/img/recovery-pass-illu.png",
+                          "correctSignImg":"../assets/img/correct-sign.png",
+                          "resetPwdPageImg":"../assets/img/reset-pass-illu.png",
+                          "dashboardIlluImg":"../assets/img/dashboard-illu.png",
+                          "noteIconImg":"../assets/img/note-icon.png",
+                          "deleteIconImg":"../assets/img/delete-icon.png",
+                          "msgIconImg":"../assets/img/message-icon.png",
+                          "notPresentImg":"../assets/img/not-present.png"}

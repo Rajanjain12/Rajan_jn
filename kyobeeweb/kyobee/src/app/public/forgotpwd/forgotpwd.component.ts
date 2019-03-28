@@ -12,8 +12,8 @@ export class ForgotpwdComponent implements OnInit {
 
   constructor(private dataService: DataService, private httpService: HttpService) { }
 
-  public forgotPwdPageImageSrc: string = imgLinks.forgotPwdPageImageSrc;
-  public correctSignImageSrc: string = imgLinks.correctSignImageSrc;
+  public forgotPwdPageImageSrc: string = imgLinks.forgotPwdPageImg;
+  public correctSignImageSrc: string = imgLinks.correctSignImg;
   public loading: boolean = false;
   public email: string;
 	public successMsg: string = null;

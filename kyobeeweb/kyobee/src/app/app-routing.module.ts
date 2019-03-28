@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './public/login/login.component';
-import { WaitlistComponent } from './web/waitlist/waitlist.component';
 import { SignupComponent } from './public/signup/signup.component';
 import { ForgotpwdComponent } from './public/forgotpwd/forgotpwd.component';
 import { ResetpwdComponent } from './public/resetpwd/resetpwd.component';
 import { ResetpwdThanksComponent } from './public/resetpwd-thanks/resetpwd-thanks.component';
 import { OrgProfileComponent } from './web/org-profile/org-profile.component';
+import { DashboardComponent } from './web/dashboard/dashboard.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'public', pathMatch:'full'},
@@ -22,7 +22,7 @@ const routes: Routes = [
   ]},
   { path: 'web', children: [
     { path: '', redirectTo: 'home', pathMatch:'full'},
-    { path: 'home', component: WaitlistComponent },
+    { path: 'home', component: DashboardComponent },
     { path: 'myaccount', children: [
       { path: 'profile', component: OrgProfileComponent}
     ]}
@@ -34,4 +34,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export const routerComponents =  [LoginComponent, WaitlistComponent, SignupComponent, ForgotpwdComponent, ResetpwdComponent, ResetpwdThanksComponent]
+export const routerComponents =  [LoginComponent, DashboardComponent, SignupComponent, ForgotpwdComponent, ResetpwdComponent, ResetpwdThanksComponent]

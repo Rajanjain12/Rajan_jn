@@ -1,0 +1,408 @@
+<section class="pb-5">
+  <div id="wrapper" class="navbar-expand-lg navbar-expand-md">
+    <div id="sidebar-wrapper" class="collapse navbar-collapse sidehide">
+      <button class="navbar-toggler float-right asidebar sidehide" type="button" data-toggle="collapse"
+        data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="flaticon-close"></span>
+      </button>
+      <aside id="sidebar">
+        <ul id="sidemenu" class="sidebar-nav sidehide text-center pt-2">
+          <li class="border-bottom active">
+            <a href="dashboard.html">
+              <div class="icon-border-right">
+                <div class="icon-circle">
+                  <i class="flaticon-home grey"></i>
+                </div>
+              </div>
+              <span class="font-12 font-weight-semibold">Dashboard</span>
+            </a>
+          </li>
+          <li class="border-bottom">
+            <a href="add-user.html">
+              <div class="icon-border-right">
+                <div class="icon-circle">
+                  <i class="flaticon-add grey"></i>
+                </div>
+              </div>
+              <span class="font-12 font-weight-semibold">Add User</span>
+            </a>
+          </li>
+          <li class="border-bottom">
+            <a href="history.html">
+              <div class="icon-border-right">
+                <div class="icon-circle">
+                  <i class="flaticon-history grey"></i>
+                </div>
+              </div>
+              <span class="font-12 font-weight-semibold">History</span>
+            </a>
+          </li>
+          <li class="border-bottom">
+            <a href="setting.html">
+              <div class="icon-border-right">
+                <div class="icon-circle">
+                  <i class="flaticon-gear grey"></i>
+                </div>
+              </div>
+              <span class="font-12 font-weight-semibold">Setting</span>
+            </a>
+          </li>
+          <li class="border-bottom">
+            <a href="" class="sidehide" data-toggle="modal" data-target="#resetModal">
+              <div class="icon-border-right">
+                <div class="icon-circle">
+                  <i class="flaticon-reload grey"></i>
+                </div>
+              </div>
+              <span class="font-12 font-weight-semibold">Reset</span>
+            </a>
+          </li>
+          <li class="border-bottom sm-d-none" style="visibility: hidden;">
+            <a href="" data-toggle="modal" data-target="#resetModal">
+              <div class="icon-border-right">
+                <div class="icon-circle">
+                  <i class="flaticon-reload grey"></i>
+                </div>
+              </div>
+              <span class="font-12 font-weight-semibold">Don't Show</span>
+            </a>
+          </li>
+        </ul>
+      </aside>
+    </div>
+
+    <main id="page-content-wrapper" role="main">
+      <section class="container pt-lg-4 pt-md-4 pt-sm-5 pt-5" id="dashboardPage">
+
+        <div class="alert alert-danger mt-2 row-eq-height" style="display: none;" role="alert">
+          <span class="m-auto float-left">Notification about renewing plan. Lorem Ipsum is simply dummy text of the
+            printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
+            1500s.</span>
+          <button href="#" data-dismiss="alert"><i class="flaticon-close font-color"></i></button>
+          <div class="clearfix"></div>
+        </div>
+        <!-- <div class="alert alert-custom alert-dismissible" style="">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<p>Notification about renewing plan. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+					</div>-->
+        <div class="row">
+          <div class="col-lg-9">
+            <div class="row pb-2">
+              <div class="col-lg-3 pb-2">
+                <a class="table-column-btn" href="" data-toggle="modal" id="tableColumnModalBtn"
+                  data-target="#tableColumnModal">Show Column<i class="flaticon-filter font-color float-right"></i></a>
+              </div>
+              <div class="col-lg-auto pb-2">
+                <span class="table-column-btn">
+                  <span class="col-lg-4 col-md-4 col-sm-6 sm-block p-0 my-2">Party Wait Time
+                    <select class="font-color">
+                      <option>15 Min.</option>
+                      <option>30 Min.</option>
+                      <option>45 Min.</option>
+                    </select>
+                  </span>
+                  <!-- <span class="col-lg-4 col-md-4 col-sm-6">Notify First
+											<select>
+												<option>1</option>
+												<option>2</option>
+												<option>3</option>
+											</select>
+										</span> -->
+                  <span class="col-lg-4 col-md-4 col-sm-6 sm-block p-0 my-2"> Total Wait Time
+                    <span class="text-white background-color py-1 px-4 rounded">00.30</span>
+                  </span>
+                </span>
+              </div><!-- col -->
+            </div><!-- row -->
+          </div><!-- col -->
+          <div class="col-lg-3 text-right pb-2">
+            <input class="form-control search" type="text" name="" placeholder="Search">
+          </div><!-- col -->
+        </div><!-- row -->
+        <div class="d-none">
+          <div class="table-responsive">
+            <table class="table">
+              <thead class="background-color text-white">
+                <tr>
+                  <th class="font-weight-semibold">Action</th>
+                  <th class="font-weight-semibold">Party Rank</th>
+                  <th class="font-weight-semibold">PartyType</th>
+                  <th class="font-weight-semibold">No. of Party</th>
+                  <th class="font-weight-semibold">Name</th>
+                  <th class="font-weight-semibold">Check In time</th>
+                  <th class="font-weight-semibold">Quote Time</th>
+                  <th class="font-weight-semibold">Note</th>
+                  <th class="font-weight-semibold">Delete</th>
+                  <th class="font-weight-semibold">Send Text</th>
+                </tr>
+              </thead>
+            </table>
+          </div><!-- table-responsive -->
+          <div class="col-lg-12 text-center">
+            <img class="no-data-img" [src]="dashboardIlluImageSrc" alt="image">
+          </div><!-- dashboard -->
+        </div><!-- display none -->
+        <div>
+          <div class="table-responsive pb-2">
+            <table class="table table-striped table-border text-center">
+              <thead class="background-color text-white">
+                <tr>
+                  <th class="font-weight-semibold">Action</th>
+                  <th class="font-weight-semibold">Party Rank</th>
+                  <th class="font-weight-semibold">PartyType</th>
+                  <th class="font-weight-semibold">No. of Party</th>
+                  <th class="font-weight-semibold">Name</th>
+                  <th class="font-weight-semibold">Check In time</th>
+                  <th class="font-weight-semibold">Quote Time</th>
+                  <th class="font-weight-semibold">Note</th>
+                  <th class="font-weight-semibold">Delete</th>
+                  <th class="font-weight-semibold">Send Text</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <a href="" data-toggle="modal" data-target="#seatModal"><span class="flaticon-user"></span></a>
+                  </td>
+                  <td>1</td>
+                  <td>Small</td>
+                  <td>Total 5 [ A-3 C-2]</td>
+                  <td>ABC<img [src]="notPresentImg" class="pl-2" alt="not present"></td>
+                  <td>22 Feb. 2019 12:06 PM</td>
+                  <td>10 Min.</td>
+                  <td>
+                    <span class="info-icon custom-tooltip">
+                      <img [src]="noteIconImg" alt="note">
+                      <span class="tooltiptext">
+                        <p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                      </span>
+                    </span>
+                  </td>
+                  <td>
+                    <a href="" data-toggle="modal" data-target="#deleteModal"><img [src]="deleteIconImg"
+                        alt="delete"></a>
+                  </td>
+                  <td>
+                    <a href="" data-toggle="modal" data-target="#smsModal"><img [src]="msgIconImg"
+                        alt="message"></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="float-right pb-2">
+            <ul class="pagination">
+              <li class="page-item disabled"><a class="page-link" href="#">
+                  <</a> </li> <li class="page-item"><a class="page-link active-pagination" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item"><a class="page-link" href="#">></a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <!-- table column popup -->
+        <div class="modal fade" id="tableColumnModal">
+          <div class="modal-dialog">
+            <div class="modal-content border-radius border-0">
+              <div class="custom-modal-header background-color">
+                <span class="modal-title text-white">Table Column</span>
+                <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
+                    <label>
+                      <input checked="checked" type="checkbox" /><i class="helper"></i>Action
+                    </label>
+                  </div><!-- checkbox -->
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
+                    <label>
+                      <input checked="checked" type="checkbox" /><i class="helper"></i>Party Rank
+                    </label>
+                  </div><!-- checkbox -->
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
+                    <label>
+                      <input checked="checked" type="checkbox" /><i class="helper"></i>Party Type
+                    </label>
+                  </div><!-- checkbox -->
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
+                    <label>
+                      <input checked="checked" type="checkbox" /><i class="helper"></i>No. of Party
+                    </label>
+                  </div><!-- checkbox -->
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
+                    <label>
+                      <input checked="checked" type="checkbox" /><i class="helper"></i>Name
+                    </label>
+                  </div><!-- checkbox -->
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
+                    <label>
+                      <input checked="checked" type="checkbox" /><i class="helper"></i>Check In Time
+                    </label>
+                  </div><!-- checkbox -->
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
+                    <label>
+                      <input checked="checked" type="checkbox" /><i class="helper"></i>Quote Time
+                    </label>
+                  </div><!-- checkbox -->
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
+                    <label>
+                      <input checked="checked" type="checkbox" /><i class="helper"></i>Note
+                    </label>
+                  </div><!-- checkbox -->
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
+                    <label>
+                      <input checked="checked" type="checkbox" /><i class="helper"></i>Delete
+                    </label>
+                  </div><!-- checkbox -->
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
+                    <label>
+                      <input checked="checked" type="checkbox" /><i class="helper"></i>Send Text
+                    </label>
+                  </div><!-- checkbox -->
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
+                    <label>
+                      <input type="checkbox" /><i class="helper"></i>Language Prefrence
+                    </label>
+                  </div><!-- checkbox -->
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
+                    <label>
+                      <input type="checkbox" /><i class="helper"></i>Opt - In
+                    </label>
+                  </div><!-- checkbox -->
+                  <div class="col-lg-12 col-md-12 col-sm-12 text-center modal-btn my-2">
+                    <button type="button" class="btn btn-theme background-color shadow">Done</button>
+                  </div>
+                </div><!-- row -->
+
+              </div><!-- modal-body -->
+            </div><!-- "modal-content -->
+          </div><!-- modal-dialog -->
+        </div><!-- modal fade -->
+        <!-- seat modal -->
+        <div class="modal fade" id="seatModal">
+          <div class="modal-dialog">
+            <div class="modal-content border-radius border-0">
+              <div class="custom-modal-header background-color">
+                <span class="modal-title text-white">Confirm Table Ready</span>
+                <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body text-center">
+                <h4 class="pt-3 pb-2">Guest 1</h4>
+                <h4>ABC</h4>
+                <div class="row py-4">
+                  <div class="col-lg-4 col-md-4 col-sm-12 text-right modal-btn my-2">
+                    <button type="button" class="btn btn-theme background-color shadow">Not Present</button>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-12 text-center modal-btn my-2">
+                    <button type="button" class="btn btn-theme background-color shadow">Incomplete</button>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-12 text-left modal-btn my-2">
+                    <button type="button" class="btn btn-theme background-color shadow">Yes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- .seatModal Ends-->
+        <!-- deleteModal modal -->
+        <div class="modal fade" id="deleteModal">
+          <div class="modal-dialog">
+            <div class="modal-content border-radius border-0">
+              <div class="custom-modal-header background-color">
+                <span class="modal-title text-white">Delete</span>
+                <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body text-center">
+                <h4>Are you sure ?</h4>
+                <div class="row py-4">
+                  <div class="col-lg-6 col-md-6 col-sm-12 text-right modal-btn my-2">
+                    <button type="button" class="btn btn-theme background-color shadow">cancle</button>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 text-left modal-btn my-2">
+                    <button type="button" class="btn btn-theme background-color shadow"
+                      data-dismiss="modal">Yes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- .deleteModal Ends-->
+        <!-- sms modal -->
+        <div class="modal fade" id="smsModal">
+          <div class="modal-dialog">
+            <div class="modal-content border-radius border-0">
+              <div class="custom-modal-header background-color">
+                <span class="modal-title text-white">Send Text</span>
+                <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body">
+                <h4 class="pt-3 pb-3 text-center">Guest 1 (ABC)</h4>
+                <div class="pt-3 sms-tab-container">
+                  <ul class="nav nav-tabs nav-justified" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" data-toggle="tab" href="#level1">Check-in</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="#level2">Reminder</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="#level3">Custom</a>
+                    </li>
+                  </ul>
+                  <div class="tab-content">
+                    <div id="level1" class="container tab-pane active"><br>
+                      <p>Guest #1: There are 0 parties ahead of you w/ approx. wait-time of 6 min. For LIVE updates:
+                        https://tinyurl.com/yc8kfl5m/s/eb2702fb</p>
+                    </div>
+                    <div id="level2" class="container tab-pane fade"><br>
+                      <p>Guest #2: There are 0 parties ahead of you w/ approx. wait-time of 6 min. For LIVE updates:
+                        https://tinyurl.com/yc8kfl5m/s/eb2702fb</p>
+                    </div>
+                    <div id="level3" class="container tab-pane fade"><br>
+                      <p>Guest #3: There are 0 parties ahead of you w/ approx. wait-time of 6 min. For LIVE updates:
+                        https://tinyurl.com/yc8kfl5m/s/eb2702fb</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row py-4">
+                  <div class="col-lg-6 col-md-6 col-sm-12 text-right modal-btn my-2">
+                    <button type="button" class="btn btn-theme background-color shadow">Send SMS</button>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 text-left modal-btn my-2">
+                    <button type="button" class="btn btn-theme background-color shadow"
+                      data-dismiss="modal">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <!-- reset popup -->
+        <div class="modal fade" id="resetModal">
+          <div class="modal-dialog">
+            <div class="modal-content border-radius border-0">
+              <div class="custom-modal-header background-color">
+                <span class="modal-title text-white">Confirm Reset Organization</span>
+                <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body text-center">
+                <h3 class="big-font"><i class="flaticon-reload font-color"></i></h3>
+                <h4 class="pt-3 pb-3">If you want to remove all your data, You can reset the data.</h4>
+                <div class="pt-3 pb-4">
+                  <button type="button" class="btn btn-theme background-color shadow">Reset</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div class="clearfix"></div>
+</section>

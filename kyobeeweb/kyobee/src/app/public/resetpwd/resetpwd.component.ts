@@ -13,7 +13,7 @@ export class ResetpwdComponent implements OnInit {
 
   constructor(private dataService: DataService, private httpService: HttpService, private route: ActivatedRoute) { }
 
-  public resetPwdPageImageSrc: string = imgLinks.resetPwdPageImageSrc;
+  public resetPwdPageImageSrc: string = imgLinks.resetPwdPageImg;
   public successMsg: string;
   public errorMsg: string;
   public loading: boolean = false;
