@@ -1,9 +1,11 @@
 package com.kyobee.rest;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -33,9 +35,11 @@ import com.kyobee.entity.Organization;
 import com.kyobee.entity.User;
 import com.kyobee.exception.NoSuchUsernameException;
 import com.kyobee.exception.RsntException;
+import com.kyobee.service.ConfigurationService;
 import com.kyobee.service.IOrganizationService;
 import com.kyobee.service.ISecurityService;
 import com.kyobee.service.IWaitListService;
+import com.kyobee.util.PropertyUtility;
 import com.kyobee.util.SessionContextUtil;
 import com.kyobee.util.common.CommonUtil;
 import com.kyobee.util.common.Constants;
@@ -59,29 +63,9 @@ public class LoginRestController {
 	
 	@Autowired
 	SessionContextUtil sessionContextUtil;
+	@Autowired
+	ConfigurationService configurationService;
 
-	//Print success message from property file  by Aarshi(11/03/2019)
-	 @Value("${Successful_verification}")
-	 private String  Successful_verification;
-			
-    //Print Error message from property file  by Aarshi(11/03/2019)
-    @Value("${Unsuccessful_verification}")
-	private String Unsuccessful_verification;
-			
-    //Set Successful verification  mail message by Aarshi(12/03/2019)
-    @Value("${ACTIVATION_MAIL_SUCCESS}")
-    private String  ACTIVATION_MAIL_SUCCESS;
-	
-    //Set Unsuccessful verification  mail message by Aarshi(12/03/2019)
-    @Value("${ACTIVATION_MAIL_FAIL}")
-	private String ACTIVATION_MAIL_FAIL;
-    
-    @Value("${CHANGE_PASSWORD_SUCCESS}")
-	private String CHANGE_PASSWORD_SUCCESS;
-	
-    
-    @Value("${CHANGE_PASSWORD_FAIL}")
-	private String CHANGE_PASSWORD_FAIL;
 	
 	/*
 	 * This api is used only for browser and it is validated as per clientbase as of 2-Mar-2017
@@ -392,27 +376,33 @@ public class LoginRestController {
 
 	@RequestMapping(value = "/activateUser", method = RequestMethod.POST, produces = "application/json")
 	public Response<String> activateUser(@RequestParam String authCode,@RequestParam  Integer  userId)throws RsntException{
-		
+		Properties oProperties=new Properties();
+	   try {
+		oProperties = PropertyUtility.fetchPropertyFile(this.getClass(),Constants.RSNTPROPERTIES);
+	} catch (IOException e) {
+		LoggerUtil.logError("Unable to Fetch file"+userId);
+	}
 		Response<String> response = new Response<String>();
 	   Boolean isVeried=securityService.authVerification(userId, authCode);
      	try
 	    {
 	    	if(isVeried.equals(true)){
-	             response.setServiceResult(Successful_verification);
+	             response.setServiceResult(oProperties.getProperty(Constants.SUCCESSFUL_VERIFICATION));
 	             CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "", "",
-	            		 Successful_verification);
+	            		 oProperties.getProperty(Constants.SUCCESSFUL_VERIFICATION));
+	            
 	        }else{
-		        response.setServiceResult(Unsuccessful_verification);
+		        response.setServiceResult(oProperties.getProperty(Constants.UNSUCCESSFUL_VERIFICATION));
 		        CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",
-		        		Unsuccessful_verification);
+		        		oProperties.getProperty(Constants.UNSUCCESSFUL_VERIFICATION));
 			
 	        }
 	    }catch(Exception ex)
      	{
 	    	LoggerUtil.logError("Error AuthCode Verification", ex);
-			response.setServiceResult(Unsuccessful_verification);
+			response.setServiceResult(oProperties.getProperty(Constants.UNSUCCESSFUL_VERIFICATION));
 			CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",
-					Unsuccessful_verification);
+					oProperties.getProperty(Constants.UNSUCCESSFUL_VERIFICATION));
 			throw new RsntException("Activing User"+userId, ex);
 		
      	}
@@ -423,18 +413,23 @@ public class LoginRestController {
     	@RequestMapping(value = "/activationmail", method = RequestMethod.POST, produces = "application/json")
         public Response<String> activationmail(@RequestParam Integer userId)throws RsntException{
     		Response<String> response = new Response<String>();
-			
+    		Properties oProperties=new Properties();
+    		try {
+				oProperties = PropertyUtility.fetchPropertyFile(this.getClass(),Constants.RSNTPROPERTIES);
+			} catch (IOException e) {
+				LoggerUtil.logError("Unable to Fetch file"+userId);
+			}
     		try{
     			securityService.sendActivationMail(userId);
-    			 response.setServiceResult(ACTIVATION_MAIL_SUCCESS);
+    			 response.setServiceResult(oProperties.getProperty(Constants.ACTIVATION_MAIL_SUCCESS));
     		     CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "", "",
- 	 					ACTIVATION_MAIL_SUCCESS);
+    		    		 oProperties.getProperty(Constants.ACTIVATION_MAIL_SUCCESS));
  	        
     		}catch(Exception ex){
     			LoggerUtil.logError("Error Send account activtion mail", ex);
-    			response.setServiceResult(ACTIVATION_MAIL_FAIL);
+    			response.setServiceResult(oProperties.getProperty(Constants.ACTIVATION_MAIL_FAIL));
     			CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",
-    					ACTIVATION_MAIL_FAIL);
+    					oProperties.getProperty(Constants.ACTIVATION_MAIL_FAIL));
     			throw new RsntException("SendAuthCode Mail"+userId, ex);
     		}
     		return response;
@@ -466,20 +461,26 @@ public class LoginRestController {
     	@RequestMapping(value = "/changePassword", method = RequestMethod.POST, produces = "application/json")
         public Response<String> changePassword(@RequestParam Integer userId,@RequestParam String oldPassword,@RequestParam String newPassowrd)throws RsntException{
     		Response<String> response = new Response<String>();
+    		Properties oProperties=new Properties();
+    		try {
+				oProperties = PropertyUtility.fetchPropertyFile(this.getClass(),Constants.RSNTPROPERTIES);
+			} catch (IOException e) {
+				LoggerUtil.logError("Unable to Fetch file"+userId);
+			}
     	try{
     			
     		Boolean checkStatus=securityService.changePassword(userId,oldPassword,newPassowrd);
     			
     		if(checkStatus.equals(true)){
-    			response.setServiceResult(CHANGE_PASSWORD_SUCCESS);
-				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "","",CHANGE_PASSWORD_SUCCESS);
+    			response.setServiceResult(oProperties.getProperty(Constants.CHANGE_PASSWORD_SUCCESS));
+				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "","",oProperties.getProperty(Constants.CHANGE_PASSWORD_SUCCESS));
     		}else{
-    			CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",CHANGE_PASSWORD_FAIL);
+    			CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",oProperties.getProperty(Constants.CHANGE_PASSWORD_FAIL));
 			    LoggerUtil.logError("Password not match"+userId);
     		 }
     		}catch(Exception ex){
-    			response.setServiceResult(CHANGE_PASSWORD_SUCCESS);
-    			CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",CHANGE_PASSWORD_FAIL);
+    			response.setServiceResult(oProperties.getProperty(Constants.CHANGE_PASSWORD_SUCCESS));
+    			CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",oProperties.getProperty(Constants.CHANGE_PASSWORD_FAIL));
 			LoggerUtil.logError("Error while change password"+userId, ex);
     		}
     		return response;
@@ -529,6 +530,24 @@ public class LoginRestController {
     		}
     		return userDetails;
     	}
+
+	@RequestMapping(value = "/resetConfiguration", method = RequestMethod.GET, produces = "application/json")
+	public Response<String> resetConfigurationMap() throws Exception {
+		Response<String> response = new Response<String>();
+		try {
+			 configurationService.resetConfigurationMap();
+			 response.setServiceResult("Configurationmap Reset Succesfully");
+			 CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "");
+			
+			LoggerUtil.logInfo("Reset ConfifgurationMap Successfully");
+		} catch (Exception e) {
+			 response.setServiceResult("Error Occur while Reset configuration map ");
+			 CommonUtil.setWebserviceResponse(response, Constants.FAILURE, " ");
+			 LoggerUtil.logInfo("Error Occur while Reset Configuration map");
+		}
+		return response;
+	}
+    	
     	
    
     	

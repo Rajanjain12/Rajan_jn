@@ -5,7 +5,7 @@ public class Constants {
 	
 	public static final String ERROR = "ERROR";
 	public static final String SUCCESS = "SUCCESS";
-	public static final String FAILURE = "FAILURE";
+	public static final String FAILURE = "FAILURE";     
 	public static final String FREETEXT = "FREETEXT";
 	public static final String CHECK_USER="MORE THAN ONE USERNAME";
 	public static final String CHECK_EMAIL="MORE THAN ONE EMAIL";
@@ -150,6 +150,25 @@ public class Constants {
 	public static final String SNS_DELIVERY_STATUS_SUCCESS_SAMPLING_RATE = "100";
 	public static final String SNS_DEFAULT_SMS_TYPE = "Transactional";
 	public static final String SNS_USAGE_REPORT_S3_BUCKET = "smsusagekyobee";
+	public static final String USER_UPDATE_SUCCESS="userUpdateSuccess";
+	public static final String USER_UPDATE_FAIL="userUpdateFail";
+	public static final String SUCCESSFUL_VERIFICATION="successfulVerification";
+	public static final String UNSUCCESSFUL_VERIFICATION="unsuccessfulVerification";
+	public static final String ACTIVATION_MAIL_SUCCESS="activationMailSuccess";
+	public static final String ACTIVATION_MAIL_FAIL="activationMailFail";
+	public static final String CHANGE_PASSWORD_SUCCESS="changePasswordSuccess";
+	public static final String CHANGE_PASSWORD_FAIL="changePasswordFail";
+	public static final String RSNTPROPERTIES="rsnt.properties";
+	public static final String WAITLISTPROPERTIES="waitlist.properties";
+	public static final String AUTHCODELINK="authCodeLink";
+	public static final String ROUTRNO="routeNo";
+	public static final String MAXPARTY="maxParty";
+	public static final String WAITTIME="waitTime";
+	public static final String NOTIFYUSERCOUNT="notifyUserCount";
+	//kanaiya 26/03/2019 just for demo purpose
+	public static final String STATUSS="status";
+	public static final String SUCCESSS="Successfulverification";
+	
 	
 	
 	
