@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from './services/data.service';
+import globals from '../assets/data/globals.json';
 
 @Component({
   selector: 'app-root',
@@ -18,9 +19,9 @@ export class AppComponent implements OnInit {
 
   constructor(private _dataService: DataService){}
 
-  ngOnInit(){
-    this.url = window.location.href;
+  public showHeader = false;
 
+  ngOnInit(){
     // Loading resrouces based on url 
     var url = window.location.href;
     var initials = url.split(".")[0];
@@ -59,15 +60,12 @@ export class AppComponent implements OnInit {
     document.write('<link rel="stylesheet" href="' + this.cssFile +'" />');
     document.write('<link rel="icon" type="image/png" href="' + this.faciconLogoSrc + '">');
     document.write('<title>'+ this.title +'</title>');
+
+    if(url.includes("web")){
+      this.showHeader=true;
+    }else{
+      this.showHeader=false;
+    }
     this._dataService.setData(this.subdomain, this.serverUrl);
   }
 }
-export const imgLinks = { "signinPageImg": "../assets/img/sign-in-illu.png",
-                          "forgotPwdPageImg":"../assets/img/recovery-pass-illu.png",
-                          "correctSignImg":"../assets/img/correct-sign.png",
-                          "resetPwdPageImg":"../assets/img/reset-pass-illu.png",
-                          "dashboardIlluImg":"../assets/img/dashboard-illu.png",
-                          "noteIconImg":"../assets/img/note-icon.png",
-                          "deleteIconImg":"../assets/img/delete-icon.png",
-                          "msgIconImg":"../assets/img/message-icon.png",
-                          "notPresentImg":"../assets/img/not-present.png"}

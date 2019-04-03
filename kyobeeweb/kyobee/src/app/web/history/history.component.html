@@ -1,0 +1,305 @@
+<div class="pb-5">
+  <div id="wrapper" class="navbar-expand-lg navbar-expand-md">
+    <div id="sidebar-wrapper" class="collapse navbar-collapse sidehide">
+      <button class="navbar-toggler float-right asidebar sidehide" type="button" data-toggle="collapse"
+        data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="flaticon-close"></span>
+      </button>
+      <aside id="sidebar">
+        <ul id="sidemenu" class="sidebar-nav sidehide text-center pt-2">
+          <li class="border-bottom">
+            <a href="dashboard.html">
+              <div class="icon-border-right">
+                <div class="icon-circle">
+                  <i class="flaticon-home grey"></i>
+                </div>
+              </div>
+              <span class="font-12 font-weight-semibold">Dashboard</span>
+            </a>
+          </li>
+          <li class="border-bottom">
+            <a href="add-user.html">
+              <div class="icon-border-right">
+                <div class="icon-circle">
+                  <i class="flaticon-add grey"></i>
+                </div>
+              </div>
+              <span class="font-12 font-weight-semibold">Add User</span>
+            </a>
+          </li>
+          <li class="border-bottom active">
+            <a href="history.html">
+              <div class="icon-border-right">
+                <div class="icon-circle">
+                  <i class="flaticon-history grey"></i>
+                </div>
+              </div>
+              <span class="font-12 font-weight-semibold">History</span>
+            </a>
+          </li>
+          <li class="border-bottom">
+            <a href="setting.html">
+              <div class="icon-border-right">
+                <div class="icon-circle">
+                  <i class="flaticon-gear grey"></i>
+                </div>
+              </div>
+              <span class="font-12 font-weight-semibold">Setting</span>
+            </a>
+          </li>
+          <li class="border-bottom">
+            <a href="" class="sidehide" data-toggle="modal" data-target="#resetModal">
+              <div class="icon-border-right">
+                <div class="icon-circle">
+                  <i class="flaticon-reload grey"></i>
+                </div>
+              </div>
+              <span class="font-12 font-weight-semibold">Reset</span>
+            </a>
+          </li>
+          <li class="border-bottom sm-d-none" style="visibility: hidden;">
+            <a href="" data-toggle="modal" data-target="#resetModal">
+              <div class="icon-border-right">
+                <div class="icon-circle">
+                  <i class="flaticon-reload grey"></i>
+                </div>
+              </div>
+              <span class="font-12 font-weight-semibold">Don't Show</span>
+            </a>
+          </li>
+        </ul>
+      </aside>
+    </div>
+
+    <main id="page-content-wrapper" role="main">
+      <section class="container pt-lg-4 pt-md-4 pt-sm-5 pt-5" id="dashboardPage">
+        <div class="row">
+          <div class="col-lg-9">
+            <div class="row pb-2">
+              <div class="col-lg-3 pb-2">
+                <a class="table-column-btn" href="" data-toggle="modal" id="tableColumnModalBtn"
+                  data-target="#tableColumnModal">Show Column<i class="flaticon-filter font-color float-right"></i></a>
+              </div>
+              <div class="col-lg-3 pb-2">
+                <select class="table-column-btn bg-white">
+                  <option>All</option>
+                  <option>Incomplete</option>
+                  <option>Not Present</option>
+                </select>
+              </div>
+              <div class="col-lg-5 pb-2">
+                <div class="row">
+                <span class="table-column-btn col-lg-3 text-center">Check-in Time</span>
+                <span class="custom-slider col-lg-9">
+                  <ng5-slider [(value)]="minValue" [(highValue)]="maxValue" [options]="options"></ng5-slider>
+                </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 text-right pb-2">
+            <input class="form-control search" type="text" name="" placeholder="Search">
+          </div>
+        </div>
+        <div>
+          <div class="table-responsive pb-2">
+            <table class="table table-striped table-border text-center">
+              <thead class="background-color text-white">
+                <tr>
+                  <th class="font-weight-semibold">Seated/Deleted</th>
+                  <th class="font-weight-semibold">Party Rank</th>
+                  <th class="font-weight-semibold">PartyType</th>
+                  <th class="font-weight-semibold">No. of Party</th>
+                  <th class="font-weight-semibold">Name</th>
+                  <th class="font-weight-semibold">Check In time</th>
+                  <th class="font-weight-semibold">Quote Time</th>
+                  <th class="font-weight-semibold">Note</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><img src="assets/images/seat-delete-icon.png" alt="seat"></td>
+                  <td>1</td>
+                  <td>Small</td>
+                  <td>Total 5 [ A-3 C-2]</td>
+                  <td>ABC</td>
+                  <td>22 Feb. 2019 12:06 PM</td>
+                  <td>10 Min.</td>
+                  <td>
+                    <span class="info-icon custom-tooltip">
+                      <img src="assets/images/note-icon.png" alt="note">
+                      <span class="tooltiptext">
+                        <p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                      </span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td><img src="assets/images/seat-icon.png" alt="seat"></td>
+                  <td>1</td>
+                  <td>Small</td>
+                  <td>Total 5 [ A-3 C-2]</td>
+                  <td>ABC</td>
+                  <td>22 Feb. 2019 12:06 PM</td>
+                  <td>10 Min.</td>
+                  <td>
+                    <span class="info-icon custom-tooltip">
+                      <img src="assets/images/note-icon.png" alt="note">
+                      <span class="tooltiptext">
+                        <p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                      </span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td><img src="assets/images/seat-delete-icon.png" alt="seat"></td>
+                  <td>1</td>
+                  <td>Small</td>
+                  <td>Total 5 [ A-3 C-2]</td>
+                  <td>ABC</td>
+                  <td>22 Feb. 2019 12:06 PM</td>
+                  <td>10 Min.</td>
+                  <td>
+                    <span class="info-icon custom-tooltip">
+                      <img src="assets/images/note-icon.png" alt="note">
+                      <span class="tooltiptext">
+                        <p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                      </span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td><img src="assets/images/seat-icon.png" alt="seat"></td>
+                  <td>1</td>
+                  <td>Small</td>
+                  <td>Total 5 [ A-3 C-2]</td>
+                  <td>ABC</td>
+                  <td>22 Feb. 2019 12:06 PM</td>
+                  <td>10 Min.</td>
+                  <td>
+                    <span class="info-icon custom-tooltip">
+                      <img src="assets/images/note-icon.png" alt="note">
+                      <span class="tooltiptext">
+                        <p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                      </span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td><img src="assets/images/seat-icon.png" alt="seat"></td>
+                  <td>1</td>
+                  <td>Small</td>
+                  <td>Total 5 [ A-3 C-2]</td>
+                  <td>ABC</td>
+                  <td>22 Feb. 2019 12:06 PM</td>
+                  <td>10 Min.</td>
+                  <td>
+                    <span class="info-icon custom-tooltip">
+                      <img src="assets/images/note-icon.png" alt="note">
+                      <span class="tooltiptext">
+                        <p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                      </span>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="float-right">
+            <ul class="pagination pb-2">
+              <li class="page-item disabled"><a class="page-link" href="#">
+                  <</a> </li> <li class="page-item"><a class="page-link active-pagination" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item"><a class="page-link" href="#">></a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <!-- table column popup -->
+        <div class="modal fade" id="tableColumnModal">
+          <div class="modal-dialog">
+            <div class="modal-content border-radius border-0">
+              <div class="custom-modal-header background-color">
+                <span class="modal-title text-white">Table Column</span>
+                <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
+                    <label>
+                      <input checked="checked" type="checkbox" /><i class="helper"></i>Action
+                    </label>
+                  </div><!-- checkbox -->
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
+                    <label>
+                      <input checked="checked" type="checkbox" /><i class="helper"></i>Party Rank
+                    </label>
+                  </div><!-- checkbox -->
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
+                    <label>
+                      <input checked="checked" type="checkbox" /><i class="helper"></i>Party Type
+                    </label>
+                  </div><!-- checkbox -->
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
+                    <label>
+                      <input checked="checked" type="checkbox" /><i class="helper"></i>No. of Party
+                    </label>
+                  </div><!-- checkbox -->
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
+                    <label>
+                      <input checked="checked" type="checkbox" /><i class="helper"></i>Name
+                    </label>
+                  </div><!-- checkbox -->
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
+                    <label>
+                      <input checked="checked" type="checkbox" /><i class="helper"></i>Check In Time
+                    </label>
+                  </div><!-- checkbox -->
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
+                    <label>
+                      <input checked="checked" type="checkbox" /><i class="helper"></i>Quote Time
+                    </label>
+                  </div><!-- checkbox -->
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
+                    <label>
+                      <input type="checkbox" /><i class="helper"></i>Opt - In
+                    </label>
+                  </div><!-- checkbox -->
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
+                    <label>
+                      <input type="checkbox" /><i class="helper"></i>Language Prefrence
+                    </label>
+                  </div><!-- checkbox -->
+                  <div class="col-lg-12 col-md-12 col-sm-12 text-center modal-btn my-2">
+                    <button type="button" class="btn btn-theme background-color shadow">Done</button>
+                  </div>
+                </div><!-- row -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- reset popup -->
+        <div class="modal fade" id="resetModal">
+          <div class="modal-dialog">
+            <div class="modal-content border-radius border-0">
+              <div class="custom-modal-header background-color">
+                <span class="modal-title text-white">Confirm Reset Organization</span>
+                <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body text-center">
+                <h3 class="big-font"><i class="flaticon-reload font-color"></i></h3>
+                <h4 class="pt-3 pb-3">If you want to remove all your data, You can reset the data.</h4>
+                <div class="pt-3 pb-4">
+                  <button type="button" class="btn btn-theme background-color shadow">Reset</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div class="clearfix"></div>
+</div>

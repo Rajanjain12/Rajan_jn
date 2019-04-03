@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/services/http.service';
 import { DataService } from 'src/app/services/data.service';
-import { imgLinks } from '../../app.component';
+import imgLinks from '../../../assets/data/imgLinks.json';
 
 @Component({
   selector: 'app-login',
@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
       this.httpService.postService(url, postBody).subscribe(data => {
         
         if (data.status == "SUCCESS") {
-          this.dataService.changeView('public/dashboard');
+          this.changeView('public/dashboard');
           this.loading=false;
         } else if (data.status == "FAILURE") {
           this.errorMsg = data.errorDescription;
@@ -61,6 +61,6 @@ export class LoginComponent implements OnInit {
   }
 
   changeView(path: string){
-    this.dataService.changeView(path);
+    this.httpService.changeView(path);
   }
 }

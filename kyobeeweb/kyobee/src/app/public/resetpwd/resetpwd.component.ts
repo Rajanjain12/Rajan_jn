@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {imgLinks} from '../../app.component';
 import { DataService } from 'src/app/services/data.service';
 import { HttpService } from 'src/app/services/http.service';
 import { ActivatedRoute } from '@angular/router';
+import imgLinks from '../../../assets/data/imgLinks.json';
 
 @Component({
   selector: 'app-resetpwd',
@@ -96,6 +96,6 @@ export class ResetpwdComponent implements OnInit {
   }
 
   changeView(path: string){
-    this.dataService.changeView(path);
+    this.httpService.changeView(path);
   }
 }

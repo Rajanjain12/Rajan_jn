@@ -4,13 +4,18 @@ import { catchError } from 'rxjs/operators';
 import { IResponse } from '../DTO/Response';
 import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { DataService } from './data.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
 
-  constructor(private http: HttpClient, private dataService: DataService) { }
+  constructor(private router: Router, private http: HttpClient, private dataService: DataService) { }
+
+  changeView(path:string){
+    this.router.navigate([path]);
+  }
 
   postService(url, postBody): Observable<IResponse>{
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });

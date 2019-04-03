@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { imgLinks } from '../../app.component';
-import { DataService } from 'src/app/services/data.service';
+import imgLinks from '../../../assets/data/imgLinks.json';
+import { HttpService } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-resetpwd-thanks',
@@ -9,7 +9,7 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class ResetpwdThanksComponent implements OnInit {
 
-  constructor(private dataService: DataService) { }
+  constructor(private httpService: HttpService) { }
 
   public resetPwdPageImageSrc: string = imgLinks.resetPwdPageImg;
 
@@ -17,6 +17,6 @@ export class ResetpwdThanksComponent implements OnInit {
   }
 
   changeView(path: string){
-    this.dataService.changeView(path);
+    this.httpService.changeView(path);
   }
 }

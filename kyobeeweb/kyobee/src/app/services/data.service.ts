@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
+
+export class DataService{
   public subdomain: string;
   public serverUrl: string;
-  constructor(private router: Router, private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
   setData(subdomain:string, serverUrl:string){
     this.subdomain = subdomain;
@@ -19,9 +19,5 @@ export class DataService {
       "subdomain": this.subdomain,
       "serverUrl": this.serverUrl
     }
-  }
-
-  changeView(path:string){
-    this.router.navigate([path]);
   }
 }

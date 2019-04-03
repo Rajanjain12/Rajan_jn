@@ -7,13 +7,14 @@ import { ResetpwdComponent } from './public/resetpwd/resetpwd.component';
 import { ResetpwdThanksComponent } from './public/resetpwd-thanks/resetpwd-thanks.component';
 import { OrgProfileComponent } from './web/org-profile/org-profile.component';
 import { DashboardComponent } from './web/dashboard/dashboard.component';
+import { HistoryComponent } from './web/history/history.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'public', pathMatch:'full'},
   { path: 'public', children: [
     { path: '', redirectTo: 'login', pathMatch:'full'},
     { path: 'login', component: LoginComponent },
-    { path: 'dashboard', redirectTo: '/web/home', pathMatch: 'full' },
+    { path: 'dashboard', redirectTo: '/web', pathMatch: 'full' },
     { path: 'signup', component: SignupComponent},
     { path: 'forgotpwd', component: ForgotpwdComponent},
     { path: 'resetpwd/:userId/:authcode', component: ResetpwdComponent},
@@ -21,8 +22,12 @@ const routes: Routes = [
     { path: '**', redirectTo: 'login', pathMatch: 'full'}
   ]},
   { path: 'web', children: [
-    { path: '', redirectTo: 'home', pathMatch:'full'},
-    { path: 'home', component: DashboardComponent },
+    { path: '', redirectTo: 'wishlist', pathMatch:'full'},
+    { path: 'wishlist', children:[
+      { path: '', redirectTo: 'home', pathMatch:'full'},
+      { path: 'home', component: DashboardComponent},
+      { path: 'history',component: HistoryComponent }
+    ]},
     { path: 'myaccount', children: [
       { path: 'profile', component: OrgProfileComponent}
     ]}
@@ -34,4 +39,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export const routerComponents =  [LoginComponent, DashboardComponent, SignupComponent, ForgotpwdComponent, ResetpwdComponent, ResetpwdThanksComponent]
+export const routerComponents =  [LoginComponent, DashboardComponent, HistoryComponent, SignupComponent, ForgotpwdComponent, ResetpwdComponent, ResetpwdThanksComponent]

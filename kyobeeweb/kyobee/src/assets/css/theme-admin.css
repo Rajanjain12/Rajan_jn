@@ -3,12 +3,13 @@
 /* Shadow to Container Box*/
 /* Sidebar Variable */
 /*profile*/
+/*common css*/
 a:hover {
   color: #e14b28;
   text-decoration: none; }
 
 .font-color {
-  color: #e14b28; }
+  color: #e14b28 !important; }
 
 .background-color {
   background-color: #e14b28; }
@@ -19,6 +20,33 @@ a:hover {
 #sidebar-wrapper .sidebar-nav li a.profile-icon img {
   opacity: 0; }
 
+/*header*/
+.topnav button ul li a:hover {
+  background-color: #ffffff !important;
+  /* .ico-m */
+  /* p */ }
+  .topnav button ul li a:hover i {
+    color: #e14b28; }
+  .topnav button ul li a:hover p {
+    color: #000000; }
+
+.topnav a.active {
+  background-color: #ffffff !important;
+  border-bottom: 3px solid #e14b28; }
+  .topnav a.active i {
+    color: #e14b28; }
+  .topnav a.active p {
+    color: #000000; }
+
+/*sidebar*/
+#sidebar-wrapper .sidebar-nav li.active a .icon-border-right {
+  border-right: 3px solid #e14b28; }
+  #sidebar-wrapper .sidebar-nav li.active a .icon-border-right .icon-circle {
+    background-color: #e14b28; }
+    #sidebar-wrapper .sidebar-nav li.active a .icon-border-right .icon-circle i {
+      color: #ffffff; }
+
+/*active state*/
 .activeState {
   background-color: #e14b28 !important;
   color: #ffffff !important; }
@@ -26,6 +54,7 @@ a:hover {
 .activeState i {
   color: #fff; }
 
+/*pagination*/
 .active-pagination {
   background-color: #e14b28 !important;
   color: #ffffff !important;
@@ -38,6 +67,7 @@ a:hover {
 .border-right {
   border-right: 4px solid #e14b28; }
 
+/*nav bar and nav pills*/
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
   border-bottom: 2px solid #e14b28 !important;
   color: #e14b28 !important;
@@ -52,6 +82,42 @@ a:hover {
   background-color: #e14b28;
   border-radius: 0; }
 
+/*profile image*/
+.profile-img {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  align-content: center; }
+  .profile-img img {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #e14b28; }
+
+.newbtn {
+  cursor: pointer;
+  border: 1px solid #e14b28;
+  border-radius: 4px;
+  position: relative; }
+  .newbtn img {
+    height: 125px; }
+  .newbtn .label-info {
+    visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.6);
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.3s;
+    padding: 3px; }
+
+/*active filter*/
+.active-filter {
+  background-color: #e14b28;
+  color: #ffffff; }
+  .active-filter i {
+    color: #ffffff; }
+
 /*code for plan box hover border and button*/
 .pricing-box:hover {
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
@@ -63,6 +129,20 @@ a:hover {
   color: #fff;
   background-color: #e14b28;
   transition: all ease-in-out 0.3s; }
+
+/*slider*/
+.ng5-slider .ng5-slider-pointer {
+  background-color: #e14b28;
+  width: 20px;
+  height: 20px;
+  top: -8px; }
+
+.ng5-slider .ng5-slider-pointer:after {
+  top: 6px;
+  left: 6px; }
+
+.ng5-slider .ng5-slider-selection {
+  background: #e14b28; }
 
 /*footer*/
 footer {

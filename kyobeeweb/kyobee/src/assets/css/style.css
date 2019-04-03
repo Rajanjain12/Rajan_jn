@@ -28,9 +28,7 @@ header {
       /* li */ }
       header .topnav ul li {
         height: 100%;
-        display: inline-block;
-        /* a */
-        /* a.active; */ }
+        display: inline-block; }
         header .topnav ul li a {
           height: 100%;
           padding: 5px 24px;
@@ -39,28 +37,9 @@ header {
           display: block;
           border-bottom: 3px solid #ffffff;
           font-size: 28px;
-          /* img */
-          /* p */
-          /* .ico-m */ }
+          /* img */ }
           header .topnav ul li a p {
             font-size: 10px;
-            color: #000000; }
-          header .topnav ul li a:hover {
-            background-color: #ffffff !important;
-            /* .ico-m */
-            /* p */ }
-            header .topnav ul li a:hover i {
-              color: #e14b28; }
-            header .topnav ul li a:hover p {
-              color: #000000; }
-        header .topnav ul li a.active {
-          background-color: #ffffff !important;
-          border-bottom: 3px solid #e14b28;
-          /* .ico-m */
-          /* p */ }
-          header .topnav ul li a.active i {
-            color: #e14b28; }
-          header .topnav ul li a.active p {
             color: #000000; }
 
 .small-header {
@@ -549,14 +528,10 @@ fieldset {
 .error {
   color: red; }
 
-.pointer {
-  cursor: pointer;
-  color: #e14b28 !important; }
-
 .loading {
   width: 100%;
   height: 100%;
-  background: url("../src/assets/img/loader.gif") no-repeat center center #fafafa;
+  background: url("/src/assets/img/loader.gif") no-repeat center center #fafafa;
   z-index: 9999;
   position: fixed;
   opacity: 0.9;
