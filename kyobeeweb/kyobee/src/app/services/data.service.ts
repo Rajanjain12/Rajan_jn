@@ -1,5 +1,6 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { HttpService } from './http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,17 +8,14 @@ import { HttpClient } from '@angular/common/http';
 
 export class DataService{
   public subdomain: string;
-  public serverUrl: string;
   constructor(private httpClient: HttpClient) { }
 
-  setData(subdomain:string, serverUrl:string){
+  setData(subdomain:string){
     this.subdomain = subdomain;
-    this.serverUrl = serverUrl;
   }
   getData(){
     return {
-      "subdomain": this.subdomain,
-      "serverUrl": this.serverUrl
+      "subdomain": this.subdomain
     }
   }
 }

@@ -1,0 +1,45 @@
+<section class="custom-container pt-3 pb-3" id="login">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="text-center font-weight-semibold">Reset Password</h2>
+      <p class="text-center pb-2">Reset your account password</p>
+    </div>
+    <div class="col-lg-6 col-md-12 col-sm-12 py-2">
+      <img [src]="resetPwdPageImageSrc" class="img-fluid m-md-auto d-md-block" alt="image">
+    </div>
+    <div class="col-lg-6 col-md-12 col-sm-12 py-4 pb-md-0">
+        <div class="alert alert-danger alert-dismissable" [hidden]="errorMsg == null">
+            <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Error!</strong> {{errorMsg}}
+          </div>
+      <div class="container-box float-lg-right float-md-none m-md-auto mt-lg-4">
+        <form #resetPwdForm="ngForm" novalidate>
+          <div class="form-group mt-0">
+            <input type="password" name="pwd" #pwd="ngModel" [(ngModel)]="newPwd" required="required" minlength="6"
+              maxlength="20" pattern="^(?=.*[a-zA-Z])(?=.*\d).*$" />
+            <label for="input" class="control-label">New Password</label><i class="bar"></i>
+            <div *ngIf="pwd.errors && (!pwd.pristine || resetPwdForm.submitted)" class="help-block">
+              <div *ngIf="pwd.errors.required" class="error">Password is required</div>
+              <div *ngIf="pwd.errors.minlength" class="error">Password is too small. Should be min 6 character long
+              </div>
+              <div *ngIf="pwd.errors.maxlength" class="error">Password is too long. Cannot be longer than 20 characters
+              </div>
+              <div *ngIf="pwd.errors.pattern" class="error">Password should be combination of letter & number</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <input type="password" name="cnfPwd" #cnfPwd="ngModel" [(ngModel)]="newConfPwd" required="required" />
+            <label for="input" class="control-label">Re-type New Password</label><i class="bar"></i>
+            <div *ngIf="cnfPwd.errors && (!cnfPwd.pristine || resetPwdForm.submitted)" class="help-block">
+              <div *ngIf="cnfPwd.errors.required" class="error">Confirm Password is required</div>
+            </div>
+          </div>
+          <div class="col-ld-12 text-center pt-3 pb-4">
+            <button type="submit" class="btn btn-theme background-color shadow"
+              (click)="resetPassword(resetPwdForm.$invalid);"><span>Reset Password</span></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

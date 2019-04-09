@@ -15,7 +15,6 @@ export class AppComponent implements OnInit {
   public faciconLogoSrc: string;
   public title: string;
   public subdomain: string;
-  public serverUrl: string;
 
   constructor(private _dataService: DataService){}
 
@@ -31,7 +30,6 @@ export class AppComponent implements OnInit {
       this.cssFile = "../assets/css/theme-admin.css";
       this.logoImgSrc = "../assets/img/adminlogo.png";
       this.faciconLogoSrc = "../assets/img/favicon-admin.png";
-      this.serverUrl = "http://localhost:8080";
       this.title = "Kyobee";
       this.subdomain = "admin";
     } else {
@@ -66,6 +64,6 @@ export class AppComponent implements OnInit {
     }else{
       this.showHeader=false;
     }
-    this._dataService.setData(this.subdomain, this.serverUrl);
+    this._dataService.setData(this.subdomain);
   }
 }

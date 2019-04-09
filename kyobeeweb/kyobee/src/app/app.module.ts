@@ -7,13 +7,13 @@ import {DataTablesModule} from 'angular-datatables';
 
 import { AppRoutingModule, routerComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { OrgProfileComponent } from './web/org-profile/org-profile.component';
+import { FooterComponent } from './components/common/footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     routerComponents,
-    OrgProfileComponent
+    FooterComponent
   ],
   imports: [
     BrowserModule,

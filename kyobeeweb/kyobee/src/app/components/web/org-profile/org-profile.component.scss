@@ -1,0 +1,12 @@
+@import "../../../../assets/sass/variable";
+
+.pass-link {
+	position: absolute;
+	right: 0;
+	top: 5px;
+}
+#pic{display: none;}
+.newbtn:hover .label-info {
+  visibility: visible;
+  opacity: 1;
+}
