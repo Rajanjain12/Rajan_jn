@@ -2168,4 +2168,27 @@ public class WaitListRestAction {
     		userDTO.setAddress(user.getAddressDTO().toString());
     		return userDTO;
     	}
+    	
+    	@RequestMapping(value = "/getGuestDetail", method = RequestMethod.GET, produces = "application/json")
+    	public Response<List<GuestDTO>> saveOrUpdateProfile(@RequestParam("mobileNumber") String mobileNumber ) throws RsntException{
+    		Response<List<GuestDTO>> response = new Response<List<GuestDTO>>();
+    		List<GuestDTO> dtos =  new ArrayList<>();
+    		
+    	try{	
+    		GuestDTO g1 =  new GuestDTO();
+    		
+    		g1.setName("Admin");
+    		g1.setSeatingPreference("First Available,Table");
+    		g1.setMarketingPreference("Facebook,Instagram,Google+");
+    		
+    		dtos.add(g1);
+    		response.setServiceResult(dtos);
+    		CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+    	}catch (Exception e) {
+    		log.error("Error occure while Fetch Gust Details:", e);
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"Error occure while Fetch Gust Details");
+		}
+    		return response;
+    	}
 }
