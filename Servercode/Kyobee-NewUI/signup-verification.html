@@ -9,9 +9,33 @@
 	<link rel="stylesheet" type="text/css" href="assets/css/sidebar.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/flaticon.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-	<link rel="stylesheet" type="text/css" href="assets/css/theme-admin.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/kyobee.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/signin.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/responsive.css">
+	<!-- <style type="text/css">
+		.phone-field {
+  margin: 50px;
+  font-size: 20px;
+}
+
+.phone-input {
+  width: 13px;
+  text-align: center;
+  font-size: 16px !important;
+  height: 1.75em;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  border-bottom: 2px solid #ddd;
+  margin-right: 2px;
+  margin-left: 2px;
+}
+
+[placeholder]:focus::-webkit-input-placeholder {
+  transition: opacity 0.5s 0.0s ease;
+  opacity: 0;
+}
+	</style> -->
 </head>
 <body>
 	<header class="fix-header p-0">
@@ -22,7 +46,7 @@
 		</div><!-- container-fluid -->
 	</header><!-- header Ends -->
 	<div class="clearfix"></div>
-	<section class="pb-3 fix-wrapper">
+	<section class="pb-3 fix-wrapper fade-in">
 		<section class="custom-container ">
 			<div class="row">
 				<div class="col-12 pt-3">
@@ -40,37 +64,37 @@
 							<div class="row">
 								<div class="col-lg-2 col-md-2 col-sm-2 pr-0 verification-input">
 									<div class="form-group mt-0">
-										<input class="text-center" type="text" maxLength="1" required="required"/>
+										<input class="text-center" id="code_1" type="text" maxLength="1" required="required" onkeyup="moveOnNext(this)" autofocus/>
 										<label for="input" class="control-label"></label><i class="bar"></i>
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2 col-sm-2 pr-0 verification-input">
 									<div class="form-group mt-0">
-										<input class="text-center" type="text" maxLength="1" required="required"/>
+										<input class="text-center" id="code_2" type="text" maxLength="1" required="required" onkeyup="moveOnNext(this)"/>
 										<label for="input" class="control-label"></label><i class="bar"></i>
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2 col-sm-2 pr-0 verification-input">
 									<div class="form-group mt-0">
-										<input class="text-center" type="text" maxLength="1" required="required"/>
+										<input class="text-center" id="code_3" type="text" maxLength="1" required="required" onkeyup="moveOnNext(this)"/>
 										<label for="input" class="control-label"></label><i class="bar"></i>
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2 col-sm-2 pr-0 verification-input">
 									<div class="form-group mt-0">
-										<input class="text-center" type="text" maxLength="1" required="required"/>
+										<input class="text-center" id="code_4" type="text" maxLength="1" required="required" onkeyup="moveOnNext(this)"/>
 										<label for="input" class="control-label"></label><i class="bar"></i>
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2 col-sm-2 pr-0 verification-input">
 									<div class="form-group mt-0">
-										<input class="text-center" type="text" maxLength="1" required="required"/>
+										<input class="text-center" id="code_5" type="text" maxLength="1" required="required" onkeyup="moveOnNext(this)"/>
 										<label for="input" class="control-label"></label><i class="bar"></i>
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2 col-sm-2 pr-0 verification-input">
 									<div class="form-group mt-0">
-										<input class="text-center" type="text" maxLength="1" required="required"/>
+										<input class="text-center" id="code_6" type="text" maxLength="1" required="required" onkeyup="moveOnPrevious(this)"/>
 										<label for="input" class="control-label"></label><i class="bar"></i>
 									</div>
 								</div>

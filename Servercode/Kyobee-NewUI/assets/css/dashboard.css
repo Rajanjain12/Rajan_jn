@@ -15,11 +15,6 @@
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 8px 15px; }
-  #dashboardPage .active-filter {
-    background-color: #e14b28;
-    color: #ffffff; }
-    #dashboardPage .active-filter i {
-      color: #ffffff; }
   #dashboardPage .search {
     padding: 8px 10px 8px 45px;
     background-repeat: no-repeat;

@@ -33,10 +33,11 @@
   .sm-mx-auto {
     margin: auto; }
 
+  .sm-center {
+    text-align: center !important; }
+
   .modal .modal-btn {
     text-align: center !important; }
-    .modal .modal-btn .btn-theme {
-      width: 80% !important; }
 
   header .topnav {
     padding: 0.5rem; }
@@ -84,9 +85,17 @@
       #sidebar-wrapper .sidebar-nav li a {
         text-align: left; }
         #sidebar-wrapper .sidebar-nav li a .icon-border-right {
-          padding: 8px;
+          padding: 5px;
           display: inline-block;
           border-right: none; }
+          #sidebar-wrapper .sidebar-nav li a .icon-border-right .icon-circle {
+            height: 35px;
+            width: 35px;
+            border-radius: 35px;
+            line-height: 30px; }
+            #sidebar-wrapper .sidebar-nav li a .icon-border-right .icon-circle [class^="flaticon-"]:before, #sidebar-wrapper .sidebar-nav li a .icon-border-right .icon-circle [class*=" flaticon-"]:before, #sidebar-wrapper .sidebar-nav li a .icon-border-right .icon-circle [class^="flaticon-"]:after, #sidebar-wrapper .sidebar-nav li a .icon-border-right .icon-circle [class*=" flaticon-"]:after {
+              font-family: Flaticon;
+              font-size: 18px; }
       #sidebar-wrapper .sidebar-nav li.active a .icon-border-right {
         border-right: none; }
 
@@ -108,7 +117,17 @@
 
   /* addUserPage */
   #addUserPage .first-lang {
-    flex-direction: column-reverse; } }
+    flex-direction: column-reverse; }
+
+  .verification-input {
+    width: 34px;
+    margin: 0 auto; }
+
+  #rc-imageselect, .g-recaptcha {
+    transform: scale(0.77);
+    -webkit-transform: scale(0.77);
+    transform-origin: 0 0;
+    -webkit-transform-origin: 0 0; } }
 @media (min-width: 768px) and (max-width: 991.98px) {
   /* Common CSS */
   .custom-container {

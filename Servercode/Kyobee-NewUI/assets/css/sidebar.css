@@ -21,8 +21,6 @@
   background: #ffffff;
   box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.08);
   z-index: 19;
-  animation-name: slid-right;
-  animation-duration: 0.5s;
   /* .sidebar-nav */ }
   #sidebar-wrapper .sidebar-nav {
     position: absolute;
@@ -31,9 +29,7 @@
     font-size: 14px;
     margin: 0;
     padding: 0;
-    list-style: none;
-    /* li */
-    /* li.active */ }
+    list-style: none; }
     #sidebar-wrapper .sidebar-nav li {
       background-color: #ffffff;
       text-indent: 0; }
@@ -55,18 +51,6 @@
             line-height: 47px; }
             #sidebar-wrapper .sidebar-nav li a .icon-border-right .icon-circle i {
               font-size: 28px; }
-    #sidebar-wrapper .sidebar-nav li.active a .icon-border-right {
-      border-right: 3px solid #e14b28; }
-      #sidebar-wrapper .sidebar-nav li.active a .icon-border-right .icon-circle {
-        background-color: #e14b28; }
-        #sidebar-wrapper .sidebar-nav li.active a .icon-border-right .icon-circle i {
-          color: #ffffff; }
-    #sidebar-wrapper .sidebar-nav li.active .borderRight {
-      border-right: 3px solid #e14b28; }
-      #sidebar-wrapper .sidebar-nav li.active .borderRight a {
-        background-color: #e14b28; }
-        #sidebar-wrapper .sidebar-nav li.active .borderRight a i {
-          color: #ffffff; }
   #sidebar-wrapper [class^="flaticon-close"]:before, #sidebar-wrapper [class*=" flaticon-close"]:before,
   #sidebar-wrapper [class^="flaticon-close"]:after, #sidebar-wrapper [class*=" flaticon-close"]:after {
     font-family: Flaticon;
