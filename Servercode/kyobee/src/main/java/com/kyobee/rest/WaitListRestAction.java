@@ -2172,23 +2172,57 @@ public class WaitListRestAction {
     	@RequestMapping(value = "/getGuestDetail", method = RequestMethod.GET, produces = "application/json")
     	public Response<List<GuestDTO>> saveOrUpdateProfile(@RequestParam("mobileNumber") String mobileNumber ) throws RsntException{
     		Response<List<GuestDTO>> response = new Response<List<GuestDTO>>();
+
     		List<GuestDTO> dtos =  new ArrayList<>();
-    		
-    	try{	
-    		GuestDTO g1 =  new GuestDTO();
-    		
-    		g1.setName("Admin");
-    		g1.setSeatingPreference("First Available,Table");
-    		g1.setMarketingPreference("Facebook,Instagram,Google+");
-    		
-    		dtos.add(g1);
-    		response.setServiceResult(dtos);
-    		CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
-    	}catch (Exception e) {
-    		log.error("Error occure while Fetch Gust Details:", e);
-			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
-					"Error occure while Fetch Gust Details");
-		}
+    		List<GuestPreferencesDTO> guestPreferencesList =new ArrayList<GuestPreferencesDTO>();
+
+    		List<GuestMarketingPreference> guestMarketingPreferenceList = new ArrayList<GuestMarketingPreference>();
+
+    		GuestPreferencesDTO guestPreferencesDTO = new GuestPreferencesDTO();
+    		GuestMarketingPreference guestMarketingPreference1 = new GuestMarketingPreference();
+    		GuestMarketingPreference guestMarketingPreference2 = new GuestMarketingPreference();
+    		GuestMarketingPreference guestMarketingPreference3 = new GuestMarketingPreference();
+    		try{	
+    			GuestDTO g1 =  new GuestDTO();
+
+    			g1.setName("Admin");
+    			guestMarketingPreference1.setGuestMarketPrefValueId((long)45);
+    			guestMarketingPreference1.setGuestMarketPrefValue("Facebook");
+    			guestMarketingPreference1.setSelected(false);    		
+
+    			guestMarketingPreferenceList.add(guestMarketingPreference1);
+
+    			guestMarketingPreference2.setGuestMarketPrefValueId((long)46);
+    			guestMarketingPreference2.setGuestMarketPrefValue("Instagram");
+    			guestMarketingPreference2.setSelected(false);    		
+
+    			guestMarketingPreferenceList.add(guestMarketingPreference2);
+
+    			guestMarketingPreference3.setGuestMarketPrefValueId((long)47);
+    			guestMarketingPreference3.setGuestMarketPrefValue("Google+");
+    			guestMarketingPreference3.setSelected(false);    		
+
+    			guestMarketingPreferenceList.add(guestMarketingPreference3);
+
+
+    			guestPreferencesDTO.setGuestPrefId(null);
+    			guestPreferencesDTO.setPrefValueId((long) 43);
+    			guestPreferencesDTO.setPrefValue("Table");
+    			guestPreferencesDTO.setSelected(false);
+
+    			guestPreferencesList.add(guestPreferencesDTO);
+
+    			g1.setGuestPreferences(guestPreferencesList);
+    			g1.setGuestMarketingPreferences(guestMarketingPreferenceList);
+
+    			dtos.add(g1);
+    			response.setServiceResult(dtos);
+    			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+    		}catch (Exception e) {
+    			log.error("Error occure while Fetch Gust Details:", e);
+    			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+    					"Error occure while Fetch Gust Details");
+    		}
     		return response;
     	}
 }
