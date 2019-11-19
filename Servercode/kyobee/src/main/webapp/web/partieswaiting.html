@@ -76,7 +76,7 @@
 				</div>
 				
                 <div class="form-group" ng-class="{'has-error' : (addGuestForm.name.$invalid && addGuestForm.$submitted) || (addGuestForm.name.$pristine && addGuestForm.name.$invalid && addGuestForm.$submitted)}">
-                  <label class="control-label"></label>
+                  <label class="control-label">Name</label>
                   <input type="text" name="name" id="name" class="form-control" ng-model="guestDTO.name" required placeholder="Name" />
                   <div ng-messages="addGuestForm.name.$error" ng-show="(addGuestForm.name.$invalid && addGuestForm.$submitted)" class="help-block">
 				        <div ng-message="required">Name cannot be blank</div>
@@ -108,6 +108,7 @@
                <div class="row">   
               <div class="form-group" ng-class="{'has-error' : (addGuestForm.adults.$invalid && addGuestForm.$submitted) || (addGuestForm.adults.$pristine && addGuestForm.adults.$invalid && addGuestForm.$submitted)}">
                 <div class="col-md-2 col-sm-2 col-xs-12">
+                 <label class="control-label"># of Adults</label>
 				  <input type="number" id="adults" name="adults" min=0 max=100 class="form-control col-md-4 col-sm-4 col-xs-12" ng-model="guestDTO.noOfAdults" required placeholder="Adults" />
 				  <span ng-messages="addGuestForm.adults.$error" ng-show="(addGuestForm.adults.$invalid && addGuestForm.$submitted)" class="help-block">
 				        <h5 ng-message="required">Adults cannot be blank</h5>
@@ -115,6 +116,7 @@
 				  </div>
                 
                  <div class="col-md-2 col-sm-2 col-xs-12">
+                 <label class="control-label"># of Children</label>
                   <input type="number" id="children" name="children" class="form-control" min=0 max=100 ng-model="guestDTO.noOfChildren" placeholder="Children"/>
                   <!-- <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
 				        <h5 ng-message="required">Children cannot be blank</h5>
@@ -156,6 +158,7 @@
                			<div class="col-md-12 col-sm-12 col-xs-12">
                			
                			<div class="form-group" ng-class="{'has-error' : (addGuestForm.field2SMS.$invalid && addGuestForm.$submitted) || (addGuestForm.field2SMS.$pristine && addGuestForm.field2SMS.$invalid && addGuestForm.$submitted)}">
+				 			<label class="control-label">Contact Number</label>
 				 			<input type="text" id="masked" name="field2SMS" ng-model="guestDTO.sms" ng-model="phonenumber" ui-mask="(999) 999-9999" ui-mask-placeholder ui-mask-placeholder-char="_"
 							 class="form-control default-input-placeholder input-no-spinner" ng-required="userDTO.smsRoute != null || userDTO.smsRoute != ''"/>
 							<!-- <span class="help-inline">
