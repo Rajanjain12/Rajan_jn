@@ -2178,7 +2178,10 @@ public class WaitListRestAction {
 
     		List<GuestMarketingPreference> guestMarketingPreferenceList = new ArrayList<GuestMarketingPreference>();
 
-    		GuestPreferencesDTO guestPreferencesDTO = new GuestPreferencesDTO();
+    		GuestPreferencesDTO guestPreferencesDTO1 = new GuestPreferencesDTO();
+    		GuestPreferencesDTO guestPreferencesDTO2 = new GuestPreferencesDTO();
+    		GuestPreferencesDTO guestPreferencesDTO3 = new GuestPreferencesDTO();
+    		
     		GuestMarketingPreference guestMarketingPreference1 = new GuestMarketingPreference();
     		GuestMarketingPreference guestMarketingPreference2 = new GuestMarketingPreference();
     		GuestMarketingPreference guestMarketingPreference3 = new GuestMarketingPreference();
@@ -2186,6 +2189,11 @@ public class WaitListRestAction {
     			GuestDTO g1 =  new GuestDTO();
 
     			g1.setName("Admin");
+    			g1.setSeatingPreference("First Available,Table");
+    			g1.setMarketingPreference("Facebook,Instagram,Google+");
+    			
+    			//guestMarketingPreferenceList
+    			
     			guestMarketingPreference1.setGuestMarketPrefValueId((long)45);
     			guestMarketingPreference1.setGuestMarketPrefValue("Facebook");
     			guestMarketingPreference1.setSelected(false);    		
@@ -2203,17 +2211,32 @@ public class WaitListRestAction {
     			guestMarketingPreference3.setSelected(false);    		
 
     			guestMarketingPreferenceList.add(guestMarketingPreference3);
+    			g1.setGuestMarketingPreferences(guestMarketingPreferenceList);
 
+    			//guestPreferencesList
 
-    			guestPreferencesDTO.setGuestPrefId(null);
-    			guestPreferencesDTO.setPrefValueId((long) 43);
-    			guestPreferencesDTO.setPrefValue("Table");
-    			guestPreferencesDTO.setSelected(false);
-
-    			guestPreferencesList.add(guestPreferencesDTO);
+    			guestPreferencesDTO1.setGuestPrefId(null);
+    			guestPreferencesDTO1.setPrefValueId((long) 41);
+    			guestPreferencesDTO1.setPrefValue("First Available");
+    			guestPreferencesDTO1.setSelected(false);
+    			
+    			guestPreferencesList.add(guestPreferencesDTO1);
+    			
+    			guestPreferencesDTO2.setGuestPrefId(null);
+    			guestPreferencesDTO2.setPrefValueId((long) 39);
+    			guestPreferencesDTO2.setPrefValue("Patio");
+    			guestPreferencesDTO2.setSelected(false);
+    			
+    			guestPreferencesList.add(guestPreferencesDTO2);
+    			
+    			guestPreferencesDTO3.setGuestPrefId(null);
+    			guestPreferencesDTO3.setPrefValueId((long) 40);
+    			guestPreferencesDTO3.setPrefValue("Bar");
+    			guestPreferencesDTO3.setSelected(false);
+    			
+    			guestPreferencesList.add(guestPreferencesDTO3);
 
     			g1.setGuestPreferences(guestPreferencesList);
-    			g1.setGuestMarketingPreferences(guestMarketingPreferenceList);
 
     			dtos.add(g1);
     			response.setServiceResult(dtos);
