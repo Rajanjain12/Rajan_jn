@@ -38,7 +38,13 @@
     		logoImgSrc = "../assets/img/adminlogo.png";
     		faciconLogoSrc = "../assets/img/favicon-admin.png";
     		title = "Kyobee";
-    	} else {
+    	} else if(subdomain.includes("54")){
+    		cssFile = "../assets/css/theme-admin.css";
+    		logoImgSrc = "../assets/img/adminlogo.png";
+    		faciconLogoSrc = "../assets/img/favicon-admin.png";
+    		title = "Kyobee";
+    	}
+    	else {
     		if(subdomain != null && subdomain != 'undefined'){
         		cssFile = "../assets/css/theme-" + subdomain + ".css";
         		logoImgSrc = "../assets/img/" + subdomain + "logo.png";
