@@ -8,8 +8,6 @@ header {
   box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.1);
   padding: 10px;
   background-color: #ffffff;
-  animation-name: slid-down;
-  animation-duration: 1s;
   /* div.logo */
   /* topbar*/ }
   header img {
@@ -74,6 +72,44 @@ header {
     transform: translatex(300em); }
   100% {
     transform: translatex(0); } }
+
+/*fade content*/
+.fade-in {
+  animation: fadeIn ease 1.2s;
+  -webkit-animation: fadeIn ease 1.2s;
+  -moz-animation: fadeIn ease 1.2s;
+  -o-animation: fadeIn ease 1.2s;
+  -ms-animation: fadeIn ease 1.2s; }
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@-ms-keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
 
 /*resrt default css*/
 * {
@@ -506,9 +542,7 @@ fieldset {
 .fix-header {
   position: fixed;
   width: 100%;
-  z-index: 20;
-  animation-name: slid-down;
-  animation-duration: 1s; }
+  z-index: 20; }
 
 .fix-wrapper {
   padding-top: 5%; }

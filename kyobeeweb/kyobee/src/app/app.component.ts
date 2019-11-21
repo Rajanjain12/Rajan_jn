@@ -25,7 +25,6 @@ export class AppComponent implements OnInit {
     var url = window.location.href;
     var initials = url.split(".")[0];
     var subdomain = initials.split("//")[1];
-    
     if(subdomain.includes("localhost:4200")){
       this.cssFile = "../assets/css/theme-admin.css";
       this.logoImgSrc = "../assets/img/adminlogo.png";

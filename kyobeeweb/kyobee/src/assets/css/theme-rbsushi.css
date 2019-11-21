@@ -9,7 +9,7 @@ a:hover {
   text-decoration: none; }
 
 .font-color {
-  color: #d11718 !important; }
+  color: #d11718; }
 
 .background-color {
   background-color: #d11718; }
@@ -136,20 +136,6 @@ a:hover {
   color: #fff;
   background-color: #d11718;
   transition: all ease-in-out 0.3s; }
-
-/*slider*/
-.ng5-slider .ng5-slider-pointer {
-  background-color: #d11718;
-  width: 20px;
-  height: 20px;
-  top: -8px; }
-
-.ng5-slider .ng5-slider-pointer:after {
-  top: 6px;
-  left: 6px; }
-
-.ng5-slider .ng5-slider-selection {
-  background: #d11718; }
 
 /*footer*/
 footer {

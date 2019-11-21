@@ -3,7 +3,7 @@
 $theme-color:#e14b28;
 /*common css*/
 a:hover{color:$theme-color;text-decoration: none;}
-.font-color{color:$theme-color!important;}
+.font-color{color:$theme-color;}
 .background-color{background-color:$theme-color;}
 .shadow{box-shadow: 0px 3px 13px 0px rgba(221, 56, 36, 0.56)!important;}
 #sidebar-wrapper .sidebar-nav li a.profile-icon img{opacity: 0;}
@@ -99,19 +99,5 @@ a:hover{color:$theme-color;text-decoration: none;}
 /*code for plan box hover border and button*/
 .pricing-box:hover{box-shadow: 0 1rem 2rem rgba(0,0,0,.1);transform: scale(1.1);z-index: 2;border:0;}
 .pricing-box:hover .btn-grey-theme{color:#fff;background-color:$theme-color;transition: all ease-in-out 0.3s;}
-/*slider*/
-.ng5-slider .ng5-slider-pointer {
-    background-color: $theme-color;
-    width: 20px;
-    height: 20px;
-    top: -8px;
-}
-.ng5-slider .ng5-slider-pointer:after {
-    top:6px;
-    left:6px;
-}
-.ng5-slider .ng5-slider-selection {
-    background: $theme-color;
-}
 /*footer*/
 footer{background-color:$theme-color;}
