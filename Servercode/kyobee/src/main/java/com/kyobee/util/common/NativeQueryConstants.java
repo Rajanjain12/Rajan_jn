@@ -499,5 +499,7 @@ public class NativeQueryConstants {
 	
 	public static final String FIND_USER="SELECT *  FROM USER  where userName=:userName and password=:password";
 
+	//arjun
+	public static final String GET_GUEST_BY_MOBILE="SELECT gr.GuestID, gr.OrganizationID, gr.name, gr.sms, gr.seatingPreference FROM GUESTRESET gr where gr.sms=:contactNumber and gr.OrganizationID=:orgID order by createdTime desc;";
 	
 }

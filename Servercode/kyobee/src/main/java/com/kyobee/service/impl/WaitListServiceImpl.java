@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -39,6 +40,7 @@ import org.springframework.stereotype.Repository;
 import com.kyobee.dao.impl.AddressDAO;
 import com.kyobee.dao.impl.OrganizationDAO;
 import com.kyobee.dao.impl.UserDAO;
+import com.kyobee.dto.GuestDTO;
 import com.kyobee.dto.GuestMarketingPreference;
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
@@ -48,12 +50,12 @@ import com.kyobee.dto.ScreensaverDTO;
 import com.kyobee.dto.WaitlistMetrics;
 import com.kyobee.dto.common.Credential;
 import com.kyobee.dto.common.Response;
-import com.kyobee.entity.MarketingPreference;
 import com.kyobee.entity.Address;
 import com.kyobee.entity.Guest;
 import com.kyobee.entity.GuestNotificationBean;
 import com.kyobee.entity.GuestPreferences;
 import com.kyobee.entity.GuestReset;
+import com.kyobee.entity.MarketingPreference;
 import com.kyobee.entity.Organization;
 import com.kyobee.entity.SmsLog;
 import com.kyobee.entity.User;
@@ -61,7 +63,9 @@ import com.kyobee.exception.RsntException;
 import com.kyobee.service.ISecurityService;
 import com.kyobee.service.IWaitListService;
 import com.kyobee.util.AppTransactional;
-import com.kyobee.util.common.*;
+import com.kyobee.util.common.Constants;
+import com.kyobee.util.common.LoggerUtil;
+import com.kyobee.util.common.NativeQueryConstants;
 import com.kyobee.util.jms.NotificationQueueSender;
 
 
@@ -1996,5 +2000,29 @@ ByOrgRecords(java.lang.Long, int, int)
 	
 	
 		}
-
+		
+		/*Get Guest Details from GuestReset table by contactNumber and OrgId */		
+		
+		@SuppressWarnings("unchecked")
+		public Object[] getGuestDetail(String contactNumber, String orgID) {
+			Query query = null;
+			Object[] result = null;
+			try {
+				query= sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_GUEST_BY_MOBILE)
+						.setParameter("contactNumber", contactNumber)
+						.setParameter("orgID", orgID);
+				
+				List<Object[]> rows = query.list();
+				
+				if(!rows.isEmpty())
+				{
+					result=rows.get(0);
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.info(e.getMessage());
+			}
+			return result;
+		}
 }

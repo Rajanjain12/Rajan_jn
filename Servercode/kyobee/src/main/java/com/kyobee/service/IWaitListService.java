@@ -269,5 +269,10 @@ public interface IWaitListService {
 	public Boolean updateOrSaveProfile(Credential credentials)throws RsntException;
 
 	
+	//arjun
+	
+	public Object[] getGuestDetail(String contactNumber, String orgID);
+
+	
  
 }
