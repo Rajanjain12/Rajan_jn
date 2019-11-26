@@ -2,6 +2,7 @@ package com.kyobee.rest;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -549,6 +550,102 @@ public class LoginRestController {
 	}
     	
     	
-   
+	/*
+	 * this api is version 2 of loginCredAuth (Hard coded)
+	 * languageMap is added in language preference in older version  changed by arjun 
+	 */	
+	
+	@RequestMapping(value = "/loginCredAuth/V2", method = RequestMethod.GET, produces = "application/json")
+	public String loginCredAuthV2(@RequestParam String username, @RequestParam String password){
+		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
+		try {
+			List<Object[]>  result = securityService.loginCredAuth(username, password);
+			Map<String, String> languageMap=securityService.languageLocalization();
+			Object[] loginDetail = result.get(0);
+	   		
+			if(loginDetail[0].toString().equals(CommonUtil.encryptPassword(password))){
+				rootMap.put("OrgId",loginDetail[1].toString());
+				rootMap.put("logofile name",loginDetail[2].toString());
+				rootMap.put("clientBase",loginDetail[3].toString());
+				if(loginDetail[4]!=null)
+					rootMap.put("smsRoute", loginDetail[4].toString());
+				else
+					rootMap.put("smsRoute", loginDetail[4]);
+				
+				if(loginDetail[5]!=null){
+					rootMap.put("MaxParty", loginDetail[5].toString());
+				}else{
+					rootMap.put("MaxParty", 0);
+				}
+				
+				if(loginDetail[6]!=null){
+					rootMap.put("defaultLangId", loginDetail[6].toString());
+				}
+				
+				ScreensaverDTO screensaver = null;
+				try {
+					screensaver = waitListService.getOrganizationScreensaver(Long.valueOf(loginDetail[1].toString()).longValue());
+					rootMap.put("screensaver", screensaver);
+				} catch (Exception e) {
+					e.printStackTrace();
+					LoggerUtil.logError(e.getMessage(), e);
+				}
+				
+				List<LanguageMasterDTO> langPref = null;
+				try {
+					langPref = waitListService.getOrganizationLanguagePref(Long.valueOf(loginDetail[1].toString()).longValue());
+					langPref.get(0).setLanguageMap(languageMap);
+					rootMap.put("languagepref",langPref);
+				} catch (Exception e) {
+					LoggerUtil.logError(e.getMessage(), e);
+				}
+				
+				List<OrganizationTemplateDTO> orgTemplates =  null;
+				try {
+					long langID=1;
+					orgTemplates =	waitListService.getOrganizationTemplates(Long.valueOf(loginDetail[1].toString()).longValue(),langID,null);
+					rootMap.put("smsTemplates",orgTemplates);
+				}catch(Exception e){
+					LoggerUtil.logError(e.getMessage(), e);
+				}
+				
+				List<GuestPreferencesDTO> searPref =  null;
+				try {
+					searPref=	waitListService.getOrganizationSeatingPref(Long.valueOf(loginDetail[1].toString()).longValue());
+					rootMap.put("success", "0");
+					rootMap.put("seatpref",searPref);
+				}catch(Exception e){
+					LoggerUtil.logError(e.getMessage(), e);
+				}
+				// change by sunny for get Marketing Preference List (2018-07-06)
+				List<GuestMarketingPreference> marketingPref =  null;
+				try {
+					marketingPref=	waitListService.getOrganizationMarketingPref(Long.valueOf(loginDetail[1].toString()).longValue());
+					rootMap.put("success", "0");
+					rootMap.put("marketingPref",marketingPref);
+				}catch(Exception e){
+					LoggerUtil.logError(e.getMessage(), e);
+				}
+				
+			}else{
+				rootMap.put("success", "-1");
+				rootMap.put(Constants.RSNT_ERROR, "Invalid Username or Password.");
+
+			}
+		}catch(NoSuchUsernameException ne) {
+			rootMap.put("success", "-1");
+			rootMap.put(Constants.RSNT_ERROR, ne.getMessage());
+		}catch(Exception e) {
+			rootMap.put("success", "-1");
+			rootMap.put(Constants.RSNT_ERROR, "Something wrong occurred");
+			System.out.println(e.getMessage());
+		}
+		
+		
+		final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+		return jsonObject.toString();
+	}
+	
+	
     	
 }

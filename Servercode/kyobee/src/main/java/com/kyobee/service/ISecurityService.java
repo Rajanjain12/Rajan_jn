@@ -1,6 +1,8 @@
 package com.kyobee.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.kyobee.dto.UserDTO;
 import com.kyobee.dto.common.Credential;
@@ -57,5 +59,7 @@ public interface ISecurityService {
 	public Boolean changePassword(Integer userId,String oldPassword,String newPassowrd) throws RsntException;
 	//Check the userName and email id of User  by Aarshi(19/03/2019)
 	public String checkIfExistingUser(String userId,String userName,String email)throws RsntException;
+	
+	public Map<String, String> languageLocalization();
 	
 }
