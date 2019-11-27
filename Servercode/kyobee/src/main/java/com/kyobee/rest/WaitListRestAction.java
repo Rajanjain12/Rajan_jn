@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,25 +100,25 @@ public class WaitListRestAction {
 	private Logger log = Logger.getLogger(WaitListRestAction.class);
 	/*@Autowired
 	private ConfigurationService configurationService;*/
-	
+
 	@Autowired
 	ISecurityService securityService;
-	
+
 	@Autowired
 	ConfigurationService configurationService;
-	
+
 	@Autowired
 	private IWaitListService waitListService;
-	
+
 	@Autowired
 	SessionContextUtil sessionContextUtil;
-	
 
-	
+
+
 	@Autowired
 	private NotificationMessageReceiver messageReceiver;
-	
-	
+
+
 	/**
 	 * Send Notification to guests by user preferences
 	 * @param guestId
@@ -249,7 +250,7 @@ public class WaitListRestAction {
 		 * guestObj.setGuestPreferences(guestPreferences); }
 		 */
 		// change by sunny for marketing preference line 231 to245 at 2018-07-04
-		
+
 		if (null != guest.getGuestMarketingPreferences()) {
 			String marketingPreference = null;
 			List<GuestMarketingPreference> guestMarketingPrefList = guest.getGuestMarketingPreferences();
@@ -258,7 +259,7 @@ public class WaitListRestAction {
 					marketingPreference = o.getGuestMarketPrefValueId() + "";
 				else
 					marketingPreference = marketingPreference + "," + o.getGuestMarketPrefValueId();
-			 }
+			}
 			guestObj.setMarketingPreference(marketingPreference);
 			guest.setMarketingPreference(marketingPreference);
 		}
@@ -268,13 +269,13 @@ public class WaitListRestAction {
 
 		if (null != guest.getDeviceType())
 			guestObj.setDeviceType(guest.getDeviceType());
-		
-		
+
+
 		if(null != guest.getGuestMarketingPreferences()){
-			
+
 			guestObj.setGuestMarketingPreferences(guest.getGuestMarketingPreferences());
 		}
-		
+
 		if (null != guest.getGuestPreferences()) {
 			String seatingPreference = null;
 			List<GuestPreferencesDTO> guestPrefList = guest.getGuestPreferences();
@@ -307,7 +308,7 @@ public class WaitListRestAction {
 		}
 		return guestObj;
 	}
-	
+
 	public List<GuestPreferences> convertSeatingPreferencesVotoEntity(List<GuestPreferencesDTO>  prefDto,Guest guest) {
 		if(null != prefDto) {
 			GuestPreferences guestPref = null;
@@ -400,10 +401,10 @@ public class WaitListRestAction {
 				}
 			}
 			guestObj.setSeatingPreference(seatingPrefForDTO);
-			
+
 			// change by sunny for get MarktingPref and customPref line 394 to 416 (2018-07-05)
-			
-			
+
+
 			String marketingPrefForDTO = "";
 			if (null != guest.getMarketingPreference() && !"null".equals(guest.getMarketingPreference())
 					&& !"".equals(guest.getMarketingPreference())) {
@@ -421,7 +422,7 @@ public class WaitListRestAction {
 				}
 			}
 			guestObj.setMarketingPreference(marketingPrefForDTO);
-			
+
 			if (null != guest && null != guest.getGuestID()) {
 				guestObj.setUpdatedTime(new Date());
 				guestObj.setUuid(guest.getUuid());
@@ -516,9 +517,9 @@ public class WaitListRestAction {
 				}
 			}
 			guestObj.setSeatingPreference(seatingPrefForDTO);
-			
+
 			// change by sunny for geting Marketing Preference line 511 to 541 (2018-07-05)
-			
+
 			String marketingPrefDTO = "";
 			if (null != guest.getMarketingPreference() && !"".equals(guest.getMarketingPreference())) {
 				try {
@@ -543,7 +544,7 @@ public class WaitListRestAction {
 				}
 			}
 			guestObj.setMarketingPreference(marketingPrefDTO);
-			
+
 			if (null != guest && null != guest.getGuestID()) {
 				guestObj.setUpdatedTime(new Date());
 				guestObj.setUuid(guest.getUuid());
@@ -625,7 +626,7 @@ public class WaitListRestAction {
 	@RequestMapping(value = "/usermetricks", method = RequestMethod.GET, produces = "application/json")
 	public Response<Map<String, String>> getGuestWaitTimeMetricks(@RequestParam("guest") Long guestId,@RequestParam("orgid") Long orgid){
 		Response<Map<String, String>> response = new Response<Map<String,String>>();
-		
+
 		try {
 			Map<String, String> metrciks = waitListService.getGuesteMetrics(guestId,orgid);
 			response.setServiceResult(metrciks);
@@ -713,7 +714,7 @@ public class WaitListRestAction {
 			guestPreferenceMap = getGuestSeatingPrefMap();
 			// change by sunny for get Marketing PreferenceMap (2018-07-05)
 			guestMarketingPreferenceMap = getGuestMarketingPrefMap();
-																	
+
 			guests = waitListService.loadAllCheckinUsers(orgid, paginationReqParam.getPageSize(),
 					paginationReqParam.getPageNo(), partyType);
 			Long guestsTotalCount = waitListService.getAllCheckinUsersCount(orgid);
@@ -1096,7 +1097,7 @@ public class WaitListRestAction {
 		return response;
 	}
 
-	
+
 	/**
 	 * Get Event Listener Configuration details 
 	 * @return Map<String, String> 
@@ -1153,7 +1154,7 @@ public class WaitListRestAction {
 		return response;
 
 	}
-	
+
 	/* Get Organization Marketing Preference
 	 * Create by sunny (2018-07-05)
 	 * */ 
@@ -1166,17 +1167,17 @@ public class WaitListRestAction {
 			marketingPref = waitListService.getOrganizationMarketingPref(orgid);
 			response.setServiceResult(marketingPref);
 			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
-			
+
 		} catch (Exception e) {
 			log.error("getOrganizationMarketingPreferences() - failed:", e);
 			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
 					"System Error - getOrganizationMarketingPreferences failed");
-			
+
 		}
 
-		
+
 		return response;
-		
+
 	}
 
 	private boolean checkMarkerForStatusChange(Guest guest){
@@ -1206,16 +1207,16 @@ public class WaitListRestAction {
 		try {
 
 			guest = convertGuesVoToEntity(guestDTO);
-			
+
 			oWaitlistMetrics = waitListService.addGuest(guest);
 			String tinyUrl = messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guest.getUuid());
-			
+
 			rootMap.put(Constants.RSNT_NOW_SERVING_GUEST_ID, oWaitlistMetrics.getNowServingParty());
 			rootMap.put(Constants.RSNT_ORG_TOTAL_WAIT_TIME, oWaitlistMetrics.getTotalWaitTime());
 			rootMap.put(Constants.RSNT_NEXT_TO_NOTIFY_GUEST_ID, oWaitlistMetrics.getGuestToBeNotified());
-			
+
 			guest.setRank(Long.parseLong(oWaitlistMetrics.getGuestRank()+""));
-			
+
 			rootMap.put("OP", "ADD");
 			rootMap.put("totalWaitTime", oWaitlistMetrics.getTotalWaitTime());
 			rootMap.put("nowServingParty", oWaitlistMetrics.getNowServingParty());
@@ -1229,11 +1230,11 @@ public class WaitListRestAction {
 			rootMap.put("guestRank", oWaitlistMetrics.getGuestRank());	
 			rootMap.put("languagePrefID", guest.getLanguagePrefID());
 			rootMap.put("partyType", guest.getPartyType());
-			
+
 			//commented for stopping the send sms upon adding the guest(krupali 09/11/2017)
 			/*if(guestDTO.getPrefType() != null)
 				sendNotification(guest, oWaitlistMetrics, "NORMAL", null);*/
-			
+
 			sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
 			response.setServiceResult(rootMap);
 			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
@@ -1243,7 +1244,7 @@ public class WaitListRestAction {
 			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
 					"System Error - add Guest failed");
 		}
-		
+
 
 		return response;
 	}
@@ -1256,42 +1257,42 @@ public class WaitListRestAction {
 		return prefix;
 	}
 
-/*change by sunny for adding how did you hear about us at (1-08-2018)*/
-	
+	/*change by sunny for adding how did you hear about us at (1-08-2018)*/
+
 	@RequestMapping(value="/addMarketingPref", method = RequestMethod.POST, produces = "application/json")
 	public String addMarketingPref(@RequestBody MarketingPreferenceDTO addMarketingPrefDTO) {
 		log.info("Entering into addGuestMarketingPref");
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
-		
+
 		try{
-		GuestDTO guestDTO = new GuestDTO();
-		Response<GuestDTO> responseDTO = new Response<GuestDTO>();
-		MarketingPreference addMarketing = null;
-		//addMarketing = convertAddMarketingDtoTOEntity(addMarketingPrefDTO);
-		//response =  waitListService.addMarketingPref(addMarketing);
-		responseDTO = fetchGuestById(addMarketingPrefDTO.getGuestID());
-		guestDTO = responseDTO.getServiceResult();
-		if(0 != addMarketingPrefDTO.getGuestMarketingPreference().size() ){
-		guestDTO.setGuestMarketingPreferences(addMarketingPrefDTO.getGuestMarketingPreference());
-		}else{
-			guestDTO.setGuestMarketingPreferences(null);
-		}
-		updateGuestInfo(guestDTO);
-		
-		rootMap.put("status", Constants.SUCCESS);
-		rootMap.put("message","Add Marketing Preference Successfully.");
-		//CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "Add Marketing Prefernce Successfully.");
+			GuestDTO guestDTO = new GuestDTO();
+			Response<GuestDTO> responseDTO = new Response<GuestDTO>();
+			MarketingPreference addMarketing = null;
+			//addMarketing = convertAddMarketingDtoTOEntity(addMarketingPrefDTO);
+			//response =  waitListService.addMarketingPref(addMarketing);
+			responseDTO = fetchGuestById(addMarketingPrefDTO.getGuestID());
+			guestDTO = responseDTO.getServiceResult();
+			if(0 != addMarketingPrefDTO.getGuestMarketingPreference().size() ){
+				guestDTO.setGuestMarketingPreferences(addMarketingPrefDTO.getGuestMarketingPreference());
+			}else{
+				guestDTO.setGuestMarketingPreferences(null);
+			}
+			updateGuestInfo(guestDTO);
+
+			rootMap.put("status", Constants.SUCCESS);
+			rootMap.put("message","Add Marketing Preference Successfully.");
+			//CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "Add Marketing Prefernce Successfully.");
 		}catch (Exception e) {
 			log.error("AddOrganizationMarketingPreferences() - failed:", e);
 			rootMap.put("status", "0");
 			rootMap.put("message","Add Marketing Preference Failed.");
 		}
-		
+
 		final JSONObject jsonObject = JSONObject.fromObject(rootMap);
 		return jsonObject.toString();
 	}
-	
-	
+
+
 	/**
 	 Update Guest information
 	 @param guestJSONStr : Guest object in JSON format
@@ -1324,7 +1325,7 @@ public class WaitListRestAction {
 			response.setServiceResult(rootMap);
 			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 			//jsonObject = JSONObject.fromObject(rootMap);
-			
+
 		}catch (Exception e) {
 			e.printStackTrace();
 			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
@@ -1373,7 +1374,7 @@ public class WaitListRestAction {
 			guest = convertGuesVoToEntity(guestDTO);
 			String seatingPreference = buildSeatingPreference(guestDTO);
 			guest.setSeatingPreference(seatingPreference);
-			
+
 			oWaitlistMetrics = waitListService.updateGuestInfo(guest, Constants.WAITLIST_UPDATE_DELETE);
 
 			rootMap.put(Constants.RSNT_NOW_SERVING_GUEST_ID, oWaitlistMetrics.getNowServingParty());
@@ -1399,7 +1400,7 @@ public class WaitListRestAction {
 		rootMap.put("orgid", guest.getOrganizationID());
 		rootMap.put("numberofparties", oWaitlistMetrics.getTotalWaitingGuest());
 		rootMap.put("partyType", guest.getPartyType());
-		
+
 		HttpSession sessionObj= request.getSession();
 		UserDTO userDto=(UserDTO) sessionObj.getAttribute(Constants.USER_OBJ);
 		if(userDto == null){
@@ -1407,37 +1408,37 @@ public class WaitListRestAction {
 			userDto.setSmsRoute(waitListService.getSmsRouteByOrgid(guest.getOrganizationID()));
 		}
 		if(userDto.getSmsRoute() != null && !userDto.getSmsRoute().equals("")){
-		if(oWaitlistMetrics.getGuestToBeNotified() != -1){
-			
-			if(guest.getGuestID() <= oWaitlistMetrics.getGuestToBeNotified()) {
-				Guest guestToBeNotified = waitListService.getGuestById(oWaitlistMetrics.getGuestToBeNotified());
-				/*sendNotification(guestToBeNotified, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED, null);*/
-				
-				//for fetching smsTemplates
-				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToBeNotified.getOrganizationID(),guestToBeNotified.getLanguagePrefID().getLangId(),2);
-				if(templates.size()>0) {
-					smsContent = templates.get(0).getTemplateText();
-					smsContent=smsContent.replaceAll("G_name", guestToBeNotified.getName());
-					smsContent=smsContent.replaceAll("G_rank", guestToBeNotified.getRank().toString());
-					smsContent=smsContent.replaceAll("Turl", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToBeNotified.getUuid()));
-					smsContent=smsContent.replaceAll("P_ahead", Integer.toString(oWaitlistMetrics.getTotalWaitingGuest()-1));
-					templateId=templates.get(0).getSmsTemplateID();
-					tempLevel=templates.get(0).getLevel();
+			if(oWaitlistMetrics.getGuestToBeNotified() != -1){
+
+				if(guest.getGuestID() <= oWaitlistMetrics.getGuestToBeNotified()) {
+					Guest guestToBeNotified = waitListService.getGuestById(oWaitlistMetrics.getGuestToBeNotified());
+					/*sendNotification(guestToBeNotified, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED, null);*/
+
+					//for fetching smsTemplates
+					List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToBeNotified.getOrganizationID(),guestToBeNotified.getLanguagePrefID().getLangId(),2);
+					if(templates.size()>0) {
+						smsContent = templates.get(0).getTemplateText();
+						smsContent=smsContent.replaceAll("G_name", guestToBeNotified.getName());
+						smsContent=smsContent.replaceAll("G_rank", guestToBeNotified.getRank().toString());
+						smsContent=smsContent.replaceAll("Turl", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToBeNotified.getUuid()));
+						smsContent=smsContent.replaceAll("P_ahead", Integer.toString(oWaitlistMetrics.getTotalWaitingGuest()-1));
+						templateId=templates.get(0).getSmsTemplateID();
+						tempLevel=templates.get(0).getLevel();
+					}
+
+					SendSMSWrapper smsWrapper = new SendSMSWrapper();
+					smsWrapper.setGuestId(guestToBeNotified.getGuestID());
+					smsWrapper.setOrgId(guestToBeNotified.getOrganizationID());
+					smsWrapper.setTemplateId(templateId);
+					smsWrapper.setSmsContent(smsContent);
+					smsWrapper.setMetrics(oWaitlistMetrics);
+					smsWrapper.setTemplateLevel(tempLevel);
+
+					Response<Map<String, String>> res = sendSMS(smsWrapper);
 				}
-				
-				SendSMSWrapper smsWrapper = new SendSMSWrapper();
-				smsWrapper.setGuestId(guestToBeNotified.getGuestID());
-				smsWrapper.setOrgId(guestToBeNotified.getOrganizationID());
-				smsWrapper.setTemplateId(templateId);
-				smsWrapper.setSmsContent(smsContent);
-				smsWrapper.setMetrics(oWaitlistMetrics);
-				smsWrapper.setTemplateLevel(tempLevel);
-				
-				Response<Map<String, String>> res = sendSMS(smsWrapper);
 			}
 		}
-		}
-		
+
 		sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
 		response.setServiceResult(rootMap);
 		return response;
@@ -1455,14 +1456,14 @@ public class WaitListRestAction {
 	public Response<Map<String, Object>>  changeNotificationThreshold(@RequestParam("numberofusers")  int numberOfUsers,@RequestParam("perPartyWaitTime") int perPartyWaitTime, @RequestParam("orgid") Long orgid){
 		Response<Map<String, Object>>  response = new Response<Map<String,Object>>();
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
-		
+
 		try{
 			WaitlistMetrics oWaitlistMetrics = waitListService.changeNotificationThreshold(numberOfUsers,perPartyWaitTime, orgid);
-	
+
 			rootMap.put(Constants.RSNT_NOW_SERVING_GUEST_ID, oWaitlistMetrics.getNowServingParty());
 			rootMap.put(Constants.RSNT_ORG_TOTAL_WAIT_TIME, oWaitlistMetrics.getTotalWaitTime());
 			rootMap.put(Constants.RSNT_NEXT_TO_NOTIFY_GUEST_ID, oWaitlistMetrics.getGuestToBeNotified());
-	
+
 			rootMap.put("OP", "NOTIFY_USER");
 			rootMap.put("FROM", "ADMIN");
 			rootMap.put("notifyUser", numberOfUsers);
@@ -1492,14 +1493,14 @@ public class WaitListRestAction {
 	public Response<Map<String, Object>>  changePerPartyWaitTime(@RequestParam("numberofusers")  int numberOfUsers, @RequestParam("perPartyWaitTime") int perPartyWaitTime,@RequestParam("orgid") Long orgid){
 		Response<Map<String, Object>> response = new Response<Map<String,Object>>();
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
-		
+
 		try {
 			WaitlistMetrics oWaitlistMetrics = waitListService.changePerPartyWaitTime(numberOfUsers, perPartyWaitTime,orgid);
-	
+
 			rootMap.put(Constants.RSNT_NOW_SERVING_GUEST_ID, oWaitlistMetrics.getNowServingParty());
 			rootMap.put(Constants.RSNT_ORG_TOTAL_WAIT_TIME, oWaitlistMetrics.getTotalWaitTime());
 			rootMap.put(Constants.RSNT_NEXT_TO_NOTIFY_GUEST_ID, oWaitlistMetrics.getGuestToBeNotified());
-	
+
 			rootMap.put("OP", "PPT_CHG");
 			rootMap.put("FROM", "ADMIN");
 			rootMap.put("totalWaitTime", oWaitlistMetrics.getTotalWaitTime());
@@ -1510,13 +1511,13 @@ public class WaitListRestAction {
 			response.setServiceResult(rootMap);
 			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 			sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
-			
+
 		} catch(RsntException e){
 			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
 					"System Error - add Guest failed");
 			LoggerUtil.logError("Error while updating party wait time", e);
 		}
-				
+
 		return response;
 	}
 
@@ -1549,14 +1550,14 @@ public class WaitListRestAction {
 			String seatingPreference = buildSeatingPreference(guestDTO);
 			guest.setSeatingPreference(seatingPreference);
 			oWaitlistMetrics = waitListService.updateGuestInfo(guest, Constants.WAITLIST_UPDATE_CALLOUT);
-			
+
 			rootMap.put(Constants.RSNT_NOW_SERVING_GUEST_ID, oWaitlistMetrics.getNowServingParty());
 			rootMap.put(Constants.RSNT_ORG_TOTAL_WAIT_TIME, oWaitlistMetrics.getTotalWaitTime());
 			rootMap.put(Constants.RSNT_NEXT_TO_NOTIFY_GUEST_ID, oWaitlistMetrics.getGuestToBeNotified());
-			
+
 			guestCount = Long.parseLong(oWaitlistMetrics.getTotalWaitingGuest()+"");
-			
-			
+
+
 			response.setServiceResult(rootMap);
 			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 			//jsonObject = JSONObject.fromObject(rootMap);
@@ -1567,7 +1568,7 @@ public class WaitListRestAction {
 					"System Error - add Guest failed");
 			e.printStackTrace();
 		}
-		
+
 		rootMap.put("OP", "UPD");
 		rootMap.put("guestObj", guest.getGuestID());
 		rootMap.put("updguest", guest);
@@ -1576,42 +1577,42 @@ public class WaitListRestAction {
 		rootMap.put("totalWaitTime", oWaitlistMetrics.getTotalWaitTime());
 		rootMap.put("orgid", guest.getOrganizationID());
 		rootMap.put("partyType", guest.getPartyType());
-		
+
 		HttpSession sessionObj= request.getSession();
 		UserDTO userDto=(UserDTO) sessionObj.getAttribute(Constants.USER_OBJ);
 		if(userDto.getSmsRoute() != null && !userDto.getSmsRoute().equals("")){
-		if(oWaitlistMetrics.getGuestToBeNotified() != -1){
-			if(guest.getGuestID() <= oWaitlistMetrics.getGuestToBeNotified()){
-				//commented as we are using sendsms API for sending sms as of now
-				Guest guestToNotify = waitListService.getGuestById((long)oWaitlistMetrics.getGuestToBeNotified());
-				//sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED, null);
-				
-				//for fetching smsTemplates
-				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID().getLangId(),2);
-				if(templates.size()>0) {
-					smsContent = templates.get(0).getTemplateText();
-					smsContent=smsContent.replaceAll("G_name", guestToNotify.getName());
-					smsContent=smsContent.replaceAll("G_rank", guestToNotify.getRank().toString());
-					smsContent=smsContent.replaceAll("Turl", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToNotify.getUuid()));
-					smsContent=smsContent.replaceAll("P_ahead", Integer.toString(oWaitlistMetrics.getTotalWaitingGuest()-1));
-					templateId=templates.get(0).getSmsTemplateID();
-					tempLevel=templates.get(0).getLevel();
+			if(oWaitlistMetrics.getGuestToBeNotified() != -1){
+				if(guest.getGuestID() <= oWaitlistMetrics.getGuestToBeNotified()){
+					//commented as we are using sendsms API for sending sms as of now
+					Guest guestToNotify = waitListService.getGuestById((long)oWaitlistMetrics.getGuestToBeNotified());
+					//sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED, null);
+
+					//for fetching smsTemplates
+					List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID().getLangId(),2);
+					if(templates.size()>0) {
+						smsContent = templates.get(0).getTemplateText();
+						smsContent=smsContent.replaceAll("G_name", guestToNotify.getName());
+						smsContent=smsContent.replaceAll("G_rank", guestToNotify.getRank().toString());
+						smsContent=smsContent.replaceAll("Turl", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToNotify.getUuid()));
+						smsContent=smsContent.replaceAll("P_ahead", Integer.toString(oWaitlistMetrics.getTotalWaitingGuest()-1));
+						templateId=templates.get(0).getSmsTemplateID();
+						tempLevel=templates.get(0).getLevel();
+					}
+
+					SendSMSWrapper smsWrapper = new SendSMSWrapper();
+					smsWrapper.setGuestId(guestToNotify.getGuestID());
+					smsWrapper.setOrgId(guestToNotify.getOrganizationID());
+					smsWrapper.setTemplateId(templateId);
+					smsWrapper.setSmsContent(smsContent);
+					smsWrapper.setMetrics(oWaitlistMetrics);
+					smsWrapper.setTemplateLevel(tempLevel);
+
+					Response<Map<String, String>> res = sendSMS(smsWrapper);
 				}
-				
-				SendSMSWrapper smsWrapper = new SendSMSWrapper();
-				smsWrapper.setGuestId(guestToNotify.getGuestID());
-				smsWrapper.setOrgId(guestToNotify.getOrganizationID());
-				smsWrapper.setTemplateId(templateId);
-				smsWrapper.setSmsContent(smsContent);
-				smsWrapper.setMetrics(oWaitlistMetrics);
-				smsWrapper.setTemplateLevel(tempLevel);
-				
-				Response<Map<String, String>> res = sendSMS(smsWrapper);
 			}
 		}
-		}
 		sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
-		
+
 		return response;
 	}
 
@@ -1645,7 +1646,7 @@ public class WaitListRestAction {
 			String seatingPreference = buildSeatingPreference(guestDTO);
 			guest.setSeatingPreference(seatingPreference);
 			oWaitlistMetrics = waitListService.updateGuestInfo(guest, Constants.WAITLIST_UPDATE_INCOMPLETE);
-		
+
 			rootMap.put(Constants.RSNT_NOW_SERVING_GUEST_ID, oWaitlistMetrics.getNowServingParty());
 			rootMap.put(Constants.RSNT_ORG_TOTAL_WAIT_TIME, oWaitlistMetrics.getTotalWaitTime());
 			rootMap.put(Constants.RSNT_NEXT_TO_NOTIFY_GUEST_ID, oWaitlistMetrics.getGuestToBeNotified());
@@ -1672,43 +1673,43 @@ public class WaitListRestAction {
 
 		rootMap.put("orgid", guest.getOrganizationID());
 		rootMap.put("partyType", guest.getPartyType());
-		
+
 		HttpSession sessionObj= request.getSession();
 		UserDTO userDto=(UserDTO) sessionObj.getAttribute(Constants.USER_OBJ);
 		if(userDto.getSmsRoute() != null && !userDto.getSmsRoute().equals("")){
-		if(oWaitlistMetrics.getGuestToBeNotified() != -1){
-			if(guest.getGuestID() <= oWaitlistMetrics.getGuestToBeNotified()){
-				Guest guestToNotify = waitListService.getGuestById((long)oWaitlistMetrics.getGuestToBeNotified());
-				/*sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED, null);*/
-				
-				//for fetching smsTemplates
-				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID().getLangId(),2);
-				if(templates.size()>0) {
-					smsContent = templates.get(0).getTemplateText();
-					smsContent=smsContent.replaceAll("G_name", guestToNotify.getName());
-					smsContent=smsContent.replaceAll("G_rank", guestToNotify.getRank().toString());
-					smsContent=smsContent.replaceAll("Turl", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToNotify.getUuid()));
-					smsContent=smsContent.replaceAll("P_ahead", Integer.toString(oWaitlistMetrics.getTotalWaitingGuest()-1));
-					templateId=templates.get(0).getSmsTemplateID();
-					tempLevel=templates.get(0).getLevel();
+			if(oWaitlistMetrics.getGuestToBeNotified() != -1){
+				if(guest.getGuestID() <= oWaitlistMetrics.getGuestToBeNotified()){
+					Guest guestToNotify = waitListService.getGuestById((long)oWaitlistMetrics.getGuestToBeNotified());
+					/*sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED, null);*/
+
+					//for fetching smsTemplates
+					List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID().getLangId(),2);
+					if(templates.size()>0) {
+						smsContent = templates.get(0).getTemplateText();
+						smsContent=smsContent.replaceAll("G_name", guestToNotify.getName());
+						smsContent=smsContent.replaceAll("G_rank", guestToNotify.getRank().toString());
+						smsContent=smsContent.replaceAll("Turl", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToNotify.getUuid()));
+						smsContent=smsContent.replaceAll("P_ahead", Integer.toString(oWaitlistMetrics.getTotalWaitingGuest()-1));
+						templateId=templates.get(0).getSmsTemplateID();
+						tempLevel=templates.get(0).getLevel();
+					}
+
+					SendSMSWrapper smsWrapper = new SendSMSWrapper();
+					smsWrapper.setGuestId(guestToNotify.getGuestID());
+					smsWrapper.setOrgId(guestToNotify.getOrganizationID());
+					smsWrapper.setTemplateId(templateId);
+					smsWrapper.setSmsContent(smsContent);
+					smsWrapper.setMetrics(oWaitlistMetrics);
+					smsWrapper.setTemplateLevel(tempLevel);
+
+					Response<Map<String, String>> res = sendSMS(smsWrapper);
 				}
-				
-				SendSMSWrapper smsWrapper = new SendSMSWrapper();
-				smsWrapper.setGuestId(guestToNotify.getGuestID());
-				smsWrapper.setOrgId(guestToNotify.getOrganizationID());
-				smsWrapper.setTemplateId(templateId);
-				smsWrapper.setSmsContent(smsContent);
-				smsWrapper.setMetrics(oWaitlistMetrics);
-				smsWrapper.setTemplateLevel(tempLevel);
-				
-				Response<Map<String, String>> res = sendSMS(smsWrapper);
 			}
 		}
-		}
 		sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
-		
+
 		return response;
-		
+
 
 		//return jsonObject.toString();
 	}
@@ -1734,7 +1735,7 @@ public class WaitListRestAction {
 		Long guestCount = null;
 		try {
 			oWaitlistMetrics = waitListService.updateGuestInfo(guestToBeSeated, Constants.WAITLIST_UPDATE_MARK_AS_SEATED);
-			
+
 			rootMap.put(Constants.RSNT_NOW_SERVING_GUEST_ID, oWaitlistMetrics.getNowServingParty());
 			rootMap.put(Constants.RSNT_ORG_TOTAL_WAIT_TIME, oWaitlistMetrics.getTotalWaitTime());
 			rootMap.put(Constants.RSNT_NEXT_TO_NOTIFY_GUEST_ID, oWaitlistMetrics.getGuestToBeNotified());
@@ -1762,47 +1763,47 @@ public class WaitListRestAction {
 		rootMap.put("partyType", guestToBeSeated.getPartyType());
 		//turn off 3rd level notifiction by shruti shah along with history and threshold changes
 		//sendNotification(guestToBeSeated, oWaitlistMetrics, Constants.NOTIF_MARK_AS_SEATED);
-		
+
 		long guestIdToBeNotified = (long) oWaitlistMetrics.getGuestToBeNotified();
 
 		HttpSession sessionObj= request.getSession();
 		UserDTO userDto=(UserDTO) sessionObj.getAttribute(Constants.USER_OBJ);
 		if(userDto.getSmsRoute() != null && !userDto.getSmsRoute().equals("")){
-		if(oWaitlistMetrics.getGuestToBeNotified() != -1){
-			if(guestToBeSeated.getGuestID() <= guestIdToBeNotified)
-			{
-				Guest guestToNotify = waitListService.getGuestById(guestIdToBeNotified);
-				/*sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED,null);*/
-				
-				//for fetching smsTemplates
-				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID().getLangId(),2);
-				if(templates.size()>0) {
-					smsContent = templates.get(0).getTemplateText();
-					smsContent=smsContent.replaceAll("G_name", guestToNotify.getName());
-					smsContent=smsContent.replaceAll("G_rank", guestToNotify.getRank().toString());
-					smsContent=smsContent.replaceAll("Turl", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToNotify.getUuid()));
-					smsContent=smsContent.replaceAll("P_ahead", Integer.toString(oWaitlistMetrics.getTotalWaitingGuest()-1));
-					templateId=templates.get(0).getSmsTemplateID();
-					tempLevel=templates.get(0).getLevel();
+			if(oWaitlistMetrics.getGuestToBeNotified() != -1){
+				if(guestToBeSeated.getGuestID() <= guestIdToBeNotified)
+				{
+					Guest guestToNotify = waitListService.getGuestById(guestIdToBeNotified);
+					/*sendNotification(guestToNotify, oWaitlistMetrics, Constants.NOTIF_THRESHOLD_ENTERED,null);*/
+
+					//for fetching smsTemplates
+					List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guestToNotify.getOrganizationID(),guestToNotify.getLanguagePrefID().getLangId(),2);
+					if(templates.size()>0) {
+						smsContent = templates.get(0).getTemplateText();
+						smsContent=smsContent.replaceAll("G_name", guestToNotify.getName());
+						smsContent=smsContent.replaceAll("G_rank", guestToNotify.getRank().toString());
+						smsContent=smsContent.replaceAll("Turl", messageReceiver.buildURL(oWaitlistMetrics.getClientBase(), guestToNotify.getUuid()));
+						smsContent=smsContent.replaceAll("P_ahead", Integer.toString(oWaitlistMetrics.getTotalWaitingGuest()-1));
+						templateId=templates.get(0).getSmsTemplateID();
+						tempLevel=templates.get(0).getLevel();
+					}
+
+					SendSMSWrapper smsWrapper = new SendSMSWrapper();
+					smsWrapper.setGuestId(guestToNotify.getGuestID());
+					smsWrapper.setOrgId(guestToNotify.getOrganizationID());
+					smsWrapper.setTemplateId(templateId);
+					smsWrapper.setSmsContent(smsContent);
+					smsWrapper.setMetrics(oWaitlistMetrics);
+					smsWrapper.setTemplateLevel(tempLevel);
+
+					Response<Map<String, String>> res = sendSMS(smsWrapper);
 				}
-				
-				SendSMSWrapper smsWrapper = new SendSMSWrapper();
-				smsWrapper.setGuestId(guestToNotify.getGuestID());
-				smsWrapper.setOrgId(guestToNotify.getOrganizationID());
-				smsWrapper.setTemplateId(templateId);
-				smsWrapper.setSmsContent(smsContent);
-				smsWrapper.setMetrics(oWaitlistMetrics);
-				smsWrapper.setTemplateLevel(tempLevel);
-				
-				Response<Map<String, String>> res = sendSMS(smsWrapper);
 			}
 		}
-		}
 		sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
-		
+
 		return response;
 	}
-	
+
 	/**
 	 Scan QR code
 	 @param qrCodeValue : Qr code value
@@ -1819,35 +1820,35 @@ public class WaitListRestAction {
 		final Map<String, Object> rootMapPublish = new LinkedHashMap<String, Object>();
 		final Map<String, Object> rootMapMobile = new LinkedHashMap<String, Object>();
 		try {
-	
+
 			//Validate QRcode
 			//Generate new QR code and store into the database too against Jsession 
 			//Publish newly generated QR code to pusher to QRcode channel to subscribe
 			jsonObjectPublish = JSONObject.fromObject(rootMapPublish);
 			rootMapMobile.put("success", 1);
 			rootMapMobile.put("msg", "Thank you for using waitlist service, Fill up your detail on the device");
-			
+
 			jsonObjectMobile = JSONObject.fromObject(rootMapMobile);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		rootMapPublish.put(Constants.QRCODE_VALUE, qrCodeValue);
-		
-	
+
+
 		jsonObjectPublish = sendPusherMessage(rootMapPublish, qrCodeValue+"_"+AppInitializer.pusherChannelEnv+"_"+Contexts.getSessionContext().get(Constants.CONST_ORGID));
-	
+
 		return jsonObjectMobile.toString();*/
 		return null;
 	}
-	
-	
-	  private JSONObject sendPusherMessage(Map<String, Object> rootMap, String channel)
-	  {
-	    RealtimefameworkPusher.sendViaRealtimeRestApi(rootMap, channel);
 
-	    JSONObject jsonObject = JSONObject.fromObject(rootMap);
-	    return jsonObject;
-	  }
+
+	private JSONObject sendPusherMessage(Map<String, Object> rootMap, String channel)
+	{
+		RealtimefameworkPusher.sendViaRealtimeRestApi(rootMap, channel);
+
+		JSONObject jsonObject = JSONObject.fromObject(rootMap);
+		return jsonObject;
+	}
 
 	/*private JSONObject sendPusherMessage(final Map<String, Object> rootMap) {
 		Ortc api = new Ortc();
@@ -1903,7 +1904,7 @@ public class WaitListRestAction {
 		guestNotificationBean.setMessage(freeTextContent);
 		waitListService.sendNotificationToGuest(guestNotificationBean);
 	}
-	
+
 	public Map<Integer, String> getGuestSeatingPrefMap() throws NumberFormatException, RsntException
 	{
 		List<Object[]> guestPrefLookupObjArr = null;
@@ -1914,20 +1915,20 @@ public class WaitListRestAction {
 		}
 		return guestPreferenceMap;
 	}
-	
+
 	// change by sunny for getting marketing preference map (2018-07-05)
-		public Map<Integer, String> getGuestMarketingPrefMap() throws NumberFormatException, RsntException {
-			List<Object[]> guestMarketingPrefLookupObjArr = null;
-			guestMarketingPrefLookupObjArr = waitListService
-					.getLookupsForLookupType(new Long(Constants.CONT_LOOKUPTYPE_GUEST_MARKETING_PREF));
-			Map<Integer, String> guestMarketingPreferenceMap = new HashMap<Integer, String>();
+	public Map<Integer, String> getGuestMarketingPrefMap() throws NumberFormatException, RsntException {
+		List<Object[]> guestMarketingPrefLookupObjArr = null;
+		guestMarketingPrefLookupObjArr = waitListService
+				.getLookupsForLookupType(new Long(Constants.CONT_LOOKUPTYPE_GUEST_MARKETING_PREF));
+		Map<Integer, String> guestMarketingPreferenceMap = new HashMap<Integer, String>();
 
-			for (Object[] lookupObj : guestMarketingPrefLookupObjArr) {
-				guestMarketingPreferenceMap.put((Integer) lookupObj[0], (String) lookupObj[1]);
-			}
-
-			return guestMarketingPreferenceMap;
+		for (Object[] lookupObj : guestMarketingPrefLookupObjArr) {
+			guestMarketingPreferenceMap.put((Integer) lookupObj[0], (String) lookupObj[1]);
 		}
+
+		return guestMarketingPreferenceMap;
+	}
 	private Map<String, Integer> getGuestSeatingPrefMapDescKey() throws NumberFormatException, RsntException
 	{
 		List<Object[]> guestPrefLookupObjArr = null;
@@ -1938,7 +1939,7 @@ public class WaitListRestAction {
 		}
 		return guestPreferenceMap;
 	}
-	
+
 	private String buildSeatingPreference(GuestDTO guestDTO) throws NumberFormatException, RsntException {
 		// TODO Auto-generated method stub
 		if(guestDTO.getSeatingPreference() != null) {
@@ -1962,12 +1963,12 @@ public class WaitListRestAction {
 	@RequestMapping(value = "/callbackBW", method = RequestMethod.POST,consumes= "application/json")
 	public void callbackBW(
 			@RequestBody SmsEvent smsEvent) {
-		
+
 		System.out.println("callback test successful" + smsEvent.getMessageId());
 	}
-	
+
 	/*for implementing dynamic footer (krupali 13/07/2017)*/
-	
+
 	/**
 	 * Get propetyFile info(footer) 			
 	 * @return Map<String, String> 
@@ -1980,13 +1981,13 @@ public class WaitListRestAction {
 		Response<Map<String, String>> response = new Response<Map<String,String>>();
 		Map<String, String> propInfo = new HashMap<String, String>();
 		try{
-		Properties rsntProperties = new Properties();
-		rsntProperties.load(this.getClass().getClassLoader().getResourceAsStream(Constants.RSNTPROPERTIES));
-		footerMsg = rsntProperties.getProperty("rsnt.footerMsg");
-		propInfo.put(Constants.FOOTER_MSG, footerMsg);
-		//final JSONObject jsonObject = JSONObject.fromObject(eventConfig);
-		//return jsonObject.toString();
-		response.setServiceResult(propInfo);
+			Properties rsntProperties = new Properties();
+			rsntProperties.load(this.getClass().getClassLoader().getResourceAsStream(Constants.RSNTPROPERTIES));
+			footerMsg = rsntProperties.getProperty("rsnt.footerMsg");
+			propInfo.put(Constants.FOOTER_MSG, footerMsg);
+			//final JSONObject jsonObject = JSONObject.fromObject(eventConfig);
+			//return jsonObject.toString();
+			response.setServiceResult(propInfo);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -1995,177 +1996,220 @@ public class WaitListRestAction {
 		CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 		return response;
 	}
-	
+
 	/**/
-		
-		/**
-		 * This endpoint is used to send sms to particular user fron sms button on the frot end. 
-		 * Also used to leverage the free form of the sms.
-		 */
-		
-		@RequestMapping(value = "/sendSMS", method = RequestMethod.POST, produces = "application/json")
-		public Response<Map<String, String>> sendSMS(@RequestBody SendSMSWrapper smsWrapper){
-			Response<Map<String, String>> response = new Response<Map<String,String>>();
-			try{
-				Guest guest = waitListService.getGuestById(smsWrapper.getGuestId());
-				/*String notificationFlag=null;*/
-				int tempLevel=0;
-				if(smsWrapper.getTemplateLevel() != null){
+
+	/**
+	 * This endpoint is used to send sms to particular user fron sms button on the frot end. 
+	 * Also used to leverage the free form of the sms.
+	 */
+
+	@RequestMapping(value = "/sendSMS", method = RequestMethod.POST, produces = "application/json")
+	public Response<Map<String, String>> sendSMS(@RequestBody SendSMSWrapper smsWrapper){
+		Response<Map<String, String>> response = new Response<Map<String,String>>();
+		try{
+			Guest guest = waitListService.getGuestById(smsWrapper.getGuestId());
+			/*String notificationFlag=null;*/
+			int tempLevel=0;
+			if(smsWrapper.getTemplateLevel() != null){
 				tempLevel = smsWrapper.getTemplateLevel();
-				}
-				
-				if(smsWrapper.getMetrics() != null){
+			}
+
+			if(smsWrapper.getMetrics() != null){
 				Map<String, String> oWaitlistMetrics = waitListService.getTotalPartyWaitTimeMetrics(guest.getOrganizationID());
 				smsWrapper.setMetrics(waitListService.convertToObject(oWaitlistMetrics));
-				}
-				
-				if(tempLevel == 1){
-					List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guest.getOrganizationID(),guest.getLanguagePrefID().getLangId(),1);
-					if(templates.size()>0) {
-						String smsStr = templates.get(0).getTemplateText();
-						smsStr=smsStr.replaceAll("G_name", guest.getName());
-						smsStr=smsStr.replaceAll("G_rank", guest.getRank().toString());
-						smsStr=smsStr.replaceAll("P_ahead", String.valueOf(smsWrapper.getMetrics().getTotalWaitingGuest()-1));
-						smsStr=smsStr.replaceAll("W_time", String.valueOf(smsWrapper.getMetrics().getTotalWaitTime()));
-						smsStr=smsStr.replaceAll("Turl", messageReceiver.buildURL(smsWrapper.getMetrics().getClientBase(), guest.getUuid()));
-						smsWrapper.setSmsContent(smsStr);
-						smsWrapper.setTemplateId(templates.get(0).getSmsTemplateID());
-					}
-				}
-				
-				sendNotification(guest, smsWrapper.getMetrics(), tempLevel, smsWrapper.getSmsContent());
-				waitListService.saveSmsLog(guest,smsWrapper.getOrgId(),smsWrapper.getTemplateId(), smsWrapper.getSmsContent());
-				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 			}
-			catch (Exception e) {
-				e.printStackTrace();
-				CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
-						"System Error - usermetriks failed");
-				// TODO: handle exception
-			}
-			return response;
-		}
-		
-		/**
-		 * Fetch organization sms template Details By Id
-		 * @param orgId
-		 * @return {@link OrganizationTemplateDTO}
-		 */
-		//@GET
-		//@Path("/fetchSMSTemplates")
-		//@Produces(MediaType.APPLICATION_JSON)
-		
-		@RequestMapping(value = "/fetchSMSTemplates", method = RequestMethod.GET, produces = "application/json")
-		public Response<List<OrganizationTemplateDTO>> fetchOrgSMSTemplatesById(@RequestParam("organizationID") Long orgId,@RequestParam("langPrefID") Long langID){
 
-			
-			Response<List<OrganizationTemplateDTO>> response = new Response<List<OrganizationTemplateDTO>>();
-			try {
-				List<OrganizationTemplateDTO> organizationTemplateDTOs = waitListService.getOrganizationTemplates(orgId,langID,null);
-				response.setServiceResult(organizationTemplateDTOs);
-				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
-			} catch (Exception e) {
-				log.error("fetchOrgSMSTemplatesById(orgId) - failed:", e);
-				CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
-						"System Error - fetch Organization Templates");
-			}
-			
-			return response;
-			
-		}
-		
-		/**
-		 * this API is used for fetching SMS contents dynamically
-		 * @param orgID,langID,tempLevel
-		 * @return { }
-		 */
-		//@GET
-		//@Path("/fetchSMSTemplates")
-		//@Produces(MediaType.APPLICATION_JSON)
-		@RequestMapping(value = "/fetchSmsContent", method = RequestMethod.POST, produces = "application/json")
-		public Response<Map<String, String>> fetchSmsContent(@RequestBody SmsContentParamDTO smsContentParam){
-			Response<Map<String, String>> response = new Response<Map<String, String>>();
-			try {
-				List<OrganizationTemplateDTO> organizationTemplateDTOs = waitListService.getOrganizationTemplates(smsContentParam.getOrgId(),smsContentParam.getLangId(),null);
-				Map<String, String> smsContents = new HashMap<String,String>();
-				
-				//Map<String, String> oWaitlistMetrics = waitListService.getTotalPartyWaitTimeMetrics(smsContentParam.getOrgId());
-				//System.out.println("owaitlistMatrics : "+oWaitlistMetrics);
-				//WaitlistMetrics metrics = waitListService.convertToObject(waitListService.getTotalPartyWaitTimeMetrics(smsContentParam.getOrgId()));
-				Map<String, String> metrics = waitListService.getGuesteMetrics(smsContentParam.getGuestId(),smsContentParam.getOrgId());
-				//System.out.println("usermetrics : "+metrciks);
-				
-				for (OrganizationTemplateDTO organizationTemplateDTO : organizationTemplateDTOs) {
-					String smsContent = organizationTemplateDTO.getTemplateText();
-					smsContent = smsContent.replaceAll("G_name", smsContentParam.getGuestName());
-					smsContent = smsContent.replace("G_rank", smsContentParam.getGusetRank().toString());
-					smsContent = smsContent.replace("Turl", messageReceiver.buildURL(smsContentParam.getClientBase(),smsContentParam.getGuestUuid()));
-					smsContent = smsContent.replace("P_ahead", metrics.get("GUEST_AHEAD_COUNT"));
-					smsContent = smsContent.replace("W_time",metrics.get("TOTAL_WAIT_TIME"));
-					smsContents.put("smsLevel"+organizationTemplateDTO.getLevel(), smsContent	);
+			if(tempLevel == 1){
+				List<OrganizationTemplateDTO> templates= waitListService.getOrganizationTemplates(guest.getOrganizationID(),guest.getLanguagePrefID().getLangId(),1);
+				if(templates.size()>0) {
+					String smsStr = templates.get(0).getTemplateText();
+					smsStr=smsStr.replaceAll("G_name", guest.getName());
+					smsStr=smsStr.replaceAll("G_rank", guest.getRank().toString());
+					smsStr=smsStr.replaceAll("P_ahead", String.valueOf(smsWrapper.getMetrics().getTotalWaitingGuest()-1));
+					smsStr=smsStr.replaceAll("W_time", String.valueOf(smsWrapper.getMetrics().getTotalWaitTime()));
+					smsStr=smsStr.replaceAll("Turl", messageReceiver.buildURL(smsWrapper.getMetrics().getClientBase(), guest.getUuid()));
+					smsWrapper.setSmsContent(smsStr);
+					smsWrapper.setTemplateId(templates.get(0).getSmsTemplateID());
 				}
-				response.setServiceResult(smsContents);
-				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
-			} catch (Exception e) {
-				log.error("fetchOrgSMSTemplatesById(orgId) - failed:", e);
-				CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
-						"System Error - fetch Organization Templates");
 			}
-			return response;
-		}
-		
-		
-		//saveOrupdateProfile by Aarshi(15/03/2019)
-    	@RequestMapping(value = "/saveOrUpdateProfile", method = RequestMethod.POST, produces = "application/json", consumes="application/json")
-    	public Response<UserDTO> saveOrUpdateProfile(@RequestBody Credential credentials,HttpServletRequest request) throws RsntException{
-    		Response<UserDTO> response = new Response<UserDTO>();
-    		Properties oProperties=new Properties();
-    		   try {
-    			oProperties = PropertyUtility.fetchPropertyFile(this.getClass(),Constants.RSNTPROPERTIES);
-    		} catch (IOException e) {
-    			LoggerUtil.logError("Unable to Fetch file");
-    		}
-    		try{
-    			
-    			String userExists=securityService.checkIfExistingUser(credentials.getUserId(),credentials.getUsername(),credentials.getEmail());
-    		   if(userExists.equals("FALSE")){
-   				Boolean statusOfUpdate=waitListService.updateOrSaveProfile(credentials);
-    	    		
-					HttpSession sessionObj = request.getSession();
-					UserDTO userDTO = prepareUserObj(credentials);
-					sessionObj.setAttribute(Constants.USER_OBJ, userDTO);
-					response.setServiceResult(userDTO);
-					response.setStatus(oProperties.getProperty(Constants.USER_UPDATE_SUCCESS));
-					CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, oProperties.getProperty(Constants.USER_UPDATE_SUCCESS));
-			
-				}else{
-					response.setStatus(oProperties.getProperty(Constants.USER_UPDATE_FAIL));
-    				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, oProperties.getProperty(Constants.USER_UPDATE_FAIL));
-    			}
 
-    		}catch(Exception ex){
-    		
-    			response.setStatus(oProperties.getProperty(Constants.USER_UPDATE_FAIL));
-    			LoggerUtil.logError("Error saveOrUpdateProfile", ex);
-    			CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "","",(oProperties.getProperty(Constants.USER_UPDATE_FAIL)));
-    		
-    		}
-    		return response;
-    	}
-////USERDTO by Aarshi(19/03/2019)
-    	private UserDTO prepareUserObj(Credential user) {
-    		UserDTO userDTO = new UserDTO();
-    		userDTO.setUserId(Long.parseLong(user.getUserId()));
-    		userDTO.setOrganizationId(Long.parseLong(user.getOrgId()));
-    		userDTO.setClientBase(user.getClientBase());
-    		userDTO.setCompanyEmail(user.getCompanyEmail());
-    		userDTO.setCompanyName(user.getCompanyName());
-    		userDTO.setPrimaryContactNo(user.getCompanyPrimaryPhone());
-    		userDTO.setEmail(user.getEmail());
-    		userDTO.setFirstName(user.getFirstName());
-    		userDTO.setLastName(user.getLastName());
-    		userDTO.setUserName(user.getUsername());
-    		userDTO.setAddress(user.getAddressDTO().toString());
-    		return userDTO;
-    	}
+			sendNotification(guest, smsWrapper.getMetrics(), tempLevel, smsWrapper.getSmsContent());
+			waitListService.saveSmsLog(guest,smsWrapper.getOrgId(),smsWrapper.getTemplateId(), smsWrapper.getSmsContent());
+			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - usermetriks failed");
+			// TODO: handle exception
+		}
+		return response;
+	}
+
+	/**
+	 * Fetch organization sms template Details By Id
+	 * @param orgId
+	 * @return {@link OrganizationTemplateDTO}
+	 */
+	//@GET
+	//@Path("/fetchSMSTemplates")
+	//@Produces(MediaType.APPLICATION_JSON)
+
+	@RequestMapping(value = "/fetchSMSTemplates", method = RequestMethod.GET, produces = "application/json")
+	public Response<List<OrganizationTemplateDTO>> fetchOrgSMSTemplatesById(@RequestParam("organizationID") Long orgId,@RequestParam("langPrefID") Long langID){
+
+
+		Response<List<OrganizationTemplateDTO>> response = new Response<List<OrganizationTemplateDTO>>();
+		try {
+			List<OrganizationTemplateDTO> organizationTemplateDTOs = waitListService.getOrganizationTemplates(orgId,langID,null);
+			response.setServiceResult(organizationTemplateDTOs);
+			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+		} catch (Exception e) {
+			log.error("fetchOrgSMSTemplatesById(orgId) - failed:", e);
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - fetch Organization Templates");
+		}
+
+		return response;
+
+	}
+	/**
+	 * this API is used for fetching SMS contents dynamically
+	 * @param orgID,langID,tempLevel
+	 * @return { }
+	 */
+	//@GET
+	//@Path("/fetchSMSTemplates")
+	//@Produces(MediaType.APPLICATION_JSON)
+	@RequestMapping(value = "/fetchSmsContent", method = RequestMethod.POST, produces = "application/json")
+	public Response<Map<String, String>> fetchSmsContent(@RequestBody SmsContentParamDTO smsContentParam){
+		Response<Map<String, String>> response = new Response<Map<String, String>>();
+		try {
+			List<OrganizationTemplateDTO> organizationTemplateDTOs = waitListService.getOrganizationTemplates(smsContentParam.getOrgId(),smsContentParam.getLangId(),null);
+			Map<String, String> smsContents = new HashMap<String,String>();
+
+			//Map<String, String> oWaitlistMetrics = waitListService.getTotalPartyWaitTimeMetrics(smsContentParam.getOrgId());
+			//System.out.println("owaitlistMatrics : "+oWaitlistMetrics);
+			//WaitlistMetrics metrics = waitListService.convertToObject(waitListService.getTotalPartyWaitTimeMetrics(smsContentParam.getOrgId()));
+			Map<String, String> metrics = waitListService.getGuesteMetrics(smsContentParam.getGuestId(),smsContentParam.getOrgId());
+			//System.out.println("usermetrics : "+metrciks);
+
+			for (OrganizationTemplateDTO organizationTemplateDTO : organizationTemplateDTOs) {
+				String smsContent = organizationTemplateDTO.getTemplateText();
+				smsContent = smsContent.replaceAll("G_name", smsContentParam.getGuestName());
+				smsContent = smsContent.replace("G_rank", smsContentParam.getGusetRank().toString());
+				smsContent = smsContent.replace("Turl", messageReceiver.buildURL(smsContentParam.getClientBase(),smsContentParam.getGuestUuid()));
+				smsContent = smsContent.replace("P_ahead", metrics.get("GUEST_AHEAD_COUNT"));
+				smsContent = smsContent.replace("W_time",metrics.get("TOTAL_WAIT_TIME"));
+				smsContents.put("smsLevel"+organizationTemplateDTO.getLevel(), smsContent	);
+			}
+			response.setServiceResult(smsContents);
+			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+		} catch (Exception e) {
+			log.error("fetchOrgSMSTemplatesById(orgId) - failed:", e);
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - fetch Organization Templates");
+		}
+		return response;
+	}
+
+
+	//saveOrupdateProfile by Aarshi(15/03/2019)
+	@RequestMapping(value = "/saveOrUpdateProfile", method = RequestMethod.POST, produces = "application/json", consumes="application/json")
+	public Response<UserDTO> saveOrUpdateProfile(@RequestBody Credential credentials,HttpServletRequest request) throws RsntException{
+		Response<UserDTO> response = new Response<UserDTO>();
+		Properties oProperties=new Properties();
+		try {
+			oProperties = PropertyUtility.fetchPropertyFile(this.getClass(),Constants.RSNTPROPERTIES);
+		} catch (IOException e) {
+			LoggerUtil.logError("Unable to Fetch file");
+		}
+		try{
+
+			String userExists=securityService.checkIfExistingUser(credentials.getUserId(),credentials.getUsername(),credentials.getEmail());
+			if(userExists.equals("FALSE")){
+				Boolean statusOfUpdate=waitListService.updateOrSaveProfile(credentials);
+
+				HttpSession sessionObj = request.getSession();
+				UserDTO userDTO = prepareUserObj(credentials);
+				sessionObj.setAttribute(Constants.USER_OBJ, userDTO);
+				response.setServiceResult(userDTO);
+				response.setStatus(oProperties.getProperty(Constants.USER_UPDATE_SUCCESS));
+				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, oProperties.getProperty(Constants.USER_UPDATE_SUCCESS));
+
+			}else{
+				response.setStatus(oProperties.getProperty(Constants.USER_UPDATE_FAIL));
+				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, oProperties.getProperty(Constants.USER_UPDATE_FAIL));
+			}
+
+		}catch(Exception ex){
+
+			response.setStatus(oProperties.getProperty(Constants.USER_UPDATE_FAIL));
+			LoggerUtil.logError("Error saveOrUpdateProfile", ex);
+			CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "","",(oProperties.getProperty(Constants.USER_UPDATE_FAIL)));
+
+		}
+		return response;
+	}
+	////USERDTO by Aarshi(19/03/2019)
+	private UserDTO prepareUserObj(Credential user) {
+		UserDTO userDTO = new UserDTO();
+		userDTO.setUserId(Long.parseLong(user.getUserId()));
+		userDTO.setOrganizationId(Long.parseLong(user.getOrgId()));
+		userDTO.setClientBase(user.getClientBase());
+		userDTO.setCompanyEmail(user.getCompanyEmail());
+		userDTO.setCompanyName(user.getCompanyName());
+		userDTO.setPrimaryContactNo(user.getCompanyPrimaryPhone());
+		userDTO.setEmail(user.getEmail());
+		userDTO.setFirstName(user.getFirstName());
+		userDTO.setLastName(user.getLastName());
+		userDTO.setUserName(user.getUsername());
+		userDTO.setAddress(user.getAddressDTO().toString());
+		return userDTO;
+	}
+
+
+	//arjun 	21/11/2019
+	/**
+	 Get Guest Detail
+	 @param contactNumber - Mobile Number of User
+	 @param orgID - organization Id of User
+	 */
+	@RequestMapping(value = "/getGuestDetail", method = RequestMethod.GET, produces = "application/json")
+	public Response<GuestDTO> getGuestDetail(@RequestParam("contactNumber") String contactNumber ,@RequestParam("orgID") String orgID) throws RsntException{
+		log.info("Entering into getGuestDetail");
+
+		Response<GuestDTO> response = new Response<GuestDTO>();
+		List<GuestPreferencesDTO> guestPreferencesList =  null;
+		GuestDTO guestDTO = new GuestDTO();;
+
+		try{
+
+			Object[] result = waitListService.getGuestDetail(contactNumber,orgID); //get USER Details from GuestReset Table
+			guestPreferencesList=waitListService.getOrganizationSeatingPref(Long.valueOf(orgID)); //GET Guest Preference By Organization Id
+			if(!(result==null)){
+				guestDTO.setGuestID(Long.parseLong(result[0].toString())); 			//guestID
+				guestDTO.setOrganizationID(Long.parseLong(result[1].toString())); 	//OrganizationID
+				guestDTO.setName(result[2].toString());  						 	//name
+				guestDTO.setSms(result[3].toString());     							//mobile(SMS)
+
+				String guestPrefArr[] = result[4].toString().split(",");   			//seatingPrefrence
+				
+				for (String guestPref : guestPrefArr)
+					for (GuestPreferencesDTO guestPreferences : guestPreferencesList) 
+						if(guestPreferences.getPrefValueId()==Long.parseLong(guestPref))
+							guestPreferences.setSelected(true);
+			}
+			guestDTO.setGuestPreferences(guestPreferencesList);
+			response.setServiceResult(guestDTO);
+
+			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+		}catch (Exception e) {
+			log.error("Error occure while Fetch Guest Details:", e);
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"Error occure while Fetch Guest Details");
+		}
+		return response;
+	}
 }
