@@ -8,12 +8,16 @@ import {DataTablesModule} from 'angular-datatables';
 import { AppRoutingModule, routerComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './components/common/footer/footer.component';
+import { SignupPlanAndPricingComponent } from './components/public/signup-plan-and-pricing/signup-plan-and-pricing.component';
+import { SignupVerificationComponent } from './components/public/signup-verification/signup-verification.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     routerComponents,
-    FooterComponent
+    FooterComponent,
+    SignupPlanAndPricingComponent,
+    SignupVerificationComponent
   ],
   imports: [
     BrowserModule,

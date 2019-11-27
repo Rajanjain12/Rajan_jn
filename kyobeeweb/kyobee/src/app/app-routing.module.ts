@@ -8,6 +8,8 @@ import { ResetpwdThanksComponent } from './components/public/resetpwd-thanks/res
 import { OrgProfileComponent } from './components/web/org-profile/org-profile.component';
 import { DashboardComponent } from './components/web/dashboard/dashboard.component';
 import { HistoryComponent } from './components/web/history/history.component';
+import { SignupPlanAndPricingComponent } from './components/public/signup-plan-and-pricing/signup-plan-and-pricing.component';
+import { SignupVerificationComponent } from './components/public/signup-verification/signup-verification.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'public', pathMatch:'full'},
@@ -15,7 +17,9 @@ const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch:'full'},
     { path: 'login', component: LoginComponent },
     { path: 'dashboard', redirectTo: '/web/wishlist/home', pathMatch: 'full' },
-    { path: 'signup', component: SignupComponent},
+    { path: 'signup/:planName', component: SignupComponent},
+    { path: 'signup-plan-and-pricing', component: SignupPlanAndPricingComponent},
+    { path: 'signup-verification', component: SignupVerificationComponent},
     { path: 'forgotpwd', component: ForgotpwdComponent},
     { path: 'resetpwd/:userId/:authcode', component: ResetpwdComponent},
     { path: 'resetpwdthanks', component: ResetpwdThanksComponent},
@@ -40,4 +44,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export const routerComponents =  [LoginComponent, OrgProfileComponent, DashboardComponent, HistoryComponent, SignupComponent, ForgotpwdComponent, ResetpwdComponent, ResetpwdThanksComponent]
+export const routerComponents =  [LoginComponent, OrgProfileComponent, DashboardComponent, HistoryComponent, SignupComponent, SignupPlanAndPricingComponent , SignupVerificationComponent , ForgotpwdComponent, ResetpwdComponent, ResetpwdThanksComponent]

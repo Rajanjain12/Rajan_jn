@@ -1,4 +1,4 @@
-{ "signinPageImg": "../assets/img/sign-in-illu.png",
+{   "signinPageImg": "../assets/img/sign-in-illu.png",
     "forgotPwdPageImg":"../assets/img/recovery-pass-illu.png",
     "correctSignImg":"../assets/img/correct-sign.png",
     "resetPwdPageImg":"../assets/img/reset-pass-illu.png",
@@ -6,5 +6,6 @@
     "noteIconImg":"../assets/img/note-icon.png",
     "deleteIconImg":"../assets/img/delete-icon.png",
     "msgIconImg":"../assets/img/message-icon.png",
-    "notPresentImg":"../assets/img/not-present.png"
+    "notPresentImg":"../assets/img/not-present.png",
+    "verificationCodePageImg": "../assets/img/verification-illu.png"
 }
