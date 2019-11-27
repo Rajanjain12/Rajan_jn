@@ -57,7 +57,7 @@
 						<div class="col-md-12">
 
 							<div class="form-group col-md-6 col-sm-6 col-xs-12 margin-top-20">
-
+								<label class="control-label">Name</label>
 								<input type="text" name="field1" class="form-control"
 									ng-model="guest.name" />
 							</div>
@@ -66,6 +66,7 @@
 
 								<label class="control-label"></label>
 								<div class="col-md-6 col-sm-4 col-xs-12">
+									<label class="control-label"># of Adults</label>
 									<input type="number" id="adults" name="adults" min=0 max=100
 										class="form-control col-md-4 col-sm-4 col-xs-12"
 										ng-model="guest.noOfAdults" required placeholder="Adults" />
@@ -75,6 +76,7 @@
 								</div>
 
 								<div class="col-md-6 col-sm-2 col-xs-12">
+									<label class="control-label"># of Children</label>
 									<input type="number" id="children" name="children"
 										class="form-control" min=0 max=100
 										ng-model="guest.noOfChildren" placeholder="Children" />
@@ -96,6 +98,7 @@
 							<div class="form-group col-md-6 col-sm-6 col-xs-12">
 
 								<div id="smshide1">
+									<label class="control-label">Contact Number</label>
 									<input type="text" id="masked" name="field2SMS"
 										ng-model="guest.sms" ui-mask="(999) 999-9999"
 										ui-mask-placeholder ui-mask-placeholder-char="_"
@@ -117,7 +120,7 @@
 							</div>
 
 							<div
-								class="form-group col-md-3 col-sm-3 col-xs-12 multipaleselect1 font-color-fix"
+								class="form-group col-md-3 col-sm-3 col-xs-12 multipaleselect1"
 								ng-show="seatPrefs != null">
 								<label class="control-label">{{currentPageLanguage.seatingPref}}</label>
 								<select id="example-multiple-selected" class="col-md-12 col-sm-12 col-xs-12" multiple="multiple" ng-model="selectedSeatPref">
@@ -129,7 +132,7 @@
 
 							<!-- change by sunny (31-07-2018) -->
 							<div
-								class="form-group col-md-3 col-sm-3 col-xs-12 multipaleselect1 font-color-fix"
+								class="form-group col-md-3 col-sm-3 col-xs-12 multipaleselect1"
 								ng-show="marketingPref != null">
 								<label class="control-label">How did you hear about us</label> <select
 									id="example-multiple-selected" class="col-md-12 col-sm-12 col-xs-12" multiple="multiple"
