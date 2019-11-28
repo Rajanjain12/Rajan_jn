@@ -657,9 +657,11 @@ public class SecurityServiceImpl implements ISecurityService {
 		 
 		 for (LanguageKeyMapping languageKeyMapping : result) {
 			 
-			 LanguageMap.put(languageKeyMapping.getKeyName(), languageKeyMapping.getValue());	
+			 //Translator translate = Translator.getInstance();
+			 LanguageMap.put(languageKeyMapping.getKeyName(), languageKeyMapping.getValue().toString());	
+			 System.out.println("language mapping "+languageKeyMapping.getValue());
 		}
-			LanguageMap.put("Please enter your resource", "请输入您的资源");
+			
 		return LanguageMap;
 	}
 }	

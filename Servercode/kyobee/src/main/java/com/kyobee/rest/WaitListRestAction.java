@@ -2097,7 +2097,9 @@ public class WaitListRestAction {
 
 			for (OrganizationTemplateDTO organizationTemplateDTO : organizationTemplateDTOs) {
 				String smsContent = organizationTemplateDTO.getTemplateText();
+				System.out.println("smsContent "+smsContent);
 				smsContent = smsContent.replaceAll("G_name", smsContentParam.getGuestName());
+				smsContent = smsContent.replaceAll("#G_name", smsContentParam.getGuestName()); 
 				smsContent = smsContent.replace("G_rank", smsContentParam.getGusetRank().toString());
 				smsContent = smsContent.replace("Turl", messageReceiver.buildURL(smsContentParam.getClientBase(),smsContentParam.getGuestUuid()));
 				smsContent = smsContent.replace("P_ahead", metrics.get("GUEST_AHEAD_COUNT"));
