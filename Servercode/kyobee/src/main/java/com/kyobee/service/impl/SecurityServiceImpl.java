@@ -640,7 +640,7 @@ public class SecurityServiceImpl implements ISecurityService {
 		@SuppressWarnings("unchecked")
 		public Map<String, String> languageLocalization(String langIsoCode){
 		
-		Map<String, String> englishLanguageMap = new HashMap<String, String>();
+		Map<String, String> LanguageMap = new HashMap<String, String>();
 		
 		
 		
@@ -657,10 +657,9 @@ public class SecurityServiceImpl implements ISecurityService {
 		 
 		 for (LanguageKeyMapping languageKeyMapping : result) {
 			 
-			 englishLanguageMap.put(languageKeyMapping.getKeyName(), languageKeyMapping.getValue());	
+			 LanguageMap.put(languageKeyMapping.getKeyName(), languageKeyMapping.getValue());	
 		}
-		 
-			
-		return englishLanguageMap;
+			LanguageMap.put("Please enter your resource", "请输入您的资源");
+		return LanguageMap;
 	}
 }	

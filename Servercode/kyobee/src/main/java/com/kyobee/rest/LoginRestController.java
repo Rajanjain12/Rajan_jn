@@ -592,20 +592,26 @@ public class LoginRestController {
 				}
 				
 				List<LanguageMasterDTO> langPref = null;
+				List<LanguageMasterV2DTO> langPrefV2 = new ArrayList<LanguageMasterV2DTO>();
+				LanguageMasterV2DTO languageMasterV2DTO = null;
 				try {
 					langPref = waitListService.getOrganizationLanguagePref(Long.valueOf(loginDetail[1].toString()).longValue());
-					
-					for (int i = 0; i < langPref.size(); i++) {
-											
-						Map<String, String> languageMap=securityService.languageLocalization(langPref.get(i).getLangIsoCode());
-						//langPref.get(i).setLanguageMap(languageMap);
+							
+					for (LanguageMasterDTO languageMasterDTO : langPref) {
+						
+						languageMasterV2DTO = new LanguageMasterV2DTO();
+						
+						Map<String, String> languageMap=securityService.languageLocalization(languageMasterDTO.getLangIsoCode());
+						
+						languageMasterV2DTO.setLangId(languageMasterDTO.getLangId());
+						languageMasterV2DTO.setLangIsoCode(languageMasterDTO.getLangIsoCode());
+						languageMasterV2DTO.setLangName(languageMasterDTO.getLangName());
+						languageMasterV2DTO.setLanguageMap(languageMap);
+						
+						langPrefV2.add(languageMasterV2DTO);
 					}
 					
-							
-					
-					
-					
-					rootMap.put("languagepref",langPref);
+					rootMap.put("languagepref",langPrefV2);
 				} catch (Exception e) {
 					LoggerUtil.logError(e.getMessage(), e);
 				}
