@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.hibernate.Session;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,9 +22,8 @@ import org.springframework.stereotype.Repository;
 import com.kyobee.dao.impl.AddressDAO;
 import com.kyobee.dao.impl.OrganizationDAO;
 import com.kyobee.dao.impl.UserDAO;
-import com.kyobee.dto.AddressDTO;
 import com.kyobee.dto.common.Credential;
-import com.kyobee.entity.Address;
+import com.kyobee.entity.LanguageKeyMapping;
 import com.kyobee.entity.Organization;
 import com.kyobee.entity.OrganizationCategory;
 import com.kyobee.entity.OrganizationPlanSubscription;
@@ -637,78 +636,31 @@ public class SecurityServiceImpl implements ISecurityService {
 
 	
 	
-	//this service return the object of language preference by arjun 26/11/2019
-	@SuppressWarnings("null")
-	public Map<String, String> languageLocalization(){
+	/* this service return the object of language preference by arjun 26/11/2019 */
+		@SuppressWarnings("unchecked")
+		public Map<String, String> languageLocalization(String langIsoCode){
 		
 		Map<String, String> englishLanguageMap = new HashMap<String, String>();
 		
-		englishLanguageMap.put("english","English");
-		englishLanguageMap.put("parties_waiting","Parties Waiting");
-		englishLanguageMap.put("now_serving","Now Serving");
-		englishLanguageMap.put("est_wait_time","Est. Wait Time");
-		englishLanguageMap.put("press_here_to_check_in","PRESS HERE TO CHECK-IN");
-		englishLanguageMap.put("enter_your_name","Enter Your Name");
-		englishLanguageMap.put("next","NEXT");
-		englishLanguageMap.put("previous","PREVIOUS");
-		englishLanguageMap.put("adults","ADULTS");
-		englishLanguageMap.put("children","CHILDREN");
-		englishLanguageMap.put("infants","INFANTS");
-		englishLanguageMap.put("additional_notes","Additional Notes ?");
-		englishLanguageMap.put("ok","OK");
-		englishLanguageMap.put("seating_preference","Seating Preference");
-		englishLanguageMap.put("patio","Patio");
-		englishLanguageMap.put("bar","Bar");
-		englishLanguageMap.put("first_available","First Available");
-		englishLanguageMap.put("booth","Booth");
-		englishLanguageMap.put("table","Table");
-		englishLanguageMap.put("enter_your_phone_number","Enter Your Phone Number");
-		englishLanguageMap.put("how_did_you_here_about_us","How did you here about us?");
-		englishLanguageMap.put("google","Google");
-		englishLanguageMap.put("yelp","Yelp");
-		englishLanguageMap.put("word_of_mouth","Word of mouth");
-		englishLanguageMap.put("facebook","Facebook");
-		englishLanguageMap.put("instagram","Instagram");
-		englishLanguageMap.put("other","Other");
-		englishLanguageMap.put("please_enter_your_resource","Please enter your resource");
-		englishLanguageMap.put("skip","Skip");
-		englishLanguageMap.put("opt_in_for_special_promotions_and_ads","Opt-in for special promotions and ads");
-		englishLanguageMap.put("congrats","Congrats!");
-		englishLanguageMap.put("you_are_in_your_customer_no_is","You're in! Your Customer no. is");
-		englishLanguageMap.put("or","or");
-		englishLanguageMap.put("your_whole_party_must_be_present_to_be_seated","Your whole party must be present to be seated");
-		englishLanguageMap.put("scan_this_qr_code_to_view_live_updates_on_your_phone","Scan this QR code to view live updates on your phone");
-		englishLanguageMap.put("done","DONE");
-		englishLanguageMap.put("submit","SUBMIT");
-		englishLanguageMap.put("send_sms","SEND SMS");
-		englishLanguageMap.put("please_enter_your_name","Please enter your name.");
-		englishLanguageMap.put("name_can_not_be_blank","Name can not be blank.");
-		englishLanguageMap.put("please_enter_values_more_than_0","Please enter values more than 0.");
-		englishLanguageMap.put("please_enter_values_for_adults_or_childrens","Please enter values for adults or childrens.");
-		englishLanguageMap.put("please_enter_values_for_adults_childrens_or_infants","Please enter values for adults, childrens or infants.");
-		englishLanguageMap.put("please_enter_values_for_adults","Please enter values for adults.");
-		englishLanguageMap.put("please_check_your_internet_connection","Please check your internet connection.");
-		englishLanguageMap.put("the_phone_number_that_you_typed_is_invalid_please_correct_your_phone_number_and_try_again","The phone number that you typed is invalid. Please correct your phone number and try again.");
-		englishLanguageMap.put("the_email_address_that_you_typed_is_invalid_please_correct_your_email_address_and_try_again","The email address that you typed is invalid. Please correct your email address and try again.");
-		englishLanguageMap.put("please_enter_numbers_only","please enter numbers only.");
-		englishLanguageMap.put("enter_your_phone_number","Enter Your Phone Number.");
-		englishLanguageMap.put("are_you_sure_you_want_to_logout","Are you sure you want to logout?");
-		englishLanguageMap.put("sms_successfully_send","SMS successfully send.");
-		englishLanguageMap.put("guest_checked_in_and_sms_sent_sucessfully","Guest checked-In and SMS sent sucessfully.");
-		englishLanguageMap.put("please_check_in_with_host_for_parties_larger_than","Please check in with host for parties larger than");
-		englishLanguageMap.put("watch_for_your_text_link_to_track_your_place_in_line","Watch for your text link to track your place in line.");
-		englishLanguageMap.put("we_will_alert_when_you_are_getting_close_so_you_can_relax","We’ll alert when you’re getting close so you can relax.");
-		englishLanguageMap.put("your_whole_party_must_be_present_to_be_seated_wait_times_are_just_estimates_and_can_change_based_on_availability","Your whole party must be present to be seated, Wait times are just estimates and can change based on availability.");
-		englishLanguageMap.put("how_did_you_hear_about_us_we_would_love_to_know","How did you hear about us? We would love to know!");	
 		
 		
+		Criteria criteria =sessionFactory.getCurrentSession().createCriteria(LanguageKeyMapping.class);
 		
+		criteria.add(Restrictions.eq("langIsoCode", langIsoCode));
 		
+		List<LanguageKeyMapping> result =criteria.list();
 		
-		
+		//createSQLQuery(NativeQueryConstants.GET_KEY_VALUE_BY_ISO).setParameter("langIsoCode", langIsoCode).list();
+		 
+		// Criteria criteria = sessionFactory.createCriteria(Employee.class);
+         
+		 
+		 for (LanguageKeyMapping languageKeyMapping : result) {
+			 
+			 englishLanguageMap.put(languageKeyMapping.getKeyName(), languageKeyMapping.getValue());	
+		}
+		 
+			
 		return englishLanguageMap;
-
-		
-		
 	}
 }	

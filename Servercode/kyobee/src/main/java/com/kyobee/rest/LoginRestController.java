@@ -26,6 +26,7 @@ import com.kyobee.dto.GuestDTO;
 import com.kyobee.dto.GuestMarketingPreference;
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
+import com.kyobee.dto.LanguageMasterV2DTO;
 import com.kyobee.dto.OrganizationTemplateDTO;
 import com.kyobee.dto.ResetPasswordDTO;
 import com.kyobee.dto.UserDTO;
@@ -560,7 +561,6 @@ public class LoginRestController {
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 		try {
 			List<Object[]>  result = securityService.loginCredAuth(username, password);
-			Map<String, String> languageMap=securityService.languageLocalization();
 			Object[] loginDetail = result.get(0);
 	   		
 			if(loginDetail[0].toString().equals(CommonUtil.encryptPassword(password))){
@@ -594,7 +594,17 @@ public class LoginRestController {
 				List<LanguageMasterDTO> langPref = null;
 				try {
 					langPref = waitListService.getOrganizationLanguagePref(Long.valueOf(loginDetail[1].toString()).longValue());
-					langPref.get(0).setLanguageMap(languageMap);
+					
+					for (int i = 0; i < langPref.size(); i++) {
+											
+						Map<String, String> languageMap=securityService.languageLocalization(langPref.get(i).getLangIsoCode());
+						//langPref.get(i).setLanguageMap(languageMap);
+					}
+					
+							
+					
+					
+					
 					rootMap.put("languagepref",langPref);
 				} catch (Exception e) {
 					LoggerUtil.logError(e.getMessage(), e);

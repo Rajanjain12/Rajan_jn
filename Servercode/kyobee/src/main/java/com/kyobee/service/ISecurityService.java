@@ -60,6 +60,6 @@ public interface ISecurityService {
 	//Check the userName and email id of User  by Aarshi(19/03/2019)
 	public String checkIfExistingUser(String userId,String userName,String email)throws RsntException;
 	
-	public Map<String, String> languageLocalization();
+	public Map<String, String> languageLocalization(String langIsoCode);
 	
 }

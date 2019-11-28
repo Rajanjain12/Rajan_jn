@@ -502,4 +502,6 @@ public class NativeQueryConstants {
 	//arjun
 	public static final String GET_GUEST_BY_MOBILE="SELECT gr.GuestID, gr.OrganizationID, gr.name, gr.sms, gr.seatingPreference FROM GUESTRESET gr where gr.sms=:contactNumber and gr.OrganizationID=:orgID order by createdTime desc;";
 	
+	public static final String GET_KEY_VALUE_BY_ISO = "select lm.keyName,lm.Value from kyobeeproddb.LANGUAGEKEYMAPPING lm where lm.LangIsoCode =:langIsoCode";
+	
 }

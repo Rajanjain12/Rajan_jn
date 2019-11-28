@@ -6,19 +6,19 @@ package com.kyobee.service;
 import java.util.List;
 import java.util.Map;
 
-import com.kyobee.dto.MarketingPreferenceDTO;
 import com.kyobee.dto.GuestMarketingPreference;
 import com.kyobee.dto.GuestPreferencesDTO;
 import com.kyobee.dto.LanguageMasterDTO;
+import com.kyobee.dto.LanguageMasterV2DTO;
 import com.kyobee.dto.OrganizationTemplateDTO;
 import com.kyobee.dto.ScreensaverDTO;
 import com.kyobee.dto.WaitlistMetrics;
 import com.kyobee.dto.common.Credential;
 import com.kyobee.dto.common.Response;
-import com.kyobee.entity.MarketingPreference;
 import com.kyobee.entity.Guest;
 import com.kyobee.entity.GuestNotificationBean;
 import com.kyobee.entity.GuestPreferences;
+import com.kyobee.entity.MarketingPreference;
 import com.kyobee.exception.RsntException;
 
 
