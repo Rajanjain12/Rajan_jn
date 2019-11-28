@@ -2177,12 +2177,14 @@ public class WaitListRestAction {
 	 @param orgID - organization Id of User
 	 */
 	@RequestMapping(value = "/getGuestDetail", method = RequestMethod.GET, produces = "application/json")
-	public Response<GuestDTO> getGuestDetail(@RequestParam("contactNumber") String contactNumber ,@RequestParam("orgID") String orgID) throws RsntException{
+	public Response<List<GuestDTO>> getGuestDetail(@RequestParam("contactNumber") String contactNumber ,@RequestParam("orgID") String orgID) throws RsntException{
 		log.info("Entering into getGuestDetail");
 
-		Response<GuestDTO> response = new Response<GuestDTO>();
+		Response<List<GuestDTO>> response = new Response<List<GuestDTO>>();
+		List<GuestDTO> guestDTOList = new ArrayList<GuestDTO>();
 		List<GuestPreferencesDTO> guestPreferencesList =  null;
-		GuestDTO guestDTO = new GuestDTO();;
+		
+		GuestDTO guestDTO = new GuestDTO();
 
 		try{
 
@@ -2202,7 +2204,8 @@ public class WaitListRestAction {
 							guestPreferences.setSelected(true);
 			}
 			guestDTO.setGuestPreferences(guestPreferencesList);
-			response.setServiceResult(guestDTO);
+			guestDTOList.add(guestDTO);
+			response.setServiceResult(guestDTOList);
 
 			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 		}catch (Exception e) {
