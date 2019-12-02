@@ -18,6 +18,9 @@ export class HttpService {
   changeView(path:string){
     this.router.navigate([path]);
   }
+  changeViewWithPara(path:string,para:string){
+    this.router.navigate([path,para]);
+  }
 
   postService(url, postBody): Observable<IResponse>{
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });

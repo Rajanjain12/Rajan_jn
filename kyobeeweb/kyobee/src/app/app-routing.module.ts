@@ -44,4 +44,5 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+
 export const routerComponents =  [LoginComponent, OrgProfileComponent, DashboardComponent, HistoryComponent, SignupComponent, SignupPlanAndPricingComponent , SignupVerificationComponent , ForgotpwdComponent, ResetpwdComponent, ResetpwdThanksComponent]

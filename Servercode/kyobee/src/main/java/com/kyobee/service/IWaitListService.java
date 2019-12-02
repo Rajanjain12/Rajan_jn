@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.kyobee.dto.GuestMarketingPreference;
 import com.kyobee.dto.GuestPreferencesDTO;
+import com.kyobee.dto.GuestWebDTO;
 import com.kyobee.dto.LanguageMasterDTO;
 import com.kyobee.dto.LanguageMasterV2DTO;
 import com.kyobee.dto.OrganizationTemplateDTO;
@@ -77,6 +78,13 @@ public interface IWaitListService {
 	 * @returnv Guest
 	 */
 	public Guest getGuestByUUID(String uuid);
+	
+	/**
+	 * Fetch unique Guest by UUID
+	 * @param uuid
+	 * @returnv Guest
+	 */
+	public GuestWebDTO getGuestByUUIDWeb(String uuid);
 	/**
 	 * Update organization wait time by orgId
 	 * @param waitTime

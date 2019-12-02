@@ -37,6 +37,7 @@ import org.hibernate.jdbc.Work;
 import org.hibernate.transform.AliasToBeanResultTransformer;
 import org.hibernate.type.StringType;
 import org.jboss.logging.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -46,6 +47,7 @@ import com.kyobee.dao.impl.UserDAO;
 import com.kyobee.dto.GuestDTO;
 import com.kyobee.dto.GuestMarketingPreference;
 import com.kyobee.dto.GuestPreferencesDTO;
+import com.kyobee.dto.GuestWebDTO;
 import com.kyobee.dto.LanguageMasterDTO;
 import com.kyobee.dto.LanguageMasterV2DTO;
 import com.kyobee.dto.OrganizationTemplateDTO;
@@ -68,6 +70,7 @@ import com.kyobee.exception.RsntException;
 import com.kyobee.service.ISecurityService;
 import com.kyobee.service.IWaitListService;
 import com.kyobee.util.AppTransactional;
+import com.kyobee.util.common.CommonUtil;
 import com.kyobee.util.common.Constants;
 import com.kyobee.util.common.LoggerUtil;
 import com.kyobee.util.common.NativeQueryConstants;
@@ -2065,4 +2068,20 @@ ByOrgRecords(java.lang.Long, int, int)
 		
 		
 		
+		@Override
+		public GuestWebDTO getGuestByUUIDWeb(String uuid) {
+			try {
+				Guest guest= (Guest) sessionFactory.getCurrentSession().createQuery(NativeQueryConstants.HQL_GET_GUEST_BY_UUID).setParameter(Constants.RSNT_GUEST_UUID,uuid).uniqueResult();
+				GuestWebDTO guestWebDTO= new GuestWebDTO();
+				BeanUtils.copyProperties(guest, guestWebDTO);
+				
+				Map<String, String> languageMap=securityService.languageLocalization(guest.getLanguagePrefID().getLangIsoCode());
+				guestWebDTO.setLanguageMap(languageMap);
+				return guestWebDTO;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			
+		}
 }

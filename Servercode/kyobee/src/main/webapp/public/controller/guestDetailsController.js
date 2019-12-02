@@ -36,7 +36,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					
 					$scope.currentPageLanguage = null;
 					
-					//creating new key-value jason for multilingual updateguest page
+					//creating new key-value json for multilingual updateguest page
 					$scope.pageLanguage = {
 						  "en" : {
 						    "nowServing" : "Now Serving",
@@ -143,14 +143,14 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					$scope.loadGuestPage = function(){
 						var defered=$q.defer();
 						var postBody = {};
-						var url = "/kyobee/web/rest/waitlistRestAction/guestuuid?uuid="+$scope.tid;
+						var url = "/kyobee/web/rest/waitlistRestAction/guestuuid/V2?uuid="+$scope.tid;
 						 
 						KyobeeUnsecuredService.getDataService(url , postBody)
 							.query(postBody, function(data) {
 								console.log(data);
 								if (data.status == "SUCCESS") {
 									$scope.guest = data.serviceResult;
-									console.log($scope.guest);
+									console.log("guest details -- "+JSON.stringify($scope.guest));
 									if($scope.guest == null || $scope.guest == 'undefined'){
 										return;
 									}
@@ -215,11 +215,11 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 									if (data.status == "SUCCESS") {
 										$scope.seatPrefs = data.serviceResult;
 									} else if (data.status == "FAILURE") {
-										alert($scope.currentPageLanguage.fetchError);
+										alert($scope.currentPageLanguage.fetch_error);
 										$scope.logout();
 									}
 								}, function(error) {
-									alert($scope.currentPageLanguage.fetchError);
+									alert($scope.currentPageLanguage.fetch_error);
 								});
 					};
 					
@@ -235,11 +235,11 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 									if (data.status == "SUCCESS") {
 										$scope.marketingPref = data.serviceResult;
 									} else if (data.status == "FAILURE") {
-										alert($scope.currentPageLanguage.fetchError);
+										alert($scope.currentPageLanguage.fetch_error);
 										$scope.logout();
 									}
 								}, function(error) {
-									alert($scope.currentPageLanguage.fetchError);
+									alert($scope.currentPageLanguage.fetch_error);
 								});
 					};
 					
@@ -254,37 +254,37 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						}*/
 						
 						if($scope.guest.name == null || $scope.guest.name == 'undefined' || $scope.guest.name == ''){
-							$scope.errorMsg = $scope.currentPageLanguage.enterNameError;
+							$scope.errorMsg = $scope.currentPageLanguage.enter_name_error;
 							$scope.loading = false;
 							return;
 						}
 						
 						if($scope.guest.prefType == null || $scope.guest.prefType == 'undefined'){
-							$scope.errorMsg = $scope.currentPageLanguage.selectSmsError;
+							$scope.errorMsg = $scope.currentPageLanguage.select_sms_error;
 							$scope.loading = false;
 							return;
 						}
 						
 						if(($scope.guest.prefType == 'sms' || $scope.guest.prefType == 'SMS') && ($scope.guest.sms == null || $scope.guest.sms == 'undefined' || $scope.guest.sms == "")){
-							$scope.errorMsg = $scope.currentPageLanguage.enterNumError;
+							$scope.errorMsg = $scope.currentPageLanguage.enter_num_error;
 							$scope.loading = false;
 							return;
 						}
 						
 						if(($scope.guest.prefType == 'email' || $scope.guest.prefType == 'EMAIL') && ($scope.guest.email == null || $scope.guest.email == 'undefined')){
-							$scope.errorMsg = $scope.currentPageLanguage.enterEmailError;
+							$scope.errorMsg = $scope.currentPageLanguage.enter_email_error;
 							$scope.loading = false;
 							return;
 						}
 						
 						if(($scope.guest.noOfAdults != null && $scope.guest.noOfAdults == 0 || $scope.guest.noOfAdults == undefined)){
-							$scope.errorMsg = $scope.currentPageLanguage.adultSizeError;
+							$scope.errorMsg = $scope.currentPageLanguage.adult_size_error;
 							$scope.loading=false;
 							return;
 						}
 						
 						if($scope.orgMaxParty != null && $scope.orgMaxParty != "" && ($scope.guest.noOfChildren + $scope.guest.noOfAdults + $scope.guest.noOfInfants) > $scope.orgMaxParty){
-							$scope.errorMsg = $scope.currentPageLanguage.orgMaxParty1+$scope.orgMaxParty+$scope.currentPageLanguage.orgMaxParty2;
+							$scope.errorMsg = $scope.currentPageLanguage.org_max_party1+$scope.orgMaxParty+$scope.currentPageLanguage.org_max_party2;
 							$scope.loading = false; 
 							return;
 						}
@@ -356,12 +356,12 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					                    $scope.client.send($scope.channel, message);
 							            console.log('Sending from updateguest: ' + message + ' to channel: ' + $scope.channel);
 							            $scope.loading = false;
-										alert($scope.currentPageLanguage.updSuccess);
+										//alert($scope.currentPageLanguage.upd_success);
 									} else if (data.status == "FAILURE") {
-										alert($scope.currentPageLanguage.updError);
+										alert($scope.currentPageLanguage.upd_error);
 									}
 								}, function(error) {
-									alert($scope.currentPageLanguage.updError);
+									alert($scope.currentPageLanguage.upd_error);
 								});
 					}
 					
@@ -387,10 +387,10 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 										$scope.guest = null;
 										//$scope.loadWaitListPage(1);
 									} else if (data.status == "FAILURE") {
-										alert($scope.currentPageLanguage.dltError);
+										alert($scope.currentPageLanguage.dlt_error);
 									}
 								}, function(error) {
-									alert($scope.currentPageLanguage.dltError);
+									alert($scope.currentPageLanguage.dlt_error);
 								});
 						
 					}
@@ -419,11 +419,11 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 										$scope.orgWaitTime = data.serviceResult.ORG_WAIT_TIME;
 										$scope.orgMaxParty = data.serviceResult.ORG_MAX_PARTY;
 									} else if (data.status == "FAILURE") {
-										alert($scope.currentPageLanguage.fetchError);
+										alert($scope.currentPageLanguage.fetch_error);
 										$scope.logout();
 									}
 								}, function(error) {
-									alert($scope.currentPageLanguage.fetchError);
+									alert($scope.currentPageLanguage.fetch_error);
 								});
 					};
 					
@@ -434,7 +434,8 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 							var promise = $scope.loadGuestPage();
 							promise.then(function(){
 								debugger;
-								if($scope.guest.languagePrefID.langId == 1){
+								$scope.currentPageLanguage=$scope.guest.languageMap;
+								/*if($scope.guest.languagePrefID.langId == 1){
 									$scope.currentPageLanguage = $scope.pageLanguage.en;
 								}
 								else if($scope.guest.languagePrefID.langId == 134){
@@ -445,7 +446,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								}
 								else if($scope.guest.languagePrefID.langId == 137){
 									$scope.currentPageLanguage = $scope.pageLanguage.zhHant;
-								}
+								}*/
 							},function(error){
 								
 							});
@@ -469,11 +470,11 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 										$scope.channel = data.serviceResult.pusherChannelEnv;
 										$scope.loadFactory();
 									} else if (data.status == "FAILURE") {
-										alert($scope.currentPageLanguage.fetchError);
+										alert($scope.currentPageLanguage.fetch_error);
 										$scope.logout();
 									}
 								}, function(error) {
-									alert($scope.currentPageLanguage.fetchError);
+									alert($scope.currentPageLanguage.fetch_error);
 								});
 					};
 					

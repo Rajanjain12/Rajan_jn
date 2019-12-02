@@ -35,15 +35,15 @@
 						<div id="waitlist-box">
 
 							<div class="col-md-5 text-center fontsize1 theme-fontcolor">
-								<h2>{{currentPageLanguage.nowServing}}</h2>
+								<h2>{{currentPageLanguage.now_serving}}</h2>
 								<h3>#{{guestRankMin}}</h3>
 							</div>
 							<div class="col-md-2 text-center fontsize1 graycolor">
 								<h2>({{guestAheadCount}})</h2>
-								<p class="fontpsize">{{currentPageLanguage.partiesWaiting}}</p>
+								<p class="fontpsize">{{currentPageLanguage.parties_waiting}}</p>
 							</div>
 							<div class="col-md-5 text-center fontsize1 theme-fontcolor">
-								<h2>{{currentPageLanguage.estWaitTime}}</h2>
+								<h2>{{currentPageLanguage.est_wait_time}}</h2>
 								<h3>{{convertMinstoMMHH(totalWaitTime)}}</h3>
 							</div>
 
@@ -57,7 +57,7 @@
 						<div class="col-md-12">
 
 							<div class="form-group col-md-6 col-sm-6 col-xs-12 margin-top-20">
-								<label class="control-label">Name</label>
+								<label class="control-label">{{currentPageLanguage.name}}</label>
 								<input type="text" name="field1" class="form-control"
 									ng-model="guest.name" />
 							</div>
@@ -66,7 +66,7 @@
 
 								<label class="control-label"></label>
 								<div class="col-md-6 col-sm-4 col-xs-12">
-									<label class="control-label"># of Adults</label>
+									<label class="control-label"># {{currentPageLanguage.of_adults}}</label>
 									<input type="number" id="adults" name="adults" min=0 max=100
 										class="form-control col-md-4 col-sm-4 col-xs-12"
 										ng-model="guest.noOfAdults" required placeholder="Adults" />
@@ -76,7 +76,7 @@
 								</div>
 
 								<div class="col-md-6 col-sm-2 col-xs-12">
-									<label class="control-label"># of Children</label>
+									<label class="control-label"># {{currentPageLanguage.of_children}}</label>
 									<input type="number" id="children" name="children"
 										class="form-control" min=0 max=100
 										ng-model="guest.noOfChildren" placeholder="Children" />
@@ -98,7 +98,7 @@
 							<div class="form-group col-md-6 col-sm-6 col-xs-12">
 
 								<div id="smshide1">
-									<label class="control-label">Contact Number</label>
+									<label class="control-label">{{currentPageLanguage.contact_number}}</label>
 									<input type="text" id="masked" name="field2SMS"
 										ng-model="guest.sms" ui-mask="(999) 999-9999"
 										ui-mask-placeholder ui-mask-placeholder-char="_"
@@ -106,7 +106,7 @@
 										ng-class="{'has-error' : addGuestForm.field2SMS.$invalid && (!addGuestForm.field2SMS.$pristine || addGuestForm.$submitted)}" />
 
 									<span class="help-inline">
-										<div class="has-error-mask" ng-show="guest.sms.length <10">{{currentPageLanguage.validNumError}}</div>
+										<div class="has-error-mask" ng-show="guest.sms.length <10">{{currentPageLanguage.valid_num_error}}</div>
 									</span>
 									<!-- <div ng-messages="addGuestForm.field2SMS.$error" ng-show="(!addGuestForm.field2SMS.$pristine || addGuestForm.$submitted)" class="help-block has-error-mask">
                                  		<div ng-message="required">Phone number cannot be blank</div>									
@@ -122,7 +122,7 @@
 							<div
 								class="form-group col-md-3 col-sm-3 col-xs-12 multipaleselect1"
 								ng-show="seatPrefs != null">
-								<label class="control-label">{{currentPageLanguage.seatingPref}}</label>
+								<label class="control-label">{{currentPageLanguage.seating_preference}}</label>
 								<select id="example-multiple-selected" class="col-md-12 col-sm-12 col-xs-12" multiple="multiple" ng-model="selectedSeatPref">
 									<option ng-repeat="opt in seatPrefs" ng-value="opt.prefValueId">{{opt.prefValue}}</option>
 								</select>
@@ -134,7 +134,7 @@
 							<div
 								class="form-group col-md-3 col-sm-3 col-xs-12 multipaleselect1"
 								ng-show="marketingPref != null">
-								<label class="control-label">How did you hear about us</label> <select
+								<label class="control-label">{{currentPageLanguage.how_did_you_here_about_us}}</label> <select
 									id="example-multiple-selected" class="col-md-12 col-sm-12 col-xs-12" multiple="multiple"
 									ng-model="selectedGuestMarketingPref">
 									<option ng-repeat="opt in marketingPref"
@@ -150,7 +150,7 @@
 
 							<div class="checkbox radio-danger">
 								<input type="checkbox" name="radio1" id="optionin"
-									ng-model='guest.optin'> <label for="optionin">{{currentPageLanguage.optInReceive}}</label>
+									ng-model='guest.optin'> <label for="optionin">{{currentPageLanguage.opt_in_receive}}</label>
 							</div>
 
 						</div>
@@ -159,12 +159,12 @@
 
 							<div class="form-group text-center col-md-6 col-xs-12">
 								<button type="button" class="btn btn-rfw theme-color"
-									ng-click="showDeletePopup();">{{currentPageLanguage.rmvWaitlist}}</button>
+									ng-click="showDeletePopup();">{{currentPageLanguage.rmv_waitlist}}</button>
 							</div>
 
 							<div class="form-group text-center col-md-6 col-xs-12">
 								<button type="button" class="btn btn-rfw theme-color"
-									ng-click="updateGuest();">{{currentPageLanguage.saveChanges}}</button>
+									ng-click="updateGuest();">{{currentPageLanguage.save_changes}}</button>
 							</div>
 						</div>
 
@@ -182,16 +182,16 @@
 
 <div id="deletePopup" class="simplePopup border-color">
 	<div class="confirm-table-wrap text-center">
-		<h2 class="theme-fontcolor">{{currentPageLanguage.confirmDel}}</h2>
+		<h2 class="theme-fontcolor">{{currentPageLanguage.confirm_del}}</h2>
 		<div class="guest-name">
 			<h1>{{guest.rank}}</h1>
 			<h1>{{guest.name}}</h1>
 		</div>
 		<div class="btn-guest border-top">
 			<button type="button" class="btn btn-orange theme-color"
-				ng-click="deleteGuest();">{{currentPageLanguage.dltButton}}</button>
+				ng-click="deleteGuest();">{{currentPageLanguage.dlt_button}}</button>
 			<button type="button" class="btn btn-orange theme-color"
-				ng-click="cancelDelete();">{{currentPageLanguage.cnclButton}}</button>
+				ng-click="cancelDelete();">{{currentPageLanguage.cncl_button}}</button>
 		</div>
 	</div>
 </div>

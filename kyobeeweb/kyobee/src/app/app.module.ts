@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import {Ng5SliderModule} from 'ng5-slider';
 import {DataTablesModule} from 'angular-datatables';
-
+import { NgxMaskModule } from 'ngx-mask';
 import { AppRoutingModule, routerComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './components/common/footer/footer.component';
@@ -25,7 +25,8 @@ import { SignupVerificationComponent } from './components/public/signup-verifica
     FormsModule,
     HttpClientModule,
     Ng5SliderModule,
-    DataTablesModule
+    DataTablesModule,
+ NgxMaskModule.forRoot()
   ],
   bootstrap: [AppComponent]
 })

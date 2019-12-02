@@ -563,7 +563,6 @@ public class LoginRestController {
 	@RequestMapping(value = "/loginCredAuth/V2", method = RequestMethod.GET, produces = "application/json")
 	public Map<String, Object> loginCredAuthV2(@RequestParam String username, @RequestParam String password){
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
-		Response<Map<String, Object>> response = new Response<Map<String, Object>>();
 		try {
 			List<Object[]>  result = securityService.loginCredAuth(username, password);
 			Object[] loginDetail = result.get(0);
@@ -661,6 +660,9 @@ public class LoginRestController {
 			rootMap.put(Constants.RSNT_ERROR, "Something wrong occurred");
 			System.out.println(e.getMessage());
 		}
+		
+	
+		final JSONObject jsonObject = JSONObject.fromObject(rootMap);
 		
 		return rootMap;
 	}

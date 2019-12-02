@@ -50,6 +50,7 @@ import com.google.api.translate.Translate;*/
 import com.kyobee.dto.GuestDTO;
 import com.kyobee.dto.GuestMarketingPreference;
 import com.kyobee.dto.GuestPreferencesDTO;
+import com.kyobee.dto.GuestWebDTO;
 import com.kyobee.dto.LanguageMasterDTO;
 import com.kyobee.dto.MarketingPreferenceDTO;
 import com.kyobee.dto.OrganizationTemplateDTO;
@@ -862,6 +863,30 @@ public class WaitListRestAction {
 		Guest guestObject= null;
 		try {
 			guestObject = waitListService.getGuestByUUID(uuid);
+			response.setServiceResult(guestObject);
+			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+			//nonCloseParent(guestObject.getGuestPreferences());
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("fetchGuestByUUID() - failed:", e);
+			//rootMap.put("id", -1);
+			//rootMap.put(Constants.RSNT_ERROR, "System Error - fetchCheckinUsers failed");
+			//rootMap.put("fieldErrors", errorArray);
+			//final JSONObject jsonObject = JSONObject.fromObject(rootMap);
+			//return jsonObject.toString();
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - fetch Guest");
+		}
+		return response;
+	}
+	//version2 for web language map
+	@RequestMapping(value = "/guestuuid/V2", method = RequestMethod.GET, produces = "application/json")
+	public Response<GuestWebDTO> fetchGuestByUUIDWeb(@RequestParam("uuid") String uuid){
+		log.info("Entering fetchGuestByUUID ::UUID::"+uuid);
+		Response<GuestWebDTO> response = new Response<GuestWebDTO>();
+		GuestWebDTO guestObject= null;
+		try {
+			guestObject = waitListService.getGuestByUUIDWeb(uuid);
 			response.setServiceResult(guestObject);
 			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 			//nonCloseParent(guestObject.getGuestPreferences());

@@ -1,0 +1,64 @@
+<section class="pb-5 fix-wrapper fade-in">
+  <section class="custom-container ">
+    <div class="row">
+      <div class="col-12 pt-3">
+        <h2 class="text-center font-weight-semibold">Verification Code</h2>
+        <p class="text-center pb-3">Verify and activate your account.</p>
+      </div>
+      <div class="col-lg-6">
+        <img [src]="verificationPageImgSrc" class="img-fluid" alt="image">
+      </div>
+      <div class="col-lg-6 pb-5 pt-3 pb-md-0">
+        <div class="container-box text-center w-100">
+          <h6>Kindly check your email for verification code to activate your account.</h6>
+          <p class="grey pt-3">Enter the verification code</p>
+          <form class="w-75 m-auto">
+            <div class="row">
+              <div class="col-lg-2 col-md-2 col-sm-2 pr-0 verification-input">
+                <div class="form-group mt-0">
+                  <input class="text-center" id="code_1" type="text" maxLength="1" #code_1 required="required" (keyup)="moveOnNext(code_1)" autofocus/>
+                  <label for="input" class="control-label"></label><i class="bar"></i>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-2 pr-0 verification-input">
+                <div class="form-group mt-0">
+                  <input class="text-center" id="code_2" type="text" maxLength="1" #code_2 required="required" (keyup)="moveOnNext(code_2)"/>
+                  <label for="input" class="control-label"></label><i class="bar"></i>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-2 pr-0 verification-input">
+                <div class="form-group mt-0">
+                  <input class="text-center" id="code_3" type="text" maxLength="1" #code_3 required="required" (keyup)="moveOnNext(code_3)"/>
+                  <label for="input" class="control-label"></label><i class="bar"></i>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-2 pr-0 verification-input">
+                <div class="form-group mt-0">
+                  <input class="text-center" id="code_4" type="text" maxLength="1" #code_4 required="required" (keyup)="moveOnNext(code_4)"/>
+                  <label for="input" class="control-label"></label><i class="bar"></i>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-2 pr-0 verification-input">
+                <div class="form-group mt-0">
+                  <input class="text-center" id="code_5" type="text" maxLength="1" #code_5 required="required" (keyup)="moveOnNext(code_5)"/>
+                  <label for="input" class="control-label"></label><i class="bar"></i>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-2 pr-0 verification-input">
+                <div class="form-group mt-0">
+                  <input class="text-center" id="code_6" type="text" maxLength="1" #code_6 required="required" (keyup)="moveOnPrevious(code_6)"/>
+                  <label for="input" class="control-label"></label><i class="bar"></i>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="col-ld-12 text-center pb-3">
+            <button type="button" class="btn btn-theme background-color shadow" routerLink="/web/home"><span>Submit</span></button>
+          </div>
+          <p class="pb-4">Didn’t receive verification code? <a class="font-color font-weight-semibold" href="">Resend Now</a></p>
+          <p class="text-center">Already have an account? <a class="font-color font-weight-semibold" routerLink="/public/login">Sign In</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
