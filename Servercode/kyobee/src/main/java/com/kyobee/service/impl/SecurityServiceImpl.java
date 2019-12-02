@@ -13,6 +13,7 @@ import java.util.Properties;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -634,34 +635,28 @@ public class SecurityServiceImpl implements ISecurityService {
 		
 	}
 
-	
-	
 	/* this service return the object of language preference by arjun 26/11/2019 */
 		@SuppressWarnings("unchecked")
 		public Map<String, String> languageLocalization(String langIsoCode){
 		
-		Map<String, String> LanguageMap = new HashMap<String, String>();
+		Map<String, String> languageMap = new HashMap<String, String>();
 		
+
+		try {
 		
-		
-		Criteria criteria =sessionFactory.getCurrentSession().createCriteria(LanguageKeyMapping.class);
+			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(LanguageKeyMapping.class);
 		
 		criteria.add(Restrictions.eq("langIsoCode", langIsoCode));
 		
-		List<LanguageKeyMapping> result =criteria.list();
+			List<LanguageKeyMapping> result = criteria.list(); 
 		
-		//createSQLQuery(NativeQueryConstants.GET_KEY_VALUE_BY_ISO).setParameter("langIsoCode", langIsoCode).list();
+			result.forEach(r -> {languageMap.put(r.getKeyName(),r.getValue());});
 		 
-		// Criteria criteria = sessionFactory.createCriteria(Employee.class);
+		} catch (Exception e) {
+			LoggerUtil.logError(e.getMessage(), e);
+			}
          
 		 
-		 for (LanguageKeyMapping languageKeyMapping : result) {
-			 
-			 //Translator translate = Translator.getInstance();
-			 LanguageMap.put(languageKeyMapping.getKeyName(), languageKeyMapping.getValue().toString());	
-			 System.out.println("language mapping "+languageKeyMapping.getValue());
-		}
-			
-		return LanguageMap;
+		return languageMap;
 	}
 }	

@@ -273,6 +273,7 @@ public interface IWaitListService {
 	
 	public Object[] getGuestDetail(String contactNumber, String orgID);
 
+	public Map<String, Object> updateLanguagesPusher();
 	
  
 }

@@ -2200,10 +2200,11 @@ public class WaitListRestAction {
 
 				String guestPrefArr[] = result[4].toString().split(",");   			//seatingPrefrence
 				
-				for (String guestPref : guestPrefArr)
-					for (GuestPreferencesDTO guestPreferences : guestPreferencesList) 
-						if(guestPreferences.getPrefValueId()==Long.parseLong(guestPref))
-							guestPreferences.setSelected(true);
+				for (String string : guestPrefArr)
+					guestPreferencesList.forEach(gl -> {
+						if(string.equals(gl.getPrefValueId().toString()))
+						gl.setSelected(true); 
+					  });
 			}
 			guestDTO.setGuestPreferences(guestPreferencesList);
 			guestDTOList.add(guestDTO);
@@ -2217,4 +2218,27 @@ public class WaitListRestAction {
 		}
 		return response;
 	}
+	
+	@RequestMapping(value = "/refreshLanguage", method = RequestMethod.GET, produces = "application/json")
+	public Response<String> refreshLanguage () {
+		Response<String> response = new Response<String>();
+
+		Map<String, Object> rootMap = new HashMap<String, Object>();
+
+		try {
+			rootMap = waitListService.updateLanguagesPusher();
+
+			if(rootMap.containsKey("updateLanguageFlag"))
+			{
+				sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv);
+				response.setServiceResult("Pusher sent successfully.");
+			}
+			else 
+				response.setServiceResult("No Data Updated.");
+		} catch (Exception e) {
+			LoggerUtil.logError(e.getMessage(), e);
+		}
+
+		return response;
+	}	
 }

@@ -61,5 +61,5 @@ public interface ISecurityService {
 	public String checkIfExistingUser(String userId,String userName,String email)throws RsntException;
 	
 	public Map<String, String> languageLocalization(String langIsoCode);
-	
+
 }

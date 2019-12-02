@@ -169,6 +169,10 @@ public class Constants {
 	public static final String STATUSS="status";
 	public static final String SUCCESSS="Successfulverification";
 	
+	//change by arjun 29/11/2019 for refresh languages
+	
+	public static final int MARK_AS_LANGUAGE_UPDATED = 1;
+	
 	
 	
 	

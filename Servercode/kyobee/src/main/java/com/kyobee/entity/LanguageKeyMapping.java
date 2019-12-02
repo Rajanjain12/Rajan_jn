@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "LANGUAGEKEYMAPPING")
-public class LanguageKeyMapping {
+public class LanguageKeyMapping extends BaseEntity{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,6 +19,7 @@ public class LanguageKeyMapping {
 	@Column(name ="keyName")
 	private String keyName;
 	
+
 	@Column(name ="Value")
 	private String value;
 	
@@ -27,6 +28,10 @@ public class LanguageKeyMapping {
 	
 	@Column(name ="ScreenName")
 	private String screenName;
+	
+	@Column(name = "UpdateFlag", columnDefinition = "Integer(1) default 0")
+	private Integer updateFlag;
+	
 
 	public Long getLanguageKeyMappingId() {
 		return languageKeyMappingId;
@@ -67,5 +72,12 @@ public class LanguageKeyMapping {
 	public void setScreenName(String screenName) {
 		this.screenName = screenName;
 	}
-	
+
+	public Integer getUpdateFlag() {
+		return updateFlag;
+	}
+
+	public void setUpdateFlag(Integer updateFlag) {
+		this.updateFlag = updateFlag;
+	}
 }

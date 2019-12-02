@@ -11,6 +11,7 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,6 +34,7 @@ import com.kyobee.dto.UserDTO;
 import com.kyobee.dto.common.Credential;
 import com.kyobee.dto.common.Response;
 import com.kyobee.dto.ScreensaverDTO;
+import com.kyobee.entity.LanguageKeyMapping;
 import com.kyobee.entity.Organization;
 import com.kyobee.entity.User;
 import com.kyobee.exception.NoSuchUsernameException;
@@ -41,11 +43,13 @@ import com.kyobee.service.ConfigurationService;
 import com.kyobee.service.IOrganizationService;
 import com.kyobee.service.ISecurityService;
 import com.kyobee.service.IWaitListService;
+import com.kyobee.util.AppInitializer;
 import com.kyobee.util.PropertyUtility;
 import com.kyobee.util.SessionContextUtil;
 import com.kyobee.util.common.CommonUtil;
 import com.kyobee.util.common.Constants;
 import com.kyobee.util.common.LoggerUtil;
+import com.kyobee.util.common.RealtimefameworkPusher;
 import com.sun.net.httpserver.Authenticator.Success;
 
 import net.sf.json.JSONObject;
@@ -658,12 +662,9 @@ public class LoginRestController {
 			System.out.println(e.getMessage());
 		}
 		
-		response.setServiceResult(rootMap);
-		final JSONObject jsonObject = JSONObject.fromObject(rootMap);
-		CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
-		return response.getServiceResult();
+		return rootMap;
 	}
 	
 	
-    	
+	
 }

@@ -26,9 +26,12 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.jdbc.ReturningWork;
 import org.hibernate.jdbc.Work;
 import org.hibernate.transform.AliasToBeanResultTransformer;
@@ -56,6 +59,7 @@ import com.kyobee.entity.Guest;
 import com.kyobee.entity.GuestNotificationBean;
 import com.kyobee.entity.GuestPreferences;
 import com.kyobee.entity.GuestReset;
+import com.kyobee.entity.LanguageKeyMapping;
 import com.kyobee.entity.MarketingPreference;
 import com.kyobee.entity.Organization;
 import com.kyobee.entity.SmsLog;
@@ -2026,4 +2030,39 @@ ByOrgRecords(java.lang.Long, int, int)
 			}
 			return result;
 		}
+		
+		/* this service set the pusher of language preference by arjun 29/11/2019 */
+
+		public Map<String, Object> updateLanguagesPusher() {
+
+			Map<String, Object> rootMap = new HashMap<String, Object>();
+
+			try {
+
+				Criteria criteria = sessionFactory.getCurrentSession().createCriteria(LanguageKeyMapping.class);
+
+				criteria.add(Restrictions.eq("updateFlag", Constants.MARK_AS_LANGUAGE_UPDATED));
+
+				criteria.setProjection(Projections.rowCount());
+				Long count = (Long) criteria.uniqueResult();
+
+				System.out.println("Count : "+count);
+
+				if(count>0)
+				{
+					rootMap.put("updateLanguageFlag", "refreshLanguagePusher");
+					sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.RESET_FLAG_OF_LANGUAGEKEYMAPPING).executeUpdate();
+				}
+
+
+			} catch (Exception e) { 
+				LoggerUtil.logError(e.getMessage(), e);
+			}
+
+			return rootMap;
+		}
+		
+		
+		
+		
 }

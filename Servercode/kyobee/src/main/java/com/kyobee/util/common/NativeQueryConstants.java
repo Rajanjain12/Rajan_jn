@@ -504,4 +504,7 @@ public class NativeQueryConstants {
 	
 	public static final String GET_KEY_VALUE_BY_ISO = "select lm.keyName,lm.Value from kyobeeproddb.LANGUAGEKEYMAPPING lm where lm.LangIsoCode =:langIsoCode";
 	
+	//Change by arjun to reset flag of language key mapping table
+	public static final String RESET_FLAG_OF_LANGUAGEKEYMAPPING = "update kyobeeproddb.LANGUAGEKEYMAPPING set UpdateFlag = '0' WHERE (UpdateFlag = '1' AND LanguageKeyMappingId <> 0)";
+	
 }
