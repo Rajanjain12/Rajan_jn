@@ -81,8 +81,10 @@
 								<button type="button" toggle="#pwd" class="font-color flaticon-eye-1 eye-icon toggle-password font-weight-semibold" ></button>
 								<div *ngIf="signupForm.submitted && password.invalid" class="error">
 									<span *ngIf="password.errors.required">Password is required</span>
-									
-									<div ng-message="passwordVerify">Password and Confirm Password should match.</div>
+									<span ng-message="minlength">Password is too small. Should be min 6 character long</span>
+									<span ng-message="maxlength">Password is too long. Cannot be longer than 20 characters</span>
+									<span ng-message="pattern">Password should be combination of at least one capital letter, one lowercase letter, one number & one special character.</span>
+									<span ng-message="passwordVerify">Password and Confirm Password should match.</span>
 								</div>
 							</div>
 						</div>
@@ -93,7 +95,7 @@
 								<button type="button" toggle="#repwd" class="font-color flaticon-eye-1 eye-icon toggle-password font-weight-semibold"></button>
 								<div *ngIf="signupForm.submitted && retypePassword.invalid" class="error">
 									<span *ngIf="retypePassword.errors.required">Password is required</span>
-									<div ng-message="passwordVerify">Password and Confirm Password should match.</div>
+									<span ng-message="passwordVerify">Password and Confirm Password should match.</span>
 								</div>
 							</div>
 						</div>

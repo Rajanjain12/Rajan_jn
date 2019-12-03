@@ -2245,10 +2245,10 @@ public class WaitListRestAction {
 	}
 	
 	@RequestMapping(value = "/refreshLanguage", method = RequestMethod.GET, produces = "application/json")
-	public Response<String> refreshLanguage () {
-		Response<String> response = new Response<String>();
+	public Response<Map<String, Object>> refreshLanguage () {
+		Response<Map<String, Object>> response = new Response<Map<String, Object>>();
 
-		Map<String, Object> rootMap = new HashMap<String, Object>();
+		Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
 
 		try {
 			rootMap = waitListService.updateLanguagesPusher();
@@ -2256,11 +2256,11 @@ public class WaitListRestAction {
 			if(rootMap.containsKey("OP"))
 			{
 				sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv);
-				response.setServiceResult("Pusher sent successfully.");
+				response.setServiceResult(rootMap);
 				response.setStatus(Constants.MARK_AS_LANGUAGE_UPDATED.toString());
 			}
 			else { 
-				response.setServiceResult("No Data Updated.");
+				response.setServiceResult(rootMap);
 				response.setStatus(Constants.MARK_AS_LANGUAGE_UP_TO_DATE.toString());
 			}
 		} catch (Exception e) {
