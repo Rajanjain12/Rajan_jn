@@ -66,15 +66,22 @@
 						</div>
 						<div class="col-lg-12">
 							<div class="form-group mt-0">
-								<input type="text" required="required"/>
+								<input type="text" name="address" #address="ngModel" [(ngModel)]="signupObjDTO.address" required="required"/>
 								<label for="input" class="control-label">Address</label><i class="bar"></i>
+								<div *ngIf="signupForm.submitted && address.invalid" class="error">
+									<span *ngIf="address.errors.required">Address is required</span>
+								</div>
 							</div>
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group mt-0">
-								<input type="password" id="pwd" required="required"/>
+								<input type="password" name="password" #password="ngModel" [(ngModel)]="signupObjDTO.password" password-verify="{{signupObjDTO.retypePassword}}" id="pwd" required="required"/>
 								<label for="input" class="control-label">Password</label><i class="bar"></i>
 								<button type="button" toggle="#pwd" class="font-color flaticon-eye-1 eye-icon toggle-password font-weight-semibold" ></button>
+								<div *ngIf="signupForm.submitted && password.invalid" class="error">
+									<span *ngIf="password.errors.required">Address is required</span>
+									<div ng-message="passwordVerify">Password and Confirm Password should match.</div>
+								</div>
 							</div>
 						</div>
 						<div class="col-lg-6">

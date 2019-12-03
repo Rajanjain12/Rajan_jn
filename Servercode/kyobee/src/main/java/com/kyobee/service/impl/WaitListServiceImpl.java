@@ -2053,7 +2053,7 @@ ByOrgRecords(java.lang.Long, int, int)
 
 				if(count>0)
 				{
-					rootMap.put("updateLanguageFlag", "refreshLanguagePusher");
+					rootMap.put("name", "refreshLanguagePusher");
 					sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.RESET_FLAG_OF_LANGUAGEKEYMAPPING).executeUpdate();
 				}
 
