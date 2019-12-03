@@ -2253,7 +2253,7 @@ public class WaitListRestAction {
 		try {
 			rootMap = waitListService.updateLanguagesPusher();
 
-			if(rootMap.containsKey("updateLanguageFlag"))
+			if(rootMap.containsKey("OP"))
 			{
 				sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv);
 				response.setServiceResult("Pusher sent successfully.");
