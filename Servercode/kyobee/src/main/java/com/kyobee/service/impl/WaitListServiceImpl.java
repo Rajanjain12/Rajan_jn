@@ -2054,6 +2054,7 @@ ByOrgRecords(java.lang.Long, int, int)
 				if(count>0)
 				{
 					rootMap.put("OP", "REFRESH_LANGUAGE_PUSHER");
+					rootMap.put("name", "REFRESH_LANGUAGE_PUSHER");
 					sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.RESET_FLAG_OF_LANGUAGEKEYMAPPING).executeUpdate();
 				}
 
