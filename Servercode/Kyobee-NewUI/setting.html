@@ -27,17 +27,17 @@
 						<li class="nav-item">
 							<a href="dashboard.html" class="active">
 								<i class="flaticon-list"></i>
-								<p>WishList</p>
+								<p>WaitList</p>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="">
+							<a href="text-marketing.html">
 								<i class="flaticon-mail"></i>
 								<p>Text Marketing</p>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="">
+							<a href="table-management.html">
 								<i class="flaticon-dinner"></i>
 								<p>Table Management</p>
 							</a>
@@ -85,7 +85,7 @@
 										<i class="flaticon-add grey"></i>
 									</div>
 								</div>
-								<span class="font-12 font-weight-semibold">Add User</span>
+								<span class="font-12 font-weight-semibold">Add Guest</span>
 							</a>
 						</li>
 						<li class="border-bottom">
@@ -139,45 +139,46 @@
 							<div class="checkbox my-0 py-2 border-bottom">
 								<div class="row">
 									<div class="col-lg-3 my-1">
-										<span class="font-weight-semibold">Seating Prefrence</span>
+										<span class="font-weight-semibold">Seating Preference</span>
 									</div>
 									<div class="col-lg-9 my-1">
-										<label class="mr-3 my-1 sm-block">
-											<input checked="checked" type="checkbox"/><i class="helper"></i>First Available
-										</label>
-										<label class="mr-3 my-1 sm-block">
-											<input checked="checked" type="checkbox"/><i class="helper"></i>Patio
-										</label>
-										<label class="mr-3 my-1 sm-block">
-											<input checked="checked" type="checkbox"/><i class="helper"></i>Bar
-										</label>
-										<label class="mr-3 my-1 sm-block">
-											<input checked="checked" type="checkbox"/><i class="helper"></i>Booth
-										</label>
-										<label class="mr-3 my-1 sm-block">
-											<input checked="checked" type="checkbox"/><i class="helper"></i>Table
-										</label>
+										<input class="styled-checkbox" id="firstAvailable" type="checkbox">
+    									<label for="firstAvailable" class="mr-2">First Available</label>
+
+    									<input class="styled-checkbox" id="pation" type="checkbox">
+    									<label for="pation" class="mr-2">Patio</label>
+
+    									<input class="styled-checkbox" id="bar" type="checkbox">
+    									<label for="bar" class="mr-2">Bar</label>
+
+    									<input class="styled-checkbox" id="booth" type="checkbox">
+    									<label for="booth" class="mr-2">Booth</label>
+										
+										<input class="styled-checkbox" id="table" type="checkbox">
+    									<label for="table" class="mr-2">Table</label>
 									</div>
 								</div>
 							</div>
 							<div class="checkbox my-0 py-2 border-bottom">
 								<div class="row">
 									<div class="col-lg-3 my-1">
-										<span class="font-weight-semibold">Marketing Prefrence</span>
+										<span class="font-weight-semibold">Marketing Preference</span>
 									</div>
 									<div class="col-lg-9 my-1">
-										<label class="mr-3 my-1 sm-block">
-											<input checked="checked" type="checkbox"/><i class="helper"></i>Facebook
-										</label>
-										<label class="mr-3 my-1 sm-block">
-											<input checked="checked" type="checkbox"/><i class="helper"></i>Instagram
-										</label>
-										<label class="mr-3 my-1 sm-block">
-											<input checked="checked" type="checkbox"/><i class="helper"></i>Google+
-										</label>
-										<label class="mr-3 my-1 sm-block">
-											<input checked="checked" type="checkbox"/><i class="helper"></i>Word of Mouth
-										</label>
+										<input class="styled-checkbox" id="facebook" type="checkbox">
+    									<label for="facebook" class="mr-2">Facebook</label>
+
+    									<input class="styled-checkbox" id="instagram" type="checkbox">
+    									<label for="instagram" class="mr-2">Instagram</label>
+										
+										<input class="styled-checkbox" id="google+" type="checkbox">
+    									<label for="google+" class="mr-2">Google+</label>
+
+    									<input class="styled-checkbox" id="twitter" type="checkbox">
+    									<label for="twitter" class="mr-2">Twitter</label>
+
+    									<input class="styled-checkbox" id="word" type="checkbox">
+    									<label for="word" class="mr-2">Word of Mouth</label>
 									</div>
 								</div>
 							</div>
@@ -204,10 +205,15 @@
 							<div class="py-2 border-bottom">
 								<div class="row">
 									<div class="col-lg-3 my-1">
-										<span class="font-weight-semibold">SMS Language</span>
+										<span class="font-weight-semibold">SMS/App Interface Language</span>
 									</div>
 									<div class="col-lg-9 my-1">
 										<div class="row">
+											<div class="col-lg-3 my-1">
+												<select class="form-control">
+													<option>Default Language</option>
+												</select>
+											</div>
 											<div class="col-lg-3 my-1">
 								    				<!-- <select class="form-control">
 								    					<option>
@@ -224,7 +230,7 @@
 													<div class="multiselect">
 														<div class="selectBox" onclick="showCheckboxes()">
 															<select class="form-control">
-																<option>Select Language</option>
+																<option>Additional Language</option>
 															</select>
 															<div class="overSelect"></div>
 														</div>
@@ -240,11 +246,6 @@
 															</label>
 														</div>
 													</div>
-												</div>
-												<div class="col-lg-3 my-1">
-													<select class="form-control">
-														<option>Default Language</option>
-													</select>
 												</div>
 											</div>
 										</div>
@@ -283,7 +284,7 @@
 						</div>
 						<!-- reset popup -->
 						<div class="modal fade" id="resetModal">
-							<div class="modal-dialog">
+							<div class="modal-dialog modal-dialog-centered">
 								<div class="modal-content border-radius border-0">
 									<div class="custom-modal-header background-color">
 										<span class="modal-title text-white">Confirm Reset Organization</span>

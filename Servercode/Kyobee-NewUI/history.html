@@ -26,17 +26,17 @@
 						<li class="nav-item">
 							<a href="dashboard.html" class="active">
 								<i class="flaticon-list"></i>
-								<p>WishList</p>
+								<p>WaitList</p>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="">
+							<a href="text-marketing.html">
 								<i class="flaticon-mail"></i>
 								<p>Text Marketing</p>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="">
+							<a href="table-management.html">
 								<i class="flaticon-dinner"></i>
 								<p>Table Management</p>
 							</a>
@@ -84,7 +84,7 @@
 										<i class="flaticon-add grey"></i>
 									</div>
 								</div>
-								<span class="font-12 font-weight-semibold">Add User</span>
+								<span class="font-12 font-weight-semibold">Add Guest</span>
 							</a>
 						</li>
 						<li class="border-bottom active">
@@ -272,7 +272,7 @@
 					<div class="clearfix"></div>
 					<!-- table column popup -->
 					<div class="modal fade" id="tableColumnModal">
-						<div class="modal-dialog">
+						<div class="modal-dialog modal-dialog-centered">
 							<div class="modal-content border-radius border-0">
 								<div class="custom-modal-header background-color">
 									<span class="modal-title text-white">Table Column</span>
@@ -280,50 +280,41 @@
 								</div>
 								<div class="modal-body">
 									<div class="row">
-										<div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
-											<label>
-												<input checked="checked" type="checkbox"/><i class="helper"></i>Action
-											</label>
+										<div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
+											<input class="styled-checkbox" id="action" type="checkbox">
+	    									<label for="action" class="mr-2">Action</label>
 										</div><!-- checkbox -->
-										<div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
-											<label>
-												<input checked="checked" type="checkbox"/><i class="helper"></i>Party Rank
-											</label>
+										<div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
+											<input class="styled-checkbox" id="partyRank" type="checkbox">
+	    									<label for="partyRank" class="mr-2">Party Rank</label>
 										</div><!-- checkbox -->
-										<div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
-											<label>
-												<input checked="checked" type="checkbox"/><i class="helper"></i>Party Type
-											</label>
+										<div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
+											<input class="styled-checkbox" id="partyType" type="checkbox">
+	    									<label for="partyType" class="mr-2">Party Type</label>
 										</div><!-- checkbox -->
-										<div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
-											<label>
-												<input checked="checked" type="checkbox"/><i class="helper"></i>No. of Party
-											</label>
+										<div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
+											<input class="styled-checkbox" id="noOfParty" type="checkbox">
+	    									<label for="noOfParty" class="mr-2">No. of Party</label>
 										</div><!-- checkbox -->
-										<div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
-											<label>
-												<input checked="checked" type="checkbox"/><i class="helper"></i>Name
-											</label>
+										<div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
+											<input class="styled-checkbox" id="name" type="checkbox">
+	    									<label for="name" class="mr-2">Name</label>
 										</div><!-- checkbox -->
-										<div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
-											<label>
-												<input checked="checked" type="checkbox"/><i class="helper"></i>Check In Time
-											</label>
+										<div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
+											<input class="styled-checkbox" id="checkIn" type="checkbox">
+	    									<label for="checkIn" class="mr-2">Check In Time</label>
 										</div><!-- checkbox -->
-										<div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
-											<label>
-												<input checked="checked" type="checkbox"/><i class="helper"></i>Quote Time
-											</label>
+										<div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
+											<input class="styled-checkbox" id="quoteTime" type="checkbox">
+	    									<label for="quoteTime" class="mr-2">Quote Time</label>
 										</div><!-- checkbox -->
-										<div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
-											<label>
-												<input type="checkbox"/><i class="helper"></i>Opt - In
-											</label>
+										<div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
+											<input class="styled-checkbox" id="optIn" type="checkbox">
+	    									<label for="optIn" class="mr-2">Opt - In</label>
 										</div><!-- checkbox -->
-										<div class="col-lg-4 col-md-4 col-sm-6 col-6 checkbox my-1">
-											<label>
-												<input type="checkbox"/><i class="helper"></i>Language Prefrence
-											</label>
+										<div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
+											<input class="styled-checkbox" id="lanPre" type="checkbox">
+	    									<label for="lanPre" class="mr-2">Language Prefrence</label>
 										</div><!-- checkbox -->
 										<div class="col-lg-12 col-md-12 col-sm-12 text-center modal-btn my-2">
 											<button type="button" class="btn btn-theme background-color shadow">Done</button>
@@ -335,7 +326,7 @@
 					</div>
 					<!-- reset popup -->
 					<div class="modal fade" id="resetModal">
-						<div class="modal-dialog">
+						<div class="modal-dialog modal-dialog-centered">
 							<div class="modal-content border-radius border-0">
 								<div class="custom-modal-header background-color">
 									<span class="modal-title text-white">Confirm Reset Organization</span>

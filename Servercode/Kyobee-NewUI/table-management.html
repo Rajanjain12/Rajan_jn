@@ -10,7 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="assets/css/flaticon.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/theme-admin.css">
-	<link rel="stylesheet" type="text/css" href="assets/css/profile.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/dashboard.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/responsive.css">
 </head>
 <body>
@@ -26,23 +26,23 @@
 						<li class="nav-item">
 							<a href="dashboard.html">
 								<i class="flaticon-list"></i>
-								<p>WishList</p>
+								<p>WaitList</p>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="">
+							<a href="text-marketing.html">
 								<i class="flaticon-mail"></i>
 								<p>Text Marketing</p>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="">
+							<a href="table-management.html" class="active">
 								<i class="flaticon-dinner"></i>
 								<p>Table Management</p>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="profile.html" class="active">
+							<a href="profile.html">
 								<i class="flaticon-user"></i>
 								<p>My Account</p>
 							</a>
@@ -56,35 +56,65 @@
 					Hello, <span>Kyobee</span> | <a class="ml-3" href="login.html"><i class="error flaticon-logout mr-2"></i><span class="font-weight-semibold">Logout</span></a>
 				</div>
 			</nav>
-		</div>
-	</header>
+		</div><!-- container-fluid -->
+	</header><!-- header Ends -->
 	<div class="clearfix"></div>
-	<div class="pb-2 fix-wrapper">
+	<section class="pb-5 fix-wrapper">
 		<div id="wrapper" class="navbar-expand-lg navbar-expand-md">
 			<div id="sidebar-wrapper" class="collapse navbar-collapse sidehide">
 				<button class="navbar-toggler float-right asidebar sidehide" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="flaticon-close"></span>
 				</button>
 				<aside id="sidebar">
-					<ul id="sidemenu" class="sidebar-nav sidehide text-center pt-2">
-						<li class="border-bottom">
-							<a href="profile.html">
+					<!-- <ul id="sidemenu" class="sidebar-nav sidehide text-center pt-2">
+						<li class="border-bottom active">
+							<a href="dashboard.html">
 								<div class="icon-border-right">
 									<div class="icon-circle">
-										<i class="flaticon-avatar"></i>
+										<i class="flaticon-home grey"></i>
 									</div>
 								</div>
-								<span class="font-12 font-weight-semibold">Organization Profile</span>
+								<span class="font-12 font-weight-semibold">Dashboard</span>
 							</a>
 						</li>
-						<li class="border-bottom active">
-							<a href="plan-detail.html">
+						<li class="border-bottom">
+							<a href="add-user.html">
 								<div class="icon-border-right">
 									<div class="icon-circle">
-										<i class="flaticon-list-1 grey"></i>
+										<i class="flaticon-add grey"></i>
 									</div>
 								</div>
-								<span class="font-12 font-weight-semibold">Plans & Payment</span>
+								<span class="font-12 font-weight-semibold">Add User</span>
+							</a>
+						</li>
+						<li class="border-bottom">
+							<a href="history.html">
+								<div class="icon-border-right">
+									<div class="icon-circle">
+										<i class="flaticon-history grey"></i>
+									</div>
+								</div>
+								<span class="font-12 font-weight-semibold">History</span>
+							</a>
+						</li>
+						<li class="border-bottom">
+							<a href="setting.html">
+								<div class="icon-border-right">
+									<div class="icon-circle">
+										<i class="flaticon-gear grey"></i>
+									</div>
+								</div>
+								<span class="font-12 font-weight-semibold">Setting</span>
+							</a>
+						</li>
+						<li class="border-bottom">
+							<a href="" class="sidehide" data-toggle="modal" data-target="#resetModal">
+								<div class="icon-border-right">
+									<div class="icon-circle">
+										<i class="flaticon-reload grey"></i>
+									</div>
+								</div>
+								<span class="font-12 font-weight-semibold">Reset</span>
 							</a>
 						</li>
 						<li class="border-bottom sm-d-none" style="visibility: hidden;">
@@ -97,52 +127,20 @@
 								<span class="font-12 font-weight-semibold">Don't Show</span>
 							</a>
 						</li>
-					</ul>
+					</ul> -->
 				</aside>
 			</div>
-			<main id="page-content-wrapper" role="main">
-				<section class="container pt-3 pb-4 fade-in">
-					<div class="row py-4 mt-1">
-						<div class="m-auto">
-							<div class="normal-box-container p-4">
-								<form>
-									<h2 class="text-center font-weight-semibold mb-2">Payment</h2>
-									<p class="text-center pb-3">Fill the below credit card details.</p>
-									<div class="form-group my-4">
-										<input type="text" required="required"/>
-										<label for="input" class="control-label">Card Holder Name</label><i class="bar"></i>
-									</div>
-									<div class="form-group my-4">
-										<input type="text" required="required"/>
-										<label for="input" class="control-label">Card Number</label><i class="bar"></i>
-									</div>
-									<div class="row p-0 m-0">
-										<div class="col-lg-6 pl-0 sm-pr-0 m-0">
-											<div class="form-group mt-1">
-												<input type="text" required="required"/>
-												<label for="input" class="control-label" maxLength="3">CVV</label><i class="bar"></i>
-											</div>
-										</div>
-										<div class="col-lg-6 sm-pl-0 pr-0 m-0">
-											<div class="form-group mt-1">
-												<select>
-													<option>MM/YY</option>
-												</select>
-												<label for="select" class="control-label">Expiry Date</label><i class="bar"></i>
-											</div>
-										</div>
-									</div>
-								</form>
-								<div class="col-ld-12 text-center mt-2 pb-3">
-									<button type="button" class="btn btn-theme background-color shadow" onclick="window.open('dashboard.html','_self')"><span>Pay</span></button>
-								</div>
-							</div>
-						</div>
-					</section>
+
+			<main id="page-content-wrapper fade-in" role="main">
+				<section class="container pt-lg-4 pt-md-4 pt-sm-5 pt-5 fade-in">
+					<div class="row">
+						
+					</div><!-- row -->
 				</section>
 			</main>
 		</div>
-	</div>
+		<div class="clearfix"></div>
+	</section>
 	<footer>
 		<div class="row m-0">
 			<div class="col-lg-6 col-md-4 text-md-left text-center">
