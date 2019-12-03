@@ -2255,7 +2255,7 @@ public class WaitListRestAction {
 
 			if(rootMap.containsKey("OP"))
 			{
-				sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv);
+				sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_1");
 				response.setServiceResult(rootMap);
 				response.setStatus(Constants.MARK_AS_LANGUAGE_UPDATED.toString());
 			}
