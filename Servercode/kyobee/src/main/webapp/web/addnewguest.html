@@ -44,11 +44,12 @@
 								ng-class="{'has-error' : (addGuestForm.name.$invalid && addGuestForm.$submitted) || (addGuestForm.name.$pristine && addGuestForm.name.$invalid && addGuestForm.$submitted)}">
 								<label class="control-label"></label> <input type="text"
 									name="name" id="name" class="form-control"
-									ng-model="guestDTO.name" placeholder="Name" required />
+									ng-model="guestDTO.name" placeholder="Name" ng-pattern="/^[A-Za-z]+[[A-Za-z0-9]*$/" required />
 								<div ng-messages="addGuestForm.name.$error"
 									ng-show="(addGuestForm.name.$invalid && addGuestForm.$submitted)"
 									class="help-block">
 									<div ng-message="required">Name cannot be blank</div>
+									<div ng-message="pattern">Name should not contain any number</div>
 								</div>
 								<!--  <div ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine && addGuestForm.$submitted)" class="help-block">
 				        <div ng-message="required">Name cannot be blank</div>
