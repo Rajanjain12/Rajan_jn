@@ -171,9 +171,9 @@ public class Constants {
 	
 	//change by arjun 29/11/2019 for refresh languages
 	
-	public static final int MARK_AS_LANGUAGE_UPDATED = 1;
+	public static final Integer MARK_AS_LANGUAGE_UPDATED = 1;
 	
-	
+	public static final Integer MARK_AS_LANGUAGE_UP_TO_DATE = 0;
 	
 	
 }

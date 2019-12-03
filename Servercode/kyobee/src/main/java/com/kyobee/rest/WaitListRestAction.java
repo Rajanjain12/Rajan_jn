@@ -2257,10 +2257,16 @@ public class WaitListRestAction {
 			{
 				sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv);
 				response.setServiceResult("Pusher sent successfully.");
+				response.setStatus(Constants.MARK_AS_LANGUAGE_UPDATED.toString());
 			}
-			else 
+			else { 
 				response.setServiceResult("No Data Updated.");
+				response.setStatus(Constants.MARK_AS_LANGUAGE_UP_TO_DATE.toString());
+			}
 		} catch (Exception e) {
+			response.setStatus(Constants.ERROR);
+			response.setErrorCode(e.toString());
+			response.setErrorDescription(e.getMessage());
 			LoggerUtil.logError(e.getMessage(), e);
 		}
 
