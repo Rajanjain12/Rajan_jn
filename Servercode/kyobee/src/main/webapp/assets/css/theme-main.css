@@ -1019,9 +1019,13 @@ p.text-msg-pswd {
 	height: 410px;
 }
 
-#waitlisttable thead {
+#waitlisttable thead th {
 	background: #9e978e;
 	color: #FFF;
+}
+
+.table-striped tbody > tr:nth-child(2n+1) > td{
+	background-color:#f9f9f9;
 }
 
 .name-active {
@@ -2407,4 +2411,7 @@ input[type=number]::-webkit-inner-spin-button {
 .waitandnotify-setting {
 	margin-left: 7%;
     width: 24%;
+}
+.popover{
+	word-break: break-all;
 }
