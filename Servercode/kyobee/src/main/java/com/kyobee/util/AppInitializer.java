@@ -80,6 +80,7 @@ public class AppInitializer {
     //Added by Shruti
     public static String orgLogoPathHtml;
     public static String pusherChannelEnv;
+    public static String globalChannelEnv;
     public static String dashBoardChannel;
     public String footerMsg;
     public static String staticFooterMsg;
@@ -133,6 +134,7 @@ public class AppInitializer {
             //maxLayoutMarkers = new Integer(properties.getProperty("maxLayoutMarkers"));
             
             pusherChannelEnv = extProperties.getProperty("pusherChannelEnv");
+            globalChannelEnv=extProperties.getProperty("globalChannelEnv");
             dashBoardChannel = extProperties.getProperty("dashBoardChannel");
             environment = extProperties.getProperty("environment");
             importPath = extProperties.getProperty("importPath");
