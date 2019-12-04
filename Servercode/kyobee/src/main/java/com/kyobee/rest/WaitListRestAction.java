@@ -2217,13 +2217,16 @@ public class WaitListRestAction {
 
 			Object[] result = waitListService.getGuestDetail(contactNumber,orgID); //get USER Details from GuestReset Table
 			guestPreferencesList=waitListService.getOrganizationSeatingPref(Long.valueOf(orgID)); //GET Guest Preference By Organization Id
+			
 			if(!(result==null)){
 				guestDTO.setGuestID(Long.parseLong(result[0].toString())); 			//guestID
 				guestDTO.setOrganizationID(Long.parseLong(result[1].toString())); 	//OrganizationID
 				guestDTO.setName(result[2].toString());  						 	//name
 				guestDTO.setSms(result[3].toString());     							//mobile(SMS)
 				
-				if(result[4].toString() != null){
+			
+				if(result[4]!=null)
+				{
 					String guestPrefArr[] = result[4].toString().split(",");   			//seatingPrefrence
 				
 				for (String string : guestPrefArr)
@@ -2232,6 +2235,7 @@ public class WaitListRestAction {
 						gl.setSelected(true); 
 					  });
 				}
+				
 			}
 			guestDTO.setGuestPreferences(guestPreferencesList);
 			guestDTOList.add(guestDTO);

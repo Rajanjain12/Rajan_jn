@@ -437,6 +437,7 @@ KyobeeControllers.controller('waitListCtrl',
 									console.log(data);
 									if (data.status == "SUCCESS") {
 										var paginatedResponse = data.serviceResult;
+										console.log("response "+JSON.stringify(data));
 										$scope.guestWaitList = paginatedResponse.records;
 										$scope.userCount = paginatedResponse.totalRecords;
 										$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, pageNo, $scope.pageSize);
