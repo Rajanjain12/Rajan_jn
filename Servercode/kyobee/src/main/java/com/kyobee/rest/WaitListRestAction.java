@@ -2222,14 +2222,16 @@ public class WaitListRestAction {
 				guestDTO.setOrganizationID(Long.parseLong(result[1].toString())); 	//OrganizationID
 				guestDTO.setName(result[2].toString());  						 	//name
 				guestDTO.setSms(result[3].toString());     							//mobile(SMS)
-
-				String guestPrefArr[] = result[4].toString().split(",");   			//seatingPrefrence
+				
+				if(result[4].toString() != null){
+					String guestPrefArr[] = result[4].toString().split(",");   			//seatingPrefrence
 				
 				for (String string : guestPrefArr)
 					guestPreferencesList.forEach(gl -> {
 						if(string.equals(gl.getPrefValueId().toString()))
 						gl.setSelected(true); 
 					  });
+				}
 			}
 			guestDTO.setGuestPreferences(guestPreferencesList);
 			guestDTOList.add(guestDTO);
