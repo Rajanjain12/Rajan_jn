@@ -135,6 +135,15 @@ a:hover {
   background-color: #8e684a;
   transition: all ease-in-out 0.3s; }
 
+.btn-current-plan {
+  border: 1px solid #8e684a;
+  background-color: #8e684a;
+  padding: 5px 30px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff; }
+
 /*footer*/
 footer {
   background-color: #594f45; }

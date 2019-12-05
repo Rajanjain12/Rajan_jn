@@ -1,0 +1,17 @@
+/*common color code*/
+/* Font Style Variable*/
+/* Shadow to Container Box*/
+/* Sidebar Variable */
+/*profile*/
+#preview {
+  white-space: pre;
+  background-color: #efefef;
+  padding: 10px;
+  border-radius: 4px; }
+
+.customer-count {
+  position: absolute;
+  right: 10px;
+  top: 15px; }
+
+/*# sourceMappingURL=text-marketing.css.map */

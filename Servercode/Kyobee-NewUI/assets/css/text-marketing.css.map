@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,qBAAqB;AAQrB,wBAAwB;AAGxB,4BAA4B;AAI5B,sBAAsB;AAKtB,WAAW;AClBX,QAAQ;EACP,WAAW,EAAE,GAAG;EACb,gBAAgB,EAAE,OAAO;EACzB,OAAO,EAAE,IAAI;EACb,aAAa,EAAE,GAAG;;AAEtB,eAAe;EACd,QAAQ,EAAE,QAAQ;EACf,KAAK,EAAE,IAAI;EACX,GAAG,EAAE,IAAI",
+"sources": ["../sass/_variable.scss","../sass/text-marketing.scss"],
+"names": [],
+"file": "text-marketing.css"
+}

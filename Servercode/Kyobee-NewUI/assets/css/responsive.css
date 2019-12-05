@@ -127,7 +127,13 @@
     transform: scale(0.77);
     -webkit-transform: scale(0.77);
     transform-origin: 0 0;
-    -webkit-transform-origin: 0 0; } }
+    -webkit-transform-origin: 0 0; }
+
+  #showResponsive {
+    display: block; }
+
+  #showWeb {
+    display: none; } }
 @media (min-width: 768px) and (max-width: 991.98px) {
   /* Common CSS */
   .custom-container {
@@ -166,7 +172,13 @@
   /* dashboardPage */
   /* addUserPage */
   #addUserPage .first-lang {
-    flex-direction: column-reverse; } }
+    flex-direction: column-reverse; }
+
+  #showResponsive {
+    display: block; }
+
+  #showWeb {
+    display: none; } }
 @media (min-width: 992px) and (max-width: 1199.98px) {
   /* Common CSS */
   .modal-dialog {
@@ -194,5 +206,29 @@
       width: 140px; }
 
   /* Common CSS Ends */ }
+@media (min-width: 1900px) and (max-width: 2499.98px) {
+  body {
+    font-size: 16px; }
+
+  .topnav ul li a p {
+    font-size: 16px !important; }
+
+  .font-12 {
+    font-size: 16px; }
+
+  .container {
+    max-width: 80%; }
+
+  .table-responsive {
+    overflow-x: initial; }
+
+  .fix-wrapper {
+    padding-top: 4%; }
+
+  .center-items {
+    min-height: 95vh;
+    display: flex;
+    align-items: center;
+    justify-content: center; } }
 
 /*# sourceMappingURL=responsive.css.map */

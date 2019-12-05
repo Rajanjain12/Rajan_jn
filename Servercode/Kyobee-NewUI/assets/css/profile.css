@@ -15,4 +15,7 @@
   visibility: visible;
   opacity: 1; }
 
+#passwordChange form {
+  width: 100%; }
+
 /*# sourceMappingURL=profile.css.map */
