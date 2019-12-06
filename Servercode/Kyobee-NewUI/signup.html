@@ -78,20 +78,22 @@
 							<div class="form-group mt-0">
 								<input type="password" id="pwd" required="required"/>
 								<label for="input" class="control-label">Password</label><i class="bar"></i>
-								<span toggle="#pwd" class="font-color flaticon-eye-1 eye-icon toggle-password font-weight-semibold"></span>
-							</div>
+								<!-- <span toggle="#pwd" class="font-color flaticon-eye-1 eye-icon toggle-password font-weight-semibold"></span> -->
+								<span class="password-tooltip" id="showWeb" data-toggle="tooltip" data-placement="right" tooltip-title="Password should contain one upercase, one special character and length should be between 8-12."><i class="flaticon-info-button grey"></i></span>
+								<span class="password-tooltip" id="showResponsive" data-toggle="tooltip" data-placement="left" tooltip-title="Password should contain one upercase, one special character and length should be between 8-12."><i class="flaticon-info-button grey"></i></span>
+							</div>			
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group mt-0">
 								<input type="password" id="repwd" required="required"/>
 								<label for="input" class="control-label">Re-type Password</label><i class="bar"></i>
-								<span toggle="#repwd" class="font-color flaticon-eye-1 eye-icon toggle-password font-weight-semibold"></span>
+								<!-- <span toggle="#repwd" class="font-color flaticon-eye-1 eye-icon toggle-password font-weight-semibold"></span> -->
 							</div>
 						</div>
 						<div class="col-lg-12">
 							<div class="checkbox mt-0">
 								<label>
-									<input type="checkbox"/><i class="helper"></i>I Agree to the <span class="font-weight-semibold">Terms and Conditions.</span>
+									<input type="checkbox"/><i class="helper"></i> I Agree to the <span class="font-weight-semibold">Terms and Conditions.</span>
 								</label>
 							</div>
 						</div>

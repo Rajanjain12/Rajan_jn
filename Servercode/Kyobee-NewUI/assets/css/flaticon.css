@@ -1,6 +1,6 @@
 	/*
   	Flaticon icon font: Flaticon
-  	Creation date: 07/03/2019 06:29
+  	Creation date: 05/12/2019 12:08
   	*/
 
 @font-face {
@@ -28,29 +28,28 @@
   font-size: 22px;
   font-style: normal;
 }
+.flaticon-dining:before { content: "\f100";font-size: 24px; }
+.flaticon-power:before { content: "\f101";font-size: 14px; }
+.flaticon-to-do-list:before { content: "\f102"; }
+.flaticon-add-group:before { content: "\f103"; }
+.flaticon-counterclockwise:before { content: "\f104"; }
+.flaticon-rubbish-bin:before { content: "\f105";color: #e21b1b }
+.flaticon-refresh:before { content: "\f106"; }
+.big-font .flaticon-refresh:before{font-size: 40px}
 
-.flaticon-mail:before { content: "\f100"; }
-.flaticon-dinner:before { content: "\f101"; }
-.flaticon-dinner-1:before { content: "\f102"; }
-.flaticon-user:before { content: "\f103"; }
-.flaticon-filter:before { content: "\f104";font-size: 16px; }
-.flaticon-home:before { content: "\f105"; }
-.flaticon-history:before { content: "\f106"; }
-.flaticon-gear:before { content: "\f107"; }
-.flaticon-add:before { content: "\f108"; }
-.flaticon-list:before { content: "\f109"; }
-.flaticon-search:before { content: "\f10a"; }
-.flaticon-avatar:before { content: "\f10b"; }
-.flaticon-list-1:before { content: "\f10c"; }
-.flaticon-reload:before { content: "\f10d"; }
-.flaticon-user-1:before { content: "\f10e"; }
-.flaticon-eye:before { content: "\f10f";font-size: 14px }
-.flaticon-logout:before { content: "\f110";font-size: 15px;font-weight: 600 }
-.flaticon-logout-1:before { content: "\f111"; }
-.flaticon-eye-1:before { content: "\f112";font-size: 14px }
-.flaticon-eye-2:before { content: "\f113"; }
-.flaticon-close:before { content: "\f114";font-size: 15px; }
-.flaticon-right:before { content: "\f115"; }
-.flaticon-back:before { content: "\f116"; }
 
-.big-font .flaticon-reload:before{font-size: 50px}
+.flaticon-funnel:before { content: "\f107";position: relative;right: 0;top: -5px; }
+.flaticon-credit-card:before { content: "\f108";font-size: 16px }
+.flaticon-settings:before { content: "\f109"; }
+.flaticon-empire-state-building:before { content: "\f10a"; }
+.flaticon-user:before { content: "\f10b"; }
+.flaticon-message:before { content: "\f10c";font-size: 26px; }
+.flaticon-black-male-user-symbol:before { content: "\f10d"; }
+.flaticon-unlocked:before { content: "\f10e";font-size: 14px; }
+.flaticon-padlock:before { content: "\f10f";font-size: 14px; }
+.flaticon-chat:before { content: "\f110";color: #ff9f00 }
+.flaticon-info-button:before { content: "\f111";font-size: 14px }
+.flaticon-file:before { content: "\f112";color: #33a2f3 }
+.flaticon-file-grey:before{ content: "\f112";color: #ababab }
+.flaticon-workers:before { content: "\f113";font-size: 28px; }
+.flaticon-receipt:before { content: "\f114"; }

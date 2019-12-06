@@ -29,7 +29,7 @@ $('#tableColumnModal').click(function() {
 
 /*show hide password*/
 $(".toggle-password").click(function() {
-  $(this).toggleClass("flaticon-eye-1 flaticon-eye");
+  $(this).toggleClass("flaticon-padlock flaticon-unlocked");
   var input = $($(this).attr("toggle"));
   if (input.attr("type") == "password") {
     input.attr("type", "text");

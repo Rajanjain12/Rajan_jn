@@ -1,6 +1,6 @@
 {
 "version": 3,
-"mappings": "AAAA,qBAAqB;AAQrB,wBAAwB;AAGxB,4BAA4B;AAI5B,sBAAsB;AAKtB,WAAW;AClBX,oBAAoB;EAAC,OAAO,EAAE,KAAK;;AACnC,eAAe;EAAC,WAAW,EAAE,mBAAmB;EAAC,SAAS,EAAE,IAAI",
+"mappings": "AAAA,qBAAqB;AAUrB,wBAAwB;AAGxB,4BAA4B;AAI5B,sBAAsB;AAKtB,WAAW;ACpBX,oBAAoB;EAAC,OAAO,EAAE,KAAK;;AACnC,eAAe;EAAC,WAAW,EAAE,mBAAmB;EAAC,SAAS,EAAE,IAAI",
 "sources": ["../sass/_variable.scss","../sass/reset_thankyou.scss"],
 "names": [],
 "file": "reset_thankyou.css"

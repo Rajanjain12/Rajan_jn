@@ -3,11 +3,6 @@
 /* Shadow to Container Box*/
 /* Sidebar Variable */
 /*profile*/
-.eye-icon {
-  position: absolute;
-  right: 5px;
-  top: 10px; }
-
 .captcha-size {
   transform: scale(0.77);
   -webkit-transform: scale(0.77);
