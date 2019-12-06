@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.kyobee.dto.GuestPreferencesDTO;
+import com.kyobee.dto.GuestPreferencesDTOV2;
+import com.kyobee.dto.LanguageMasterDTO;
+import com.kyobee.dto.LanguageMasterV2DTO;
 import com.kyobee.dto.UserDTO;
 import com.kyobee.dto.common.Credential;
 import com.kyobee.entity.Organization;
@@ -61,5 +65,11 @@ public interface ISecurityService {
 	public String checkIfExistingUser(String userId,String userName,String email)throws RsntException;
 	
 	public Map<String, String> languageLocalization(String langIsoCode);
+
+	public String getPrefKey(String prefValue);
+
+	public List<GuestPreferencesDTOV2> transferGuestPrefDTO(List<GuestPreferencesDTO> seatPref);
+
+	public List<LanguageMasterV2DTO> transferLangPrefDTO(List<LanguageMasterDTO> langPref);
 
 }

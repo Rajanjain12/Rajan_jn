@@ -26,6 +26,7 @@ import com.kyobee.dto.AddressDTO;
 import com.kyobee.dto.GuestDTO;
 import com.kyobee.dto.GuestMarketingPreference;
 import com.kyobee.dto.GuestPreferencesDTO;
+import com.kyobee.dto.GuestPreferencesDTOV2;
 import com.kyobee.dto.LanguageMasterDTO;
 import com.kyobee.dto.LanguageMasterV2DTO;
 import com.kyobee.dto.OrganizationTemplateDTO;
@@ -560,6 +561,7 @@ public class LoginRestController {
 	 * languageMap is added in language preference in older version  changed by arjun 
 	 */	
 	
+
 	@RequestMapping(value = "/loginCredAuth/V2", method = RequestMethod.GET, produces = "application/json")
 	public Map<String, Object> loginCredAuthV2(@RequestParam String username, @RequestParam String password){
 		final Map<String, Object> rootMap = new LinkedHashMap<String, Object>();
@@ -596,24 +598,11 @@ public class LoginRestController {
 				}
 				
 				List<LanguageMasterDTO> langPref = null;
-				List<LanguageMasterV2DTO> langPrefV2 = new ArrayList<LanguageMasterV2DTO>();
-				LanguageMasterV2DTO languageMasterV2DTO = null;
+				List<LanguageMasterV2DTO> langPrefV2 =null;
 				try {
 					langPref = waitListService.getOrganizationLanguagePref(Long.valueOf(loginDetail[1].toString()).longValue());
-							
-					for (LanguageMasterDTO languageMasterDTO : langPref) {
-						
-						languageMasterV2DTO = new LanguageMasterV2DTO();
-						
-						Map<String, String> languageMap=securityService.languageLocalization(languageMasterDTO.getLangIsoCode());
-						
-						languageMasterV2DTO.setLangId(languageMasterDTO.getLangId());
-						languageMasterV2DTO.setLangIsoCode(languageMasterDTO.getLangIsoCode());
-						languageMasterV2DTO.setLangName(languageMasterDTO.getLangName());
-						languageMasterV2DTO.setLanguageMap(languageMap);
-						
-						langPrefV2.add(languageMasterV2DTO);
-					}
+					
+					langPrefV2=securityService.transferLangPrefDTO(langPref);
 					
 					rootMap.put("languagepref",langPrefV2);
 				} catch (Exception e) {
@@ -629,11 +618,17 @@ public class LoginRestController {
 					LoggerUtil.logError(e.getMessage(), e);
 				}
 				
-				List<GuestPreferencesDTO> searPref =  null;
+				//change by arjun patel for adding seating preference key 06/12/2019
+				
+				List<GuestPreferencesDTO> seatPref =  null;
+				List<GuestPreferencesDTOV2> seatPrefV2=null;
 				try {
-					searPref=	waitListService.getOrganizationSeatingPref(Long.valueOf(loginDetail[1].toString()).longValue());
+					seatPref = waitListService.getOrganizationSeatingPref(Long.valueOf(loginDetail[1].toString()).longValue());
+
+					seatPrefV2 = securityService.transferGuestPrefDTO(seatPref);
+							
 					rootMap.put("success", "0");
-					rootMap.put("seatpref",searPref);
+					rootMap.put("seatpref",seatPrefV2);
 				}catch(Exception e){
 					LoggerUtil.logError(e.getMessage(), e);
 				}
@@ -666,7 +661,4 @@ public class LoginRestController {
 		
 		return rootMap;
 	}
-	
-	
-	
 }

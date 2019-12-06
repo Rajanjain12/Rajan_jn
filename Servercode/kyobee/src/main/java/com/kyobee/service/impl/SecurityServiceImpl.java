@@ -23,6 +23,10 @@ import org.springframework.stereotype.Repository;
 import com.kyobee.dao.impl.AddressDAO;
 import com.kyobee.dao.impl.OrganizationDAO;
 import com.kyobee.dao.impl.UserDAO;
+import com.kyobee.dto.GuestPreferencesDTO;
+import com.kyobee.dto.GuestPreferencesDTOV2;
+import com.kyobee.dto.LanguageMasterDTO;
+import com.kyobee.dto.LanguageMasterV2DTO;
 import com.kyobee.dto.common.Credential;
 import com.kyobee.entity.LanguageKeyMapping;
 import com.kyobee.entity.Organization;
@@ -636,27 +640,84 @@ public class SecurityServiceImpl implements ISecurityService {
 	}
 
 	/* this service return the object of language preference by arjun 26/11/2019 */
-		@SuppressWarnings("unchecked")
-		public Map<String, String> languageLocalization(String langIsoCode){
-		
+	@SuppressWarnings("unchecked")
+	public Map<String, String> languageLocalization(String langIsoCode){
+
 		Map<String, String> languageMap = new HashMap<String, String>();
-		
 
 		try {
-		
 			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(LanguageKeyMapping.class);
-		
-		criteria.add(Restrictions.eq("langIsoCode", langIsoCode));
-		
+
+			criteria.add(Restrictions.eq("langIsoCode", langIsoCode));
+
 			List<LanguageKeyMapping> result = criteria.list(); 
-		
+
 			result.forEach(r -> {languageMap.put(r.getKeyName(),r.getValue());});
-		 
+
 		} catch (Exception e) {
 			LoggerUtil.logError(e.getMessage(), e);
-			}
-         
-		 
+		}
 		return languageMap;
+	}
+
+	
+//this service return the key of seating preference by arjun (06/12/2019)	
+	@SuppressWarnings("unchecked")
+	public String getPrefKey(String value)
+	{
+		String prefKey=null;
+		try {
+			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(LanguageKeyMapping.class);
+			criteria.add(Restrictions.eq("value", value));
+			criteria.add(Restrictions.eq("langIsoCode", "en"));
+			List<LanguageKeyMapping> result = criteria.list(); 
+			prefKey=result.get(0).getKeyName();
+
+		} catch (Exception e) {
+			LoggerUtil.logError(e.getMessage(), e);
+		}
+		return prefKey;
+	}
+
+	public List<GuestPreferencesDTOV2> transferGuestPrefDTO(List<GuestPreferencesDTO> seatPref) {
+
+		List<GuestPreferencesDTOV2> seatPrefV2 = new ArrayList<GuestPreferencesDTOV2>();
+
+		for (GuestPreferencesDTO sp : seatPref) {
+			GuestPreferencesDTOV2 guestPreferencesDTOV2=new GuestPreferencesDTOV2();
+			guestPreferencesDTOV2.setPrefValue(sp.getPrefValue());
+			guestPreferencesDTOV2.setPrefValueId(sp.getPrefValueId());
+			guestPreferencesDTOV2.setSelected(sp.isSelected());
+			
+			String prefKey=getPrefKey(sp.getPrefValue());
+			
+			if(prefKey!=null)
+			{
+				guestPreferencesDTOV2.setPrefKey(prefKey);
+			}
+			seatPrefV2.add(guestPreferencesDTOV2);
+		}
+		
+		return seatPrefV2;
+	}
+	public List<LanguageMasterV2DTO> transferLangPrefDTO(List<LanguageMasterDTO> langPref) {
+		LanguageMasterV2DTO languageMasterV2DTO = null;
+
+		List<LanguageMasterV2DTO> langPrefV2 = new ArrayList<LanguageMasterV2DTO>();
+		
+		for (LanguageMasterDTO languageMasterDTO : langPref) {
+			
+			languageMasterV2DTO = new LanguageMasterV2DTO();
+			
+			Map<String, String> languageMap=languageLocalization(languageMasterDTO.getLangIsoCode());
+			
+			languageMasterV2DTO.setLangId(languageMasterDTO.getLangId());
+			languageMasterV2DTO.setLangIsoCode(languageMasterDTO.getLangIsoCode());
+			languageMasterV2DTO.setLangName(languageMasterDTO.getLangName());
+			languageMasterV2DTO.setLanguageMap(languageMap);
+			
+			langPrefV2.add(languageMasterV2DTO);
+		}
+		return langPrefV2;
 	}
 }	
