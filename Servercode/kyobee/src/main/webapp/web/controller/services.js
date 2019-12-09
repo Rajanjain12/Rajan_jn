@@ -32,12 +32,13 @@ KyobeeService.factory('KyobeeService', [ '$resource', '$http', function($resourc
 		
 		// Below it the pager service, use to render the pagination on UI
 		getPager : function (totalItems, currentPage, pageSize) {
+			
 	        // default to first page
 	        currentPage = currentPage || 1;
 	 
 	        // default page size is 10
-	        pageSize = pageSize || 10;
-	 
+	        pageSize =  10;
+	        
 	        // calculate total pages
 	        var totalPages = Math.ceil(totalItems / pageSize);
 	 
@@ -59,7 +60,9 @@ KyobeeService.factory('KyobeeService', [ '$resource', '$http', function($resourc
 	                endPage = currentPage + 2;
 	            }
 	        }
-	 
+	        
+	        var startIndex = (currentPage - 1) * pageSize;
+			var endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
 	        // create an array of pages to ng-repeat in the pager control
 	        var pages =[];
 	        for (var i = startPage; i <= endPage; i++) {
@@ -67,6 +70,7 @@ KyobeeService.factory('KyobeeService', [ '$resource', '$http', function($resourc
 	        }
 	 
 	        // return object with all pager properties required by the view
+	        console.log("totalItems "+totalItems+" currentPage "+currentPage+" pageSize "+pageSize+" totalPages "+totalPages+" startPage "+startPage+" endPage "+endPage+" pages "+pages);
 	        return {
 	            totalItems: totalItems,
 	            currentPage: currentPage,
@@ -74,7 +78,9 @@ KyobeeService.factory('KyobeeService', [ '$resource', '$http', function($resourc
 	            totalPages: totalPages,
 	            startPage: startPage,
 	            endPage: endPage,
-	            pages: pages
+	            pages: pages,
+	            startIndex:startIndex,
+	            endIndex:endIndex
 	        };
 	    },
 		

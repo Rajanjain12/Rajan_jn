@@ -19,6 +19,7 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.notifyOption = [1,2,3,4,5,6,7,8,9,10]; // change by sunny (25-07-2018)
 					$scope.totalWaitTime = null;
 					$scope.guestWaitList = null;
+					$scope.totalGuestWaitList = null;
 					$scope.selectedGuest = null;
 					$scope.client = null;
 					$scope.countMsgChannel = 0;
@@ -142,7 +143,7 @@ KyobeeControllers.controller('waitListCtrl',
 						var url = '/kyobee/web/rest/waitlistRestAction/pusgerinformation';
 						KyobeeService.getDataService(url, '').query(postBody,
 								function(data) {
-									console.log(data);
+									console.log("----"+data);
 									if (data.status == "SUCCESS") {
 										$scope.appKey = data.serviceResult.REALTIME_APPLICATION_KEY;
 										$scope.privateKey = data.serviceResult.REALTIME_PRIVATE_KEY;
@@ -293,11 +294,13 @@ KyobeeControllers.controller('waitListCtrl',
 					}
 					
 					$scope.loadWaitListPage = function(pageNo){						
-						console.log(pageNo);
+						console.log("page number --"+pageNo);
 						if (pageNo < 1 || pageNo > $scope.pager.totalPages) {
 				            return;
 				        }
+						
 						$scope.loadWaitListGuests(pageNo);
+						
 					}
 					 
 					$scope.loadWaitListGuests = function(pageNo) {
@@ -324,11 +327,14 @@ KyobeeControllers.controller('waitListCtrl',
 									console.log("Waitlist Grid data : "+ JSON.stringify(data));
 									if (data.status == "SUCCESS") {
 										var paginatedResponse = data.serviceResult;
-										$scope.guestWaitList = paginatedResponse.records;
-										$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, pageNo, $scope.pageSize);
+										//$scope.guestWaitList = paginatedResponse.records;
+										$scope.totalGuestWaitList = paginatedResponse.records;
+										$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, pageNo,$scope.pageSize);
+										$scope.guestWaitList=$scope.totalGuestWaitList.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
 										$scope.userCount = paginatedResponse.totalRecords;
 										console.log($scope.pager);
 									}else if(data.status == null) {
+										$scope.totalGuestWaitList=null;
 										$scope.guestWaitList = null;
 										$scope.pager = {};
 									}else if (data.status == "FAILURE") {
@@ -355,43 +361,56 @@ KyobeeControllers.controller('waitListCtrl',
 					
 					
 					$scope.searchGrid = function(searchName) {
-						
-						$scope.pagerRequest = {
-								filters : null,
-								sort : null,
-								sortOrder: null,
-								pageSize : $scope.pageSize,
-								pageNo : 1
+						if(searchName==null)
+						{
+							$scope.loadWaitListPage(1);
+						 }
+						else if(searchName.trim()==''){
+							$scope.loadWaitListPage(1);
 						}
+						else
+						{
+							$scope.pagerRequest = {
+									filters : null,
+									sort : null,
+									sortOrder: null,
+									pageSize : $scope.pageSize,
+									pageNo : 1
+							}
+							
+							var postBody = {
+									orgid : $scope.userDTO.organizationId,
+									partyType : "C",
+									searchName : $scope.searchName,
+									pagerReqParam : $scope.pagerRequest								
+							};
+							
+							$scope.loadOrgMetricks();
+							
+							var url = '/kyobee/web/rest/waitlistRestAction/searchuser';
+							KyobeeService.getDataService(url, '').query(postBody,
+									function(data) {
+										console.log("Waitlist Grid data : "+ JSON.stringify(data));
+										if (data.status == "SUCCESS") {
+											var paginatedResponse = data.serviceResult;
+											$scope.totalGuestWaitList = paginatedResponse.records;
+											$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, paginatedResponse.pageNo, $scope.pageSize);
+											$scope.guestWaitList=$scope.totalGuestWaitList.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
+											$scope.userCount = paginatedResponse.totalRecords;
+											console.log($scope.pager);
+										}else if(data.status == null) {
+											$scope.totalGuestWaitList=null;
+											$scope.guestWaitList = null;
+											$scope.pager = {};
+										}else if (data.status == "FAILURE") {
+											alert('Error while fetching wait times.');
+										}
+									}, function(error) {
+										alert('Error while fetching wait times.. Please login again or contact support');
+									});
 						
-						var postBody = {
-								orgid : $scope.userDTO.organizationId,
-								partyType : "C",
-								searchName : $scope.searchName,
-								pagerReqParam : $scope.pagerRequest								
-						};
-						
-						$scope.loadOrgMetricks();
-						
-						var url = '/kyobee/web/rest/waitlistRestAction/searchuser';
-						KyobeeService.getDataService(url, '').query(postBody,
-								function(data) {
-									console.log("Waitlist Grid data : "+ JSON.stringify(data));
-									if (data.status == "SUCCESS") {
-										var paginatedResponse = data.serviceResult;
-										$scope.guestWaitList = paginatedResponse.records;
-										$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, paginatedResponse.pageNo, $scope.pageSize);
-										$scope.userCount = paginatedResponse.totalRecords;
-										console.log($scope.pager);
-									}else if(data.status == null) {
-										$scope.guestWaitList = null;
-										$scope.pager = {};
-									}else if (data.status == "FAILURE") {
-										alert('Error while fetching wait times.');
-									}
-								}, function(error) {
-									alert('Error while fetching wait times.. Please login again or contact support');
-								});
+						}
+					
 					};
 					
 					$scope.loadHistoryPage = function(pageNo) {
@@ -557,12 +576,15 @@ KyobeeControllers.controller('waitListCtrl',
 					};*/
 					
 					$scope.showPopup = function(guestObj){
+						
 						$('#showpopup').simplePopup();
+						$scope.scrollToTop();
 						$scope.selectedGuest = guestObj;
 					}
 					
 					$scope.showDeletePopup = function(guestObj){
 						$('#deletePopup').simplePopup();
+						$scope.scrollToTop();
 						$scope.selectedGuest = guestObj;
 					}
 					
@@ -613,6 +635,7 @@ KyobeeControllers.controller('waitListCtrl',
 						var promise=$scope.fetchSmsContent(guestObj,3);
 						promise.then(function(){
 							debugger;
+							$scope.scrollToTop();
 							$('#sendSMSPopup').simplePopup();
 							$scope.loading=false;
 						},function(error){
@@ -1122,7 +1145,20 @@ KyobeeControllers.controller('waitListCtrl',
 						if(text_length == 0){
 							$scope.countMessage = 'Enter the text message';
 						}*/
-					}	
+					}
+					
+					 $scope.setPage=function(page) {
+							if (page < 1 || page > $scope.pager.totalPages) {
+								return;
+							}
+
+							// get pager object from service
+							
+							$scope.pager = 	KyobeeService.getPager($scope.totalGuestWaitList.length, page,$scope.pageSize);
+							$scope.guestWaitList=$scope.totalGuestWaitList.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
+							
+							
+						}
 				} ]);
 
 KyobeeControllers.filter('hourMinFilter', function () {

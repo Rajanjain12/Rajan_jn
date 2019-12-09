@@ -157,10 +157,14 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 									$scope.selectedSeatPref = [];
 									if($scope.guest.seatingPreference != null && $scope.guest.seatingPreference != 'undefined'){
 										var seatingPrefs = $scope.guest.seatingPreference.split(',');
+										console.log("new is--"+JSON.stringify($scope.seatPrefs)+" length "+seatingPrefs.length);
 										if(seatingPrefs != null && seatingPrefs != 'undefined'){
 											for(var i=0; i<seatingPrefs.length; i++){
-												console.log("sunny"+seatingPrefs);
-												$scope.selectedSeatPref[i] = seatingPrefs[i];
+												if(seatingPrefs[i]=="")
+												{
+												  break;	
+												}
+												$scope.selectedSeatPref[i] = parseInt(seatingPrefs[i]);
 												
 											}
 										}
@@ -174,7 +178,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 										var marketingPref = $scope.guest.marketingPreference.split(',');
 										if(marketingPref != null && marketingPref != 'undefined'){
 											for(var i=0; i<marketingPref.length; i++){
-												$scope.selectedGuestMarketingPref.push(marketingPref[i]);
+												$scope.selectedGuestMarketingPref.push(parseInt(marketingPref[i]));
 											}
 										}
 										console.log($scope.selectedGuestMarketingPref);
@@ -214,6 +218,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 									console.log(data);
 									if (data.status == "SUCCESS") {
 										$scope.seatPrefs = data.serviceResult;
+										console.log("seating preference "+JSON.stringify($scope.seatPrefs));
 									} else if (data.status == "FAILURE") {
 										alert($scope.currentPageLanguage.fetch_error);
 										$scope.logout();
@@ -433,7 +438,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 							$scope.tid = $routeParams.tid;
 							var promise = $scope.loadGuestPage();
 							promise.then(function(){
-								debugger;
+								//debugger;
 								$scope.currentPageLanguage=$scope.guest.languageMap;
 								/*if($scope.guest.languagePrefID.langId == 1){
 									$scope.currentPageLanguage = $scope.pageLanguage.en;

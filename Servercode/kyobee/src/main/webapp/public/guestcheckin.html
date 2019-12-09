@@ -123,22 +123,22 @@
 								class="form-group col-md-3 col-sm-3 col-xs-12 multipaleselect1"
 								ng-show="seatPrefs != null">
 								<label class="control-label">{{currentPageLanguage.seating_preference}}</label>
-								<select id="example-multiple-selected" class="col-md-12 col-sm-12 col-xs-12" multiple="multiple" ng-model="selectedSeatPref">
-									<option ng-repeat="opt in seatPrefs" ng-value="opt.prefValueId">{{opt.prefValue}}</option>
+								
+								<select id="example-multiple-selected" class="col-md-12 col-sm-12 col-xs-12" multiple="multiple" ng-model="selectedSeatPref" ng-options="opt.prefValueId as opt.prefValue for opt in seatPrefs">
+									<!-- <option ng-repeat="opt in seatPrefs" ng-value="opt.prefValueId" ng-selected="true">{{opt.prefValueId}}</option> -->
 								</select>
+								
 							</div>
 
-						
-
-							<!-- change by sunny (31-07-2018) -->
+							<!-- change by sunny (31-07- 2018) -->
 							<div
 								class="form-group col-md-3 col-sm-3 col-xs-12 multipaleselect1"
 								ng-show="marketingPref != null">
 								<label class="control-label">{{currentPageLanguage.how_did_you_here_about_us}}</label> <select
 									id="example-multiple-selected" class="col-md-12 col-sm-12 col-xs-12" multiple="multiple"
-									ng-model="selectedGuestMarketingPref">
-									<option ng-repeat="opt in marketingPref"
-										ng-value="opt.guestMarketPrefValueId">{{opt.guestMarketPrefValue}}</option>
+									ng-model="selectedGuestMarketingPref" ng-options="opt.guestMarketPrefValueId as opt.guestMarketPrefValue for opt in marketingPref">
+									<!-- <option ng-repeat="opt in marketingPref"
+										ng-value="opt.guestMarketPrefValueId">{{opt.guestMarketPrefValue}}</option> -->
 								</select>
 
 

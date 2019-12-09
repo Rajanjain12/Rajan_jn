@@ -54,6 +54,8 @@ KyobeeControllers.controller('homeCtrl',
 						;
 					};
 					
+					
+					
 					$scope.toggleSearch = function(){
 						if($scope.searchStatus){
 							$scope.searchStatus = false;
@@ -75,7 +77,6 @@ KyobeeControllers.controller('homeCtrl',
 						$location.path("/addGuest");
 						$location.search({"guestId":guestId});
 					}
-
 					$scope.fetchUserDetails = function() {
 						var postBody = {
 
@@ -307,6 +308,15 @@ KyobeeControllers.controller('homeCtrl',
 						m = m.toString().length == 1 ? (0+m.toString()) : m ;
 						return h + ":" + m;
 					}
+					
+					$scope.scrollToTop = function() {
+						verticalOffset = typeof (verticalOffset) != 'undefined' ? verticalOffset : 0;
+						element = $('body');
+						offset = element.offset();
+						offsetTop = offset.top;
+						$('html, body').animate({scrollTop : offsetTop}, 500, 'linear');
+					}
+					
 					
 					$scope.fetchUserDetails();
 					//$scope.loadInfo();

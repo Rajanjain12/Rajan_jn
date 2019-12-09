@@ -114,11 +114,12 @@
 						class="col-md-12 col-sm-12 col-xs-12 row pull-right margin-bottom-10"
 						id="search-box"
 						ng-show="searchStatus == true && showHistory == false">
+						<form>
 						<input type="text" class="form-control"
-							placeholder="Enter your search here..." ng-model="searchName"><a
-							href="javascript:void(0)" class="seach-box theme-fontcolor"><i
-							class="glyphicon glyphicon-search"
-							ng-click="searchGrid(searchName)"></i></a>
+							placeholder="Enter your search here..." ng-model="searchName"><button type="submit"
+							  class="seach-box theme-fontcolor"  ng-click="searchGrid(searchName)"><i
+							class="glyphicon glyphicon-search"></i></button><!-- ng-disabled="searchName==null || searchName.trim()==''" -->
+						</form>
 					</div>
 					<div
 						class="col-md-12 col-sm-12 col-xs-12 row pull-right margin-bottom-10"
@@ -696,11 +697,11 @@
 			<div ng-show="showHistory == false" class="paginations">
 				<div class="pagination-inner">
 					Page<span>{{pager.currentPage}}</span>of {{pager.totalPages}} <a
-						style="cursor: pointer"
-						ng-click="loadWaitListPage(pager.currentPage-1)" class="priv"><i
+						style="cursor: pointer" href=""
+						ng-click="setPage(pager.currentPage-1)" class="priv"><i
 						class="fa fa-angle-left" aria-hidden="true"></i></a> <a
-						style="cursor: pointer"
-						ng-click="loadWaitListPage(pager.currentPage+1)" class="next"><i
+						style="cursor: pointer" href=""
+						ng-click="setPage(pager.currentPage+1)" class="next"><i
 						class="fa fa-angle-right" aria-hidden="true"></i></a>
 				</div>
 
@@ -710,10 +711,10 @@
 				<div class="pagination-inner">
 					Page<span>{{pager.currentPage}}</span>of {{pager.totalPages}} <a
 						style="cursor: pointer"
-						ng-click="loadHistoryPage(pager.currentPage-1)" class="priv"><i
+						ng-click="setPage(pager.currentPage-1)" class="priv"><i
 						class="fa fa-angle-left" aria-hidden="true"></i></a> <a
 						style="cursor: pointer"
-						ng-click="loadHistoryPage(pager.currentPage+1)" class="next"><i
+						ng-click="setPage(pager.currentPage+1)" class="next"><i
 						class="fa fa-angle-right" aria-hidden="true"></i></a>
 				</div>
 

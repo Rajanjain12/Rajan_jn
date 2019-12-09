@@ -2207,8 +2207,11 @@ input[type=number]::-webkit-inner-spin-button {
 /*search box*/
 .seach-box {
 	position: absolute;
-	right: 28px;
-	top: 8px;
+    right: 28px;
+    top: 8px;
+    background-color: transparent;
+    border: 0;
+    padding: 0;
 }
 
 /*Image in parties waiting*/
