@@ -2418,3 +2418,10 @@ input[type=number]::-webkit-inner-spin-button {
 .popover{
 	word-break: break-all;
 }
+/*history slider*/
+.ngrs-range-slider .ngrs-value.ngrs-value-max{
+	width: 70px;
+}
+.ngrs-range-slider .ngrs-value.ngrs-value-min{
+	margin-left:7px
+}
