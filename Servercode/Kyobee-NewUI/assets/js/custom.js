@@ -39,11 +39,11 @@ $(".toggle-password").click(function() {
 });
 
 /*hide sidebar*/
-$(".sidehide").click(function(){
-  $("#sidebar-wrapper").css("animation-name","slid-Left");
-  $("#asidetogglebtn").delay(100000).click();
-  $("#sidebar-wrapper").css("animation-name","slid-right");
-});
+// $(".sidehide").click(function(){
+//   $("#sidebar-wrapper").css("animation-name","slid-Left");
+//   $("#asidetogglebtn").delay(100000).click();
+//   $("#sidebar-wrapper").css("animation-name","slid-right");
+// });
 
 /*verification code auto focus previous and next*/
 function moveOnNext(field) { 

@@ -49,6 +49,18 @@ header {
     color: #000000; }
 
 /* header design*/
+#showMobile {
+  display: none; }
+
+#hideMobile {
+  display: block; }
+
+#navbar-menu .dropdown-toggle::after {
+  display: none; }
+
+#navbar-menu ul li .dropdown-menu.show {
+  display: none; }
+
 /*common color code*/
 /* Font Style Variable*/
 /* Shadow to Container Box*/
@@ -623,5 +635,11 @@ fieldset {
     height: 2px;
     box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
     transform: rotate(45deg); }
+
+.dropdown-toggle::after {
+  border: solid #b5b5b5;
+  border-width: 0 2px 2px 0;
+  padding: 3px;
+  transform: rotate(45deg); }
 
 /*# sourceMappingURL=style.css.map */

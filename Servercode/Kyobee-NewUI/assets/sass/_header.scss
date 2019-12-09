@@ -78,3 +78,23 @@ header{
 	}
 }
 /* header design*/
+#showMobile{
+	display: none;
+}
+#hideMobile{
+		display: block;
+	}
+#navbar-menu{
+	.dropdown-toggle::after{
+		display: none;
+	}	
+}
+#navbar-menu{
+	ul{
+		li{
+			.dropdown-menu.show{
+				display: none;
+			}
+		}
+	}
+}
