@@ -457,9 +457,10 @@ KyobeeControllers.controller('waitListCtrl',
 									if (data.status == "SUCCESS") {
 										var paginatedResponse = data.serviceResult;
 										console.log("response "+JSON.stringify(data));
-										$scope.guestWaitList = paginatedResponse.records;
+										$scope.totalGuestWaitList = paginatedResponse.records;
 										$scope.userCount = paginatedResponse.totalRecords;
 										$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, pageNo, $scope.pageSize);
+										$scope.guestWaitList=$scope.totalGuestWaitList.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
 										console.log($scope.pager);
 									} else if (data.status == "FAILURE") {
 										alert('Error while fetching history');
@@ -516,9 +517,10 @@ KyobeeControllers.controller('waitListCtrl',
 									console.log(data);
 									if (data.status == "SUCCESS") {
 										var paginatedResponse = data.serviceResult;
-										$scope.guestWaitList = paginatedResponse.records;
+										$scope.totalGuestWaitList =  paginatedResponse.records;
 										$scope.userCount = paginatedResponse.totalRecords;
 										$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, pageNo, $scope.pageSize);
+										$scope.guestWaitList=$scope.totalGuestWaitList.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
 										console.log($scope.pager);
 									} else if (data.status == "FAILURE") {
 										alert('Error while fetching history');
