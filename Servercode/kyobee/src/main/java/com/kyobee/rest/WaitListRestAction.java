@@ -8,35 +8,21 @@
 package com.kyobee.rest;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.TimeZone;
 import java.util.UUID;
 
-import javax.inject.Qualifier;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import net.sf.json.JSONObject;
-
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jboss.logging.Logger;
-import org.jboss.logging.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,14 +30,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bandwidth.sdk.model.events.SmsEvent;
-import com.kyobee.dao.impl.UserDAO;
 /*import com.google.api.translate.Language;
 import com.google.api.translate.Translate;*/
 import com.kyobee.dto.GuestDTO;
 import com.kyobee.dto.GuestMarketingPreference;
+import com.kyobee.dto.GuestMarketingPreferenceV2;
 import com.kyobee.dto.GuestPreferencesDTO;
+import com.kyobee.dto.GuestPreferencesV2DTO;
 import com.kyobee.dto.GuestWebDTO;
-import com.kyobee.dto.LanguageMasterDTO;
 import com.kyobee.dto.MarketingPreferenceDTO;
 import com.kyobee.dto.OrganizationTemplateDTO;
 import com.kyobee.dto.SendSMSWrapper;
@@ -66,25 +52,20 @@ import com.kyobee.entity.Guest;
 import com.kyobee.entity.GuestNotificationBean;
 import com.kyobee.entity.GuestPreferences;
 import com.kyobee.entity.MarketingPreference;
-import com.kyobee.entity.Organization;
-import com.kyobee.entity.User;
 import com.kyobee.exception.RsntException;
 import com.kyobee.service.ConfigurationService;
 import com.kyobee.service.ISecurityService;
 import com.kyobee.service.IWaitListService;
 import com.kyobee.util.AppInitializer;
-
+import com.kyobee.util.PropertyUtility;
 import com.kyobee.util.SessionContextUtil;
 import com.kyobee.util.common.CommonUtil;
 import com.kyobee.util.common.Constants;
 import com.kyobee.util.common.LoggerUtil;
-import com.kyobee.util.common.NativeQueryConstants;
 import com.kyobee.util.common.RealtimefameworkPusher;
 import com.kyobee.util.jms.NotificationMessageReceiver;
 
-import com.kyobee.util.PropertyUtility;
-import com.stripe.model.Order;
-import com.kyobee.dao.impl.*;
+import net.sf.json.JSONObject;
 
 
 
@@ -113,8 +94,6 @@ public class WaitListRestAction {
 
 	@Autowired
 	SessionContextUtil sessionContextUtil;
-
-
 
 	@Autowired
 	private NotificationMessageReceiver messageReceiver;
@@ -914,6 +893,7 @@ public class WaitListRestAction {
 	@RequestMapping(value = "/history", method = RequestMethod.GET, produces = "application/json")
 	// changed for history pagination
 	// public String fetchGuestsHistory(@QueryParam("orgid") Long orgid){
+	
 	public Response<PaginatedResponse<GuestDTO>> fetchGuestsHistory(@RequestParam("orgid") Long orgid,
 			@RequestParam("statusOption") String statusOption, @RequestParam("sliderMinTime") Integer sliderMinTime,
 			@RequestParam("sliderMaxTime") Integer sliderMaxTime, @RequestParam("clientTimezone") String clientTimezone,
@@ -2278,4 +2258,71 @@ public class WaitListRestAction {
 
 		return response;
 	}	
+	
+
+	//change by arjun to add key 09/12/2019
+	@RequestMapping(value = "/orgseatpref/V2", method = RequestMethod.GET, produces = "application/json")
+	public Response<List<GuestPreferencesV2DTO>> getOrganizationSeatingPreferencesV2(@RequestParam("orgid") Long orgid){
+		log.info("Entring :: Organization Guest Seating Preference V2");
+
+		Response<List<GuestPreferencesV2DTO>> response = new Response<List<GuestPreferencesV2DTO>>();
+
+		List<GuestPreferencesV2DTO> guestPreferencesV2DTOList = null;
+
+		try {
+			guestPreferencesV2DTOList=waitListService.getSeatingPreferencesWithKey(orgid);
+
+			if(guestPreferencesV2DTOList.size()!=0)
+			{
+				response.setServiceResult(guestPreferencesV2DTOList);
+				response.setServiceResponseDescription("Seating Preferences Added Successfuly");
+			}
+			else 
+				response.setServiceResponseDescription("Seating Preferences are not available");
+			
+			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+		} catch (Exception e) {
+			log.error("getOrganizationSeatingPreferencesV2() - failed:", e);
+			response.setServiceResponseDescription("Seating Preferences are not available");
+			response.setErrorCode(e.toString());
+			response.setErrorDescription(e.getMessage());
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - getOrganizationSeatingPreferencesV2 failed");
+		}
+		return response;
+	}
+
+	/* 
+	 * change by arjun to add key 09/12/2019
+	 * */ 
+	@RequestMapping(value = "/orgMarketingPref/V2", method = RequestMethod.GET, produces = "application/json")
+	public Response<List<GuestMarketingPreferenceV2>> getOrganizationMarketingPreferencesV2(@RequestParam("orgid") Long orgid) {
+		log.info("Entring :: Organization Marketing Preference V2");
+		Response<List<GuestMarketingPreferenceV2>> response = new Response<List<GuestMarketingPreferenceV2>>();
+
+		List<GuestMarketingPreferenceV2> marketingPrefV2 = null;
+		
+		try {
+			marketingPrefV2 = waitListService.getMarketingPreferencesWithKey(orgid);
+			
+			if(marketingPrefV2.size()!=0) {
+				response.setServiceResult(marketingPrefV2);
+				response.setServiceResponseDescription("Marketing Preferences Added Successfuly");
+			}
+			else
+				response.setServiceResponseDescription("Marketing Preferences are not available");
+			
+			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
+
+		} catch (Exception e) {
+
+			response.setServiceResponseDescription("Error while adding marketing preferences");
+			response.setErrorCode(e.toString());
+			response.setErrorDescription(e.getMessage());
+			log.error("getOrganizationMarketingPreferencesV2() - failed:", e);
+			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
+					"System Error - getOrganizationMarketingPreferencesV2 failed");
+		}
+		return response;
+	}
 }

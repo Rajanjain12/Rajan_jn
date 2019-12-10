@@ -507,4 +507,16 @@ public class NativeQueryConstants {
 	//Change by arjun to reset flag of language key mapping table
 	public static final String RESET_FLAG_OF_LANGUAGEKEYMAPPING = "update kyobeeproddb.LANGUAGEKEYMAPPING set UpdateFlag = '0' WHERE (UpdateFlag = '1' AND LanguageKeyMappingId <> 0)";
 	
+	//change by arjun to add new key in preference
+	
+	public static final String GET_ORG_MARKETING_PREF_VALUES_WITH_KEY = 
+			"select lkp.LookupID,lkp.Name,lk.keyName from ORGANIZATION org " + 
+			"inner join " + 
+			"ORGANIZATIONCATEGORY oc on org.organizationID=oc.organizationID " + 
+			"inner join " + 
+			"LOOKUP lkp on oc.CategoryValueID=lkp.LookupID " + 
+			"inner join " + 
+			"LANGUAGEKEYMAPPING lk on lk.Value=lkp.Name " + 
+			"where oc.organizationID=:orgId and oc.CategoryTypeID=:catTypeId and lk.LangIsoCode='en' order by lkp.Position";
+	
 }

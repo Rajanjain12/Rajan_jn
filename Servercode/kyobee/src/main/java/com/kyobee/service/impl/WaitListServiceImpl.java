@@ -41,15 +41,17 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kyobee.dao.ILanguageKeyMappingDAO;
 import com.kyobee.dao.impl.AddressDAO;
 import com.kyobee.dao.impl.OrganizationDAO;
 import com.kyobee.dao.impl.UserDAO;
-import com.kyobee.dto.GuestDTO;
 import com.kyobee.dto.GuestMarketingPreference;
+import com.kyobee.dto.GuestMarketingPreferenceV2;
 import com.kyobee.dto.GuestPreferencesDTO;
+import com.kyobee.dto.GuestPreferencesV2DTO;
 import com.kyobee.dto.GuestWebDTO;
 import com.kyobee.dto.LanguageMasterDTO;
-import com.kyobee.dto.LanguageMasterV2DTO;
+import com.kyobee.dto.MarketingPreferenceDTO;
 import com.kyobee.dto.OrganizationTemplateDTO;
 import com.kyobee.dto.SMSDetailsWrapper;
 import com.kyobee.dto.ScreensaverDTO;
@@ -70,7 +72,6 @@ import com.kyobee.exception.RsntException;
 import com.kyobee.service.ISecurityService;
 import com.kyobee.service.IWaitListService;
 import com.kyobee.util.AppTransactional;
-import com.kyobee.util.common.CommonUtil;
 import com.kyobee.util.common.Constants;
 import com.kyobee.util.common.LoggerUtil;
 import com.kyobee.util.common.NativeQueryConstants;
@@ -95,6 +96,9 @@ public class WaitListServiceImpl implements IWaitListService {
 	
 	@Autowired
 	OrganizationDAO organizationDao;
+	
+	@Autowired
+	ILanguageKeyMappingDAO languageKeyMappingDAO;
 	
 	@Autowired
 	AddressDAO addressDao;
@@ -2084,5 +2088,48 @@ ByOrgRecords(java.lang.Long, int, int)
 				return null;
 			}
 			
+		}
+						
+		@Override
+		public List<GuestPreferencesV2DTO> getSeatingPreferencesWithKey(Long orgId) {
+
+			List<GuestPreferencesV2DTO> guestPreferencesV2DTOList = new ArrayList<GuestPreferencesV2DTO>();
+
+			List<Object[]> resultList=languageKeyMappingDAO.getKeyFromLanguageKeyMappingByValue(orgId,Constants.CONT_LOOKUPTYPE_GUEST_PREF);
+			
+			if(resultList.size()!=0)
+			{
+				resultList.forEach(r -> {
+					GuestPreferencesV2DTO guestPreferencesV2DTO = new GuestPreferencesV2DTO();
+					guestPreferencesV2DTO.setPrefValueId(Long.parseLong(r[0].toString()));
+					guestPreferencesV2DTO.setPrefValue(r[1].toString());
+					guestPreferencesV2DTO.setPrefKey(r[2].toString());	
+					
+					guestPreferencesV2DTOList.add(guestPreferencesV2DTO);
+
+				});
+			}
+
+			return guestPreferencesV2DTOList;
+		}
+		@Override
+		public List<GuestMarketingPreferenceV2> getMarketingPreferencesWithKey(Long orgId){
+
+			List<GuestMarketingPreferenceV2> marketingPrefV2List =new ArrayList<GuestMarketingPreferenceV2>();
+
+			List<Object[]> resultList=languageKeyMappingDAO.getKeyFromLanguageKeyMappingByValue(orgId,Constants.CONT_LOOKUPTYPE_GUEST_MARKETING_PREF);
+
+			System.out.println("service" + resultList.size());
+			
+			resultList.forEach(r -> {
+				GuestMarketingPreferenceV2 marketingPrefV2 = new GuestMarketingPreferenceV2();
+				
+				marketingPrefV2.setGuestMarketPrefValueId(Long.parseLong((r[0].toString())));
+				marketingPrefV2.setGuestMarketPrefValue(r[1].toString());
+				marketingPrefV2.setGuestMarketPrefKey(r[2].toString());
+				
+				marketingPrefV2List.add(marketingPrefV2);
+			});
+			return marketingPrefV2List;
 		}
 }

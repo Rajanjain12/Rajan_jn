@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.kyobee.dto.GuestMarketingPreference;
+import com.kyobee.dto.GuestMarketingPreferenceV2;
 import com.kyobee.dto.GuestPreferencesDTO;
+import com.kyobee.dto.GuestPreferencesV2DTO;
 import com.kyobee.dto.GuestWebDTO;
 import com.kyobee.dto.LanguageMasterDTO;
 import com.kyobee.dto.LanguageMasterV2DTO;
@@ -282,6 +284,13 @@ public interface IWaitListService {
 	public Object[] getGuestDetail(String contactNumber, String orgID);
 
 	public Map<String, Object> updateLanguagesPusher();
+
 	
+	//created by arjun to add key 10/12/2019
+//	public List<GuestPreferencesV2DTO> transferGuestPreferencesDTO(List<GuestPreferencesDTO> GuestPreferencesDTOList);
+
+	public List<GuestMarketingPreferenceV2> getMarketingPreferencesWithKey(Long orgid);
+
+	public List<GuestPreferencesV2DTO> getSeatingPreferencesWithKey(Long orgid);
  
 }
