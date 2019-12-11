@@ -22,6 +22,7 @@ import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jboss.logging.Logger;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -1184,7 +1185,7 @@ public class WaitListRestAction {
 		return response;
 
 	}
-
+	
 	private boolean checkMarkerForStatusChange(Guest guest){
 		boolean sendNotification = false;
 		if(guest.getCalloutCount() == null && guest.getIncompleteParty() == null)
@@ -2202,10 +2203,13 @@ public class WaitListRestAction {
 				guestDTO.setGuestID(Long.parseLong(result[0].toString())); 			//guestID
 				guestDTO.setOrganizationID(Long.parseLong(result[1].toString())); 	//OrganizationID
 				guestDTO.setName(result[2].toString());  						 	//name
-				guestDTO.setSms(result[3].toString());     							//mobile(SMS)
-				
-			
-				if(result[4]!=null)
+				guestDTO.setSms(result[3].toString()); 
+				System.out.println(result[4]);//mobile(SMS)
+				System.out.println(result[4]!="null");
+				System.out.println(result[4].toString()=="null");
+				System.out.println(result[4]!=null && result[4].toString().trim()!="");
+				try {
+				if(result[4]!=null && result[4].toString().trim()!="")
 				{
 					String guestPrefArr[] = result[4].toString().split(",");   			//seatingPrefrence
 				
@@ -2215,8 +2219,11 @@ public class WaitListRestAction {
 						gl.setSelected(true); 
 					  });
 				}
-				
+				}catch (NullPointerException e) {
+					LoggerUtil.logInfo("Null Pointer exception inside the getGuestDetail");
+				}
 			}
+				
 			guestDTO.setGuestPreferences(guestPreferencesList);
 			guestDTOList.add(guestDTO);
 			response.setServiceResult(guestDTOList);
