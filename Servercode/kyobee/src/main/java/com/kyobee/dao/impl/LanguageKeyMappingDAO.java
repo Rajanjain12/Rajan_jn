@@ -22,12 +22,12 @@ public class LanguageKeyMappingDAO implements ILanguageKeyMappingDAO{
 	public List<Object[]> getKeyFromLanguageKeyMappingByValue(Long orgId, String lookUpTypeId)
 	{
 
-		List<Object[]> resultList = sessionFactory.openSession().createSQLQuery(NativeQueryConstants.GET_ORG_MARKETING_PREF_VALUES_WITH_KEY)
+		List<Object[]> resultList = sessionFactory.getCurrentSession().createSQLQuery(NativeQueryConstants.GET_ORG_MARKETING_PREF_VALUES_WITH_KEY)
 				.setParameter("orgId", orgId)
 				.setParameter("catTypeId", lookUpTypeId)
 				.list();
 		System.out.println("dao" + resultList.size());
-		sessionFactory.close();
+		
 		return resultList;
 	}
 

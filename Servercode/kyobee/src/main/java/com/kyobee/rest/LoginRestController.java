@@ -108,7 +108,7 @@ public class LoginRestController {
 				} else {
 					response.setStatus("ERROR");
 					CommonUtil.setWebserviceResponse(response, Constants.FAILURE, "", "",
-							"Login Failed. Invalid Username or Password");
+							"Invalid Username or Password");
 					return response;
 				}
 			} else {

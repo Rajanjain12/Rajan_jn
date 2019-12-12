@@ -212,12 +212,17 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						var postBody = {
 
 						};
-						var url = '/kyobee/web/rest/waitlistRestAction/orgseatpref?orgid=' + orgId;
+						var url = '/kyobee/web/rest/waitlistRestAction/orgseatpref/V2?orgid=' + orgId;
 						KyobeeUnsecuredService.getDataService(url, '').query(postBody,
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
 										$scope.seatPrefs = data.serviceResult;
+										for(var i=0;i<$scope.seatPrefs.length;i++){
+											console.log("key "+$scope.seatPrefs[i].prefKey);
+											console.log("language value"+$scope.guest.languageMap[$scope.seatPrefs[i].prefKey]);
+											$scope.seatPrefs[i].prefValue=$scope.guest.languageMap[$scope.seatPrefs[i].prefKey]
+										}
 										console.log("seating preference "+JSON.stringify($scope.seatPrefs));
 									} else if (data.status == "FAILURE") {
 										alert($scope.currentPageLanguage.fetch_error);
@@ -233,12 +238,15 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						var postBody = {
 
 						};
-						var url = '/kyobee/web/rest/waitlistRestAction/orgMarketingPref?orgid=' + orgId;
+						var url = '/kyobee/web/rest/waitlistRestAction/orgMarketingPref/V2?orgid=' + orgId;
 						KyobeeUnsecuredService.getDataService(url, '').query(postBody,
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
 										$scope.marketingPref = data.serviceResult;
+										for(var i=0;i<$scope.marketingPref.length;i++){
+											$scope.marketingPref[i].guestMarketPrefValue=$scope.guest.languageMap[$scope.marketingPref[i].guestMarketPrefKey]
+										}
 									} else if (data.status == "FAILURE") {
 										alert($scope.currentPageLanguage.fetch_error);
 										$scope.logout();

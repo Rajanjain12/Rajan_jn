@@ -252,7 +252,7 @@ KyobeeControllers
 										+ $scope.guestDTO.noOfAdults
 										+ $scope.guestDTO.noOfInfants;
 								var postBody = $scope.guestDTO;
-
+								$scope.guestDTO.organizationID = $scope.userDTO.organizationId;
 								var url = '/kyobee/web/rest/waitlistRestAction/addGuest';
 								KyobeeService
 										.postDataService(url, '')
@@ -262,8 +262,8 @@ KyobeeControllers
 													console.log(data);
 													if (data.status == "SUCCESS") {
 														$scope.loading = false;
-														$scope
-																.changeView('home');
+														
+														$scope.changeView('home');
 													} else if (data.status == "FAILURE") {
 														alert('Error while adding guest to waitlist');
 													}
@@ -506,7 +506,7 @@ KyobeeControllers
 							};
 
 							if ($routeParams.guestId == null
-									|| $routeParams.guestId == 'undefined') {
+									|| $routeParams.guestId == undefined) {
 								console.log('Load Add Guest');
 								$scope.initAddGuest();
 
