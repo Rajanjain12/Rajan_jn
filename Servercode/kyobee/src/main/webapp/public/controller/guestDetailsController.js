@@ -19,6 +19,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					$scope.orgWaitTime = null;
 					$scope.orgMaxParty = null;
 					$scope.errorMsg = null;
+					$scope.successMsg = null;
 					
 					$scope.appKey = null;
 					$scope.privateKey = null;
@@ -357,6 +358,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								'languagePref' : $scope.guest.languagePrefID
 						}
 						console.log(JSON.stringify(postBody));
+						$scope.successMsg=null;
 						var url = '/kyobee/web/rest/waitlistRestAction/updateGuestInfo';
 						KyobeeUnsecuredService.postService(url, '').query(postBody,
 								function(data) {
@@ -369,6 +371,9 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					                    $scope.client.send($scope.channel, message);
 							            console.log('Sending from updateguest: ' + message + ' to channel: ' + $scope.channel);
 							            $scope.loading = false;
+							            $scope.successMsg="Your changes save successfully!";
+							            //setTimeout(function(){ alert(); }, 1000);
+
 										//alert($scope.currentPageLanguage.upd_success);
 									} else if (data.status == "FAILURE") {
 										alert($scope.currentPageLanguage.upd_error);
@@ -409,6 +414,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					}
 					
 					$scope.showDeletePopup = function(){
+						//$scope.scrollToTop();
 						$('#deletePopup').simplePopup();
 					}
 					
@@ -614,6 +620,9 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					$scope.hideErrorMsg = function(){
 					       $scope.errorMsg = null;
 					      };
+					$scope.hideSuccessMsg = function(){
+						       $scope.successMsg = null;
+						      };
 					
 					$scope.init();
 					

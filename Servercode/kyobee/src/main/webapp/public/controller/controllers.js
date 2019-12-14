@@ -299,6 +299,14 @@ KyobeeUnSecuredController.controller('homeCtrl',
 							alert(false);
 						}
 					}
+					$scope.scrollToTop = function() {
+						verticalOffset = typeof (verticalOffset) != 'undefined' ? verticalOffset : 0;
+						element = $('body');
+						offset = element.offset();
+						offsetTop = offset.top;
+						$('html, body').animate({scrollTop : offsetTop}, 500, 'linear');
+					}
+					
 
 					removeSpaces = function (string) {
 						return string.split(' ').join('');

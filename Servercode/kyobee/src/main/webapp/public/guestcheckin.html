@@ -25,6 +25,12 @@
 				<button type="button" class="close" ng-click="hideErrorMsg();">&times;</button>
 				{{errorMsg}}
 			</div>
+			<div class="alert alert-success" role="alert"
+				ng-show="successMsg != null && successMsg != ''"
+				style="margin-top: 10px;">
+				<button type="button" class="close" ng-click="hideSuccessMsg();">&times;</button>
+				{{successMsg}}
+			</div>
 
 			<div ng-show="guest != null" class="guest_list_wrap content-sm row">
 				<!-- <div class="guest_list_wrap content-sm row"> -->

@@ -63,26 +63,21 @@ KyobeeControllers
 										|| $scope.marketingPref == undefined) {
 									$scope.loadMarketingPref();
 								} else {
-									$scope.guestMarketingPref = angular
-											.copy($scope.marketingPref);
+									$scope.guestMarketingPref = angular.copy($scope.marketingPref);
 								}
-								console
-										.log("GuestMarketingPRef popup : "
-												+ JSON.stringify($scope.guestMarketingPref));
+								console.log("GuestMarketingPRef popup : "+ JSON.stringify($scope.guestMarketingPref));
 								
-								if ($scope.seatPrefs == null
-										|| $scope.seatPrefs == undefined) {
+								if ($scope.seatPrefs == null || $scope.seatPrefs == undefined) {
 									$scope.loadSeatingPref();
 								} else {
-									$scope.guestPref = angular
-											.copy($scope.seatPrefs);
+									$scope.guestPref = angular.copy($scope.seatPrefs);
 								}
-								console.log("GuestPRef popup : "
-										+ JSON.stringify($scope.guestPref));
+								console.log("GuestPRef popup : "+ JSON.stringify($scope.guestPref));
 
 								
 							}
 							$scope.loadMarketingPref = function() {
+								alert("loadMarketingPref");
 								var postBody = {
 
 								};
@@ -441,10 +436,8 @@ KyobeeControllers
 																			.stringify(data));
 													if (data.status == "SUCCESS") {
 														$scope.guestDTO = data.serviceResult;
-														console
-																.log($scope.guestDTO);
-														$scope.guestPref = angular
-																.copy($scope.seatPrefs);
+														console.log($scope.guestDTO);
+														$scope.guestPref = angular.copy($scope.seatPrefs);
 														
 														if ($scope.guestDTO.guestPreferences != null){
 															for (var i = 0; i < $scope.guestDTO.guestPreferences.length; i++) {
@@ -472,13 +465,16 @@ KyobeeControllers
 														if ($scope.guestDTO.guestMarketingPreferences != null){
 															for (var i = 0; i < $scope.guestDTO.guestMarketingPreferences.length; i++) {
 																console.log($scope.guestMarketingPref);
-																for (var j = 0; j < $scope.guestMarketingPref.length; j++) {
-																	if ($scope.guestDTO.guestMarketingPreferences[i].guestMarketPrefValueId == $scope.guestMarketingPref[j].guestMarketPrefValueId) {
-																		$scope.guestMarketingPref[j].selected = true;
-																		break;
+																if($scope.guestMarketingPref!=null)
+																	{
+																		for (var j = 0; j < $scope.guestMarketingPref.length; j++) {
+																			if ($scope.guestDTO.guestMarketingPreferences[i].guestMarketPrefValueId == $scope.guestMarketingPref[j].guestMarketPrefValueId) {
+																				$scope.guestMarketingPref[j].selected = true;
+																				break;
+																			}
+																		}
 																	}
-																}
-															}
+															 }
 														}
 														if ($scope.guestDTO.prefType == 'sms'
 																|| $scope.guestDTO.prefType == 'SMS') {

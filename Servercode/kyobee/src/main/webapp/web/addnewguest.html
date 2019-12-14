@@ -244,13 +244,16 @@
 									placeholder="Note" ng-model='guestDTO.note' maxlength="250"></textarea>
 							</div>
 
-							<div class="form-group text-center">
+							<div ng-show="!editMode" class="form-group text-center">
 								<input type="submit" class="btn btn-add theme-color"
-									ng-show="!editMode" value="Add"
-									ng-click="addGuest(addGuestForm.$invalid);" /> <input
+									 value="Add"
+									ng-click="addGuest(addGuestForm.$invalid);" ng-disabled="editMode"/> 
+							</div>
+							<div ng-show="editMode" class="form-group text-center">
+							<input
 									type="submit" class="btn btn-add theme-color"
-									ng-show="editMode" value="Update"
-									ng-click="updateGuest(addGuestForm.$invalid);" />
+									 value="Update"
+									ng-click="updateGuest(addGuestForm.$invalid);" ng-disabled="!editMode" />
 							</div>
 						</form>
 					</div>
