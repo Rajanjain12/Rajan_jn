@@ -168,16 +168,16 @@
 									<div ng-message="required">Phone number cannot be blank</div>
 								</div>
 							</div>
-							<!-- <div class="form-group panel-form addf3 margin-bottom-25" ng-show="userDTO.smsRoute != null && userDTO.smsRoute != ''" > -->
-							<!-- <div class="radio radio-danger">
+							<!-- <div class="form-group panel-form addf3 margin-bottom-25" ng-show="userDTO.smsRoute != null && userDTO.smsRoute != ''" >
+							<div class="radio radio-danger">
                             <input type="text" name="radio1" onchange="showsms();" id="smsshow" ng-model="guestDTO.prefType" value="sms" >
                             <label for="smsshow">SMS</label>
-                        </div> -->
-							<!-- <div class="radio radio-danger">
+                        </div>
+							<div class="radio radio-danger">
                             <input type="radio" name="radio1" onchange="showemail();" id="emailshow" ng-model="guestDTO.prefType" value="email" >
                             <label for="emailshow">E-Mail</label>
-                        </div> -->
-							<!-- <div class="addf3input">
+                        </div>
+							<div class="addf3input">
                              <div id="smshide">
                                 <input type="number" id="number" name="field2SMS" ng-model="guestDTO.sms"  placeholder="SMS (___) ___-____ " 
                                 required ng-minlength="10" ng-maxlength="10" min="0" class="form-control input-no-spinner"
@@ -196,8 +196,8 @@
 										<div ng-message="email" >Please enter a valid email</div>
 									</div>
                             </div>
-                        </div> -->
-							<!-- </div> -->
+                        </div>
+							</div>  -->
 
 							<div class="form-group panel-form" ng-show="guestPref != null">
 								<div class="addf1">
@@ -254,13 +254,13 @@
 
 							<div ng-show="!editMode" class="form-group text-center">
 								<input type="submit" class="btn btn-add theme-color"
-									 value="Add"
+									 value="Add" id="btnSubmit"
 									ng-click="addGuest(addGuestForm.$invalid);" ng-disabled="editMode"/> 
 							</div>
 							<div ng-show="editMode" class="form-group text-center">
 							<input
 									type="submit" class="btn btn-add theme-color"
-									 value="Update"
+									 value="Update" id="btnUpdate"
 									ng-click="updateGuest(addGuestForm.$invalid);" ng-disabled="!editMode" />
 							</div>
 						</form>

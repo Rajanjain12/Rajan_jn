@@ -77,7 +77,7 @@ KyobeeControllers
 								
 							}
 							$scope.loadMarketingPref = function() {
-								alert("loadMarketingPref");
+								
 								var postBody = {
 
 								};
@@ -145,7 +145,7 @@ KyobeeControllers
 							$scope.addGuest = function(invalid) {
 								$scope.loading = true;
 								$scope.errorMsg = null;
-
+								
 								if (invalid) {
 									$scope.loading = false;
 									return;
@@ -155,6 +155,7 @@ KyobeeControllers
 								// $scope.userDTO.smsRoute != '' && (
 								// $scope.guestDTO.prefType == null ||
 								// $scope.guestDTO.prefType == 'undefined' )){
+								//$("#btnSubmit").attr("disabled", true);
 								if ($scope.userDTO.smsRoute != null
 										&& $scope.userDTO.smsRoute != ''
 										&& ($scope.guestDTO.prefType == null || $scope.guestDTO.prefType == 'undefined')) {
@@ -272,12 +273,12 @@ KyobeeControllers
 							$scope.updateGuest = function(invalid) {
 								$scope.loading = true;
 								$scope.errorMsg = null;
-
+								
 								if (invalid) {
 									$scope.loading = false;
 									return;
 								}
-
+								$("#btnUpdate").attr("disabled", true);
 								// if($scope.guestDTO.prefType == null ||
 								// $scope.guestDTO.prefType == 'undefined'){
 								if ($scope.userDTO.smsRoute != null
@@ -519,12 +520,14 @@ KyobeeControllers
 										
 									});	
 								 }
-								
-							
-								
-
+								else
+									{
+									 $scope.initAddGuest();
+									}	
+								$("#btnSubmit").attr("disabled", false);
 								$scope.editMode = false;
 							} else {
+								$("#btnUpdate").attr("disabled", false);
 								console.log('Load Update Guest');
 								if($scope.userDTO==null)
 								{
