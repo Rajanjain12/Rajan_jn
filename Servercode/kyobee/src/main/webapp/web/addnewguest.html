@@ -78,11 +78,11 @@
                 </div> -->
 
 							<!-- changes by krupali, line 65 to 107,(15/06/2017) -->
-							<div class="row">
-								<div class="form-group"
+							<div class="row margin-bottom-10">
+								<div 
 									ng-class="{'has-error' : (addGuestForm.adults.$invalid && addGuestForm.$submitted) || (addGuestForm.adults.$pristine && addGuestForm.adults.$invalid && addGuestForm.$submitted)}">
 									<div class="col-md-2 col-sm-2 col-xs-12">
-										<input type="number" id="adults" name="adults" min="0" max="100" 
+										<input type="number" id="adults" name="adults" min="1" max="100" 
 											class="form-control col-md-4 col-sm-4 col-xs-12" 
 											ng-model="guestDTO.noOfAdults" required placeholder="Adults" />
 										<span ng-messages="addGuestForm.adults.$error"
@@ -94,16 +94,24 @@
 											<h5 ng-message="number">Enter only digits.</h5>
 										</span>
 									</div>
-
+								</div>
+								<div 
+									ng-class="{'has-error' : (addGuestForm.children.$invalid && addGuestForm.$submitted) || (addGuestForm.children.$pristine && addGuestForm.children.$invalid && addGuestForm.$submitted)}">
 									<div class="col-md-2 col-sm-2 col-xs-12">
 										<input type="number" id="children" name="children"
-											class="form-control" min=0 max=100
+											class="form-control" max="100"
 											ng-model="guestDTO.noOfChildren" placeholder="Children" />
+											<span ng-messages="addGuestForm.children.$error"
+											ng-show="(addGuestForm.children.$invalid && addGuestForm.$submitted)"
+											class="help-block">
+											<h5 ng-message="max">Maximum allowed adults is 100</h5>
+											<h5 ng-message="number">Enter only digits.</h5>
+										</span>
 										<!-- <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
 				        <h5 ng-message="required">Children cannot be blank</h5>
                   </span>  -->
 									</div>
-
+								</div>
 									<!-- <div class="col-md-2 col-sm-2 col-xs-12">
 				  <input type="number" id="infants" name="infants" min=0 max=100 class="form-control col-md-4 col-sm-4 col-xs-12" ng-model="guestDTO.noOfInfants" placeholder="Infants" ng-disabled="guestDTO.noOfChildren == 0 && guestDTO.noOfAdults == 0" title="{{(guestDTO.noOfChildren == 0 && guestDTO.noOfAdults == 0) ? 'You must have to add at least one child or adult' : 'Please fill out this field'}}" />
 				  <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
@@ -130,7 +138,7 @@
 										</div>
 									</div>
 
-								</div>
+								<!-- </div> -->
 							</div>
 
 							<div class="row">

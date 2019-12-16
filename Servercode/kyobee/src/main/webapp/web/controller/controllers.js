@@ -13,8 +13,8 @@ KyobeeControllers.controller('homeCtrl',
 				'$location',
 				'$timeout',
 				'$interval',
-				'KyobeeService',
-				function($scope,$rootScope, $location, $timeout, $interval, KyobeeService) {
+				'KyobeeService','$q',
+				function($scope,$rootScope, $location, $timeout, $interval, KyobeeService,$q) {
 
 					$rootScope.hideHeader=false;//To hide show header in index.html
 					$scope.userDTO = null;
@@ -78,6 +78,7 @@ KyobeeControllers.controller('homeCtrl',
 						$location.search({"guestId":guestId});
 					}
 					$scope.fetchUserDetails = function() {
+						var defered=$q.defer();
 						var postBody = {
 
 						};
@@ -88,14 +89,18 @@ KyobeeControllers.controller('homeCtrl',
 									if (data.status == "SUCCESS") {										
 										$scope.userDTO = data.serviceResult;
 										put("USER_OBJ",JSON.stringify(data.serviceResult));
-										$scope.loadDataForPage();
+										
+										
 									} else if (data.status == "ERROR") {
 										alert('Error while fetching user details. Please login again or contact support');
 										$scope.logout();
 									}
+									defered.resolve();
 								}, function(error) {
+									defered.reject();
 									alert('Error while fetching user details. Please login again or contact support');
 								});
+						return defered.promise;
 						//console.log('temp'+temp);
 					};
 					
@@ -112,7 +117,7 @@ KyobeeControllers.controller('homeCtrl',
 									console.log(data);
 									if (data.status == "SUCCESS") {
 										$scope.footerMsg = data.serviceResult.FOOTER_MSG;
-										$scope.loadFactory();
+										//$scope.loadFactory();
 									} else if (data.status == "FAILURE") {
 										alert('Error while fetching user details. Please login again or contact support');
 										$scope.logout();
@@ -317,8 +322,12 @@ KyobeeControllers.controller('homeCtrl',
 						$('html, body').animate({scrollTop : offsetTop}, 500, 'linear');
 					}
 					
-					
-					$scope.fetchUserDetails();
+					var promise = $scope.fetchUserDetails();
+					promise.then(function(){
+						$scope.loadDataForPage();
+					},function(error){
+						
+					});	
 					//$scope.loadInfo();
 					
 				} ]);

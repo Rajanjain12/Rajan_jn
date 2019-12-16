@@ -219,11 +219,14 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 									console.log(data);
 									if (data.status == "SUCCESS") {
 										$scope.seatPrefs = data.serviceResult;
-										for(var i=0;i<$scope.seatPrefs.length;i++){
-											console.log("key "+$scope.seatPrefs[i].prefKey);
-											console.log("language value"+$scope.guest.languageMap[$scope.seatPrefs[i].prefKey]);
-											$scope.seatPrefs[i].prefValue=$scope.guest.languageMap[$scope.seatPrefs[i].prefKey]
-										}
+										if($scope.seatPrefs!=null)
+											{
+												for(var i=0;i<$scope.seatPrefs.length;i++){
+													
+													$scope.seatPrefs[i].prefValue=$scope.guest.languageMap[$scope.seatPrefs[i].prefKey]
+												}
+											}
+										
 										console.log("seating preference "+JSON.stringify($scope.seatPrefs));
 									} else if (data.status == "FAILURE") {
 										alert($scope.currentPageLanguage.fetch_error);
@@ -245,9 +248,13 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 									console.log(data);
 									if (data.status == "SUCCESS") {
 										$scope.marketingPref = data.serviceResult;
-										for(var i=0;i<$scope.marketingPref.length;i++){
-											$scope.marketingPref[i].guestMarketPrefValue=$scope.guest.languageMap[$scope.marketingPref[i].guestMarketPrefKey]
-										}
+										if($scope.marketingPref!=null)
+											{
+												for(var i=0;i<$scope.marketingPref.length;i++){
+													$scope.marketingPref[i].guestMarketPrefValue=$scope.guest.languageMap[$scope.marketingPref[i].guestMarketPrefKey]
+												}
+											}
+
 									} else if (data.status == "FAILURE") {
 										alert($scope.currentPageLanguage.fetch_error);
 										$scope.logout();
@@ -291,14 +298,14 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 							return;
 						}
 						
-						if(($scope.guest.noOfAdults != null && $scope.guest.noOfAdults == 0 || $scope.guest.noOfAdults == undefined)){
+						if(($scope.guest.noOfAdults != null && $scope.guest.noOfAdults == 0) || $scope.guest.noOfAdults == undefined){
 							$scope.errorMsg = $scope.currentPageLanguage.adult_size_error;
 							$scope.loading=false;
 							return;
 						}
 						
 						if($scope.orgMaxParty != null && $scope.orgMaxParty != "" && ($scope.guest.noOfChildren + $scope.guest.noOfAdults + $scope.guest.noOfInfants) > $scope.orgMaxParty){
-							$scope.errorMsg = $scope.currentPageLanguage.org_max_party1+$scope.orgMaxParty+$scope.currentPageLanguage.org_max_party2;
+							$scope.errorMsg = $scope.currentPageLanguage.org_max_party_1+$scope.orgMaxParty+$scope.currentPageLanguage.org_max_party_2;
 							$scope.loading = false; 
 							return;
 						}

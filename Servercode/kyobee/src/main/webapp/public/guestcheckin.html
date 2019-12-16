@@ -58,7 +58,7 @@
 				</div>
 
 				<div class="fontpopup1">
-					<form class="guest_check well-guest" name="addGuestForm">
+					<form class="guest_check well-guest" name="addGuestForm" novalidate>
 
 						<div class="col-md-12">
 
@@ -73,9 +73,17 @@
 								<label class="control-label"></label>
 								<div class="col-md-6 col-sm-4 col-xs-12">
 									<label class="control-label"># {{currentPageLanguage.of_adults}}</label>
-									<input type="number" id="adults" name="adults" min=0 max=100
+									<input type="number" id="adults" name="adults" min="1" max="100"
 										class="form-control col-md-4 col-sm-4 col-xs-12"
 										ng-model="guest.noOfAdults" required placeholder="Adults" />
+										<span ng-messages="addGuestForm.adults.$error"
+											ng-show="(addGuestForm.adults.$invalid && addGuestForm.$submitted)"
+											class="help-block">
+											<h5 ng-message="required">Adults cannot be blank</h5>
+											<h5 ng-message="max">Maximum number of allowed adults is 100</h5>
+											<h5 ng-message="min">Atleast one adult is required to add guest</h5>
+											<h5 ng-message="number">Enter only digits.</h5>
+										</span>
 									<!-- <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
 				        <h5 ng-message="required">Adults cannot be blank</h5>
 				  </span> -->
@@ -84,8 +92,15 @@
 								<div class="col-md-6 col-sm-2 col-xs-12">
 									<label class="control-label"># {{currentPageLanguage.of_children}}</label>
 									<input type="number" id="children" name="children"
-										class="form-control" min=0 max=100
+										class="form-control"  max="100"
 										ng-model="guest.noOfChildren" placeholder="Children" />
+										<span ng-messages="addGuestForm.children.$error"
+											ng-show="(addGuestForm.children.$invalid && addGuestForm.$submitted)"
+											class="help-block">
+											<h5 ng-message="max">Maximum allowed children is 100</h5>
+											
+											<h5 ng-message="number">Enter only digits.</h5>
+										</span>
 									<!-- <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
 				        <h5 ng-message="required">Children cannot be blank</h5>
                   </span>  -->
@@ -169,7 +184,7 @@
 							</div>
 
 							<div class="form-group text-center col-md-6 col-xs-12">
-								<button type="button" class="btn btn-rfw theme-color"
+								<button type="submit" class="btn btn-rfw theme-color"
 									ng-click="updateGuest();">{{currentPageLanguage.save_changes}}</button>
 							</div>
 						</div>

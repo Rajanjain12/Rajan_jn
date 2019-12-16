@@ -441,12 +441,16 @@ KyobeeControllers
 														
 														if ($scope.guestDTO.guestPreferences != null){
 															for (var i = 0; i < $scope.guestDTO.guestPreferences.length; i++) {
-																for (var j = 0; j < $scope.guestPref.length; j++) {
-																	if ($scope.guestDTO.guestPreferences[i].prefValueId == $scope.guestPref[j].prefValueId) {
-																		$scope.guestPref[j].selected = true;
-																		break;
+																if($scope.guestPref!=null)
+																	{
+																		for (var j = 0; j < $scope.guestPref.length; j++) {
+																			if ($scope.guestDTO.guestPreferences[i].prefValueId == $scope.guestPref[j].prefValueId) {
+																				$scope.guestPref[j].selected = true;
+																				break;
+																			}
+																		}
 																	}
-																}
+																
 															}
 														}
 														/*
@@ -463,6 +467,7 @@ KyobeeControllers
 														}*/
 														$scope.guestMarketingPref = angular.copy($scope.marketingPref);
 														if ($scope.guestDTO.guestMarketingPreferences != null){
+															
 															for (var i = 0; i < $scope.guestDTO.guestMarketingPreferences.length; i++) {
 																console.log($scope.guestMarketingPref);
 																if($scope.guestMarketingPref!=null)
@@ -503,12 +508,50 @@ KyobeeControllers
 
 							if ($routeParams.guestId == null
 									|| $routeParams.guestId == undefined) {
-								console.log('Load Add Guest');
-								$scope.initAddGuest();
+								
+								if($scope.userDTO==null)
+								{
+									var promise = $scope.fetchUserDetails();
+									promise.then(function(){
+										$scope.loadDataForPage();
+										$scope.initAddGuest();
+									},function(error){
+										
+									});	
+								 }
+								
+							
+								
 
 								$scope.editMode = false;
 							} else {
 								console.log('Load Update Guest');
+								if($scope.userDTO==null)
+								{
+									/*var promise = $scope.fetchUserDetails();
+									promise.then(function(){
+										if ($scope.marketingPref == null
+												|| $scope.marketingPref == undefined) {
+											$scope.loadMarketingPref();
+										} else {
+											$scope.guestMarketingPref = angular.copy($scope.marketingPref);
+										}
+										console.log("GuestMarketingPRef popup : "+ JSON.stringify($scope.guestMarketingPref));
+										
+										if ($scope.seatPrefs == null || $scope.seatPrefs == undefined) {
+											$scope.loadSeatingPref();
+										} else {
+											$scope.guestPref = angular.copy($scope.seatPrefs);
+										}
+										console.log("GuestPRef popup : "+ JSON.stringify($scope.guestPref));
+										
+										$scope.loadGuestToUpdate($routeParams.guestId);
+										$scope.editMode = true;
+									},function(error){
+										
+									});	*/
+								 }
+								
 								$scope.loadGuestToUpdate($routeParams.guestId);
 								$scope.editMode = true;
 							}
