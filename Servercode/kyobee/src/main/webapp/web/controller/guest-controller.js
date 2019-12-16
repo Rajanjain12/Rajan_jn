@@ -534,31 +534,14 @@ KyobeeControllers
 								console.log('Load Update Guest');
 								if($scope.userDTO==null)
 								{
-									/*var promise = $scope.fetchUserDetails();
+									var promise = $scope.fetchUserDetails();
 									promise.then(function(){
-										if ($scope.marketingPref == null
-												|| $scope.marketingPref == undefined) {
-											$scope.loadMarketingPref();
-										} else {
-											$scope.guestMarketingPref = angular.copy($scope.marketingPref);
-										}
-										console.log("GuestMarketingPRef popup : "+ JSON.stringify($scope.guestMarketingPref));
-										
-										if ($scope.seatPrefs == null || $scope.seatPrefs == undefined) {
-											$scope.loadSeatingPref();
-										} else {
-											$scope.guestPref = angular.copy($scope.seatPrefs);
-										}
-										console.log("GuestPRef popup : "+ JSON.stringify($scope.guestPref));
-										
+										$scope.loadDataForPage();
 										$scope.loadGuestToUpdate($routeParams.guestId);
-										$scope.editMode = true;
 									},function(error){
 										
-									});	*/
+									});	
 								 }
-								
-								$scope.loadGuestToUpdate($routeParams.guestId);
 								$scope.editMode = true;
 							}
 
