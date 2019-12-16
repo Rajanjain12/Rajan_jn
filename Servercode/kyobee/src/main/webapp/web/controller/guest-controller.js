@@ -7,10 +7,10 @@ KyobeeControllers
 						'$location',
 						'$timeout',
 						'$interval',
-						'$routeParams',
+						'$routeParams','$q',
 						'KyobeeService',
 						function($scope, $rootScope, $location, $timeout,
-								$interval, $routeParams, KyobeeService) {
+								$interval, $routeParams,$q, KyobeeService) {
 
 							$rootScope.hideHeader = false;// To hide show
 							// header in
@@ -77,7 +77,7 @@ KyobeeControllers
 								
 							}
 							$scope.loadMarketingPref = function() {
-								
+								var defered=$q.defer();
 								var postBody = {
 
 								};
@@ -98,19 +98,20 @@ KyobeeControllers
 														alert('Error while fetching user details. Please login again or contact support');
 														$scope.logout();
 													}
+													defered.resolve();
 												},
 												function(error) {
+													defered.reject();
 													alert('Error while fetching user details. Please login again or contact support');
 												});
-								console
-										.log("GuestMarketingPRef popup : "
-												+ JSON
-														.stringify($scope.guestMarketingPref));
+								return defered.promise;
+								console.log("GuestMarketingPRef popup : "+ JSON.stringify($scope.guestMarketingPref));
 							};
 						
 							
 								
 							$scope.loadSeatingPref = function() {
+								var defered=$q.defer();
 								var postBody = {
 
 								};
@@ -130,12 +131,14 @@ KyobeeControllers
 														alert('Error while fetching user details. Please login again or contact support');
 														$scope.logout();
 													}
+													defered.resolve();
 												},
 												function(error) {
+													defered.reject();
 													alert('Error while fetching user details. Please login again or contact support');
 												});
-								console.log("GuestPRef popup : "
-										+ JSON.stringify($scope.guestPref));
+								return defered.promise;
+								console.log("GuestPRef popup : "+ JSON.stringify($scope.guestPref));
 							};
 
 								$scope.hideErrorMsg = function() {
@@ -155,7 +158,7 @@ KyobeeControllers
 								// $scope.userDTO.smsRoute != '' && (
 								// $scope.guestDTO.prefType == null ||
 								// $scope.guestDTO.prefType == 'undefined' )){
-								//$("#btnSubmit").attr("disabled", true);
+								$("#btnSubmit").attr("disabled", true);
 								if ($scope.userDTO.smsRoute != null
 										&& $scope.userDTO.smsRoute != ''
 										&& ($scope.guestDTO.prefType == null || $scope.guestDTO.prefType == 'undefined')) {

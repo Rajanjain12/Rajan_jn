@@ -199,6 +199,7 @@ KyobeeControllers.controller('homeCtrl',
 					
 					
 					$scope.loadSeatingPref = function() {
+						var defered=$q.defer();
 						var postBody = {
 
 						};
@@ -209,16 +210,20 @@ KyobeeControllers.controller('homeCtrl',
 									if (data.status == "SUCCESS") {
 										$scope.seatPrefs = data.serviceResult;
 									} else if (data.status == "FAILURE") {
-										alert('Error while fetching user details. Please login again or contact support');
+										alert('Error while fetching seating pref. Please login again or contact support');
 										$scope.logout();
 									}
+									defered.resolve();
 								}, function(error) {
-									alert('Error while fetching user details. Please login again or contact support');
+									defered.reject();
+									alert('Error while fetching seating pref. Please login again or contact support');
 								});
+						return defered.promise;
 					};
 					
 					// change by sunny (27-07-2018)
 					$scope.loadMarketingPref = function() {
+						var defered=$q.defer();
 						var postBody = {
 
 						};
@@ -237,11 +242,13 @@ KyobeeControllers.controller('homeCtrl',
 												alert('Error while fetching user details. Please login again or contact support');
 												$scope.logout();
 											}
+											defered.resolve();
 										},
 										function(error) {
+											defered.reject();
 											alert('Error while fetching user details. Please login again or contact support');
 										});
-					
+								return defered.promise;
 							};
 
 
@@ -297,8 +304,18 @@ KyobeeControllers.controller('homeCtrl',
 					}
 					
 					$scope.loadDataForPage = function(){	
-						$scope.loadSeatingPref();
-						$scope.loadMarketingPref();
+						var promiseseating=$scope.loadSeatingPref();
+						promiseseating.then(function(){
+							var promiseMatch=$scope.loadMarketingPref();
+							promiseMatch.then(function(){
+							console.log("matchpref");
+							},function(error){
+								
+							});	
+						},function(error){
+							
+						});	
+						
 						
 					}
 					
