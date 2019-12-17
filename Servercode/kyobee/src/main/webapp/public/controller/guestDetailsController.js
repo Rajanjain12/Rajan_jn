@@ -179,7 +179,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 										var marketingPref = $scope.guest.marketingPreference.split(',');
 										if(marketingPref != null && marketingPref != 'undefined'){
 											for(var i=0; i<marketingPref.length; i++){
-												$scope.selectedGuestMarketingPref.push(parseInt(marketingPref[i]));
+												$scope.selectedGuestMarketingPref[i]=parseInt(marketingPref[i]);
 											}
 										}
 										console.log($scope.selectedGuestMarketingPref);
@@ -269,6 +269,8 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						
 						$scope.loading = true;
 						$scope.errorMsg = null;
+						$scope.successMsg=null;
+						
 						
 						/*if(!invalid){
 							return;
@@ -366,6 +368,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						}
 						console.log(JSON.stringify(postBody));
 						$scope.successMsg=null;
+						$scope.errorMsg = null;
 						var url = '/kyobee/web/rest/waitlistRestAction/updateGuestInfo';
 						KyobeeUnsecuredService.postService(url, '').query(postBody,
 								function(data) {
@@ -378,7 +381,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					                    $scope.client.send($scope.channel, message);
 							            console.log('Sending from updateguest: ' + message + ' to channel: ' + $scope.channel);
 							            $scope.loading = false;
-							            $scope.successMsg="Your changes save successfully!";
+							            $scope.successMsg=$scope.currentPageLanguage.upd_success;
 							            //setTimeout(function(){ alert(); }, 1000);
 
 										//alert($scope.currentPageLanguage.upd_success);
@@ -393,6 +396,8 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					$scope.deleteGuest = function(){
 						$scope.loading = true;
 						var postBody = $scope.guest;
+						$scope.successMsg=null;
+						$scope.errorMsg = null;
 						var url = '/kyobee/web/rest/waitlistRestAction/deleteGuest';
 						KyobeeUnsecuredService.postService(url, '').query(postBody,
 								function(data) {

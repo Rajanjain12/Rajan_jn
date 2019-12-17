@@ -1841,7 +1841,7 @@ label#points {
 	background-color: #fff;
 }
 
-#resetPopup {
+#resetPopup,#addGuestSuccessPopup {
 	background-color: #fff;
 	top: 30% !important;
 	position: absolute !important;

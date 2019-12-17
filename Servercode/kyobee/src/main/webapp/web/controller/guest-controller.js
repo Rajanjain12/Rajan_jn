@@ -25,6 +25,8 @@ KyobeeControllers
 							$scope.editMode = false;
 							$scope.phnRegex = "^([0-9]{3}|[0-9]{3})[0-9]{3}[0-9]{4}$";
 							$scope.loading = false;
+							$scope.popupTitle="";
+							$scope.popupdescription="";
 							$scope.initAddGuest = function() {
 								$scope.guestDTO = {
 									name : null,
@@ -261,8 +263,11 @@ KyobeeControllers
 													console.log(data);
 													if (data.status == "SUCCESS") {
 														$scope.loading = false;
-														
-														$scope.changeView('home');
+														$scope.popupTitle="Add Guest";
+														$scope.popupdescription="Guest data added successfully.";
+
+														$('#addGuestSuccessPopup').simplePopup();
+														//$scope.changeView('home');
 													} else if (data.status == "FAILURE") {
 														alert('Error while adding guest to waitlist');
 													}
@@ -270,6 +275,12 @@ KyobeeControllers
 												function(error) {
 													alert('Error while adding guest to waitlist');
 												});
+
+							}
+							$scope.closeSuccessPopup=function(){
+								$('#addGuestSuccessPopup').simplePopup().hide();
+								$(".simplePopupBackground").fadeOut("fast");
+								$scope.changeView('home');
 
 							}
 
@@ -382,8 +393,11 @@ KyobeeControllers
 													console.log(data);
 													if (data.status == "SUCCESS") {
 														$scope.loading = false;
-														$scope
-																.changeView('home');
+														
+														$scope.popupTitle="Update Guest";
+														$scope.popupdescription="Guest data updated successfully.";
+
+														$('#addGuestSuccessPopup').simplePopup();
 													} else if (data.status == "FAILURE") {
 														alert('Error while updating guest');
 													}
@@ -473,7 +487,7 @@ KyobeeControllers
 														if ($scope.guestDTO.guestMarketingPreferences != null){
 															
 															for (var i = 0; i < $scope.guestDTO.guestMarketingPreferences.length; i++) {
-																console.log($scope.guestMarketingPref);
+																console.log("Guest marketing pref "+JSON.stringify($scope.guestMarketingPref));
 																if($scope.guestMarketingPref!=null)
 																	{
 																		for (var j = 0; j < $scope.guestMarketingPref.length; j++) {

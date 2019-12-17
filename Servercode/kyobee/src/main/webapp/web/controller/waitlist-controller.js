@@ -472,62 +472,74 @@ KyobeeControllers.controller('waitListCtrl',
 					
 					
 					$scope.searchGridOnHistory = function(searchName) {
-						function pad(value) {
-						    return value < 10 ? '0' + value : value;
+						
+						if(searchName==null)
+						{
+							$scope.loadHistoryPage(1);
+						 }
+						else if(searchName.trim()==''){
+							$scope.loadHistoryPage(1);
 						}
-						
-						function createOffset(date) {
-						    var sign = (date.getTimezoneOffset() > 0) ? "-" : "+";
-						    var offset = Math.abs(date.getTimezoneOffset());
-						    var hours = pad(Math.floor(offset / 60));
-						    var minutes = pad(offset % 60);
-						    return sign + hours + ":" + minutes;
-						}
-						
-						var d = new Date(); 
-						tzName = createOffset(d);
-						/*alert(tzName);*/
-						
-						$scope.pagerRequest = {
-								filters : null,
-								sort : null,
-								sortOrder: null,
-								pageSize : $scope.pageSize,
-								pageNo : 1
-						}
-						
-						console.log($scope.selectedStatus);
-						
+						else
+						{
+							function pad(value) {
+							    return value < 10 ? '0' + value : value;
+							}
+							
+							function createOffset(date) {
+							    var sign = (date.getTimezoneOffset() > 0) ? "-" : "+";
+							    var offset = Math.abs(date.getTimezoneOffset());
+							    var hours = pad(Math.floor(offset / 60));
+							    var minutes = pad(offset % 60);
+							    return sign + hours + ":" + minutes;
+							}
+							
+							var d = new Date(); 
+							tzName = createOffset(d);
+							/*alert(tzName);*/
+							
+							$scope.pagerRequest = {
+									filters : null,
+									sort : null,
+									sortOrder: null,
+									pageSize : $scope.pageSize,
+									pageNo : 1
+							}
+							
+							console.log($scope.selectedStatus);
+							
 
-						
-						var postBody = {
-								orgid : $scope.userDTO.organizationId,
-								statusOption: $scope.selectedStatus,
-								pagerReqParam : $scope.pagerRequest,
-								searchName : $scope.searchName,
-								sliderMinTime : $scope.slider.minTime,
-								sliderMaxTime : $scope.slider.maxTime,
-								clientTimezone : tzName
-						};
-						
-						//$scope.loadOrgMetricks();
-						var url = '/kyobee/web/rest/waitlistRestAction/searchhistoryuser';
-						KyobeeService.getDataService(url, '').query(postBody,
-								function(data) {
-									console.log(data);
-									if (data.status == "SUCCESS") {
-										var paginatedResponse = data.serviceResult;
-										$scope.totalGuestWaitList =  paginatedResponse.records;
-										$scope.userCount = paginatedResponse.totalRecords;
-										$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, $scope.pagerRequest.pageNo, $scope.pageSize);
-										$scope.guestWaitList=$scope.totalGuestWaitList.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
-										console.log($scope.pager);
-									} else if (data.status == "FAILURE") {
-										alert('Error while fetching history');
-									}
-								}, function(error) {
-									alert('Error while fetching wait times.. Please login again or contact support');
-								});
+							
+							var postBody = {
+									orgid : $scope.userDTO.organizationId,
+									statusOption: $scope.selectedStatus,
+									pagerReqParam : $scope.pagerRequest,
+									searchName : $scope.searchName,
+									sliderMinTime : $scope.slider.minTime,
+									sliderMaxTime : $scope.slider.maxTime,
+									clientTimezone : tzName
+							};
+							
+							//$scope.loadOrgMetricks();
+							var url = '/kyobee/web/rest/waitlistRestAction/searchhistoryuser';
+							KyobeeService.getDataService(url, '').query(postBody,
+									function(data) {
+										console.log(data);
+										if (data.status == "SUCCESS") {
+											var paginatedResponse = data.serviceResult;
+											$scope.totalGuestWaitList =  paginatedResponse.records;
+											$scope.userCount = paginatedResponse.totalRecords;
+											$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, $scope.pagerRequest.pageNo, $scope.pageSize);
+											$scope.guestWaitList=$scope.totalGuestWaitList.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
+											console.log($scope.pager);
+										} else if (data.status == "FAILURE") {
+											alert('Error while fetching history');
+										}
+									}, function(error) {
+										alert('Error while fetching wait times.. Please login again or contact support');
+									});
+
+						}
 					};
 					/*$scope.searchGridOnHistory = function(searchName) {
 						alert("in searching");
