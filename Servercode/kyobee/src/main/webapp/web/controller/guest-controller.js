@@ -541,7 +541,11 @@ KyobeeControllers
 									},function(error){
 										
 									});	
-								 }
+								}
+								else
+								{
+									$scope.loadGuestToUpdate($routeParams.guestId);
+								}
 								$scope.editMode = true;
 							}
 
