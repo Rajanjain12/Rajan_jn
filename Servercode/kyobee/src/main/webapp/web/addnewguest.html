@@ -88,9 +88,9 @@
 									ng-class="{'has-error' : (addGuestForm.adults.$invalid && addGuestForm.$submitted) || (addGuestForm.adults.$pristine && addGuestForm.adults.$invalid && addGuestForm.$submitted)}">
 									<div class="col-md-2 col-sm-2 col-xs-12">
 										<input type="number" id="adults" name="adults" min="1" max="100" 
-											class="form-control col-md-4 col-sm-4 col-xs-12" 
+											class="form-control col-md-4 col-sm-4 col-xs-12" ng-pattern="/^[0-9]*$/"
 											ng-model="guestDTO.noOfAdults" required placeholder="Adults" />
-										<span ng-messages="addGuestForm.adults.$error" ng-pattern="/^[0-9]*$/"
+										<span ng-messages="addGuestForm.adults.$error" 
 											ng-show="(addGuestForm.adults.$invalid && addGuestForm.$submitted)"
 											class="help-block">
 											<h5 ng-message="required">Adults cannot be blank</h5>

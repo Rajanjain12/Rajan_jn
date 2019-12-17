@@ -574,7 +574,17 @@ KyobeeControllers
 								}
 								else
 								{
-									if ($scope.marketingPref == null
+									
+									if ($scope.seatPrefs == null || $scope.seatPrefs == undefined || $scope.marketingPref == null
+											|| $scope.marketingPref == undefined) {
+										var promisedata=$scope.loadDataForPage();
+										promisedata.then(function(){
+											$scope.loadGuestToUpdate($routeParams.guestId);
+										},function(error){
+											
+										});			
+									}
+									/*if ($scope.marketingPref == null
 											|| $scope.marketingPref == undefined) {
 										$scope.loadMarketingPref();
 									} else {
@@ -587,7 +597,7 @@ KyobeeControllers
 									} else {
 										$scope.guestPref = angular.copy($scope.seatPrefs);
 									}
-									console.log("GuestPRef popup : "+ JSON.stringify($scope.guestPref));
+									console.log("GuestPRef popup : "+ JSON.stringify($scope.guestPref));*/
 									$scope.loadGuestToUpdate($routeParams.guestId);
 								}
 								$scope.editMode = true;
