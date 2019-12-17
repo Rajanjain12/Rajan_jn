@@ -49,11 +49,22 @@
 				    </li>
 				    <li class="nav-item">
 				        <a class="nav-link" href="text-marketing.html">
-				          <i class="flaticon-message"></i>
+				          <i class="flaticon-email-marketing"></i>
 						  <p>Text Marketing</p>
 				        </a>
 				        <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-				          
+				          <a class="dropdown-item"  href="">
+							<span class="font-12">List Management</span>
+				          </a>
+				          <a class="dropdown-item"  href="">
+							<span class="font-12">Campaign Text Management</span>
+				          </a>
+				          <a class="dropdown-item"  href="">
+							<span class="font-12">Send SMS</span>
+				          </a>
+				          <a class="dropdown-item"  href="">
+							<span class="font-12">Dashboard</span>
+				          </a>
 				        </div> -->
 				    </li>
 				    <li class="nav-item">
@@ -90,7 +101,7 @@
 				    </li>
 				    <li class="nav-item">
 				        <a class="nav-link" href="text-marketing.html">
-				          <i class="flaticon-message"></i>
+				          <i class="flaticon-email-marketing"></i>
 						  <p>Text Marketing</p>
 				        </a>
 				    </li>
@@ -130,7 +141,7 @@
 							<a href="profile.html">
 								<div class="icon-border-right">
 									<div class="icon-circle">
-										<i class="flaticon-workers"></i>
+										<i class="flaticon-work-team grey"></i>
 									</div>
 								</div>
 								<span class="font-12">Organization Profile</span>
@@ -163,7 +174,7 @@
 			<main id="page-content-wrapper" role="main">
 				<section class="container pt-lg-3 pt-md-3 pt-sm-4 pt-4 fade-in">
 					<div class="row">
-						<div class="col-lg-12">
+						<div class="col-lg-10 m-auto">
 							<form>
 								<div class="row p-3">
 									<div class="col-lg-12 mb-4">
@@ -175,6 +186,11 @@
 												<p class="label-info" style="display: none;">Change Image</p>
 											</label>
 										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-12">
+										<h5 class="font-weight-semibold pb-4">Administrator Info</h5>
 									</div>
 									<div class="col-lg-6">
 										<div class="form-group mt-0">
@@ -194,6 +210,26 @@
 											<label for="input" class="control-label">User Name</label><i class="bar"></i>
 										</div>
 									</div>
+									<div class="col-lg-6 col-sm-6 gender-field">
+										<label class="gender-label mb-0">Gender</label>
+										<div class="form-radio m-0">
+										    <div class="radio d-inline-block mr-4 mt-2 mb-0">
+										        <label>
+										          <input type="radio" name="gender"/><i class="helper"></i>Male
+										        </label>
+										    </div>
+										    <div class="radio d-inline-block mr-4 mt-2 mb-0">
+										        <label>
+										          <input type="radio" name="gender"/><i class="helper"></i>Female
+										        </label>
+										    </div>
+										    <div class="radio d-inline-block mt-2 mb-0">
+										        <label>
+										          <input type="radio" name="gender"/><i class="helper"></i>Other
+										        </label>
+										    </div>
+										</div>
+									</div>
 									<div class="col-lg-6">
 										<div class="form-group mt-0">
 											<input type="email" required="required"/>
@@ -202,14 +238,8 @@
 									</div>
 									<div class="col-lg-6">
 										<div class="form-group mt-0">
-											<input type="text" required="required"/>
-											<label for="input" class="control-label">Store Name</label><i class="bar"></i>
-										</div>
-									</div>
-									<div class="col-lg-6">
-										<div class="form-group mt-0">
 											<input type="text" id="phone" required="required"/>
-											<label for="input" class="control-label">Mobile No</label><i class="bar"></i>
+											<label for="input" class="control-label">Phone Number</label><i class="bar"></i>
 										</div>
 									</div>
 									<div class="col-lg-12">
@@ -224,11 +254,40 @@
 											<label for="input" class="control-label">Password</label><i class="bar"></i>
 											<a href="" class="font-color pass-link font-weight-semibold" data-toggle="modal" data-target="#passwordChange" >Change Password</a>
 										</div>
-									</div> 
-
-									<div class="col-lg-12 text-center">
-										<button type="button" class="btn btn-theme background-color shadow"><span>Save</span></button>
 									</div>
+								</div>
+								<div class="row">
+									<div class="col-12">
+										<h5 class="font-weight-semibold pb-4">Store Info</h5>
+									</div>
+									<div class="col-lg-6">
+										<div class="form-group mt-0">
+											<input type="text" required="required"/>
+											<label for="input" class="control-label">Store Name</label><i class="bar"></i>
+										</div>
+									</div>
+									<div class="col-lg-6 col-sm-6">
+										<div class="form-group mt-0">
+											<input type="text" id="storeCapacity" required="required"/>
+											<label for="input" class="control-label">Store Capacity (# of customers)</label><i class="bar"></i>
+										</div>
+									</div>
+									<div class="col-lg-6 col-sm-6">
+										<div class="form-group mt-0">
+											<input type="text" class="phone" id="storePhone" required="required"/>
+											<label for="input" class="control-label">Store Phone Number</label><i class="bar"></i>
+										</div>
+									</div>
+									<div class="col-lg-6 col-sm-6">
+										<div class="form-group mt-0">
+											<input type="text" id="storeEmp" required="required"/>
+											<label for="input" class="control-label">Number of Employees</label><i class="bar"></i>
+										</div>
+									</div>
+								</div>	
+								<div class="col-lg-12 text-center mt-3 mb-2">
+									<button type="button" class="btn btn-theme background-color shadow"><span>Save</span></button>
+								</div>
 								</div>
 							</form>
 						</div>

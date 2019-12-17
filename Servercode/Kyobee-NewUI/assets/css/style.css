@@ -60,6 +60,8 @@ header {
 
 #navbar-menu ul li .dropdown-menu.show {
   display: none; }
+#navbar-menu ul li a {
+  padding: 5px 24px; }
 
 /*common color code*/
 /* Font Style Variable*/
@@ -568,6 +570,13 @@ fieldset {
   background: #d9534f;
   left: 0;
   width: 100%; }
+
+.gender-label {
+  color: #b3b3b3; }
+
+.gender-field {
+  position: relative;
+  top: -12px; }
 
 .fix-header {
   position: fixed;

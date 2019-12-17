@@ -36,20 +36,22 @@
 .flaticon-rubbish-bin:before { content: "\f105";color: #e21b1b }
 .flaticon-refresh:before { content: "\f106"; }
 .big-font .flaticon-refresh:before{font-size: 40px}
-
-
 .flaticon-funnel:before { content: "\f107";position: relative;right: 0;top: -5px; }
 .flaticon-credit-card:before { content: "\f108";font-size: 16px }
 .flaticon-settings:before { content: "\f109"; }
 .flaticon-empire-state-building:before { content: "\f10a"; }
 .flaticon-user:before { content: "\f10b"; }
-.flaticon-message:before { content: "\f10c";font-size: 26px; }
-.flaticon-black-male-user-symbol:before { content: "\f10d"; }
-.flaticon-unlocked:before { content: "\f10e";font-size: 14px; }
-.flaticon-padlock:before { content: "\f10f";font-size: 14px; }
-.flaticon-chat:before { content: "\f110";color: #ff9f00 }
-.flaticon-info-button:before { content: "\f111";font-size: 14px }
-.flaticon-file:before { content: "\f112";color: #33a2f3 }
+.flaticon-black-male-user-symbol:before { content: "\f10c"; }
+.flaticon-unlocked:before { content: "\f10d";font-size: 14px; }
+.flaticon-padlock:before { content: "\f10e";font-size: 14px; }
+.flaticon-chat:before { content: "\f10f";color: #ff9f00 }
+.flaticon-info-button:before { content: "\f110";font-size: 14px }
+.flaticon-file:before { content: "\f111";color: #33a2f3 }
 .flaticon-file-grey:before{ content: "\f112";color: #ababab }
-.flaticon-workers:before { content: "\f113";font-size: 28px; }
-.flaticon-receipt:before { content: "\f114"; }
+.flaticon-receipt:before { content: "\f112"; }
+.flaticon-writing:before { content: "\f113"; }
+.flaticon-dashboard:before { content: "\f114"; }
+.flaticon-send-mail:before { content: "\f115"; }
+.flaticon-email-marketing:before { content: "\f116";font-size: 23px }
+.flaticon-shopping-list:before { content: "\f117"; }
+.flaticon-work-team:before { content: "\f118";font-size: 28px }

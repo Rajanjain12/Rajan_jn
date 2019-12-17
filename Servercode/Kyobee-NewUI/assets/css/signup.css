@@ -3,13 +3,6 @@
 /* Shadow to Container Box*/
 /* Sidebar Variable */
 /*profile*/
-.gender-label {
-  color: #b3b3b3; }
-
-.gender-field {
-  position: relative;
-  top: -12px; }
-
 .captcha-size {
   transform: scale(0.77);
   -webkit-transform: scale(0.77);
