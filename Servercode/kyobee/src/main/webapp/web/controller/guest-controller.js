@@ -269,12 +269,12 @@ KyobeeControllers
 													console.log(data);
 													if (data.status == "SUCCESS") {
 														$scope.loading = false;
-														$scope.successMsg="Guest information added successfully.";
+														//$scope.successMsg="Guest information added successfully.";
 														/*$scope.popupTitle="Add Guest";
 														$scope.popupdescription="Guest information added successfully.";
 
 														$('#addGuestSuccessPopup').simplePopup();*/
-														//$scope.changeView('home');
+														$scope.changeView('home');
 													} else if (data.status == "FAILURE") {
 														alert('Error while adding guest to waitlist');
 													}
@@ -584,6 +584,10 @@ KyobeeControllers
 											
 										});			
 									}
+									else
+										{
+										$scope.loadGuestToUpdate($routeParams.guestId);
+										}
 									/*if ($scope.marketingPref == null
 											|| $scope.marketingPref == undefined) {
 										$scope.loadMarketingPref();
@@ -598,7 +602,7 @@ KyobeeControllers
 										$scope.guestPref = angular.copy($scope.seatPrefs);
 									}
 									console.log("GuestPRef popup : "+ JSON.stringify($scope.guestPref));*/
-									$scope.loadGuestToUpdate($routeParams.guestId);
+									//
 								}
 								$scope.editMode = true;
 							}
