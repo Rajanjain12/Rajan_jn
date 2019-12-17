@@ -22,6 +22,7 @@ KyobeeControllers
 							// sunny
 							// (27-07-2018)
 							$scope.errorMsg = null;
+							$scope.successMsg=null;
 							$scope.editMode = false;
 							$scope.phnRegex = "^([0-9]{3}|[0-9]{3})[0-9]{3}[0-9]{4}$";
 							$scope.loading = false;
@@ -147,6 +148,10 @@ KyobeeControllers
 								$scope.errorMsg = null;
 							}
 
+								$scope.hideSuccessMsg = function() {
+									$scope.successMsg = null;
+									$scope.changeView('home');
+								}
 							$scope.addGuest = function(invalid) {
 								$scope.loading = true;
 								$scope.errorMsg = null;
@@ -160,7 +165,7 @@ KyobeeControllers
 								// $scope.userDTO.smsRoute != '' && (
 								// $scope.guestDTO.prefType == null ||
 								// $scope.guestDTO.prefType == 'undefined' )){
-								$("#btnSubmit").attr("disabled", true);
+								
 								if ($scope.userDTO.smsRoute != null
 										&& $scope.userDTO.smsRoute != ''
 										&& ($scope.guestDTO.prefType == null || $scope.guestDTO.prefType == 'undefined')) {
@@ -255,6 +260,7 @@ KyobeeControllers
 								var postBody = $scope.guestDTO;
 								$scope.guestDTO.organizationID = $scope.userDTO.organizationId;
 								var url = '/kyobee/web/rest/waitlistRestAction/addGuest';
+								$("#btnSubmit").attr("disabled", true);
 								KyobeeService
 										.postDataService(url, '')
 										.query(
@@ -263,10 +269,11 @@ KyobeeControllers
 													console.log(data);
 													if (data.status == "SUCCESS") {
 														$scope.loading = false;
-														$scope.popupTitle="Add Guest";
+														$scope.successMsg="Guest information added successfully.";
+														/*$scope.popupTitle="Add Guest";
 														$scope.popupdescription="Guest information added successfully.";
 
-														$('#addGuestSuccessPopup').simplePopup();
+														$('#addGuestSuccessPopup').simplePopup();*/
 														//$scope.changeView('home');
 													} else if (data.status == "FAILURE") {
 														alert('Error while adding guest to waitlist');
@@ -292,7 +299,7 @@ KyobeeControllers
 									$scope.loading = false;
 									return;
 								}
-								$("#btnUpdate").attr("disabled", true);
+								
 								// if($scope.guestDTO.prefType == null ||
 								// $scope.guestDTO.prefType == 'undefined'){
 								if ($scope.userDTO.smsRoute != null
@@ -383,7 +390,7 @@ KyobeeControllers
 								console.log($scope.guestDTO);
 
 								var postBody = $scope.guestDTO;
-
+								$("#btnUpdate").attr("disabled", true);
 								var url = '/kyobee/web/rest/waitlistRestAction/updateGuestInfo';
 								KyobeeService
 										.postDataService(url, '')
@@ -394,10 +401,10 @@ KyobeeControllers
 													if (data.status == "SUCCESS") {
 														$scope.loading = false;
 														
-														$scope.popupTitle="Update Guest";
+														/*$scope.popupTitle="Update Guest";
 														$scope.popupdescription="Guest information updated successfully.";
 
-														$('#addGuestSuccessPopup').simplePopup();
+														$('#addGuestSuccessPopup').simplePopup();*/
 													} else if (data.status == "FAILURE") {
 														alert('Error while updating guest');
 													}

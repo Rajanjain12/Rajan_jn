@@ -265,16 +265,17 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					};
 					
 					
-					$scope.updateGuest = function(){
+					$scope.updateGuest = function(invalid){
 						
 						$scope.loading = true;
 						$scope.errorMsg = null;
 						$scope.successMsg=null;
 						
 						
-						/*if(!invalid){
+						if(invalid){
+							$scope.loading = false;
 							return;
-						}*/
+						}
 						
 						if($scope.guest.name == null || $scope.guest.name == 'undefined' || $scope.guest.name == ''){
 							$scope.errorMsg = $scope.currentPageLanguage.enter_name_error;
