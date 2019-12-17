@@ -92,13 +92,13 @@
 								<div class="col-md-6 col-sm-2 col-xs-12">
 									<label class="control-label"># {{currentPageLanguage.of_children}}</label>
 									<input type="number" id="children" name="children"
-										class="form-control"  max="100"
+										class="form-control" min="0" max="100"
 										ng-model="guest.noOfChildren" placeholder="Children" />
 										<span ng-messages="addGuestForm.children.$error"
 											ng-show="(addGuestForm.children.$invalid && addGuestForm.$submitted)"
 											class="help-block">
 											<h5 ng-message="max">Maximum allowed children is 100</h5>
-											
+											<h5 ng-message="min">Number of children can not be in minus</h5>
 											<h5 ng-message="number">Enter only digits.</h5>
 										</span>
 									<!-- <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">

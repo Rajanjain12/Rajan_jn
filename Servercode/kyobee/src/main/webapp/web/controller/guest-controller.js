@@ -558,6 +558,20 @@ KyobeeControllers
 								}
 								else
 								{
+									if ($scope.marketingPref == null
+											|| $scope.marketingPref == undefined) {
+										$scope.loadMarketingPref();
+									} else {
+										$scope.guestMarketingPref = angular.copy($scope.marketingPref);
+									}
+									console.log("GuestMarketingPRef popup : "+ JSON.stringify($scope.guestMarketingPref));
+									
+									if ($scope.seatPrefs == null || $scope.seatPrefs == undefined) {
+										$scope.loadSeatingPref();
+									} else {
+										$scope.guestPref = angular.copy($scope.seatPrefs);
+									}
+									console.log("GuestPRef popup : "+ JSON.stringify($scope.guestPref));
 									$scope.loadGuestToUpdate($routeParams.guestId);
 								}
 								$scope.editMode = true;
