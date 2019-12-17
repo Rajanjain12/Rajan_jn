@@ -304,19 +304,21 @@ KyobeeControllers.controller('homeCtrl',
 					}
 					
 					$scope.loadDataForPage = function(){	
+						var defered =$q.defer();
 						var promiseseating=$scope.loadSeatingPref();
 						promiseseating.then(function(){
 							var promiseMatch=$scope.loadMarketingPref();
 							promiseMatch.then(function(){
 							console.log("matchpref");
+							defered.resolve();
 							},function(error){
-								
+								defered.reject();
 							});	
 						},function(error){
-							
+							defered.reject();
 						});	
 						
-						
+						return defered.promise;
 					}
 					
 					$scope.getArrayFromNum = function(num){
@@ -341,7 +343,12 @@ KyobeeControllers.controller('homeCtrl',
 					
 					var promise = $scope.fetchUserDetails();
 					promise.then(function(){
-						$scope.loadDataForPage();
+						var promisedata=$scope.loadDataForPage();
+						promisedata.then(function(){
+							console.log("data fetched successfully");
+						},function(error){
+							
+						})
 					},function(error){
 						
 					});	

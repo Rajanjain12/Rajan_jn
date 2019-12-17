@@ -264,7 +264,7 @@ KyobeeControllers
 													if (data.status == "SUCCESS") {
 														$scope.loading = false;
 														$scope.popupTitle="Add Guest";
-														$scope.popupdescription="Guest data added successfully.";
+														$scope.popupdescription="Guest information added successfully.";
 
 														$('#addGuestSuccessPopup').simplePopup();
 														//$scope.changeView('home');
@@ -395,7 +395,7 @@ KyobeeControllers
 														$scope.loading = false;
 														
 														$scope.popupTitle="Update Guest";
-														$scope.popupdescription="Guest data updated successfully.";
+														$scope.popupdescription="Guest information updated successfully.";
 
 														$('#addGuestSuccessPopup').simplePopup();
 													} else if (data.status == "FAILURE") {
@@ -531,8 +531,13 @@ KyobeeControllers
 								{
 									var promise = $scope.fetchUserDetails();
 									promise.then(function(){
-										$scope.loadDataForPage();
-										$scope.initAddGuest();
+										var promisedata=$scope.loadDataForPage();
+										promisedata.then(function(){
+											$scope.initAddGuest();
+										},function(error){
+											
+										});
+										
 									},function(error){
 										
 									});	
@@ -550,8 +555,12 @@ KyobeeControllers
 								{
 									var promise = $scope.fetchUserDetails();
 									promise.then(function(){
-										$scope.loadDataForPage();
-										$scope.loadGuestToUpdate($routeParams.guestId);
+										var promisedata=$scope.loadDataForPage();
+										promisedata.then(function(){
+											$scope.loadGuestToUpdate($routeParams.guestId);
+										},function(error){
+											
+										});			
 									},function(error){
 										
 									});	

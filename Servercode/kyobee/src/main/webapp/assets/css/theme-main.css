@@ -1832,6 +1832,9 @@ label#points {
 	top: 0 !important;
 	/* background: #fff; */
 }
+.simplePopup.hide-close .close-theme{
+	display: none;
+}
 
 #showpopup {
 	background-color: #fff;
