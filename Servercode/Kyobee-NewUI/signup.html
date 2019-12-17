@@ -30,42 +30,57 @@
 				<p class="text-center pb-3">Let's get started</p>
 			</div>
 			<div class="normal-box-container mb-3">
+				<h5 class="font-weight-semibold p-2">Administrator Info</h5>
 				<form>
-					<div class="row p-3">
-						<div class="col-lg-6">
+					<div class="row pt-3 px-3">
+						<div class="col-lg-6 col-sm-6">
 							<div class="form-group mt-0">
 								<input type="text" required="required">
 								<label for="input" class="control-label">First Name</label><i class="bar"></i>
 							</div>
 						</div>
-						<div class="col-lg-6">
+						<div class="col-lg-6 col-sm-6">
 							<div class="form-group mt-0">
 								<input type="text" required="required">
 								<label for="input" class="control-label">Last Name</label><i class="bar"></i>
 							</div>
 						</div>
-						<div class="col-lg-6">
+						<div class="col-lg-6 col-sm-6">
 							<div class="form-group mt-0">
 								<input type="text" required="required"/>
 								<label for="input" class="control-label">User Name</label><i class="bar"></i>
 							</div>
 						</div>
-						<div class="col-lg-6">
+						<div class="col-lg-6 col-sm-6 gender-field">
+							<label class="gender-label mb-0">Gender</label>
+							<div class="form-radio m-0">
+							    <div class="radio d-inline-block mr-4 mt-2 mb-0">
+							        <label>
+							          <input type="radio" name="gender"/><i class="helper"></i>Male
+							        </label>
+							    </div>
+							    <div class="radio d-inline-block mr-4 mt-2 mb-0">
+							        <label>
+							          <input type="radio" name="gender"/><i class="helper"></i>Female
+							        </label>
+							    </div>
+							    <div class="radio d-inline-block mt-2 mb-0">
+							        <label>
+							          <input type="radio" name="gender"/><i class="helper"></i>Other
+							        </label>
+							    </div>
+							</div>
+						</div>
+						<div class="col-lg-6 col-sm-6">
 							<div class="form-group mt-0">
 								<input type="email" required="required"/>
 								<label for="input" class="control-label">Email</label><i class="bar"></i>
 							</div>
 						</div>
-						<div class="col-lg-6">
+						<div class="col-lg-6 col-sm-6">
 							<div class="form-group mt-0">
-								<input type="text" required="required"/>
-								<label for="input" class="control-label">Store Name</label><i class="bar"></i>
-							</div>
-						</div>
-						<div class="col-lg-6">
-							<div class="form-group mt-0">
-								<input type="text" id="phone" required="required"/>
-								<label for="input" class="control-label">Mobile No</label><i class="bar"></i>
+								<input type="text" class="phone" id="phone" required="required"/>
+								<label for="input" class="control-label">Phone Number</label><i class="bar"></i>
 							</div>
 						</div>
 						<div class="col-lg-12">
@@ -74,7 +89,7 @@
 								<label for="input" class="control-label">Address</label><i class="bar"></i>
 							</div>
 						</div>
-						<div class="col-lg-6">
+						<div class="col-lg-6 col-sm-6">
 							<div class="form-group mt-0">
 								<input type="password" id="pwd" required="required"/>
 								<label for="input" class="control-label">Password</label><i class="bar"></i>
@@ -83,14 +98,15 @@
 								<span class="password-tooltip" id="showResponsive" data-toggle="tooltip" data-placement="left" tooltip-title="Password should contain one upercase, one special character and length should be between 8-12."><i class="flaticon-info-button grey"></i></span>
 							</div>			
 						</div>
-						<div class="col-lg-6">
+						<div class="col-lg-6 col-sm-6">
 							<div class="form-group mt-0">
 								<input type="password" id="repwd" required="required"/>
 								<label for="input" class="control-label">Re-type Password</label><i class="bar"></i>
 								<!-- <span toggle="#repwd" class="font-color flaticon-eye-1 eye-icon toggle-password font-weight-semibold"></span> -->
 							</div>
 						</div>
-						<div class="col-lg-12">
+					</div>
+						<!-- <div class="col-lg-12">
 							<div class="checkbox mt-0">
 								<label>
 									<input type="checkbox"/><i class="helper"></i> I Agree to the <span class="font-weight-semibold">Terms and Conditions.</span>
@@ -103,11 +119,37 @@
                         		<input class="form-control d-none" data-recaptcha="true" required data-error="Please complete the Captcha">
                         		<div class="help-block with-errors"></div>
 							</div>
+						</div> -->
+					<div><h5 class="font-weight-semibold px-2 pb-4">Store Info</h5></div>
+					<div class="row pb-3 px-3">
+						<div class="col-lg-6 col-sm-6">
+							<div class="form-group mt-0">
+								<input type="text" id="storeName" required="required"/>
+								<label for="input" class="control-label">Store Name</label><i class="bar"></i>
+							</div>
 						</div>
-						<div class="col-lg-12 text-center">
-							<button type="button" class="btn btn-theme background-color shadow" onclick="window.open('signup-verification.html','_self')"><span>Sign Up</span></button>
+						<div class="col-lg-6 col-sm-6">
+							<div class="form-group mt-0">
+								<input type="text" id="storeCapacity" required="required"/>
+								<label for="input" class="control-label">Store Capacity (# of customers)</label><i class="bar"></i>
+							</div>
+						</div>
+						<div class="col-lg-6 col-sm-6">
+							<div class="form-group mt-0">
+								<input type="text" class="phone" id="storePhone" required="required"/>
+								<label for="input" class="control-label">Store Phone Number</label><i class="bar"></i>
+							</div>
+						</div>
+						<div class="col-lg-6 col-sm-6">
+							<div class="form-group mt-0">
+								<input type="text" id="storeEmp" required="required"/>
+								<label for="input" class="control-label">Number of Employees</label><i class="bar"></i>
+							</div>
 						</div>
 					</div>
+					<div class="col-lg-12 text-center pb-4">
+						<button type="button" class="btn btn-theme background-color shadow" onclick="window.open('signup-plan-and-pricing.html','_self')"><span>Next</span></button>
+					</div>		
 				</form>
 				<div class="text-center">
 					<p>Already have an account? <a href="login.html" class="font-color font-weight-semibold">Sign In</a></p>
