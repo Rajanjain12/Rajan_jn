@@ -39,7 +39,7 @@
 								<button type="button" class="close" ng-click="hideErrorMsg();">&times;</button>
 								<strong>Error ! </strong>{{errorMsg}}
 							</div>
-							<div class="alert alert-danger" role="alert"
+							<div class="alert alert-success" role="alert"
 								ng-show="successMsg != null && successMsg != ''">
 								<button type="button" class="close" ng-click="hideSuccessMsg();">&times;</button>
 								{{successMsg}}
@@ -93,10 +93,10 @@
 										<span ng-messages="addGuestForm.adults.$error" 
 											ng-show="(addGuestForm.adults.$invalid && addGuestForm.$submitted)"
 											class="help-block">
-											<h5 ng-message="required">Adults cannot be blank</h5>
-											<h5 ng-message="max">Maximum allowed adults is 100</h5>
-											<h5 ng-message="pattern">Number of children can not be in minus</h5>
-											<h5 ng-message="min">Atleast one adult is required to add guest</h5>
+											<h5 ng-message="required">Adults cannot be blank.</h5>
+											<h5 ng-message="max">Maximum number of allowed adults is 100.</h5>
+											<h5 ng-message="pattern">Number of adults can not be in minus.</h5>
+											<h5 ng-message="min">Atleast one adult is required to add guest.</h5>
 											
 											<h5 ng-message="number">Enter only digits.</h5>
 										</span>
@@ -111,9 +111,9 @@
 											<span ng-messages="addGuestForm.children.$error"
 											ng-show="(addGuestForm.children.$invalid && addGuestForm.$submitted)"
 											class="help-block">
-											<h5 ng-message="max">Maximum allowed adults is 100</h5>
+											<h5 ng-message="max">Maximum number of allowed children is 100.</h5>
 											<!-- <h5 ng-message="min">Number of children can not be in minus</h5> -->
-											<h5 ng-message="pattern">Number of children can not be in minus</h5>
+											<h5 ng-message="pattern">Number of children can not be in minus.</h5>
 											<h5 ng-message="number">Enter only digits.</h5>
 										</span>
 										<!-- <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">

@@ -273,6 +273,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						
 						
 						if(invalid){
+							$scope.errorMsg=$scope.currentPageLanguage.upd_error;
 							$scope.loading = false;
 							return;
 						}

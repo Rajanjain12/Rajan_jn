@@ -155,6 +155,7 @@ KyobeeControllers
 							$scope.addGuest = function(invalid) {
 								$scope.loading = true;
 								$scope.errorMsg = null;
+								$scope.successMsg=null;
 								
 								if (invalid) {
 									$scope.loading = false;
@@ -269,12 +270,16 @@ KyobeeControllers
 													console.log(data);
 													if (data.status == "SUCCESS") {
 														$scope.loading = false;
-														//$scope.successMsg="Guest information added successfully.";
+														$scope.successMsg="Guest information added successfully.";
+														setTimeout(function(){
+														$scope.successMsg=null;
+														$scope.changeView('home'); 
+														}, 3000);
 														/*$scope.popupTitle="Add Guest";
 														$scope.popupdescription="Guest information added successfully.";
 
 														$('#addGuestSuccessPopup').simplePopup();*/
-														$scope.changeView('home');
+														
 													} else if (data.status == "FAILURE") {
 														alert('Error while adding guest to waitlist');
 													}
@@ -294,6 +299,7 @@ KyobeeControllers
 							$scope.updateGuest = function(invalid) {
 								$scope.loading = true;
 								$scope.errorMsg = null;
+								$scope.successMsg=null;
 								
 								if (invalid) {
 									$scope.loading = false;
@@ -400,7 +406,11 @@ KyobeeControllers
 													console.log(data);
 													if (data.status == "SUCCESS") {
 														$scope.loading = false;
-														
+														$scope.successMsg="Guest information updated successfully.";
+														setTimeout(function(){
+														$scope.successMsg=null;
+														$scope.changeView('home'); 
+														}, 3000);
 														/*$scope.popupTitle="Update Guest";
 														$scope.popupdescription="Guest information updated successfully.";
 
