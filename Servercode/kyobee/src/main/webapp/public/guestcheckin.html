@@ -68,10 +68,10 @@
 									ng-model="guest.name" />
 							</div>
 
-							<div class="form-group col-md-6 col-sm-6 col-xs-12 margin-top-20">
+							<div class="form-group col-md-3 col-sm-3 col-xs-12 margin-top-20" ng-class="{'has-error' : (addGuestForm.adults.$invalid && addGuestForm.$submitted) || (addGuestForm.adults.$pristine && addGuestForm.adults.$invalid && addGuestForm.$submitted)}">
 
 								<label class="control-label"></label>
-								<div class="col-md-6 col-sm-4 col-xs-12">
+								<div class="col-md-12 col-sm-12 col-xs-12">
 									<label class="control-label"># {{currentPageLanguage.of_adults}}</label>
 									<input type="number" id="adults" name="adults" min="1" max="100"
 										class="form-control col-md-4 col-sm-4 col-xs-12" ng-pattern="/^[0-9]*$/"
@@ -89,8 +89,10 @@
 				        <h5 ng-message="required">Adults cannot be blank</h5>
 				  </span> -->
 								</div>
-
-								<div class="col-md-6 col-sm-2 col-xs-12">
+								</div>
+								
+								<div class="form-group col-md-3 col-sm-3 col-xs-12 margin-top-20" ng-class="{'has-error' : (addGuestForm.children.$invalid && addGuestForm.$submitted) || (addGuestForm.children.$pristine && addGuestForm.children.$invalid && addGuestForm.$submitted)}">
+								<div class="col-md-12 col-sm-12 col-xs-12">
 									<label class="control-label"># {{currentPageLanguage.of_children}}</label>
 									<input type="number" id="children" name="children"
 										class="form-control" ng-pattern="/^[0-9]*$/" max="100"

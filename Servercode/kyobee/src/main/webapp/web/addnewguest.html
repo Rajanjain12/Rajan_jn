@@ -5,6 +5,11 @@
  -->
 	<div class="container">
 		<div class="col-md-10 marginauto">
+		<div class="alert alert-success" style="margin: 10px 0" role="alert"
+								ng-show="successMsg != null && successMsg != ''">
+								<button type="button" class="close" ng-click="hideSuccessMsg();">&times;</button>
+								{{successMsg}}
+							</div>
 			<div class="theme-color">
 
 				<h1 class="text-center addnew-color" ng-show="!editMode">
@@ -39,11 +44,7 @@
 								<button type="button" class="close" ng-click="hideErrorMsg();">&times;</button>
 								<strong>Error ! </strong>{{errorMsg}}
 							</div>
-							<div class="alert alert-success" role="alert"
-								ng-show="successMsg != null && successMsg != ''">
-								<button type="button" class="close" ng-click="hideSuccessMsg();">&times;</button>
-								{{successMsg}}
-							</div>
+							
 
 							<div class="form-group"
 								ng-class="{'has-error' : (addGuestForm.name.$invalid && addGuestForm.$submitted) || (addGuestForm.name.$pristine && addGuestForm.name.$invalid && addGuestForm.$submitted)}">
