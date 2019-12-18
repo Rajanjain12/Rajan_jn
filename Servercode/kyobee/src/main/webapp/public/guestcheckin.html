@@ -62,10 +62,17 @@
 
 						<div class="col-md-12">
 
-							<div class="form-group col-md-6 col-sm-6 col-xs-12 margin-top-20">
+							<div  ng-class="{'has-error' : (addGuestForm.gname.$invalid && addGuestForm.$submitted) || (addGuestForm.gname.$pristine && addGuestForm.gname.$invalid && addGuestForm.$submitted)}" class="form-group col-md-6 col-sm-6 col-xs-12 margin-top-20">
 								<label class="control-label">{{currentPageLanguage.name}}</label>
-								<input type="text" name="field1" class="form-control"
+								<input type="text" name="gname" class="form-control" ng-maxlength="254" maxlength="255" ng-pattern="/^[A-Za-z]+[[A-Za-z0-9 ]*$/" required
 									ng-model="guest.name" />
+									<span ng-messages="addGuestForm.gname.$error"
+									ng-show="(addGuestForm.gname.$invalid && addGuestForm.$submitted)"
+									class="help-block">
+									<h5 ng-message="required">Name cannot be blank</h5>
+									<h5 ng-message="pattern">The name should not contain numbers only or special characters.</h5>
+									<h5 ng-message="maxlength">You have reached your maximum limit of characters allowed.</h5>
+								</span>
 							</div>
 
 							<div class="form-group col-md-3 col-sm-3 col-xs-12 margin-top-20" ng-class="{'has-error' : (addGuestForm.adults.$invalid && addGuestForm.$submitted) || (addGuestForm.adults.$pristine && addGuestForm.adults.$invalid && addGuestForm.$submitted)}">
