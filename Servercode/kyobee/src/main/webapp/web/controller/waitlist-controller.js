@@ -42,7 +42,7 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.pageSize = 1000;
 					
 					
-					$scope.showHistory = false;
+					//$scope.showHistory = false;
 					
 					$scope.toggleColumnShowHide = false;
 					
@@ -50,8 +50,7 @@ KyobeeControllers.controller('waitListCtrl',
 					/*$scope.clientBase = $scope.userDTO.clientBase;
 					alert($scope.clientBase);*/
 					
-					$scope.statusOptions=["All","Not Present","Incomplete"];
-					$scope.selectedStatus=$scope.statusOptions[0];
+					
 					
 					$scope.userCount = null;  /*for solving footer issue (krupali 17/07/2017)*/
 					$scope.countMessage1 = 'Max Character limit 225';
@@ -81,17 +80,7 @@ KyobeeControllers.controller('waitListCtrl',
 					
 					/*$scope.offset = new date().getTimezoneOffset();*/
 					/*alert($scope.offset);*/
-					$scope.slider = {
-							id : 'timeSlider',
-							range:{
-								min:00,
-								max:24
-							},
-							minTime:9,
-							maxTime:15,
-							/*showValues: "true",*/
-							
-					};
+				
 			
 					
 					$scope.showToggleColumn = function(){
@@ -104,14 +93,14 @@ KyobeeControllers.controller('waitListCtrl',
 					}
 					
 					$scope.toggleShowHistory = function(){
-						if($scope.showHistory){
-							$scope.showHistory = false;
+						if($scope.$parent.showHistory){
+							$scope.$parent.showHistory = false;
 							$scope.pager = {};
 							// load normal waitlist
 							$scope.loadWaitListPage($scope.$parent.pageNo);
 						}else {
-							$scope.showHistory = true;
-							$scope.selectedStatus=$scope.statusOptions[0];
+							$scope.$parent.showHistory = true;
+							$scope.$parent.selectedStatus=$scope.$parent.statusOptions[0];
 							$scope.loadHistoryPage($scope.$parent.pageNoHistory);
 							// Load History
 						}						
@@ -331,6 +320,10 @@ KyobeeControllers.controller('waitListCtrl',
 										//$scope.guestWaitList = paginatedResponse.records;
 										$scope.totalGuestWaitList = paginatedResponse.records;
 										$scope.pager = 	KyobeeService.getPager($scope.totalGuestWaitList.length, pageNo,$scope.pageSize);
+										if($scope.pager.totalPages<$scope.pager.currentPage)
+										{
+											$scope.pager = 	KyobeeService.getPager($scope.totalGuestWaitList.length, pageNo-1,$scope.pageSize);
+										 }
 										$scope.guestWaitList=$scope.totalGuestWaitList.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
 										$scope.userCount = paginatedResponse.totalRecords;
 										console.log($scope.pager);
@@ -443,10 +436,10 @@ KyobeeControllers.controller('waitListCtrl',
 						
 						var postBody = {
 								orgid : $scope.userDTO.organizationId,
-								statusOption: $scope.selectedStatus,
+								statusOption: $scope.$parent.selectedStatus,
 								pagerReqParam : $scope.pagerRequest,
-								sliderMinTime : $scope.slider.minTime,
-								sliderMaxTime : $scope.slider.maxTime,
+								sliderMinTime : $scope.$parent.slider.minTime,
+								sliderMaxTime : $scope.$parent.slider.maxTime,
 								clientTimezone : tzName
 						};
 						
@@ -461,6 +454,10 @@ KyobeeControllers.controller('waitListCtrl',
 										$scope.totalGuestWaitList = paginatedResponse.records;
 										$scope.userCount = paginatedResponse.totalRecords;
 										$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, pageNo, $scope.pageSize);
+										if($scope.pager.totalPages<$scope.pager.currentPage)
+										{
+											$scope.pager = 	KyobeeService.getPager($scope.totalGuestWaitList.length, pageNo-1,$scope.pageSize);
+										 }
 										$scope.guestWaitList=$scope.totalGuestWaitList.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
 										console.log($scope.pager);
 									} else if (data.status == "FAILURE") {
@@ -507,17 +504,16 @@ KyobeeControllers.controller('waitListCtrl',
 									pageNo : 1
 							}
 							
-							console.log($scope.selectedStatus);
 							
 
 							
 							var postBody = {
 									orgid : $scope.userDTO.organizationId,
-									statusOption: $scope.selectedStatus,
+									statusOption: $scope.$parent.selectedStatus,
 									pagerReqParam : $scope.pagerRequest,
 									searchName : $scope.searchName,
-									sliderMinTime : $scope.slider.minTime,
-									sliderMaxTime : $scope.slider.maxTime,
+									sliderMinTime : $scope.$parent.slider.minTime,
+									sliderMaxTime : $scope.$parent.slider.maxTime,
 									clientTimezone : tzName
 							};
 							
@@ -846,6 +842,9 @@ KyobeeControllers.controller('waitListCtrl',
 										$scope.loadWaitListPage($scope.$parent.pageNo);
 										$scope.loading = false;
 										$scope.successMsg = "Guest Deleted Successfully."
+										$timeout(function(){
+										$scope.successMsg=null;
+										}, 3000);
 									} else if (data.status == "FAILURE") {
 										$scope.loading = false;
 										alert('Error while deleting guest.');
@@ -1050,7 +1049,13 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.loadInfo();
 					$scope.homeCtrlLoaded.$promise.then(function(){
 						
-						$scope.loadWaitListPage($scope.$parent.pageNo);
+						if($scope.$parent.showHistory == false){
+							$scope.loadWaitListPage($scope.$parent.pageNo);
+						}
+						else{
+							$scope.loadHistoryPage($scope.$parent.pageNoHistory);
+						}
+						
 					});
 					
 					$scope.$on('someEvent', function(e) {  

@@ -28,6 +28,21 @@ KyobeeControllers.controller('homeCtrl',
 		            $scope.searchStatus = false;
 		            $scope.pageNo=1;
 		            $scope.pageNoHistory=1;
+		            $scope.showHistory = false;
+		            $scope.statusOptions=["All","Not Present","Incomplete"];
+					$scope.selectedStatus=$scope.statusOptions[0];
+		            
+		        	$scope.slider = {
+							id : 'timeSlider',
+							range:{
+								min:00,
+								max:24
+							},
+							minTime:9,
+							maxTime:15,
+							/*showValues: "true",*/
+							
+					};
 		            
 		        	console.log('src' + $scope.logoImgSrc);
 					$scope.changeView = function(view, searchParms) {
@@ -63,11 +78,11 @@ KyobeeControllers.controller('homeCtrl',
 							$scope.searchStatus = false;
 							// load normal waitlist
 							var waitListCtrlScope=angular.element('#search-box').scope();
-							if(waitListCtrlScope.showHistory == false){
-								waitListCtrlScope.loadWaitListPage(1);
+							if($scope.showHistory == false){
+								waitListCtrlScope.loadWaitListPage($scope.pageNo);
 							}
 							else{
-								waitListCtrlScope.loadHistoryPage(1);
+								waitListCtrlScope.loadHistoryPage($scope.pageNoHistory);
 							}
 								
 						}else {
