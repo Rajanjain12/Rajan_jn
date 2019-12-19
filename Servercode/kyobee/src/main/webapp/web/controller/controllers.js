@@ -26,6 +26,8 @@ KyobeeControllers.controller('homeCtrl',
 		            $scope.logoImgSrc = logoImgSrc;
 		            $scope.loading = false;
 		            $scope.searchStatus = false;
+		            $scope.pageNo=1;
+		            $scope.pageNoHistory=1;
 		            
 		        	console.log('src' + $scope.logoImgSrc);
 					$scope.changeView = function(view, searchParms) {

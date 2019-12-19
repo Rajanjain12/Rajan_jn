@@ -39,7 +39,8 @@ KyobeeControllers.controller('waitListCtrl',
 					
 					$scope.pager = {};
 					$scope.pagerRequest = null;
-					$scope.pageSize = 100;
+					$scope.pageSize = 1000;
+					
 					
 					$scope.showHistory = false;
 					
@@ -107,11 +108,11 @@ KyobeeControllers.controller('waitListCtrl',
 							$scope.showHistory = false;
 							$scope.pager = {};
 							// load normal waitlist
-							$scope.loadWaitListPage(1);
+							$scope.loadWaitListPage($scope.$parent.pageNo);
 						}else {
 							$scope.showHistory = true;
 							$scope.selectedStatus=$scope.statusOptions[0];
-							$scope.loadHistoryPage(1);
+							$scope.loadHistoryPage($scope.$parent.pageNoHistory);
 							// Load History
 						}						
 					}
@@ -310,7 +311,7 @@ KyobeeControllers.controller('waitListCtrl',
 								sort : null,
 								sortOrder: null,
 								pageSize : $scope.pageSize,
-								pageNo : pageNo
+								pageNo : 1
 						}
 						
 						var postBody = {
@@ -363,10 +364,10 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.searchGrid = function(searchName) {
 						if(searchName==null)
 						{
-							$scope.loadWaitListPage(1);
+							$scope.loadWaitListPage($scope.pageNo);
 						 }
 						else if(searchName.trim()==''){
-							$scope.loadWaitListPage(1);
+							$scope.loadWaitListPage($scope.pageNo);
 						}
 						else
 						{
@@ -420,7 +421,7 @@ KyobeeControllers.controller('waitListCtrl',
 								sort : null,
 								sortOrder: null,
 								pageSize : $scope.pageSize,
-								pageNo : pageNo
+								pageNo : 1
 						}
 						
 						/*current timezone (krupali 06/07/2017)*/
@@ -475,10 +476,10 @@ KyobeeControllers.controller('waitListCtrl',
 						
 						if(searchName==null)
 						{
-							$scope.loadHistoryPage(1);
+							$scope.loadHistoryPage($scope.$parent.pageNoHistory);
 						 }
 						else if(searchName.trim()==''){
-							$scope.loadHistoryPage(1);
+							$scope.loadHistoryPage($scope.$parent.pageNoHistory);
 						}
 						else
 						{
@@ -529,7 +530,7 @@ KyobeeControllers.controller('waitListCtrl',
 											var paginatedResponse = data.serviceResult;
 											$scope.totalGuestWaitList =  paginatedResponse.records;
 											$scope.userCount = paginatedResponse.totalRecords;
-											$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, $scope.pagerRequest.pageNo, $scope.pageSize);
+											$scope.pager = 	KyobeeService.getPager(paginatedResponse.totalRecords, pageNo, $scope.pageSize);
 											$scope.guestWaitList=$scope.totalGuestWaitList.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
 											console.log($scope.pager);
 										} else if (data.status == "FAILURE") {
@@ -819,7 +820,7 @@ KyobeeControllers.controller('waitListCtrl',
 										$scope.loading=false;						/* for loader(krupali 07/07/2017)*/
 										$('#showpopup').simplePopup().hide();
 										$(".simplePopupBackground").fadeOut("fast");
-										$scope.loadWaitListPage(1);
+										$scope.loadWaitListPage($scope.$parent.pageNo);
 										console.log(data);
 									} else if (data.status == "FAILURE") {
 										alert('Error while marking as seated.');
@@ -842,7 +843,7 @@ KyobeeControllers.controller('waitListCtrl',
 									if (data.status == "SUCCESS") {
 										$('#deletePopup').simplePopup().hide();
 										$(".simplePopupBackground").fadeOut("fast");
-										$scope.loadWaitListPage(1);
+										$scope.loadWaitListPage($scope.$parent.pageNo);
 										$scope.loading = false;
 										$scope.successMsg = "Guest Deleted Successfully."
 									} else if (data.status == "FAILURE") {
@@ -905,7 +906,7 @@ KyobeeControllers.controller('waitListCtrl',
 										$scope.loading=false;
 										$('#sendSMSPopup').simplePopup().hide();
 										$(".simplePopupBackground").fadeOut("fast");
-										$scope.loadWaitListPage(1);
+										$scope.loadWaitListPage($scope.$parent.pageNo);
 										$scope.successMsg = "SMS Sent Successfully."
 									} else if (data.status == "FAILURE") {
 										$scope.loading=false;
@@ -962,7 +963,7 @@ KyobeeControllers.controller('waitListCtrl',
 				                    	//$jquery("#guestIdToBeNotifiedNext").val(m.guestIdToBeNotifiedNext);
 				                    	//$jquery("#notifynusers").val(m.notifyUser);
 				                    	if(m.OP != "NOTIFY_USER")
-				                    	{ $scope.loadWaitListPage(1);}
+				                    	{ $scope.loadWaitListPage($scope.$parent.pageNo);}
 				                    }
 				                });
 				            };
@@ -1048,11 +1049,12 @@ KyobeeControllers.controller('waitListCtrl',
 					
 					$scope.loadInfo();
 					$scope.homeCtrlLoaded.$promise.then(function(){
-						$scope.loadWaitListPage(1);
+						
+						$scope.loadWaitListPage($scope.$parent.pageNo);
 					});
 					
 					$scope.$on('someEvent', function(e) {  
-				        $scope.$parent.msg = $scope.loadWaitListPage(1);            
+				        $scope.$parent.msg = $scope.loadWaitListPage($scope.$parent.pageNo);            
 				    });
 					/*$(document).ready(function(){
 					    $("#slider-range").slider({
@@ -1170,7 +1172,19 @@ KyobeeControllers.controller('waitListCtrl',
 							
 							$scope.pager = 	KyobeeService.getPager($scope.totalGuestWaitList.length, page,$scope.pageSize);
 							$scope.guestWaitList=$scope.totalGuestWaitList.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
+							$scope.$parent.pageNo=$scope.pager.currentPage;
 							
+						}
+					 $scope.setPageHistory=function(page) {
+							if (page < 1 || page > $scope.pager.totalPages) {
+								return;
+							}
+
+							// get pager object from service
+							
+							$scope.pager = 	KyobeeService.getPager($scope.totalGuestWaitList.length, page,$scope.pageSize);
+							$scope.guestWaitList=$scope.totalGuestWaitList.slice($scope.pager.startIndex, $scope.pager.endIndex + 1);
+							$scope.$parent.pageNoHistory=$scope.pager.currentPage;
 							
 						}
 				} ]);

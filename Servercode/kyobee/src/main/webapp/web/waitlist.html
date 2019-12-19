@@ -715,10 +715,10 @@
 				<div class="pagination-inner">
 					Page<span>{{pager.currentPage==undefined || pager.totalPages==0 ? 0 : pager.currentPage}}</span>of {{pager.totalPages==undefined ? 0 : pager.totalPages}} <a
 						style="cursor: pointer"
-						ng-click="setPage(pager.currentPage-1)" class="priv"><i
+						ng-click="setPageHistory(pager.currentPage-1)" class="priv"><i
 						class="fa fa-angle-left" aria-hidden="true"></i></a> <a
 						style="cursor: pointer"
-						ng-click="setPage(pager.currentPage+1)" class="next"><i
+						ng-click="setPageHistory(pager.currentPage+1)" class="next"><i
 						class="fa fa-angle-right" aria-hidden="true"></i></a>
 				</div>
 
