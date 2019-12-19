@@ -271,7 +271,7 @@ KyobeeControllers
 													if (data.status == "SUCCESS") {
 														$scope.loading = false;
 														$scope.successMsg="Guest information added successfully.";
-														setTimeout(function(){
+														$timeout(function(){
 														$scope.successMsg=null;
 														$scope.changeView('home'); 
 														}, 3000);
@@ -407,7 +407,7 @@ KyobeeControllers
 													if (data.status == "SUCCESS") {
 														$scope.loading = false;
 														$scope.successMsg="Guest information updated successfully.";
-														setTimeout(function(){
+														$timeout(function(){
 														$scope.successMsg=null;
 														$scope.changeView('home'); 
 														}, 3000);
