@@ -289,6 +289,10 @@ img.roundarrow {width: 14px;}
 .close-theme {right: 15px; top: 10px;}
 .send-sms-textarea{width:276px;}
 .footerleft img{margin-top:19px;}
+.addf2 .checkbox{
+	display: block;
+    margin-bottom: 5px;
+}
 }
 
 

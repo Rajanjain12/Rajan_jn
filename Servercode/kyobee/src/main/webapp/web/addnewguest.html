@@ -85,7 +85,27 @@
 
 							<!-- changes by krupali, line 65 to 107,(15/06/2017) -->
 							<div class="row margin-bottom-10">
-								<div 
+								<div class="col-md-4 col-sm-4 col-xs-12">
+									<input type="number" class="form-control" placeholder="No. of Parties"/>
+								</div>
+								<div class="col-md-8 col-sm-8 col-xs-12"
+								ng-class="{'has-error' : (addGuestForm.field2SMS.$invalid && addGuestForm.$submitted) || (addGuestForm.field2SMS.$pristine && addGuestForm.field2SMS.$invalid && addGuestForm.$submitted)}"
+								ng-show="userDTO.smsRoute != null && userDTO.smsRoute != ''">
+								<input type="text" id="masked" name="field2SMS"
+									ng-model="guestDTO.sms" ui-mask="(999) 999-9999"
+									ui-mask-placeholder ui-mask-placeholder-char="_"
+									class="form-control default-input-placeholder input-no-spinner padding-textbox"
+									ng-required="userDTO.smsRoute != null && userDTO.smsRoute != ''" />
+								<!-- <span class="help-inline">
+                                    <div class="has-error-mask" ng-show="guestDTO.sms.length <10">Please enter the valid number</div>
+                                </span> -->
+								<div ng-messages="addGuestForm.field2SMS.$error"
+									ng-show="(addGuestForm.field2SMS.$invalid && addGuestForm.$submitted)"
+									class="help-block">
+									<div ng-message="required">Phone number cannot be blank</div>
+								</div>
+							</div>
+								<!-- <div 
 									ng-class="{'has-error' : (addGuestForm.adults.$invalid && addGuestForm.$submitted) || (addGuestForm.adults.$pristine && addGuestForm.adults.$invalid && addGuestForm.$submitted)}">
 									<div class="col-md-2 col-sm-2 col-xs-12">
 										<input type="number" id="adults" name="adults" min="1" max="100" 
@@ -102,8 +122,8 @@
 											<h5 ng-message="number">Enter only digits.</h5>
 										</span>
 									</div>
-								</div>
-								<div 
+								</div> -->
+								<!-- <div 
 									ng-class="{'has-error' : (addGuestForm.children.$invalid && addGuestForm.$submitted) || (addGuestForm.children.$pristine && addGuestForm.children.$invalid && addGuestForm.$submitted)}">
 									<div class="col-md-2 col-sm-2 col-xs-12">
 										<input type="number" id="children" name="children"
@@ -113,15 +133,15 @@
 											ng-show="(addGuestForm.children.$invalid && addGuestForm.$submitted)"
 											class="help-block">
 											<h5 ng-message="max">Maximum number of allowed children is 100.</h5>
-											<!-- <h5 ng-message="min">Number of children can not be in minus</h5> -->
+											<h5 ng-message="min">Number of children can not be in minus</h5>
 											<h5 ng-message="pattern">Number of children can not be in minus.</h5>
 											<h5 ng-message="number">Enter only digits.</h5>
 										</span>
-										<!-- <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
+										<span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
 				        <h5 ng-message="required">Children cannot be blank</h5>
-                  </span>  -->
+                  </span> 
 									</div>
-								</div>
+								</div> -->
 									<!-- <div class="col-md-2 col-sm-2 col-xs-12">
 				  <input type="number" id="infants" name="infants" min=0 max=100 class="form-control col-md-4 col-sm-4 col-xs-12" ng-model="guestDTO.noOfInfants" placeholder="Infants" ng-disabled="guestDTO.noOfChildren == 0 && guestDTO.noOfAdults == 0" title="{{(guestDTO.noOfChildren == 0 && guestDTO.noOfAdults == 0) ? 'You must have to add at least one child or adult' : 'Please fill out this field'}}" />
 				  <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
@@ -161,7 +181,7 @@
 							</div>
 
 
-							<div class="form-group"
+							<!-- <div class="form-group"
 								ng-class="{'has-error' : (addGuestForm.field2SMS.$invalid && addGuestForm.$submitted) || (addGuestForm.field2SMS.$pristine && addGuestForm.field2SMS.$invalid && addGuestForm.$submitted)}"
 								ng-show="userDTO.smsRoute != null && userDTO.smsRoute != ''">
 								<input type="text" id="masked" name="field2SMS"
@@ -169,15 +189,15 @@
 									ui-mask-placeholder ui-mask-placeholder-char="_"
 									class="form-control default-input-placeholder input-no-spinner padding-textbox"
 									ng-required="userDTO.smsRoute != null && userDTO.smsRoute != ''" />
-								<!-- <span class="help-inline">
+								<span class="help-inline">
                                     <div class="has-error-mask" ng-show="guestDTO.sms.length <10">Please enter the valid number</div>
-                                </span> -->
+                                </span>
 								<div ng-messages="addGuestForm.field2SMS.$error"
 									ng-show="(addGuestForm.field2SMS.$invalid && addGuestForm.$submitted)"
 									class="help-block">
 									<div ng-message="required">Phone number cannot be blank</div>
 								</div>
-							</div>
+							</div> -->
 							<!-- <div class="form-group panel-form addf3 margin-bottom-25" ng-show="userDTO.smsRoute != null && userDTO.smsRoute != ''" >
 							<div class="radio radio-danger">
                             <input type="text" name="radio1" onchange="showsms();" id="smsshow" ng-model="guestDTO.prefType" value="sms" >
