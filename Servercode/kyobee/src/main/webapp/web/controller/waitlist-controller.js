@@ -735,7 +735,7 @@ KyobeeControllers.controller('waitListCtrl',
 						$scope.loading=true;													/* for loader(krupali 07/07/2017)*/
 						$scope.successMsg = null;
 						var postBody = $scope.selectedGuest;
-						
+						console.log("data for incre "+JSON.stringify($scope.selectedGuest));
 						var url = '/kyobee/web/rest/waitlistRestAction/incrementCalloutCount';
 						KyobeeService.postDataService(url, '').query(postBody,
 								function(data) {
@@ -831,7 +831,7 @@ KyobeeControllers.controller('waitListCtrl',
 						$scope.successMsg = null;
 						$scope.loading = true;
 						var postBody = $scope.selectedGuest;
-						
+						console.log("selete guest "+JSON.stringify($scope.selectedGuest));
 						var url = '/kyobee/web/rest/waitlistRestAction/deleteGuest';
 						KyobeeService.postDataService(url, '').query(postBody,
 								function(data) {

@@ -85,8 +85,17 @@
 
 							<!-- changes by krupali, line 65 to 107,(15/06/2017) -->
 							<div class="row margin-bottom-10">
-								<div class="col-md-4 col-sm-4 col-xs-12">
-									<input type="number" class="form-control" placeholder="No. of Parties"/>
+								<div ng-class="{'has-error' : (addGuestForm.parties.$invalid && addGuestForm.$submitted) || (addGuestForm.parties.$pristine && addGuestForm.parties.$invalid && addGuestForm.$submitted)}"  class="col-md-4 col-sm-4 col-xs-12">
+									<input type="number" class="form-control" name="parties" ng-model="guestDTO.noOfPeople" placeholder="No. of Parties" min="1" max="100"   required/>
+									<span ng-messages="addGuestForm.parties.$error"
+											ng-show="(addGuestForm.parties.$invalid && addGuestForm.$submitted)"
+											class="help-block">
+											<h5 ng-message="required">Number of parties cannot be blank.</h5>
+											<h5 ng-message="max">Maximum number of allowed parties is 100.</h5>
+											<h5 ng-message="min">Number of parties can not be in minus</h5>
+											<h5 ng-message="pattern">Number of parties can not be in minus.</h5>
+											<h5 ng-message="number">Enter only digits.</h5>
+										</span>
 								</div>
 								<div class="col-md-8 col-sm-8 col-xs-12"
 								ng-class="{'has-error' : (addGuestForm.field2SMS.$invalid && addGuestForm.$submitted) || (addGuestForm.field2SMS.$pristine && addGuestForm.field2SMS.$invalid && addGuestForm.$submitted)}"

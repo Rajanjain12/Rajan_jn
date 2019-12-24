@@ -275,18 +275,21 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						if(invalid){
 							$scope.errorMsg=$scope.currentPageLanguage.upd_error;
 							$scope.loading = false;
+							$scope.scrollToTop();
 							return;
 						}
 						
 						if($scope.guest.name == null || $scope.guest.name == 'undefined' || $scope.guest.name == ''){
 							$scope.errorMsg = $scope.currentPageLanguage.enter_name_error;
 							$scope.loading = false;
+							$scope.scrollToTop();
 							return;
 						}
 						
 						if($scope.guest.prefType == null || $scope.guest.prefType == 'undefined'){
 							$scope.errorMsg = $scope.currentPageLanguage.select_sms_error;
 							$scope.loading = false;
+							$scope.scrollToTop();
 							return;
 						}
 						
@@ -299,18 +302,21 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						if(($scope.guest.prefType == 'email' || $scope.guest.prefType == 'EMAIL') && ($scope.guest.email == null || $scope.guest.email == 'undefined')){
 							$scope.errorMsg = $scope.currentPageLanguage.enter_email_error;
 							$scope.loading = false;
+							$scope.scrollToTop();
 							return;
 						}
 						
-						if(($scope.guest.noOfAdults != null && $scope.guest.noOfAdults == 0) || $scope.guest.noOfAdults == undefined){
+						/*if(($scope.guest.noOfAdults != null && $scope.guest.noOfAdults == 0) || $scope.guest.noOfAdults == undefined){
 							$scope.errorMsg = $scope.currentPageLanguage.adult_size_error;
 							$scope.loading=false;
+							$scope.scrollToTop();
 							return;
-						}
+						}*/
 						
-						if($scope.orgMaxParty != null && $scope.orgMaxParty != "" && ($scope.guest.noOfChildren + $scope.guest.noOfAdults + $scope.guest.noOfInfants) > $scope.orgMaxParty){
+						if($scope.orgMaxParty != null && $scope.orgMaxParty != "" && ($scope.guest.noOfPeople /*+ $scope.guest.noOfAdults + $scope.guest.noOfInfants*/) > $scope.orgMaxParty){
 							$scope.errorMsg = $scope.currentPageLanguage.org_max_party_1+$scope.orgMaxParty+$scope.currentPageLanguage.org_max_party_2;
 							$scope.loading = false; 
+							$scope.scrollToTop();
 							return;
 						}
 						
@@ -348,7 +354,16 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								}								
 							}
 						}
-						
+						/* change by krupali, line 204 (15/06/2017) */
+						if ($scope.guest.noOfAdults == null || $scope.guest.noOfAdults == "") {
+							$scope.guest.noOfAdults = 0;
+						}
+						if ($scope.guest.noOfChildren == null || $scope.guest.noOfChildren == "") {
+							$scope.guest.noOfChildren = 0;
+						}
+						if ($scope.guest.noOfInfants == null || $scope.guest.noOfInfants == "") {
+							$scope.guest.noOfInfants = 0;
+						}
 						
 						
 						var postBody = {
@@ -358,7 +373,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								'noOfChildren' : $scope.guest.noOfChildren,
 								'noOfAdults' : $scope.guest.noOfAdults,
 								'noOfInfants' : $scope.guest.noOfInfants,
-								'noOfPeople' : $scope.guest.noOfAdults+$scope.guest.noOfChildren+$scope.guest.noOfInfants,
+								'noOfPeople' : $scope.guest.noOfPeople,
 								'prefType' : $scope.guest.prefType,
 								'sms' : $scope.guest.sms,
 								'email' : $scope.guest.email,

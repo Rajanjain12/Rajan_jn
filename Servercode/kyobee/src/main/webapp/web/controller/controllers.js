@@ -13,8 +13,8 @@ KyobeeControllers.controller('homeCtrl',
 				'$location',
 				'$timeout',
 				'$interval',
-				'KyobeeService','$q',
-				function($scope,$rootScope, $location, $timeout, $interval, KyobeeService,$q) {
+				'KyobeeService','$q','localStorage','$window',
+				function($scope,$rootScope, $location, $timeout, $interval, KyobeeService,$q,localStorage,$window) {
 
 					$rootScope.hideHeader=false;//To hide show header in index.html
 					$scope.userDTO = null;
@@ -99,6 +99,7 @@ KyobeeControllers.controller('homeCtrl',
 						var postBody = {
 
 						};
+						console.log("--name --"+$window.localStorage.getItem("lastname"));
 						var url = '/kyobee/rest/userDetails';
 						$scope.homeCtrlLoaded = KyobeeService.getDataService(url, '').query(postBody,
 								function(data) {
@@ -357,6 +358,7 @@ KyobeeControllers.controller('homeCtrl',
 						offsetTop = offset.top;
 						$('html, body').animate({scrollTop : offsetTop}, 500, 'linear');
 					}
+					$scope.fetchUserDetails();
 					
 					var promise = $scope.fetchUserDetails();
 					promise.then(function(){

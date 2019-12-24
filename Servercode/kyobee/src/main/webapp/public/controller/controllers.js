@@ -11,8 +11,8 @@ KyobeeUnSecuredController.controller('homeCtrl',
 				'$scope',
 				'$location',
 				'$timeout',
-				'$interval', 'KyobeeUnsecuredService',
-				function($scope, $location, $timeout, $interval, KyobeeUnsecuredService) {
+				'$interval', 'KyobeeUnsecuredService','$window',
+				function($scope, $location, $timeout, $interval, KyobeeUnsecuredService,$window) {
 					
 					$scope.footerMsg=null;
 					$scope.username=null;
@@ -112,6 +112,7 @@ KyobeeUnSecuredController.controller('homeCtrl',
 									console.log(data);
 									if (data.status == "SUCCESS") {
 										$scope.changeView('dashboard');
+										//$window.localStorage.setItem("lastname", "Smith");
 										$scope.loading=false;
 									} else if (data.status == "FAILURE") {
 										$scope.errorMsg = data.errorDescription;

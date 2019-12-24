@@ -159,6 +159,8 @@ KyobeeControllers
 								
 								if (invalid) {
 									$scope.loading = false;
+									$scope.errorMsg="Enter proper values for all fields."
+									$scope.scrollToTop();
 									return;
 								}
 
@@ -172,19 +174,21 @@ KyobeeControllers
 										&& ($scope.guestDTO.prefType == null || $scope.guestDTO.prefType == 'undefined')) {
 									$scope.errorMsg = "Please select sms or email";
 									$scope.loading = false;
+									$scope.scrollToTop();
 									return;
 								}
 
-								if (($scope.guestDTO.noOfAdults != null && $scope.guestDTO.noOfAdults == 0)) {
+								/*if (($scope.guestDTO.noOfAdults != null && $scope.guestDTO.noOfAdults == 0)) {
 									$scope.errorMsg = "Adults must be greater than 0";
 									$scope.loading = false;
+									$scope.scrollToTop();
 									return;
-								}
+								}*/
 
 								if ($scope.userDTO.maxParty != null
 										&& $scope.userDTO.maxParty != ""
-										&& ($scope.guestDTO.noOfChildren
-												+ $scope.guestDTO.noOfAdults + $scope.guestDTO.noOfInfants) > $scope.userDTO.maxParty) {
+										&& ($scope.guestDTO.noOfPeople
+												/*+ $scope.guestDTO.noOfAdults + $scope.guestDTO.noOfInfants*/) > $scope.userDTO.maxParty) {
 									// $scope.errorMsg = "Sorry we can only
 									// allow maximum "+$scope.userDTO.maxParty+"
 									// people per table at a given time";
@@ -192,6 +196,7 @@ KyobeeControllers
 											+ $scope.userDTO.maxParty
 											+ " people."
 									$scope.loading = false;
+									$scope.scrollToTop();
 									return;
 								}
 
@@ -201,6 +206,7 @@ KyobeeControllers
 												|| $scope.guestDTO.sms == 'undefined' || $scope.guestDTO.sms == "")) {
 									$scope.errorMsg = "Please enter the contact no.";
 									$scope.loading = false;
+									$scope.scrollToTop();
 									return;
 								}
 
@@ -208,6 +214,7 @@ KyobeeControllers
 										&& ($scope.guestDTO.email == null || $scope.guestDTO.email == 'undefined')) {
 									$scope.errorMsg = "Please enter the email";
 									$scope.loading = false;
+									$scope.scrollToTop();
 									return;
 								}
 
@@ -249,15 +256,18 @@ KyobeeControllers
 								console.log($scope.guestDTO);
 
 								/* change by krupali, line 204 (15/06/2017) */
-								if ($scope.guestDTO.noOfChildren == null) {
+								if ($scope.guestDTO.noOfAdults == null || $scope.guestDTO.noOfAdults == "") {
+									$scope.guestDTO.noOfAdults = 0;
+								}
+								if ($scope.guestDTO.noOfChildren == null || $scope.guestDTO.noOfChildren == "") {
 									$scope.guestDTO.noOfChildren = 0;
 								}
-								if ($scope.guestDTO.noOfInfants == null) {
+								if ($scope.guestDTO.noOfInfants == null || $scope.guestDTO.noOfInfants == "") {
 									$scope.guestDTO.noOfInfants = 0;
 								}
-								$scope.guestDTO.noOfPeople = $scope.guestDTO.noOfChildren
+								/*$scope.guestDTO.noOfPeople = $scope.guestDTO.noOfChildren
 										+ $scope.guestDTO.noOfAdults
-										+ $scope.guestDTO.noOfInfants;
+										+ $scope.guestDTO.noOfInfants;*/
 								var postBody = $scope.guestDTO;
 								$scope.guestDTO.organizationID = $scope.userDTO.organizationId;
 								var url = '/kyobee/web/rest/waitlistRestAction/addGuest';
@@ -303,6 +313,7 @@ KyobeeControllers
 								
 								if (invalid) {
 									$scope.loading = false;
+									$scope.scrollToTop();
 									return;
 								}
 								
@@ -313,19 +324,21 @@ KyobeeControllers
 										&& ($scope.guestDTO.prefType == null || $scope.guestDTO.prefType == 'undefined')) {
 									$scope.errorMsg = "Please select sms or email";
 									$scope.loading = false;
+									$scope.scrollToTop();
 									return;
 								}
 
-								if (($scope.guestDTO.noOfAdults != null && $scope.guestDTO.noOfAdults == 0)) {
+								/*if (($scope.guestDTO.noOfAdults != null && $scope.guestDTO.noOfAdults == 0)) {
 									$scope.errorMsg = "Adults must be greater than 0";
 									$scope.loading = false;
+									$scope.scrollToTop();
 									return;
-								}
+								}*/
 
 								if ($scope.userDTO.maxParty != null
 										&& $scope.userDTO.maxParty != ""
-										&& ($scope.guestDTO.noOfChildren
-												+ $scope.guestDTO.noOfAdults + $scope.guestDTO.noOfInfants) > $scope.userDTO.maxParty) {
+										&& ($scope.guestDTO.noOfPeople
+												/*+ $scope.guestDTO.noOfAdults + $scope.guestDTO.noOfInfants*/) > $scope.userDTO.maxParty) {
 									// $scope.errorMsg = "Sorry we can only
 									// allow maximum "+$scope.userDTO.maxParty+"
 									// people per table at a given time";
@@ -333,6 +346,7 @@ KyobeeControllers
 											+ $scope.userDTO.maxParty
 											+ " people."
 									$scope.loading = false;
+									$scope.scrollToTop();
 									return;
 								}
 
@@ -342,6 +356,7 @@ KyobeeControllers
 												|| $scope.guestDTO.sms == 'undefined' || $scope.guestDTO.sms == "")) {
 									$scope.errorMsg = "Please enter the contact no.";
 									$scope.loading = false;
+									$scope.scrollToTop();
 									return;
 								}
 
@@ -349,8 +364,10 @@ KyobeeControllers
 										&& ($scope.guestDTO.email == null || $scope.guestDTO.email == 'undefined')) {
 									$scope.errorMsg = "Please enter the email";
 									$scope.loading = false;
+									$scope.scrollToTop();
 									return;
 								}
+								
 
 								if ($("#children").val() == "") {
 									$("#children").val("0");
@@ -390,9 +407,20 @@ KyobeeControllers
 								$scope.guestDTO.guestMarketingPreferences = selectedGuestMarketingPref;
 
 								/* change by krupali, line 204 (15/06/2017) */
-								$scope.guestDTO.noOfPeople = $scope.guestDTO.noOfChildren
+								/*$scope.guestDTO.noOfPeople = $scope.guestDTO.noOfChildren
 										+ $scope.guestDTO.noOfAdults
-										+ $scope.guestDTO.noOfInfants;
+										+ $scope.guestDTO.noOfInfants;*/
+								
+								/* change by krupali, line 204 (15/06/2017) */
+								if ($scope.guestDTO.noOfAdults == null || $scope.guestDTO.noOfAdults == "") {
+									$scope.guestDTO.noOfAdults = 0;
+								}
+								if ($scope.guestDTO.noOfChildren == null || $scope.guestDTO.noOfChildren == "") {
+									$scope.guestDTO.noOfChildren = 0;
+								}
+								if ($scope.guestDTO.noOfInfants == null || $scope.guestDTO.noOfInfants == "") {
+									$scope.guestDTO.noOfInfants = 0;
+								}
 								console.log($scope.guestDTO);
 
 								var postBody = $scope.guestDTO;

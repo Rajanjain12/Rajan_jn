@@ -69,28 +69,28 @@
 									<span ng-messages="addGuestForm.gname.$error"
 									ng-show="(addGuestForm.gname.$invalid && addGuestForm.$submitted)"
 									class="help-block">
-									<h5 ng-message="required">Name cannot be blank</h5>
+									<h5 ng-message="required">{{currentPageLanguage.name_can_not_be_blank}}</h5>
 									<h5 ng-message="pattern">The name should not contain numbers only or special characters.</h5>
-									<h5 ng-message="maxlength">You have reached your maximum limit of characters allowed.</h5>
+									<h5 ng-message="maxlength">{{currentPageLanguage.maximum_characters_limit_reached}}</h5>
 								</span>
 							</div>
 
-							<div class="form-group col-md-3 col-sm-3 col-xs-12 margin-top-20" ng-class="{'has-error' : (addGuestForm.adults.$invalid && addGuestForm.$submitted) || (addGuestForm.adults.$pristine && addGuestForm.adults.$invalid && addGuestForm.$submitted)}">
+							<div class="form-group col-md-6 col-sm-6 col-xs-12 margin-top-20" ng-class="{'has-error' : (addGuestForm.parties.$invalid && addGuestForm.$submitted) || (addGuestForm.parties.$pristine && addGuestForm.parties.$invalid && addGuestForm.$submitted)}">
 
 								<label class="control-label"></label>
 								<div class="col-md-12 col-sm-12 col-xs-12">
-									<label class="control-label"># {{currentPageLanguage.of_adults}}</label>
-									<input type="number" id="adults" name="adults" min="1" max="100"
+									<label class="control-label"># {{currentPageLanguage.no_of_party}}</label>
+									<input type="number" id="parties" name="parties" min="1" max="99"
 										class="form-control col-md-4 col-sm-4 col-xs-12" ng-pattern="/^[0-9]*$/"
-										ng-model="guest.noOfAdults" required placeholder="Adults" />
-										<span ng-messages="addGuestForm.adults.$error"
-											ng-show="(addGuestForm.adults.$invalid && addGuestForm.$submitted)"
+										ng-model="guest.noOfPeople" required placeholder="parties" />
+										<span ng-messages="addGuestForm.parties.$error"
+											ng-show="(addGuestForm.parties.$invalid && addGuestForm.$submitted)"
 											class="help-block">
-											<h5 ng-message="required">Adults cannot be blank</h5>
-											<h5 ng-message="max">Maximum number of allowed adults is 100.</h5>
-											<h5 ng-message="pattern">Number of adults can not be in minus.</h5>
-											<h5 ng-message="min">Atleast one adult is required to add guest.</h5>
-											<h5 ng-message="number">Enter only digits.</h5>
+											<h5 ng-message="required">No of people cannot be blank</h5>
+											<h5 ng-message="max">Maximum number of allowed adults is 99.</h5>
+											<h5 ng-message="pattern">{{currentPageLanguage.valid_num_error}}</h5>
+											<h5 ng-message="min">{{currentPageLanguage.please_enter_values_more_than_0}}</h5>
+											<h5 ng-message="number">{{currentPageLanguage.valid_num_error}}</h5>
 										</span>
 									<!-- <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
 				        <h5 ng-message="required">Adults cannot be blank</h5>
@@ -98,7 +98,7 @@
 								</div>
 								</div>
 								
-								<div class="form-group col-md-3 col-sm-3 col-xs-12 margin-top-20" ng-class="{'has-error' : (addGuestForm.children.$invalid && addGuestForm.$submitted) || (addGuestForm.children.$pristine && addGuestForm.children.$invalid && addGuestForm.$submitted)}">
+								<!-- <div class="form-group col-md-3 col-sm-3 col-xs-12 margin-top-20" ng-class="{'has-error' : (addGuestForm.children.$invalid && addGuestForm.$submitted) || (addGuestForm.children.$pristine && addGuestForm.children.$invalid && addGuestForm.$submitted)}">
 								<div class="col-md-12 col-sm-12 col-xs-12">
 									<label class="control-label"># {{currentPageLanguage.of_children}}</label>
 									<input type="number" id="children" name="children"
@@ -108,22 +108,22 @@
 											ng-show="(addGuestForm.children.$invalid && addGuestForm.$submitted)"
 											class="help-block">
 											<h5 ng-message="max">Maximum number of allowed children is 100.</h5>
-											<!-- <h5 ng-message="min">Number of children can not be in minus</h5> -->
+											<h5 ng-message="min">Number of children can not be in minus</h5>
 											<h5 ng-message="pattern">Number of children can not be in minus.</h5>
 											<h5 ng-message="number">Enter only digits.</h5>
 										</span>
-									<!-- <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
+									<span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
 				        <h5 ng-message="required">Children cannot be blank</h5>
-                  </span>  -->
+                  </span> 
 								</div>
 
-								<!--  <div class="col-md-4 col-sm-2 col-xs-12">
+								 <div class="col-md-4 col-sm-2 col-xs-12">
 				  <input type="number" id="infants" name="infants" min=0 max=100 class="form-control col-md-4 col-sm-4 col-xs-12" ng-model="guest.noOfInfants" placeholder="Infants" ng-disabled="guest.noOfChildren == 0 && guest.noOfAdults == 0" title="{{(guest.noOfChildren == 0 && guest.noOfAdults == 0) ? 'You must have to add at least one child or adult' : 'Please fill out this field'}}" />
 				  <span ng-messages="addGuestForm.name.$error" ng-show=" (!addGuestForm.name.$pristine || addGuestForm.$submitted)" class="help-block">
 				        <h5 ng-message="required">Infants cannot be blank</h5>
 				  </span>
-                  </div> -->
-							</div>
+                  </div>
+							</div> -->
 					</div>
 					<div class="col-md-12">
 
