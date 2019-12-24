@@ -70,7 +70,7 @@
 									ng-show="(addGuestForm.gname.$invalid && addGuestForm.$submitted)"
 									class="help-block">
 									<h5 ng-message="required">{{currentPageLanguage.name_can_not_be_blank}}</h5>
-									<h5 ng-message="pattern">The name should not contain numbers only or special characters.</h5>
+									<h5 ng-message="pattern">{{currentPageLanguage.special_characters_and_numbers_are_not_allowed}}</h5>
 									<h5 ng-message="maxlength">{{currentPageLanguage.maximum_characters_limit_reached}}</h5>
 								</span>
 							</div>
@@ -86,8 +86,8 @@
 										<span ng-messages="addGuestForm.parties.$error"
 											ng-show="(addGuestForm.parties.$invalid && addGuestForm.$submitted)"
 											class="help-block">
-											<h5 ng-message="required">No of people cannot be blank</h5>
-											<h5 ng-message="max">Maximum number of allowed adults is 99.</h5>
+											<h5 ng-message="required">{{currentPageLanguage.no_of_people_cannot_be_blank}}</h5>
+											<h5 ng-message="max">{{currentPageLanguage.maximum_number_of_allowed_people_are_99.}}</h5>
 											<h5 ng-message="pattern">{{currentPageLanguage.valid_num_error}}</h5>
 											<h5 ng-message="min">{{currentPageLanguage.please_enter_values_more_than_0}}</h5>
 											<h5 ng-message="number">{{currentPageLanguage.valid_num_error}}</h5>
