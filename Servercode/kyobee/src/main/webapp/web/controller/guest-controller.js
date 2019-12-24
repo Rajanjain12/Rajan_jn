@@ -265,6 +265,7 @@ KyobeeControllers
 								if ($scope.guestDTO.noOfInfants == null || $scope.guestDTO.noOfInfants == "") {
 									$scope.guestDTO.noOfInfants = 0;
 								}
+								$scope.guestDTO.noOfAdults=$scope.guestDTO.noOfPeople;
 								/*$scope.guestDTO.noOfPeople = $scope.guestDTO.noOfChildren
 										+ $scope.guestDTO.noOfAdults
 										+ $scope.guestDTO.noOfInfants;*/
@@ -422,7 +423,7 @@ KyobeeControllers
 									$scope.guestDTO.noOfInfants = 0;
 								}
 								console.log($scope.guestDTO);
-
+								$scope.guestDTO.noOfAdults=$scope.guestDTO.noOfPeople;
 								var postBody = $scope.guestDTO;
 								$("#btnUpdate").attr("disabled", true);
 								var url = '/kyobee/web/rest/waitlistRestAction/updateGuestInfo';
