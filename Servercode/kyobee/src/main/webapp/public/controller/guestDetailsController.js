@@ -398,7 +398,9 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					                    $scope.client.send($scope.channel, message);
 							            console.log('Sending from updateguest: ' + message + ' to channel: ' + $scope.channel);
 							            $scope.loading = false;
+							            $scope.scrollToTop();
 							            $scope.successMsg=$scope.currentPageLanguage.upd_success;
+							            
 							            //setTimeout(function(){ alert(); }, 1000);
 
 										//alert($scope.currentPageLanguage.upd_success);
@@ -432,6 +434,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 										$('#deletePopup').simplePopup().hide();
 										$(".simplePopupBackground").fadeOut("fast");
 										$scope.guest = null;
+										$scope.scrollToTop();
 										//$scope.loadWaitListPage(1);
 									} else if (data.status == "FAILURE") {
 										alert($scope.currentPageLanguage.dlt_error);
@@ -443,7 +446,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					}
 					
 					$scope.showDeletePopup = function(){
-						//$scope.scrollToTop();
+						$scope.scrollToTop();
 						$('#deletePopup').simplePopup();
 					}
 					
