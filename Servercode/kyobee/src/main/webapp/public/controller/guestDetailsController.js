@@ -296,6 +296,7 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 						if(($scope.guest.prefType == 'sms' || $scope.guest.prefType == 'SMS') && ($scope.guest.sms == null || $scope.guest.sms == 'undefined' || $scope.guest.sms == "")){
 							$scope.errorMsg = $scope.currentPageLanguage.enter_num_error;
 							$scope.loading = false;
+							$scope.scrollToTop();
 							return;
 						}
 						
