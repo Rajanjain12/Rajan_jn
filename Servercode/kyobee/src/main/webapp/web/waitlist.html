@@ -52,8 +52,8 @@
 
 			<div class="col-md-2 col-sm-2 col-xs-12"
 				ng-show="showHistory == true">
-				<select name="statusOptions" ng-change="loadHistoryPage(1)"
-					ng-model="selectedStatus" class="form-control" ng-model=""
+				<select name="statusOptions" ng-change="optionChange(selectedStatus);"
+					ng-model="selectedStatus" class="form-control" 
 					ng-options="status for status in statusOptions" required>
 				</select>
 			</div>

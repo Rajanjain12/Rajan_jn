@@ -406,9 +406,13 @@ KyobeeControllers.controller('waitListCtrl',
 						}
 					
 					};
+					$scope.optionChange = function(status){
+					
+					$scope.$parent.selectedStatus=status;
+					$scope.loadHistoryPage(1);
+					}
 					
 					$scope.loadHistoryPage = function(pageNo) {
-						debugger;
 						$scope.pagerRequest = {
 								filters : null,
 								sort : null,
