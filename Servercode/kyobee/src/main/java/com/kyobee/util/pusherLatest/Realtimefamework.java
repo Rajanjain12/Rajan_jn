@@ -69,7 +69,7 @@ public class Realtimefamework implements IPusher{
 
 	}
 
-	public  void sendViaRealtimeRestApi(Map<String, Object> rootMap, String channel)
+	public  void sendViaRealtimeRestApi(Object rootMap, String channel)
 	{
 		String urlString = getBestServerURL(defaultApplicationKey);
 		try {
@@ -143,7 +143,7 @@ public class Realtimefamework implements IPusher{
 	}
 
 	@Override
-	public void sendPusher(Map<String, Object> rootMap, String channel) {
+	public void sendPusher(Object rootMap, String channel) {
 		String urlString = getBestServerURL(defaultApplicationKey);
 		try {
 			if( Constants.REALTIME_API_POST_SUCCESS_CODE == authenticateWebServiceCall(urlString)) {

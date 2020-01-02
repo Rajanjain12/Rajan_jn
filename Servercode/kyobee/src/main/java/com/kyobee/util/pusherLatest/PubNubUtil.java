@@ -29,7 +29,7 @@ public class PubNubUtil implements IPusher{
 	
 
 	@Override
-	public void sendPusher(Map<String, Object> message,String channelName) {
+	public void sendPusher(Object message,String channelName) {
 		 
 		  try {
 			pubnub.publish()

@@ -1,7 +1,5 @@
 package com.kyobee.util.pusherLatest;
 
-import java.util.Map;
-
 import org.springframework.stereotype.Component;
 
 import com.kyobee.util.AppInitializer;
@@ -21,7 +19,7 @@ public class NotificationUtil {
 	}
 	
 	
-	public static void sendMessage(Map<String,Object> rootMap,String channel) {
+	public static void sendMessage(Object rootMap,String channel) {
 	   ipusher.sendPusher(rootMap, channel);		
 	}
 }

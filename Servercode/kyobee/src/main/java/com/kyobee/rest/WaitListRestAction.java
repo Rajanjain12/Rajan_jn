@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bandwidth.sdk.model.events.SmsEvent;
+import com.kyobee.dto.AddDeletePusherDTO;
 /*import com.google.api.translate.Language;
 import com.google.api.translate.Translate;*/
 import com.kyobee.dto.GuestDTO;
@@ -43,6 +44,7 @@ import com.kyobee.dto.MarketingPreferenceDTO;
 import com.kyobee.dto.OrganizationTemplateDTO;
 import com.kyobee.dto.SendSMSWrapper;
 import com.kyobee.dto.SmsContentParamDTO;
+import com.kyobee.dto.UpdatePusherDTO;
 import com.kyobee.dto.UserDTO;
 import com.kyobee.dto.WaitlistMetrics;
 import com.kyobee.dto.common.Credential;
@@ -655,7 +657,7 @@ public class WaitListRestAction {
 			int res= waitListService.resetOrganizationsByOrgid(orgid);
 			if(res==1){
 				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
-				rootMap.put("name", "resetOrganizationPusher");
+				rootMap.put("OP", "resetOrganizationPusher");
 				rootMap.put("orgid", orgid);
 				sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+orgid);
 			}
@@ -1244,12 +1246,27 @@ public class WaitListRestAction {
 			rootMap.put("guestRank", oWaitlistMetrics.getGuestRank());	
 			rootMap.put("languagePrefID", guest.getLanguagePrefID());
 			rootMap.put("partyType", guest.getPartyType());
-
+			
 			//commented for stopping the send sms upon adding the guest(krupali 09/11/2017)
 			/*if(guestDTO.getPrefType() != null)
 				sendNotification(guest, oWaitlistMetrics, "NORMAL", null);*/
-
-			sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
+			/*DTO to transfer data in pusher*/	
+			AddDeletePusherDTO addDeletePusherDTO=new AddDeletePusherDTO();
+			addDeletePusherDTO.setNowServingGuestId(oWaitlistMetrics.getNowServingParty());
+			addDeletePusherDTO.setTotalWaitTime(oWaitlistMetrics.getTotalWaitTime());
+			addDeletePusherDTO.setNextToNotifyGuestId(oWaitlistMetrics.getGuestToBeNotified());
+			addDeletePusherDTO.setOP("ADD");
+			
+			addDeletePusherDTO.setTotalPartiesWaiting(oWaitlistMetrics.getTotalWaitingGuest());
+			addDeletePusherDTO.setOrgId(guest.getOrganizationID());
+			addDeletePusherDTO.setAddedGuestId(oWaitlistMetrics.getGuestId());
+			addDeletePusherDTO.setGuestUUID(guest.getUuid());
+			addDeletePusherDTO.setTinyURL(tinyUrl);
+			addDeletePusherDTO.setGuestRank(oWaitlistMetrics.getGuestRank());
+			addDeletePusherDTO.setLanguagePrefID(guest.getLanguagePrefID());
+			addDeletePusherDTO.setPartyType(guest.getPartyType());
+			
+			sendPusherMessage(addDeletePusherDTO, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
 			response.setServiceResult(rootMap);
 			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
 
@@ -1357,7 +1374,16 @@ public class WaitListRestAction {
 		rootMap.put("partyType", guest.getPartyType());
 		//sendNotification(guest, guestCount, totalWaitTime);
 
-		sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
+		UpdatePusherDTO updatePusherDTO=new UpdatePusherDTO();
+		
+		updatePusherDTO.setNowServingGuestId(oWaitlistMetrics.getNowServingParty());
+		updatePusherDTO.setTotalWaitTime(oWaitlistMetrics.getTotalWaitTime());
+		updatePusherDTO.setNextToNotifyGuestId(oWaitlistMetrics.getGuestToBeNotified());
+		updatePusherDTO.setUpdguest(guest);
+		updatePusherDTO.setFrom("ADMIN");		
+		updatePusherDTO.setOP("UpdageGuestInfo");
+		
+		sendPusherMessage(updatePusherDTO, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
 
 		return response;
 	}
@@ -1405,6 +1431,7 @@ public class WaitListRestAction {
 					"System Error - add Guest failed");
 		}
 
+
 		rootMap.put("OP", "DEL");
 		rootMap.put("guestObj", oWaitlistMetrics.getGuestToBeNotified());
 		rootMap.put("nowServingParty", oWaitlistMetrics.getNowServingParty());
@@ -1415,6 +1442,18 @@ public class WaitListRestAction {
 		rootMap.put("numberofparties", oWaitlistMetrics.getTotalWaitingGuest());
 		rootMap.put("partyType", guest.getPartyType());
 
+		
+		
+		AddDeletePusherDTO addDeletePusherDTO=new AddDeletePusherDTO();
+		addDeletePusherDTO.setNowServingGuestId(oWaitlistMetrics.getNowServingParty());
+		addDeletePusherDTO.setTotalWaitTime(oWaitlistMetrics.getTotalWaitTime());
+		addDeletePusherDTO.setNextToNotifyGuestId(oWaitlistMetrics.getGuestToBeNotified());
+		addDeletePusherDTO.setOP("DEL");
+		addDeletePusherDTO.setFrom("ADMIN");
+		addDeletePusherDTO.setOrgId(guest.getOrganizationID());
+		addDeletePusherDTO.setTotalPartiesWaiting(oWaitlistMetrics.getTotalWaitingGuest());
+		addDeletePusherDTO.setPartyType(guest.getPartyType());
+		
 		HttpSession sessionObj= request.getSession();
 		UserDTO userDto=(UserDTO) sessionObj.getAttribute(Constants.USER_OBJ);
 		//Organization organization;
@@ -1463,8 +1502,8 @@ public class WaitListRestAction {
 				}
 			}
 		}
-
-		sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
+		
+		sendPusherMessage(addDeletePusherDTO, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
 		response.setServiceResult(rootMap);
 		return response;
 	}
@@ -1488,15 +1527,25 @@ public class WaitListRestAction {
 			rootMap.put(Constants.RSNT_NOW_SERVING_GUEST_ID, oWaitlistMetrics.getNowServingParty());
 			rootMap.put(Constants.RSNT_ORG_TOTAL_WAIT_TIME, oWaitlistMetrics.getTotalWaitTime());
 			rootMap.put(Constants.RSNT_NEXT_TO_NOTIFY_GUEST_ID, oWaitlistMetrics.getGuestToBeNotified());
-
+			
 			rootMap.put("OP", "NOTIFY_USER");
 			rootMap.put("FROM", "ADMIN");
 			rootMap.put("notifyUser", numberOfUsers);
 			rootMap.put("totalWaitTime", oWaitlistMetrics.getTotalWaitTime());
 			rootMap.put("orgid", orgid);
+			
+
+			AddDeletePusherDTO addDeletePusherDTO=new AddDeletePusherDTO();
+			addDeletePusherDTO.setNowServingGuestId(oWaitlistMetrics.getNowServingParty());
+			addDeletePusherDTO.setTotalWaitTime(oWaitlistMetrics.getTotalWaitTime());
+			addDeletePusherDTO.setNextToNotifyGuestId(oWaitlistMetrics.getGuestToBeNotified());
+			addDeletePusherDTO.setOP("NOTIFY_USER");
+			addDeletePusherDTO.setFrom("ADMIN");
+			addDeletePusherDTO.setOrgId(orgid);
+			
 			response.setServiceResult(rootMap);
 			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
-			sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
+			sendPusherMessage(addDeletePusherDTO, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
 		} catch(RsntException e){
 			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
 					"System Error - add Guest failed");
@@ -1534,8 +1583,19 @@ public class WaitListRestAction {
 			rootMap.put("orgid", orgid);
 			rootMap.put("nowServingParty", oWaitlistMetrics.getNowServingParty());
 			response.setServiceResult(rootMap);
+			
+			AddDeletePusherDTO addDeletePusherDTO=new AddDeletePusherDTO();
+			addDeletePusherDTO.setNowServingGuestId(oWaitlistMetrics.getNowServingParty());
+			addDeletePusherDTO.setTotalWaitTime(oWaitlistMetrics.getTotalWaitTime());
+			addDeletePusherDTO.setNextToNotifyGuestId(oWaitlistMetrics.getGuestToBeNotified());
+			addDeletePusherDTO.setOP("PPT_CHG");
+			addDeletePusherDTO.setFrom("ADMIN");
+			addDeletePusherDTO.setOrgId(orgid);
+			addDeletePusherDTO.setNowServingGuestId(oWaitlistMetrics.getNowServingParty());
+			addDeletePusherDTO.setPerPartyWaitTime(perPartyWaitTime);
+			
 			CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);
-			sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
+			sendPusherMessage(addDeletePusherDTO, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
 
 		} catch(RsntException e){
 			CommonUtil.setWebserviceResponse(response, Constants.ERROR, null, null,
@@ -1602,6 +1662,16 @@ public class WaitListRestAction {
 		rootMap.put("totalWaitTime", oWaitlistMetrics.getTotalWaitTime());
 		rootMap.put("orgid", guest.getOrganizationID());
 		rootMap.put("partyType", guest.getPartyType());
+		
+		UpdatePusherDTO updatePusherDTO=new UpdatePusherDTO();
+		
+		updatePusherDTO.setNowServingGuestId(oWaitlistMetrics.getNowServingParty());
+		updatePusherDTO.setTotalWaitTime(oWaitlistMetrics.getTotalWaitTime());
+		updatePusherDTO.setNextToNotifyGuestId(oWaitlistMetrics.getGuestToBeNotified());
+		updatePusherDTO.setUpdguest(guest);
+		updatePusherDTO.setOrgGuestCount(guestCount);
+		updatePusherDTO.setFrom("ADMIN");
+		updatePusherDTO.setOP("UPD");
 
 		HttpSession sessionObj= request.getSession();
 		UserDTO userDto=(UserDTO) sessionObj.getAttribute(Constants.USER_OBJ);
@@ -1636,7 +1706,7 @@ public class WaitListRestAction {
 				}
 			}
 		}
-		sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
+		sendPusherMessage(updatePusherDTO, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
 
 		return response;
 	}
@@ -1698,6 +1768,16 @@ public class WaitListRestAction {
 
 		rootMap.put("orgid", guest.getOrganizationID());
 		rootMap.put("partyType", guest.getPartyType());
+		
+	    UpdatePusherDTO updatePusherDTO=new UpdatePusherDTO();
+		
+		updatePusherDTO.setNowServingGuestId(oWaitlistMetrics.getNowServingParty());
+		updatePusherDTO.setTotalWaitTime(oWaitlistMetrics.getTotalWaitTime());
+		updatePusherDTO.setNextToNotifyGuestId(oWaitlistMetrics.getGuestToBeNotified());
+		updatePusherDTO.setUpdguest(guest);
+		updatePusherDTO.setOrgGuestCount(guestCount);
+		updatePusherDTO.setFrom("ADMIN");
+		updatePusherDTO.setOP("UPD");
 
 		HttpSession sessionObj= request.getSession();
 		UserDTO userDto=(UserDTO) sessionObj.getAttribute(Constants.USER_OBJ);
@@ -1731,7 +1811,7 @@ public class WaitListRestAction {
 				}
 			}
 		}
-		sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
+		sendPusherMessage(updatePusherDTO, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
 
 		return response;
 
@@ -1786,6 +1866,15 @@ public class WaitListRestAction {
 		rootMap.put("ORG_GUEST_COUNT", guestCount);
 		rootMap.put("orgid", orgId);
 		rootMap.put("partyType", guestToBeSeated.getPartyType());
+		
+	    UpdatePusherDTO updatePusherDTO=new UpdatePusherDTO();
+		
+		updatePusherDTO.setNowServingGuestId(oWaitlistMetrics.getNowServingParty());
+		updatePusherDTO.setTotalWaitTime(oWaitlistMetrics.getTotalWaitTime());
+		updatePusherDTO.setUpdguest(guestToBeSeated);
+		updatePusherDTO.setOrgGuestCount(guestCount);
+		updatePusherDTO.setFrom("ADMIN");
+		updatePusherDTO.setOP("MARK_AS_SEATED");
 		//turn off 3rd level notifiction by shruti shah along with history and threshold changes
 		//sendNotification(guestToBeSeated, oWaitlistMetrics, Constants.NOTIF_MARK_AS_SEATED);
 
@@ -1824,7 +1913,7 @@ public class WaitListRestAction {
 				}
 			}
 		}
-		sendPusherMessage(rootMap, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
+		sendPusherMessage(updatePusherDTO, AppInitializer.pusherChannelEnv+"_"+rootMap.get("orgid"));
 
 		return response;
 	}
@@ -1867,7 +1956,7 @@ public class WaitListRestAction {
 	}
 
 
-	private JSONObject sendPusherMessage(Map<String, Object> rootMap, String channel)
+	private JSONObject sendPusherMessage(Object rootMap, String channel)
 	{
 		//RealtimefameworkPusher.sendViaRealtimeRestApi(rootMap, channel);
 		//pusher.sendPusher(rootMap, channel);
