@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.kyobee</groupId>
@@ -20,18 +21,9 @@
 
 	</properties>
 
-	<!-- <dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.amazonaws</groupId>
-				<artifactId>aws-java-sdk-bom</artifactId>
-				<version>1.11.113</version>
-				<version>1.10.43</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement> -->
+	<!-- <dependencyManagement> <dependencies> <dependency> <groupId>com.amazonaws</groupId> 
+		<artifactId>aws-java-sdk-bom</artifactId> <version>1.11.113</version> <version>1.10.43</version> 
+		<type>pom</type> <scope>import</scope> </dependency> </dependencies> </dependencyManagement> -->
 
 	<dependencies>
 		<dependency>
@@ -126,17 +118,9 @@
 		</dependency>
 
 		<!-- Jasper jar for jasper report -->
-		<!-- <dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports</artifactId>
-			<version>6.0.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>tomcat</groupId>
-			<artifactId>jasper-compiler-jdt</artifactId>
-			<version>5.5.23</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>net.sf.jasperreports</groupId> <artifactId>jasperreports</artifactId> 
+			<version>6.0.0</version> </dependency> <dependency> <groupId>tomcat</groupId> 
+			<artifactId>jasper-compiler-jdt</artifactId> <version>5.5.23</version> </dependency> -->
 		<!-- Jackson jar for object to json conversion -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -194,11 +178,17 @@
 		</dependency>
 
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.stripe</groupId>
 			<artifactId>stripe-java</artifactId>
 			<version>3.5.0</version>
-		</dependency>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.code.gson</groupId>
+					<artifactId>gson</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency> -->
 
 		<dependency>
 			<groupId>com.lowagie</groupId>
@@ -280,9 +270,9 @@
 		<!-- Amazon s3 dependencies -->
 		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3 -->
 		<dependency>
-		    <groupId>com.amazonaws</groupId>
-		    <artifactId>aws-java-sdk-s3</artifactId>
-		    <version>1.11.474</version>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-s3</artifactId>
+			<version>1.11.474</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-sns -->
@@ -311,6 +301,12 @@
 			<groupId>com.ganyo</groupId>
 			<artifactId>gcm-server</artifactId>
 			<version>1.0.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.pubnub</groupId>
+			<artifactId>pubnub-gson</artifactId>
+			<version>4.29.2</version>			
 		</dependency>
 
 	</dependencies>
