@@ -2145,7 +2145,7 @@ public class WaitListRestAction {
 
 	//saveOrupdateProfile by Aarshi(15/03/2019)
 	@RequestMapping(value = "/saveOrUpdateProfile", method = RequestMethod.POST, produces = "application/json", consumes="application/json")
-	public Response<UserDTO> saveOrUpdateProfile(@RequestBody Credential credentials) throws RsntException{
+	public Response<UserDTO> saveOrUpdateProfile(@RequestBody Credential credentials,HttpServletRequest request) throws RsntException{
 		Response<UserDTO> response = new Response<UserDTO>();
 		Properties oProperties=new Properties();
 		try {
@@ -2159,10 +2159,10 @@ public class WaitListRestAction {
 			if(userExists.equals("FALSE")){
 				Boolean statusOfUpdate=waitListService.updateOrSaveProfile(credentials);
 
-				//HttpSession sessionObj = request.getSession();
-				UserDTO userDTO = waitListService.prepareUserObj(credentials);
-				
-				//sessionObj.setAttribute(Constants.USER_OBJ, userDTO);
+				HttpSession sessionObj = request.getSession();
+				//UserDTO userDTO = waitListService.prepareUserObj(credentials);
+				UserDTO userDTO=(UserDTO) sessionObj.getAttribute(Constants.USER_OBJ);
+				sessionObj.setAttribute(Constants.USER_OBJ, userDTO);
 				
 				response.setServiceResult(userDTO);
 				response.setStatus(oProperties.getProperty(Constants.USER_UPDATE_SUCCESS));
