@@ -1,5 +1,11 @@
 package com.kyobee.util.common;
 
+import java.util.HashMap;
+
+import com.kyobee.dto.UserDTO;
+import com.kyobee.entity.Organization;
+import com.kyobee.entity.User;
+
 public class Constants {
 	
 	
@@ -175,5 +181,11 @@ public class Constants {
 	
 	public static final Integer MARK_AS_LANGUAGE_UP_TO_DATE = 0;
 	
+	//for replacing session
+	public static HashMap<Long, Organization> ORGANIZATIONMAP=new HashMap<Long, Organization>();
+	//for replacing session
+	public static HashMap<Long, UserDTO> USERMAP=new HashMap<Long, UserDTO>();
+	
+	public static String pusherName;
 	
 }

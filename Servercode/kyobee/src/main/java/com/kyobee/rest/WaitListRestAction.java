@@ -53,8 +53,10 @@ import com.kyobee.entity.Guest;
 import com.kyobee.entity.GuestNotificationBean;
 import com.kyobee.entity.GuestPreferences;
 import com.kyobee.entity.MarketingPreference;
+import com.kyobee.entity.Organization;
 import com.kyobee.exception.RsntException;
 import com.kyobee.service.ConfigurationService;
+import com.kyobee.service.IOrganizationService;
 import com.kyobee.service.ISecurityService;
 import com.kyobee.service.IWaitListService;
 import com.kyobee.util.AppInitializer;
@@ -63,8 +65,9 @@ import com.kyobee.util.SessionContextUtil;
 import com.kyobee.util.common.CommonUtil;
 import com.kyobee.util.common.Constants;
 import com.kyobee.util.common.LoggerUtil;
-import com.kyobee.util.common.RealtimefameworkPusher;
+
 import com.kyobee.util.jms.NotificationMessageReceiver;
+import com.kyobee.util.pusherLatest.NotificationUtil;
 
 import net.sf.json.JSONObject;
 
@@ -98,7 +101,12 @@ public class WaitListRestAction {
 
 	@Autowired
 	private NotificationMessageReceiver messageReceiver;
+	
+	@Autowired
+	IOrganizationService organizationService;
 
+
+	
 
 	/**
 	 * Send Notification to guests by user preferences
@@ -1409,8 +1417,19 @@ public class WaitListRestAction {
 
 		HttpSession sessionObj= request.getSession();
 		UserDTO userDto=(UserDTO) sessionObj.getAttribute(Constants.USER_OBJ);
-		if(userDto == null){
+		//Organization organization;
+		/*if(Constants.ORGANIZATIONMAP.containsKey(guest.getOrganizationID()))
+		{
+			 organization=Constants.ORGANIZATIONMAP.get(guest.getOrganizationID());
+		}*/
+		if(userDto!=null) {
+			
+		}
+		
+		else{
 			userDto=new UserDTO();
+			//organization=new Organization();
+			//organization=organizationService.getOrganizationById(guest.getOrganizationID());
 			userDto.setSmsRoute(waitListService.getSmsRouteByOrgid(guest.getOrganizationID()));
 		}
 		if(userDto.getSmsRoute() != null && !userDto.getSmsRoute().equals("")){
@@ -1850,8 +1869,9 @@ public class WaitListRestAction {
 
 	private JSONObject sendPusherMessage(Map<String, Object> rootMap, String channel)
 	{
-		RealtimefameworkPusher.sendViaRealtimeRestApi(rootMap, channel);
-
+		//RealtimefameworkPusher.sendViaRealtimeRestApi(rootMap, channel);
+		//pusher.sendPusher(rootMap, channel);
+		NotificationUtil.sendMessage(rootMap, channel);	
 		JSONObject jsonObject = JSONObject.fromObject(rootMap);
 		return jsonObject;
 	}
@@ -2125,7 +2145,7 @@ public class WaitListRestAction {
 
 	//saveOrupdateProfile by Aarshi(15/03/2019)
 	@RequestMapping(value = "/saveOrUpdateProfile", method = RequestMethod.POST, produces = "application/json", consumes="application/json")
-	public Response<UserDTO> saveOrUpdateProfile(@RequestBody Credential credentials,HttpServletRequest request) throws RsntException{
+	public Response<UserDTO> saveOrUpdateProfile(@RequestBody Credential credentials) throws RsntException{
 		Response<UserDTO> response = new Response<UserDTO>();
 		Properties oProperties=new Properties();
 		try {
@@ -2139,9 +2159,11 @@ public class WaitListRestAction {
 			if(userExists.equals("FALSE")){
 				Boolean statusOfUpdate=waitListService.updateOrSaveProfile(credentials);
 
-				HttpSession sessionObj = request.getSession();
-				UserDTO userDTO = prepareUserObj(credentials);
-				sessionObj.setAttribute(Constants.USER_OBJ, userDTO);
+				//HttpSession sessionObj = request.getSession();
+				UserDTO userDTO = waitListService.prepareUserObj(credentials);
+				
+				//sessionObj.setAttribute(Constants.USER_OBJ, userDTO);
+				
 				response.setServiceResult(userDTO);
 				response.setStatus(oProperties.getProperty(Constants.USER_UPDATE_SUCCESS));
 				CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, oProperties.getProperty(Constants.USER_UPDATE_SUCCESS));
@@ -2160,22 +2182,7 @@ public class WaitListRestAction {
 		}
 		return response;
 	}
-	////USERDTO by Aarshi(19/03/2019)
-	private UserDTO prepareUserObj(Credential user) {
-		UserDTO userDTO = new UserDTO();
-		userDTO.setUserId(Long.parseLong(user.getUserId()));
-		userDTO.setOrganizationId(Long.parseLong(user.getOrgId()));
-		userDTO.setClientBase(user.getClientBase());
-		userDTO.setCompanyEmail(user.getCompanyEmail());
-		userDTO.setCompanyName(user.getCompanyName());
-		userDTO.setPrimaryContactNo(user.getCompanyPrimaryPhone());
-		userDTO.setEmail(user.getEmail());
-		userDTO.setFirstName(user.getFirstName());
-		userDTO.setLastName(user.getLastName());
-		userDTO.setUserName(user.getUsername());
-		userDTO.setAddress(user.getAddressDTO().toString());
-		return userDTO;
-	}
+
 
 
 	//arjun 	21/11/2019
@@ -2332,4 +2339,25 @@ public class WaitListRestAction {
 		}
 		return response;
 	}
+	@RequestMapping(value = "/sendDemoPusher", method = RequestMethod.GET, produces = "application/json")
+	public Response<String> sendPusher () {
+		
+		 HashMap<String, Object> rootMap = new LinkedHashMap<String, Object>();
+		 Response<String> newString= new Response<>();
+		try {
+			    rootMap.put("name", "ABC");
+			    newString.setStatus(Constants.SUCCESS);
+			    newString.setServiceResult("a");
+			    NotificationUtil.sendMessage(rootMap, "awesomechannel");	
+			
+		} catch (Exception e) {
+			
+			System.out.println("error "+e.getMessage());
+			newString.setErrorCode(Constants.ERROR);
+			return newString;
+		}
+
+		return newString;
+	}	
+
 }

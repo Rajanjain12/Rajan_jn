@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kyobee.dao.impl.UserDAO;
@@ -44,14 +45,14 @@ import com.kyobee.service.ConfigurationService;
 import com.kyobee.service.IOrganizationService;
 import com.kyobee.service.ISecurityService;
 import com.kyobee.service.IWaitListService;
-import com.kyobee.util.AppInitializer;
+
 import com.kyobee.util.PropertyUtility;
 import com.kyobee.util.SessionContextUtil;
 import com.kyobee.util.common.CommonUtil;
 import com.kyobee.util.common.Constants;
 import com.kyobee.util.common.LoggerUtil;
-import com.kyobee.util.common.RealtimefameworkPusher;
-import com.sun.net.httpserver.Authenticator.Success;
+
+
 
 import net.sf.json.JSONObject;
 
@@ -77,8 +78,9 @@ public class LoginRestController {
 	/*
 	 * This api is used only for browser and it is validated as per clientbase as of 2-Mar-2017
 	 */
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
-	public Response<UserDTO> login(@RequestBody Credential credenitals, HttpServletRequest request) {
+	public Response<UserDTO> loginMain(@RequestBody Credential credenitals,HttpServletRequest request) {
 		Response<UserDTO> response = new Response<UserDTO>();
 		User loginUser = null;
 		try {
@@ -123,6 +125,8 @@ public class LoginRestController {
 		}
 		return response;
 	}
+	
+
 	//Pampaniya Shweta for Forgot Password....
 	@RequestMapping(value = "/forgotPwd", method = RequestMethod.GET, produces = "application/json")
 	   public Response<String> forgotPassword(@RequestParam String email) throws RsntException 
@@ -279,10 +283,11 @@ public class LoginRestController {
 	}
 	
 	@RequestMapping(value = "/userDetails", method = RequestMethod.GET, produces = "application/json")
-	public Response<UserDTO> fetchUserDetails(HttpServletRequest request) {
+	public Response<UserDTO> fetchUserDetails(HttpServletRequest request) {//@RequestParam String userId
 		Response<UserDTO> userDetails = new Response<UserDTO>();
 		HttpSession sessionObj = request.getSession();
 		UserDTO userDTO = (UserDTO)sessionObj.getAttribute(Constants.USER_OBJ);
+		//UserDTO userDTO1 = (UserDTO)Constants.USERMAP.get(Long.parseLong(userId));
 		if(!CommonUtil.isNullOrEmpty(userDTO)){
 			userDetails.setServiceResult(userDTO);
 			CommonUtil.setWebserviceResponse(userDetails, Constants.SUCCESS, "");
@@ -320,6 +325,8 @@ public class LoginRestController {
 		userDTO.setPermissionList(new ArrayList<String>());
 		userDTO.setOrganizationId((Long) sessionContextUtil.get(Constants.CONST_ORGID));
 		Organization org=orgService.getOrganizationById((Long) sessionContextUtil.get(Constants.CONST_ORGID));
+		Constants.ORGANIZATIONMAP.put(org.getOrganizationId(),org);
+		Constants.USERMAP.put(loginUser.getUserId(),userDTO);
 		userDTO.setSmsRoute(org.getSmsRoute());
 		userDTO.setMaxParty(org.getMaxParty());
 		userDTO.setDefaultLangId(org.getDefaultLangId());
@@ -660,5 +667,42 @@ public class LoginRestController {
 		final JSONObject jsonObject = JSONObject.fromObject(rootMap);
 		
 		return rootMap;
+	}
+	// this two method are created to clear map data 
+	@RequestMapping(value = "/resetMap", method = RequestMethod.GET, produces = "application/json")
+	public Response<String> resetMaps() throws Exception {
+		Response<String> response = new Response<String>();
+		try {
+			 Constants.USERMAP.clear();
+			 Constants.ORGANIZATIONMAP.clear();
+			 response.setServiceResult("map Reset Succesfully");
+			 CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "");
+			
+			LoggerUtil.logInfo("Reset Map Successfully");
+		} catch (Exception e) {
+			 response.setServiceResult("Error Occur while Reset map ");
+			 CommonUtil.setWebserviceResponse(response, Constants.FAILURE, " ");
+			 LoggerUtil.logInfo("Error Occur while Reset map");
+		}
+		return response;
+	}
+	@RequestMapping(value = "/logout", method = RequestMethod.GET, produces = "application/json")
+	public Response<String> logout(String userId,String OrganizationId) throws Exception {
+		Response<String> response = new Response<String>();
+		try {
+			 Constants.USERMAP.get(userId);
+			 Constants.USERMAP.remove(userId);
+			 Constants.ORGANIZATIONMAP.get(Long.parseLong(OrganizationId));
+			 Constants.ORGANIZATIONMAP.remove(Long.parseLong(OrganizationId));
+			 response.setServiceResult("map Reset Succesfully");
+			 CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, "");
+			
+			LoggerUtil.logInfo("Reset Map Successfully");
+		} catch (Exception e) {
+			 response.setServiceResult("Error Occur while Reset map ");
+			 CommonUtil.setWebserviceResponse(response, Constants.FAILURE, " ");
+			 LoggerUtil.logInfo("Error Occur while Reset map");
+		}
+		return response;
 	}
 }

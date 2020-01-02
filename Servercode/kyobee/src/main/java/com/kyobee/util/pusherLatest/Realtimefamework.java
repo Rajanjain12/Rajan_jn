@@ -1,4 +1,4 @@
-package com.kyobee.util.common;
+package com.kyobee.util.pusherLatest;
 
 import ibt.ortc.api.Ortc;
 import ibt.ortc.extensibility.OrtcClient;
@@ -26,11 +26,13 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
+import org.springframework.stereotype.Component;
 
 import com.kyobee.util.AppInitializer;
+import com.kyobee.util.common.Constants;
 
-
-public class RealtimefameworkPusher {
+@Component
+public class Realtimefamework implements IPusher{
 	private static final String defaultServerUrl = "http://ortc-developers.realtime.co/server/2.1";
 	private static final boolean defaultIsBalancer = true;
 	private static final String defaultApplicationKey = "j9MLMa";
@@ -44,7 +46,7 @@ public class RealtimefameworkPusher {
 	public static final String channel =AppInitializer.dashBoardChannel;
 
 	public  static OrtcClient client = null;
-	public RealtimefameworkPusher()
+	public Realtimefamework()
 	{
 		Ortc api = new Ortc();
 		OrtcFactory factory = null;
@@ -67,7 +69,7 @@ public class RealtimefameworkPusher {
 
 	}
 
-	public static void sendViaRealtimeRestApi(Map<String, Object> rootMap, String channel)
+	public  void sendViaRealtimeRestApi(Map<String, Object> rootMap, String channel)
 	{
 		String urlString = getBestServerURL(defaultApplicationKey);
 		try {
@@ -96,7 +98,7 @@ public class RealtimefameworkPusher {
 		}
 	}
 
-	private static int authenticateWebServiceCall(String urlString) throws ClientProtocolException, IOException {
+	private  int authenticateWebServiceCall(String urlString) throws ClientProtocolException, IOException {
 		HttpPost post = new HttpPost(urlString+"/authenticate");
 		List <NameValuePair> nvps = new ArrayList <NameValuePair>();
 		nvps.add(new BasicNameValuePair("AT", defaultAuthenticationToken));
@@ -114,7 +116,7 @@ public class RealtimefameworkPusher {
 		return response.getStatusLine().getStatusCode();
 	}
 
-	private static String getBestServerURL(String defaultapplicationkey2) {
+	private  String getBestServerURL(String defaultapplicationkey2) {
 		HttpURLConnection conn = null;
 		String output = null;
 		try {
@@ -138,6 +140,42 @@ public class RealtimefameworkPusher {
 			conn.disconnect();
 		}
 		return output.substring(output.indexOf("\"")+1, output.lastIndexOf("\""));
+	}
+
+	@Override
+	public void sendPusher(Map<String, Object> rootMap, String channel) {
+		String urlString = getBestServerURL(defaultApplicationKey);
+		try {
+			if( Constants.REALTIME_API_POST_SUCCESS_CODE == authenticateWebServiceCall(urlString)) {
+
+				HttpPost post = new HttpPost(urlString+"/send");
+				List<NameValuePair>  nvps = new ArrayList<NameValuePair>();
+				nvps.add(new BasicNameValuePair("AT", defaultAuthenticationToken));
+				nvps.add(new BasicNameValuePair("AK", defaultApplicationKey));
+				nvps.add(new BasicNameValuePair("PK", defaultPrivateKey));
+				nvps.add(new BasicNameValuePair("C", channel));
+				nvps.add(new BasicNameValuePair("M", JSONObject.fromObject(rootMap).toString()));
+
+				HttpClient httpClient = null;
+				post.setEntity(new UrlEncodedFormEntity(nvps, Consts.UTF_8));
+				httpClient = HttpClientBuilder.create().build();
+				HttpResponse response = httpClient.execute(post);
+				System.out.println(response.getStatusLine());
+
+			}
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public void sucbscribe() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

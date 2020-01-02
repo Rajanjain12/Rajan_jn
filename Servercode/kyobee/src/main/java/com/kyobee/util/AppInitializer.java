@@ -7,10 +7,12 @@ import javax.annotation.PostConstruct;
 
 import org.jboss.logging.Logger;
 import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
+
 import org.springframework.stereotype.Component;
 
 import com.kyobee.exception.RsntException;
+
+import com.kyobee.util.pusherLatest.NotificationUtil;
 
 /*
  * 
@@ -90,6 +92,13 @@ public class AppInitializer {
 	public static String bandwidthUserID;
 	public static String bandwidthApiToken;
 	public static String bandwidthApiSecretkey;
+	public static String realtimeOrSns;
+	public static String realtimeOrPubNub;
+	public static String pubnubSubscribeKey;
+	public static String pubnubSecretkey;
+	public static String pubnubPublishKey;
+	public static String AWS_ACCESS_KEY;
+	public static String AWS_SECRET_KEY;
 
     /**
      * rpmPropertiesMap will contain all the props defined in rpm.properties at application startup.
@@ -129,6 +138,15 @@ public class AppInitializer {
             sysProps.load(this.getClass().getClassLoader().getResourceAsStream("waitlist.properties"));
 			System.setProperties(sysProps);
 			System.getProperties().list(System.out);
+			realtimeOrSns=System.getProperty("rsnt.realtimeorsns");
+			realtimeOrPubNub=System.getProperty("rsnt.pusher.realtimeorpubnub");
+			pubnubPublishKey=System.getProperty("rsnt.pubnub.publishkey");
+			pubnubSubscribeKey=System.getProperty("rsnt.pubnub.subscribekey");
+			pubnubSecretkey=System.getProperty("rsnt.pubnub.secretkey");
+			
+			AWS_ACCESS_KEY=System.getProperty("rsnt.aws.key");
+			AWS_SECRET_KEY=System.getProperty("rsnt.aws.secretKey");
+/*			System.out.println("realtime or sns"+realtimeOrSns);*/
             //appVersion = properties.getProperty("majorBuildNo");
             //appVersion = appVersion + properties.getProperty("minorBuildNo");
             //maxLayoutMarkers = new Integer(properties.getProperty("maxLayoutMarkers"));
@@ -190,6 +208,9 @@ public class AppInitializer {
             bandwidthUserID = extProperties.getProperty("bandwidthUserID");
             bandwidthApiToken = extProperties.getProperty("bandwidthApiToken");
             bandwidthApiSecretkey = extProperties.getProperty("bandwidthApiSecretkey");
+           NotificationUtil notificationUtil=new NotificationUtil();
+            
+            /*PubNubPusherUtill.pubnubConfiguration();*/
 
             // Removed the path from the appVersion.properties and moved just a single path ITSM_PATH to
             // props/conf/rpm.properties file.
