@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.kyobee.exception.RsntException;
-
+import com.kyobee.util.common.Constants;
 import com.kyobee.util.pusherLatest.NotificationUtil;
 
 /*
@@ -140,9 +140,9 @@ public class AppInitializer {
 			System.getProperties().list(System.out);
 			realtimeOrSns=System.getProperty("rsnt.realtimeorsns");
 			realtimeOrPubNub=System.getProperty("rsnt.pusher.realtimeorpubnub");
-			pubnubPublishKey=System.getProperty("rsnt.pubnub.publishkey");
-			pubnubSubscribeKey=System.getProperty("rsnt.pubnub.subscribekey");
-			pubnubSecretkey=System.getProperty("rsnt.pubnub.secretkey");
+			pubnubPublishKey=System.getProperty(Constants.PUSHER_PUBNUB_PUBLISH_KEY_VAL);
+			pubnubSubscribeKey=System.getProperty(Constants.PUSHER_PUBNUB_SUBSCRIBE_KEY_VAL);
+			pubnubSecretkey=System.getProperty(Constants.PUSHER_PUBNUB_SECRET_KEY_VAL);
 			
 			AWS_ACCESS_KEY=System.getProperty("rsnt.aws.key");
 			AWS_SECRET_KEY=System.getProperty("rsnt.aws.secretKey");

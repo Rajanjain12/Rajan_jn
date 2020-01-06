@@ -75,7 +75,7 @@
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group mt-0">
-								<input type="password" name="password" #password="ngModel" [(ngModel)]="signupObjDTO.password" password-verify="{{signupObjDTO.retypePassword}}" 
+								<input type="password" name="password" #password="ngModel" [(ngModel)]="signupObjDTO.password" 
 								ng-minlength="6" ng-maxlength="20" ng-pattern="/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/" id="pwd" required="required"/>
 								<label for="input" class="control-label">Password</label><i class="bar"></i>
 								<button type="button" toggle="#pwd" class="font-color flaticon-eye-1 eye-icon toggle-password font-weight-semibold" ></button>
@@ -90,7 +90,7 @@
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group mt-0">
-								<input type="password" name="retypePassword" #retypePassword="ngModel" [(ngModel)]="signupObjDTO.retypePassword" password-verify="{{signupObjDTO.password}}"  id="repwd" required="required"/>
+								<input type="password" name="retypePassword" #retypePassword="ngModel" [(ngModel)]="signupObjDTO.retypePassword"   id="repwd" required="required"/>
 								<label for="input" class="control-label">Re-type Password</label><i class="bar"></i>
 								<button type="button" toggle="#repwd" class="font-color flaticon-eye-1 eye-icon toggle-password font-weight-semibold"></button>
 								<div *ngIf="signupForm.submitted && retypePassword.invalid" class="error">

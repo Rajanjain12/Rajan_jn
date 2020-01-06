@@ -49,7 +49,9 @@ KyobeeControllers.controller('waitListCtrl',
 					$scope.successMsg = null;
 					/*$scope.clientBase = $scope.userDTO.clientBase;
 					alert($scope.clientBase);*/
-					
+					$scope.publishKey=null;
+					$scope.subscribeKey=null;
+					$scope.secretKey=null;
 					
 					
 					$scope.userCount = null;  /*for solving footer issue (krupali 17/07/2017)*/
@@ -135,10 +137,17 @@ KyobeeControllers.controller('waitListCtrl',
 								function(data) {
 									console.log("----"+data);
 									if (data.status == "SUCCESS") {
-										$scope.appKey = data.serviceResult.REALTIME_APPLICATION_KEY;
+/*										$scope.appKey = data.serviceResult.REALTIME_APPLICATION_KEY;
 										$scope.privateKey = data.serviceResult.REALTIME_PRIVATE_KEY;
-										$scope.channel = data.serviceResult.pusherChannelEnv;
-										$scope.loadFactory();
+										$scope.channel = data.serviceResult.pusherChannelEnv;*/
+										console.log("result of prop "+JSON.stringify(data.serviceResult));
+										$scope.publishKey=data.serviceResult.PUSHER_PUBNUB_PUBLISH_KEY;
+										$scope.subscribeKey=data.serviceResult.PUSHER_PUBNUB_SUBSCRIBE_KEY;
+										$scope.secretKey=data.serviceResult.PUSHER_PUBNUB_SECRET_KEY;
+										$scope.channel=data.serviceResult.pusherChannelEnv;
+										console.log("data found"+$scope.publishKey+" sub "+$scope.subscribeKey+" sec "+$scope.secretKey+" ch "+$scope.channel);
+										//$scope.loadFactory();
+										$scope.connectPubnub();
 									} else if (data.status == "FAILURE") {
 										alert('Error while fetching user details. Please login again or contact support');
 										$scope.logout();
@@ -932,6 +941,37 @@ KyobeeControllers.controller('waitListCtrl',
 						$('#sendSMSPopup').simplePopup().hide();
 						$(".simplePopupBackground").fadeOut("fast");
 						$scope.selectedGuest = null;
+					}
+					
+					$scope.connectPubnub=function(){
+					
+							 pubnub = new PubNub({
+							        publishKey : $scope.publishKey,
+							        subscribeKey : $scope.subscribeKey
+							    });
+							 
+							 pubnub.addListener({
+							        status: function(statusEvent) {
+							        },
+							        message: function(msg) {
+							            console.log("message "+msg.message.text);
+							            console.log(msg);
+							            var m = msg.message;
+					                    if (m.orgId == $scope.userDTO.organizationId) {
+					                    
+					                    	$scope.totalWaitTime = m.totalWaitTime;
+					                    
+					                    	if(m.OP != "NOTIFY_USER")
+					                    	{ $scope.loadWaitListPage($scope.$parent.pageNo);}
+					                    }
+							        },
+							        presence: function(presenceEvent) {
+							            // handle presence
+							        }
+							    });
+							 pubnub.subscribe({
+							        channels: [$scope.channel] 
+							    });
 					}
 					
 					$scope.loadFactory = function(){

@@ -101,6 +101,14 @@ public class Constants {
 	public static final String PUSHER_PUBLICK_KEY_VAL= "rsnt.pusher.publickey";
 	public static final String PUSHER_PRIVATE_KEY= "PUSHER_PRIVATE_KEY";
 	public static final String PUSHER_PRIVATE_KEY_VAL= "rsnt.pusher.privatekey";
+	
+	public static final String PUSHER_PUBNUB_PUBLISH_KEY= "PUSHER_PUBNUB_PUBLISH_KEY";
+	public static final String PUSHER_PUBNUB_PUBLISH_KEY_VAL= "rsnt.pubnub.publishkey";
+	public static final String PUSHER_PUBNUB_SUBSCRIBE_KEY= "PUSHER_PUBNUB_SUBSCRIBE_KEY";
+	public static final String PUSHER_PUBNUB_SUBSCRIBE_KEY_VAL= "rsnt.pubnub.subscribekey";
+	public static final String PUSHER_PUBNUB_SECRET_KEY= "PUSHER_PUBNUB_SECRET_KEY";
+	public static final String PUSHER_PUBNUB_SECRET_KEY_VAL= "rsnt.pubnub.secretkey";
+	
 	public static final String RSNT_GUEST= "guest";
 	public static final String RSNT_ERROR= "error";
 	

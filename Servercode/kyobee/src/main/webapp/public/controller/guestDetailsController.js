@@ -24,6 +24,11 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 					$scope.appKey = null;
 					$scope.privateKey = null;
 					$scope.channel = null;
+					
+					$scope.publishKey=null;
+					$scope.subscribeKey=null;
+					$scope.secretKey=null;
+					
 					$scope.authToken = 'Unno1adyiSooIAkAEt';
 					$scope.connectionUrl = 'https://ortc-developers.realtime.co/server/2.1';
 					$scope.client = null;
@@ -392,11 +397,12 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
-										if ($scope.client.getIsConnected() == false) {
+										/*if ($scope.client.getIsConnected() == false) {
 											$scope.client.connect($scope.appKey, $scope.authToken);
-					                     }
-					   	    		    var message = JSON.stringify({"OP":"UpdageGuestInfo","guestObj":data.serviceResult.updguest.guestID,"updguest":data.serviceResult.guest,"FROM":"USER","ppwt":$scope.orgWaitTime ,"orgid":$scope.guest.organizationID});
-					                    $scope.client.send($scope.channel, message);
+					                     }*/
+					   	    		    var message = JSON.stringify({"nextToNotifyGuestId":data.serviceResult.NEXT_TO_NOTIFY_GUEST_ID,"totalWaitTime":data.serviceResult.ORG_TOTAL_WAIT_TIME,"OP":"UpdageGuestInfo","nowServingGuestId":data.serviceResult.NOW_SERVING_GUEST_ID,"FROM":"USER","updguest":data.serviceResult.guest});
+					                    //$scope.client.send($scope.channel, message);
+					   	    		    $scope.publishMessage(message);
 							            console.log('Sending from updateguest: ' + message + ' to channel: ' + $scope.channel);
 							            $scope.loading = false;
 							            $scope.scrollToTop();
@@ -424,10 +430,13 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 									console.log(data);
 									if (data.status == "SUCCESS") {
 										$scope.loading= false;
-										if ($scope.client.getIsConnected() == false) {
+										console.log("Data of delete "+JSON.stringify(data))
+/*										if ($scope.client.getIsConnected() == false) {
 											$scope.client.connect($scope.appKey, $scope.authToken);
-					                     }
-					   	    		    var message = JSON.stringify( {"OP":"DEL","guestObj":$scope.guest.guestID,"FROM":"USER","ppwt":$scope.orgWaitTime,"orgid":$scope.guest.organizationID});
+					                     }*/
+					   	    		    var message = JSON.stringify( {"totalPartiesWaiting":data.serviceResult.numberofparties,"nextToNotifyGuestId":data.serviceResult.NEXT_TO_NOTIFY_GUEST_ID,"OP":"DEL", "totalWaitTime": data.serviceResult.totalWaitTime, "nowServingGuestId": data.serviceResult.NOW_SERVING_GUEST_ID,"orgId": data.serviceResult.orgid, "partyType": data.serviceResult.partyType,"FROM":"USER"});
+					   	    		    $scope.publishMessage(message);
+					   	    		    
 					   	    		    //$scope.client.send($scope.channel, message);
 							            //console.log('Sending from deleteguest: ' + message + ' to channel: ' + $scope.channel);
 						   	    	 	//$('#deletemsg').addClass('is-visible');
@@ -517,10 +526,17 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 								function(data) {
 									console.log(data);
 									if (data.status == "SUCCESS") {
-										$scope.appKey = data.serviceResult.REALTIME_APPLICATION_KEY;
+/*										$scope.appKey = data.serviceResult.REALTIME_APPLICATION_KEY;
 										$scope.privateKey = data.serviceResult.REALTIME_PRIVATE_KEY;
-										$scope.channel = data.serviceResult.pusherChannelEnv;
-										$scope.loadFactory();
+										$scope.channel = data.serviceResult.pusherChannelEnv;*/
+										
+										$scope.publishKey=data.serviceResult.PUSHER_PUBNUB_PUBLISH_KEY;
+										$scope.subscribeKey=data.serviceResult.PUSHER_PUBNUB_SUBSCRIBE_KEY;
+										$scope.secretKey=data.serviceResult.PUSHER_PUBNUB_SECRET_KEY;
+										$scope.channel=data.serviceResult.pusherChannelEnv;
+										console.log("data found"+$scope.publishKey+" sub "+$scope.subscribeKey+" sec "+$scope.secretKey+" ch "+$scope.channel);
+										//$scope.loadFactory();
+										$scope.connectPubnub();
 									} else if (data.status == "FAILURE") {
 										alert($scope.currentPageLanguage.fetch_error);
 										$scope.logout();
@@ -529,6 +545,79 @@ KyobeeUnSecuredController.controller('guestDetailCtrl',
 									alert($scope.currentPageLanguage.fetch_error);
 								});
 					};
+					$scope.publishMessage=function(message){
+						
+						pubnub.publish({
+							channel : $scope.channel,
+							message : message,
+							callback : function(m){
+								console.log(m)
+							}
+						});
+						 
+					}
+					$scope.connectPubnub=function(){
+						
+							 pubnub = new PubNub({
+							        publishKey : $scope.publishKey,
+							        subscribeKey : $scope.subscribeKey
+							    });
+							 
+							 pubnub.addListener({
+							        status: function(statusEvent) {
+							        },
+							        message: function(msg) {
+							            console.log(msg.message.text);
+							            console.log(msg);
+							            
+							            $scope.countMsgChannel++;
+									    console.log('Received (' + $scope.countMsgChannel + '): ' + msg.message+ ' at channel: ' + $scope.channel);
+										var m = msg.message;
+										if($scope.guest!=null)
+										{
+										if(m.orgId == $scope.guest.organizationID){ 
+											
+											if(m.OP=='DEL'){
+												
+												$scope.loadUserMetricks($scope.guest.guestId,$scope.guest.organizationID);
+											    	/*var nbp = $scope.guestAheadCount;
+											    	$scope.guestAheadCount = $scope.guestAheadCount - 1;
+													var ppwt = $scope.orgWaitTime;
+													$scope.totalWaitTime = ppwt*(nbp-1) + parseInt(ppwt);
+													$scope.$apply();*/
+											    }
+										    if(m.OP=='PPT_CHG'){
+										    	var nbp = $scope.guestAheadCount;
+												var ppwt = parseInt(m.ppwt);
+												$scope.totalWaitTime = (ppwt*nbp)+parseInt(ppwt);
+												$scope.$apply();
+											    }
+										    if(m.OP=='RESET'){ 
+										    	location.reload();
+											    }
+										  /*  if(m.OP=='MINRANK'){ 
+										    	 $("#guestRankMin").html(m.guminrank);
+												 //Start for Prefix
+										    	 if($.query.get("orgid") == 15){
+										 			 var grmin = parseInt($("#guestRankMin").html());
+										  			  	$("#guestRankMin").html("A"+grmin);
+											      	}
+											     //End for prefix
+											    }*/
+										    if(m.OP=='UPD'){
+									            console.log("update received from Guest")
+									        }
+										  }
+							            }
+							        },
+							        presence: function(presenceEvent) {
+							            // handle presence
+							        }
+							    });
+							 pubnub.subscribe({
+							        channels: [$scope.channel] 
+							    });
+					}
 					
 					$scope.loadFactory = function(){
 						

@@ -1124,12 +1124,17 @@ public class WaitListRestAction {
 	public Response<Map<String, String>> getPushEventsConfigDetails(){
 		Response<Map<String, String>> response = new Response<Map<String,String>>();
 		Map<String, String> eventConfig = new HashMap<String, String>();
-		eventConfig.put(Constants.REALTIME_APPLICATION_KEY, System.getProperty(Constants.REALTIME_APPLICATION_KEY_VAL));
+/*		eventConfig.put(Constants.REALTIME_APPLICATION_KEY, System.getProperty(Constants.REALTIME_APPLICATION_KEY_VAL));
 		eventConfig.put(Constants.REALTIME_PRIVATE_KEY, System.getProperty(Constants.REALTIME_PRIVATE_KEY_VAL));
 		eventConfig.put(Constants.PUSHER_CHANNEL_ENV, AppInitializer.pusherChannelEnv+"_"+sessionContextUtil.get(Constants.CONST_ORGID));
 		eventConfig.put(Constants.QRCODE_VALUE, "123_"+AppInitializer.pusherChannelEnv+"_"+sessionContextUtil.get(Constants.CONST_ORGID));
-		eventConfig.put(Constants.FOOTER_MSG, AppInitializer.staticFooterMsg);
+		eventConfig.put(Constants.FOOTER_MSG, AppInitializer.staticFooterMsg);*/
 		//final JSONObject jsonObject = JSONObject.fromObject(eventConfig);
+		
+		eventConfig.put(Constants.PUSHER_PUBNUB_PUBLISH_KEY, AppInitializer.pubnubPublishKey);
+		eventConfig.put(Constants.PUSHER_PUBNUB_SUBSCRIBE_KEY, AppInitializer.pubnubSubscribeKey);
+		eventConfig.put(Constants.PUSHER_PUBNUB_SECRET_KEY, AppInitializer.pubnubSecretkey);
+		eventConfig.put(Constants.PUSHER_CHANNEL_ENV, AppInitializer.pusherChannelEnv+"_"+sessionContextUtil.get(Constants.CONST_ORGID));
 		//return jsonObject.toString();
 		response.setServiceResult(eventConfig);
 		CommonUtil.setWebserviceResponse(response, Constants.SUCCESS, null);

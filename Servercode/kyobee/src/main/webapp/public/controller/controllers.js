@@ -78,7 +78,7 @@ KyobeeUnSecuredController.controller('homeCtrl',
 									console.log(data);
 									if (data.status == "SUCCESS") {
 										$scope.footerMsg = data.serviceResult.FOOTER_MSG;
-										$scope.loadFactory();
+										//$scope.loadFactory();
 									} else if (data.status == "FAILURE") {
 										alert('Error while fetching user details. Please login again or contact support');
 										$scope.logout();
@@ -326,5 +326,7 @@ KyobeeUnSecuredController.controller('homeCtrl',
 						$(".simplePopupBackground").fadeOut("fast");
 						$scope.changeView('login');
 					};
+					
+
 					
 				} ]);
