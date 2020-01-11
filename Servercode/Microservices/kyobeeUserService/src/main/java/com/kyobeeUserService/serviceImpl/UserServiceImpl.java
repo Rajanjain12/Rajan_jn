@@ -1,14 +1,29 @@
 package com.kyobeeUserService.serviceImpl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kyobeeUserService.dao.LanguageKeyMappingDAO;
+import com.kyobeeUserService.dao.LookupDAO;
 import com.kyobeeUserService.dao.OrganizationDAO;
 import com.kyobeeUserService.dao.UserDAO;
 import com.kyobeeUserService.dto.CredentialsDTO;
+import com.kyobeeUserService.dto.LanguageKeyMappingDTO;
+import com.kyobeeUserService.dto.LanguageMasterDTO;
 import com.kyobeeUserService.dto.LoginUserDTO;
 import com.kyobeeUserService.dto.ResetPasswordDTO;
+import com.kyobeeUserService.dto.SeatingMarketingPrefDTO;
+import com.kyobeeUserService.entity.LangMaster;
+import com.kyobeeUserService.entity.Languagekeymapping;
+import com.kyobeeUserService.entity.Lookup;
 import com.kyobeeUserService.entity.Organization;
 import com.kyobeeUserService.entity.User;
 import com.kyobeeUserService.service.UserService;
@@ -32,6 +47,13 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	OrganizationDAO organizationDAO;
+	
+	@Autowired
+	LookupDAO lookupDAO;
+	
+	@Autowired
+	LanguageKeyMappingDAO languageKeyMappingDAO;
+	
 
 	@Override
 	public LoginUserDTO logInCredentialValidate(CredentialsDTO credentialsDTO)
@@ -47,8 +69,54 @@ public class UserServiceImpl implements UserService{
 				BeanUtils.copyProperties(user, loginUserDTO);
 				Organization organization=organizationDAO.fetchOrganizationByUserId(user.getUserID());
 				BeanUtils.copyProperties(organization, loginUserDTO);
-				System.out.println(organization.getOrganizationName());
-				//BeanUtils.copyProperties(user.getOrganizationusers().get(0).getOrganization(), loginUserDTO);
+				loginUserDTO.setCompanyEmail(organization.getEmail());
+				
+				List<LanguageMasterDTO> objectList= languageKeyMappingDAO.fetchLanguageKeyMapForOrganization(organization.getOrganizationID());
+				//System.out.println(objectList.get(0)[0]+" = "+objectList.size());
+				
+				//List<LanguageMasterDTO> businessUnits =
+			
+				
+				//System.out.println(languageList.get(0).getKeyName()+" = "+languageList.size());
+				
+
+				/*
+				 * Map<Integer, List<LanguageMasterDTO>>
+				 * langListById=languageList.stream().collect(Collectors.groupingBy(
+				 * LanguageMasterDTO::getLangId));
+				 * 
+				 * for (Map.Entry<Integer, List<LanguageMasterDTO>> entry :
+				 * langListById.entrySet()) { System.out.println("key: " + entry.getKey() +
+				 * ", value: " + entry.getValue()); }
+				 */
+				 
+				
+				List<Lookup> lookupList=lookupDAO.fetchSeatingAndMarketingPref(organization.getOrganizationID(), 18, 19);
+				List<SeatingMarketingPrefDTO> seatingPrefList=new ArrayList<SeatingMarketingPrefDTO>();
+				List<SeatingMarketingPrefDTO> marketingPrefList=new ArrayList<SeatingMarketingPrefDTO>();
+				
+				SeatingMarketingPrefDTO seatingPref;
+				SeatingMarketingPrefDTO marketingPref;
+				
+				for(Lookup lookup:lookupList) {
+					if(lookup.getLookuptype().getLookupTypeID()==18) {
+						seatingPref=new SeatingMarketingPrefDTO();
+						seatingPref.setPrefValue(lookup.getName());
+						seatingPref.setPrefValueId(lookup.getLookupID());
+						seatingPrefList.add(seatingPref);
+					}else if(lookup.getLookuptype().getLookupTypeID()==19) {
+						marketingPref=new SeatingMarketingPrefDTO();
+						marketingPref.setPrefValue(lookup.getName());
+						marketingPref.setPrefValueId(lookup.getLookupID());
+						marketingPrefList.add(marketingPref);
+					}
+						
+				}
+				loginUserDTO.setSeatingpref(seatingPrefList);
+				loginUserDTO.setMarketingPref(marketingPrefList);
+				//loginUserDTO.setLanguagePref(languageList);
+				System.out.println("size -- "+lookupList.size());
+				
 				return loginUserDTO;
 			}
 			else {

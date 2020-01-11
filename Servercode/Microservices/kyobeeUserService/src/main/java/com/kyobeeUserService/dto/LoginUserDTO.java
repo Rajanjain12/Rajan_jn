@@ -2,7 +2,6 @@ package com.kyobeeUserService.dto;
 
 import java.util.List;
 
-import com.kyobeeUserService.entity.Address;
 
 public class LoginUserDTO {
 	
@@ -10,10 +9,7 @@ public class LoginUserDTO {
 	    private String userName;
 	    private String firstName;
 	    private String lastName;
-	/*
-	 * private Address address; private String primaryContactNo; private String
-	 * alternateContactNo;
-	 */
+	
 	    private String email;
 	    private List<String> permissionList;
 	    private Long organizationID;
@@ -23,10 +19,17 @@ public class LoginUserDTO {
 	    private String clientBase;
 	    private String companyEmail;
 	    private String organizationName;
-	    private String seatingpref;
-	    private MarketingPreferenceDTO marketingPref;
+	    private List<SeatingMarketingPrefDTO> seatingpref;
+	    private List<SeatingMarketingPrefDTO> marketingPref;
 	    private String smsTemplate;
+	    private List<LanguageKeyMappingDTO> languagePref;
 	
+		public List<LanguageKeyMappingDTO> getLanguagePref() {
+			return languagePref;
+		}
+		public void setLanguagePref(List<LanguageKeyMappingDTO> languagePref) {
+			this.languagePref = languagePref;
+		}
 		public Integer getUserID() {
 			return userID;
 		}
@@ -51,16 +54,7 @@ public class LoginUserDTO {
 		public void setLastName(String lastName) {
 			this.lastName = lastName;
 		}
-
-	/*
-	 * public Address getAddress() { return address; } public void
-	 * setAddress(Address address) { this.address = address; } public String
-	 * getPrimaryContactNo() { return primaryContactNo; } public void
-	 * setPrimaryContactNo(String primaryContactNo) { this.primaryContactNo =
-	 * primaryContactNo; } public String getAlternateContactNo() { return
-	 * alternateContactNo; } public void setAlternateContactNo(String
-	 * alternateContactNo) { this.alternateContactNo = alternateContactNo; }
-	 */
+		
 		public String getEmail() {
 			return email;
 		}
@@ -117,16 +111,18 @@ public class LoginUserDTO {
 		public void setOrganizationName(String organizationName) {
 			this.organizationName = organizationName;
 		}
-		public String getSeatingpref() {
+
+
+		public List<SeatingMarketingPrefDTO> getSeatingpref() {
 			return seatingpref;
 		}
-		public void setSeatingpref(String seatingpref) {
+		public void setSeatingpref(List<SeatingMarketingPrefDTO> seatingpref) {
 			this.seatingpref = seatingpref;
 		}
-		public MarketingPreferenceDTO getMarketingPref() {
+		public List<SeatingMarketingPrefDTO> getMarketingPref() {
 			return marketingPref;
 		}
-		public void setMarketingPref(MarketingPreferenceDTO marketingPref) {
+		public void setMarketingPref(List<SeatingMarketingPrefDTO> marketingPref) {
 			this.marketingPref = marketingPref;
 		}
 		public String getSmsTemplate() {

@@ -1,15 +1,18 @@
 package com.kyobeeUserService.dto;
 
-public class LanguageMasterDTO {
+import java.util.Map;
 
-	 private Long langId;
+public class LanguageKeyMappingDTO {
+
+	 private Integer langId;
 	 private String langName;
 	 private String langIsoCode;
+	 private Map<String, String> languageMap;
 
-	 public Long getLangId() {
+	 public Integer getLangId() {
 		return langId;
 	 }
-	 public void setLangId(Long langId) {
+	 public void setLangId(Integer langId) {
 	    this.langId = langId;
 	 }
 	 public String getLangName() {
@@ -24,5 +27,11 @@ public class LanguageMasterDTO {
 	 public void setLangIsoCode(String langIsoCode) {
 		this.langIsoCode = langIsoCode;
 	 }
+	public Map<String, String> getLanguageMap() {
+		return languageMap;
+	}
+	public void setLanguageMap(Map<String, String> languageMap) {
+		this.languageMap = languageMap;
+	}
 	 
 }
