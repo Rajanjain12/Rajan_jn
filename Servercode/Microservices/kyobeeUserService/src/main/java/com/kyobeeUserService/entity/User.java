@@ -1,5 +1,6 @@
 package com.kyobeeUserService.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -16,20 +17,19 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="USER")
-@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
-public class User {
+public class User implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name="UserID")
-	private int userID;
+	private Integer userID;
 
 	@Column(name="ActivationID")
 	private String activationID;
 
 	@Column(name="Active")
-	private byte active;
+	private Byte active;
 
 	@Column(name="Address")
 	private String address;
@@ -73,38 +73,43 @@ public class User {
 	private String userName;
 
 	//bi-directional many-to-one association to Organizationlayoutdashboard
-	@OneToMany(mappedBy="user")
-	private List<Organizationlayoutdashboard> organizationlayoutdashboards;
+	/*
+	 * @OneToMany(mappedBy="user") private List<Organizationlayoutdashboard>
+	 * organizationlayoutdashboards;
+	 */
 
 	//bi-directional many-to-one association to Organizationuser
-	@OneToMany(mappedBy="user1")
-	private List<Organizationuser> organizationusers1;
+	@OneToMany
+	private List<OrganizationUser> organizationusers;
 
 	//bi-directional many-to-one association to Organizationuser
-	@OneToMany(mappedBy="user2")
-	private List<Organizationuser> organizationusers2;
+	/*
+	 * @OneToMany(mappedBy="user2") private List<OrganizationUser>
+	 * organizationusers2;
+	 */
 
 	//bi-directional many-to-one association to Address
 	@ManyToOne
-	@JoinColumn(name="AddressId")
+	@JoinColumn(name="\"AddressId\"")
 	private Address addressBean;
 
 	//bi-directional many-to-one association to Userrole
-	@OneToMany(mappedBy="user1")
-	private List<Userrole> userroles1;
+	@OneToMany
+	private List<Userrole> userroles;
 
 	//bi-directional many-to-one association to Userrole
-	@OneToMany(mappedBy="user2")
-	private List<Userrole> userroles2;
+	/*
+	 * @OneToMany(mappedBy="user2") private List<Userrole> userroles2;
+	 */
 
 	public User() {
 	}
 
-	public int getUserID() {
+	public Integer getUserID() {
 		return this.userID;
 	}
 
-	public void setUserID(int userID) {
+	public void setUserID(Integer userID) {
 		this.userID = userID;
 	}
 
@@ -116,11 +121,11 @@ public class User {
 		this.activationID = activationID;
 	}
 
-	public byte getActive() {
+	public Byte getActive() {
 		return this.active;
 	}
 
-	public void setActive(byte active) {
+	public void setActive(Byte active) {
 		this.active = active;
 	}
 
@@ -228,71 +233,72 @@ public class User {
 		this.userName = userName;
 	}
 
-	public List<Organizationlayoutdashboard> getOrganizationlayoutdashboards() {
-		return this.organizationlayoutdashboards;
+	/*
+	 * public List<Organizationlayoutdashboard> getOrganizationlayoutdashboards() {
+	 * return this.organizationlayoutdashboards; }
+	 * 
+	 * public void setOrganizationlayoutdashboards(List<Organizationlayoutdashboard>
+	 * organizationlayoutdashboards) { this.organizationlayoutdashboards =
+	 * organizationlayoutdashboards; }
+	 * 
+	 * public Organizationlayoutdashboard
+	 * addOrganizationlayoutdashboard(Organizationlayoutdashboard
+	 * organizationlayoutdashboard) {
+	 * getOrganizationlayoutdashboards().add(organizationlayoutdashboard);
+	 * organizationlayoutdashboard.setUser(this);
+	 * 
+	 * return organizationlayoutdashboard; }
+	 * 
+	 * public Organizationlayoutdashboard
+	 * removeOrganizationlayoutdashboard(Organizationlayoutdashboard
+	 * organizationlayoutdashboard) {
+	 * getOrganizationlayoutdashboards().remove(organizationlayoutdashboard);
+	 * organizationlayoutdashboard.setUser(null);
+	 * 
+	 * return organizationlayoutdashboard; }
+	 */
+
+	public List<OrganizationUser> getOrganizationusers() {
+		return this.organizationusers;
 	}
 
-	public void setOrganizationlayoutdashboards(List<Organizationlayoutdashboard> organizationlayoutdashboards) {
-		this.organizationlayoutdashboards = organizationlayoutdashboards;
+	public void setOrganizationusers(List<OrganizationUser> organizationusers) {
+		this.organizationusers = organizationusers;
 	}
 
-	public Organizationlayoutdashboard addOrganizationlayoutdashboard(Organizationlayoutdashboard organizationlayoutdashboard) {
-		getOrganizationlayoutdashboards().add(organizationlayoutdashboard);
-		organizationlayoutdashboard.setUser(this);
+	public OrganizationUser addOrganizationusers(OrganizationUser organizationusers) {
+		getOrganizationusers().add(organizationusers);
+		organizationusers.setUser(this);
 
-		return organizationlayoutdashboard;
+		return organizationusers;
 	}
 
-	public Organizationlayoutdashboard removeOrganizationlayoutdashboard(Organizationlayoutdashboard organizationlayoutdashboard) {
-		getOrganizationlayoutdashboards().remove(organizationlayoutdashboard);
-		organizationlayoutdashboard.setUser(null);
+	public OrganizationUser removeOrganizationusers(OrganizationUser organizationusers) {
+		getOrganizationusers().remove(organizationusers);
+		organizationusers.setUser(null);
 
-		return organizationlayoutdashboard;
+		return organizationusers;
 	}
 
-	public List<Organizationuser> getOrganizationusers1() {
-		return this.organizationusers1;
-	}
-
-	public void setOrganizationusers1(List<Organizationuser> organizationusers1) {
-		this.organizationusers1 = organizationusers1;
-	}
-
-	public Organizationuser addOrganizationusers1(Organizationuser organizationusers1) {
-		getOrganizationusers1().add(organizationusers1);
-		organizationusers1.setUser1(this);
-
-		return organizationusers1;
-	}
-
-	public Organizationuser removeOrganizationusers1(Organizationuser organizationusers1) {
-		getOrganizationusers1().remove(organizationusers1);
-		organizationusers1.setUser1(null);
-
-		return organizationusers1;
-	}
-
-	public List<Organizationuser> getOrganizationusers2() {
-		return this.organizationusers2;
-	}
-
-	public void setOrganizationusers2(List<Organizationuser> organizationusers2) {
-		this.organizationusers2 = organizationusers2;
-	}
-
-	public Organizationuser addOrganizationusers2(Organizationuser organizationusers2) {
-		getOrganizationusers2().add(organizationusers2);
-		organizationusers2.setUser2(this);
-
-		return organizationusers2;
-	}
-
-	public Organizationuser removeOrganizationusers2(Organizationuser organizationusers2) {
-		getOrganizationusers2().remove(organizationusers2);
-		organizationusers2.setUser2(null);
-
-		return organizationusers2;
-	}
+	/*
+	 * public List<OrganizationUser> getOrganizationusers() { return
+	 * this.organizationusers; }
+	 * 
+	 * public void setOrganizationusers(List<OrganizationUser> organizationusers) {
+	 * this.organizationusers = organizationusers; }
+	 * 
+	 * public OrganizationUser addOrganizationusers(OrganizationUser
+	 * organizationusers) { getOrganizationusers().add(organizationusers);
+	 * organizationusers.setUser(this);
+	 * 
+	 * return organizationusers; }
+	 * 
+	 * public OrganizationUser removeOrganizationusers(OrganizationUser
+	 * organizationusers) { getOrganizationusers().remove(organizationusers);
+	 * organizationusers.setUser(null);
+	 * 
+	 * return organizationusers; }
+	 */
 
 	public Address getAddressBean() {
 		return this.addressBean;
@@ -302,49 +308,46 @@ public class User {
 		this.addressBean = addressBean;
 	}
 
-	public List<Userrole> getUserroles1() {
-		return this.userroles1;
+	public List<Userrole> getUserroles() {
+		return this.userroles;
 	}
 
-	public void setUserroles1(List<Userrole> userroles1) {
-		this.userroles1 = userroles1;
+	public void setUserroles(List<Userrole> userroles) {
+		this.userroles = userroles;
 	}
 
-	public Userrole addUserroles1(Userrole userroles1) {
-		getUserroles1().add(userroles1);
-		userroles1.setUser1(this);
+	public Userrole addUserroles(Userrole userroles) {
+		getUserroles().add(userroles);
+		userroles.setUser(this);
 
-		return userroles1;
+		return userroles;
 	}
 
-	public Userrole removeUserroles1(Userrole userroles1) {
-		getUserroles1().remove(userroles1);
-		userroles1.setUser1(null);
+	public Userrole removeUserroles(Userrole userroles) {
+		getUserroles().remove(userroles);
+		userroles.setUser(null);
 
-		return userroles1;
+		return userroles;
 	}
 
-	public List<Userrole> getUserroles2() {
-		return this.userroles2;
-	}
+	/*
+	 * public List<Userrole> getUserroles2() { return this.userroles2; }
+	 * 
+	 * public void setUserroles2(List<Userrole> userroles2) { this.userroles2 =
+	 * userroles2; }
+	 */
 
-	public void setUserroles2(List<Userrole> userroles2) {
-		this.userroles2 = userroles2;
-	}
-
-	public Userrole addUserroles2(Userrole userroles2) {
-		getUserroles2().add(userroles2);
-		userroles2.setUser2(this);
-
-		return userroles2;
-	}
-
-	public Userrole removeUserroles2(Userrole userroles2) {
-		getUserroles2().remove(userroles2);
-		userroles2.setUser2(null);
-
-		return userroles2;
-	}
+	/*
+	 * public Userrole addUserroles2(Userrole userroles2) {
+	 * getUserroles2().add(userroles2); userroles2.setUser2(this);
+	 * 
+	 * return userroles2; }
+	 * 
+	 * public Userrole removeUserroles2(Userrole userroles2) {
+	 * getUserroles2().remove(userroles2); userroles2.setUser2(null);
+	 * 
+	 * return userroles2; }
+	 */
 
 	
 }

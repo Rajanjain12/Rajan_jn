@@ -1,5 +1,6 @@
 package com.kyobeeUserService.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,14 +9,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-public class Organizationuser {
+@Entity
+@Table(name="ORGANIZATIONUSER")
+public class OrganizationUser implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name="OrganizationUserID")
-	private int organizationUserID;
+	private Integer organizationUserID;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="CreatedAt")
@@ -34,31 +39,35 @@ public class Organizationuser {
 	//bi-directional many-to-one association to Organization
 	@ManyToOne
 	@JoinColumn(name="OrganizationID")
-	private Organization organization1;
+	private Organization organization;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
 	@JoinColumn(name="UserID")
-	private User user1;
+	private User user;
 
 	//bi-directional many-to-one association to Organization
-	@ManyToOne
-	@JoinColumn(name="OrganizationID")
-	private Organization organization2;
+	/*
+	 * @ManyToOne
+	 * 
+	 * @JoinColumn(name="OrganizationID") private Organization organization2;
+	 */
 
 	//bi-directional many-to-one association to User
-	@ManyToOne
-	@JoinColumn(name="UserID")
-	private User user2;
+	/*
+	 * @ManyToOne
+	 * 
+	 * @JoinColumn(name="UserID") private User user2;
+	 */
 
-	public Organizationuser() {
+	public OrganizationUser() {
 	}
 
-	public int getOrganizationUserID() {
+	public Integer getOrganizationUserID() {
 		return this.organizationUserID;
 	}
 
-	public void setOrganizationUserID(int organizationUserID) {
+	public void setOrganizationUserID(Integer organizationUserID) {
 		this.organizationUserID = organizationUserID;
 	}
 
@@ -94,37 +103,34 @@ public class Organizationuser {
 		this.modifiedBy = modifiedBy;
 	}
 
-	public Organization getOrganization1() {
-		return this.organization1;
+	public Organization getOrganization() {
+		return this.organization;
 	}
 
-	public void setOrganization1(Organization organization1) {
-		this.organization1 = organization1;
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 
-	public User getUser1() {
-		return this.user1;
+	public User getUser() {
+		return this.user;
 	}
 
-	public void setUser1(User user1) {
-		this.user1 = user1;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public Organization getOrganization2() {
-		return this.organization2;
-	}
+	/*
+	 * public Organization getOrganization() { return this.organization; }
+	 * 
+	 * public void setOrganization(Organization organization) { this.organization =
+	 * organization; }
+	 */
 
-	public void setOrganization2(Organization organization2) {
-		this.organization2 = organization2;
-	}
-
-	public User getUser2() {
-		return this.user2;
-	}
-
-	public void setUser2(User user2) {
-		this.user2 = user2;
-	}
+	/*
+	 * public User getUser2() { return this.user2; }
+	 * 
+	 * public void setUser2(User user2) { this.user2 = user2; }
+	 */
 
 
 }

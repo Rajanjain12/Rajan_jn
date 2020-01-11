@@ -13,14 +13,17 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="USERROLE")
-public class Userrole implements Serializable{
-
+@Table(name="ORGANIZATIONLANG")
+public class OrganizationLang implements Serializable{
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="UserRoleID")
-	private Integer userRoleID;
+	@Column(name="OrganizationLangID")
+	private Integer organizationLangID;
+
+	@Column(name="Active")
+	private Byte active;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="CreatedAt")
@@ -36,32 +39,33 @@ public class Userrole implements Serializable{
 	@Column(name="ModifiedBy")
 	private String modifiedBy;
 
-	//bi-directional many-to-one association to User
+	//bi-directional many-to-one association to Organization
 	@ManyToOne
-	@JoinColumn(name="UserID")
-	private User user;
+	@JoinColumn(name="OrganizationID")
+	private Organization organization;
 
-	//bi-directional many-to-one association to Lookup
+	//bi-directional many-to-one association to Langmaster
 	@ManyToOne
-	@JoinColumn(name="RoleID")
-	private Lookup lookup;
+	@JoinColumn(name="LanguageID")
+	private LangMaster langmaster;
 
-	//bi-directional many-to-one association to User
-	/*
-	 * @ManyToOne
-	 * 
-	 * @JoinColumn(name="UserID") private User user2;
-	 */
-
-	public Userrole() {
+	public OrganizationLang() {
 	}
 
-	public Integer getUserRoleID() {
-		return this.userRoleID;
+	public Integer getOrganizationLangID() {
+		return this.organizationLangID;
 	}
 
-	public void setUserRoleID(Integer userRoleID) {
-		this.userRoleID = userRoleID;
+	public void setOrganizationLangID(Integer organizationLangID) {
+		this.organizationLangID = organizationLangID;
+	}
+
+	public Byte getActive() {
+		return this.active;
+	}
+
+	public void setActive(Byte active) {
+		this.active = active;
 	}
 
 	public Date getCreatedAt() {
@@ -96,26 +100,20 @@ public class Userrole implements Serializable{
 		this.modifiedBy = modifiedBy;
 	}
 
-	public User getUser() {
-		return this.user;
+	public Organization getOrganization() {
+		return this.organization;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 
-	public Lookup getLookup() {
-		return this.lookup;
+	public LangMaster getLangmaster() {
+		return this.langmaster;
 	}
 
-	public void setLookup(Lookup lookup) {
-		this.lookup = lookup;
+	public void setLangmaster(LangMaster langmaster) {
+		this.langmaster = langmaster;
 	}
-
-	/*
-	 * public User getUser2() { return this.user2; }
-	 * 
-	 * public void setUser2(User user2) { this.user2 = user2; }
-	 */
 
 }
