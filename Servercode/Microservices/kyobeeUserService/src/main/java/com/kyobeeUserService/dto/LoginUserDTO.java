@@ -12,7 +12,7 @@ public class LoginUserDTO {
 	
 	    private String email;
 	    private List<String> permissionList;
-	    private Long organizationID;
+	    private Integer organizationID;
 	    private String smsRoute;
 	    private Integer maxParty;
 	    private Integer defaultLangId;
@@ -21,7 +21,7 @@ public class LoginUserDTO {
 	    private String organizationName;
 	    private List<SeatingMarketingPrefDTO> seatingpref;
 	    private List<SeatingMarketingPrefDTO> marketingPref;
-	    private String smsTemplate;
+	    private List<SmsTemplateDTO> smsTemplate;
 	    private List<LanguageKeyMappingDTO> languagePref;
 	
 		public List<LanguageKeyMappingDTO> getLanguagePref() {
@@ -68,10 +68,10 @@ public class LoginUserDTO {
 			this.permissionList = permissionList;
 		}
 
-		public Long getOrganizationID() {
+		public Integer getOrganizationID() {
 			return organizationID;
 		}
-		public void setOrganizationID(Long organizationID) {
+		public void setOrganizationID(Integer organizationID) {
 			this.organizationID = organizationID;
 		}
 		public String getSmsRoute() {
@@ -125,13 +125,13 @@ public class LoginUserDTO {
 		public void setMarketingPref(List<SeatingMarketingPrefDTO> marketingPref) {
 			this.marketingPref = marketingPref;
 		}
-		public String getSmsTemplate() {
+		public List<SmsTemplateDTO> getSmsTemplate() {
 			return smsTemplate;
 		}
-		public void setSmsTemplate(String smsTemplate) {
+		public void setSmsTemplate(List<SmsTemplateDTO> smsTemplate) {
 			this.smsTemplate = smsTemplate;
 		}
-	    
+
 	    
 
 }

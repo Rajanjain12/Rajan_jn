@@ -13,9 +13,9 @@ import com.kyobeeUserService.entity.Languagekeymapping;
 
 public interface LanguageKeyMappingDAO extends CrudRepository<Languagekeymapping, Integer>{
 
-	@Query(value="SELECT l.LangID,l.LangIsoCode,l.LangName,lm.keyName,lm.Value FROM ORGANIZATIONLANG  ol " + 
-			"join LANGMASTER l on l.LangID=ol.LanguageID " + 
-			"join LANGUAGEKEYMAPPING lm on l.LangIsoCode=lm.LangIsoCode " + 
-			"where OrganizationID=:orgId order by l.LangID",nativeQuery=true)
+	@Query(value="SELECT new com.kyobeeUserService.dto.LanguageMasterDTO(l.langID,l.langName,l.langIsoCode,lm.keyName,lm.value) FROM OrganizationLang ol " +
+			"join LangMaster l on l.langID=ol.langmaster.langID " +
+			"join Languagekeymapping lm on l.langIsoCode=lm.langIsoCode " +
+			"where ol.organization.organizationID=:orgId order by l.langID")
 	List<LanguageMasterDTO> fetchLanguageKeyMapForOrganization(@Param("orgId") Integer orgId);
 }

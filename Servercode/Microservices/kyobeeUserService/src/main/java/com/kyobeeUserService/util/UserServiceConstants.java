@@ -13,4 +13,8 @@ public class UserServiceConstants {
 	
 	public static final String KYOBEEHOST = "http://ec2-54-148-229-195.us-west-2.compute.amazonaws.com/";
 	public static final String KYOBEEMAILID = "ordextechnology@gmail.com";
+	
+	public static final Integer ENGLISHLANGID=1;
+	public static final Integer SEATINGPREFID=18;
+	public static final Integer MARKETINGPREFID=19;
 }
