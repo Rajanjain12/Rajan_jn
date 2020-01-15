@@ -1,6 +1,7 @@
 package com.kyobeeUserService.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -189,9 +190,16 @@ public class UserServiceImpl implements UserService {
 		String response;
 		User user = userDAO.findByUserIDAndAuthCode(resetpassword.getUserId(), resetpassword.getAuthcode());
 		if (user != null) {
-			user.setPassword(CommonUtil.encryptPassword(resetpassword.getPassword()));
-			userDAO.save(user);
-			response = "password reset successfully.";
+			Date today=new Date();
+			if(today.after(user.getActivationExpiryDate())) {
+				throw new InvalidAuthCodeException("Invalid Authcode exception");
+			}
+			else {
+				user.setPassword(CommonUtil.encryptPassword(resetpassword.getPassword()));
+				userDAO.save(user);
+				response = "password reset successfully.";
+			}
+			
 		} else {
 			throw new InvalidAuthCodeException("Invalid Authcode exception");
 		}
@@ -204,12 +212,25 @@ public class UserServiceImpl implements UserService {
 		User user = userDAO.findByUserName(username);
 		if (user != null) {
 			String authcode;
-			if (user.getAuthCode() == null) {
+			if (user.getAuthCode() == null || user.getAuthCode().equals("")) {
+				Date today=new Date();
+				long HOUR = 3600*1000; 
+				Date nextDay=new Date(today.getTime() + 24 * HOUR);
 				authcode = CommonUtil.generateRandomToken().toString();
 				user.setAuthCode(authcode);
+				user.setActivationExpiryDate(nextDay);
 				userDAO.save(user);
 			} else {
-				authcode = user.getAuthCode();
+				Date today=new Date();
+				if(today.after(user.getActivationExpiryDate())) {
+					authcode = CommonUtil.generateRandomToken().toString();
+					user.setAuthCode(authcode);
+					user.setActivationExpiryDate(new Date());
+					userDAO.save(user);
+				}
+				else {
+					authcode = user.getAuthCode();
+				}	
 			}
 			String forgotPasswordURL = UserServiceConstants.KYOBEEHOST + "forgotpassword/" + user.getUserID() + "/"
 					+ authcode;

@@ -16,6 +16,11 @@ import javax.persistence.TemporalType;
 @Table(name="ORGANIZATIONTEMPLATE")
 public class OrganizationTemplate implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7095270916142896899L;
+
 	@Id
 	@Column(name="SmsTemplateID")
 	private Integer smsTemplateID;

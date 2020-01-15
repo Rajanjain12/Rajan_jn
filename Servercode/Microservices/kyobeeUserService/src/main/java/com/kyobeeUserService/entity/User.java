@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -30,9 +29,6 @@ public class User implements Serializable{
 
 	@Column(name="Active")
 	private Byte active;
-
-	@Column(name="Address")
-	private String address;
 
 	@Column(name="AuthCode")
 	private String authCode;
@@ -90,9 +86,12 @@ public class User implements Serializable{
 
 	//bi-directional many-to-one association to Address
 	@ManyToOne
-	@JoinColumn(name="\"AddressId\"")
+	@JoinColumn(name="AddressId")
 	private Address addressBean;
-
+	
+	@Column(name="ActivationExpiryDate")
+	private Date activationExpiryDate;
+	
 	//bi-directional many-to-one association to Userrole
 	@OneToMany
 	private List<Userrole> userroles;
@@ -126,15 +125,8 @@ public class User implements Serializable{
 	}
 
 	public void setActive(Byte active) {
+		
 		this.active = active;
-	}
-
-	public String getAddress() {
-		return this.address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
 	}
 
 	public String getAuthCode() {
@@ -328,6 +320,14 @@ public class User implements Serializable{
 		userroles.setUser(null);
 
 		return userroles;
+	}
+
+	public Date getActivationExpiryDate() {
+		return activationExpiryDate;
+	}
+
+	public void setActivationExpiryDate(Date activationExpiryDate) {
+		this.activationExpiryDate = activationExpiryDate;
 	}
 
 	/*
