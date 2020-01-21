@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+/* Reset CSS */
+@import '~global.css/src/reset';
+
+/* Normalize CSS */
+@import '~global.css/src/normalize';
+
+/* Variables */
+@import './assets/scss/variable';
+
+/* Bootstrap CSS */
+@import '~bootstrap/scss/bootstrap';
+
+html {
+font-size: 16px;
+}
+p {
+margin: 0;
+}
+
+@import './assets/scss/style';
+@import './assets/scss/responsive';

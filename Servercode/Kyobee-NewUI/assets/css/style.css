@@ -571,13 +571,6 @@ fieldset {
   left: 0;
   width: 100%; }
 
-.gender-label {
-  color: #b3b3b3; }
-
-.gender-field {
-  position: relative;
-  top: -12px; }
-
 .fix-header {
   position: fixed;
   width: 100%;
