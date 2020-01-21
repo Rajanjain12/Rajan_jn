@@ -71,3 +71,7 @@ yarn-error.log
 
 .notes.md
 baseline.json
+target
+.project
+.factorypath
+package-lock.json

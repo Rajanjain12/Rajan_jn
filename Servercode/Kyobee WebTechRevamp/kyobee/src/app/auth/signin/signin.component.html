@@ -12,11 +12,11 @@
                 <div class="container-box float-lg-right float-md-none m-md-auto">
                     <form>
                         <div class="form-group mt-0">
-                            <input type="text" required="required"/>
-                            <label for="input" class="control-label">Email/Username</label><i class="bar"></i>
+                            <input type="text" id="userName" name="userName" #uname="ngModel" [(ngModel)]="user.userName" required="required"/>
+                            <label for="input" class="control-label" >Email/Username</label><i class="bar"></i>
                         </div>
                         <div class="form-group mb-0">
-                            <input type="password" id="password" required="required"/>
+                            <input type="password" id="password" name="password" #pwd="ngModel" [(ngModel)]="user.password" required="required"/>
                             <label for="input" class="control-label">Password</label><i class="bar"></i>
                             <span toggle="#password" class="grey flaticon-padlock eye-icon toggle-password font-weight-semibold"></span>
                         </div>
@@ -29,7 +29,7 @@
                         </div>
                     </form>
                     <div class="col-ld-12 text-center pb-3">
-                        <button type="button" class="btn btn-theme background-color shadow w-50" onclick="window.open('dashboard.html','_self')"><span>Sign In</span></button>
+                        <button type="submit" class="btn btn-theme background-color shadow w-50" (click)="validateLogin(false);"><span>Sign In</span></button>
                     </div>
                     <p class="text-center pt-2">You don’t have an account? <a class="font-color font-weight-semibold" href="signup.html">Sign Up</a></p>
                 </div>
