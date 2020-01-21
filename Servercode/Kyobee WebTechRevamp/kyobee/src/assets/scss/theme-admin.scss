@@ -1,0 +1,112 @@
+@import 'variable';
+
+$theme-color:#e14b28;
+/*common css*/
+a:hover{color:$theme-color;text-decoration: none;}
+.font-color{color:$theme-color;}
+.background-color{background-color:$theme-color;}
+.shadow{box-shadow: 0px 3px 13px 0px rgba(221, 56, 36, 0.56)!important;}
+#sidebar-wrapper .sidebar-nav li a.profile-icon img{opacity: 0;}
+/*header*/
+.topnav{
+	button{
+		ul{
+			li{
+				a{
+					&:hover {
+						background-color: $white-color !important;
+						i {
+							color: $theme-color;
+						}
+						/* .ico-m */
+						p {
+							color: $black-color;
+						}
+						/* p */
+					}
+				}
+			}
+		}
+	}
+	a.active {
+		background-color: $white-color !important;
+		border-bottom: 3px solid $theme-color;
+		i {
+			color: $theme-color;
+		}
+		p {
+			color: $black-color;
+		}
+	}
+}
+/*sidebar*/
+#sidebar-wrapper {
+	.sidebar-nav {
+		li.active {
+			a .icon-border-right{
+				border-right: 3px solid $theme-color;
+				.icon-circle {
+					background-color: $theme-color;
+					i{
+						color: $white-color;
+					}
+				}
+			}
+		}
+	}
+}
+/*active state*/
+.activeState{background-color: $theme-color!important;color:$white-color!important;}
+.activeState i{color:#fff;}
+/*pagination*/
+.active-pagination {background-color:$theme-color !important;color:$white-color !important;box-shadow: 0px 5px 10px 0px rgba(237, 59, 47, 0.78) !important;}
+.active-pagination:hover{background-color:$theme-color;color:$white-color}
+.border-right{border-right: 4px solid $theme-color;}
+/*nav bar and nav pills*/
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{border-bottom:2px solid $theme-color!important;color: $theme-color!important;border-top-color: transparent!important;border-left-color: transparent!important;border-right-color: transparent!important;}
+.nav-tabs .nav-link{border:0;}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link{background-color: $theme-color;border-radius: 0;}
+/*profile image*/
+.profile-img { position:relative; width: $profile-img-size; height: $profile-img-size; align-content: center;
+	img { width: $profile-img-size; height: $profile-img-size; border:1px solid $theme-color; }
+}
+.newbtn {
+	cursor: pointer;
+	border:1px solid $theme-color;
+	border-radius: 4px;
+	position:relative;
+	img{
+		height: 125px;
+	}
+	.label-info{
+		visibility: hidden;
+		background-color: rgba(255,255,255,0.6);
+		position: absolute;
+		z-index: 1;
+		bottom: 0;
+		width: 100%;
+		opacity: 0;
+		transition: opacity 0.3s;
+		padding: 3px;
+	}
+}
+/*active filter*/
+.active-filter { background-color: $theme-color; color: $white-color;
+	i {
+		color: $white-color;
+	}
+}
+/*code for plan box hover border and button*/
+.pricing-box:hover{box-shadow: 0 1rem 2rem rgba(0,0,0,.1);transform: scale(1.1);z-index: 2;border:0;}
+.pricing-box:hover .btn-grey-theme{color:#fff;background-color:$theme-color;transition: all ease-in-out 0.3s;}
+.btn-current-plan{
+	border:1px solid $theme-color;
+	background-color: $theme-color;
+	padding: 5px 30px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #fff
+}
+/*footer*/
+footer{background-color:$theme-color;}
