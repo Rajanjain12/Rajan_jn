@@ -28,4 +28,12 @@ export class ApiService {
     return this.http.get(`${environment.serverUrl}${path}`, { headers,params })
       .pipe(catchError(this.formatErrors));
   }
+
+  postParams(path: string, params : HttpParams): Observable<any> {
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+   let postbody={};
+    return this.http.post(
+        `${environment.serverUrl}${path}`,postbody,{headers,params}
+    ).pipe(catchError(this.formatErrors));
+  }
 }

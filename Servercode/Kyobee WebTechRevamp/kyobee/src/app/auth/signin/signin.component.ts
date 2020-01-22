@@ -15,7 +15,7 @@ export class SigninComponent implements OnInit {
   user: LoginDTO = new LoginDTO();
 
   // flag denoting invalid login i.e wrong username or password.
-  invalidLogin: Boolean;
+  invalidLogin: Boolean = false;
   constructor(private userService: UserService, private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
