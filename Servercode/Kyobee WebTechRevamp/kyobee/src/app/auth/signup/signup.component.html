@@ -1,0 +1,143 @@
+<section class="pb-3 fade-in">
+    <div class="custom-container">
+        <div class="col-12 pt-3">
+            <a class="position-absolute" href="signup-plan-and-pricing.html"><span class="flaticon-back"></span></a>
+            <h2 class="text-center font-weight-semibold">Welcome!</h2>
+            <p class="text-center pb-3">Let's get started</p>
+        </div>
+        <div class="normal-box-container mb-3">
+            <form #f="ngForm" (ngSubmit)= "f.form.valid && onSubmit()" novalidate>
+                <div class="row p-3">
+                    <div class="col-lg-6">
+                        <div class="form-group mt-0">
+                            <input type="text" id="firstName" name="firstName" #fname = "ngModel" 
+                            [ngClass]="{ 'is-invalid': f.submitted && fname.invalid }" class="form-control"
+                            [(ngModel)]= "user.firstName" required="required">
+                            <div *ngIf="f.submitted && fname.invalid" class="invalid-feedback">
+                                <small class="text-danger" *ngIf= "fname.errors?.required">First Name is required</small>
+                            </div>
+                            <label for="input" class="control-label">First Name</label><i class="bar"></i>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group mt-0">
+                            <input type="text" id="lastName" name="lastName" #lname = "ngModel" 
+                            [ngClass]="{ 'is-invalid': f.submitted && lname.invalid }" class="form-control"
+                            [(ngModel)]="user.lastName" required="required">
+                            <div *ngIf="f.submitted && lname.invalid" class="invalid-feedback">
+                                <small class="text-danger" *ngIf="lname.errors?.required">Last Name is required</small>
+                            </div>
+                            <label for="input" class="control-label">Last Name</label><i class="bar"></i>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group mt-0">
+                            <input type="text" id="userName" name="userName" #uname = "ngModel" 
+                            [ngClass]="{ 'is-invalid': f.submitted && uname.invalid }" class="form-control"
+                            [(ngModel)]="user.userName" required="required">
+                            <div *ngIf="f.submitted && uname.invalid" class="invalid-feedback">
+                                <small class="text-danger" *ngIf="uname.errors?.required">User Name is required</small>
+                            </div>
+                            <label for="input" class="control-label">User Name</label><i class="bar"></i>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group mt-0">
+                            <input type="email" id="email" class="form-control" name="email" #email="ngModel" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
+								[ngClass]="{ 'is-invalid': f.submitted && email.invalid }"
+									[(ngModel)]="user.email" required="required"/>
+								<div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
+									<small class="text-danger" *ngIf = "email.errors.required">Email is a required</small>
+									<small class="text-danger" *ngIf= "email.errors.pattern">This is not a valid Email!!!</small>
+								</div>
+                            <label for="input" class="control-label">Email</label><i class="bar"></i>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group mt-0">
+                            <input type="text" id="storeName" name="storeName" #stname = "ngModel" 
+                            [ngClass]="{ 'is-invalid': f.submitted && stname.invalid }" class="form-control"
+                                 [(ngModel)]="user.storeName" required="required">
+                            <div *ngIf="f.submitted && stname.invalid" class="invalid-feedback">
+                                <small class="text-danger" *ngIf="stname.errors?.required">Store Name is required</small>
+                            </div>
+                            <label for="input" class="control-label">Store Name</label><i class="bar"></i>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group mt-0">
+                            <input type="tel" id="phone" name="phone" #phone = "ngModel" pattern="^(\+\d{2,4})?\s?(\d{10})$"
+                            [ngClass]="{ 'is-invalid': f.submitted && phone.invalid }" class="form-control"
+                            [(ngModel)]="user.phone" required="required"/>
+                            <div *ngIf="f.submitted && phone.invalid" class="invalid-feedback">
+                                <small class="text-danger" *ngIf="phone.errors?.required">Phone no is required</small>
+                                <small class="text-danger" *ngIf="phone.errors?.pattern">Phone no should be in proper form</small>
+                            </div>
+                            <label for="input" class="control-label">Mobile No</label><i class="bar"></i>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group mt-0">
+                            <input type="text" id="address" name="address" #addr = "ngModel"
+                            [ngClass]="{ 'is-invalid': f.submitted && addr.invalid }" class="form-control"
+                            [(ngModel)]="user.address" required="required"/>
+                            <div *ngIf="f.submitted && addr.invalid" class="invalid-feedback">
+                                <small class="text-danger" *ngIf="addr.errors?.required">Phone no is required</small>
+                            </div>
+                            <label for="input" class="control-label">Address</label><i class="bar"></i>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group mt-0">
+                            <input type="password" id="password"  name="password" #password = "ngModel" pattern="^(?=.*?[A-Z])(?=.*?[#?!@$%^&*-]).{8,12}$"
+                            [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" class="form-control" 
+                            [(ngModel)]="user.password" required="required"/>
+                            <div *ngIf="f.submitted && password.invalid" class="invalid-feedback">
+                                <small class="text-danger" *ngIf="password.errors?.required">Password is required</small>
+                                <small class="text-danger" *ngIf="password.errors?.pattern">Password should be proper</small>
+                            </div>
+                            <label for="input" class="control-label">Password</label><i class="bar"></i>
+                            <!-- <span toggle="#password" class="font-color flaticon-eye-1 eye-icon toggle-password font-weight-semibold"></span> -->
+                            <span class="password-tooltip" id="showWeb" data-toggle="tooltip" data-placement="right" tooltip-title="Password should contain one upercase, one special character and length should be between 8-12."><i class="flaticon-info-button grey"></i></span>
+                            <span class="password-tooltip" id="showResponsive" data-toggle="tooltip" data-placement="left" tooltip-title="Password should contain one upercase, one special character and length should be between 8-12."><i class="flaticon-info-button grey"></i></span>
+                        </div>			
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group mt-0">
+                            <input type="password" id="confirmPassword" appConfirmEqualValidator="password"  name="confirmPassword" #confirmPassword = "ngModel" 
+                            [ngClass]="{ 'is-invalid': f.submitted && confirmPassword.invalid }" class="form-control" 
+                            [(ngModel)]="user.confirmPassword" required="required"/>
+                            <div *ngIf="f.submitted && confirmPassword.invalid" class="invalid-feedback">
+                                <small class="text-danger" *ngIf="confirmPassword.errors?.required">Password is required</small>
+                                <small class="text-danger" *ngIf="confirmPassword.errors?.notEqual">Password does not match</small>
+                            </div>
+                            <label for="input" class="control-label">Confirm Password</label><i class="bar"></i>
+                            <!-- <span toggle="#repassword" class="font-color flaticon-eye-1 eye-icon toggle-password font-weight-semibold"></span> -->
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="checkbox mt-0">
+                            <label>
+                                <input type="checkbox"/><i class="helper"></i> I Agree to the <span class="font-weight-semibold">Terms and Conditions.</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group mt-0">
+                            <div class="g-recaptcha" data-theme="light" data-sitekey="XXXXXXXXXXXXX" class="captcha-size"></div>
+                            <input class="form-control d-none" data-recaptcha="true" required data-error="Please complete the Captcha">
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 text-center">
+                        <button type="submit" class="btn btn-theme background-color shadow" ><span>Sign Up</span></button>
+                    </div>
+                </div>
+            </form>
+            <div class="text-center">
+                <p>Already have an account? <a href="" [routerLink]="['/login']" class="font-color font-weight-semibold">Sign In</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+onclick="window.open('signup-verification.html','_self')

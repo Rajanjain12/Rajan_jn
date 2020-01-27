@@ -5,6 +5,11 @@ export class User {
     lastName: string;
     email: string;
     userName: string;
+    storeName: string;
+    phone: number;
+    address: string;
+    password;
+    confirmPassword;
     signupStep: number;
     firstLogIn: boolean;
   }
