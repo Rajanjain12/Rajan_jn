@@ -15,9 +15,9 @@ export class ResetPasswordComponent implements OnInit {
 
   newPassword: string; // new password string.
   confirmPwd: string; // confirm password string.
-  resetpasswordDTO :ResetpasswordDTO=new ResetpasswordDTO();
-
+  resetpasswordDTO:ResetpasswordDTO;
   ngOnInit() {
+    this.resetpasswordDTO =new ResetpasswordDTO();
     this.resetpasswordDTO.userId = Number(this.route.snapshot.paramMap.get("userId"));
     this.resetpasswordDTO.authcode = String(this.route.snapshot.paramMap.get("authCode"));
   }
