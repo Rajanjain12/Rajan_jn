@@ -232,9 +232,10 @@ public class UserServiceImpl implements UserService {
 					authcode = user.getAuthCode();
 				}	
 			}
-			String forgotPasswordURL = UserServiceConstants.KYOBEEHOST + "forgotpassword/" + user.getUserID() + "/"
+			String forgotPasswordURL = UserServiceConstants.KYOBEEWEBHOST + "reset-password/" + user.getUserID() + "/"
 					+ authcode;
 
+			System.out.println("url:- "+forgotPasswordURL);
 			StringBuilder htmlContent = new StringBuilder();
 //htmlContent.append("<div style='text-align:center'><img src='" + beeyaURL +"/public/assets/images/logo.png'></img></div>");
 			htmlContent.append("<p>Hi " + user.getFirstName() + " " + user.getLastName() + ", </p>");
@@ -248,8 +249,10 @@ public class UserServiceImpl implements UserService {
 					"<p>Email us at " + UserServiceConstants.KYOBEEMAILID + " if you have any other questions! </p>");
 			htmlContent.append("<p>Best,<br/>Kyobee</p>");
 			response = "password sent successufully to your registered account";
-			emailUtil.sendEmail(user.getEmail(), UserServiceConstants.KYOBEEMAILID, "Forgot Passward Email",
-					htmlContent.toString());
+			/*
+			 * emailUtil.sendEmail(user.getEmail(), UserServiceConstants.KYOBEEMAILID,
+			 * "Forgot Passward Email", htmlContent.toString());
+			 */
 		} else {
 			throw new UserNotFoundException("Please Enter valid email address.");
 		}

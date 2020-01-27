@@ -6,13 +6,17 @@ import {  HttpParams } from '@angular/common/http';
   providedIn: 'root'
 })
 export class UserService {
+  
+  resetPwd(request : object) {
+    return this.apiService.post('rest/user/resetPassword',request);
+  }
 
   constructor(private apiService: ApiService) { }
 
   login(request : object) {
     return this.apiService.post('rest/user/login',request);
    }
-   forgotPassword(email : HttpParams){
-    return this.apiService.postParams('rest/user/forgotPassword',email);
+   forgotPassword(username : HttpParams){
+    return this.apiService.postParams('rest/user/forgotPassword',username);
    }
 }

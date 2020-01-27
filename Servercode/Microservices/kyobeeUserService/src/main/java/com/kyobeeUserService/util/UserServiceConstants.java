@@ -11,7 +11,7 @@ public class UserServiceConstants {
 	public static final Integer SUSSESS_CODE=1;
 	public static final Integer ERROR_CODE=0;
 	
-	public static final String KYOBEEHOST = "http://ec2-54-148-229-195.us-west-2.compute.amazonaws.com/";
+	public static final String KYOBEEWEBHOST = "http://localhost:4200/";
 	public static final String KYOBEEMAILID = "ordextechnology@gmail.com";
 	
 	public static final Integer ENGLISHLANGID=1;

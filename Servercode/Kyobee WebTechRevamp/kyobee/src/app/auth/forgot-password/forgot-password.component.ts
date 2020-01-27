@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class ForgotPasswordComponent implements OnInit {
 
   constructor(private userService: UserService,private router: Router) { }
-  email :string ="";
+  username :string ="";
   ngOnInit() {
   }
 
@@ -20,14 +20,14 @@ export class ForgotPasswordComponent implements OnInit {
       return;
     }
     var params = new HttpParams()
-    .set('email', this.email);
+    .set('username', this.username);
    this.userService.forgotPassword(params).subscribe((res: any) => {
       var respData = res;
       console.log("log== "+JSON.stringify(respData));
       if (respData.success == 1) {  
         this.router.navigateByUrl('/login', { replaceUrl: true });
       } else {
-        alert(respData.message);
+        alert("ERROR : "+respData.message);
       }
     });
   }
