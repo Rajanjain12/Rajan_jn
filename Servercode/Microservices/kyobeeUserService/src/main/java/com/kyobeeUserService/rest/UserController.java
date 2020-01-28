@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kyobeeUserService.dto.ResponseDTO;
 import com.kyobeeUserService.service.UserService;
+import com.kyobeeUserService.util.LoggerUtil;
 import com.kyobeeUserService.util.UserServiceConstants;
 import com.kyobeeUserService.util.Exception.AccountNotActivatedExeception;
 import com.kyobeeUserService.util.Exception.InvalidAuthCodeException;
@@ -33,23 +34,25 @@ public class UserController {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			System.out.println("login method");
+			LoggerUtil.logInfo("inside login");
 			LoginUserDTO loginUserDTO= userService.logInCredentialValidate(credentialsDTO);
 			responseDTO.setServiceResult(loginUserDTO);
 			responseDTO.setSuccess(UserServiceConstants.SUSSESS_CODE);
 		}
 		catch(AccountNotActivatedExeception aae) {
+			LoggerUtil.logError(aae);
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
 			responseDTO.setMessage(aae.getMessage());
 			responseDTO.setServiceResult(aae.getMessage());
 		}
 		catch(InvalidLoginException ie) {
+			LoggerUtil.logError(ie);
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
 			responseDTO.setMessage(ie.getMessage());
 			responseDTO.setServiceResult(ie.getMessage());
 		}
 		catch (Exception e) {
-			System.out.println(e);
+			LoggerUtil.logError(e);
 			responseDTO.setServiceResult("Error while fetching details of user");
 			responseDTO.setMessage("Error while fetching details of user");
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
@@ -62,20 +65,20 @@ public class UserController {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			
+			LoggerUtil.logInfo("inside resetPassword");
 			String response= userService.resetPassword(resetpassword);
 			responseDTO.setServiceResult(response);
 			responseDTO.setSuccess(UserServiceConstants.SUSSESS_CODE);
 			responseDTO.setMessage("password reset successfully.");
 		}
 		catch(InvalidAuthCodeException iae) {
-			
+			LoggerUtil.logError(iae);
 			responseDTO.setServiceResult(iae.getMessage());
 			responseDTO.setMessage(iae.getMessage());
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
 		}
 		catch (Exception e) {
-				System.out.println(e);
+			LoggerUtil.logError(e);
 			responseDTO.setServiceResult("Error while reseting the password.");
 			responseDTO.setMessage("Error while reseting the password.");
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
@@ -87,10 +90,10 @@ public class UserController {
     @RequestMapping(value = "/forgotPassword", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
    	public @ResponseBody ResponseDTO forgotPassword(@RequestParam String username) {
      
-    	System.out.println("inside forgot");
+    
    		ResponseDTO responseDTO = new ResponseDTO();
    		try {
-   			
+   			LoggerUtil.logInfo("inside forgot");
    			String response= userService.forgotPassword(username);
    			responseDTO.setServiceResult(response);
    			responseDTO.setSuccess(UserServiceConstants.SUSSESS_CODE);
@@ -98,14 +101,14 @@ public class UserController {
    		}
 		
 		  catch(UserNotFoundException ue) {
-		  
+			  LoggerUtil.logError(ue);
 		  responseDTO.setServiceResult(ue.getMessage());
 		  responseDTO.setMessage(ue.getMessage());
 		  responseDTO.setSuccess(UserServiceConstants.ERROR_CODE); }
 		 
    		catch (Exception e) {
    			
-   			System.out.println(e);
+   			LoggerUtil.logError(e);
    			responseDTO.setServiceResult("Error while fetching user.");
    			responseDTO.setMessage("Error while fetching user.");
    			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);

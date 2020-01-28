@@ -1,15 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FooterComponent } from './layout/footer/footer.component';
-import { HeaderComponent } from './layout/header/header.component';
 import { ThankyouComponent } from './thankyou/thankyou.component';
+import { RouterModule } from '@angular/router';
 
 
 
 @NgModule({
-  declarations: [FooterComponent, HeaderComponent, ThankyouComponent],
+  declarations: [ ThankyouComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
+  ],
+  exports:[
+    ThankyouComponent
   ]
 })
 export class SharedModule { }

@@ -38,7 +38,7 @@ export class ResetPasswordComponent implements OnInit {
 
       if (res.success == 0) {
         // passord rest succesfull routing to thank you page.
-        this.router.navigateByUrl('/thankyou', { state: { passwordReset: "" } });
+        this.router.navigateByUrl('/thankyou', { state: { pageUrl: "reset-password" } });
       }
       else {
         

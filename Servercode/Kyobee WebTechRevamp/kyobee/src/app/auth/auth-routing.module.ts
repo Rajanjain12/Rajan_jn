@@ -4,6 +4,7 @@ import { SigninComponent } from './signin/signin.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { SignupComponent } from './signup/signup.component';
+import { ThankyouComponent } from '../shared/thankyou/thankyou.component';
 
 
 const routes: Routes = [ {
@@ -13,6 +14,7 @@ const routes: Routes = [ {
 {
   path: '',
   component: SigninComponent,
+  pathMatch:'full'
 },{
   path:'forgot-password',
   component:ForgotPasswordComponent
@@ -24,6 +26,10 @@ const routes: Routes = [ {
 {
   path:'reset-password/:userId/:authCode',
   component:ResetPasswordComponent
+},
+{
+     path: 'thankyou',
+    component: ThankyouComponent,
 }
 ];
 

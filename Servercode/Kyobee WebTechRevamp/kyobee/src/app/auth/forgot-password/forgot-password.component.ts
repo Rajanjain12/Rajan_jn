@@ -12,6 +12,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   constructor(private userService: UserService,private router: Router) { }
   username :string ="";
+  show: boolean=null;
   ngOnInit() {
   }
 
@@ -23,11 +24,14 @@ export class ForgotPasswordComponent implements OnInit {
     .set('username', this.username);
    this.userService.forgotPassword(params).subscribe((res: any) => {
       var respData = res;
-      console.log("log== "+JSON.stringify(respData));
+  
       if (respData.success == 1) {  
-        this.router.navigateByUrl('/login', { replaceUrl: true });
+        alert();
+        this.show=true;
+       
       } else {
-        alert("ERROR : "+respData.message);
+        this.show = false;
+        
       }
     });
   }
