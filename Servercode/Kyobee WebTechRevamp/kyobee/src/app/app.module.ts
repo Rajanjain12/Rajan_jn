@@ -9,6 +9,7 @@ import { HeaderComponent } from './shared/layout/header/header.component';
 import { CoreModule } from './core/core.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { SharedModule } from './shared/shared.module';
+import { LoaderComponent } from './shared/loader/loader.component';
 
 
 
@@ -16,7 +17,8 @@ import { SharedModule } from './shared/shared.module';
   declarations: [
     AppComponent,
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
