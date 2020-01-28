@@ -13,8 +13,12 @@ public class UserServiceConstants {
 	
 	public static final String KYOBEEWEBHOST = "http://localhost:4200/";
 	public static final String KYOBEEMAILID = "ordextechnology@gmail.com";
+    public static final String RESETPWDLINK="reset-password/";
 	
 	public static final Integer ENGLISHLANGID=1;
 	public static final Integer SEATINGPREFID=18;
 	public static final Integer MARKETINGPREFID=19;
+	
+	public static final Byte ACTIVATEDUSER=1;
+	public static final String WEBUSER="Web";
 }

@@ -6,6 +6,7 @@ public class CredentialsDTO {
        String password;
        String deviceType;
        String deviceToken;
+       String clientBase;
        
        
 	public String getUserName() {
@@ -31,6 +32,12 @@ public class CredentialsDTO {
 	}
 	public void setDeviceToken(String deviceToken) {
 		this.deviceToken = deviceToken;
+	}
+	public String getClientBase() {
+		return clientBase;
+	}
+	public void setClientBase(String clientBase) {
+		this.clientBase = clientBase;
 	}
        
        

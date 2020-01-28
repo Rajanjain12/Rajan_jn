@@ -16,7 +16,7 @@ public class EmailUtil {
 	@Autowired
     private JavaMailSender javaMailSender;
 	
-	public void sendEmail( String toEmail,String from, String subject, String body){
+	public void sendEmail( String toEmail, String subject, String body){
         
 	    
 		try{
@@ -29,9 +29,6 @@ public class EmailUtil {
 		        helper.setTo(toEmail);
 
 		        helper.setSubject(subject);
-
-		        // default = text/plain
-		        //helper.setText("Check attachment for image!");
 
 		        // true = text/html
 		        helper.setText(body, true);

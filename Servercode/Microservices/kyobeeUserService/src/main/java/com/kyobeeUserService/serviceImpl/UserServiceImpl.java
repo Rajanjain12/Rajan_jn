@@ -62,6 +62,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	OrganizationTemplateDAO organizationTemplateDAO;
 
+	//to validate user and fetch data needed after login in web and mobile, single API for login from web and mobile
 	@Override
 	public LoginUserDTO logInCredentialValidate(CredentialsDTO credentialsDTO)
 			throws InvalidLoginException, AccountNotActivatedExeception {
@@ -69,116 +70,120 @@ public class UserServiceImpl implements UserService {
 		LoginUserDTO loginUserDTO;
 		User user = userDAO.findByUserNameAndPassword(credentialsDTO.getUserName(),CommonUtil.encryptPassword(credentialsDTO.getPassword()));
 		if (user != null) {
-			if (user.getActive() == 1) {
+			if (user.getActive() ==  UserServiceConstants.ACTIVATEDUSER) {
 				loginUserDTO = new LoginUserDTO();
 				BeanUtils.copyProperties(user, loginUserDTO);
+				//fetch organization details associated with user
 				Organization organization = organizationDAO.fetchOrganizationByUserId(user.getUserID());
-				BeanUtils.copyProperties(organization, loginUserDTO);
-				loginUserDTO.setCompanyEmail(organization.getEmail());
-				Map<String, String> defaultLanguageKeyMap = new HashMap<>();
-				
-				if(!credentialsDTO.getDeviceType().equalsIgnoreCase("Web"))
-				{
-					List<LanguageMasterDTO> languageList = languageKeyMappingDAO.fetchLanguageKeyMapForOrganization(organization.getOrganizationID());
-
-					List<LanguageKeyMappingDTO> langkeyMapList = new ArrayList<LanguageKeyMappingDTO>();
-					LanguageKeyMappingDTO languageKeyMappingDTO;
+				if(organization.getClientBase().equalsIgnoreCase(credentialsDTO.getClientBase())) {
+					BeanUtils.copyProperties(organization, loginUserDTO);
+					loginUserDTO.setCompanyEmail(organization.getEmail());
+					Map<String, String> defaultLanguageKeyMap = new HashMap<>();
 					
-					Map<Integer, List<LanguageMasterDTO>> langListById = languageList.stream()
-							.collect(Collectors.groupingBy(LanguageMasterDTO::getLangId));
+					if(!credentialsDTO.getDeviceType().equalsIgnoreCase(UserServiceConstants.WEBUSER))
+					{
+						//fetch languages associated with org and arrange labels in key value 
+						List<LanguageMasterDTO> languageList = languageKeyMappingDAO.fetchLanguageKeyMapForOrganization(organization.getOrganizationID());
 
-					for (Map.Entry<Integer, List<LanguageMasterDTO>> entry : langListById.entrySet()) {
+						List<LanguageKeyMappingDTO> langkeyMapList = new ArrayList<LanguageKeyMappingDTO>();
+						LanguageKeyMappingDTO languageKeyMappingDTO;
+						
+						Map<Integer, List<LanguageMasterDTO>> langListById = languageList.stream()
+								.collect(Collectors.groupingBy(LanguageMasterDTO::getLangId));
 
-						LanguageMasterDTO first = entry.getValue().get(0);
-						languageKeyMappingDTO = new LanguageKeyMappingDTO();
-						languageKeyMappingDTO.setLangId(entry.getKey());
-						languageKeyMappingDTO.setLangName(first.getLangName());
-						languageKeyMappingDTO.setLangIsoCode(first.getLangIsoCode());
-						Map<String, String> keymap = new HashMap<String, String>();
-						keymap.put(first.getKeyName(), first.getValue());
+						for (Map.Entry<Integer, List<LanguageMasterDTO>> entry : langListById.entrySet()) {
 
-						for (LanguageMasterDTO languageMasterDTO : entry.getValue()) {
-							keymap.put(languageMasterDTO.getKeyName(), languageMasterDTO.getValue());
-						}
+							LanguageMasterDTO first = entry.getValue().get(0);
+							languageKeyMappingDTO = new LanguageKeyMappingDTO();
+							languageKeyMappingDTO.setLangId(entry.getKey());
+							languageKeyMappingDTO.setLangName(first.getLangName());
+							languageKeyMappingDTO.setLangIsoCode(first.getLangIsoCode());
+							Map<String, String> keymap = new HashMap<>();
+							keymap.put(first.getKeyName(), first.getValue());
 
-						if (UserServiceConstants.ENGLISHLANGID == entry.getKey()) {
-							defaultLanguageKeyMap = keymap;
-						}
-
-						languageKeyMappingDTO.setLanguageMap(keymap);
-						langkeyMapList.add(languageKeyMappingDTO);
-					}
-
-					loginUserDTO.setLanguagePref(langkeyMapList);
-				}
-
-
-				List<Lookup> lookupList = lookupDAO.fetchSeatingAndMarketingPref(organization.getOrganizationID(), UserServiceConstants.SEATINGPREFID,UserServiceConstants.MARKETINGPREFID);
-				List<SeatingMarketingPrefDTO> seatingPrefList = new ArrayList<SeatingMarketingPrefDTO>();
-				List<SeatingMarketingPrefDTO> marketingPrefList = new ArrayList<SeatingMarketingPrefDTO>();
-
-				SeatingMarketingPrefDTO seatingPref;
-				SeatingMarketingPrefDTO marketingPref;
-
-				for (Lookup lookup : lookupList) {
-					if (lookup.getLookuptype().getLookupTypeID() == UserServiceConstants.SEATINGPREFID) {
-						seatingPref = new SeatingMarketingPrefDTO();
-						seatingPref.setPrefValue(lookup.getName());
-						seatingPref.setPrefValueId(lookup.getLookupID());
-						if (defaultLanguageKeyMap.containsValue(lookup.getName())) {
-							String key = null;
-							for (Map.Entry<String, String> entry : defaultLanguageKeyMap.entrySet()) {
-								if ((lookup.getName()).equals(entry.getValue())) {
-									key = entry.getKey();
-									seatingPref.setPrefKey(key);
-									break;
-								}
+							for (LanguageMasterDTO languageMasterDTO : entry.getValue()) {
+								keymap.put(languageMasterDTO.getKeyName(), languageMasterDTO.getValue());
+							}
+							
+							if (UserServiceConstants.ENGLISHLANGID == entry.getKey()) {
+								defaultLanguageKeyMap = keymap;
 							}
 
+							languageKeyMappingDTO.setLanguageMap(keymap);
+							langkeyMapList.add(languageKeyMappingDTO);
 						}
-						seatingPrefList.add(seatingPref);
-					} else if (lookup.getLookuptype().getLookupTypeID() == UserServiceConstants.MARKETINGPREFID) {
-						marketingPref = new SeatingMarketingPrefDTO();
-						marketingPref.setPrefValue(lookup.getName());
-						marketingPref.setPrefValueId(lookup.getLookupID());
-						if (defaultLanguageKeyMap.containsValue(lookup.getName())) {
 
-							String key = null;
-							for (Map.Entry<String, String> entry : defaultLanguageKeyMap.entrySet()) {
-								if ((lookup.getName()).equals(entry.getValue())) {
-									key = entry.getKey();
-									marketingPref.setPrefKey(key);
-									break;
-								}
-							}
-
-						}
-						marketingPrefList.add(marketingPref);
+						loginUserDTO.setLanguagePref(langkeyMapList);
 					}
 
-				}
+					//fetch seating pref and marketing pref associated with org
+					List<Lookup> lookupList = lookupDAO.fetchSeatingAndMarketingPref(organization.getOrganizationID(), UserServiceConstants.SEATINGPREFID,UserServiceConstants.MARKETINGPREFID);
+					List<SeatingMarketingPrefDTO> seatingPrefList = new ArrayList<SeatingMarketingPrefDTO>();
+					List<SeatingMarketingPrefDTO> marketingPrefList = new ArrayList<SeatingMarketingPrefDTO>();
 
-				List<OrganizationTemplate> templetList = organizationTemplateDAO
-						.fetchSmsTemplateForOrganization(organization.getOrganizationID());
-				List<SmsTemplateDTO> smsTemplateList = new ArrayList<>();
-				SmsTemplateDTO smsTemplate;
-				for (OrganizationTemplate template : templetList) {
-					//System.out.println("--" + template.getTemplateText());
-					smsTemplate = new SmsTemplateDTO();
-					BeanUtils.copyProperties(template, smsTemplate);
-					smsTemplateList.add(smsTemplate);
-				}
-				loginUserDTO.setSmsTemplate(smsTemplateList);
-				loginUserDTO.setSeatingpref(seatingPrefList);
-				loginUserDTO.setMarketingPref(marketingPrefList);
+					SeatingMarketingPrefDTO seatingPref;
+					SeatingMarketingPrefDTO marketingPref;
+					//to separate seating pref and marketing pref 
+					for (Lookup lookup : lookupList) {
+						if (lookup.getLookuptype().getLookupTypeID() == UserServiceConstants.SEATINGPREFID) {
+							seatingPref = new SeatingMarketingPrefDTO();
+							seatingPref.setPrefValue(lookup.getName());
+							seatingPref.setPrefValueId(lookup.getLookupID());
+							if (defaultLanguageKeyMap.containsValue(lookup.getName())) {
+								String key = null;
+								for (Map.Entry<String, String> entry : defaultLanguageKeyMap.entrySet()) {
+									if ((lookup.getName()).equals(entry.getValue())) {
+										key = entry.getKey();
+										seatingPref.setPrefKey(key);
+										break;
+									}
+								}
+							}
+							seatingPrefList.add(seatingPref);
+						} else if (lookup.getLookuptype().getLookupTypeID() == UserServiceConstants.MARKETINGPREFID) {
+							marketingPref = new SeatingMarketingPrefDTO();
+							marketingPref.setPrefValue(lookup.getName());
+							marketingPref.setPrefValueId(lookup.getLookupID());
+							if (defaultLanguageKeyMap.containsValue(lookup.getName())) {
 
-				return loginUserDTO;
+								String key = null;
+								for (Map.Entry<String, String> entry : defaultLanguageKeyMap.entrySet()) {
+									if ((lookup.getName()).equals(entry.getValue())) {
+										key = entry.getKey();
+										marketingPref.setPrefKey(key);
+										break;
+									}
+								}
+
+							}
+							marketingPrefList.add(marketingPref);
+						}
+
+					}
+
+					List<OrganizationTemplate> templetList = organizationTemplateDAO
+							.fetchSmsTemplateForOrganization(organization.getOrganizationID());
+					List<SmsTemplateDTO> smsTemplateList = new ArrayList<>();
+					SmsTemplateDTO smsTemplate;
+					for (OrganizationTemplate template : templetList) {
+						smsTemplate = new SmsTemplateDTO();
+						BeanUtils.copyProperties(template, smsTemplate);
+						smsTemplateList.add(smsTemplate);
+					}
+					loginUserDTO.setSmsTemplate(smsTemplateList);
+					loginUserDTO.setSeatingpref(seatingPrefList);
+					loginUserDTO.setMarketingPref(marketingPrefList);
+
+					return loginUserDTO;
+
+				}
+				else {
+					throw new InvalidLoginException("Invalid username or password");
+				}
 			} else {
-				throw new AccountNotActivatedExeception(
-						"Account is not activated.Please Activate your account using code given at registration.");
+				throw new AccountNotActivatedExeception("Account is not activated.Please Activate your account using code given at registration.");
 			}
 		} else {
-
 			throw new InvalidLoginException("Invalid username or password");
 
 		}
@@ -210,10 +215,11 @@ public class UserServiceImpl implements UserService {
 	public String forgotPassword(String username) throws UserNotFoundException {
 		String response;
 		User user = userDAO.findByUserName(username);
+		Date today=new Date();
 		if (user != null) {
 			String authcode;
 			if (user.getAuthCode() == null || user.getAuthCode().equals("")) {
-				Date today=new Date();
+				
 				long HOUR = 3600*1000; 
 				Date nextDay=new Date(today.getTime() + 24 * HOUR);
 				authcode = CommonUtil.generateRandomToken().toString();
@@ -221,23 +227,25 @@ public class UserServiceImpl implements UserService {
 				user.setActivationExpiryDate(nextDay);
 				userDAO.save(user);
 			} else {
-				Date today=new Date();
+				
 				if(today.after(user.getActivationExpiryDate())) {
 					authcode = CommonUtil.generateRandomToken().toString();
 					user.setAuthCode(authcode);
-					user.setActivationExpiryDate(new Date());
+					long HOUR = 3600*1000; 
+					Date nextDay=new Date(today.getTime() + 24 * HOUR);
+					user.setActivationExpiryDate(nextDay);
 					userDAO.save(user);
 				}
 				else {
 					authcode = user.getAuthCode();
 				}	
 			}
-			String forgotPasswordURL = UserServiceConstants.KYOBEEWEBHOST + "reset-password/" + user.getUserID() + "/"
+			String forgotPasswordURL = UserServiceConstants.KYOBEEWEBHOST + UserServiceConstants.RESETPWDLINK + user.getUserID() + "/"
 					+ authcode;
 
 			System.out.println("url:- "+forgotPasswordURL);
 			StringBuilder htmlContent = new StringBuilder();
-//htmlContent.append("<div style='text-align:center'><img src='" + beeyaURL +"/public/assets/images/logo.png'></img></div>");
+
 			htmlContent.append("<p>Hi " + user.getFirstName() + " " + user.getLastName() + ", </p>");
 			htmlContent.append("<p>We received a request to reset your password for your Kyobee account: "
 					+ user.getEmail() + ". We are here to help!");

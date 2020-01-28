@@ -61,6 +61,7 @@ public class OrgMarketing implements Serializable{
 	private Organization organization;
 
 	public OrgMarketing() {
+		//constructor 
 	}
 
 	public Integer getOrgMarketPrefID() {

@@ -57,6 +57,7 @@ public class LangMaster implements Serializable{
 	private List<OrganizationLang> organizationlangs;
 
 	public void Langmaster() {
+		//constructor 
 	}
 
 	public Integer getLangID() {

@@ -57,6 +57,7 @@ public class OrganizationTemplate implements Serializable{
 	private Organization organization;
 
 	public OrganizationTemplate() {
+		//constructor 
 	}
 
 	public Integer getSmsTemplateID() {

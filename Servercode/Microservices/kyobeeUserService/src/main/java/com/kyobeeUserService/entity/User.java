@@ -68,21 +68,9 @@ public class User implements Serializable{
 	@Column(name="UserName")
 	private String userName;
 
-	//bi-directional many-to-one association to Organizationlayoutdashboard
-	/*
-	 * @OneToMany(mappedBy="user") private List<Organizationlayoutdashboard>
-	 * organizationlayoutdashboards;
-	 */
-
 	//bi-directional many-to-one association to Organizationuser
 	@OneToMany
 	private List<OrganizationUser> organizationusers;
-
-	//bi-directional many-to-one association to Organizationuser
-	/*
-	 * @OneToMany(mappedBy="user2") private List<OrganizationUser>
-	 * organizationusers2;
-	 */
 
 	//bi-directional many-to-one association to Address
 	@ManyToOne
@@ -95,11 +83,6 @@ public class User implements Serializable{
 	//bi-directional many-to-one association to Userrole
 	@OneToMany
 	private List<Userrole> userroles;
-
-	//bi-directional many-to-one association to Userrole
-	/*
-	 * @OneToMany(mappedBy="user2") private List<Userrole> userroles2;
-	 */
 
 	public User() {
 	}
@@ -225,31 +208,6 @@ public class User implements Serializable{
 		this.userName = userName;
 	}
 
-	/*
-	 * public List<Organizationlayoutdashboard> getOrganizationlayoutdashboards() {
-	 * return this.organizationlayoutdashboards; }
-	 * 
-	 * public void setOrganizationlayoutdashboards(List<Organizationlayoutdashboard>
-	 * organizationlayoutdashboards) { this.organizationlayoutdashboards =
-	 * organizationlayoutdashboards; }
-	 * 
-	 * public Organizationlayoutdashboard
-	 * addOrganizationlayoutdashboard(Organizationlayoutdashboard
-	 * organizationlayoutdashboard) {
-	 * getOrganizationlayoutdashboards().add(organizationlayoutdashboard);
-	 * organizationlayoutdashboard.setUser(this);
-	 * 
-	 * return organizationlayoutdashboard; }
-	 * 
-	 * public Organizationlayoutdashboard
-	 * removeOrganizationlayoutdashboard(Organizationlayoutdashboard
-	 * organizationlayoutdashboard) {
-	 * getOrganizationlayoutdashboards().remove(organizationlayoutdashboard);
-	 * organizationlayoutdashboard.setUser(null);
-	 * 
-	 * return organizationlayoutdashboard; }
-	 */
-
 	public List<OrganizationUser> getOrganizationusers() {
 		return this.organizationusers;
 	}
@@ -271,26 +229,6 @@ public class User implements Serializable{
 
 		return organizationusers;
 	}
-
-	/*
-	 * public List<OrganizationUser> getOrganizationusers() { return
-	 * this.organizationusers; }
-	 * 
-	 * public void setOrganizationusers(List<OrganizationUser> organizationusers) {
-	 * this.organizationusers = organizationusers; }
-	 * 
-	 * public OrganizationUser addOrganizationusers(OrganizationUser
-	 * organizationusers) { getOrganizationusers().add(organizationusers);
-	 * organizationusers.setUser(this);
-	 * 
-	 * return organizationusers; }
-	 * 
-	 * public OrganizationUser removeOrganizationusers(OrganizationUser
-	 * organizationusers) { getOrganizationusers().remove(organizationusers);
-	 * organizationusers.setUser(null);
-	 * 
-	 * return organizationusers; }
-	 */
 
 	public Address getAddressBean() {
 		return this.addressBean;
@@ -329,25 +267,5 @@ public class User implements Serializable{
 	public void setActivationExpiryDate(Date activationExpiryDate) {
 		this.activationExpiryDate = activationExpiryDate;
 	}
-
-	/*
-	 * public List<Userrole> getUserroles2() { return this.userroles2; }
-	 * 
-	 * public void setUserroles2(List<Userrole> userroles2) { this.userroles2 =
-	 * userroles2; }
-	 */
-
-	/*
-	 * public Userrole addUserroles2(Userrole userroles2) {
-	 * getUserroles2().add(userroles2); userroles2.setUser2(this);
-	 * 
-	 * return userroles2; }
-	 * 
-	 * public Userrole removeUserroles2(Userrole userroles2) {
-	 * getUserroles2().remove(userroles2); userroles2.setUser2(null);
-	 * 
-	 * return userroles2; }
-	 */
-
 	
 }

@@ -50,6 +50,7 @@ public class OrganizationLang implements Serializable{
 	private LangMaster langmaster;
 
 	public OrganizationLang() {
+		//constructor 
 	}
 
 	public Integer getOrganizationLangID() {

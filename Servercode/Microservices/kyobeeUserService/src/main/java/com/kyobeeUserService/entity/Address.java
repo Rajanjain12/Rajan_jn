@@ -62,6 +62,7 @@ public class Address implements Serializable{
 	private int zipcode;
 
 	public Address() {
+		//constructor 
 	}
 
 	public int getAddressID() {

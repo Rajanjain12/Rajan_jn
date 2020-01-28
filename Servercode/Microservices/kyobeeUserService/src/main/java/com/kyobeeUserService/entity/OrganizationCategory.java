@@ -35,15 +35,9 @@ public class OrganizationCategory implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="OrganizationID")
 	private Organization organization;
-
-	//bi-directional many-to-one association to Organization
-	/*
-	 * @ManyToOne
-	 * 
-	 * @JoinColumn(name="OrganizationID") private Organization organization;
-	 */
-
+	
 	public OrganizationCategory() {
+		//constructor 
 	}
 
 	public Integer getOrganizationCategoryID() {
@@ -77,12 +71,5 @@ public class OrganizationCategory implements Serializable{
 	public void setOrganization(Organization organization) {
 		this.organization = organization;
 	}
-
-	/*
-	 * public Organization getOrganization() { return this.organization; }
-	 * 
-	 * public void setOrganization2(Organization organization2) { this.organization2
-	 * = organization2; }
-	 */
 
 }

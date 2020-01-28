@@ -87,18 +87,8 @@ public class Guest implements Serializable{
 	@JoinColumn(name="languagePrefID")
 	private LangMaster langmaster;
 
-	//bi-directional many-to-one association to Guestpreference
-	/*
-	 * @OneToMany(mappedBy="guest1") private List<Guestpreference>
-	 * guestpreferences1;
-	 * 
-	 * //bi-directional many-to-one association to Guestpreference
-	 * 
-	 * @OneToMany(mappedBy="guest2") private List<Guestpreference>
-	 * guestpreferences2;
-	 */
-
 	public Guest() {
+		//constructor 
 	}
 
 	public Integer getGuestID() {
@@ -340,42 +330,4 @@ public class Guest implements Serializable{
 	public void setLangmaster(LangMaster langmaster) {
 		this.langmaster = langmaster;
 	}
-
-	/*
-	 * public List<Guestpreference> getGuestpreferences1() { return
-	 * this.guestpreferences1; }
-	 * 
-	 * public void setGuestpreferences1(List<Guestpreference> guestpreferences1) {
-	 * this.guestpreferences1 = guestpreferences1; }
-	 * 
-	 * public Guestpreference addGuestpreferences1(Guestpreference
-	 * guestpreferences1) { getGuestpreferences1().add(guestpreferences1);
-	 * guestpreferences1.setGuest1(this);
-	 * 
-	 * return guestpreferences1; }
-	 * 
-	 * public Guestpreference removeGuestpreferences1(Guestpreference
-	 * guestpreferences1) { getGuestpreferences1().remove(guestpreferences1);
-	 * guestpreferences1.setGuest1(null);
-	 * 
-	 * return guestpreferences1; }
-	 * 
-	 * public List<Guestpreference> getGuestpreferences2() { return
-	 * this.guestpreferences2; }
-	 * 
-	 * public void setGuestpreferences2(List<Guestpreference> guestpreferences2) {
-	 * this.guestpreferences2 = guestpreferences2; }
-	 * 
-	 * public Guestpreference addGuestpreferences2(Guestpreference
-	 * guestpreferences2) { getGuestpreferences2().add(guestpreferences2);
-	 * guestpreferences2.setGuest2(this);
-	 * 
-	 * return guestpreferences2; }
-	 * 
-	 * public Guestpreference removeGuestpreferences2(Guestpreference
-	 * guestpreferences2) { getGuestpreferences2().remove(guestpreferences2);
-	 * guestpreferences2.setGuest2(null);
-	 * 
-	 * return guestpreferences2; }
-	 */
 }

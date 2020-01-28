@@ -47,12 +47,8 @@ public class LookupType implements Serializable{
 	@OneToMany(mappedBy="lookuptype")
 	private List<OrganizationCategory> organizationcategories;
 
-	//bi-directional many-to-one association to Planfeature
-	/*
-	 * @OneToMany(mappedBy="lookuptype") private List<Planfeature> planfeatures;
-	 */
-
 	public LookupType() {
+		//constructor 
 	}
 
 	public Integer getLookupTypeID() {
@@ -146,21 +142,4 @@ public class LookupType implements Serializable{
 
 		return organizationcategory;
 	}
-
-	/*
-	 * public List<Planfeature> getPlanfeatures() { return this.planfeatures; }
-	 * 
-	 * public void setPlanfeatures(List<Planfeature> planfeatures) {
-	 * this.planfeatures = planfeatures; }
-	 * 
-	 * public Planfeature addPlanfeature(Planfeature planfeature) {
-	 * getPlanfeatures().add(planfeature); planfeature.setLookuptype(this);
-	 * 
-	 * return planfeature; }
-	 * 
-	 * public Planfeature removePlanfeature(Planfeature planfeature) {
-	 * getPlanfeatures().remove(planfeature); planfeature.setLookuptype(null);
-	 * 
-	 * return planfeature; }
-	 */
 }

@@ -46,21 +46,8 @@ public class OrganizationUser implements Serializable{
 	@JoinColumn(name="UserID")
 	private User user;
 
-	//bi-directional many-to-one association to Organization
-	/*
-	 * @ManyToOne
-	 * 
-	 * @JoinColumn(name="OrganizationID") private Organization organization2;
-	 */
-
-	//bi-directional many-to-one association to User
-	/*
-	 * @ManyToOne
-	 * 
-	 * @JoinColumn(name="UserID") private User user2;
-	 */
-
 	public OrganizationUser() {
+		//constructor 
 	}
 
 	public Integer getOrganizationUserID() {
@@ -118,19 +105,5 @@ public class OrganizationUser implements Serializable{
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-	/*
-	 * public Organization getOrganization() { return this.organization; }
-	 * 
-	 * public void setOrganization(Organization organization) { this.organization =
-	 * organization; }
-	 */
-
-	/*
-	 * public User getUser2() { return this.user2; }
-	 * 
-	 * public void setUser2(User user2) { this.user2 = user2; }
-	 */
-
 
 }
