@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
 				BeanUtils.copyProperties(user, loginUserDTO);
 				//fetch organization details associated with user
 				Organization organization = organizationDAO.fetchOrganizationByUserId(user.getUserID());
-				if(organization.getClientBase().equalsIgnoreCase(credentialsDTO.getClientBase())) {
+				if(organization.getClientBase().equalsIgnoreCase(credentialsDTO.getClientBase()) && credentialsDTO.getDeviceType().equalsIgnoreCase(UserServiceConstants.WEBUSER)) {
 					BeanUtils.copyProperties(organization, loginUserDTO);
 					loginUserDTO.setCompanyEmail(organization.getEmail());
 					Map<String, String> defaultLanguageKeyMap = new HashMap<>();
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
 						//fetch languages associated with org and arrange labels in key value 
 						List<LanguageMasterDTO> languageList = languageKeyMappingDAO.fetchLanguageKeyMapForOrganization(organization.getOrganizationID());
 
-						List<LanguageKeyMappingDTO> langkeyMapList = new ArrayList<LanguageKeyMappingDTO>();
+						List<LanguageKeyMappingDTO> langkeyMapList = new ArrayList<>();
 						LanguageKeyMappingDTO languageKeyMappingDTO;
 						
 						Map<Integer, List<LanguageMasterDTO>> langListById = languageList.stream()
