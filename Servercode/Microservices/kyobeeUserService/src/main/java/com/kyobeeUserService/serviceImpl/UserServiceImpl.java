@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
 				BeanUtils.copyProperties(user, loginUserDTO);
 				//fetch organization details associated with user
 				Organization organization = organizationDAO.fetchOrganizationByUserId(user.getUserID());
-				if(organization.getClientBase().equalsIgnoreCase(credentialsDTO.getClientBase()) && credentialsDTO.getDeviceType().equalsIgnoreCase(UserServiceConstants.WEBUSER)) {
+				if( (organization.getClientBase().equalsIgnoreCase(credentialsDTO.getClientBase()) && credentialsDTO.getDeviceType().equalsIgnoreCase(UserServiceConstants.WEBUSER) || (!credentialsDTO.getDeviceType().equalsIgnoreCase(UserServiceConstants.WEBUSER) ))) {
 					BeanUtils.copyProperties(organization, loginUserDTO);
 					loginUserDTO.setCompanyEmail(organization.getEmail());
 					Map<String, String> defaultLanguageKeyMap = new HashMap<>();
