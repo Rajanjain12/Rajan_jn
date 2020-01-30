@@ -173,7 +173,8 @@ public class UserServiceImpl implements UserService {
 					loginUserDTO.setSmsTemplate(smsTemplateList);
 					loginUserDTO.setSeatingpref(seatingPrefList);
 					loginUserDTO.setMarketingPref(marketingPrefList);
-
+					loginUserDTO.setFooterMsg(UserServiceConstants.FOOTERMSG);
+					loginUserDTO.setLogoPath(UserServiceConstants.KYOBEESERVERURL+loginUserDTO.getOrganizationID()+UserServiceConstants.EXTENSION);
 					return loginUserDTO;
 
 				}

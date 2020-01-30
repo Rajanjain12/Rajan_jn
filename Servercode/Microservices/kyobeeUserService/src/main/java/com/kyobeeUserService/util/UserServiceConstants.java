@@ -21,4 +21,9 @@ public class UserServiceConstants {
 	
 	public static final Byte ACTIVATEDUSER=1;
 	public static final String WEBUSER="Web";
+	
+	public static final String FOOTERMSG="Copyright KYOBEE. All Rights Reserved - Version 1.3";
+	public static final String EXTENSION=".png";
+	public static final String KYOBEESERVERURL="http://admin.kyobee.com/static/orglogos";
+	
 }
