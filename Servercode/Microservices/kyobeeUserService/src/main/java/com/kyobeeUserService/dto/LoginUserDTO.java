@@ -9,7 +9,6 @@ public class LoginUserDTO {
 	    private String userName;
 	    private String firstName;
 	    private String lastName;
-	
 	    private String email;
 	    private List<String> permissionList;
 	    private Integer organizationID;
@@ -23,13 +22,9 @@ public class LoginUserDTO {
 	    private List<SeatingMarketingPrefDTO> marketingPref;
 	    private List<SmsTemplateDTO> smsTemplate;
 	    private List<LanguageKeyMappingDTO> languagePref;
-	
-		public List<LanguageKeyMappingDTO> getLanguagePref() {
-			return languagePref;
-		}
-		public void setLanguagePref(List<LanguageKeyMappingDTO> languagePref) {
-			this.languagePref = languagePref;
-		}
+	    private String footerMsg;
+	    private String logoPath;
+	    
 		public Integer getUserID() {
 			return userID;
 		}
@@ -54,7 +49,6 @@ public class LoginUserDTO {
 		public void setLastName(String lastName) {
 			this.lastName = lastName;
 		}
-		
 		public String getEmail() {
 			return email;
 		}
@@ -67,7 +61,6 @@ public class LoginUserDTO {
 		public void setPermissionList(List<String> permissionList) {
 			this.permissionList = permissionList;
 		}
-
 		public Integer getOrganizationID() {
 			return organizationID;
 		}
@@ -104,15 +97,12 @@ public class LoginUserDTO {
 		public void setCompanyEmail(String companyEmail) {
 			this.companyEmail = companyEmail;
 		}
-
 		public String getOrganizationName() {
 			return organizationName;
 		}
 		public void setOrganizationName(String organizationName) {
 			this.organizationName = organizationName;
 		}
-
-
 		public List<SeatingMarketingPrefDTO> getSeatingpref() {
 			return seatingpref;
 		}
@@ -131,7 +121,22 @@ public class LoginUserDTO {
 		public void setSmsTemplate(List<SmsTemplateDTO> smsTemplate) {
 			this.smsTemplate = smsTemplate;
 		}
-
-	    
-
+		public List<LanguageKeyMappingDTO> getLanguagePref() {
+			return languagePref;
+		}
+		public void setLanguagePref(List<LanguageKeyMappingDTO> languagePref) {
+			this.languagePref = languagePref;
+		}
+		public String getFooterMsg() {
+			return footerMsg;
+		}
+		public void setFooterMsg(String footerMsg) {
+			this.footerMsg = footerMsg;
+		}
+		public String getLogoPath() {
+			return logoPath;
+		}
+		public void setLogoPath(String logoPath) {
+			this.logoPath = logoPath;
+		}
 }
