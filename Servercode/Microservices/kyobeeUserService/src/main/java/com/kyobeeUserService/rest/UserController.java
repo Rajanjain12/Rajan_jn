@@ -29,12 +29,12 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-    @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json", produces = {"application/vnd.kyobee.v1+json","application/vnd.kyobee.v2+json"})
 	public @ResponseBody ResponseDTO login(@RequestBody CredentialsDTO credentialsDTO) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			LoggerUtil.logInfo("inside login");
+			LoggerUtil.logInfo("inside login v1 v2");
 			LoginUserDTO loginUserDTO= userService.logInCredentialValidate(credentialsDTO);
 			responseDTO.setServiceResult(loginUserDTO);
 			responseDTO.setSuccess(UserServiceConstants.SUSSESS_CODE);
@@ -60,6 +60,8 @@ public class UserController {
 		}
 		return responseDTO;
 	}
+   
+   
     @RequestMapping(value = "/resetPassword", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
 	public @ResponseBody ResponseDTO resetPassword(@RequestBody ResetPasswordDTO resetpassword) {
 
