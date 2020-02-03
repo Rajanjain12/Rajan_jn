@@ -7,9 +7,11 @@ import { AuthModule } from './auth/auth.module';
 import { FooterComponent } from './shared/layout/footer/footer.component';
 import { HeaderComponent } from './shared/layout/header/header.component';
 import { CoreModule } from './core/core.module';
-import { DashboardModule } from './dashboard/dashboard.module';
 import { SharedModule } from './shared/shared.module';
 import { LoaderComponent } from './shared/loader/loader.component';
+import { WaitlistModule } from './waitlist/waitlist.module';
+import { PostLoginHeaderComponent } from './shared/layout/post-login-header/post-login-header.component';
+import { SidebarComponent } from './shared/layout/sidebar/sidebar.component';
 
 
 
@@ -18,7 +20,9 @@ import { LoaderComponent } from './shared/loader/loader.component';
     AppComponent,
     FooterComponent,
     HeaderComponent,
-    LoaderComponent
+    LoaderComponent,
+    PostLoginHeaderComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +30,10 @@ import { LoaderComponent } from './shared/loader/loader.component';
     SharedModule,
     AuthModule,
     CoreModule,
-    DashboardModule
+    WaitlistModule
+  ],
+  exports:[
+
   ],
   providers: [],
   bootstrap: [AppComponent]

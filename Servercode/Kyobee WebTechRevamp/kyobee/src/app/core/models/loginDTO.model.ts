@@ -3,11 +3,13 @@ export class LoginDTO {
     password: string;
     deviceToken: string;
     deviceType : string;
+    clientBase:string;
     
     LoginDTO(){
         this.userName = "";
         this.password = "";
         this.deviceToken = "";
         this.deviceType = "Web";
+        this.clientBase="admin";
     }
   }

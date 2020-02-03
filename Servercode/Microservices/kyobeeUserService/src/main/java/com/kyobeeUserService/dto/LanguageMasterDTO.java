@@ -2,50 +2,50 @@ package com.kyobeeUserService.dto;
 
 public class LanguageMasterDTO {
 
-	 private Integer LangId;
-	 private String LangName;
-	 private String LangIsoCode;
+	 private Integer langId;
+	 private String langName;
+	 private String langIsoCode;
 	 private String keyName;
-	 private String Value;
+	 private String value;
 	 
-	 public LanguageMasterDTO(Integer LangId,String LangName,String LangIsoCode,String keyName,String Value) {
-		 this.LangId=LangId;
-		 this.LangName=LangName;
-		 this.LangIsoCode=LangIsoCode;
+	 public LanguageMasterDTO(Integer langId,String langName,String langIsoCode,String keyName,String value) {
+		 this.langId=langId;
+		 this.langName=langName;
+		 this.langIsoCode=langIsoCode;
 		 this.keyName=keyName;
-		 this.Value=Value;
+		 this.value=value;
 		 
 	 }
 	 
 	public Integer getLangId() {
-		return LangId;
+		return langId;
 	}
 	public void setLangId(Integer langId) {
-		LangId = langId;
+		this.langId = langId;
 	}
 	public String getLangName() {
-		return LangName;
+		return langName;
 	}
 	public void setLangName(String langName) {
-		LangName = langName;
+		this.langName = langName;
 	}
 	public String getLangIsoCode() {
-		return LangIsoCode;
+		return langIsoCode;
 	}
 	public void setLangIsoCode(String langIsoCode) {
-		LangIsoCode = langIsoCode;
+		this.langIsoCode = langIsoCode;
 	}
 	public String getKeyName() {
 		return keyName;
 	}
-	public void setKeyName(String keyName) {
+	public void setKeyName(String keyName) { 
 		this.keyName = keyName;
 	}
 	public String getValue() {
-		return Value;
+		return value;
 	}
 	public void setValue(String value) {
-		Value = value;
+		this.value = value;
 	}
 	 
 }

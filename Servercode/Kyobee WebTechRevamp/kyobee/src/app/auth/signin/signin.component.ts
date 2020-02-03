@@ -27,16 +27,19 @@ export class SigninComponent implements OnInit {
     }
     this.user.deviceType="Web";
     this.user.deviceToken="";
+    this.user.clientBase="admin";
     console.log("user "+JSON.stringify(this.user));
     this.userService.login(this.user).subscribe((res: any) => {
       var respData = res;
       console.log("log== "+JSON.stringify(respData));
       if (respData.success == 1) {
-        this.invalidLogin = true;
+        this.invalidLogin = false;
+        this.authService.SetLogFlag();
+        this.authService.setSessionData(respData.data);
         this.router.navigateByUrl('/dashboard', { replaceUrl: true });
       } else {
         alert("username password wrong");
-        this.invalidLogin = false;
+        this.invalidLogin = true;
       }
     });
   }
