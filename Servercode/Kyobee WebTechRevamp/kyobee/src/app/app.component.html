@@ -1,15 +1,18 @@
 <!--Pre-logIn-->
-<div *ngIf="!getUserLoggedIn()">
 <app-loader></app-loader>
-<app-header></app-header>
-<router-outlet></router-outlet>
-<app-footer></app-footer>
+<div *ngIf="!getUserLoggedIn()">
+  <app-header></app-header>
+  <router-outlet></router-outlet>
+  <app-footer></app-footer>
 </div>
 <!-- post login -->
 <div *ngIf="getUserLoggedIn()">
-    <app-loader></app-loader>
-    <app-post-login-header></app-post-login-header>
-    <app-sidebar></app-sidebar>
-    <router-outlet></router-outlet>
-    <app-footer></app-footer>
+  <app-post-login-header></app-post-login-header>
+  <section class="pb-5 fix-wrapper">
+    <div id="wrapper" class="navbar-expand-lg navbar-expand-md">
+      <app-sidebar></app-sidebar>
+      <router-outlet></router-outlet>
+    </div>
+  </section>
+  <app-footer></app-footer>
 </div>
