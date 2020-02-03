@@ -77,3 +77,4 @@ target
 package-lock.json
 /Servercode/Kyobee WebTechRevamp/kyobee/package-lock.json
 /Servercode/kyobee/src/main/webapp/web/controller/*.bak
+/Servercode/Kyobee WebTechRevamp/kyobee/dist/*
