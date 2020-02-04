@@ -1,0 +1,171 @@
+<app-sidebar></app-sidebar>
+<main id="page-content-wrapper" role="main">
+    <section class="container pt-lg-3 pt-md-3 pt-sm-4 pt-4 fade-in" id="dashboardPage">
+        <div class="row">
+            <form class="col-lg-12">
+                <div class="checkbox my-0 py-2 border-bottom">
+                    <div class="row">
+                        <div class="col-lg-3 my-1">
+                            <span class="font-weight-semibold">Seating Preference</span>
+                        </div>
+                        <div class="col-lg-9 my-1">
+                            <input class="styled-checkbox" id="firstAvailable" type="checkbox">
+                            <label for="firstAvailable" class="mr-2">First Available</label>
+
+                            <input class="styled-checkbox" id="pation" type="checkbox">
+                            <label for="pation" class="mr-2">Patio</label>
+
+                            <input class="styled-checkbox" id="bar" type="checkbox">
+                            <label for="bar" class="mr-2">Bar</label>
+
+                            <input class="styled-checkbox" id="booth" type="checkbox">
+                            <label for="booth" class="mr-2">Booth</label>
+                            
+                            <input class="styled-checkbox" id="table" type="checkbox">
+                            <label for="table" class="mr-2">Table</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkbox my-0 py-2 border-bottom">
+                    <div class="row">
+                        <div class="col-lg-3 my-1">
+                            <span class="font-weight-semibold">Marketing Preference</span>
+                        </div>
+                        <div class="col-lg-9 my-1">
+                            <input class="styled-checkbox" id="facebook" type="checkbox">
+                            <label for="facebook" class="mr-2">Facebook</label>
+
+                            <input class="styled-checkbox" id="instagram" type="checkbox">
+                            <label for="instagram" class="mr-2">Instagram</label>
+                            
+                            <input class="styled-checkbox" id="google+" type="checkbox">
+                            <label for="google+" class="mr-2">Google+</label>
+
+                            <input class="styled-checkbox" id="twitter" type="checkbox">
+                            <label for="twitter" class="mr-2">Twitter</label>
+
+                            <input class="styled-checkbox" id="word" type="checkbox">
+                            <label for="word" class="mr-2">Word of Mouth</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="py-2 border-bottom">
+                    <div class="row">
+                        <div class="col-lg-3 my-1">
+                            <span class="font-weight-semibold">Notify First</span>
+                        </div>
+                        <div class="col-lg-9 my-1">
+                            <div class="row">
+                                <div class="col-lg-3 my-1">
+                                    <select class="form-control">
+                                        <option>1 Minute</option>
+                                        <option>2 Minute</option>
+                                        <option>3 Minute</option>
+                                        <option>4 Minute</option>
+                                        <option>5 Minute</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="py-2 border-bottom">
+                    <div class="row">
+                        <div class="col-lg-3 my-1">
+                            <span class="font-weight-semibold">SMS/App Interface Language</span>
+                        </div>
+                        <div class="col-lg-9 my-1">
+                            <div class="row">
+                                <div class="col-lg-3 my-1">
+                                    <select class="form-control">
+                                        <option>Default Language</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-3 my-1">
+                                        <!-- <select class="form-control">
+                                            <option>
+                                            <input type="checkbox" name=""> Select Language
+                                            </option>
+                                        </select> -->
+                                        <!-- <select class="selectpicker" multiple data-live-search="true">
+                                          <option>Language 1</option>
+                                          <option>Language 2</option>
+                                          <option>Language 3</option>
+                                          <option>Language 4</option>
+                                          <option>Language 5</option>
+                                        </select> -->
+                                        <div class="multiselect">
+                                            <div class="selectBox" onclick="showCheckboxes()">
+                                                <select class="form-control">
+                                                    <option>Additional Language</option>
+                                                </select>
+                                                <div class="overSelect"></div>
+                                            </div>
+                                            <div id="checkboxes">
+                                                <label for="one">
+                                                    <input type="checkbox" id="one" />Language 1
+                                                </label>
+                                                <label for="two">
+                                                    <input type="checkbox" id="two" />Language 2
+                                                </label>
+                                                <label for="three">
+                                                    <input type="checkbox" id="three" />Language 3
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="py-2">
+                        <div class="row">
+                            <div class="col-lg-3 my-1">
+                                <span class="font-weight-semibold">SMS Template</span>
+                            </div>
+                            <div class="col-lg-9 my-1">
+                                <div class="col-lg-3 pl-0">
+                                    <select class="form-control">
+                                        <option>English</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <textarea required="required">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</textarea>
+                                    <label for="textarea" class="control-label">Level 1</label><i class="bar"></i>
+                                </div>
+                                <div class="form-group">
+                                    <textarea required="required">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</textarea>
+                                    <label for="textarea" class="control-label">Level 2</label><i class="bar"></i>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <textarea required="required">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</textarea>
+                                    <label for="textarea" class="control-label">Level 3</label><i class="bar"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 text-center pb-3 pt-2">
+                        <button type="button" class="btn btn-theme background-color shadow"><span>Save</span></button>
+                    </div>
+                </form>
+            </div>
+            <!-- reset popup -->
+            <div class="modal fade" id="resetModal">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-radius border-0">
+                        <div class="custom-modal-header background-color">
+                            <span class="modal-title text-white">Confirm Reset Organization</span>
+                            <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <h3 class="big-font"><i class="flaticon-refresh font-color"></i></h3>
+                            <h4 class="pt-3 pb-3">If you want to remove all your guest information, you can reset.</h4>
+                            <div class="pt-3 pb-4">
+                                <button type="button" class="btn btn-theme background-color shadow">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>

@@ -11,7 +11,8 @@ import { SharedModule } from './shared/shared.module';
 import { LoaderComponent } from './shared/loader/loader.component';
 import { WaitlistModule } from './waitlist/waitlist.module';
 import { PostLoginHeaderComponent } from './shared/layout/post-login-header/post-login-header.component';
-import { SidebarComponent } from './shared/layout/sidebar/sidebar.component';
+
+
 
 
 
@@ -21,8 +22,7 @@ import { SidebarComponent } from './shared/layout/sidebar/sidebar.component';
     FooterComponent,
     HeaderComponent,
     LoaderComponent,
-    PostLoginHeaderComponent,
-    SidebarComponent
+    PostLoginHeaderComponent
   ],
   imports: [
     BrowserModule,
