@@ -42,7 +42,7 @@ export class SigninComponent implements OnInit {
         this.invalidLogin = false;
         this.authService.SetLogFlag();
         this.authService.setSessionData(respData.data);
-        this.router.navigateByUrl('/dashboard', { replaceUrl: true });
+        this.router.navigateByUrl('/waitlist/dashboard', { replaceUrl: true });
       } else {
         this.loading = false;
         alert("username password wrong");
