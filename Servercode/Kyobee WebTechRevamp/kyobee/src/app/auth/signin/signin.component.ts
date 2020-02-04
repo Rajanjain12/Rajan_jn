@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
 import { LoginDTO } from 'src/app/core/models/loginDTO.model';
 import { JsonPipe } from '@angular/common';
+import { LoaderService } from 'src/app/core/services/loader.service';
 
 @Component({
   selector: 'app-signin',
@@ -16,15 +17,19 @@ export class SigninComponent implements OnInit {
 
   // flag denoting invalid login i.e wrong username or password.
   invalidLogin: Boolean = false;
-  constructor(private userService: UserService, private authService: AuthService, private router: Router) { }
+  loading = false;
+  constructor(private userService: UserService, private authService: AuthService, private router: Router,private loaderService:LoaderService) { }
 
   ngOnInit() {
   }
   validateLogin(invalid) {
 
+    this.loaderService.show();
     if (invalid) {
+
       return;
     }
+   
     this.user.deviceType="Web";
     this.user.deviceToken="";
     this.user.clientBase="admin";
@@ -33,11 +38,13 @@ export class SigninComponent implements OnInit {
       var respData = res;
       console.log("log== "+JSON.stringify(respData));
       if (respData.success == 1) {
+        this.loading = false;
         this.invalidLogin = false;
         this.authService.SetLogFlag();
         this.authService.setSessionData(respData.data);
         this.router.navigateByUrl('/dashboard', { replaceUrl: true });
       } else {
+        this.loading = false;
         alert("username password wrong");
         this.invalidLogin = true;
       }

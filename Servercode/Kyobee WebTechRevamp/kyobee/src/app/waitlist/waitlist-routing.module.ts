@@ -3,11 +3,29 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 
+import { AddGuestComponent } from './add-guest/add-guest.component';
+import { SettingsComponent } from './settings/settings.component';
+import { HistoryComponent } from './history/history.component';
 
-const routes: Routes = [ {
+
+const routes: Routes = [
+
+  {
      path: 'dashboard',
     component: DashboardComponent,
-}
+},
+{
+  path: 'addguest',
+ component: AddGuestComponent,
+},
+{
+  path: 'history',
+ component: HistoryComponent,
+},
+{
+  path: 'settings',
+ component: SettingsComponent,
+},
 ];
 
 @NgModule({
