@@ -1,8 +1,11 @@
 package com.kyobeeWaitlistService.service;
 
+import java.util.HashMap;
+import com.kyobeeWaitlistService.dto.OrganizationMetricsDTO;
 
 public interface WaitListService {
-	public void resetOrganizationsByOrgId(Long orgid);
-	public void sendPusherMessage(Object rootMap, String channel);
+	
+	public HashMap<String, Object> updateLanguagesPusher();
+	OrganizationMetricsDTO getOrganizationMetrics(Integer orgId);
 
 }

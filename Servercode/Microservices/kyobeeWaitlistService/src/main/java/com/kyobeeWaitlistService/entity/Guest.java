@@ -8,12 +8,28 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedStoredProcedureQueries;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="GUEST")
+@NamedStoredProcedureQueries({@NamedStoredProcedureQuery(name = "CALCHEADERMETRICS", procedureName = "CALCHEADERMETRICS", parameters = {
+@StoredProcedureParameter(mode = ParameterMode.IN, name = "ORGID", type = Integer.class),
+@StoredProcedureParameter(mode = ParameterMode.OUT, name = "OP_NOWSERVERINGPARTY", type = Integer.class),
+@StoredProcedureParameter(mode = ParameterMode.OUT, name = "OP_TOTALWAITINGGUEST", type = Integer.class),
+@StoredProcedureParameter(mode = ParameterMode.OUT, name = "OP_TOTALWAITTIME", type = Integer.class),
+@StoredProcedureParameter(mode = ParameterMode.OUT, name = "OP_NOOFPARTIESAHEAD", type = Integer.class),
+@StoredProcedureParameter(mode = ParameterMode.OUT, name = "OP_GUESTTOBENOTIFIED", type = String.class),
+@StoredProcedureParameter(mode = ParameterMode.OUT, name = "OP_GUESTNOTIFIEDWAITTIME", type = Integer.class),
+@StoredProcedureParameter(mode = ParameterMode.OUT, name = "OP_PERPARTYWAITTIME", type = Integer.class),
+@StoredProcedureParameter(mode = ParameterMode.OUT, name = "OP_NOTIFYUSERCOUNT", type = Integer.class),
+@StoredProcedureParameter(mode = ParameterMode.OUT, name = "OP_CLIENTBASE", type = String.class)}) })
+
 public class Guest implements Serializable{
 	private static final long serialVersionUID = 1L;
 

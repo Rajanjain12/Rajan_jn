@@ -1,5 +1,6 @@
 package com.kyobeeWaitlistService.dao;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -12,4 +13,8 @@ public interface OrganizationDAO extends CrudRepository<Organization, Integer> {
 	@Procedure(name = "RESETGUESTBYORGID")
 	public void resetOrganizationByOrgId(@Param("ORGID") Long orgid);
 
+	@Query(value="select waitTime from Organization where organizationID =:orgId")
+	Integer getOrganizationWaitTime(@Param("orgId") Integer orgId);
+	
+	
 }
