@@ -29,7 +29,7 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-    @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json", produces = {"application/vnd.kyobee.v1+json"})
+    @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO login(@RequestBody CredentialsDTO credentialsDTO) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
@@ -62,7 +62,7 @@ public class UserController {
 	}
    
    
-    @RequestMapping(value = "/resetPassword", method = RequestMethod.POST, consumes = "application/json", produces = {"application/vnd.kyobee.v1+json"})
+    @RequestMapping(value = "/resetPassword", method = RequestMethod.POST, consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO resetPassword(@RequestBody ResetPasswordDTO resetpassword) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
@@ -89,7 +89,7 @@ public class UserController {
 		return responseDTO;
 	}
     
-    @RequestMapping(value = "/forgotPassword", method = RequestMethod.POST, consumes = "application/json", produces = {"application/vnd.kyobee.v1+json"})
+    @RequestMapping(value = "/forgotPassword", method = RequestMethod.POST, consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
    	public @ResponseBody ResponseDTO forgotPassword(@RequestParam String username) {
      
     

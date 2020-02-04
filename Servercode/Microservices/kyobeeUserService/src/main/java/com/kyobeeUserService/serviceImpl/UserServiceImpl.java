@@ -198,6 +198,7 @@ public class UserServiceImpl implements UserService {
 		if (user != null) {
 			Date today=new Date();
 			if(today.after(user.getActivationExpiryDate())) {
+				//if user enters authcode after 24 hour 
 				throw new InvalidAuthCodeException("Invalid Authcode exception");
 			}
 			else {
@@ -217,12 +218,13 @@ public class UserServiceImpl implements UserService {
 		String response;
 		User user = userDAO.findByUserName(username);
 		Date today=new Date();
+		long hour = 3600*1000; 
 		if (user != null) {
 			String authcode;
+			//if authcode is null then generate new one
 			if (user.getAuthCode() == null || user.getAuthCode().equals("")) {
 				
-				long HOUR = 3600*1000; 
-				Date nextDay=new Date(today.getTime() + 24 * HOUR);
+				Date nextDay=new Date(today.getTime() + 24 * hour);
 				authcode = CommonUtil.generateRandomToken().toString();
 				user.setAuthCode(authcode);
 				user.setActivationExpiryDate(nextDay);
@@ -230,10 +232,10 @@ public class UserServiceImpl implements UserService {
 			} else {
 				
 				if(today.after(user.getActivationExpiryDate())) {
+					//24 hour are complete then generate new one
 					authcode = CommonUtil.generateRandomToken().toString();
-					user.setAuthCode(authcode);
-					long HOUR = 3600*1000; 
-					Date nextDay=new Date(today.getTime() + 24 * HOUR);
+					user.setAuthCode(authcode);				
+					Date nextDay=new Date(today.getTime() + 24 * hour);
 					user.setActivationExpiryDate(nextDay);
 					userDAO.save(user);
 				}
@@ -244,7 +246,7 @@ public class UserServiceImpl implements UserService {
 			String forgotPasswordURL = UserServiceConstants.KYOBEEWEBHOST + UserServiceConstants.RESETPWDLINK + user.getUserID() + "/"
 					+ authcode;
 
-			System.out.println("url:- "+forgotPasswordURL);
+			LoggerUtil.logInfo("url:- "+forgotPasswordURL);
 			StringBuilder htmlContent = new StringBuilder();
 
 			htmlContent.append("<p>Hi " + user.getFirstName() + " " + user.getLastName() + ", </p>");
@@ -260,7 +262,7 @@ public class UserServiceImpl implements UserService {
 			response = "password sent successufully to your registered account";
 			/*
 			 * emailUtil.sendEmail(user.getEmail(), UserServiceConstants.KYOBEEMAILID,
-			 * "Forgot Passward Email", htmlContent.toString());
+			 * "Forgot Password Email", htmlContent.toString());
 			 */
 		} else {
 			throw new UserNotFoundException("Please Enter valid email address.");

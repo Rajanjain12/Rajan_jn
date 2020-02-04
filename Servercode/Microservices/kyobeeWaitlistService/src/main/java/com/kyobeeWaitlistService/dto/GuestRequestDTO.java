@@ -4,6 +4,7 @@ public class GuestRequestDTO {
 	private Integer orgId;
 	private Integer pageSize;
 	private Integer pageNo;
+	private String searchText;
 	
 	public Integer getOrgId() {
 		return orgId;
@@ -22,6 +23,12 @@ public class GuestRequestDTO {
 	}
 	public void setPageNo(Integer pageNo) {
 		this.pageNo = pageNo;
+	}
+	public String getSearchText() {
+		return searchText;
+	}
+	public void setSearchText(String searchText) {
+		this.searchText = searchText;
 	}
 	
 

@@ -10,6 +10,5 @@ public interface WaitListService {
 	
 	public HashMap<String, Object> updateLanguagesPusher();
 	OrganizationMetricsDTO getOrganizationMetrics(Integer orgId);
-	public GuestResponseDTO fetchGuestList(Integer orgId,Integer pageSize,Integer pageNo);
-
+	
 }

@@ -26,6 +26,7 @@ public class WaitListController {
 	@Autowired
 	WaitListService waitListService;
 
+	//for sending pusher while there is change language key or value
 	@GetMapping(value = "/refreshLanguage", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO refreshLanguage() {
 		HashMap<String, Object> rootMap = new LinkedHashMap<>();
@@ -45,7 +46,7 @@ public class WaitListController {
 		return responseDTO;
 	}
 
-
+//for fetching organization matrix related details 
 	@GetMapping(value = "/organizationMetrics", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO organizationMetrics(
 			@RequestParam(value = "orgId") Integer orgId) {
@@ -66,22 +67,5 @@ public class WaitListController {
 		return responseDTO;
 	}
 	 
-	 @RequestMapping(value = "/", method = RequestMethod.POST,consumes = "application/json", produces = "application/json")
-		public @ResponseBody ResponseDTO fetchGuestList(@RequestBody GuestRequestDTO guestRequest) {
-
-			ResponseDTO responseDTO = new ResponseDTO();
-			try {
-				GuestResponseDTO guestList= waitListService.fetchGuestList(guestRequest.getOrgId(), guestRequest.getPageSize(), guestRequest.getPageNo());
-				responseDTO.setServiceResult(guestList);
-				responseDTO.setMessage("guest list fetched Successfully.");
-				responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
-
-			} catch (Exception ex) {
-				LoggerUtil.logError(ex);
-				responseDTO.setServiceResult("System Error - fetchGuestList failed");
-				responseDTO.setMessage("System Error - fetchGuestList failed");
-				responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);
-			}
-			return responseDTO;
-		}
+	 
 }
