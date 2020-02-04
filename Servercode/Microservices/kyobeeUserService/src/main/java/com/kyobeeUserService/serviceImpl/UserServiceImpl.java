@@ -118,8 +118,8 @@ public class UserServiceImpl implements UserService {
 
 					//fetch seating pref and marketing pref associated with org
 					List<Lookup> lookupList = lookupDAO.fetchSeatingAndMarketingPref(organization.getOrganizationID(), UserServiceConstants.SEATINGPREFID,UserServiceConstants.MARKETINGPREFID);
-					List<SeatingMarketingPrefDTO> seatingPrefList = new ArrayList<SeatingMarketingPrefDTO>();
-					List<SeatingMarketingPrefDTO> marketingPrefList = new ArrayList<SeatingMarketingPrefDTO>();
+					List<SeatingMarketingPrefDTO> seatingPrefList = new ArrayList<>();
+					List<SeatingMarketingPrefDTO> marketingPrefList = new ArrayList<>();
 
 					SeatingMarketingPrefDTO seatingPref;
 					SeatingMarketingPrefDTO marketingPref;
