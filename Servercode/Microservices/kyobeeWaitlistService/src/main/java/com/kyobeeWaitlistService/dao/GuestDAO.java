@@ -31,5 +31,7 @@ public interface GuestDAO extends CrudRepository<Guest, Integer> {
 	
 	//for fetching guest related details by search Text
 	@Query(value="SELECT * FROM GUEST g join LANGMASTER l on l.langID=g.languagePrefID WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId and ( g.name like :searchText or g.sms like :searchText) order by g.rank asc limit :pageSize OFFSET :startIndex",nativeQuery=true)
-	public List<Guest> fetchCheckinGuestBySearchText(@Param("orgId") Integer orgId,@Param("pageSize") Integer pageSize,@Param("startIndex") Integer startIndex,@Param("searchText") String searchText); 
+	public List<Guest> fetchCheckinGuestBySearchText(@Param("orgId") Integer orgId,@Param("pageSize") Integer pageSize,@Param("startIndex") Integer startIndex,@Param("searchText") String searchText);
+	
+	 
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kyobeeWaitlistService.dto.GuestHistoryRequestDTO;
 import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
 import com.kyobeeWaitlistService.dto.GuestRequestDTO;
 import com.kyobeeWaitlistService.dto.GuestResponseDTO;
@@ -66,7 +67,7 @@ public class GuestController {
 	}
 	
 	//for fetching guest list , search text will be null for fetching whole data
-	@PostMapping(value = "/",consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
+	@GetMapping(value = "/",consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO fetchGuestList(@RequestBody GuestRequestDTO guestRequest) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
@@ -84,4 +85,24 @@ public class GuestController {
 		}
 		return responseDTO;
 	}
+	
+	//for fetching guest list , search text will be null for fetching whole data
+		@GetMapping(value = "/fetchGuestHistory",consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
+		public @ResponseBody ResponseDTO fetchGuestHistoryList(@RequestBody GuestHistoryRequestDTO guestRequest) {
+
+			ResponseDTO responseDTO = new ResponseDTO();
+			try {
+				GuestResponseDTO guestList= guestService.fetchGuestHistoryList(guestRequest);
+				responseDTO.setServiceResult(guestList);
+				responseDTO.setMessage("guest list fetched Successfully.");
+				responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
+
+			} catch (Exception ex) {
+				LoggerUtil.logError(ex);
+				responseDTO.setServiceResult("System Error - fetchGuestList failed");
+				responseDTO.setMessage("System Error - fetchGuestList failed");
+				responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);
+			}
+			return responseDTO;
+		}
 }

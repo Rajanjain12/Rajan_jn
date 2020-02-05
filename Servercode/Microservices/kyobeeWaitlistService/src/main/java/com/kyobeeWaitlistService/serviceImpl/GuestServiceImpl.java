@@ -9,10 +9,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kyobeeWaitlistService.dao.GuestCustomDAO;
 import com.kyobeeWaitlistService.dao.GuestDAO;
 import com.kyobeeWaitlistService.dao.LookupDAO;
 import com.kyobeeWaitlistService.dao.OrganizationDAO;
 import com.kyobeeWaitlistService.dto.GuestDTO;
+import com.kyobeeWaitlistService.dto.GuestHistoryRequestDTO;
 import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
 import com.kyobeeWaitlistService.dto.GuestResponseDTO;
 import com.kyobeeWaitlistService.dto.LanguageMasterDTO;
@@ -32,6 +34,9 @@ public class GuestServiceImpl implements GuestService {
 	
 	@Autowired
 	GuestDAO guestDAO;
+
+	@Autowired
+	GuestCustomDAO guestCustomDAO;
 	
 	@Autowired
 	LookupDAO lookupDAO;
@@ -87,7 +92,6 @@ public class GuestServiceImpl implements GuestService {
 		List<GuestDTO> guestDTOs=new ArrayList<>();
 		GuestResponseDTO guestResponse=new GuestResponseDTO();
 		
-		LoggerUtil.logInfo("size==="+guestList.size());
 		for(Guest guest:guestList) {
 			GuestDTO guestDTO=new GuestDTO();
 			BeanUtils.copyProperties(guest, guestDTO);
@@ -132,11 +136,75 @@ public class GuestServiceImpl implements GuestService {
 			    }
 		    }
 		    guestDTO.setMarketingPreference(marketingPrefList);
-		    LoggerUtil.logInfo("size lookup ==="+marketingPrefList.size());
+		   
 			guestDTOs.add(guestDTO);
 		}
 		guestResponse.setPageNo(pageNo);
-		guestResponse.setTotalRecords(pageSize);
+		guestResponse.setTotalRecords(guestDTOs.size());
+		guestResponse.setRecords(guestDTOs);
+		return guestResponse;
+	}
+
+	@Override
+	public GuestResponseDTO fetchGuestHistoryList(GuestHistoryRequestDTO guestRequest) {
+		
+		Integer orgId=guestRequest.getOrgId();
+		List<Guest> guestList;
+	
+		guestList=guestCustomDAO.fetchAllGuestHistoryList(orgId,guestRequest.getPageSize(),guestRequest.getPageNo(),guestRequest.getStatusOption(),guestRequest.getClientTimezone(),guestRequest.getSliderMinTime(),guestRequest.getSliderMaxTime(),guestRequest.getSearchText());
+		
+		List<GuestDTO> guestDTOs=new ArrayList<>();
+		GuestResponseDTO guestResponse=new GuestResponseDTO();
+		
+		for(Guest guest:guestList) {
+			GuestDTO guestDTO=new GuestDTO();
+			BeanUtils.copyProperties(guest, guestDTO);
+			
+			//for adding language 
+		    LanguageMasterDTO languageMasterDTO=new LanguageMasterDTO();
+		    languageMasterDTO.setLangId(guest.getLangmaster().getLangID());
+		    languageMasterDTO.setLangIsoCode(guest.getLangmaster().getLangIsoCode());
+		    languageMasterDTO.setLangName(guest.getLangmaster().getLangName());
+		    guestDTO.setLangguagePref(languageMasterDTO);
+		    
+		    List<SeatingMarketingPrefDTO> seatingPrefList=new ArrayList<>();
+		    List<SeatingMarketingPrefDTO> marketingPrefList=new ArrayList<>();
+		    
+		    //for arranging seating pref in list
+		    String seatingPref=guest.getSeatingPreference();
+		    if(seatingPref!=null) {
+		    String[]  stringSeatingPref=seatingPref.split(",");
+				    List<Lookup> seatingLookup= lookupDAO.fetchLookup(stringSeatingPref);
+				    
+				    for(Lookup lookup:seatingLookup) {
+				    	SeatingMarketingPrefDTO seatingPrefence=new SeatingMarketingPrefDTO();
+					    seatingPrefence.setPrefValueId(lookup.getLookupID());
+					    seatingPrefence.setPrefValue(lookup.getName());
+					    seatingPrefList.add(seatingPrefence);
+				    }
+		    }
+		   
+		    guestDTO.setSeatingPreference(seatingPrefList);
+		    
+		  //for arranging marketing pref in list
+		    String marketingPref=guest.getMarketingPreference();
+		    if(marketingPref!=null) {
+		    	String[] stringMarketingPref=marketingPref.split(",");
+			    List<Lookup> marketingLookup= lookupDAO.fetchLookup(stringMarketingPref);
+			    
+			    for(Lookup lookup:marketingLookup) {
+			    	SeatingMarketingPrefDTO marketingPrefence=new SeatingMarketingPrefDTO();
+				    marketingPrefence.setPrefValueId(lookup.getLookupID());
+				    marketingPrefence.setPrefValue(lookup.getName());
+				    marketingPrefList.add(marketingPrefence);
+			    }
+		    }
+		    guestDTO.setMarketingPreference(marketingPrefList);
+		   
+			guestDTOs.add(guestDTO);
+		}
+		guestResponse.setPageNo(guestRequest.getPageNo());
+		guestResponse.setTotalRecords(guestDTOs.size());
 		guestResponse.setRecords(guestDTOs);
 		return guestResponse;
 	}
