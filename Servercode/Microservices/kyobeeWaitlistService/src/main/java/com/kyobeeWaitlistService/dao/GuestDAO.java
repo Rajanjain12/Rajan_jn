@@ -23,7 +23,7 @@ public interface GuestDAO extends CrudRepository<Guest, Integer> {
 	
 	//calling procedure for organization related matrix data
 	@Procedure(name = "CALCHEADERMETRICS")
-	Map<String, Object> getOrganizationMetrics(@Param("ORGID") Integer orgid);
+	Map<String, Object> getOrganizationMetrics(@Param("ORGID") Integer orgId);
 	
 	//for fetching guest check in 
 	@Query(value="SELECT * FROM GUEST g join LANGMASTER l on l.langID=g.languagePrefID WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId order by g.rank asc limit :pageSize OFFSET :startIndex",nativeQuery=true)

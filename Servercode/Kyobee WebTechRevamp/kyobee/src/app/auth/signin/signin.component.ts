@@ -41,7 +41,7 @@ export class SigninComponent implements OnInit {
         this.loading = false;
         this.invalidLogin = false;
         this.authService.SetLogFlag();
-        this.authService.setSessionData(respData.data);
+        this.authService.setSessionData(respData.serviceResult);
         this.router.navigateByUrl('/waitlist/dashboard', { replaceUrl: true });
       } else {
         this.loading = false;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,14 @@ import com.kyobeeWaitlistService.dao.GuestCustomDAO;
 import com.kyobeeWaitlistService.dao.GuestDAO;
 import com.kyobeeWaitlistService.dao.LookupDAO;
 import com.kyobeeWaitlistService.dao.OrganizationDAO;
+import com.kyobeeWaitlistService.dto.AddUpdateGuestDTO;
 import com.kyobeeWaitlistService.dto.GuestDTO;
 import com.kyobeeWaitlistService.dto.GuestHistoryRequestDTO;
 import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
 import com.kyobeeWaitlistService.dto.GuestResponseDTO;
 import com.kyobeeWaitlistService.dto.LanguageMasterDTO;
 import com.kyobeeWaitlistService.dto.SeatingMarketingPrefDTO;
+import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.entity.Guest;
 import com.kyobeeWaitlistService.entity.Lookup;
 import com.kyobeeWaitlistService.service.GuestService;
@@ -40,6 +43,9 @@ public class GuestServiceImpl implements GuestService {
 	
 	@Autowired
 	LookupDAO lookupDAO;
+	
+	@Autowired
+	OrganizationTemplateServiceImpl organizationTemplateServiceImpl;
 	
 	@Override
 	public GuestMetricsDTO getGuestMetrics(Integer guestId, Integer orgId) {
@@ -151,7 +157,7 @@ public class GuestServiceImpl implements GuestService {
 		Integer orgId=guestRequest.getOrgId();
 		List<Guest> guestList;
 	
-		guestList=guestCustomDAO.fetchAllGuestHistoryList(orgId,guestRequest.getPageSize(),guestRequest.getPageNo(),guestRequest.getStatusOption(),guestRequest.getClientTimezone(),guestRequest.getSliderMinTime(),guestRequest.getSliderMaxTime(),guestRequest.getSearchText());
+		guestList=guestCustomDAO.fetchAllGuestHistoryList(guestRequest);
 		
 		List<GuestDTO> guestDTOs=new ArrayList<>();
 		GuestResponseDTO guestResponse=new GuestResponseDTO();
@@ -207,6 +213,36 @@ public class GuestServiceImpl implements GuestService {
 		guestResponse.setTotalRecords(guestDTOs.size());
 		guestResponse.setRecords(guestDTOs);
 		return guestResponse;
+	}
+
+	@Override
+	public AddUpdateGuestDTO addOrUpdateGuest(GuestDTO guestDTO) {
+		String seatingPref;
+		String marketingPref;
+		String tinyURL="";
+		String guestUUID=UUID.randomUUID().toString().substring(0, 8);
+		seatingPref=convertToString(guestDTO.getSeatingPreference());
+		marketingPref=convertToString(guestDTO.getMarketingPreference());
+		guestDTO.setUuid(guestUUID);
+		AddUpdateGuestDTO addUpdateGuestDTO=guestCustomDAO.addGuest(guestDTO,seatingPref,marketingPref);
+		addUpdateGuestDTO.setGuestUUID(guestUUID);
+		addUpdateGuestDTO.setLanguagePref(guestDTO.getLangguagePref());
+		addUpdateGuestDTO.setOrgId(guestDTO.getOrganizationID());
+		addUpdateGuestDTO.setOp("ADD");
+		
+		tinyURL=organizationTemplateServiceImpl.buildURL(addUpdateGuestDTO.getClientBase(),guestUUID);
+		addUpdateGuestDTO.setTinyURL(tinyURL);
+		
+		NotificationUtil.sendMessage(addUpdateGuestDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV);
+		return addUpdateGuestDTO;
+	}
+	//to convert seating or marketing pref
+	String convertToString(List<SeatingMarketingPrefDTO> seatingOrMarketingPref){
+		StringBuilder stringPref=new StringBuilder();
+		for(SeatingMarketingPrefDTO pref:seatingOrMarketingPref) {
+			stringPref.append(pref.getPrefValueId());
+		}
+		return stringPref.toString();
 	}
 
 }

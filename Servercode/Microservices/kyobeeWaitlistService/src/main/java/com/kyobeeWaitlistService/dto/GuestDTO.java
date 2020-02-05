@@ -9,7 +9,7 @@ public class GuestDTO {
 	private Integer organizationID;
 	private String name;
 	private String uuid;
-	private String noOfPeople;
+	private Integer noOfPeople;
 	private Integer partyType;
 	private Integer calloutCount;
 	private String deviceId;
@@ -28,6 +28,7 @@ public class GuestDTO {
 	private LanguageMasterDTO langguagePref;
     private List<SeatingMarketingPrefDTO> seatingPreference;
     private List<SeatingMarketingPrefDTO> marketingPreference;
+    private String note;
     
 	public Integer getGuestID() {
 		return guestID;
@@ -53,10 +54,10 @@ public class GuestDTO {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
-	public String getNoOfPeople() {
+	public Integer getNoOfPeople() {
 		return noOfPeople;
 	}
-	public void setNoOfPeople(String noOfPeople) {
+	public void setNoOfPeople(Integer noOfPeople) {
 		this.noOfPeople = noOfPeople;
 	}
 	public Integer getPartyType() {
@@ -166,6 +167,12 @@ public class GuestDTO {
 	}
 	public void setMarketingPreference(List<SeatingMarketingPrefDTO> marketingPreference) {
 		this.marketingPreference = marketingPreference;
+	}
+	public String getNote() {
+		return note;
+	}
+	public void setNote(String note) {
+		this.note = note;
 	}
     
     

@@ -3,6 +3,7 @@ package com.kyobeeWaitlistService.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import com.kyobeeWaitlistService.util.LoggerUtil;
 import com.kyobeeWaitlistService.util.WaitListServiceConstants;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/rest/organizationTemplate")
 public class OrganizationTemplateController {
 

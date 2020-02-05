@@ -30,6 +30,7 @@ export class AuthService {
     }
   
     setSessionData(data){
+      alert("ww"+JSON.stringify(data));
       this.session.set('userDTO',data);
     }
     

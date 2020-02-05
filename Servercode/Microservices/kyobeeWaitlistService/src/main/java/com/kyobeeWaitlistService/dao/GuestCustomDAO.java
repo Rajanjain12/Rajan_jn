@@ -4,11 +4,16 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.kyobeeWaitlistService.dto.AddUpdateGuestDTO;
+import com.kyobeeWaitlistService.dto.GuestDTO;
+import com.kyobeeWaitlistService.dto.GuestHistoryRequestDTO;
 import com.kyobeeWaitlistService.entity.Guest;
 
 @Repository
 public interface GuestCustomDAO {
 	
-	public List<Guest> fetchAllGuestHistoryList(Integer orgId,Integer recordsPerPage,Integer pageNumber,String statusOption, String clientTimezone,Integer sliderMinValue,Integer sliderMaxValue,String searchText);
+	public List<Guest> fetchAllGuestHistoryList(GuestHistoryRequestDTO guestRequest);
+	
+	public AddUpdateGuestDTO addGuest(GuestDTO guestDTO,String seatingPref,String marketingPref);
 
 }
