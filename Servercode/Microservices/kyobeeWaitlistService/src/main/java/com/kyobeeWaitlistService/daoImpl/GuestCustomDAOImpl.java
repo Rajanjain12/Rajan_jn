@@ -139,7 +139,7 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 				LoggerUtil.logError("Error in proc "+e.getMessage());
 		}
 		finally {
-			sessionFactory.close();
+			session.flush();
 			session.close();	
 		}
 		return addUpdateGuestDTO;	
