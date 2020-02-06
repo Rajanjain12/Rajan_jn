@@ -152,7 +152,7 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 		
 		SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
 		AddUpdateGuestDTO addUpdateGuestDTO = null;
-		Session session= sessionFactory.openSession();
+		Session session= sessionFactory.getCurrentSession();
 		try {
 			
 			addUpdateGuestDTO = session.doReturningWork(new ReturningWork<AddUpdateGuestDTO>() {
