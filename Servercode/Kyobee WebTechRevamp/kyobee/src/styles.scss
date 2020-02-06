@@ -1,26 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
-/* Reset CSS */
-@import '~global.css/src/reset';
+/* Bootstrap Import */
+@import "~bootstrap/dist/css/bootstrap.css";
 
-/* Normalize CSS */
-@import '~global.css/src/normalize';
+/* Fonts Start */
+@import url("https://fonts.googleapis.com/css?family=Pacifico");
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900");
+/* Fonts Start Ends */
 
-/* Variables */
-@import './assets/scss/variable';
-
-/* Bootstrap CSS */
-@import '~bootstrap/scss/bootstrap';
-
-html {
-font-size: 16px;
-}
-p {
-margin: 0;
-}
-
-@import './assets/scss/header';
-@import './assets/scss/sidebar';
-@import './assets/scss/style';
-@import './assets/scss/flaticon';
-@import './assets/scss/kyobee';
-@import './assets/scss/responsive';
+@import "./assets/scss/sidebar.scss";
+@import "./assets/scss/flaticon.scss";
+@import "./assets/scss/style.scss";
