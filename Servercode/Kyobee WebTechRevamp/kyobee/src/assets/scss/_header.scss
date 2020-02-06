@@ -1,6 +1,7 @@
-@import "~src/assets/scss/variable";
+/*header design*/
+@import "variable";
 
-header {
+header.header {
   box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.1);
   padding: 10px;
   background-color: $white-color;
@@ -17,13 +18,14 @@ header {
     button {
       border: none;
     }
-    ul {
+    .navbar-nav {
       height: 100%;
       list-style: none;
-      li {
+      .nav-item {
         height: 100%;
         display: inline-block;
-        a {
+        margin-right: 3px;
+        .nav-link {
           height: 100%;
           padding: 5px 24px;
           text-decoration: none;

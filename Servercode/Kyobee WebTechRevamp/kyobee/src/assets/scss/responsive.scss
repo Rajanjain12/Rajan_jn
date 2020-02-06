@@ -1,0 +1,381 @@
+@import "variable";
+
+// small devices (portrait phones, less than 576px)
+@media (max-width: 767.98px) {
+  /* Common CSS */
+  .container.pt-5 {
+    padding-bottom: 1rem;
+  }
+  .custom-container {
+    width: 85%;
+  }
+  .container-box {
+    width: 100%;
+    float: none;
+  }
+  .pricing-box {
+    padding: 8% 5%;
+  }
+  .sm-block {
+    display: block !important;
+  }
+  .sm-d-none {
+    display: none !important;
+  }
+  .sm-pl-0 {
+    padding-left: 0;
+  }
+  .sm-pr-0 {
+    padding-right: 0;
+  }
+  .sm-mx-auto {
+    margin: auto;
+  }
+  .sm-center {
+    text-align: center !important;
+  }
+  .modal {
+    .modal-btn {
+      text-align: center !important;
+    }
+  }
+  #showMobile {
+    display: block;
+  }
+  #hideMobile {
+    display: none;
+  }
+  header {
+    .topnav {
+      padding: 0.5rem;
+      ul {
+        li {
+          display: block;
+          a {
+            text-align: left;
+            i {
+              margin-right: 10px;
+            }
+            p {
+              display: initial;
+            }
+          }
+        }
+      }
+    }
+  }
+  .topnav a.active {
+    border-bottom: 0;
+  }
+  #navbar-menu {
+    .dropdown-toggle::after {
+      display: inline-block;
+      float: right;
+      color: #a7a7a7;
+      font-size: 24px;
+      margin-top: 7px;
+    }
+  }
+  #navbar-menu {
+    ul {
+      li {
+        .dropdown-menu.show {
+          display: block;
+          border: 0;
+          background-color: #f2f2f2;
+          padding: 0;
+        }
+        a {
+          padding: 0.25rem 0.5rem;
+          font-size: 16px;
+          i {
+            display: none;
+          }
+          span {
+            margin-left: 15px;
+          }
+        }
+      }
+    }
+  }
+  .navbar-toggler {
+    right: -10px;
+    position: absolute;
+    top: 27px;
+  }
+  .logout-res {
+    width: 100%;
+    text-align: right;
+  }
+  .w-res-100 {
+    width: 100%;
+  }
+  .fix-wrapper {
+    padding-top: 80px;
+  }
+  #page-content-wrapper {
+  }
+  .modal-dialog {
+    max-width: 600px !important;
+  }
+  #sidebar-wrapper {
+    width: 100%;
+    height: all;
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 21;
+    margin: 0;
+    padding: 0;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8));
+    animation-name: slid-right;
+    animation-duration: 1s;
+    button {
+      color: #fff;
+      position: fixed;
+      top: 0;
+      right: 0;
+    }
+    .sidebar-nav {
+      width: 50%;
+      background-color: #fff;
+      height: 100%;
+      li {
+        a {
+          text-align: left;
+          .icon-border-right {
+            padding: 5px;
+            display: inline-block;
+            border-right: none;
+            .icon-circle {
+              height: 35px;
+              width: 35px;
+              border-radius: 35px;
+              line-height: 30px;
+              [class^="flaticon-"]:before,
+              [class*=" flaticon-"]:before,
+              [class^="flaticon-"]:after,
+              [class*=" flaticon-"]:after {
+                font-family: Flaticon;
+                font-size: 18px;
+              }
+            }
+          }
+        }
+      }
+      li.active a .icon-border-right {
+        border-right: none;
+      }
+    }
+  }
+  /* #sidebar-wrapper */
+
+  #page-content-wrapper {
+    .normal-box-container {
+      margin: 0.25rem;
+      padding: 0;
+      .row {
+        padding: 0;
+        .col {
+          padding: 0;
+        }
+      }
+    }
+  }
+  /* page-content-wrapper */
+
+  /* Common CSS Ends */
+
+  /* dashboardPage */
+  #dashboardPage {
+    .sub-btn {
+      display: block;
+      margin: 0px 0px 10px 0px !important;
+    }
+  }
+
+  /* addUserPage */
+  #addUserPage {
+    .first-lang {
+      flex-direction: column-reverse;
+    }
+  }
+  // .modal {
+  // 	.model-btn { text-align: center !important;
+  // 		.btn-theme {
+  // 			width: 80% !important;
+  // 		}
+  // 	}
+  // }
+  .verification-input {
+    width: 34px;
+    margin: 0 auto;
+  }
+  #rc-imageselect,
+  .g-recaptcha {
+    transform: scale(0.77);
+    -webkit-transform: scale(0.77);
+    transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+  }
+  #showResponsive {
+    display: block;
+  }
+  #showWeb {
+    display: none;
+  }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.98px) {
+  /* Common CSS */
+  .custom-container {
+    width: 90%;
+  }
+  .md-block {
+    display: block !important;
+  }
+  .modal-dialog {
+    max-width: 600px !important;
+  }
+  #wrapper {
+    margin-top: 3%;
+    padding-left: $sizebar-size;
+    #sidebar-wrapper {
+      width: $sizebar-size;
+    }
+  }
+  .asidebar {
+    display: none;
+  }
+  #navbar-menu {
+    ul {
+      li {
+        a {
+          padding: 5px 16px;
+        }
+      }
+    }
+  }
+  /* sidebar-wrapper */
+  #page-content-wrapper {
+    .normal-box-container {
+      margin: 0.25rem;
+      padding: 0;
+      .row {
+        padding: 0;
+        .col {
+          padding: 0;
+        }
+      }
+    }
+  }
+  /* page-content-wrapper */
+
+  /* Common CSS Ends */
+
+  /* login */
+  #login {
+    .custom-container {
+      padding-top: 3rem !important;
+      // .container-box {
+      // 	float: none;
+      // 	margin: auto;
+      // }
+    }
+  }
+
+  /* dashboardPage */
+  #dashboardPage {
+    .sub-btn {
+      // display: block;
+      // margin: 0px 0px 10px 0px !important;
+    }
+  }
+
+  /* addUserPage */
+  #addUserPage {
+    .first-lang {
+      flex-direction: column-reverse;
+    }
+  }
+  #showResponsive {
+    display: block;
+  }
+  #showWeb {
+    display: none;
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  /* Common CSS */
+  .modal-dialog {
+    max-width: 600px !important;
+  }
+  #wrapper {
+    padding-left: $sizebar-size;
+    #sidebar-wrapper {
+      width: $sizebar-size;
+    }
+  }
+  #page-content-wrapper {
+    .normal-box-container {
+      margin: 0.25rem;
+      padding: 0;
+    }
+  }
+  /* page-content-wrapper */
+
+  /* Common CSS Ends */
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+  /* Common CSS */
+  .modal-dialog {
+    max-width: 600px !important;
+  }
+  #wrapper {
+    padding-left: $sizebar-size;
+    #sidebar-wrapper {
+      width: $sizebar-size;
+    }
+  }
+
+  /* Common CSS Ends */
+}
+@media (min-width: 1900px) and (max-width: 2499.98px) {
+  body {
+    font-size: 15px;
+  }
+  .topnav {
+    ul {
+      li {
+        a {
+          p {
+            font-size: 16px !important;
+          }
+        }
+      }
+    }
+  }
+  .font-12 {
+    font-size: 16px;
+  }
+  .container {
+    max-width: 80%;
+  }
+  .table-responsive {
+    overflow-x: initial;
+  }
+  .fix-wrapper {
+    padding-top: 4%;
+  }
+  .center-items {
+    min-height: 95vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
