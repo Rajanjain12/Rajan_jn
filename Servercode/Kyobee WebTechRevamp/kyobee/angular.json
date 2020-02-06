@@ -28,9 +28,32 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              {
+                "input": "src/styles.scss",
+                "bundleName": "styles",
+                "inject": false
+              },
+              {
+                "input": "src/assets/scss/theme-admin.scss",
+                "bundleName": "theme-admin",
+                "inject": false
+              },
+              {
+                "input": "src/assets/scss/theme-advantech.scss",
+                "bundleName": "theme-advantech",
+                "inject": false
+              },
+              {
+                "input": "src/assets/scss/combine.scss",
+                "bundleName": "combine",
+                "inject": false
+              }
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
           },
           "configurations": {
             "production": {
