@@ -1,12 +1,15 @@
 package com.kyobeeWaitlistService.rest;
 
+import java.util.Arrays;
+
+import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -112,18 +115,37 @@ public class GuestController {
 
 	// for add or update of guest according to guestId
 	@PostMapping(value = "/", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
-	public @ResponseBody ResponseDTO addUpdateGuest(@RequestBody GuestDTO guestDTO) {
+	public @ResponseBody ResponseDTO addGuestDetails(@RequestBody GuestDTO guestDTO) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			AddUpdateGuestDTO addUpdateGuestDTO = guestService.addOrUpdateGuest(guestDTO);
+			AddUpdateGuestDTO addUpdateGuestDTO = guestService.addGuest(guestDTO);
 			responseDTO.setServiceResult(addUpdateGuestDTO);
 			responseDTO.setMessage("guest list fetched Successfully.");
 			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
 
 		} catch (Exception ex) {
-			LoggerUtil.logError("add update "+ ex.getStackTrace().toString());
-			//ex.printStackTrace();
+			LoggerUtil.logError("add "+ Arrays.toString(ex.getStackTrace()));
+			responseDTO.setServiceResult("System Error - fetchGuestList failed");
+			responseDTO.setMessage("System Error - fetchGuestList failed");
+			responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);
+		}
+		return responseDTO;
+	}
+	
+	@PutMapping(value = "/", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO updateGuestDetails(@RequestBody GuestDTO guestDTO) {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			AddUpdateGuestDTO addUpdateGuestDTO = guestService.updateGuestDetails(guestDTO);
+			responseDTO.setServiceResult(addUpdateGuestDTO);
+			responseDTO.setMessage("guest list fetched Successfully.");
+			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			//LoggerUtil.logError("update method ERROR "+Arrays.toString(ex.getStackTrace()));
 			responseDTO.setServiceResult("System Error - fetchGuestList failed");
 			responseDTO.setMessage("System Error - fetchGuestList failed");
 			responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);

@@ -9,6 +9,9 @@ public class GuestDTO {
 	private Integer organizationID;
 	private String name;
 	private String uuid;
+	private Integer noOfChildren;
+	private Integer noOfAdults;
+	private Integer noOfInfants;
 	private Integer noOfPeople;
 	private Integer partyType;
 	private Integer calloutCount;
@@ -53,6 +56,24 @@ public class GuestDTO {
 	}
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+	}
+	public Integer getNoOfChildren() {
+		return noOfChildren;
+	}
+	public void setNoOfChildrenm(Integer noOfChildren) {
+		this.noOfChildren = noOfChildren;
+	}
+	public Integer getNoOfAdults() {
+		return noOfAdults;
+	}
+	public void setNoOfAdults(Integer noOfAdults) {
+		this.noOfAdults = noOfAdults;
+	}
+	public Integer getNoOfInfants() {
+		return noOfInfants;
+	}
+	public void setNoOfInfants(Integer noOfInfants) {
+		this.noOfInfants = noOfInfants;
 	}
 	public Integer getNoOfPeople() {
 		return noOfPeople;

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kyobeeWaitlistService.dao.OrganizationTemplateDAO;
 import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
@@ -17,6 +18,7 @@ import com.kyobeeWaitlistService.util.LoggerUtil;
 import com.kyobeeWaitlistService.util.WaitListServiceConstants;
 
 @Service
+@Transactional
 public class OrganizationTemplateServiceImpl implements OrganizationTemplateService {
 	@Autowired
 	OrganizationTemplateDAO organizationTemplateDAO;

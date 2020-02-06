@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kyobeeWaitlistService.dao.GuestCustomDAO;
 import com.kyobeeWaitlistService.dao.GuestDAO;
+import com.kyobeeWaitlistService.dao.GuestMarketingPreferencesDAO;
 import com.kyobeeWaitlistService.dao.LookupDAO;
 import com.kyobeeWaitlistService.dao.OrganizationDAO;
 import com.kyobeeWaitlistService.dto.AddUpdateGuestDTO;
@@ -23,6 +26,7 @@ import com.kyobeeWaitlistService.dto.LanguageMasterDTO;
 import com.kyobeeWaitlistService.dto.SeatingMarketingPrefDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.entity.Guest;
+import com.kyobeeWaitlistService.entity.GuestMarketingPreferences;
 import com.kyobeeWaitlistService.entity.Lookup;
 import com.kyobeeWaitlistService.service.GuestService;
 import com.kyobeeWaitlistService.util.LoggerUtil;
@@ -30,6 +34,7 @@ import com.kyobeeWaitlistService.util.WaitListServiceConstants;
 import com.kyobeeWaitlistService.util.pusherImpl.NotificationUtil;
 
 @Service
+@Transactional
 public class GuestServiceImpl implements GuestService {
 	
 	@Autowired
@@ -43,6 +48,9 @@ public class GuestServiceImpl implements GuestService {
 	
 	@Autowired
 	LookupDAO lookupDAO;
+	
+	@Autowired
+	GuestMarketingPreferencesDAO guestMarketingPreferencesDAO;
 	
 	@Autowired
 	OrganizationTemplateServiceImpl organizationTemplateServiceImpl;
@@ -216,7 +224,7 @@ public class GuestServiceImpl implements GuestService {
 	}
 
 	@Override
-	public AddUpdateGuestDTO addOrUpdateGuest(GuestDTO guestDTO) {
+	public AddUpdateGuestDTO addGuest(GuestDTO guestDTO) {
 		String seatingPref;
 		String marketingPref;
 		String tinyURL="";
@@ -232,10 +240,29 @@ public class GuestServiceImpl implements GuestService {
 		
 		tinyURL=organizationTemplateServiceImpl.buildURL(addUpdateGuestDTO.getClientBase(),guestUUID);
 		addUpdateGuestDTO.setTinyURL(tinyURL);
+		GuestMarketingPreferences guestMarketingPreferences=new GuestMarketingPreferences();
+		Optional<Guest> guest = guestDAO.findById(addUpdateGuestDTO.getAddedGuestId());
+		
+		List<SeatingMarketingPrefDTO> marketingPreference=guestDTO.getMarketingPreference();
+		for(SeatingMarketingPrefDTO pref:marketingPreference) {
+			
+			guestMarketingPreferences=new GuestMarketingPreferences();
+			if(guest.isPresent()) {
+				guestMarketingPreferences.setGuest(guest.get());
+			}
+			Integer lookupId=pref.getPrefValueId();
+			Optional<Lookup> lookup =lookupDAO.findById(lookupId);
+			if(lookup.isPresent()) {
+				guestMarketingPreferences.setLookup(lookup.get());
+			}
+			guestMarketingPreferencesDAO.save(guestMarketingPreferences);
+		}
 		
 		NotificationUtil.sendMessage(addUpdateGuestDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV);
 		return addUpdateGuestDTO;
 	}
+	
+	
 	//to convert seating or marketing pref
 	String convertToString(List<SeatingMarketingPrefDTO> seatingOrMarketingPref){
 		StringBuilder stringPref=new StringBuilder();
@@ -243,6 +270,44 @@ public class GuestServiceImpl implements GuestService {
 			stringPref.append(pref.getPrefValueId());
 		}
 		return stringPref.toString();
+	}
+
+	@Override
+	public AddUpdateGuestDTO updateGuestDetails(GuestDTO guestDTO) {
+		
+		String seatingPref;
+		String marketingPref;
+		String tinyURL="";
+		String guestUUID=UUID.randomUUID().toString().substring(0, 8);
+		seatingPref=convertToString(guestDTO.getSeatingPreference());
+		marketingPref=convertToString(guestDTO.getMarketingPreference());
+		guestDTO.setUuid(guestUUID);
+		AddUpdateGuestDTO addUpdateGuestDTO=guestCustomDAO.updateGuestDetails(guestDTO,seatingPref,marketingPref);
+		addUpdateGuestDTO.setGuestUUID(guestUUID);
+		addUpdateGuestDTO.setLanguagePref(guestDTO.getLangguagePref());
+		addUpdateGuestDTO.setOrgId(guestDTO.getOrganizationID());
+		addUpdateGuestDTO.setOp("UPDATE");
+		tinyURL=organizationTemplateServiceImpl.buildURL(addUpdateGuestDTO.getClientBase(),guestUUID);
+		addUpdateGuestDTO.setTinyURL(tinyURL);
+		/*
+		 * GuestMarketingPreferences guestMarketingPreferences=new
+		 * GuestMarketingPreferences(); Optional<Guest> guest =
+		 * guestDAO.findById(addUpdateGuestDTO.getAddedGuestId());
+		 * 
+		 * List<SeatingMarketingPrefDTO>
+		 * marketingPreference=guestDTO.getMarketingPreference();
+		 * for(SeatingMarketingPrefDTO pref:marketingPreference) {
+		 * 
+		 * guestMarketingPreferences=new GuestMarketingPreferences();
+		 * if(guest.isPresent()) { guestMarketingPreferences.setGuest(guest.get()); }
+		 * Integer lookupId=pref.getPrefValueId(); Optional<Lookup> lookup
+		 * =lookupDAO.findById(lookupId); if(lookup.isPresent()) {
+		 * guestMarketingPreferences.setLookup(lookup.get()); }
+		 * guestMarketingPreferencesDAO.save(guestMarketingPreferences); }
+		 */
+		
+		NotificationUtil.sendMessage(addUpdateGuestDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV);
+		return addUpdateGuestDTO;
 	}
 
 }

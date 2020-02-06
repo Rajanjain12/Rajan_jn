@@ -13,7 +13,9 @@ public interface GuestService {
 	public GuestResponseDTO fetchGuestList(Integer orgId,Integer pageSize,Integer pageNo,String searchText);
 	//for fetching guest history list
 	public GuestResponseDTO fetchGuestHistoryList(GuestHistoryRequestDTO guestRequest);
-	//for add or update guest
-	public AddUpdateGuestDTO addOrUpdateGuest(GuestDTO guestDTO);
+	//for add guest
+	public AddUpdateGuestDTO addGuest(GuestDTO guestDTO);
+	//for update Guest
+	public AddUpdateGuestDTO updateGuestDetails(GuestDTO guestDTO);
 
 }

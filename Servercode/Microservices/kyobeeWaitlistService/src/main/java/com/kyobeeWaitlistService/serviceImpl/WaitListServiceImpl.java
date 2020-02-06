@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kyobeeWaitlistService.dao.GuestDAO;
 import com.kyobeeWaitlistService.dao.LanguageKeyMappingDAO;
@@ -28,6 +29,7 @@ import com.kyobeeWaitlistService.util.WaitListServiceConstants;
 import com.kyobeeWaitlistService.util.pusherImpl.NotificationUtil;
 
 @Service
+@Transactional
 public class WaitListServiceImpl implements WaitListService {
 
 	@Autowired

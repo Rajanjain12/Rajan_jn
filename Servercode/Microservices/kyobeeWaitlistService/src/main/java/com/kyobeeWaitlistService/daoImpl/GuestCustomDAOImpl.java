@@ -8,6 +8,7 @@ import java.util.List;
 
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.Session;
@@ -15,32 +16,31 @@ import org.hibernate.SessionFactory;
 import org.hibernate.jdbc.ReturningWork;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kyobeeWaitlistService.dao.GuestCustomDAO;
 import com.kyobeeWaitlistService.dto.AddUpdateGuestDTO;
 import com.kyobeeWaitlistService.dto.GuestDTO;
 import com.kyobeeWaitlistService.dto.GuestHistoryRequestDTO;
-import com.kyobeeWaitlistService.dto.GuestRequestDTO;
-import com.kyobeeWaitlistService.dto.SeatingMarketingPrefDTO;
-import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.entity.Guest;
+
 import com.kyobeeWaitlistService.util.LoggerUtil;
 
 @Repository
 public class GuestCustomDAOImpl implements GuestCustomDAO{
 
-	/*
-	 * @Autowired private SessionFactory sessionFactory;
-	 */
+	@Autowired
+	private EntityManager entityManager;
 	
-	  @PersistenceContext 
-	  private EntityManager entityManger;
-	 
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Guest> fetchAllGuestHistoryList(GuestHistoryRequestDTO guestRequestDTO) {
 		//for fetching data according to page number 
+		
+		SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
+		 
+		
 		Integer pageNumber=guestRequestDTO.getPageNo();
 		Integer sliderMinValue=guestRequestDTO.getSliderMinTime();
 		Integer sliderMaxValue=guestRequestDTO.getSliderMaxTime();
@@ -62,25 +62,23 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 			}
 			query=query.append(" order by g.rank asc");	
 			if(guestRequestDTO.getSearchText()!=null) {
-				return entityManger.createQuery(query.toString()).setParameter("orgId",guestRequestDTO.getOrgId()).setParameter("sliderMinValue", sliderMinTimeString).setParameter("sliderMaxValue", sliderMaxTimeString).setParameter("clientTimezone", guestRequestDTO.getClientTimezone()).setParameter("searchText", "%"+guestRequestDTO.getSearchText()+"%").setFirstResult(firstPage).setMaxResults(guestRequestDTO.getPageSize()).getResultList();	
+				return sessionFactory.getCurrentSession().createQuery(query.toString()).setParameter("orgId",guestRequestDTO.getOrgId()).setParameter("sliderMinValue", sliderMinTimeString).setParameter("sliderMaxValue", sliderMaxTimeString).setParameter("clientTimezone", guestRequestDTO.getClientTimezone()).setParameter("searchText", "%"+guestRequestDTO.getSearchText()+"%").setFirstResult(firstPage).setMaxResults(guestRequestDTO.getPageSize()).getResultList();	
 			}else {
-				return entityManger.createQuery(query.toString()).setParameter("orgId",guestRequestDTO.getOrgId()).setParameter("sliderMinValue", sliderMinTimeString).setParameter("sliderMaxValue", sliderMaxTimeString).setParameter("clientTimezone", guestRequestDTO.getClientTimezone()).setFirstResult(firstPage).setMaxResults(guestRequestDTO.getPageSize()).getResultList();
+				return sessionFactory.getCurrentSession().createQuery(query.toString()).setParameter("orgId",guestRequestDTO.getOrgId()).setParameter("sliderMinValue", sliderMinTimeString).setParameter("sliderMaxValue", sliderMaxTimeString).setParameter("clientTimezone", guestRequestDTO.getClientTimezone()).setFirstResult(firstPage).setMaxResults(guestRequestDTO.getPageSize()).getResultList();
 			}
 	 }
 
-	public Session getSessionFactory(){
-		 return entityManger.unwrap(Session.class);
 	
-	}
-
 	@Override
 	public AddUpdateGuestDTO addGuest(GuestDTO guestObj,String seatingPref,String marketingPref) {
-		Session session=getSessionFactory();
-		SessionFactory sessionFactory=session.getSessionFactory();
+		
+		SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
+	         
+		//SessionFactory sessionFactory=getSessionFactory();
 		AddUpdateGuestDTO addUpdateGuestDTO = null;
 		try {
 			
-			addUpdateGuestDTO = sessionFactory.openSession().doReturningWork(new ReturningWork<AddUpdateGuestDTO>() {
+			addUpdateGuestDTO = sessionFactory.getCurrentSession().doReturningWork(new ReturningWork<AddUpdateGuestDTO>() {
 
 				@Override
 				public AddUpdateGuestDTO execute(Connection connection) throws SQLException {
@@ -92,37 +90,41 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 						cStmt.setLong(1, guestObj.getOrganizationID());
 						cStmt.setString(2, guestObj.getName());
 						cStmt.setString(3, guestObj.getUuid());
-						cStmt.setLong(4, guestObj.getNoOfPeople());
-						cStmt.setLong(5, guestObj.getLangguagePref().getLangId());
-						cStmt.setInt(6, guestObj.getPartyType());
-						cStmt.setString(7, guestObj.getDeviceType());
-						cStmt.setString(8, guestObj.getDeviceId());
-						cStmt.setString(9, guestObj.getPhoneNumber());
-						cStmt.setString(10, guestObj.getEmail());
-						cStmt.setString(11, guestObj.getPrefType());
-						cStmt.setInt(12, guestObj.getOptin());
-						cStmt.setString(13, guestObj.getNote());
-						cStmt.setString(14,seatingPref);
-						cStmt.setString(15, marketingPref);
+						cStmt.setLong(4, guestObj.getNoOfChildren());
+						cStmt.setLong(5, guestObj.getNoOfChildren());
+						cStmt.setLong(6, guestObj.getNoOfChildren());
+						
+						cStmt.setLong(7, guestObj.getNoOfPeople());
+						cStmt.setLong(8, guestObj.getLangguagePref().getLangId());
+						cStmt.setInt(9, guestObj.getPartyType());
+						cStmt.setString(10, guestObj.getDeviceType());
+						cStmt.setString(11, guestObj.getDeviceId());
+						cStmt.setString(12, guestObj.getPhoneNumber());
+						cStmt.setString(13, guestObj.getEmail());
+						cStmt.setString(14, guestObj.getPrefType());
+						cStmt.setInt(15, guestObj.getOptin());
+						cStmt.setString(16, guestObj.getNote());
+						cStmt.setString(17,seatingPref);
+						cStmt.setString(18, marketingPref);
 
-						cStmt.registerOutParameter(16, Types.INTEGER);
-						cStmt.registerOutParameter(17, Types.INTEGER);
-						cStmt.registerOutParameter(18, Types.INTEGER);
-						cStmt.registerOutParameter(19, Types.VARCHAR);
+						cStmt.registerOutParameter(19, Types.INTEGER);
 						cStmt.registerOutParameter(20, Types.INTEGER);
-						cStmt.registerOutParameter(21, Types.VARCHAR);
-						cStmt.registerOutParameter(22, Types.INTEGER);
-						cStmt.registerOutParameter(23, Types.VARCHAR);
+						cStmt.registerOutParameter(21, Types.INTEGER);
+						cStmt.registerOutParameter(22, Types.VARCHAR);
+						cStmt.registerOutParameter(23, Types.INTEGER);
+						cStmt.registerOutParameter(24, Types.VARCHAR);
+						cStmt.registerOutParameter(25, Types.INTEGER);
+						cStmt.registerOutParameter(26, Types.VARCHAR);
 						
 						cStmt.execute();
 					
-						addUpdateGuestDTO.setAddedGuestId(cStmt.getInt(16));
-						addUpdateGuestDTO.setGuestRank(cStmt.getInt(17));			
-						addUpdateGuestDTO.setNextToNotifyGuestId(cStmt.getInt(22));
-						addUpdateGuestDTO.setNowServingGuestId(cStmt.getInt(18));					
-						addUpdateGuestDTO.setTotalGuestWaiting(cStmt.getInt(19));	
-						addUpdateGuestDTO.setTotalWaitTime(cStmt.getInt(20));
-						addUpdateGuestDTO.setClientBase(cStmt.getString(23));
+						addUpdateGuestDTO.setAddedGuestId(cStmt.getInt(19));
+						addUpdateGuestDTO.setGuestRank(cStmt.getInt(20));			
+						addUpdateGuestDTO.setNextToNotifyGuestId(cStmt.getInt(25));
+						addUpdateGuestDTO.setNowServingGuestId(cStmt.getInt(21));					
+						addUpdateGuestDTO.setTotalGuestWaiting(cStmt.getInt(22));	
+						addUpdateGuestDTO.setTotalWaitTime(cStmt.getInt(23));
+						addUpdateGuestDTO.setClientBase(cStmt.getString(26));
 					
 					} finally {
 						if (cStmt != null) {
@@ -139,8 +141,84 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 				LoggerUtil.logError("Error in proc "+e.getMessage());
 		}
 		finally {
-			session.flush();
-			session.close();	
+			//session.flush();
+			//session.close();	
+		}
+		return addUpdateGuestDTO;	
+	}
+
+	@Override
+	public AddUpdateGuestDTO updateGuestDetails(GuestDTO guestObj, String seatingPref, String marketingPref) {
+		
+		SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
+		AddUpdateGuestDTO addUpdateGuestDTO = null;
+		Session session= sessionFactory.openSession();
+		try {
+			
+			addUpdateGuestDTO = session.doReturningWork(new ReturningWork<AddUpdateGuestDTO>() {
+
+				@Override
+				public AddUpdateGuestDTO execute(Connection connection) throws SQLException {
+					CallableStatement cStmt = connection.prepareCall("{call UPDATEGUESTREVAMP(?, ?, ?, ?, "
+							+ "?, ?, ?, ? , ?, ?, ?, ?, ?, ?, ?, ? , ?, ? , ? , ? , ?, ?, ? , ? )}");
+					
+					AddUpdateGuestDTO addUpdateGuestDTO = new AddUpdateGuestDTO();
+					try {
+						cStmt.setLong(1, guestObj.getOrganizationID());
+						cStmt.setLong(2, guestObj.getGuestID());
+						cStmt.setString(3, guestObj.getName());
+						
+						cStmt.setLong(4, guestObj.getNoOfChildren());
+						cStmt.setLong(5, guestObj.getNoOfChildren());
+						cStmt.setLong(6, guestObj.getNoOfChildren());
+						
+						cStmt.setLong(7, guestObj.getNoOfPeople());
+						cStmt.setLong(8, guestObj.getLangguagePref().getLangId());
+						cStmt.setInt(9, guestObj.getPartyType());
+						cStmt.setString(10, guestObj.getDeviceType());
+						cStmt.setString(11, guestObj.getDeviceId());
+						cStmt.setString(12, guestObj.getPhoneNumber());
+						cStmt.setString(13, guestObj.getEmail());
+						cStmt.setString(14, guestObj.getPrefType());
+						cStmt.setInt(15, guestObj.getOptin());
+						cStmt.setString(16,seatingPref);
+						cStmt.setString(17, guestObj.getNote());					
+
+						cStmt.registerOutParameter(18, Types.INTEGER);
+						cStmt.registerOutParameter(19, Types.INTEGER);
+						cStmt.registerOutParameter(20, Types.INTEGER);
+						cStmt.registerOutParameter(21, Types.VARCHAR);
+						cStmt.registerOutParameter(22, Types.INTEGER);
+						cStmt.registerOutParameter(23, Types.INTEGER);
+						cStmt.registerOutParameter(24, Types.VARCHAR);
+						
+						cStmt.execute();
+					
+						addUpdateGuestDTO.setAddedGuestId(guestObj.getGuestID());	
+						addUpdateGuestDTO.setNextToNotifyGuestId(cStmt.getInt(22));
+						addUpdateGuestDTO.setNowServingGuestId(cStmt.getInt(18));					
+						addUpdateGuestDTO.setTotalGuestWaiting(cStmt.getInt(19));	
+						addUpdateGuestDTO.setTotalWaitTime(cStmt.getInt(20));
+						addUpdateGuestDTO.setClientBase(cStmt.getString(24));
+					
+					} finally {
+						if (cStmt != null) {
+							cStmt.close();
+						}
+					}
+					return addUpdateGuestDTO;
+				}
+			});
+
+				
+		}
+		catch(Exception e) {
+				LoggerUtil.logError("Error in proc "+e.getMessage());
+		}
+		finally {
+			//session.flush();
+			//session.close();	
+			session.close();
 		}
 		return addUpdateGuestDTO;	
 	}
