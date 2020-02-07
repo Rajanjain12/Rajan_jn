@@ -22,9 +22,11 @@ import com.kyobeeWaitlistService.dao.GuestCustomDAO;
 import com.kyobeeWaitlistService.dto.AddUpdateGuestDTO;
 import com.kyobeeWaitlistService.dto.GuestDTO;
 import com.kyobeeWaitlistService.dto.GuestHistoryRequestDTO;
+import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.entity.Guest;
 
 import com.kyobeeWaitlistService.util.LoggerUtil;
+import com.kyobeeWaitlistService.util.WaitListServiceConstants;
 
 @Repository
 public class GuestCustomDAOImpl implements GuestCustomDAO{
@@ -152,7 +154,7 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 		
 		SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
 		AddUpdateGuestDTO addUpdateGuestDTO = null;
-		Session session= sessionFactory.getCurrentSession();
+		Session session= sessionFactory.openSession();
 		try {
 			
 			addUpdateGuestDTO = session.doReturningWork(new ReturningWork<AddUpdateGuestDTO>() {
@@ -216,11 +218,72 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 				LoggerUtil.logError("Error in proc "+e.getMessage());
 		}
 		finally {
-			//session.flush();
-			//session.close();	
+			
 			session.close();
 		}
 		return addUpdateGuestDTO;	
+	}
+
+
+	@Override
+	public WaitlistMetrics updateGuestStatus(Integer guestId, Integer orgId, String status) {
+		SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
+		WaitlistMetrics waitlistMetrics = null;
+		Session session= sessionFactory.openSession();
+		try {
+			
+			waitlistMetrics = session.doReturningWork(new ReturningWork<WaitlistMetrics>() {
+
+				@Override
+				public WaitlistMetrics execute(Connection connection) throws SQLException {
+					CallableStatement cStmt = connection.prepareCall("{call UPDATEGUESTSTATUSREVAMP(?, ?, ?, ?, "
+							+ "?, ?, ?, ? , ?, ?, ?, ?, ?)}");
+					
+					WaitlistMetrics waitlistMetrics = new WaitlistMetrics();
+					try {
+						cStmt.setLong(1, orgId);
+						cStmt.setLong(2, guestId);
+					
+						cStmt.setInt(3, status.equalsIgnoreCase(WaitListServiceConstants.NOTPRESENT_STATUS) ? 1: 0);
+						cStmt.setInt(4, status.equalsIgnoreCase(WaitListServiceConstants.INCOMPLETE_STATUS) ? 1: 0);
+						cStmt.setInt(5, status.equalsIgnoreCase(WaitListServiceConstants.SEATED_STATUS) ? 1: 0);
+						cStmt.setInt(6, status.equalsIgnoreCase(WaitListServiceConstants.DELETE_STATUS) ? 1: 0);
+		
+						cStmt.registerOutParameter(7, Types.INTEGER);
+						cStmt.registerOutParameter(8, Types.INTEGER);
+						cStmt.registerOutParameter(9, Types.INTEGER);
+						cStmt.registerOutParameter(10, Types.VARCHAR);
+						cStmt.registerOutParameter(11, Types.INTEGER);
+						cStmt.registerOutParameter(12, Types.INTEGER);
+						cStmt.registerOutParameter(13, Types.VARCHAR);
+						
+						cStmt.execute();
+					
+						waitlistMetrics.setGuestToBeNotified(cStmt.getInt(11));
+						waitlistMetrics.setNowServingGuest(cStmt.getInt(7));					
+						waitlistMetrics.setTotalWaitingGuest(cStmt.getInt(8));	
+						waitlistMetrics.setTotalWaitTime(cStmt.getInt(9));
+						waitlistMetrics.setClientBase(cStmt.getString(13));
+					
+					} finally {
+						if (cStmt != null) {
+							cStmt.close();
+						}
+					}
+					return waitlistMetrics;
+				}
+			});
+
+				
+		}
+		catch(Exception e) {
+				LoggerUtil.logError("Error in proc "+e.getMessage());
+		}
+		finally {
+			
+			session.close();
+		}
+		return waitlistMetrics;	
 	}
 
 }

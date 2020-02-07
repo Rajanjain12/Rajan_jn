@@ -2,6 +2,7 @@ package com.kyobeeWaitlistService.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,7 +15,8 @@ public class GuestMarketingPreferences {
 
 	@Id
 	@Column(name="GUEST_MARKETING_PREF_ID")
-	private Integer guestID;
+	@GeneratedValue
+	private Integer guestMarketingPrefId;
 	
 	@OneToOne
 	@JoinColumn(name="PREF_ID")
@@ -24,12 +26,12 @@ public class GuestMarketingPreferences {
 	@JoinColumn(name="GUEST_ID")
 	private Guest guest;
 
-	public Integer getGuestID() {
-		return guestID;
+	public Integer getGuestMarketingPrefId() {
+		return guestMarketingPrefId;
 	}
 
-	public void setGuestID(Integer guestID) {
-		this.guestID = guestID;
+	public void setGuestMarketingPrefId(Integer guestMarketingPrefId) {
+		this.guestMarketingPrefId = guestMarketingPrefId;
 	}
 
 	public Lookup getLookup() {

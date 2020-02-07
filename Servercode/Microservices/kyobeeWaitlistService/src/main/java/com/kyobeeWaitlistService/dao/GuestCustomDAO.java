@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.kyobeeWaitlistService.dto.AddUpdateGuestDTO;
 import com.kyobeeWaitlistService.dto.GuestDTO;
 import com.kyobeeWaitlistService.dto.GuestHistoryRequestDTO;
+import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.entity.Guest;
 
 
@@ -17,5 +18,7 @@ public interface GuestCustomDAO {
 	public AddUpdateGuestDTO addGuest(GuestDTO guestDTO,String seatingPref,String marketingPref);
 	
 	public AddUpdateGuestDTO updateGuestDetails(GuestDTO guestDTO,String seatingPref,String marketingPref);
+	
+	public WaitlistMetrics updateGuestStatus(Integer guestId,Integer orgId,String status);
 
 }

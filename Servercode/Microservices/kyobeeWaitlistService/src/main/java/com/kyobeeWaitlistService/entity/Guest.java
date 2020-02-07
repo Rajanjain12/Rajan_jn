@@ -62,7 +62,7 @@ public class Guest implements Serializable{
 
 	private Integer noOfInfants;
 
-	private String noOfPeople;
+	private Integer noOfPeople;
 
 	private String note;
 
@@ -211,11 +211,11 @@ public class Guest implements Serializable{
 		this.noOfInfants = noOfInfants;
 	}
 
-	public String getNoOfPeople() {
+	public Integer getNoOfPeople() {
 		return this.noOfPeople;
 	}
 
-	public void setNoOfPeople(String noOfPeople) {
+	public void setNoOfPeople(Integer noOfPeople) {
 		this.noOfPeople = noOfPeople;
 	}
 

@@ -3,7 +3,7 @@ package com.kyobeeWaitlistService.dto;
 public class WaitlistMetrics {
 
 	private Integer guestId;
-	private Integer nowServingParty;
+	private Integer nowServingGuest;
 	private Integer totalWaitTime;
 	private Integer guestToBeNotified;
 	private Integer totalWaitingGuest;
@@ -17,11 +17,11 @@ public class WaitlistMetrics {
 	public void setGuestId(Integer guestId) {
 		this.guestId = guestId;
 	}
-	public Integer getNowServingParty() {
-		return nowServingParty;
+	public Integer getNowServingGuest() {
+		return nowServingGuest;
 	}
-	public void setNowServingParty(Integer nowServingParty) {
-		this.nowServingParty = nowServingParty;
+	public void setNowServingGuest(Integer nowServingParty) {
+		this.nowServingGuest = nowServingParty;
 	}
 	public Integer getTotalWaitTime() {
 		return totalWaitTime;

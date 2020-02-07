@@ -17,5 +17,7 @@ public interface GuestService {
 	public AddUpdateGuestDTO addGuest(GuestDTO guestDTO);
 	//for update Guest
 	public AddUpdateGuestDTO updateGuestDetails(GuestDTO guestDTO);
+	//for mark as seated,delete,incomplete,not present
+	public void updateGuestStatus(Integer guestId,Integer orgId,String status);
 
 }

@@ -25,5 +25,10 @@ public class WaitListServiceConstants {
 
 	public static final String URL_INTITIAL = "http://";
 	public static final String URL_SUFFIX = "ordextechnology.com:8080/kyobee/public/index.html#/s?tid=";
+	
+	public static final String DELETE_STATUS="DELETE";
+	public static final String INCOMPLETE_STATUS="INCOMPLETE";
+	public static final String NOTPRESENT_STATUS="NOTPRESENT";
+	public static final String SEATED_STATUS="SEATED";
 
 }

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -101,13 +102,13 @@ public class GuestController {
 		try {
 			GuestResponseDTO guestList = guestService.fetchGuestHistoryList(guestRequest);
 			responseDTO.setServiceResult(guestList);
-			responseDTO.setMessage("guest list fetched Successfully.");
+			responseDTO.setMessage("guest history list fetched Successfully.");
 			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
 
 		} catch (Exception ex) {
 			LoggerUtil.logError(ex);
-			responseDTO.setServiceResult("System Error - fetchGuestList failed");
-			responseDTO.setMessage("System Error - fetchGuestList failed");
+			responseDTO.setServiceResult("System Error - fetchGuestHistoryList failed");
+			responseDTO.setMessage("System Error - fetchGuestHistoryList failed");
 			responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);
 		}
 		return responseDTO;
@@ -121,13 +122,13 @@ public class GuestController {
 		try {
 			AddUpdateGuestDTO addUpdateGuestDTO = guestService.addGuest(guestDTO);
 			responseDTO.setServiceResult(addUpdateGuestDTO);
-			responseDTO.setMessage("guest list fetched Successfully.");
+			responseDTO.setMessage("guest added Successfully.");
 			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
 
 		} catch (Exception ex) {
 			LoggerUtil.logError("add "+ Arrays.toString(ex.getStackTrace()));
-			responseDTO.setServiceResult("System Error - fetchGuestList failed");
-			responseDTO.setMessage("System Error - fetchGuestList failed");
+			responseDTO.setServiceResult("System Error - addGuestDetails failed");
+			responseDTO.setMessage("System Error - addGuestDetails failed");
 			responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);
 		}
 		return responseDTO;
@@ -140,14 +141,32 @@ public class GuestController {
 		try {
 			AddUpdateGuestDTO addUpdateGuestDTO = guestService.updateGuestDetails(guestDTO);
 			responseDTO.setServiceResult(addUpdateGuestDTO);
-			responseDTO.setMessage("guest list fetched Successfully.");
+			responseDTO.setMessage("guest details updated Successfully.");
 			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
 
 		} catch (Exception ex) {
-			ex.printStackTrace();
-			//LoggerUtil.logError("update method ERROR "+Arrays.toString(ex.getStackTrace()));
-			responseDTO.setServiceResult("System Error - fetchGuestList failed");
-			responseDTO.setMessage("System Error - fetchGuestList failed");
+			LoggerUtil.logError("update detail method ERROR "+Arrays.toString(ex.getStackTrace()));
+			responseDTO.setServiceResult("System Error - updateGuestDetails failed");
+			responseDTO.setMessage("System Error - updateGuestDetails failed");
+			responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);
+		}
+		return responseDTO;
+	}
+	
+	@PutMapping(value = "/status", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO updateGuestStatus(@RequestParam Integer guestId,@RequestParam Integer orgId,@RequestParam String status) {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			guestService.updateGuestStatus(guestId, orgId, status);
+			responseDTO.setServiceResult("Status updated");
+			responseDTO.setMessage("Guest status updated successfully");
+			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
+
+		} catch (Exception ex) {
+			LoggerUtil.logError("update status method ERROR "+Arrays.toString(ex.getStackTrace()));
+			responseDTO.setServiceResult("System Error - updateGuestStatus failed");
+			responseDTO.setMessage("System Error - updateGuestStatus failed");
 			responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);
 		}
 		return responseDTO;
