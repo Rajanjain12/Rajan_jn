@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kyobeeWaitlistService.dto.OrganizationMetricsDTO;
+import com.kyobeeWaitlistService.dto.PusherDTO;
 import com.kyobeeWaitlistService.dto.ResponseDTO;
 import com.kyobeeWaitlistService.dto.WaitListMetricsDTO;
 import com.kyobeeWaitlistService.service.WaitListService;
@@ -74,8 +75,8 @@ public class WaitListController {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			WaitListMetricsDTO metricsDTO = waitListService.updateOrgSettings(orgId, perPartyWaitTime, numberOfUsers);
-			responseDTO.setServiceResult(metricsDTO);
+			PusherDTO pusherDTO = waitListService.updateOrgSettings(orgId, perPartyWaitTime, numberOfUsers);
+			responseDTO.setServiceResult(pusherDTO);
 			responseDTO.setMessage("organization setting updated Successfully.");
 			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
 

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import com.kyobeeWaitlistService.dao.OrganizationCustomDAO;
 import com.kyobeeWaitlistService.dto.OrganizationMetricsDTO;
 import com.kyobeeWaitlistService.dto.WaitListMetricsDTO;
+import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.util.LoggerUtil;
 
 @Repository
@@ -83,21 +84,21 @@ public class OrganizationCustomDAOImpl implements OrganizationCustomDAO {
 	}
 
 	@Override
-	public WaitListMetricsDTO updateOrgSettings(Integer orgId, Integer perPartyWaitTime, Integer numberOfUsers) {
+	public WaitlistMetrics updateOrgSettings(Integer orgId, Integer perPartyWaitTime, Integer numberOfUsers) {
 		SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
 
-		WaitListMetricsDTO waitlistMetricsDTO = null;
+		WaitlistMetrics waitlistMetrics = null;
 		Session session = sessionFactory.openSession();
 		try {
 
-			waitlistMetricsDTO = session.doReturningWork(new ReturningWork<WaitListMetricsDTO>() {
+			waitlistMetrics = session.doReturningWork(new ReturningWork<WaitlistMetrics>() {
 
 				@Override
-				public WaitListMetricsDTO execute(Connection connection) throws SQLException {
+				public WaitlistMetrics execute(Connection connection) throws SQLException {
 					CallableStatement cStmt = connection
 							.prepareCall("{call UPDATEHEADERMETRICS(?, ?, ?, ?, " + "?, ?, ?)}");
 
-					WaitListMetricsDTO waitlistMetricsDTO = new WaitListMetricsDTO();
+					WaitlistMetrics waitlistMetrics = new WaitlistMetrics();
 					try {
 						cStmt.setInt(1, orgId);
 						cStmt.setInt(2, perPartyWaitTime);
@@ -110,14 +111,10 @@ public class OrganizationCustomDAOImpl implements OrganizationCustomDAO {
 
 						cStmt.execute();
 
-						waitlistMetricsDTO.setNowServingParty(cStmt.getInt(4));
-						waitlistMetricsDTO.setTotalWaitingGuest(cStmt.getInt(5));
-						waitlistMetricsDTO.setTotalWaitTime(cStmt.getInt(6));
-						waitlistMetricsDTO.setClientBase(cStmt.getString(7));
-						waitlistMetricsDTO.setOrgId(orgId);
-						waitlistMetricsDTO.setPerPartyWaitTime(perPartyWaitTime);
-						waitlistMetricsDTO.setOp("NOTIFY_USER");
-						waitlistMetricsDTO.setFrom("ADMIN");
+						waitlistMetrics.setNowServingGuest(cStmt.getInt(4));
+						waitlistMetrics.setTotalWaitingGuest(cStmt.getInt(5));
+						waitlistMetrics.setTotalWaitTime(cStmt.getInt(6));
+						waitlistMetrics.setClientBase(cStmt.getString(7));
 						
 
 					} finally {
@@ -125,7 +122,7 @@ public class OrganizationCustomDAOImpl implements OrganizationCustomDAO {
 							cStmt.close();
 						}
 					}
-					return waitlistMetricsDTO;
+					return waitlistMetrics;
 				}
 			});
 		} catch (Exception e) {
@@ -133,7 +130,7 @@ public class OrganizationCustomDAOImpl implements OrganizationCustomDAO {
 		} finally {
 
 		}
-		return waitlistMetricsDTO;
+		return waitlistMetrics;
 	}
 
 	@Override

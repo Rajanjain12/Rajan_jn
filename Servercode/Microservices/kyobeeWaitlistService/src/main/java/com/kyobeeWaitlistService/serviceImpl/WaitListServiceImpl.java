@@ -16,6 +16,7 @@ import com.kyobeeWaitlistService.dao.OrganizationTemplateDAO;
 import com.kyobeeWaitlistService.dto.OrganizationMetricsDTO;
 import com.kyobeeWaitlistService.dto.PusherDTO;
 import com.kyobeeWaitlistService.dto.WaitListMetricsDTO;
+import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.service.WaitListService;
 import com.kyobeeWaitlistService.util.LoggerUtil;
 import com.kyobeeWaitlistService.util.WaitListServiceConstants;
@@ -72,22 +73,20 @@ public class WaitListServiceImpl implements WaitListService {
 	//for updating organization metrics setting
 	
 	@Override
-	public WaitListMetricsDTO updateOrgSettings(Integer orgId, Integer perPartyWaitTime, Integer numberOfUsers) {
-		WaitListMetricsDTO waitlistMetricsDTO = organizationCustomDAO.updateOrgSettings(orgId, perPartyWaitTime, numberOfUsers);
+	public PusherDTO updateOrgSettings(Integer orgId, Integer perPartyWaitTime, Integer numberOfUsers) {
+		WaitlistMetrics waitlistMetrics = organizationCustomDAO.updateOrgSettings(orgId, perPartyWaitTime, numberOfUsers);
 		
 		//for sending details to pusher
 		PusherDTO pusherDTO = new PusherDTO();
 		
-		pusherDTO.setNowServingGuestId(waitlistMetricsDTO.getNowServingParty());
-		pusherDTO.setTotalWaitTime(waitlistMetricsDTO.getTotalWaitTime());
-		pusherDTO.setNextToNotifyGuestId(waitlistMetricsDTO.getGuestToBeNotified());
+		pusherDTO.setWaitlistMetrics(waitlistMetrics);
 		pusherDTO.setOp("NOTIFY_USER");
 		pusherDTO.setFrom("ADMIN");
 		pusherDTO.setOrgId(orgId);
 		
 		NotificationUtil.sendMessage(pusherDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV+"_"+orgId);
 		
-		return waitlistMetricsDTO;
+		return pusherDTO;
 	}
 	
 	

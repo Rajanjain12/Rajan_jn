@@ -169,7 +169,7 @@ public class GuestServiceImpl implements GuestService {
 	@Override
 	public GuestResponseDTO fetchGuestHistoryList(GuestHistoryRequestDTO guestRequest) {
 
-		Integer orgId = guestRequest.getOrgId();
+		
 		List<Guest> guestList;
 
 		guestList = guestCustomDAO.fetchAllGuestHistoryList(guestRequest);
@@ -293,7 +293,7 @@ public class GuestServiceImpl implements GuestService {
 		addUpdateGuestDTO.setLanguagePref(guestDTO.getLangguagePref());
 		addUpdateGuestDTO.setOrgId(guestDTO.getOrganizationID());
 		addUpdateGuestDTO.setOp(WaitListServiceConstants.UPDATE_STATUS);
-		tinyURL = organizationTemplateServiceImpl.buildURL(addUpdateGuestDTO.getClientBase(), guestDTO.getUuid());
+		tinyURL = CommonUtil.buildURL(addUpdateGuestDTO.getClientBase(), guestDTO.getUuid());
 		addUpdateGuestDTO.setTinyURL(tinyURL);
 
 		guestMarketingPreferencesDAO.deleteGuestMarketingPref(guestDTO.getGuestID());
@@ -326,7 +326,19 @@ public class GuestServiceImpl implements GuestService {
 	public void updateGuestStatus(Integer guestId, Integer orgId, String status) {
 
 		WaitlistMetrics waitlistMetrics = guestCustomDAO.updateGuestStatus(guestId, orgId, status);
-
+		PusherDTO pusherDTO=new PusherDTO();
+		pusherDTO.setFrom(WaitListServiceConstants.FROM_ADMIN);
+		pusherDTO.setOrgId(orgId);
+		pusherDTO.setOp(status);
+		pusherDTO.setWaitlistMetrics(waitlistMetrics);
+		NotificationUtil.sendMessage(pusherDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV);
+		StatusUpdateResponseDTO statusUpdateResponseDTO=new StatusUpdateResponseDTO();
+		/*
+		 * Optional<Guest> guest = guestDAO.findById(guestId); if (guest.isPresent()) {
+		 * statusUpdateResponseDTO.setGuest(guest.get()); }
+		 * statusUpdateResponseDTO.setOrgId(orgId);
+		 * statusUpdateResponseDTO.setWaitlistMetrics(waitlistMetrics);
+		 */
 	}
 
 	public GuestDTO fetchGuestDetails(Integer guestID, String guestUUID) {
@@ -385,6 +397,7 @@ public class GuestServiceImpl implements GuestService {
 
 		return guestDTO;
 	}
+	
 
 	@Override
 	public GuestDTO fetchGuestByContact(Integer orgID, String contactNo) {
@@ -419,20 +432,7 @@ public class GuestServiceImpl implements GuestService {
 		// for arranging marketing pref in list
 	
 		List<Lookup> marketingLookup = lookupDAO.fetchLookupForGuest(guestDTO.getGuestID());
-		PusherDTO pusherDTO=new PusherDTO();
-		pusherDTO.setFrom(WaitListServiceConstants.FROM_ADMIN);
-		pusherDTO.setOrgId(orgId);
-		pusherDTO.setOp(status);
-		pusherDTO.setWaitlistMetrics(waitlistMetrics);
-		NotificationUtil.sendMessage(pusherDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV);
-		StatusUpdateResponseDTO statusUpdateResponseDTO=new StatusUpdateResponseDTO();
-		/*
-		 * Optional<Guest> guest = guestDAO.findById(guestId); if (guest.isPresent()) {
-		 * statusUpdateResponseDTO.setGuest(guest.get()); }
-		 * statusUpdateResponseDTO.setOrgId(orgId);
-		 * statusUpdateResponseDTO.setWaitlistMetrics(waitlistMetrics);
-		 */
-		
+
 			for (Lookup lookup : marketingLookup) {
 				SeatingMarketingPrefDTO marketingPrefence = new SeatingMarketingPrefDTO();
 				marketingPrefence.setPrefValueId(lookup.getLookupID());
