@@ -1,12 +1,8 @@
 package com.kyobeeWaitlistService.serviceImpl;
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.List;
-
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,15 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kyobeeWaitlistService.dao.GuestDAO;
 import com.kyobeeWaitlistService.dao.LanguageKeyMappingDAO;
 import com.kyobeeWaitlistService.dao.LookupDAO;
+import com.kyobeeWaitlistService.dao.OrganizationCustomDAO;
 import com.kyobeeWaitlistService.dao.OrganizationDAO;
 import com.kyobeeWaitlistService.dao.OrganizationTemplateDAO;
-import com.kyobeeWaitlistService.dto.GuestDTO;
 import com.kyobeeWaitlistService.dto.OrganizationMetricsDTO;
-import com.kyobeeWaitlistService.dto.GuestResponseDTO;
-import com.kyobeeWaitlistService.dto.LanguageMasterDTO;
-import com.kyobeeWaitlistService.dto.SeatingMarketingPrefDTO;
-import com.kyobeeWaitlistService.entity.Guest;
-import com.kyobeeWaitlistService.entity.Lookup;
+import com.kyobeeWaitlistService.dto.PusherDTO;
+import com.kyobeeWaitlistService.dto.WaitListMetricsDTO;
 import com.kyobeeWaitlistService.service.WaitListService;
 import com.kyobeeWaitlistService.util.LoggerUtil;
 import com.kyobeeWaitlistService.util.WaitListServiceConstants;
@@ -47,6 +40,9 @@ public class WaitListServiceImpl implements WaitListService {
 	@Autowired
 	OrganizationTemplateDAO organizationTemplateDAO;
 	
+	@Autowired
+	OrganizationCustomDAO organizationCustomDAO;
+	
 	@Override
 	public HashMap<String, Object> updateLanguagesPusher() {
 
@@ -66,19 +62,32 @@ public class WaitListServiceImpl implements WaitListService {
 	//for fetching organization related matrix
 	@Override
 	public OrganizationMetricsDTO getOrganizationMetrics(Integer orgId) {
-		Map<String, Object> orgMetricsDTO = guestDAO.getOrganizationMetrics(orgId);
-		LoggerUtil.logInfo("orgMetricsDTO" + orgMetricsDTO);
-		OrganizationMetricsDTO metricsDTO = new OrganizationMetricsDTO();
-		//for converting map to DTO
-		metricsDTO.setGuestMinRank(orgMetricsDTO.get("OP_NOWSERVERINGPARTY") !=null ?(int)orgMetricsDTO.get("OP_NOWSERVERINGPARTY"): null );
-		metricsDTO.setGuestNotifiedWaitTime(orgMetricsDTO.get("OP_GUESTNOTIFIEDWAITTIME")!=null ?(int)orgMetricsDTO.get("OP_GUESTNOTIFIEDWAITTIME"): null );
-		metricsDTO.setGuestToBeNotified(orgMetricsDTO.get("OP_GUESTTOBENOTIFIED")!=null ?orgMetricsDTO.get("OP_GUESTTOBENOTIFIED").toString(): null );
-		metricsDTO.setNotifyUserCount(orgMetricsDTO.get("OP_NOTIFYUSERCOUNT")!=null ?(int) orgMetricsDTO.get("OP_NOTIFYUSERCOUNT"): null );
-		metricsDTO.setOrgGuestCount(orgMetricsDTO.get("OP_TOTALWAITINGGUEST")!=null ?(int)orgMetricsDTO.get("OP_TOTALWAITINGGUEST"): null );
-		metricsDTO.setOrgTotalWaitTime(orgMetricsDTO.get("OP_TOTALWAITTIME")!=null?(int)orgMetricsDTO.get("OP_TOTALWAITTIME"): null );
-		metricsDTO.setPerPartyWaitTime(orgMetricsDTO.get("OP_PERPARTYWAITTIME")!=null?(int)orgMetricsDTO.get("OP_PERPARTYWAITTIME"): null );
+		
+		OrganizationMetricsDTO orgMetricsDTO = organizationCustomDAO.getOrganizationMetrics(orgId);
+		
+		return orgMetricsDTO;
+	}
 
-		return metricsDTO;
+
+	//for updating organization metrics setting
+	
+	@Override
+	public WaitListMetricsDTO updateOrgSettings(Integer orgId, Integer perPartyWaitTime, Integer numberOfUsers) {
+		WaitListMetricsDTO waitlistMetricsDTO = organizationCustomDAO.updateOrgSettings(orgId, perPartyWaitTime, numberOfUsers);
+		
+		//for sending details to pusher
+		PusherDTO pusherDTO = new PusherDTO();
+		
+		pusherDTO.setNowServingGuestId(waitlistMetricsDTO.getNowServingParty());
+		pusherDTO.setTotalWaitTime(waitlistMetricsDTO.getTotalWaitTime());
+		pusherDTO.setNextToNotifyGuestId(waitlistMetricsDTO.getGuestToBeNotified());
+		pusherDTO.setOp("NOTIFY_USER");
+		pusherDTO.setFrom("ADMIN");
+		pusherDTO.setOrgId(orgId);
+		
+		NotificationUtil.sendMessage(pusherDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV+"_"+orgId);
+		
+		return waitlistMetricsDTO;
 	}
 	
 	

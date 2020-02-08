@@ -8,19 +8,17 @@ import java.util.List;
 
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.jdbc.ReturningWork;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.kyobeeWaitlistService.dao.GuestCustomDAO;
 import com.kyobeeWaitlistService.dto.AddUpdateGuestDTO;
 import com.kyobeeWaitlistService.dto.GuestDTO;
+import com.kyobeeWaitlistService.dto.GuestDetailsDTO;
 import com.kyobeeWaitlistService.dto.GuestHistoryRequestDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.entity.Guest;
@@ -101,7 +99,7 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 						cStmt.setInt(9, guestObj.getPartyType());
 						cStmt.setString(10, guestObj.getDeviceType());
 						cStmt.setString(11, guestObj.getDeviceId());
-						cStmt.setString(12, guestObj.getPhoneNumber());
+						cStmt.setString(12, guestObj.getSms());
 						cStmt.setString(13, guestObj.getEmail());
 						cStmt.setString(14, guestObj.getPrefType());
 						cStmt.setInt(15, guestObj.getOptin());
@@ -179,7 +177,7 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 						cStmt.setInt(9, guestObj.getPartyType());
 						cStmt.setString(10, guestObj.getDeviceType());
 						cStmt.setString(11, guestObj.getDeviceId());
-						cStmt.setString(12, guestObj.getPhoneNumber());
+						cStmt.setString(12, guestObj.getSms());
 						cStmt.setString(13, guestObj.getEmail());
 						cStmt.setString(14, guestObj.getPrefType());
 						cStmt.setInt(15, guestObj.getOptin());
@@ -285,5 +283,16 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 		}
 		return waitlistMetrics;	
 	}
+
+@Override
+	public List<GuestDetailsDTO> fetchGuestByContact(Integer orgID, String contactNumber) {
+		
+		@SuppressWarnings({ "deprecation", "unchecked" })
+		List<GuestDetailsDTO> guestDTO  = entityManager.createNativeQuery("select * from (select gr.GuestID, gr.organizationID, gr.name,gr.note,gr.uuid,gr.noOfPeople,gr.email,gr.sms,gr.status,gr.rank,gr.prefType,gr.optin,gr.calloutCount,gr.checkinTime,gr.seatedTime,gr.createdTime,gr.updatedTime,gr.incompleteParty,gr.seatingPreference,gr.marketingPreference,gr.deviceType,gr.deviceId,gr.languagePrefID from GUESTRESET gr left join GUEST g on g.guestID = gr.GuestID where gr.organizationID=:orgID and gr.sms=:contactNumber union" + 
+" select g.guestID, g.organizationID, g.name,g.note,g.uuid,g.noOfPeople,g.email,g.sms,g.status,g.rank,g.prefType,g.optin,g.calloutCount,g.checkinTime,g.seatedTime,g.createdTime,g.updatedTime,g.incompleteParty,g.seatingPreference,g.marketingPreference,g.deviceType,g.deviceId,g.languagePrefID from GUEST g where g.organizationID=:orgID and g.sms=:contactNumber) as u order by u.createdTime desc").setParameter("orgID", orgID).setParameter("contactNumber", contactNumber).unwrap(org.hibernate.query.NativeQuery.class ).setResultTransformer(Transformers.aliasToBean( GuestDetailsDTO.class)).getResultList();
+				
+		return guestDTO;
+	}
+
 
 }

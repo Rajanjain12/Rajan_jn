@@ -3,6 +3,7 @@ package com.kyobeeWaitlistService.service;
 import com.kyobeeWaitlistService.dto.AddUpdateGuestDTO;
 import com.kyobeeWaitlistService.dto.GuestDTO;
 import com.kyobeeWaitlistService.dto.GuestHistoryRequestDTO;
+import com.kyobeeWaitlistService.dto.GuestMarketingPreferenceDTO;
 import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
 import com.kyobeeWaitlistService.dto.GuestResponseDTO;
 
@@ -19,5 +20,8 @@ public interface GuestService {
 	public AddUpdateGuestDTO updateGuestDetails(GuestDTO guestDTO);
 	//for mark as seated,delete,incomplete,not present
 	public void updateGuestStatus(Integer guestId,Integer orgId,String status);
+	public GuestDTO fetchGuestDetails(Integer guestID, String guestUUID);
+	public GuestDTO fetchGuestByContact(Integer orgID, String contactNo);
+	public void addMarketingPref(GuestMarketingPreferenceDTO marketingPrefDTO);
 
 }

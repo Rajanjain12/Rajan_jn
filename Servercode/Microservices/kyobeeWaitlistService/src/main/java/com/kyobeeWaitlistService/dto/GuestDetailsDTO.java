@@ -1,15 +1,14 @@
 package com.kyobeeWaitlistService.dto;
 
 import java.util.Date;
-import java.util.List;
 
-public class GuestDTO {
-
-	private Integer guestID;
+public class GuestDetailsDTO {
+	
+	private Integer GuestID;
 	private Integer organizationID;
 	private String name;
 	private String uuid;
-	private Integer noOfPeople;
+	private String noOfPeople;
 	private Integer noOfChildren;
 	private Integer noOfAdults;
 	private Integer noOfInfants;
@@ -28,16 +27,16 @@ public class GuestDTO {
 	private Date createdTime;
 	private Date updatedTime;
 	private Integer incompleteParty;
-	private LanguageMasterDTO langguagePref;
-    private List<SeatingMarketingPrefDTO> seatingPreference;
-    private List<SeatingMarketingPrefDTO> marketingPreference;
+	private Integer languagePrefID;
+    private String seatingPreference;
+    private String marketingPreference;
     private String note;
-    
+	
 	public Integer getGuestID() {
-		return guestID;
+		return GuestID;
 	}
 	public void setGuestID(Integer guestID) {
-		this.guestID = guestID;
+		GuestID = guestID;
 	}
 	public Integer getOrganizationID() {
 		return organizationID;
@@ -57,11 +56,10 @@ public class GuestDTO {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
-
-	public Integer getNoOfPeople() {
+	public String getNoOfPeople() {
 		return noOfPeople;
 	}
-	public void setNoOfPeople(Integer noOfPeople) {
+	public void setNoOfPeople(String noOfPeople) {
 		this.noOfPeople = noOfPeople;
 	}
 	public Integer getNoOfChildren() {
@@ -172,22 +170,22 @@ public class GuestDTO {
 	public void setIncompleteParty(Integer incompleteParty) {
 		this.incompleteParty = incompleteParty;
 	}
-	public LanguageMasterDTO getLangguagePref() {
-		return langguagePref;
+	public Integer getLanguagePrefID() {
+		return languagePrefID;
 	}
-	public void setLangguagePref(LanguageMasterDTO langguagePref) {
-		this.langguagePref = langguagePref;
+	public void setLanguagePrefID(Integer languagePrefID) {
+		this.languagePrefID = languagePrefID;
 	}
-	public List<SeatingMarketingPrefDTO> getSeatingPreference() {
+	public String getSeatingPreference() {
 		return seatingPreference;
 	}
-	public void setSeatingPreference(List<SeatingMarketingPrefDTO> seatingPreference) {
+	public void setSeatingPreference(String seatingPreference) {
 		this.seatingPreference = seatingPreference;
 	}
-	public List<SeatingMarketingPrefDTO> getMarketingPreference() {
+	public String getMarketingPreference() {
 		return marketingPreference;
 	}
-	public void setMarketingPreference(List<SeatingMarketingPrefDTO> marketingPreference) {
+	public void setMarketingPreference(String marketingPreference) {
 		this.marketingPreference = marketingPreference;
 	}
 	public String getNote() {
@@ -195,5 +193,8 @@ public class GuestDTO {
 	}
 	public void setNote(String note) {
 		this.note = note;
-	}  
+	}
+    
+    
+
 }

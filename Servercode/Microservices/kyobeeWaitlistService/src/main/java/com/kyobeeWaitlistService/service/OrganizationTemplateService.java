@@ -10,6 +10,5 @@ public interface OrganizationTemplateService {
 	
 	List<OrganizationTemplateDTO> getOrganizationTemplates(SmsContentDTO smsContentDTO);
 	List<OrganizationTemplateDTO> getSmsContent(SmsContentDTO smsContentDTO, List<OrganizationTemplateDTO> smsTemplates, GuestMetricsDTO guestMetrics);
-	public String buildURL(String clientBase, String uuid);
 
 }

@@ -21,8 +21,7 @@ import javax.persistence.ParameterMode;
 
 @Entity
 @Table(name = "ORGANIZATION")
-@NamedStoredProcedureQueries({@NamedStoredProcedureQuery(name = "RESETGUESTBYORGID", procedureName = "RESETGUESTBYORGID", parameters = {
-@StoredProcedureParameter(mode = ParameterMode.IN, name = "ORGID", type = Long.class) }) })
+
 public class Organization implements Serializable {
 
 	private static final long serialVersionUID = 1L;

@@ -16,10 +16,13 @@ import com.kyobeeWaitlistService.dao.GuestCustomDAO;
 import com.kyobeeWaitlistService.dao.GuestDAO;
 import com.kyobeeWaitlistService.dao.GuestMarketingPreferencesDAO;
 import com.kyobeeWaitlistService.dao.LookupDAO;
+import com.kyobeeWaitlistService.dao.OrganizationCustomDAO;
 import com.kyobeeWaitlistService.dao.OrganizationDAO;
 import com.kyobeeWaitlistService.dto.AddUpdateGuestDTO;
 import com.kyobeeWaitlistService.dto.GuestDTO;
+import com.kyobeeWaitlistService.dto.GuestDetailsDTO;
 import com.kyobeeWaitlistService.dto.GuestHistoryRequestDTO;
+import com.kyobeeWaitlistService.dto.GuestMarketingPreferenceDTO;
 import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
 import com.kyobeeWaitlistService.dto.GuestResponseDTO;
 import com.kyobeeWaitlistService.dto.LanguageMasterDTO;
@@ -29,6 +32,7 @@ import com.kyobeeWaitlistService.entity.Guest;
 import com.kyobeeWaitlistService.entity.GuestMarketingPreferences;
 import com.kyobeeWaitlistService.entity.Lookup;
 import com.kyobeeWaitlistService.service.GuestService;
+import com.kyobeeWaitlistService.util.CommonUtil;
 import com.kyobeeWaitlistService.util.LoggerUtil;
 import com.kyobeeWaitlistService.util.WaitListServiceConstants;
 import com.kyobeeWaitlistService.util.pusherImpl.NotificationUtil;
@@ -55,6 +59,9 @@ public class GuestServiceImpl implements GuestService {
 	@Autowired
 	OrganizationTemplateServiceImpl organizationTemplateServiceImpl;
 
+	@Autowired
+	OrganizationCustomDAO organizationCustomDAO;
+
 	@Override
 	public GuestMetricsDTO getGuestMetrics(Integer guestId, Integer orgId) {
 		// need to create proc for this
@@ -78,7 +85,7 @@ public class GuestServiceImpl implements GuestService {
 		final HashMap<String, Object> rootMap = new LinkedHashMap<>();
 		LoggerUtil.logInfo("In WaitListService : reseting organization");
 		// reseting org related guest data
-		organizationDAO.resetOrganizationByOrgId(orgId);
+		organizationCustomDAO.resetOrganizationByOrgId(orgId);
 		rootMap.put("OP", "resetOrganizationPusher");
 		rootMap.put("orgId", orgId);
 		NotificationUtil.sendMessage(rootMap, WaitListServiceConstants.PUSHER_CHANNEL_ENV + "_" + orgId);
@@ -136,18 +143,17 @@ public class GuestServiceImpl implements GuestService {
 			guestDTO.setSeatingPreference(seatingPrefList);
 
 			// for arranging marketing pref in list
-			String marketingPref = guest.getMarketingPreference();
-			if (marketingPref != null) {
-				String[] stringMarketingPref = marketingPref.split(",");
-				List<Lookup> marketingLookup = lookupDAO.fetchLookup(stringMarketingPref);
+			// String marketingPref = guest.getMarketingPreference();
 
-				for (Lookup lookup : marketingLookup) {
-					SeatingMarketingPrefDTO marketingPrefence = new SeatingMarketingPrefDTO();
-					marketingPrefence.setPrefValueId(lookup.getLookupID());
-					marketingPrefence.setPrefValue(lookup.getName());
-					marketingPrefList.add(marketingPrefence);
-				}
+			List<Lookup> marketingLookup = lookupDAO.fetchLookupForGuest(guestDTO.getGuestID());
+
+			for (Lookup lookup : marketingLookup) {
+				SeatingMarketingPrefDTO marketingPrefence = new SeatingMarketingPrefDTO();
+				marketingPrefence.setPrefValueId(lookup.getLookupID());
+				marketingPrefence.setPrefValue(lookup.getName());
+				marketingPrefList.add(marketingPrefence);
 			}
+
 			guestDTO.setMarketingPreference(marketingPrefList);
 
 			guestDTOs.add(guestDTO);
@@ -200,18 +206,16 @@ public class GuestServiceImpl implements GuestService {
 			guestDTO.setSeatingPreference(seatingPrefList);
 
 			// for arranging marketing pref in list
-			String marketingPref = guest.getMarketingPreference();
-			if (marketingPref != null) {
-				String[] stringMarketingPref = marketingPref.split(",");
-				List<Lookup> marketingLookup = lookupDAO.fetchLookup(stringMarketingPref);
 
-				for (Lookup lookup : marketingLookup) {
-					SeatingMarketingPrefDTO marketingPrefence = new SeatingMarketingPrefDTO();
-					marketingPrefence.setPrefValueId(lookup.getLookupID());
-					marketingPrefence.setPrefValue(lookup.getName());
-					marketingPrefList.add(marketingPrefence);
-				}
+			List<Lookup> marketingLookup = lookupDAO.fetchLookupForGuest(guestDTO.getGuestID());
+
+			for (Lookup lookup : marketingLookup) {
+				SeatingMarketingPrefDTO marketingPrefence = new SeatingMarketingPrefDTO();
+				marketingPrefence.setPrefValueId(lookup.getLookupID());
+				marketingPrefence.setPrefValue(lookup.getName());
+				marketingPrefList.add(marketingPrefence);
 			}
+
 			guestDTO.setMarketingPreference(marketingPrefList);
 
 			guestDTOs.add(guestDTO);
@@ -237,9 +241,9 @@ public class GuestServiceImpl implements GuestService {
 		addUpdateGuestDTO.setOrgId(guestDTO.getOrganizationID());
 		addUpdateGuestDTO.setOp("ADD");
 
-		tinyURL = organizationTemplateServiceImpl.buildURL(addUpdateGuestDTO.getClientBase(), guestUUID);
+		tinyURL = CommonUtil.buildURL(addUpdateGuestDTO.getClientBase(), guestUUID);
 		addUpdateGuestDTO.setTinyURL(tinyURL);
-		List<GuestMarketingPreferences> guestMarketingPref=new ArrayList<GuestMarketingPreferences>();
+		List<GuestMarketingPreferences> guestMarketingPref = new ArrayList<GuestMarketingPreferences>();
 		GuestMarketingPreferences guestMarketingPreferences = new GuestMarketingPreferences();
 		Optional<Guest> guest = guestDAO.findById(addUpdateGuestDTO.getAddedGuestId());
 
@@ -248,8 +252,8 @@ public class GuestServiceImpl implements GuestService {
 
 			guestMarketingPreferences = new GuestMarketingPreferences();
 			if (guest.isPresent()) {
-				Guest guestDeatils=guest.get();
-				LoggerUtil.logInfo(" id "+guestDeatils.getGuestID());
+				Guest guestDeatils = guest.get();
+				LoggerUtil.logInfo(" id " + guestDeatils.getGuestID());
 				guestMarketingPreferences.setGuest(guestDeatils);
 			}
 			Integer lookupId = pref.getPrefValueId();
@@ -288,19 +292,21 @@ public class GuestServiceImpl implements GuestService {
 		addUpdateGuestDTO.setLanguagePref(guestDTO.getLangguagePref());
 		addUpdateGuestDTO.setOrgId(guestDTO.getOrganizationID());
 		addUpdateGuestDTO.setOp("UPDATE");
-		tinyURL = organizationTemplateServiceImpl.buildURL(addUpdateGuestDTO.getClientBase(), guestUUID);
+		tinyURL = CommonUtil.buildURL(addUpdateGuestDTO.getClientBase(), guestUUID);
 		addUpdateGuestDTO.setTinyURL(tinyURL);
-		//Guest marketing pref 
+
+		guestMarketingPreferencesDAO.deleteGuestMarketingPref(guestDTO.getGuestID());
+		// Guest marketing pref
 		GuestMarketingPreferences guestMarketingPreferences;
 		Optional<Guest> guest = guestDAO.findById(guestDTO.getGuestID());
 
 		List<SeatingMarketingPrefDTO> marketingPreference = guestDTO.getMarketingPreference();
-		List<GuestMarketingPreferences> guestMarketingPref=new ArrayList<GuestMarketingPreferences>();
+		List<GuestMarketingPreferences> guestMarketingPref = new ArrayList<GuestMarketingPreferences>();
 		for (SeatingMarketingPrefDTO pref : marketingPreference) {
 
 			guestMarketingPreferences = new GuestMarketingPreferences();
 			if (guest.isPresent()) {
-				LoggerUtil.logInfo(""+guest.get().getGuestID());
+				LoggerUtil.logInfo("" + guest.get().getGuestID());
 				guestMarketingPreferences.setGuest(guest.get());
 			}
 			Integer lookupId = pref.getPrefValueId();
@@ -317,9 +323,139 @@ public class GuestServiceImpl implements GuestService {
 
 	@Override
 	public void updateGuestStatus(Integer guestId, Integer orgId, String status) {
+
+		WaitlistMetrics waitlistMetrics = guestCustomDAO.updateGuestStatus(guestId, orgId, status);
+
+	}
+
+	public GuestDTO fetchGuestDetails(Integer guestID, String guestUUID) {
+
+		Guest guest = null;
+
+		if (guestID != null) {
+			LoggerUtil.logInfo("Fetching guest details of guestID:" + guestID);
+			guest = guestDAO.fetchGuestById(guestID);
+		} else {
+			LoggerUtil.logInfo("Fetching guest details of guestUUID:" + guestUUID);
+			guest = guestDAO.fetchGuestByUUID(guestUUID);
+		}
+
+		GuestDTO guestDTO = new GuestDTO();
+		BeanUtils.copyProperties(guest, guestDTO);
+
+		// for adding language
+		LanguageMasterDTO languageMasterDTO = new LanguageMasterDTO();
+		languageMasterDTO.setLangId(guest.getLangmaster().getLangID());
+		languageMasterDTO.setLangIsoCode(guest.getLangmaster().getLangIsoCode());
+		languageMasterDTO.setLangName(guest.getLangmaster().getLangName());
+		guestDTO.setLangguagePref(languageMasterDTO);
+
+		List<SeatingMarketingPrefDTO> seatingPrefList = new ArrayList<>();
+		List<SeatingMarketingPrefDTO> marketingPrefList = new ArrayList<>();
+
+		// for arranging seating pref in list
+		String seatingPref = guest.getSeatingPreference();
+		if (seatingPref != null) {
+			String[] stringSeatingPref = seatingPref.split(",");
+			List<Lookup> seatingLookup = lookupDAO.fetchLookup(stringSeatingPref);
+
+			for (Lookup lookup : seatingLookup) {
+				SeatingMarketingPrefDTO seatingPrefence = new SeatingMarketingPrefDTO();
+				seatingPrefence.setPrefValueId(lookup.getLookupID());
+				seatingPrefence.setPrefValue(lookup.getName());
+				seatingPrefList.add(seatingPrefence);
+			}
+		}
+
+		guestDTO.setSeatingPreference(seatingPrefList);
+
+		// for arranging marketing pref in list
+
+		List<Lookup> marketingLookup = lookupDAO.fetchLookupForGuest(guestDTO.getGuestID());
+
+		for (Lookup lookup : marketingLookup) {
+			SeatingMarketingPrefDTO marketingPrefence = new SeatingMarketingPrefDTO();
+			marketingPrefence.setPrefValueId(lookup.getLookupID());
+			marketingPrefence.setPrefValue(lookup.getName());
+			marketingPrefList.add(marketingPrefence);
+		}
+
+		guestDTO.setMarketingPreference(marketingPrefList);
+
+		return guestDTO;
+	}
+
+	@Override
+	public GuestDTO fetchGuestByContact(Integer orgID, String contactNo) {
+
+		List<GuestDetailsDTO> guest = guestCustomDAO.fetchGuestByContact(orgID, contactNo);
+		GuestDTO guestDTO = new GuestDTO();
+		BeanUtils.copyProperties(guest.get(0), guestDTO);
+
+		// for adding language
+		LanguageMasterDTO languageMasterDTO = new LanguageMasterDTO();
+		languageMasterDTO.setLangId(guest.get(0).getLanguagePrefID());
+		guestDTO.setLangguagePref(languageMasterDTO);
+
+		List<SeatingMarketingPrefDTO> seatingPrefList = new ArrayList<>();
+		List<SeatingMarketingPrefDTO> marketingPrefList = new ArrayList<>();
+
+		// for arranging seating pref in list
+		String seatingPref = guest.get(0).getSeatingPreference();
+		if (seatingPref != null) {
+			String[] stringSeatingPref = seatingPref.split(",");
+			List<Lookup> seatingLookup = lookupDAO.fetchLookup(stringSeatingPref);
+
+			for (Lookup lookup : seatingLookup) {
+				SeatingMarketingPrefDTO seatingPrefence = new SeatingMarketingPrefDTO();
+				seatingPrefence.setPrefValueId(lookup.getLookupID());
+				seatingPrefence.setPrefValue(lookup.getName());
+				seatingPrefList.add(seatingPrefence);
+			}
+		}
+		guestDTO.setSeatingPreference(seatingPrefList);
+
+		// for arranging marketing pref in list
+	
+		List<Lookup> marketingLookup = lookupDAO.fetchLookupForGuest(guestDTO.getGuestID());
 		
-		WaitlistMetrics waitlistMetrics= guestCustomDAO.updateGuestStatus(guestId, orgId, status);
+			for (Lookup lookup : marketingLookup) {
+				SeatingMarketingPrefDTO marketingPrefence = new SeatingMarketingPrefDTO();
+				marketingPrefence.setPrefValueId(lookup.getLookupID());
+				marketingPrefence.setPrefValue(lookup.getName());
+				marketingPrefList.add(marketingPrefence);
+			}
 		
+		guestDTO.setMarketingPreference(marketingPrefList);
+
+		return guestDTO;
+	}
+
+	@Override
+	public void addMarketingPref(GuestMarketingPreferenceDTO marketingPrefDTO) {
+
+		List<GuestMarketingPreferences> guestMarketingPref = new ArrayList<GuestMarketingPreferences>();
+		GuestMarketingPreferences guestMarketingPreferences = new GuestMarketingPreferences();
+		Optional<Guest> guest = guestDAO.findById(marketingPrefDTO.getGuestID());
+
+		List<SeatingMarketingPrefDTO> marketingPreference = marketingPrefDTO.getMarketingPreference();
+		for (SeatingMarketingPrefDTO pref : marketingPreference) {
+
+			guestMarketingPreferences = new GuestMarketingPreferences();
+			if (guest.isPresent()) {
+				Guest guestDeatils = guest.get();
+				LoggerUtil.logInfo(" id " + guestDeatils.getGuestID());
+				guestMarketingPreferences.setGuest(guestDeatils);
+			}
+			Integer lookupId = pref.getPrefValueId();
+			Optional<Lookup> lookup = lookupDAO.findById(lookupId);
+			if (lookup.isPresent()) {
+				guestMarketingPreferences.setLookup(lookup.get());
+			}
+			guestMarketingPref.add(guestMarketingPreferences);
+		}
+		guestMarketingPreferencesDAO.saveAll(guestMarketingPref);
+
 	}
 
 }

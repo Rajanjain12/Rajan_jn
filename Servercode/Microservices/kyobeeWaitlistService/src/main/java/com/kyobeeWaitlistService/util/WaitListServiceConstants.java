@@ -17,11 +17,17 @@ public class WaitListServiceConstants {
 	public static final Integer MARK_AS_LANGUAGE_UPDATED = 1;
 	public static final Integer MARK_AS_LANGUAGE_RESET = 0;
 
-	public static final String ADMIN = "https://tinyurl.com/wamax57#";
-	public static final String ADVANTECH = "https://tinyurl.com/y7nl9ugt";
-	public static final String SWEETHONEYDESSERT = "https://tinyurl.com/y95p4eug";
-	public static final String RBSUSHI = "https://tinyurl.com/ybnzpy9w";
-	public static final String MASTERKIM = "https://tinyurl.com/y9augjfg";
+	public static final String ADMIN_URL = "https://tinyurl.com/wamax57#";
+	public static final String ADVANTECH_URL = "https://tinyurl.com/y7nl9ugt";
+	public static final String SWEETHONEYDESSERT_URL = "https://tinyurl.com/y95p4eug";
+	public static final String RBSUSHI_URL = "https://tinyurl.com/ybnzpy9w";
+	public static final String MASTERKIM_URL = "https://tinyurl.com/y9augjfg";
+	
+	public static final String ADMIN = "admin";
+	public static final String ADVANTECH = "advantech";
+	public static final String SWEETHONEYDESSERT = "sweethoneydessert";
+	public static final String RBSUSHI = "rbsushi";
+	public static final String MASTERKIM = "masterkim";
 
 	public static final String URL_INTITIAL = "http://";
 	public static final String URL_SUFFIX = "ordextechnology.com:8080/kyobee/public/index.html#/s?tid=";

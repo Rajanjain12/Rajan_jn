@@ -14,6 +14,7 @@ import com.kyobeeWaitlistService.dto.OrganizationTemplateDTO;
 import com.kyobeeWaitlistService.dto.SmsContentDTO;
 import com.kyobeeWaitlistService.entity.OrganizationTemplate;
 import com.kyobeeWaitlistService.service.OrganizationTemplateService;
+import com.kyobeeWaitlistService.util.CommonUtil;
 import com.kyobeeWaitlistService.util.LoggerUtil;
 import com.kyobeeWaitlistService.util.WaitListServiceConstants;
 
@@ -55,7 +56,7 @@ public class OrganizationTemplateServiceImpl implements OrganizationTemplateServ
 			smsContent = smsContent.replace("#G_name", smsContentDTO.getGuestName());
 			smsContent = smsContent.replace("G_rank", smsContentDTO.getGuestRank().toString());
 			smsContent = smsContent.replace("Turl",
-					buildURL(smsContentDTO.getClientBase(), smsContentDTO.getGuestUuid()));
+					CommonUtil.buildURL(smsContentDTO.getClientBase(), smsContentDTO.getGuestUuid()));
 			smsContent = smsContent.replace("P_ahead", guestMetrics.getGuestAheadCount().toString());
 			smsContent = smsContent.replace("W_time", guestMetrics.getTotalWaitTime().toString());
 			organizationTemplateDTO.setTemplateText(smsContent);
@@ -65,25 +66,4 @@ public class OrganizationTemplateServiceImpl implements OrganizationTemplateServ
 		return smsContents;
 
 	}
-
-	@Override
-	public String buildURL(String clientBase, String uuid) {
-		String url = "";
-
-		if (clientBase.equals("admin")) {
-			url = WaitListServiceConstants.ADMIN + "/s/" + uuid;
-		} else if (clientBase.equals("advantech")) {
-			url = WaitListServiceConstants.ADVANTECH + "/s/" + uuid;
-		} else if (clientBase.equals("sweethoneydessert")) {
-			url = WaitListServiceConstants.SWEETHONEYDESSERT + "/s/" + uuid;
-		} else if (clientBase.equals("rbsushi")) {
-			url = WaitListServiceConstants.RBSUSHI + "/s/" + uuid;
-		} else if (clientBase.equals("masterkim")) {
-			url = WaitListServiceConstants.MASTERKIM + "/s/" + uuid;
-		} else {
-			url = WaitListServiceConstants.URL_INTITIAL + clientBase + "." + WaitListServiceConstants.URL_SUFFIX + uuid;
-		}
-		return url;
-	}
-
 }

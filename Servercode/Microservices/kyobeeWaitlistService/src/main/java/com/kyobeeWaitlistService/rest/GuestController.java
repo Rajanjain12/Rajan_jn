@@ -2,12 +2,11 @@ package com.kyobeeWaitlistService.rest;
 
 import java.util.Arrays;
 
-import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kyobeeWaitlistService.dto.AddUpdateGuestDTO;
 import com.kyobeeWaitlistService.dto.GuestDTO;
 import com.kyobeeWaitlistService.dto.GuestHistoryRequestDTO;
+import com.kyobeeWaitlistService.dto.GuestMarketingPreferenceDTO;
 import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
 import com.kyobeeWaitlistService.dto.GuestRequestDTO;
 import com.kyobeeWaitlistService.dto.GuestResponseDTO;
@@ -171,4 +171,84 @@ public class GuestController {
 		}
 		return responseDTO;
 	}
+
+	// for fetching guest details by guest id
+	@GetMapping(value = "/{id}", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO fetchGuestById(@PathVariable("id") Integer guestId) {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			GuestDTO guest = guestService.fetchGuestDetails(guestId, null);
+			responseDTO.setServiceResult(guest);
+			responseDTO.setMessage("guest details fetched Successfully.");
+			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
+
+		} catch (Exception ex) {
+			LoggerUtil.logError(ex);
+			responseDTO.setServiceResult("Error while fetching guest details");
+			responseDTO.setMessage("Error while fetching guest details");
+			responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);
+		}
+		return responseDTO;
+	}
+
+	// for fetching guest details by guest uuid
+	@GetMapping(value = "/uuid/{uuid}", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO fetchGuestById(@PathVariable("uuid") String guestUUID) {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			GuestDTO guest = guestService.fetchGuestDetails(null, guestUUID);
+			responseDTO.setServiceResult(guest);
+			responseDTO.setMessage("guest details fetched Successfully.");
+			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
+
+		} catch (Exception ex) {
+			LoggerUtil.logError(ex);
+			responseDTO.setServiceResult("Error while fetching guest details");
+			responseDTO.setMessage("Error while fetching guest details");
+			responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);
+		}
+		return responseDTO;
+	}
+
+	// for fetching guest details by contact no and organization id
+	@GetMapping(value = "/guestDetails", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO fetchGuestByContact(@RequestParam("orgID") Integer orgID, @RequestParam("contactNo") String contactNo) {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			GuestDTO guest = guestService.fetchGuestByContact(orgID, contactNo);
+			responseDTO.setServiceResult(guest);
+			responseDTO.setMessage("guest details fetched Successfully.");
+			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
+
+		} catch (Exception ex) {
+			LoggerUtil.logError(ex);
+			responseDTO.setServiceResult("Error while fetching guest details");
+			responseDTO.setMessage("Error while fetching guest details");
+			responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);
+		}
+		return responseDTO;
+	}
+	
+	@PostMapping(value = "/marketingPref", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO addMarketingPref(@RequestBody GuestMarketingPreferenceDTO marketingPrefDTO) {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			guestService.addMarketingPref(marketingPrefDTO);
+			responseDTO.setServiceResult("Marketing Preference added successfully");
+			responseDTO.setMessage("Marketing Preference added successfully.");
+			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
+
+		} catch (Exception ex) {
+			LoggerUtil.logError(ex);
+			responseDTO.setServiceResult("Error while adding marketing preference");
+			responseDTO.setMessage("Error while adding marketing preference");
+			responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);
+		}
+		return responseDTO;
+	}
+
 }
