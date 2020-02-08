@@ -1,23 +1,24 @@
 package com.kyobeeWaitlistService.dto;
 
-public class PusherDTO {
-	
-	private String op;
+import com.kyobeeWaitlistService.entity.Guest;
+
+public class StatusUpdateResponseDTO {
+
 	private WaitlistMetrics waitlistMetrics;
-    private Integer orgId;
-    private String from;
+	private Guest guest;
+	private Integer orgId;
 	
-	public String getOp() {
-		return op;
-	}
-	public void setOp(String op) {
-		this.op = op;
-	}
 	public WaitlistMetrics getWaitlistMetrics() {
 		return waitlistMetrics;
 	}
 	public void setWaitlistMetrics(WaitlistMetrics waitlistMetrics) {
 		this.waitlistMetrics = waitlistMetrics;
+	}
+	public Guest getGuest() {
+		return guest;
+	}
+	public void setGuest(Guest guest) {
+		this.guest = guest;
 	}
 	public Integer getOrgId() {
 		return orgId;
@@ -25,13 +26,6 @@ public class PusherDTO {
 	public void setOrgId(Integer orgId) {
 		this.orgId = orgId;
 	}
-	public String getFrom() {
-		return from;
-	}
-	public void setFrom(String from) {
-		this.from = from;
-	}
 	
 	
-
 }

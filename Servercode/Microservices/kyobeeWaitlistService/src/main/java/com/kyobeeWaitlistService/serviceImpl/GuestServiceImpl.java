@@ -26,7 +26,9 @@ import com.kyobeeWaitlistService.dto.GuestMarketingPreferenceDTO;
 import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
 import com.kyobeeWaitlistService.dto.GuestResponseDTO;
 import com.kyobeeWaitlistService.dto.LanguageMasterDTO;
+import com.kyobeeWaitlistService.dto.PusherDTO;
 import com.kyobeeWaitlistService.dto.SeatingMarketingPrefDTO;
+import com.kyobeeWaitlistService.dto.StatusUpdateResponseDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.entity.Guest;
 import com.kyobeeWaitlistService.entity.GuestMarketingPreferences;
@@ -243,8 +245,8 @@ public class GuestServiceImpl implements GuestService {
 
 		tinyURL = CommonUtil.buildURL(addUpdateGuestDTO.getClientBase(), guestUUID);
 		addUpdateGuestDTO.setTinyURL(tinyURL);
-		List<GuestMarketingPreferences> guestMarketingPref = new ArrayList<GuestMarketingPreferences>();
-		GuestMarketingPreferences guestMarketingPreferences = new GuestMarketingPreferences();
+		List<GuestMarketingPreferences> guestMarketingPref=new ArrayList<>();
+		GuestMarketingPreferences guestMarketingPreferences;
 		Optional<Guest> guest = guestDAO.findById(addUpdateGuestDTO.getAddedGuestId());
 
 		List<SeatingMarketingPrefDTO> marketingPreference = guestDTO.getMarketingPreference();
@@ -283,16 +285,15 @@ public class GuestServiceImpl implements GuestService {
 		String seatingPref;
 		String marketingPref;
 		String tinyURL = "";
-		String guestUUID = UUID.randomUUID().toString().substring(0, 8);
+		
 		seatingPref = convertToString(guestDTO.getSeatingPreference());
 		marketingPref = convertToString(guestDTO.getMarketingPreference());
-		guestDTO.setUuid(guestUUID);
+		
 		AddUpdateGuestDTO addUpdateGuestDTO = guestCustomDAO.updateGuestDetails(guestDTO, seatingPref, marketingPref);
-		addUpdateGuestDTO.setGuestUUID(guestUUID);
 		addUpdateGuestDTO.setLanguagePref(guestDTO.getLangguagePref());
 		addUpdateGuestDTO.setOrgId(guestDTO.getOrganizationID());
-		addUpdateGuestDTO.setOp("UPDATE");
-		tinyURL = CommonUtil.buildURL(addUpdateGuestDTO.getClientBase(), guestUUID);
+		addUpdateGuestDTO.setOp(WaitListServiceConstants.UPDATE_STATUS);
+		tinyURL = organizationTemplateServiceImpl.buildURL(addUpdateGuestDTO.getClientBase(), guestDTO.getUuid());
 		addUpdateGuestDTO.setTinyURL(tinyURL);
 
 		guestMarketingPreferencesDAO.deleteGuestMarketingPref(guestDTO.getGuestID());
@@ -301,7 +302,7 @@ public class GuestServiceImpl implements GuestService {
 		Optional<Guest> guest = guestDAO.findById(guestDTO.getGuestID());
 
 		List<SeatingMarketingPrefDTO> marketingPreference = guestDTO.getMarketingPreference();
-		List<GuestMarketingPreferences> guestMarketingPref = new ArrayList<GuestMarketingPreferences>();
+		List<GuestMarketingPreferences> guestMarketingPref=new ArrayList<>();
 		for (SeatingMarketingPrefDTO pref : marketingPreference) {
 
 			guestMarketingPreferences = new GuestMarketingPreferences();
@@ -418,6 +419,19 @@ public class GuestServiceImpl implements GuestService {
 		// for arranging marketing pref in list
 	
 		List<Lookup> marketingLookup = lookupDAO.fetchLookupForGuest(guestDTO.getGuestID());
+		PusherDTO pusherDTO=new PusherDTO();
+		pusherDTO.setFrom(WaitListServiceConstants.FROM_ADMIN);
+		pusherDTO.setOrgId(orgId);
+		pusherDTO.setOp(status);
+		pusherDTO.setWaitlistMetrics(waitlistMetrics);
+		NotificationUtil.sendMessage(pusherDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV);
+		StatusUpdateResponseDTO statusUpdateResponseDTO=new StatusUpdateResponseDTO();
+		/*
+		 * Optional<Guest> guest = guestDAO.findById(guestId); if (guest.isPresent()) {
+		 * statusUpdateResponseDTO.setGuest(guest.get()); }
+		 * statusUpdateResponseDTO.setOrgId(orgId);
+		 * statusUpdateResponseDTO.setWaitlistMetrics(waitlistMetrics);
+		 */
 		
 			for (Lookup lookup : marketingLookup) {
 				SeatingMarketingPrefDTO marketingPrefence = new SeatingMarketingPrefDTO();

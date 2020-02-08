@@ -22,6 +22,7 @@ import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
 import com.kyobeeWaitlistService.dto.GuestRequestDTO;
 import com.kyobeeWaitlistService.dto.GuestResponseDTO;
 import com.kyobeeWaitlistService.dto.ResponseDTO;
+import com.kyobeeWaitlistService.dto.StatusUpdateResponseDTO;
 import com.kyobeeWaitlistService.service.GuestService;
 import com.kyobeeWaitlistService.util.LoggerUtil;
 import com.kyobeeWaitlistService.util.WaitListServiceConstants;
@@ -159,7 +160,7 @@ public class GuestController {
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
 			guestService.updateGuestStatus(guestId, orgId, status);
-			responseDTO.setServiceResult("Status updated");
+			responseDTO.setServiceResult("Guest status updated successfully");
 			responseDTO.setMessage("Guest status updated successfully");
 			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
 

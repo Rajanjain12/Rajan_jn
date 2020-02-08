@@ -36,5 +36,7 @@ public class WaitListServiceConstants {
 	public static final String INCOMPLETE_STATUS="INCOMPLETE";
 	public static final String NOTPRESENT_STATUS="NOTPRESENT";
 	public static final String SEATED_STATUS="SEATED";
+	public static final String UPDATE_STATUS="UPDATE";
+	public static final String FROM_ADMIN="ADMIN";
 
 }

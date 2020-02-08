@@ -6,6 +6,8 @@ import com.kyobeeWaitlistService.dto.GuestHistoryRequestDTO;
 import com.kyobeeWaitlistService.dto.GuestMarketingPreferenceDTO;
 import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
 import com.kyobeeWaitlistService.dto.GuestResponseDTO;
+import com.kyobeeWaitlistService.dto.PusherDTO;
+import com.kyobeeWaitlistService.dto.StatusUpdateResponseDTO;
 
 public interface GuestService {
 
