@@ -1,4 +1,4 @@
-export class User {
+export class SignupDTO {
 
     userId: number;
     firstName: string;
@@ -8,8 +8,8 @@ export class User {
     storeName: string;
     phone: number;
     address: string;
-    password;
-    confirmPassword;
+    password: string;
+    confirmPassword: string;
     signupStep: number;
     firstLogIn: boolean;
   }

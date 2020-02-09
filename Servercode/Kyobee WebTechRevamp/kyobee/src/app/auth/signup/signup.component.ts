@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/core/models/user.model';
+import { SignupDTO } from 'src/app/core/models/signupDTO.model';
 
 
 
@@ -12,7 +12,7 @@ import { User } from 'src/app/core/models/user.model';
 export class SignupComponent implements OnInit {
   password;
   confirmPassword;
-  user: User = new User();
+  user: SignupDTO = new SignupDTO();
 
   constructor() { }
 

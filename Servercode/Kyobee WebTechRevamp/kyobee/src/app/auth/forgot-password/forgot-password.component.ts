@@ -26,13 +26,12 @@ export class ForgotPasswordComponent implements OnInit {
       var respData = res;
   
       if (respData.success == 1) {  
-        alert();
+       
         this.show=true;
        
       } else {
-        this.show = false;
-        
+        this.show = false;   
       }
-    });
+    }); 
   }
 }

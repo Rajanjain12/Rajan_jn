@@ -2,32 +2,47 @@
     <section class="container  pt-lg-2 pt-md-2 pt-sm-3 pt-3 fade-in" id="addUserPage">
         <div class="row first-lang">
             <div class="col-lg-9">
-                <form>
-                    <div class="col-lg-10">
+                <form #f="ngForm" (ngSubmit)="f.form.valid" novalidate>
+                    <div class="col-lg-10"> 
                         <div class="form-group mb-3">
-                            <input type="text" id="phone" required="required"/>
+                            <input type="text " id="phone" name="phone" class="form-control" #phone="ngModel" pattern="^(\+\d{2,4})?\s?(\d{10})$"
+                            [ngClass]="{ 'is-invalid': f.submitted && phone.invalid }"
+                            [(ngModel)]="AddGuest.phone" required="required"/>
+                            <div *ngIf="f.submitted && phone.invalid" class="invalid-feedback">
+                                <small class="text-danger" *ngIf="phone.errors?.required">Phone no is required</small>
+                                <small class="text-danger" *ngIf="phone.errors?.pattern">Phone no should be in proper form</small>
+                            </div>
                             <label for="input" class="control-label">Mobile Number</label><i class="bar"></i>
                         </div>
                         <div class="row">
                             <div class="form-group mb-0 col-lg-6">
-                                <select>
-                                    <option>0</option>
-                                    <option>1</option>
+                                <select id="select" name="select" class="form-control" #select="ngModel" 
+                                [ngClass]="{ 'is-invalid': f.submitted && select.invalid }" 
+                                [(ngModel)]="AddGuest.select" required="required" pattern="^[1-9]?[0-9]{1}$|^100$">
+                                    <option value="1" *ngFor='let in of counter(100) ;let i = index'>{{i}}</option>
                                 </select>
+                                <div *ngIf="f.submitted && select.invalid" class="invalid-feedback">
+                                    <small class="text-danger" *ngIf="select.errors?.required">Adults are required</small>
+                                    <small class="text-danger" *ngIf="select.errors?.pattern">Adults are required</small>
+                                </div>
                                 <label for="select" class="control-label padding-left-18">Adults</label><i class="bar"></i>
                             </div>
                             <div class="form-group mb-0 col-lg-6">
                                 <select>
-                                    <option>0</option>
-                                    <option>1</option>
+                                    <option *ngFor='let in of counter(100) ;let i = index'>{{i}}</option>
                                 </select>
                                 <label for="select" class="control-label padding-left-18">Children</label><i class="bar"></i>
                             </div>
                         </div>
                         <div class="form-group mb-3">	
-                            <input type="text" value="ABC" required="required"/>
+                            <input type="text" id="gname"  class="form-control" #gname="ngModel"
+                                [ngClass]="{ 'is-invalid': f.submitted && gname.invalid }"
+                                [(ngModel)]="AddGuest.gname" name="gname"required="required"/>
+                            <div *ngIf="f.submitted && gname.invalid" class="invalid-feedback">
+                                <small class="text-danger" *ngIf="gname.errors?.required">Name is required</small>
+                            </div>
                             <label for="input" class="control-label">Name</label><i class="bar"></i>
-                            <span class="error">error</span>
+                         <!--   <span class="error">error</span>   -->
                         </div>
                         <div class="mt-0 mb-4">
                             <input class="styled-checkbox" id="promotion" type="checkbox">
@@ -76,11 +91,17 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <textarea required="required">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</textarea>
+                            <textarea id="text" name="text" class="form-control" #text="ngModel"
+                            [ngClass]="{ 'is-invalid': f.submitted && text.invalid }"
+                            [(ngModel)]="AddGuest.text" required="required">
+                            </textarea>
+                            <div *ngIf="f.submitted && text.invalid" class="invalid-feedback">
+                                <small class="text-danger" *ngIf="text.errors?.required">Note is required</small>
+                            </div>
                             <label for="textarea" class="control-label">Note</label><i class="bar"></i>
                         </div>
                         <div class="col-ld-12 text-center pb-3">
-                            <button type="button" class="btn btn-theme background-color shadow"><span>Add Guest</span></button>
+                            <button type="submit" class="btn btn-theme background-color shadow" (click)="addGuest()"><span>Add Guest</span></button>
                         </div>
                     </div>
                 </form>

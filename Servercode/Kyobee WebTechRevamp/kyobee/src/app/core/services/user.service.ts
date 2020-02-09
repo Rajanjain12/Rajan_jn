@@ -17,6 +17,6 @@ export class UserService {
     return this.apiService.post('rest/user/login',request);
    }
    forgotPassword(username : HttpParams){
-    return this.apiService.postParams('rest/user/forgotPassword',username);
+    return this.apiService.postParams('rest/user/forgotPassword',username); 
    }
 }
