@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AddGuest } from 'src/app/core/models/add-guest.model';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { User } from 'src/app/core/models/user.model';
 
 
 @Component({
@@ -10,36 +11,57 @@ import { AuthService } from 'src/app/core/services/auth.service';
 })
 export class AddGuestComponent implements OnInit {
 
-  AddGuest: AddGuest = new AddGuest();
-   
+  addGuest : AddGuest = new AddGuest();
+  user : User = new User();
+  errorMessage : string;
+  public sum : number;
   
-
   constructor(private authService: AuthService) { }
 
- // seatingpref: any = [];
-
-
   counter(i: number) {
-    return new Array(i);
+    return  Array(i);
   }
   
   ngOnInit() {
-    var user =  this.authService.getUser();
-   user.seatingpref.map((obj) => {
+  this.user =  this.authService.getUser();
+   this.user.seatingpref.map((obj) => {
     obj.selected = false;
-})
-  /* for (var i = 0; i < user.seatingpref.length; i++) {
+  })
+   this.user.marketingPref.map((obj) => {
+    obj.selected = false;
+  })
+    console.log("seatingpref=="+JSON.stringify(this.user.seatingpref)); 
+    console.log("marketingPref=="+JSON.stringify(this.user.marketingPref));
+  }
+
+  get resultSeating() {
+    return  this.user.seatingpref.filter(seating => seating.selected);
+  }
+
+  get resultMarketing() {
+    return  this.user.marketingPref.filter(marketing => marketing.selected);
+  }
+
+  validate(invalid){
+    if(invalid){
+      this.errorMessage = "Please enter proper values " 
+      return
+    }
+    console.log("jaaaam"); 
+    console.log("seatingpref=="+JSON.stringify(this.resultSeating)); 
+    console.log("marketingPref=="+JSON.stringify(this.resultMarketing)); 
+   this.sum = +this.addGuest.adult + +this.addGuest.children;
+    if(this.sum > this.user.maxParty){
+      this.errorMessage = "More than " +this.user.maxParty+ " people are not allowed";
+      return
+    } else {
+    console.log(this.sum);
+    }
+   // this.errorMessage = 'More than "+this.user.maxParty+" people are not allowed'
+  }   
+}
+/* for (var i = 0; i < user.seatingpref.length; i++) {
     user.seatingpref[i] = Object.assign(user.seatingpref[i], {
       selected: false, 
   });
   }*/
-    console.log("seatingpref=="+JSON.stringify(user.seatingpref)); 
-  }
-
-  addGuest(){
-    //console.log("jaaaam"); 
-    var user =  this.authService.getUser();
-   
-    console.log("seatingpref=="+JSON.stringify(user.seatingpref)); 
-  }
-}

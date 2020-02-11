@@ -1,6 +1,7 @@
 export class AddGuest{
-    phone: number;
-    select;
+    phone: string;
+    adult: number;
+    children: number;
     gname: string;
     text: string;
 }

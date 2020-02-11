@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { LoginDTO } from 'src/app/core/models/loginDTO.model';
 import { JsonPipe } from '@angular/common';
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { User } from 'src/app/core/models/user.model';
 
 @Component({
   selector: 'app-signin',
@@ -18,6 +19,7 @@ export class SigninComponent implements OnInit {
   // flag denoting invalid login i.e wrong username or password.
   invalidLogin: Boolean = false;
   loading = false;
+  userResponse:User ;
   constructor(private userService: UserService, private authService: AuthService, private router: Router,private loaderService:LoaderService) { }
 
   ngOnInit() {
@@ -41,7 +43,8 @@ export class SigninComponent implements OnInit {
         this.loading = false;
         this.invalidLogin = false;
         this.authService.SetLogFlag();
-        this.authService.setSessionData(respData.serviceResult);
+        this.userResponse=respData.serviceResult;
+        this.authService.setSessionData(this.userResponse);
         this.router.navigateByUrl('/waitlist/dashboard', { replaceUrl: true });
       } else {
         this.loading = false;

@@ -1,13 +1,16 @@
+<small class="text-danger" style="text-align: center;">
+{{ errorMessage }}
+</small>
 <main id="page-content-wrapper" role="main">
     <section class="container  pt-lg-2 pt-md-2 pt-sm-3 pt-3 fade-in" id="addUserPage">
         <div class="row first-lang">
             <div class="col-lg-9">
-                <form #f="ngForm" (ngSubmit)="f.form.valid" novalidate>
+                <form #f="ngForm" novalidate>
                     <div class="col-lg-10"> 
                         <div class="form-group mb-3">
                             <input type="text " id="phone" name="phone" class="form-control" #phone="ngModel" pattern="^(\+\d{2,4})?\s?(\d{10})$"
                             [ngClass]="{ 'is-invalid': f.submitted && phone.invalid }"
-                            [(ngModel)]="AddGuest.phone" required="required"/>
+                            [(ngModel)]="addGuest.phone" required="required"/>
                             <div *ngIf="f.submitted && phone.invalid" class="invalid-feedback">
                                 <small class="text-danger" *ngIf="phone.errors?.required">Phone no is required</small>
                                 <small class="text-danger" *ngIf="phone.errors?.pattern">Phone no should be in proper form</small>
@@ -16,28 +19,27 @@
                         </div>
                         <div class="row">
                             <div class="form-group mb-0 col-lg-6">
-                                <select id="select" name="select" class="form-control" #select="ngModel" 
-                                [ngClass]="{ 'is-invalid': f.submitted && select.invalid }" 
-                                [(ngModel)]="AddGuest.select" required="required" pattern="^[1-9]?[0-9]{1}$|^100$">
-                                    <option value="1" *ngFor='let in of counter(100) ;let i = index'>{{i}}</option>
-                                </select>
-                                <div *ngIf="f.submitted && select.invalid" class="invalid-feedback">
-                                    <small class="text-danger" *ngIf="select.errors?.required">Adults are required</small>
-                                    <small class="text-danger" *ngIf="select.errors?.pattern">Adults are required</small>
-                                </div>
-                                <label for="select" class="control-label padding-left-18">Adults</label><i class="bar"></i>
-                            </div>
-                            <div class="form-group mb-0 col-lg-6">
-                                <select>
+                                <select id="adult" name="adult" class="form-control" #adult="ngModel" 
+                                [ngClass]="{ 'is-invalid': f.submitted && adult.invalid }" 
+                                [(ngModel)]="addGuest.adult" required="required">
                                     <option *ngFor='let in of counter(100) ;let i = index'>{{i}}</option>
                                 </select>
-                                <label for="select" class="control-label padding-left-18">Children</label><i class="bar"></i>
+                                <div *ngIf="f.submitted && adult.invalid" class="invalid-feedback">
+                                    <small class="text-danger" *ngIf="adult.errors?.required">Adults are required</small>
+                                </div>
+                                <label for="adult" class="control-label padding-left-18">Adults</label><i class="bar"></i>
+                            </div>
+                            <div class="form-group mb-0 col-lg-6">
+                                <select id="children" name="children" class="form-control" #children="ngModel" [(ngModel)]="addGuest.children">
+                                    <option *ngFor='let in of counter(100) ;let i = index'>{{i}}</option>
+                                </select>
+                                <label for="children" class="control-label padding-left-18">Children</label><i class="bar"></i>
                             </div>
                         </div>
                         <div class="form-group mb-3">	
                             <input type="text" id="gname"  class="form-control" #gname="ngModel"
                                 [ngClass]="{ 'is-invalid': f.submitted && gname.invalid }"
-                                [(ngModel)]="AddGuest.gname" name="gname"required="required"/>
+                                [(ngModel)]="addGuest.gname" name="gname"required="required"/>
                             <div *ngIf="f.submitted && gname.invalid" class="invalid-feedback">
                                 <small class="text-danger" *ngIf="gname.errors?.required">Name is required</small>
                             </div>
@@ -52,48 +54,24 @@
                             <div class="col-lg-3 my-1">
                                 <span class="font-weight-semibold">Seating Preference</span>
                             </div>
-                            <div class="col-lg-9 my-1">
-                                <input class="styled-checkbox" id="firstAvailable" type="checkbox">
-                                <label for="firstAvailable" class="mr-2">First Available</label>
-
-                                <input class="styled-checkbox" id="pation" type="checkbox">
-                                <label for="pation" class="mr-2">Patio</label>
-
-                                <input class="styled-checkbox" id="bar" type="checkbox">
-                                <label for="bar" class="mr-2">Bar</label>
-
-                                <input class="styled-checkbox" id="booth" type="checkbox">
-                                <label for="booth" class="mr-2">Booth</label>
-                                
-                                <input class="styled-checkbox" id="table" type="checkbox">
-                                <label for="table" class="mr-2">Table</label>
+                            <div class="col-lg-9 my-1"  *ngFor="let seating of user.seatingpref;index as i;">
+                                <input class="styled-checkbox" id="firstAvailable{{i}}" type="checkbox" [(ngModel)]="seating.selected" [ngModelOptions]="{standalone: true}">
+                                <label for="firstAvailable{{i}}" class="mr-2">{{seating.prefValue}}</label>
                             </div>
                         </div>
                         <div class="row pt-3">
                             <div class="col-lg-3 my-1">
                                 <span class="font-weight-semibold">How did you hear about us</span>
                             </div>
-                            <div class="col-lg-9 my-1">
-                                <input class="styled-checkbox" id="facebook" type="checkbox">
-                                <label for="facebook" class="mr-2">Facebook</label>
-
-                                <input class="styled-checkbox" id="instagram" type="checkbox">
-                                <label for="instagram" class="mr-2">Instagram</label>
-                                
-                                <input class="styled-checkbox" id="google+" type="checkbox">
-                                <label for="google+" class="mr-2">Google+</label>
-
-                                <input class="styled-checkbox" id="twitter" type="checkbox">
-                                <label for="twitter" class="mr-2">Twitter</label>
-
-                                <input class="styled-checkbox" id="word" type="checkbox">
-                                <label for="word" class="mr-2">Word of Mouth</label>
+                            <div class="col-lg-9 my-1" *ngFor="let marketing of user.marketingPref;index as i;">
+                                <input class="styled-checkbox" id="facebook{{i}}" type="checkbox" [(ngModel)]="marketing.selected" [ngModelOptions]="{standalone: true}">
+                                <label for="facebook{{i}}" class="mr-2">{{marketing.prefValue}}</label>
                             </div>
                         </div>
                         <div class="form-group">
                             <textarea id="text" name="text" class="form-control" #text="ngModel"
                             [ngClass]="{ 'is-invalid': f.submitted && text.invalid }"
-                            [(ngModel)]="AddGuest.text" required="required">
+                            [(ngModel)]="addGuest.text" required="required">
                             </textarea>
                             <div *ngIf="f.submitted && text.invalid" class="invalid-feedback">
                                 <small class="text-danger" *ngIf="text.errors?.required">Note is required</small>
@@ -101,7 +79,7 @@
                             <label for="textarea" class="control-label">Note</label><i class="bar"></i>
                         </div>
                         <div class="col-ld-12 text-center pb-3">
-                            <button type="submit" class="btn btn-theme background-color shadow" (click)="addGuest()"><span>Add Guest</span></button>
+                            <button type="submit" class="btn btn-theme background-color shadow" (click)="validate(f.form.invalid)"><span>Add Guest</span></button>
                         </div>
                     </div>
                 </form>
@@ -114,23 +92,6 @@
                 </form>
             </div>
         </div>
-        <!-- reset popup -->
-        <div class="modal fade" id="resetModal">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content border-radius border-0">
-                    <div class="custom-modal-header background-color">
-                        <span class="modal-title text-white">Confirm Reset Organization</span>
-                        <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-body text-center">
-                        <h3 class="big-font"><i class="flaticon-refresh font-color"></i></h3>
-                        <h4 class="pt-3 pb-3">If you want to remove all your guest information, you can reset.</h4>
-                        <div class="pt-3 pb-4">
-                            <button type="button" class="btn btn-theme background-color shadow">Reset</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </section>
 </main>
+
