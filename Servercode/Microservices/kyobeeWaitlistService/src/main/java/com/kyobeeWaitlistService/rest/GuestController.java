@@ -16,20 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kyobeeWaitlistService.dto.AddUpdateGuestDTO;
 import com.kyobeeWaitlistService.dto.GuestDTO;
-import com.kyobeeWaitlistService.dto.GuestHistoryRequestDTO;
 import com.kyobeeWaitlistService.dto.GuestMarketingPreferenceDTO;
 import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
-import com.kyobeeWaitlistService.dto.GuestRequestDTO;
 import com.kyobeeWaitlistService.dto.GuestResponseDTO;
 import com.kyobeeWaitlistService.dto.ResponseDTO;
-import com.kyobeeWaitlistService.dto.StatusUpdateResponseDTO;
 import com.kyobeeWaitlistService.service.GuestService;
 import com.kyobeeWaitlistService.util.LoggerUtil;
 import com.kyobeeWaitlistService.util.WaitListServiceConstants;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/rest/guest")
+@RequestMapping("/rest/waitlist/guest")
 public class GuestController {
 
 	@Autowired
@@ -77,16 +74,16 @@ public class GuestController {
 
 	// for fetching guest list , search text will be null for fetching whole data
 	@GetMapping(value = "/", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
-	public @ResponseBody ResponseDTO fetchGuestList(@RequestBody GuestRequestDTO guestRequest) {
+	public @ResponseBody ResponseDTO fetchGuestList(@RequestParam Integer orgId,@RequestParam Integer pageSize,
+			@RequestParam Integer pageNo,@RequestParam String searchText) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			GuestResponseDTO guestList = guestService.fetchGuestList(guestRequest.getOrgId(),
-					guestRequest.getPageSize(), guestRequest.getPageNo(), guestRequest.getSearchText());
+			GuestResponseDTO guestList = guestService.fetchGuestList(orgId,pageSize,pageNo,searchText);
 			responseDTO.setServiceResult(guestList);
 			responseDTO.setMessage("guest list fetched Successfully.");
 			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
-
+ 
 		} catch (Exception ex) {
 			LoggerUtil.logError(ex);
 			responseDTO.setServiceResult("System Error - fetchGuestList failed");
@@ -98,10 +95,11 @@ public class GuestController {
 
 	// for fetching guest list , search text will be null for fetching whole data
 	@GetMapping(value = "/fetchGuestHistory", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
-	public @ResponseBody ResponseDTO fetchGuestHistoryList(@RequestBody GuestHistoryRequestDTO guestRequest) {
+	public @ResponseBody ResponseDTO fetchGuestHistoryList(@RequestParam Integer orgId,@RequestParam Integer pageSize,
+			@RequestParam Integer pageNo,@RequestParam String searchText,@RequestParam String clientTimezone,@RequestParam Integer sliderMaxTime,@RequestParam Integer sliderMinTime,@RequestParam String statusOption ) {
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			GuestResponseDTO guestList = guestService.fetchGuestHistoryList(guestRequest);
+			GuestResponseDTO guestList = guestService.fetchGuestHistoryList(orgId,pageSize,pageNo,searchText,clientTimezone,sliderMaxTime,sliderMinTime,statusOption);
 			responseDTO.setServiceResult(guestList);
 			responseDTO.setMessage("guest history list fetched Successfully.");
 			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);

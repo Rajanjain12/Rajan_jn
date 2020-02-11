@@ -1,12 +1,9 @@
 package com.kyobeeWaitlistService;
 
 
-import javax.persistence.EntityManager;
-
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 
 import springfox.documentation.builders.PathSelectors;
@@ -17,11 +14,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
+@EnableEurekaClient 
 public class KyobeeWaitlistServiceApplication {
 
 	
-	@Autowired
-	private EntityManager entityManager;
+
 	
 	public static void main(String[] args) {
 		SpringApplication.run(KyobeeWaitlistServiceApplication.class, args);
@@ -33,9 +30,6 @@ public class KyobeeWaitlistServiceApplication {
 				.paths(PathSelectors.any()).build();
 	}
 
-	public SessionFactory getSessionFactory() {
-		SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
-		return sessionFactory;
-	}
+
 	
 }

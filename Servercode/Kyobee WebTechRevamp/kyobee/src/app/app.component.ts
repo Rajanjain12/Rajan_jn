@@ -20,8 +20,8 @@ export class AppComponent {
     private authService: AuthService,
     @Inject(DOCUMENT) private document: Document
   ) {
-    this.loadStyle('theme-admin');
-    // this.loadStyle('theme-advantech');
+     this.loadStyle('theme-admin');
+    //this.loadStyle('theme-advantech');
   }
 
   /* Change Theme of Stylesheet */

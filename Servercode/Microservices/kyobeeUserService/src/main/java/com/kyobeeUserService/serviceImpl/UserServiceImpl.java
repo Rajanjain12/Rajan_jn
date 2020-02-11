@@ -11,8 +11,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kyobeeUserService.KyobeeUserServiceApplication;
 import com.kyobeeUserService.dao.LanguageKeyMappingDAO;
 import com.kyobeeUserService.dao.LookupDAO;
 import com.kyobeeUserService.dao.OrganizationDAO;
@@ -25,8 +23,6 @@ import com.kyobeeUserService.dto.LoginUserDTO;
 import com.kyobeeUserService.dto.ResetPasswordDTO;
 import com.kyobeeUserService.dto.SeatingMarketingPrefDTO;
 import com.kyobeeUserService.dto.SmsTemplateDTO;
-import com.kyobeeUserService.entity.LangMaster;
-import com.kyobeeUserService.entity.Languagekeymapping;
 import com.kyobeeUserService.entity.Lookup;
 import com.kyobeeUserService.entity.Organization;
 import com.kyobeeUserService.entity.OrganizationTemplate;

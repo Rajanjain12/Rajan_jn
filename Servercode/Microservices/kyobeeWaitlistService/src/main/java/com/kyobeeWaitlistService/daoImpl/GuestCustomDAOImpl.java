@@ -19,7 +19,6 @@ import com.kyobeeWaitlistService.dao.GuestCustomDAO;
 import com.kyobeeWaitlistService.dto.AddUpdateGuestDTO;
 import com.kyobeeWaitlistService.dto.GuestDTO;
 import com.kyobeeWaitlistService.dto.GuestDetailsDTO;
-import com.kyobeeWaitlistService.dto.GuestHistoryRequestDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.entity.Guest;
 
@@ -35,20 +34,17 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Guest> fetchAllGuestHistoryList(GuestHistoryRequestDTO guestRequestDTO) {
+	public List<Guest> fetchAllGuestHistoryList(Integer orgId,Integer pageSize,Integer pageNo,String searchText,String clientTimezone,Integer sliderMaxTime,Integer sliderMinTime,String statusOption) {
 		//for fetching data according to page number 
 		
 		SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
 		 
 		
-		Integer pageNumber=guestRequestDTO.getPageNo();
-		Integer sliderMinValue=guestRequestDTO.getSliderMinTime();
-		Integer sliderMaxValue=guestRequestDTO.getSliderMaxTime();
-		String statusOption=guestRequestDTO.getStatusOption();
+	
 		
-		int firstPage = (pageNumber == 1) ? 0 : (guestRequestDTO.getPageSize()*(pageNumber-1));
-		String sliderMinTimeString = sliderMinValue+":00";
-			String sliderMaxTimeString = sliderMaxValue+":01";
+		int firstPage = (pageNo == 1) ? 0 : (pageSize*(pageNo-1));
+		String sliderMinTimeString = sliderMinTime+":00";
+			String sliderMaxTimeString = sliderMaxTime+":01";
 			StringBuilder query=new StringBuilder("FROM Guest g left join fetch g.langmaster WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
 					+ " and g.organizationID=:orgId and ((time(convert_tz(g.checkinTime,'-05:00', :clientTimezone)) between time(:sliderMinValue) and time(:sliderMaxValue)))");
 			if(statusOption.equals("Not Present")) {
@@ -57,14 +53,14 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 			if(statusOption.equals("Incomplete")) {
 				query=query.append(" and incompleteParty > 0");
 			}
-			if(guestRequestDTO.getSearchText() != null) {
+			if(searchText != null) {
 				query=query.append(" and (g.name like :searchText  or g.sms like :searchText)");
 			}
 			query=query.append(" order by g.rank asc");	
-			if(guestRequestDTO.getSearchText()!=null) {
-				return sessionFactory.getCurrentSession().createQuery(query.toString()).setParameter("orgId",guestRequestDTO.getOrgId()).setParameter("sliderMinValue", sliderMinTimeString).setParameter("sliderMaxValue", sliderMaxTimeString).setParameter("clientTimezone", guestRequestDTO.getClientTimezone()).setParameter("searchText", "%"+guestRequestDTO.getSearchText()+"%").setFirstResult(firstPage).setMaxResults(guestRequestDTO.getPageSize()).getResultList();	
+			if(searchText!=null) {
+				return sessionFactory.getCurrentSession().createQuery(query.toString()).setParameter("orgId",orgId).setParameter("sliderMinValue", sliderMinTimeString).setParameter("sliderMaxValue", sliderMaxTimeString).setParameter("clientTimezone", clientTimezone).setParameter("searchText", "%"+searchText+"%").setFirstResult(firstPage).setMaxResults(pageSize).getResultList();	
 			}else {
-				return sessionFactory.getCurrentSession().createQuery(query.toString()).setParameter("orgId",guestRequestDTO.getOrgId()).setParameter("sliderMinValue", sliderMinTimeString).setParameter("sliderMaxValue", sliderMaxTimeString).setParameter("clientTimezone", guestRequestDTO.getClientTimezone()).setFirstResult(firstPage).setMaxResults(guestRequestDTO.getPageSize()).getResultList();
+				return sessionFactory.getCurrentSession().createQuery(query.toString()).setParameter("orgId",orgId).setParameter("sliderMinValue", sliderMinTimeString).setParameter("sliderMaxValue", sliderMaxTimeString).setParameter("clientTimezone",clientTimezone).setFirstResult(firstPage).setMaxResults(pageSize).getResultList();
 			}
 	 }
 

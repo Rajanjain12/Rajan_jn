@@ -21,14 +21,12 @@ import com.kyobeeWaitlistService.dao.OrganizationDAO;
 import com.kyobeeWaitlistService.dto.AddUpdateGuestDTO;
 import com.kyobeeWaitlistService.dto.GuestDTO;
 import com.kyobeeWaitlistService.dto.GuestDetailsDTO;
-import com.kyobeeWaitlistService.dto.GuestHistoryRequestDTO;
 import com.kyobeeWaitlistService.dto.GuestMarketingPreferenceDTO;
 import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
 import com.kyobeeWaitlistService.dto.GuestResponseDTO;
 import com.kyobeeWaitlistService.dto.LanguageMasterDTO;
 import com.kyobeeWaitlistService.dto.PusherDTO;
 import com.kyobeeWaitlistService.dto.SeatingMarketingPrefDTO;
-import com.kyobeeWaitlistService.dto.StatusUpdateResponseDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.entity.Guest;
 import com.kyobeeWaitlistService.entity.GuestMarketingPreferences;
@@ -102,7 +100,7 @@ public class GuestServiceImpl implements GuestService {
 		}
 		List<Guest> guestList;
 
-		if (searchText != null) {
+		if (searchText != null && !(searchText.trim().equalsIgnoreCase("")) && !(searchText.trim().equalsIgnoreCase("null"))) {
 			// for fetching data related to search text
 			searchText = "%" + searchText + "%";
 			guestList = guestDAO.fetchCheckinGuestBySearchText(orgId, pageSize, startIndex, searchText);
@@ -167,12 +165,12 @@ public class GuestServiceImpl implements GuestService {
 	}
 
 	@Override
-	public GuestResponseDTO fetchGuestHistoryList(GuestHistoryRequestDTO guestRequest) {
+	public GuestResponseDTO fetchGuestHistoryList(Integer orgId,Integer pageSize,Integer pageNo,String searchText,String clientTimezone,Integer sliderMaxTime,Integer sliderMinTime,String statusOption) {
 
 		
 		List<Guest> guestList;
 
-		guestList = guestCustomDAO.fetchAllGuestHistoryList(guestRequest);
+		guestList = guestCustomDAO.fetchAllGuestHistoryList(orgId,pageSize,pageNo,searchText,clientTimezone,sliderMaxTime,sliderMinTime,statusOption);
 
 		List<GuestDTO> guestDTOs = new ArrayList<>();
 		GuestResponseDTO guestResponse = new GuestResponseDTO();
@@ -222,7 +220,7 @@ public class GuestServiceImpl implements GuestService {
 
 			guestDTOs.add(guestDTO);
 		}
-		guestResponse.setPageNo(guestRequest.getPageNo());
+		guestResponse.setPageNo(pageNo);
 		guestResponse.setTotalRecords(guestDTOs.size());
 		guestResponse.setRecords(guestDTOs);
 		return guestResponse;
@@ -332,8 +330,9 @@ public class GuestServiceImpl implements GuestService {
 		pusherDTO.setOp(status);
 		pusherDTO.setWaitlistMetrics(waitlistMetrics);
 		NotificationUtil.sendMessage(pusherDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV);
-		StatusUpdateResponseDTO statusUpdateResponseDTO=new StatusUpdateResponseDTO();
+		
 		/*
+		 * StatusUpdateResponseDTO statusUpdateResponseDTO=new StatusUpdateResponseDTO();
 		 * Optional<Guest> guest = guestDAO.findById(guestId); if (guest.isPresent()) {
 		 * statusUpdateResponseDTO.setGuest(guest.get()); }
 		 * statusUpdateResponseDTO.setOrgId(orgId);

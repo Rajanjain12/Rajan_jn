@@ -2,12 +2,9 @@ package com.kyobeeWaitlistService.service;
 
 import com.kyobeeWaitlistService.dto.AddUpdateGuestDTO;
 import com.kyobeeWaitlistService.dto.GuestDTO;
-import com.kyobeeWaitlistService.dto.GuestHistoryRequestDTO;
 import com.kyobeeWaitlistService.dto.GuestMarketingPreferenceDTO;
 import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
 import com.kyobeeWaitlistService.dto.GuestResponseDTO;
-import com.kyobeeWaitlistService.dto.PusherDTO;
-import com.kyobeeWaitlistService.dto.StatusUpdateResponseDTO;
 
 public interface GuestService {
 
@@ -15,7 +12,7 @@ public interface GuestService {
 	public void resetOrganizationsByOrgId(Long orgid);
 	public GuestResponseDTO fetchGuestList(Integer orgId,Integer pageSize,Integer pageNo,String searchText);
 	//for fetching guest history list
-	public GuestResponseDTO fetchGuestHistoryList(GuestHistoryRequestDTO guestRequest);
+	public GuestResponseDTO fetchGuestHistoryList(Integer orgId,Integer pageSize,Integer pageNo,String searchText,String clientTimezone,Integer sliderMaxTime,Integer sliderMinTime,String statusOption);
 	//for add guest
 	public AddUpdateGuestDTO addGuest(GuestDTO guestDTO);
 	//for update Guest

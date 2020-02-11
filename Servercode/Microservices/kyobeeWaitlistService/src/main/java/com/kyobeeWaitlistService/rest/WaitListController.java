@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kyobeeWaitlistService.dto.OrganizationMetricsDTO;
 import com.kyobeeWaitlistService.dto.PusherDTO;
 import com.kyobeeWaitlistService.dto.ResponseDTO;
-import com.kyobeeWaitlistService.dto.WaitListMetricsDTO;
 import com.kyobeeWaitlistService.service.WaitListService;
 import com.kyobeeWaitlistService.util.LoggerUtil;
 import com.kyobeeWaitlistService.util.WaitListServiceConstants;

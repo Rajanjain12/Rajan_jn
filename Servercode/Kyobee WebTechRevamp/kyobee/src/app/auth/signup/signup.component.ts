@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SignupDTO } from 'src/app/core/models/signupDTO.model';
+import { SignupDTO } from 'src/app/core/models/signup.model';
 
 
 

@@ -23,19 +23,18 @@ export class DashboardComponent implements OnInit {
   msgIconImg="../../../assets/images/msg-icon.png";
 
   ngOnInit() {
-    /*var user =  this.authService.getUser();
+    var user =  this.authService.getUser();
     this.orgId = user.organizationID;
-    this.pageNo = user.pageNo;
-    this.pageSize = user.pageSize;
-    this.searchText = user.searchText;*/
+    this.pageNo = 1;
+    this.pageSize = 10;
+    this.searchText = null;
 
-   /* var params = new HttpParams()
-      .set('orgId', this.orgId)
+    var params = new HttpParams()
+      .set('orgId', "2")
       .set('pageNo', this.pageNo)
       .set('pageSize', this.pageSize)
-      .set('searchText', this.searchText); */
-
-    var params = {"orgId": 86, "pageNo":1, "pageSize":10, "searchText":null}
+      .set('searchText', this.searchText); 
+    
     this.guestService.fetchGuestList(params).subscribe((res: any)=>{
       if(res.success == 1){
         console.log("user=="+JSON.stringify(res));

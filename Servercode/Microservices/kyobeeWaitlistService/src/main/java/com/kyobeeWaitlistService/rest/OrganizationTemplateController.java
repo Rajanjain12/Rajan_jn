@@ -21,7 +21,7 @@ import com.kyobeeWaitlistService.util.WaitListServiceConstants;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/rest/organizationTemplate")
+@RequestMapping("/rest/waitlist/organizationTemplate")
 public class OrganizationTemplateController {
 
 	@Autowired

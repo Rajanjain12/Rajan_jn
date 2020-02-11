@@ -16,7 +16,6 @@ import com.kyobeeWaitlistService.entity.OrganizationTemplate;
 import com.kyobeeWaitlistService.service.OrganizationTemplateService;
 import com.kyobeeWaitlistService.util.CommonUtil;
 import com.kyobeeWaitlistService.util.LoggerUtil;
-import com.kyobeeWaitlistService.util.WaitListServiceConstants;
 
 @Service
 @Transactional

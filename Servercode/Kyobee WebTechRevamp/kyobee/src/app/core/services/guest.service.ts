@@ -10,9 +10,9 @@ export class GuestService {
   constructor(private apiService: ApiService) { }
 
   resetUser(orgid: HttpParams){
-    return this.apiService.get('http://localhost:8082/rest/guest/resetGuestList', orgid);
+    return this.apiService.getParam('rest/waitlist/guest/resetGuestList', orgid);
   }
   fetchGuestList(params){
-    return this.apiService.getBodyParam('http://localhost:8082/rest/guest', params);
+    return this.apiService.getParam('rest/waitlist/guest/', params);
   }
 }
