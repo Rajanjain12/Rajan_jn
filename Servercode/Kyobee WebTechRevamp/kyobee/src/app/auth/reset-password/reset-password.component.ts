@@ -27,7 +27,7 @@ export class ResetPasswordComponent implements OnInit {
     if (invalid) {
       return;
     }
-    if(this.confirmPwd!=this.newPassword){
+    if(this.confirmPwd!=this.newPassword){ 
       return;
     }
 

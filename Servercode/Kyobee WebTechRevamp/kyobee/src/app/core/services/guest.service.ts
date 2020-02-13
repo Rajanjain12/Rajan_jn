@@ -12,7 +12,12 @@ export class GuestService {
   resetUser(orgid: HttpParams){
     return this.apiService.getParam('rest/waitlist/guest/resetGuestList', orgid);
   }
+
   fetchGuestList(params){
     return this.apiService.getParam('rest/waitlist/guest/', params);
+  }
+
+  addGuest(serviceResult: object){
+    return this.apiService.post('rest/waitlist/guest/', serviceResult);
   }
 }

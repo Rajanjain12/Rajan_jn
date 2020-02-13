@@ -10,7 +10,7 @@
                         <div class="form-group mb-3">
                             <input type="text " id="phone" name="phone" class="form-control" #phone="ngModel" pattern="^(\+\d{2,4})?\s?(\d{10})$"
                             [ngClass]="{ 'is-invalid': f.submitted && phone.invalid }"
-                            [(ngModel)]="addGuest.phone" required="required"/>
+                            [(ngModel)]="guest.sms" required="required"/>
                             <div *ngIf="f.submitted && phone.invalid" class="invalid-feedback">
                                 <small class="text-danger" *ngIf="phone.errors?.required">Phone no is required</small>
                                 <small class="text-danger" *ngIf="phone.errors?.pattern">Phone no should be in proper form</small>
@@ -21,7 +21,7 @@
                             <div class="form-group mb-0 col-lg-6">
                                 <select id="adult" name="adult" class="form-control" #adult="ngModel" 
                                 [ngClass]="{ 'is-invalid': f.submitted && adult.invalid }" 
-                                [(ngModel)]="addGuest.adult" required="required">
+                                [(ngModel)]="guest.noOfAdults" required="required">
                                     <option *ngFor='let in of counter(100) ;let i = index'>{{i}}</option>
                                 </select>
                                 <div *ngIf="f.submitted && adult.invalid" class="invalid-feedback">
@@ -30,7 +30,7 @@
                                 <label for="adult" class="control-label padding-left-18">Adults</label><i class="bar"></i>
                             </div>
                             <div class="form-group mb-0 col-lg-6">
-                                <select id="children" name="children" class="form-control" #children="ngModel" [(ngModel)]="addGuest.children">
+                                <select id="children" name="children" class="form-control" #children="ngModel" [(ngModel)]="guest.noOfChildren">
                                     <option *ngFor='let in of counter(100) ;let i = index'>{{i}}</option>
                                 </select>
                                 <label for="children" class="control-label padding-left-18">Children</label><i class="bar"></i>
@@ -39,7 +39,7 @@
                         <div class="form-group mb-3">	
                             <input type="text" id="gname"  class="form-control" #gname="ngModel"
                                 [ngClass]="{ 'is-invalid': f.submitted && gname.invalid }"
-                                [(ngModel)]="addGuest.gname" name="gname"required="required"/>
+                                [(ngModel)]="guest.name" name="gname"required="required"/>
                             <div *ngIf="f.submitted && gname.invalid" class="invalid-feedback">
                                 <small class="text-danger" *ngIf="gname.errors?.required">Name is required</small>
                             </div>
@@ -71,7 +71,7 @@
                         <div class="form-group">
                             <textarea id="text" name="text" class="form-control" #text="ngModel"
                             [ngClass]="{ 'is-invalid': f.submitted && text.invalid }"
-                            [(ngModel)]="addGuest.text" required="required">
+                            [(ngModel)]="guest.note" required="required">
                             </textarea>
                             <div *ngIf="f.submitted && text.invalid" class="invalid-feedback">
                                 <small class="text-danger" *ngIf="text.errors?.required">Note is required</small>

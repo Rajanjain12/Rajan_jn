@@ -1,4 +1,5 @@
 import { LanguageDTO } from './language.model';
+import { Preference } from './preference.model';
 
 export class GuestDTO{
      guestID:number;
@@ -25,7 +26,7 @@ export class GuestDTO{
      updatedTime:Date;
      incompleteParty:number;
      langguagePref:LanguageDTO;
-     seatingPreference:string;
-     marketingPreference:string;
+     seatingPreference:Array<Preference>;
+     marketingPreference:Array<Preference>;
      note:string;
 }
