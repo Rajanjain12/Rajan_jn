@@ -20,10 +20,9 @@
           <div class="col-lg-auto pb-2">
             <span class="table-column-btn">
               <span class="col-lg-4 col-md-4 col-sm-6 sm-block p-0 my-2 mr-3">Party Wait Time 
-                <select class="font-color ml-2">
-                  <option>15 Min.</option>
-                  <option>30 Min.</option>
-                  <option>45 Min.</option>
+                <select class="font-color ml-2" name="perPartyTime"  (change)="saveOrgMetrics();" #perPartyTime="ngModel" [(ngModel)]="waitTime"  > 
+                  <option *ngFor="let waitOption of waitTimeOption"
+                  value="{{waitOption}}"  >{{waitOption}} Min.</option>
                 </select>
               </span>
               <!-- <span class="col-lg-4 col-md-4 col-sm-6">Notify First
@@ -34,14 +33,16 @@
                 </select>
               </span> -->
               <span class="col-lg-4 col-md-4 col-sm-6 sm-block p-0 my-2"> Total Wait Time
-                <span class="text-white background-color py-1 px-4 rounded ml-2">00.30</span>
+                <span class="text-white background-color py-1 px-4 rounded ml-2">{{organizationMetrics!=null ? convertMinstoMMHH(organizationMetrics.orgTotalWaitTime) :null}}</span>
               </span>
             </span>
           </div><!-- col -->
         </div><!-- row -->
       </div><!-- col -->
       <div class="col-lg-3 text-right pb-2">
-        <input class="form-control search" type="text" name="" placeholder="Search">
+        <form #f="ngForm" (ngSubmit)="onSubmit(f.invalid)">
+        <input class="form-control search" type="text" name="searchData" #searchData="ngModel" [(ngModel)]="searchText" placeholder="Search" required>
+      </form>
       </div><!-- col -->
     </div><!-- row -->
     <div class="d-none">
@@ -85,15 +86,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr *ngFor="let guest of guestDTOList">
               <td>
-                <a href="" data-toggle="modal" data-target="#seatModal"><!-- <img src="assets/images/orange_user.png" alt="user"> --><i class="flaticon-black-male-user-symbol font-color"></i></a>
+                <a  (click)="showSeatModal(guest);"><i *ngIf="guest.calloutCount==null && guest.incompleteParty==null" class="flaticon-black-male-user-symbol font-color"></i> <i *ngIf="!(guest.calloutCount==null && guest.incompleteParty==null)" class="flaticon-black-male-user-symbol grey"></i></a>
               </td>
               <!-- <td>1</td>
-              <td>Small</td> -->
-              <td>Total 5 [ A-3   C-2]</td>
-              <td>JOHN SMITH<img src="assets/images/not-present.png" class="pl-2" alt="not present"></td>
-              <td>22 Feb. 2019 12:06 PM</td>
+              <td>Small</td> data-toggle="modal" data-target="#seatModal" -->
+              <td>Total {{guest.noOfPeople}} [ A-{{guest.noOfAdults}}   C-{{guest.noOfChildren}}]</td>
+              <td>{{guest.name}}<span *ngIf="guest.calloutCount!=null"><img [src]=notPresentImg class="pl-2" alt="not present">{{guest.calloutCount}}</span></td>
+              <td>{{guest.checkinTime | date }}</td>
               <!-- <td>10 Min.</td>
               <td>
                 <span class="info-icon custom-tooltip">
@@ -104,113 +105,23 @@
                 </span>
               </td> -->
               <td>
-                <a href="" data-toggle="modal" data-target="#deleteModal"><i class="flaticon-rubbish-bin"></i></a>
+                <a click=""><i class="flaticon-rubbish-bin"></i></a>
               </td>
               <td>
                 <a href="" data-toggle="modal" data-target="#smsModal"><i class="flaticon-chat"></i></a>
               </td>
-            </tr>
-            <tr>
-              <td><i class="flaticon-black-male-user-symbol grey"></i></td>
-              <!-- <td>1</td>
-              <td>Small</td> -->
-              <td>Total 5 [ A-3   C-2]</td>
-              <td><span class="incomplete">JENNY FISCO</span></td>
-              <td>22 Feb. 2019 12:06 PM</td>
-              <!-- <td>10 Min.</td>
-              <td>
-                <span class="info-icon custom-tooltip">
-                  <i class="flaticon-file"></i>
-                  <span class="tooltiptext">
-                    <p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                  </span>
-                </span>
-              </td> -->
-              <td>
-                <a href="" data-toggle="modal" data-target="#deleteModal"><i class="flaticon-rubbish-bin"></i></a>
-              </td>
-              <td>
-                <a href="" data-toggle="modal" data-target="#smsModal"><i class="flaticon-chat"></i></a>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <a href="" data-toggle="modal" data-target="#seatModal"><i class="flaticon-black-male-user-symbol font-color"></i></a>
-              </td>
-              <!-- <td>1</td>
-              <td>Small</td> -->
-              <td>Total 5 [ A-3   C-2]</td>
-              <td>JOHN LUICE</td>
-              <td>22 Feb. 2019 12:06 PM</td>
-              <!-- <td>10 Min.</td>
-              <td><i class="flaticon-file-grey"></i></td> -->
-              <td>
-                <a href="" data-toggle="modal" data-target="#deleteModal"><i class="flaticon-rubbish-bin"></i></a>
-              </td>
-              <td>
-                <a href="" data-toggle="modal" data-target="#smsModal"><i class="flaticon-chat"></i></a>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <a href="" data-toggle="modal" data-target="#seatModal"><i class="flaticon-black-male-user-symbol font-color"></i></a>
-              </td>
-              <!-- <td>1</td>
-              <td>Small</td> -->
-              <td>Total 5 [ A-3   C-2]</td>
-              <td>SMITH</td>
-              <td>22 Feb. 2019 12:06 PM</td>
-              <!-- <td>10 Min.</td>
-              <td>
-                <span class="info-icon custom-tooltip">
-                  <i class="flaticon-file"></i>
-                  <span class="tooltiptext">
-                    <p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                  </span>
-                </span>
-              </td> -->
-              <td>
-                <a href="" data-toggle="modal" data-target="#deleteModal"><i class="flaticon-rubbish-bin"></i></a>
-              </td>
-              <td>
-                <a href="" data-toggle="modal" data-target="#smsModal"><i class="flaticon-chat"></i></a>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <a href="" data-toggle="modal" data-target="#seatModal"><i class="flaticon-black-male-user-symbol font-color"></i></a>
-              </td>
-              <!-- <td>1</td>
-              <td>Small</td> -->
-              <td>Total 5 [ A-3   C-2]</td>
-              <td>HERRY</td>
-              <td>22 Feb. 2019 12:06 PM</td>
-              <!-- <td>10 Min.</td>
-              <td>
-                <span class="info-icon custom-tooltip">
-                  <i class="flaticon-file"></i>
-                  <span class="tooltiptext">
-                    <p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                  </span>
-                </span>
-              </td> -->
-              <td>
-                <a href="" data-toggle="modal" data-target="#deleteModal"><i class="flaticon-rubbish-bin"></i></a>
-              </td>
-              <td>
-                <a href="" data-toggle="modal" data-target="#smsModal"><i class="flaticon-chat"></i></a>
-              </td>
-            </tr>
+            </tr>          
           </tbody>
         </table>
       </div>
       <div class="float-right pb-2">
         <ul class="pagination">
-          <li class="page-item disabled"><a class="page-link" href="#"><</a></li>
-          <li class="page-item"><a class="page-link active-pagination" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">></a></li>
+          <li class="page-item disabled"><a class="page-link" href="#"></a></li>
+          <li *ngIf="pageNo>1" class="page-item"><a class="page-link" (click)="fetchPrevGuest();">Next</a></li>
+          <li class="page-item"><a class="page-link active-pagination" (click)="fetchGuest();">{{this.pageNo}}</a></li>
+          <li *ngIf="guestDTOList!=null ? guestDTOList.length > pageSize : null" class="page-item"><a class="page-link" (click)="fetchNextGuest();">Next</a></li>
+          <!-- <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">></a></li> -->
         </ul>
       </div>
     </div>
@@ -233,10 +144,10 @@
                 <input class="styled-checkbox" id="partyRank" type="checkbox">
                   <label for="partyRank" class="mr-2">Party Rank</label>
               </div><!-- checkbox -->
-              <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
+              <!-- <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
                 <input class="styled-checkbox" id="partyType" type="checkbox">
                   <label for="partyType" class="mr-2">Party Type</label>
-              </div><!-- checkbox -->
+              </div> --><!-- checkbox -->
               <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
                 <input class="styled-checkbox" checked id="noOfParty" type="checkbox">
                   <label for="noOfParty" class="mr-2">No. of Party</label>
@@ -249,10 +160,10 @@
                 <input class="styled-checkbox" checked id="checkIn" type="checkbox">
                   <label for="checkIn" class="mr-2">Check In Time</label>
               </div><!-- checkbox -->
-              <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
+              <!-- <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
                 <input class="styled-checkbox" id="quoteTime" type="checkbox">
                   <label for="quoteTime" class="mr-2">Quote Time</label>
-              </div><!-- checkbox -->
+              </div> --><!-- checkbox -->
               <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
                 <input class="styled-checkbox" id="note" type="checkbox">
                   <label for="note" class="mr-2">Note</label>
@@ -288,20 +199,20 @@
         <div class="modal-content border-radius border-0">
           <div class="custom-modal-header background-color">
             <span class="modal-title text-white">Confirm Table Ready</span>
-            <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+            <button type="button" class="close text-white" (click)="removeSelected('SEATMODAL');">&times;</button>
           </div>
           <div class="modal-body text-center">
-            <h4 class="pt-3 pb-2">Guest 1</h4>
-            <h4>ABC</h4>
+            <h4 class="pt-3 pb-2">Guest {{selectedGuest!=null ? selectedGuest.rank :null }}</h4>
+            <h4>{{selectedGuest!=null ?  selectedGuest.name : null}}</h4>
             <div class="row py-4">
               <div class="col-lg-4 col-md-4 col-sm-12 text-right modal-btn my-2">
-                <button type="button" class="btn btn-theme background-color shadow">Not Present</button>
+                <button type="button" (click)="changeStatus('NOTPRESENT');" class="btn btn-theme background-color shadow">Not Present</button>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-12 text-center modal-btn my-2">
-                <button type="button" class="btn btn-theme background-color shadow">Incomplete</button>
+                <button type="button" (click)="changeStatus('INCOMPLETE');" class="btn btn-theme background-color shadow">Incomplete</button>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-12 text-left modal-btn my-2">
-                <button type="button" class="btn btn-theme background-color shadow">Yes</button>
+                <button type="button" (click)="changeStatus('SEATED');" class="btn btn-theme background-color shadow">Yes</button>
               </div>
             </div>
           </div>
@@ -315,7 +226,7 @@
         <div class="modal-content border-radius border-0">
           <div class="custom-modal-header background-color">
             <span class="modal-title text-white">Delete</span>
-            <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+            <button type="button" class="close text-white" (click)="removeSelected('DELETE');" data-dismiss="modal">&times;</button>
           </div>
           <div class="modal-body text-center">
             <h4>Are you sure ?</h4>
@@ -324,7 +235,7 @@
                 <button type="button" class="btn btn-theme background-color shadow">cancel</button>
               </div> -->
               <div class="col-lg-12 col-md-12 col-sm-12 text-center modal-btn my-2">
-                <button type="button" class="btn btn-theme background-color shadow" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-theme background-color shadow" (click)="changeStatus('DELETE');">Yes</button>
               </div>
             </div>
           </div>

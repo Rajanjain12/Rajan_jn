@@ -49,4 +49,12 @@ export class ApiService {
         `${environment.serverUrl}${path}`,postbody,{headers,params}
     ).pipe(catchError(this.formatErrors));
   }
+  
+  putParams(path: string, params : HttpParams): Observable<any> {
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+   let postbody={};
+    return this.http.put(
+        `${environment.serverUrl}${path}`,postbody,{headers,params}
+    ).pipe(catchError(this.formatErrors));
+  }
 }

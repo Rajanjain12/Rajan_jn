@@ -20,4 +20,9 @@ export class GuestService {
   addGuest(serviceResult: object){
     return this.apiService.post('rest/waitlist/guest/', serviceResult);
   }
+  
+  updateGuestStatus(params){
+    return this.apiService.putParams('rest/waitlist/guest/status', params);
+  }
+
 }
