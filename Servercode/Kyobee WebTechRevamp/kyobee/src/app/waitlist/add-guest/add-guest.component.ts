@@ -12,7 +12,7 @@ import { GuestService } from 'src/app/core/services/guest.service';
 })
 export class AddGuestComponent implements OnInit {
 
-  guest : GuestDTO = new GuestDTO();
+  guest : GuestDTO ;
   user : User = new User();
   errorMessage : string;
   public sum : number;

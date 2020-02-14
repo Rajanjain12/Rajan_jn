@@ -16,4 +16,8 @@ export class OrganizationService {
   saveOrganizationMetrics(params){
     return this.apiService.putParams('rest/waitlist/orgSetting',params);
   }
+
+  fetchSmsContent(params){
+    return this.apiService.post('rest/waitlist/organizationTemplate/smsContent',params);
+  }
 }

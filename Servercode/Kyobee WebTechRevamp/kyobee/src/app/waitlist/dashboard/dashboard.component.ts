@@ -5,6 +5,8 @@ import { HttpParams } from '@angular/common/http';
 import { GuestDTO } from 'src/app/core/models/guest.model';
 import { OrganizationService } from 'src/app/core/services/organization.service';
 import { OrganizationMetrics } from 'src/app/core/models/organization-metrics.model';
+import { SmsContentDTO } from 'src/app/core/models/sms-content.model';
+import { OrganizationTemplateDTO } from 'src/app/core/models/organization-template.model';
 
 
 declare var $: any;
@@ -23,9 +25,10 @@ export class DashboardComponent implements OnInit {
   guestDTOList:Array<GuestDTO>;
   selectedGuest:GuestDTO;
   organizationMetrics:OrganizationMetrics;
+  organizationTemplateDTOList:Array<OrganizationTemplateDTO>;
   waitTime:any=null;
   waitTimeOption = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99];
-
+  smsContentDTO:SmsContentDTO=new SmsContentDTO();
   dashboardIlluImageSrc="../../../assets/images/dashboard-illu.png";
   notPresentImg="../../../assets/images/not-present.png";
   noteIconImg="../../../assets/images/note-icon.png";
@@ -82,9 +85,11 @@ export class DashboardComponent implements OnInit {
     .set('perPartyWaitTime',this.waitTime)
     .set('numberOfUsers',this.organizationMetrics.notifyUserCount.toString());
     this.organizationService.saveOrganizationMetrics(params).subscribe((res:any)=>{
-      if(res.success == 1){
+      if(res.success == 1){ 
         console.log("org == "+JSON.stringify(res));
         this.organizationMetrics=res.serviceResult.waitlistMetrics;
+        this.organizationMetrics.orgTotalWaitTime=res.serviceResult.waitlistMetrics.totalWaitTime;
+        
       }
       else{
         alert(res.message);
@@ -106,8 +111,10 @@ export class DashboardComponent implements OnInit {
     if(status=="DELETE"){
       $('#deleteModal').modal('hide');
     }
-    else{
+    else if(status=="SEATMODAL"){
       $('#seatModal').modal('hide');
+    }else if(status=="SMSMODAL"){
+      $('#smsModal').modal('hide');
     }
     this.selectedGuest=new GuestDTO();
   }
@@ -141,6 +148,31 @@ export class DashboardComponent implements OnInit {
         }
        alert(res.message);
        this.selectedGuest=new GuestDTO();
+      }
+    })
+  }
+
+  fetchSMSContent(guest){
+    
+    this.smsContentDTO=new SmsContentDTO();
+    this.selectedGuest=guest;
+    this.smsContentDTO.orgId=1;
+    this.smsContentDTO.guestId=this.selectedGuest.guestID;
+    this.smsContentDTO.clientBase="admin";
+    this.smsContentDTO.guestName=this.selectedGuest.name;
+    this.smsContentDTO.guestRank=this.selectedGuest.rank;
+    this.smsContentDTO.guestUuid=this.selectedGuest.uuid;
+    this.smsContentDTO.langId=this.selectedGuest.langguagePref.langId;
+    this.smsContentDTO.tempLevel=1;
+    alert(JSON.stringify(this.smsContentDTO));
+    this.organizationService.fetchSmsContent(this.smsContentDTO).subscribe((res: any)=>{
+      if(res.success == 1){ 
+        this.organizationTemplateDTOList=res.serviceResult;
+        console.log(JSON.stringify(this.organizationTemplateDTOList));
+        $('#smsModal').modal('show');
+      }
+      else{
+        alert(res.serviceResult);
       }
     })
   }

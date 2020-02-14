@@ -76,7 +76,8 @@ public class OrganizationCustomDAOImpl implements OrganizationCustomDAO {
 		} catch (Exception e) {
 			LoggerUtil.logError("Error in getOrganizationMetrics proc " + e.getMessage());
 		} finally {
-
+			
+			session.close();
 		}
 		return organizationMetricsDTO;
 
@@ -126,8 +127,9 @@ public class OrganizationCustomDAOImpl implements OrganizationCustomDAO {
 			});
 		} catch (Exception e) {
 			LoggerUtil.logError("Error in updateOrgSettings proc " + e.getMessage());
-		} finally {
-
+		}finally {
+			
+			session.close();
 		}
 		return waitlistMetrics;
 	}
@@ -159,7 +161,8 @@ public class OrganizationCustomDAOImpl implements OrganizationCustomDAO {
 		} catch (Exception e) {
 			LoggerUtil.logError("Error in getOrganizationMetrics proc " + e.getMessage());
 		} finally {
-
+			
+			session.close();
 		}
 		
 	}

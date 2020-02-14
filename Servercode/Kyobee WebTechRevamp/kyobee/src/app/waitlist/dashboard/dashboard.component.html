@@ -93,7 +93,7 @@
               <!-- <td>1</td>
               <td>Small</td> data-toggle="modal" data-target="#seatModal" -->
               <td>Total {{guest.noOfPeople}} [ A-{{guest.noOfAdults}}   C-{{guest.noOfChildren}}]</td>
-              <td>{{guest.name}}<span *ngIf="guest.calloutCount!=null"><img [src]=notPresentImg class="pl-2" alt="not present">{{guest.calloutCount}}</span></td>
+              <td><span *ngIf="guest.incompleteParty!=null" class="incomplete">{{guest.name}}</span><span *ngIf="guest.calloutCount!=null"><img [src]=notPresentImg class="pl-2" alt="not present">{{guest.calloutCount}}</span></td>
               <td>{{guest.checkinTime | date }}</td>
               <!-- <td>10 Min.</td>
               <td>
@@ -108,7 +108,7 @@
                 <a click=""><i class="flaticon-rubbish-bin"></i></a>
               </td>
               <td>
-                <a href="" data-toggle="modal" data-target="#smsModal"><i class="flaticon-chat"></i></a>
+                <a (click)="fetchSMSContent(guest);" ><i class="flaticon-chat"></i></a>
               </td>
             </tr>          
           </tbody>
@@ -249,14 +249,14 @@
         <div class="modal-content border-radius border-0">
           <div class="custom-modal-header background-color">
             <span class="modal-title text-white">Send Text</span>
-            <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+            <button type="button" class="close text-white" (click)="removeSelected('SMSMODAL');">&times;</button>
           </div>
           <div class="modal-body">
-            <h4 class="pt-3 pb-3 text-center">Guest 1 (ABC)</h4>
+            <h4 class="pt-3 pb-3 text-center">Guest {{selectedGuest!=null ? selectedGuest.rank :null }} ({{selectedGuest!=null ? selectedGuest.name :null }})</h4>
             <div class="pt-3 sms-tab-container">
               <ul class="nav nav-tabs nav-justified" role="tablist">
                 <li class="nav-item">
-                  <a class="nav-link active" data-toggle="tab" href="#level1">Check-in</a>
+                  <a class="nav-link active"  data-toggle="tab" href="#level1">Check-in</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" data-toggle="tab" href="#level2">Reminder</a>
@@ -266,15 +266,15 @@
                 </li>
               </ul>
               <div class="tab-content">
-                <div id="level1" class="container tab-pane active"><br>
-                  <p>Guest #1: There are 0 parties ahead of you w/ approx. wait-time of 6 min. For LIVE updates: https://tinyurl.com/yc8kfl5m/s/eb2702fb</p>
+                <div *ngFor="let orgTemp of organizationTemplateDTOList;let i = index" id="level{{i+1}}" class="container tab-pane " [ngClass]="{'active': i===0 }"><br>
+                  <p>{{i+1}} {{orgTemp.templateText}}</p>
                 </div>
-                <div id="level2" class="container tab-pane fade"><br>
+               <!--  <div id="level2" class="container tab-pane fade"><br>
                   <p>Guest #2: There are 0 parties ahead of you w/ approx. wait-time of 6 min. For LIVE updates: https://tinyurl.com/yc8kfl5m/s/eb2702fb</p>
                 </div>
                 <div id="level3" class="container tab-pane fade"><br>
                   <p>Guest #3: There are 0 parties ahead of you w/ approx. wait-time of 6 min. For LIVE updates: https://tinyurl.com/yc8kfl5m/s/eb2702fb</p>
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="row py-3">
