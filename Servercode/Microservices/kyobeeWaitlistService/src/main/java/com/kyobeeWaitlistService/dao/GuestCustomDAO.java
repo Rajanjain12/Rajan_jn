@@ -11,7 +11,7 @@ import com.kyobeeWaitlistService.entity.Guest;
 
 public interface GuestCustomDAO {
 	
-	public List<Guest> fetchAllGuestHistoryList(Integer orgId,Integer pageSize,Integer pageNo,String searchText,String clientTimezone,Integer sliderMaxTime,Integer sliderMinTime,String statusOption);
+	public List<Guest> fetchAllGuestHistoryList(Integer orgId,Integer pageSize,Integer startIndex,String searchText,String clientTimezone,Integer sliderMaxTime,Integer sliderMinTime,String statusOption);
 	
 	public AddUpdateGuestDTO addGuest(GuestDTO guestDTO,String seatingPref,String marketingPref);
 	

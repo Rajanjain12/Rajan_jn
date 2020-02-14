@@ -167,10 +167,13 @@ public class GuestServiceImpl implements GuestService {
 	@Override
 	public GuestResponseDTO fetchGuestHistoryList(Integer orgId,Integer pageSize,Integer pageNo,String searchText,String clientTimezone,Integer sliderMaxTime,Integer sliderMinTime,String statusOption) {
 
-		
+		Integer startIndex = 0;
+		if (pageNo != 1) {
+			startIndex = pageSize * pageNo;
+		}
 		List<Guest> guestList;
-
-		guestList = guestCustomDAO.fetchAllGuestHistoryList(orgId,pageSize,pageNo,searchText,clientTimezone,sliderMaxTime,sliderMinTime,statusOption);
+		LoggerUtil.logInfo(clientTimezone);
+		guestList = guestCustomDAO.fetchAllGuestHistoryList(orgId,pageSize,startIndex,searchText,clientTimezone,sliderMaxTime,sliderMinTime,statusOption);
 
 		List<GuestDTO> guestDTOs = new ArrayList<>();
 		GuestResponseDTO guestResponse = new GuestResponseDTO();

@@ -4,13 +4,13 @@
             <div class="col-lg-9">
                 <div class="row pb-2">
                     <div class="col-lg-3 pb-2">
-                        <a class="table-column-btn" href="" data-toggle="modal" id="tableColumnModalBtn" data-target="#tableColumnModal">Show Column<i class="flaticon-funnel font-color float-right"></i></a>
+                        <a class="table-column-btn" href=""  data-toggle="modal" id="tableColumnModalBtn" data-target="#tableColumnModal">Show Column<i class="flaticon-funnel font-color float-right"></i></a>
                     </div>
                     <div class="col-lg-3 pb-2">
-                        <select class="table-column-btn bg-white">
-                            <option>All</option>
-                            <option>Incomplete</option>
-                            <option>Not Present</option>
+                        <select class="table-column-btn bg-white" name="statusSelected" #statusSelected="ngModel" [(ngModel)]="selectedStatus" (change)="optionChange(selectedStatus);">
+                            <option *ngFor="let status of statusOptions">{{status}}</option>
+                           <!--  <option>Incomplete</option>
+                            <option>Not Present</option> -->
                         </select>
                     </div>
                     <div class="col-lg-auto pb-2">

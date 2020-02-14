@@ -34,34 +34,44 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Guest> fetchAllGuestHistoryList(Integer orgId,Integer pageSize,Integer pageNo,String searchText,String clientTimezone,Integer sliderMaxTime,Integer sliderMinTime,String statusOption) {
+	public List<Guest> fetchAllGuestHistoryList(Integer orgId,Integer pageSize,Integer startIndex,String searchText,String clientTimezone,Integer sliderMaxTime,Integer sliderMinTime,String statusOption) {
 		//for fetching data according to page number 
-		
+		Session session=null;
+		List<Guest> guestList=null;
 		SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
-		 
-		
-	
-		
-		int firstPage = (pageNo == 1) ? 0 : (pageSize*(pageNo-1));
+		 session = sessionFactory.openSession();
+		try {
+			//LoggerUtil.logInfo(orgId+" "+pageSize+" "+startIndex+" "+searchText+" "+clientTimezone+" "+sliderMaxTime+" "+sliderMinTime+" "+statusOption);
+		//int firstPage = (pageNo == 1) ? 0 : (pageSize*(pageNo-1));
 		String sliderMinTimeString = sliderMinTime+":00";
 			String sliderMaxTimeString = sliderMaxTime+":01";
-			StringBuilder query=new StringBuilder("FROM Guest g left join fetch g.langmaster WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
-					+ " and g.organizationID=:orgId and ((time(convert_tz(g.checkinTime,'-05:00', :clientTimezone)) between time(:sliderMinValue) and time(:sliderMaxValue)))");
+			StringBuilder query=new StringBuilder("SELECT * FROM GUEST g WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
+					+ " and g.OrganizationID=:orgId and ((time(convert_tz(g.checkinTime,'-05:00', :clientTimezone)) between time(:sliderMinValue) and time(:sliderMaxValue)))");
 			if(statusOption.equals("Not Present")) {
 				query=query.append(" and calloutCount > 0");
 			}
 			if(statusOption.equals("Incomplete")) {
 				query=query.append(" and incompleteParty > 0");
 			}
-			if(searchText != null) {
+			if((searchText != null) && (!searchText.equalsIgnoreCase("null"))) {
 				query=query.append(" and (g.name like :searchText  or g.sms like :searchText)");
 			}
-			query=query.append(" order by g.rank asc");	
-			if(searchText!=null) {
-				return sessionFactory.getCurrentSession().createQuery(query.toString()).setParameter("orgId",orgId).setParameter("sliderMinValue", sliderMinTimeString).setParameter("sliderMaxValue", sliderMaxTimeString).setParameter("clientTimezone", clientTimezone).setParameter("searchText", "%"+searchText+"%").setFirstResult(firstPage).setMaxResults(pageSize).getResultList();	
+			query=query.append(" order by g.rank asc limit :pageSize OFFSET :startIndex");	
+			if((searchText!=null) && (!searchText.equalsIgnoreCase("null"))) {
+				guestList=entityManager.createNativeQuery(query.toString()).setParameter("orgId",orgId).setParameter("sliderMinValue", sliderMinTimeString).setParameter("sliderMaxValue", sliderMaxTimeString).setParameter("clientTimezone", clientTimezone).setParameter("searchText", "%"+searchText+"%").setParameter("pageSize", pageSize).setParameter("startIndex", startIndex).getResultList();
+				//guestList= session.createSQLQuery(query.toString()).setParameter("orgId",orgId).setParameter("sliderMinValue", sliderMinTimeString).setParameter("sliderMaxValue", sliderMaxTimeString).setParameter("clientTimezone", clientTimezone).setParameter("searchText", "%"+searchText+"%").setParameter("pageSize", pageSize).setParameter("startIndex", startIndex).getResultList();	
 			}else {
-				return sessionFactory.getCurrentSession().createQuery(query.toString()).setParameter("orgId",orgId).setParameter("sliderMinValue", sliderMinTimeString).setParameter("sliderMaxValue", sliderMaxTimeString).setParameter("clientTimezone",clientTimezone).setFirstResult(firstPage).setMaxResults(pageSize).getResultList();
+				guestList=entityManager.createNativeQuery(query.toString()).setParameter("orgId",orgId).setParameter("sliderMinValue", sliderMinTimeString).setParameter("sliderMaxValue", sliderMaxTimeString).setParameter("clientTimezone",clientTimezone).setParameter("pageSize",pageSize).setParameter("startIndex", startIndex).getResultList();
+				//guestList= session.createSQLQuery(query.toString()).setParameter("orgId",orgId).setParameter("sliderMinValue", sliderMinTimeString).setParameter("sliderMaxValue", sliderMaxTimeString).setParameter("clientTimezone",clientTimezone).setParameter("pageSize",pageSize).setParameter("startIndex", startIndex).getResultList();
 			}
+		}
+		catch (Exception e) {
+			LoggerUtil.logError("Error in fetch history  " + e.getMessage());
+		} finally {
+			
+			session.close();
+		}
+		return guestList;
 	 }
 
 	

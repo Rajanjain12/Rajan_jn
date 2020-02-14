@@ -25,4 +25,7 @@ export class GuestService {
     return this.apiService.putParams('rest/waitlist/guest/status', params);
   }
 
+  fetchGuestHistoryList(params){
+    return this.apiService.getParam('rest/waitlist/guest/fetchGuestHistory', params);
+  }
 }

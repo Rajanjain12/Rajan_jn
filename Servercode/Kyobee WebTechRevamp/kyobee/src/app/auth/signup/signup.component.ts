@@ -7,7 +7,6 @@ import { SignupDTO } from 'src/app/core/models/signup.model';
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
-  
 })
 export class SignupComponent implements OnInit {
   password;
