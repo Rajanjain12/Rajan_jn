@@ -1,0 +1,112 @@
+<section class="pb-5 fix-wrapper center-items fade-in signinPage" id="login">
+  <section class="container pt-3">
+    <form name="form" class="row guest-detail-update" #f="ngForm" (ngSubmit)="onFormSubmit(f)" novalidate>
+      <div class="col-12 col-md-10 row p-0 mx-auto">
+        <div class="col-12 col-sm font-color my-3 text-center">
+          <h2>Now Serving</h2>
+          <h1>#1</h1>
+        </div>
+
+        <div class="col-12 col-sm-auto p-0 grey my-3 text-center">
+          <h2>(0)</h2>
+          <h6>
+            Parties <br class="d-none d-md-block" />
+            Waiting
+          </h6>
+        </div>
+
+        <div class="col-12 col-sm font-color my-3 text-center">
+          <h2>Est. Wait Time</h2>
+          <h1>01:39</h1>
+        </div>
+      </div>
+      <div class="col-12 col-md-10 row my-3 mx-auto">
+        <div class="col-12 col-md-4">
+          <div class="form-group mt-0">
+            <input type="text" id="name" name="name" #name="ngModel" [ngClass]="{ 'is-invalid': f.submitted && name.invalid }" class="form-control" ngModel required="required" />
+            <label for="input" class="control-label">NAME</label><i class="bar"></i>
+            <div *ngIf="f.submitted && name.invalid" class="invalid-feedback">
+              <small class="text-danger" *ngIf="name.errors?.required">Name is required</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-2">
+          <div class="form-group mt-0">
+            <input type="text" id="adults" name="adults" #adults="ngModel" [ngClass]="{ 'is-invalid': f.submitted && adults.invalid }" class="form-control" ngModel required="required" />
+            <label for="input" class="control-label">ADULTS</label><i class="bar"></i>
+            <div *ngIf="f.submitted && adults.invalid" class="invalid-feedback">
+              <small class="text-danger" *ngIf="adults.errors?.required">Adults is required</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-2">
+          <div class="form-group mt-0">
+            <input type="text" id="children" name="children" #children="ngModel" [ngClass]="{ 'is-invalid': f.submitted && children.invalid }" class="form-control" ngModel required="required" />
+            <label for="input" class="control-label">CHILDREN</label><i class="bar"></i>
+            <div *ngIf="f.submitted && children.invalid" class="invalid-feedback">
+              <small class="text-danger" *ngIf="children.errors?.required">children is required</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <div class="form-group mt-0">
+            <input type="text" id="contactNumber" name="contactNumber" #contactNumber="ngModel" [ngClass]="{ 'is-invalid': f.submitted && contactNumber.invalid }" class="form-control" ngModel required="required" />
+            <label for="input" class="control-label">Contact Number</label><i class="bar"></i>
+            <div *ngIf="f.submitted && contactNumber.invalid" class="invalid-feedback">
+              <small class="text-danger" *ngIf="contactNumber.errors?.required">Contact Number is required</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 row m-0 p-0 my-3">
+          <div class="col-12 col-sm-6 col-md-3 social-icon">
+            <input class="styled-checkbox" id="facebook" type="checkbox" />
+            <label for="facebook">
+              Facebook
+            </label>
+            <i class="background"></i>
+            <i class="flaticon-settings icon"></i>
+          </div>
+          <div class="col-12 col-sm-6 col-md-3 social-icon">
+            <input class="styled-checkbox" id="google" type="checkbox" />
+            <label for="google">
+              Google +
+            </label>
+            <i class="background"></i>
+            <i class="flaticon-settings icon"></i>
+          </div>
+          <div class="col-12 col-sm-6 col-md-3 social-icon">
+            <input class="styled-checkbox" id="instagram" type="checkbox" />
+            <label for="Instagram">
+              Instagram
+            </label>
+            <i class="background"></i>
+            <i class="flaticon-settings icon"></i>
+          </div>
+          <div class="col-12 col-sm-6 col-md-3 social-icon">
+            <input class="styled-checkbox" id="wordOfMouth" type="checkbox" />
+            <label for="wordOfMouthh">
+              Word of Mouth
+            </label>
+            <i class="background"></i>
+            <i class="flaticon-settings icon" for="wordOfMouthh"></i>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="mt-0 mb-4">
+            <input class="styled-checkbox" id="promotion" type="checkbox" />
+            <label for="promotion">Opt-in for special Promotions and loyalty program.</label>
+          </div>
+        </div>
+
+        <div class="col-ld-12 text-center pb-3">
+          <button type="submit" class="btn btn-theme background-color shadow"><span>Add Guest</span></button>
+        </div>
+      </div>
+    </form>
+  </section>
+</section>

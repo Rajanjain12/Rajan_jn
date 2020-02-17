@@ -1,4 +1,4 @@
-@import "variable";
+@import 'variable';
 
 /*
   1. Signin Page
@@ -10,6 +10,7 @@
   7. Recovery Password Page .recoveryPasswordPage
   8. Thank You Page
   9. Setting Page .settingPage
+  10. Guest Detail Update
  */
 
 /* Signin Page */
@@ -48,7 +49,7 @@
     padding: 8px 10px 8px 45px;
     background-repeat: no-repeat;
     background-position: 10px;
-    background-image: url("~/assets/images/search.png");
+    background-image: url('~/assets/images/search.png');
     border-radius: $border-radius;
   }
   .page-item {
@@ -97,7 +98,7 @@
         border-width: 8px;
         border-style: solid;
         border-color: transparent $white-color transparent transparent;*/
-    content: "";
+    content: '';
     position: absolute;
     top: 5%;
     right: -16px;
@@ -126,10 +127,10 @@
     color: red;
     border-radius: $border-radius;
   }
-  [class^="flaticon-user"]:before,
-  [class*=" flaticon-user"]:before,
-  [class^="flaticon-user"]:after,
-  [class*=" flaticon-user"]:after {
+  [class^='flaticon-user']:before,
+  [class*=' flaticon-user']:before,
+  [class^='flaticon-user']:after,
+  [class*=' flaticon-user']:after {
     font-family: Flaticon;
     font-size: 10px;
     font-style: normal;
@@ -206,7 +207,7 @@
   }
 
   %pseudo-block {
-    content: "";
+    content: '';
     z-index: -1;
     border-left: 3px solid #e14b28;
     border-right: 3px solid transparent;
@@ -292,7 +293,7 @@
   padding: 10% 0;
 }
 .thank-you-text {
-  font-family: "Pacifico", cursive;
+  font-family: 'Pacifico', cursive;
   font-size: 60px;
 }
 /* Thank You Page Ends*/
@@ -336,3 +337,20 @@
   }
 }
 /* Setting Page Ends*/
+
+/* Guest Detail Update Page */
+.guest-detail-update {
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+  h2 {
+    font-size: 2rem;
+    font-weight: 600;
+  }
+  h6 {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+}
+/* Guest Detail Update Page Ends */

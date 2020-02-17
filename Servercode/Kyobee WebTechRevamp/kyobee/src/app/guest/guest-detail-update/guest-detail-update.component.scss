@@ -1,0 +1,47 @@
+.social-icon {
+  padding-top: 37px;
+  text-align: center;
+  label {
+    background-color: gray; /* sdf */
+    color: white; /* sdf */
+    width: 90%;
+    margin: 0 auto;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 1.25rem;
+    p {
+      z-index: 2;
+    }
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+  i.background {
+    position: absolute;
+    background-color: gray; /* sdf */
+    color: white; /* sdf */
+    display: grid;
+    top: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: -1;
+  }
+  i.icon {
+    position: absolute;
+    background-color: transparent; /* sdf */
+    color: white; /* sdf */
+    display: grid;
+    align-items: center;
+    top: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+}
