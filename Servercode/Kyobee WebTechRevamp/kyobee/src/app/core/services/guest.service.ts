@@ -20,6 +20,14 @@ export class GuestService {
   addGuest(serviceResult: object){
     return this.apiService.post('rest/waitlist/guest/', serviceResult);
   }
+
+  fetchGuest(id){
+    return this.apiService.get('rest/waitlist/guest/'+id);
+  }
+
+  updateGuest(body){
+    return this.apiService.put('rest/waitlist/guest/',body);
+  }
   
   updateGuestStatus(params){
     return this.apiService.putParams('rest/waitlist/guest/status', params);

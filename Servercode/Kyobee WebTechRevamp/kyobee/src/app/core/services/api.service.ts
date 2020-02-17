@@ -22,18 +22,20 @@ export class ApiService {
       {headers}
     ).pipe(catchError(this.formatErrors));
   }
-  get(path: string, body): Observable<any> {
-
-    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });  
-    headers.set('Accept','application/vnd.kyobee.v1+json');
-    var requestOptions = new requestOptions({                    
-      headers: headers,
-      body: body
-  }); 
- 
-    return this.http.get(
-      `${environment.serverUrl}${path}`, requestOptions
+  put(path: string, body): Observable<any> {
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });   
+    return this.http.put(
+      `${environment.serverUrl}${path}`,
+      JSON.stringify(body),
+      {headers}
     ).pipe(catchError(this.formatErrors));
+  }
+  get(path: string): Observable<any> {
+
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });   
+    headers.set('Accept','application/vnd.kyobee.v1+json');
+    return this.http.get(`${environment.serverUrl}${path}`, { headers })
+      .pipe(catchError(this.formatErrors));
   }
   getParam(path: string, params: HttpParams = new HttpParams()): Observable<any> {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });   
