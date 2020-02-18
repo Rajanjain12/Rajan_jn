@@ -7,6 +7,18 @@ public class LanguageMasterDTO {
 	 private String langIsoCode;
 	 private String keyName;
 	 private String value;
+	 
+	 public LanguageMasterDTO() {
+		 	
+	 }
+	 public LanguageMasterDTO(Integer langId,String langName,String langIsoCode,String keyName,String value) {
+		 this.langId=langId;
+		 this.langName=langName;
+		 this.langIsoCode=langIsoCode;
+		 this.keyName=keyName;
+		 this.value=value;
+		 
+	 }
 	public Integer getLangId() {
 		return langId;
 	}

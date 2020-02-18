@@ -3,8 +3,9 @@ import { NgForm } from '@angular/forms';
 import { GuestDTO } from 'src/app/core/models/guest.model';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { HttpParams } from '@angular/common/http';
 import { GuestService } from 'src/app/core/services/guest.service';
+import { Preference } from 'src/app/core/models/preference.model';
 
 @Component({
   selector: 'app-guest-detail-update',
@@ -15,24 +16,58 @@ export class GuestDetailUpdateComponent implements OnInit {
   guest: GuestDTO = new GuestDTO();
   id$: Observable<string>;
   id: string;
+  listSeatingPref: Array<Preference>;
+  listMarketingPref: Array<Preference>;
+  listLanguageKeyMap: Array<Map<String, String>>;
 
   constructor(private route: ActivatedRoute, private guestService: GuestService) {}
 
   ngOnInit() {
-    this.id$ = this.route.paramMap.pipe(map(paramMap => paramMap.get('id')));
+    this.fetchGuest();
+  }
+
+  fetchGuest() {
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id !== null) {
       this.guestService.fetchGuestDetail(this.id).subscribe(res => {
         if (res.success == 1) {
           this.guest = res.serviceResult;
+          this.fetchGuestMetric();
+          this.fetchOrgPrefandKeyMap();
           console.log(res.serviceResult);
         } else {
-          this.guest = new GuestDTO();
-          this.guest.uuid = null;
-          console.log('id is absent');
+          alert(res.message);
         }
       });
+    } else {
+      alert('invalid url');
     }
+  }
+
+  fetchOrgPrefandKeyMap() {
+    var params = new HttpParams().set('orgId', this.guest.organizationID.toString());
+    this.guestService.fetchOrgPrefandKeyMap(params).subscribe(res => {
+      if (res.success == 1) {
+        this.listSeatingPref = res.serviceResult.seatingPreference;
+        this.listMarketingPref = res.serviceResult.marketingPreference;
+        console.log(JSON.stringify(this.listSeatingPref) + ' --- ' + JSON.stringify(this.listMarketingPref));
+      } else {
+        alert(res.message);
+      }
+    });
+  }
+
+  fetchGuestMetric() {
+    var params = new HttpParams()
+      .set('orgId', this.guest.organizationID.toString())
+      .set('guestId', this.guest.guestID.toString());
+    this.guestService.fetchGuestMetrics(params).subscribe(res => {
+      if (res.success == 1) {
+        console.log(res.serviceResult);
+      } else {
+        alert(res.message);
+      }
+    });
   }
 
   onFormSubmit(form: NgForm) {

@@ -24,7 +24,7 @@ public interface LanguageKeyMappingDAO extends CrudRepository<Languagekeymapping
 	@Query("update Languagekeymapping set updateFlag = :updateFlag where updateFlag = 1")
 	void resetUpdateFlagCount(@Param("updateFlag") Integer updateFlag);
 	
-	@Query(value="SELECT new com.kyobeeUserService.dto.LanguageMasterDTO(l.langID,l.langName,l.langIsoCode,lm.keyName,lm.value) FROM Organization o " +
+	@Query(value="SELECT new com.kyobeeWaitlistService.dto.LanguageMasterDTO(l.langID,l.langName,l.langIsoCode,lm.keyName,lm.value) FROM Organization o " +
 			"join LangMaster l on l.langID=o.defaultLangId " +
 			"join Languagekeymapping lm on l.langIsoCode=lm.langIsoCode " +
 			"where o.organizationID=:orgId order by l.langID")
