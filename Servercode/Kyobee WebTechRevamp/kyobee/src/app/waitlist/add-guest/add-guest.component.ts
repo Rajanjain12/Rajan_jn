@@ -129,7 +129,7 @@ export class AddGuestComponent implements OnInit {
     this.guest.incompleteParty = 0;
     this.guest.seatingPreference = this.seatingPref;
     this.guest.marketingPreference = this.marketingPref;
-    this.guest.langguagePref = {
+    this.guest.languagePref = {
       langId: 1,
       keyName: null,
       value: null,
