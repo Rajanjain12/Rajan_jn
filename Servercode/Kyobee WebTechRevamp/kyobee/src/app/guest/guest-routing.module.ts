@@ -4,7 +4,7 @@ import { GuestDetailUpdateComponent } from './guest-detail-update/guest-detail-u
 
 const routes: Routes = [
   {
-    path: 'guest-detail/:id',
+    path: 'guest-detail',
     component: GuestDetailUpdateComponent,
     pathMatch: 'full'
   }
