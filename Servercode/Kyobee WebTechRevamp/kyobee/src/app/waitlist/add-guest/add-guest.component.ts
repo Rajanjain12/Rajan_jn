@@ -80,15 +80,12 @@ export class AddGuestComponent implements OnInit {
           return el.prefValueId === obj.prefValueId;
         });
       }
-
       if (present) {
         obj.selected = true;
       } else {
         obj.selected = false;
       }
     });
-    console.log('seatingpref==' + JSON.stringify(this.user.seatingpref));
-    console.log('marketingPref==' + JSON.stringify(this.user.marketingPref));
   }
 
   resultSeating() {
@@ -136,7 +133,7 @@ export class AddGuestComponent implements OnInit {
       langIsoCode: 'en',
       langName: 'English'
     };
-    //this.guest.optin=0;
+    // this.guest.optin=0;
     console.log(' updatee guest ' + JSON.stringify(this.guest));
   }
 

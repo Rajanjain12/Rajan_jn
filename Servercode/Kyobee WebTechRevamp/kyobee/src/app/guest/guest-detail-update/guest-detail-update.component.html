@@ -23,7 +23,7 @@
       <div class="col-12 col-md-10 row my-3 mx-auto">
         <div class="col-12 col-md-4">
           <div class="form-group mt-0">
-            <input type="text" id="name" name="name" #name="ngModel" [ngClass]="{ 'is-invalid': f.submitted && name.invalid }" class="form-control" ngModel required="required" />
+            <input type="text" id="name" name="name" #name="ngModel" [ngClass]="{ 'is-invalid': f.submitted && name.invalid }" class="form-control" [(ngModel)]="guest.name" maxlength="50" required="required" />
             <label for="input" class="control-label">NAME</label><i class="bar"></i>
             <div *ngIf="f.submitted && name.invalid" class="invalid-feedback">
               <small class="text-danger" *ngIf="name.errors?.required">Name is required</small>
@@ -33,7 +33,7 @@
 
         <div class="col-6 col-md-2">
           <div class="form-group mt-0">
-            <input type="text" id="adults" name="adults" #adults="ngModel" [ngClass]="{ 'is-invalid': f.submitted && adults.invalid }" class="form-control" ngModel required="required" />
+            <input type="text" id="adults" name="adults" #adults="ngModel" [ngClass]="{ 'is-invalid': f.submitted && adults.invalid }" class="form-control" [(ngModel)]="guest.noOfAdults" required="required" />
             <label for="input" class="control-label">ADULTS</label><i class="bar"></i>
             <div *ngIf="f.submitted && adults.invalid" class="invalid-feedback">
               <small class="text-danger" *ngIf="adults.errors?.required">Adults is required</small>
@@ -43,7 +43,7 @@
 
         <div class="col-6 col-md-2">
           <div class="form-group mt-0">
-            <input type="text" id="children" name="children" #children="ngModel" [ngClass]="{ 'is-invalid': f.submitted && children.invalid }" class="form-control" ngModel required="required" />
+            <input type="text" id="children" name="children" #children="ngModel" [ngClass]="{ 'is-invalid': f.submitted && children.invalid }" class="form-control" [(ngModel)]="guest.noOfChildren" required="required" />
             <label for="input" class="control-label">CHILDREN</label><i class="bar"></i>
             <div *ngIf="f.submitted && children.invalid" class="invalid-feedback">
               <small class="text-danger" *ngIf="children.errors?.required">children is required</small>
@@ -53,10 +53,21 @@
 
         <div class="col-12 col-md-4">
           <div class="form-group mt-0">
-            <input type="text" id="contactNumber" name="contactNumber" #contactNumber="ngModel" [ngClass]="{ 'is-invalid': f.submitted && contactNumber.invalid }" class="form-control" ngModel required="required" />
+            <input
+              type="text"
+              id="contactNumber"
+              name="contactNumber"
+              #contactNumber="ngModel"
+              pattern="^(\+\d{2,4})?\s?(\d{10})$"
+              [ngClass]="{ 'is-invalid': f.submitted && contactNumber.invalid }"
+              class="form-control"
+              [(ngModel)]="guest.sms"
+              required="required"
+            />
             <label for="input" class="control-label">Contact Number</label><i class="bar"></i>
             <div *ngIf="f.submitted && contactNumber.invalid" class="invalid-feedback">
               <small class="text-danger" *ngIf="contactNumber.errors?.required">Contact Number is required</small>
+              <small class="text-danger" *ngIf="contactNumber.errors?.pattern">Contact Number should be in proper form</small>
             </div>
           </div>
         </div>

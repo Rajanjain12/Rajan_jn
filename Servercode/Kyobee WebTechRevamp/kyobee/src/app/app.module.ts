@@ -11,31 +11,13 @@ import { SharedModule } from './shared/shared.module';
 import { LoaderComponent } from './shared/loader/loader.component';
 import { WaitlistModule } from './waitlist/waitlist.module';
 import { PostLoginHeaderComponent } from './shared/layout/post-login-header/post-login-header.component';
-
-
-
-
+import { GuestModule } from './guest/guest.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    FooterComponent,
-    HeaderComponent,
-    LoaderComponent,
-    PostLoginHeaderComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    SharedModule,
-    AuthModule,
-    CoreModule,
-    WaitlistModule
-  ],
-  exports:[
-
-  ],
+  declarations: [AppComponent, FooterComponent, HeaderComponent, LoaderComponent, PostLoginHeaderComponent],
+  imports: [BrowserModule, AppRoutingModule, SharedModule, AuthModule, CoreModule, WaitlistModule, GuestModule],
+  exports: [],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

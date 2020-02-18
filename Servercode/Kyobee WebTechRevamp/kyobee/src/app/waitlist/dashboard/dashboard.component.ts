@@ -272,7 +272,7 @@ export class DashboardComponent implements OnInit {
     this.smsContentDTO.guestName = this.selectedGuest.name;
     this.smsContentDTO.guestRank = this.selectedGuest.rank;
     this.smsContentDTO.guestUuid = this.selectedGuest.uuid;
-    this.smsContentDTO.langId = this.selectedGuest.langguagePref.langId;
+    this.smsContentDTO.langId = this.selectedGuest.languagePref.langId;
     this.smsContentDTO.tempLevel = 1;
     alert(JSON.stringify(this.smsContentDTO));
     this.organizationService.fetchSmsContent(this.smsContentDTO).subscribe((res: any) => {
