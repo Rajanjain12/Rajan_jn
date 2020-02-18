@@ -6,7 +6,10 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
 import { GuestService } from 'src/app/core/services/guest.service';
 import { Preference } from 'src/app/core/models/preference.model';
+import { PubNubAngular } from 'pubnub-angular2';
+import { environment } from '@env/environment';
 
+declare var $: any;
 @Component({
   selector: 'app-guest-detail-update',
   templateUrl: './guest-detail-update.component.html',
@@ -20,9 +23,11 @@ export class GuestDetailUpdateComponent implements OnInit {
   errorMessage: string;
   listSeatingPref: Array<Preference>;
   listMarketingPref: Array<Preference>;
-  listLanguageKeyMap: Array<Map<string, string>>;
+  languageKeyMap: Map<String, String>;
+  userMetrics: Map<string, string>;
+  orgId = 0;
 
-  constructor(private route: ActivatedRoute, private guestService: GuestService) {}
+  constructor(private route: ActivatedRoute, private guestService: GuestService, private pubnub: PubNubAngular) {}
 
   ngOnInit() {
     this.fetchGuest();
@@ -34,7 +39,7 @@ export class GuestDetailUpdateComponent implements OnInit {
       this.guestService.fetchGuestDetail(this.id).subscribe(res => {
         if (res.success == 1) {
           this.guest = res.serviceResult;
-
+          this.orgId = this.guest.organizationID;
           this.fetchGuestMetric();
           this.fetchOrgPrefandKeyMap();
           console.log(res.serviceResult);
@@ -113,8 +118,13 @@ export class GuestDetailUpdateComponent implements OnInit {
       if (res.success == 1) {
         this.listSeatingPref = res.serviceResult.seatingPreference;
         this.listMarketingPref = res.serviceResult.marketingPreference;
+        this.languageKeyMap = res.serviceResult.languageKeyMappingDTO.languageMap;
         console.log(
-          'before ' + JSON.stringify(this.listSeatingPref) + ' --- ' + JSON.stringify(this.listMarketingPref)
+          JSON.stringify(this.listSeatingPref) +
+            ' --- ' +
+            JSON.stringify(this.listMarketingPref) +
+            ' ---- ' +
+            JSON.stringify(this.languageKeyMap)
         );
         this.seatingOrMarketingPref();
       } else {
@@ -129,7 +139,8 @@ export class GuestDetailUpdateComponent implements OnInit {
       .set('guestId', this.guest.guestID.toString());
     this.guestService.fetchGuestMetrics(params).subscribe(res => {
       if (res.success == 1) {
-        console.log(res.serviceResult);
+        this.userMetrics = res.serviceResult;
+        console.log('user Metrics ' + JSON.stringify(this.userMetrics));
       } else {
         alert(res.message);
       }
@@ -157,6 +168,71 @@ export class GuestDetailUpdateComponent implements OnInit {
         console.log(res);
       } else {
         alert(res.serviceResult);
+      }
+    });
+  }
+
+  connectPubnub() {
+    var channel = environment.pubnubIndividualChannel + '_' + this.orgId;
+    this.pubnub.init({
+      publishKey: environment.pubnubPublishKey,
+      subscribeKey: environment.pubnubSubscribeKey
+    });
+    this.pubnub.addListener({
+      message: function(msg) {
+        console.log('pusher ' + JSON.stringify(msg));
+        if (msg.message.op == 'NOTIFY_USER') {
+          if (msg.message.orgId == this.orgId) {
+            this.fetchGuestMetric();
+          }
+        }
+        if (
+          msg.message.op == 'UPDATE' ||
+          msg.message.op == 'ADD' ||
+          msg.message.op == 'resetOrganizationPusher' ||
+          msg.message.op == 'DELETE' ||
+          msg.message.op == 'INCOMPLETE' ||
+          msg.message.op == 'NOTPRESENT' ||
+          msg.message.op == 'SEATED'
+        ) {
+          if (msg.message.orgId == this.orgId) {
+            this.fetchGuest();
+          }
+        }
+        if (msg.message.op == 'REFRESH_LANGUAGE_PUSHER') {
+          this.fetchOrgPrefandKeyMap();
+        }
+      }
+    });
+    this.pubnub.subscribe({
+      channels: [channel]
+    });
+  }
+
+  convertMinstoMMHH(min) {
+    var h = Math.floor(min / 60);
+    var hour = h.toString().length == 1 ? 0 + h.toString() : h;
+    var m = min % 60;
+    var minute = m.toString().length == 1 ? 0 + m.toString() : m;
+    return hour + ':' + minute;
+  }
+  removeGuest() {
+    var params = new HttpParams()
+      .set('guestId', this.guest.guestID.toString())
+      .set('orgId', this.orgId.toString())
+      .set('status', 'DELETE');
+
+    this.guestService.updateGuestStatus(params).subscribe((res: any) => {
+      if (res.success == 1) {
+        $('#deleteModal').modal('hide');
+
+        this.guest = new GuestDTO();
+      } else {
+        if (status == 'DELETE') {
+          $('#deleteModal').modal('hide');
+        }
+        alert(res.message);
+        this.guest = new GuestDTO();
       }
     });
   }

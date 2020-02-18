@@ -177,7 +177,7 @@ export class HistoryComponent implements OnInit {
         if (
           msg.message.op == 'UPDATE' ||
           msg.message.op == 'ADD' ||
-          msg.message.OP == 'resetOrganizationPusher' ||
+          msg.message.op == 'resetOrganizationPusher' ||
           msg.message.op == 'DELETE' ||
           msg.message.op == 'INCOMPLETE' ||
           msg.message.op == 'NOTPRESENT' ||

@@ -62,7 +62,7 @@ public class WaitListServiceImpl implements WaitListService {
 		LoggerUtil.logInfo("Update Flag count:" + flagCount);
 		//sending pusher if there is any language key map updated
 		if (flagCount > 0) {
-			rootMap.put("OP", "REFRESH_LANGUAGE_PUSHER");
+			rootMap.put("op", "REFRESH_LANGUAGE_PUSHER");
 			NotificationUtil.sendMessage(rootMap, WaitListServiceConstants.GLOBAL_CHANNEL_ENV);
 			languageKeyMappingDAO.resetUpdateFlagCount(WaitListServiceConstants.MARK_AS_LANGUAGE_RESET);
 		}
