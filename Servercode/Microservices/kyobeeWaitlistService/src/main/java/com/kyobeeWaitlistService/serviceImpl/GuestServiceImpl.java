@@ -121,7 +121,7 @@ public class GuestServiceImpl implements GuestService {
 			languageMasterDTO.setLangId(guest.getLangmaster().getLangID());
 			languageMasterDTO.setLangIsoCode(guest.getLangmaster().getLangIsoCode());
 			languageMasterDTO.setLangName(guest.getLangmaster().getLangName());
-			guestDTO.setLangguagePref(languageMasterDTO);
+			guestDTO.setLanguagePref(languageMasterDTO);
 
 			List<SeatingMarketingPrefDTO> seatingPrefList = new ArrayList<>();
 			List<SeatingMarketingPrefDTO> marketingPrefList = new ArrayList<>();
@@ -187,7 +187,7 @@ public class GuestServiceImpl implements GuestService {
 			languageMasterDTO.setLangId(guest.getLangmaster().getLangID());
 			languageMasterDTO.setLangIsoCode(guest.getLangmaster().getLangIsoCode());
 			languageMasterDTO.setLangName(guest.getLangmaster().getLangName());
-			guestDTO.setLangguagePref(languageMasterDTO);
+			guestDTO.setLanguagePref(languageMasterDTO);
 
 			List<SeatingMarketingPrefDTO> seatingPrefList = new ArrayList<>();
 			List<SeatingMarketingPrefDTO> marketingPrefList = new ArrayList<>();
@@ -240,7 +240,7 @@ public class GuestServiceImpl implements GuestService {
 		guestDTO.setUuid(guestUUID);
 		AddUpdateGuestDTO addUpdateGuestDTO = guestCustomDAO.addGuest(guestDTO, seatingPref, marketingPref);
 		addUpdateGuestDTO.setGuestUUID(guestUUID);
-		addUpdateGuestDTO.setLanguagePref(guestDTO.getLangguagePref());
+		addUpdateGuestDTO.setLanguagePref(guestDTO.getLanguagePref());
 		addUpdateGuestDTO.setOrgId(guestDTO.getOrganizationID());
 		addUpdateGuestDTO.setOp("ADD");
 
@@ -267,7 +267,7 @@ public class GuestServiceImpl implements GuestService {
 			guestMarketingPref.add(guestMarketingPreferences);
 		}
 		guestMarketingPreferencesDAO.saveAll(guestMarketingPref);
-		NotificationUtil.sendMessage(addUpdateGuestDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV);
+		NotificationUtil.sendMessage(addUpdateGuestDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV+"_"+guestDTO.getOrganizationID());
 		return addUpdateGuestDTO;
 	}
 
@@ -291,7 +291,7 @@ public class GuestServiceImpl implements GuestService {
 		marketingPref = convertToString(guestDTO.getMarketingPreference());
 		
 		AddUpdateGuestDTO addUpdateGuestDTO = guestCustomDAO.updateGuestDetails(guestDTO, seatingPref, marketingPref);
-		addUpdateGuestDTO.setLanguagePref(guestDTO.getLangguagePref());
+		addUpdateGuestDTO.setLanguagePref(guestDTO.getLanguagePref());
 		addUpdateGuestDTO.setOrgId(guestDTO.getOrganizationID());
 		addUpdateGuestDTO.setOp(WaitListServiceConstants.UPDATE_STATUS);
 		tinyURL = CommonUtil.buildURL(addUpdateGuestDTO.getClientBase(), guestDTO.getUuid());
@@ -319,7 +319,7 @@ public class GuestServiceImpl implements GuestService {
 			guestMarketingPref.add(guestMarketingPreferences);
 		}
 		guestMarketingPreferencesDAO.saveAll(guestMarketingPref);
-		NotificationUtil.sendMessage(addUpdateGuestDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV);
+		NotificationUtil.sendMessage(addUpdateGuestDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV+"_"+guestDTO.getOrganizationID());
 		return addUpdateGuestDTO;
 	}
 
@@ -332,7 +332,7 @@ public class GuestServiceImpl implements GuestService {
 		pusherDTO.setOrgId(orgId);
 		pusherDTO.setOp(status);
 		pusherDTO.setWaitlistMetrics(waitlistMetrics);
-		NotificationUtil.sendMessage(pusherDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV);
+		NotificationUtil.sendMessage(pusherDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV+"_"+orgId);
 		
 		/*
 		 * StatusUpdateResponseDTO statusUpdateResponseDTO=new StatusUpdateResponseDTO();
@@ -363,7 +363,7 @@ public class GuestServiceImpl implements GuestService {
 		languageMasterDTO.setLangId(guest.getLangmaster().getLangID());
 		languageMasterDTO.setLangIsoCode(guest.getLangmaster().getLangIsoCode());
 		languageMasterDTO.setLangName(guest.getLangmaster().getLangName());
-		guestDTO.setLangguagePref(languageMasterDTO);
+		guestDTO.setLanguagePref(languageMasterDTO);
 
 		List<SeatingMarketingPrefDTO> seatingPrefList = new ArrayList<>();
 		List<SeatingMarketingPrefDTO> marketingPrefList = new ArrayList<>();
@@ -411,7 +411,7 @@ public class GuestServiceImpl implements GuestService {
 		// for adding language
 		LanguageMasterDTO languageMasterDTO = new LanguageMasterDTO();
 		languageMasterDTO.setLangId(guest.get(0).getLanguagePrefID());
-		guestDTO.setLangguagePref(languageMasterDTO);
+		guestDTO.setLanguagePref(languageMasterDTO);
 
 		List<SeatingMarketingPrefDTO> seatingPrefList = new ArrayList<>();
 		List<SeatingMarketingPrefDTO> marketingPrefList = new ArrayList<>();

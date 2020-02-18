@@ -1,7 +1,5 @@
-
 <main id="page-content-wrapper fade-in" role="main">
   <section class="container pt-lg-4 pt-md-4 pt-sm-5 pt-5 fade-in" id="dashboardPage">
-
     <div class="alert alert-danger mt-2 row-eq-height" style="display: none;" role="alert">
       <span class="m-auto float-left">Notification about renewing plan. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</span>
       <button href="#" data-dismiss="alert"><i class="flaticon-close font-color"></i></button>
@@ -19,10 +17,10 @@
           </div>
           <div class="col-lg-auto pb-2">
             <span class="table-column-btn">
-              <span class="col-lg-4 col-md-4 col-sm-6 sm-block p-0 my-2 mr-3">Party Wait Time 
-                <select class="font-color ml-2" name="perPartyTime"  (change)="saveOrgMetrics();" #perPartyTime="ngModel" [(ngModel)]="waitTime"  > 
-                  <option *ngFor="let waitOption of waitTimeOption"
-                  value="{{waitOption}}"  >{{waitOption}} Min.</option>
+              <span class="col-lg-4 col-md-4 col-sm-6 sm-block p-0 my-2 mr-3"
+                >Party Wait Time
+                <select class="font-color ml-2" name="perPartyTime" (change)="saveOrgMetrics()" #perPartyTime="ngModel" [(ngModel)]="waitTime">
+                  <option *ngFor="let waitOption of waitTimeOption" value="{{ waitOption }}">{{ waitOption }} Min.</option>
                 </select>
               </span>
               <!-- <span class="col-lg-4 col-md-4 col-sm-6">Notify First
@@ -32,19 +30,25 @@
                   <option>3</option>
                 </select>
               </span> -->
-              <span class="col-lg-4 col-md-4 col-sm-6 sm-block p-0 my-2"> Total Wait Time
-                <span class="text-white background-color py-1 px-4 rounded ml-2">{{organizationMetrics!=null ? convertMinstoMMHH(organizationMetrics.orgTotalWaitTime) :null}}</span>
+              <span class="col-lg-4 col-md-4 col-sm-6 sm-block p-0 my-2">
+                Total Wait Time
+                <span class="text-white background-color py-1 px-4 rounded ml-2">{{ organizationMetrics != null ? convertMinstoMMHH(organizationMetrics.orgTotalWaitTime) : null }}</span>
               </span>
             </span>
-          </div><!-- col -->
-        </div><!-- row -->
-      </div><!-- col -->
+          </div>
+          <!-- col -->
+        </div>
+        <!-- row -->
+      </div>
+      <!-- col -->
       <div class="col-lg-3 text-right pb-2">
         <form #f="ngForm" (ngSubmit)="onSubmit(f.invalid)">
-        <input class="form-control search" type="text" name="searchData" #searchData="ngModel" [(ngModel)]="searchText" placeholder="Search" required>
-      </form>
-      </div><!-- col -->
-    </div><!-- row -->
+          <input class="form-control search" type="text" name="searchData" #searchData="ngModel" [(ngModel)]="searchText" placeholder="Search" required />
+        </form>
+      </div>
+      <!-- col -->
+    </div>
+    <!-- row -->
     <div class="d-none">
       <div class="table-responsive">
         <table class="table">
@@ -63,63 +67,81 @@
             </tr>
           </thead>
         </table>
-      </div><!-- table-responsive -->
+      </div>
+      <!-- table-responsive -->
       <div class="col-lg-12 text-center">
-        <img class="no-data-img" src="assets/images/dashboard-illu.png" alt="image">
-      </div><!-- dashboard -->
-    </div><!-- display none -->
+        <img class="no-data-img" src="assets/images/dashboard-illu.png" alt="image" />
+      </div>
+      <!-- dashboard -->
+    </div>
+    <!-- display none -->
     <div>
       <div class="table-responsive pb-2">
         <table class="table table-striped table-border text-center">
           <thead class="background-color text-white">
             <tr>
-              <th class="font-weight-semibold">Action</th>
-              <!-- <th class="font-weight-semibold">Party Rank</th>
-              <th class="font-weight-semibold">PartyType</th> -->
-              <th class="font-weight-semibold">No. of Party</th>
-              <th class="font-weight-semibold">Name</th>
-              <th class="font-weight-semibold">Check In time</th>
-              <!-- <th class="font-weight-semibold">Quote Time</th>
-              <th class="font-weight-semibold">Note</th> -->
-              <th class="font-weight-semibold">Delete</th>
-              <th class="font-weight-semibold">Send Text</th>
+              <th *ngIf="toggleColumnArr.action == true" class="font-weight-semibold">Action</th>
+              <th *ngIf="toggleColumnArr.rank == true" class="font-weight-semibold">Party Rank</th>
+              <!--  <th class="font-weight-semibold">PartyType</th> -->
+              <th *ngIf="toggleColumnArr.noOfParty == true" class="font-weight-semibold">No. of Party</th>
+              <th *ngIf="toggleColumnArr.name == true" class="font-weight-semibold">Name</th>
+              <th *ngIf="toggleColumnArr.checkInTime == true" class="font-weight-semibold">Check In time</th>
+              <!-- <th class="font-weight-semibold">Quote Time</th> -->
+              <th *ngIf="toggleColumnArr.languagePref == true" class="font-weight-semibold">Language Pref.</th>
+              <th *ngIf="toggleColumnArr.optIn == true" class="font-weight-semibold">Opt-In</th>
+              <th *ngIf="toggleColumnArr.note == true" class="font-weight-semibold">Note</th>
+              <th *ngIf="toggleColumnArr.deleteSym == true" class="font-weight-semibold">Delete</th>
+              <th *ngIf="toggleColumnArr.sendText == true" class="font-weight-semibold">Send Text</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let guest of guestDTOList">
-              <td>
-                <a  (click)="showSeatModal(guest);"><i *ngIf="guest.calloutCount==null && guest.incompleteParty==null" class="flaticon-black-male-user-symbol font-color"></i> <i *ngIf="!(guest.calloutCount==null && guest.incompleteParty==null)" class="flaticon-black-male-user-symbol grey"></i></a>
+              <td *ngIf="toggleColumnArr.action == true">
+                <a (click)="showSeatModal(guest)"
+                  ><i *ngIf="guest.calloutCount == null && guest.incompleteParty == null" class="flaticon-black-male-user-symbol font-color"></i>
+                  <i *ngIf="!(guest.calloutCount == null && guest.incompleteParty == null)" class="flaticon-black-male-user-symbol grey"></i
+                ></a>
               </td>
-              <!-- <td>1</td>
-              <td>Small</td> data-toggle="modal" data-target="#seatModal" -->
-              <td>Total {{guest.noOfPeople}} [ A-{{guest.noOfAdults}}   C-{{guest.noOfChildren}}]</td>
-              <td><span *ngIf="guest.incompleteParty!=null" class="incomplete">{{guest.name}}</span><span *ngIf="guest.calloutCount!=null"><img [src]=notPresentImg class="pl-2" alt="not present">{{guest.calloutCount}}</span></td>
-              <td>{{guest.checkinTime | date }}</td>
-              <!-- <td>10 Min.</td>
-              <td>
-                <span class="info-icon custom-tooltip">
+              <td *ngIf="toggleColumnArr.rank == true">{{ guest.rank }}</td>
+              <!-- <td>Small</td> data-toggle="modal" data-target="#seatModal" -->
+              <td *ngIf="toggleColumnArr.noOfParty == true">Total {{ guest.noOfPeople }} [ A-{{ guest.noOfAdults }} C-{{ guest.noOfChildren }}]</td>
+              <td *ngIf="toggleColumnArr.name == true">
+                <a [routerLink]="['/waitlist/addguest', guest.guestID]"
+                  ><span *ngIf="guest.incompleteParty != null" class="incomplete">{{ guest.name }}</span
+                  ><span *ngIf="guest.incompleteParty == null">{{ guest.name }}</span></a
+                >
+                <span *ngIf="guest.calloutCount != null"><img [src]="notPresentImg" class="pl-2" alt="not present" />{{ guest.calloutCount }}</span>
+              </td>
+              <td *ngIf="toggleColumnArr.checkInTime == true">{{ guest.checkinTime | date }}</td>
+              <!-- <td>10 Min.</td> -->
+              <td *ngIf="toggleColumnArr.languagePref == true">{{ guest.languagePref.langName }}</td>
+              <td *ngIf="toggleColumnArr.optIn == true"><img ng-show="guest.optin == 1" [src]="roundarrow" class="roundarrow ng-hide" /></td>
+              <td *ngIf="toggleColumnArr.note == true">
+                <span *ngIf="guest.note != ''" class="info-icon custom-tooltip">
                   <i class="flaticon-file"></i>
                   <span class="tooltiptext">
-                    <p class="font-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                    <p class="font-12">{{ guest.note }}</p>
                   </span>
                 </span>
-              </td> -->
-              <td>
+              </td>
+              <td *ngIf="toggleColumnArr.deleteSym == true">
                 <a click=""><i class="flaticon-rubbish-bin"></i></a>
               </td>
-              <td>
-                <a (click)="fetchSMSContent(guest);" ><i class="flaticon-chat"></i></a>
+              <td *ngIf="toggleColumnArr.sendText == true">
+                <a (click)="fetchSMSContent(guest)"><i class="flaticon-chat"></i></a>
               </td>
-            </tr>          
+            </tr>
           </tbody>
         </table>
       </div>
       <div class="float-right pb-2">
         <ul class="pagination">
           <li class="page-item disabled"><a class="page-link" href="#"></a></li>
-          <li *ngIf="pageNo>1" class="page-item"><a class="page-link" (click)="fetchPrevGuest();">Next</a></li>
-          <li class="page-item"><a class="page-link active-pagination" (click)="fetchGuest();">{{this.pageNo}}</a></li>
-          <li *ngIf="guestDTOList!=null ? guestDTOList.length > pageSize : null" class="page-item"><a class="page-link" (click)="fetchNextGuest();">Next</a></li>
+          <li *ngIf="pageNo > 1" class="page-item"><a class="page-link" (click)="fetchPrevGuest()">Next</a></li>
+          <li class="page-item">
+            <a class="page-link active-pagination" (click)="fetchGuest()">{{ this.pageNo }}</a>
+          </li>
+          <li *ngIf="guestDTOList != null ? guestDTOList.length > pageSize : null" class="page-item"><a class="page-link" (click)="fetchNextGuest()">Next</a></li>
           <!-- <li class="page-item"><a class="page-link" href="#">3</a></li>
           <li class="page-item"><a class="page-link" href="#">></a></li> -->
         </ul>
@@ -137,82 +159,96 @@
           <div class="modal-body">
             <div class="row">
               <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
-                <input class="styled-checkbox" id="action" type="checkbox">
-                  <label for="action" class="mr-2">Seat</label>
-              </div><!-- checkbox -->
+                <input class="styled-checkbox" id="action" type="checkbox" checked (click)="toggleColumns('ACTION')" />
+                <label for="action" class="mr-2">Action</label>
+              </div>
+              <!-- checkbox -->
               <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
-                <input class="styled-checkbox" id="partyRank" type="checkbox">
-                  <label for="partyRank" class="mr-2">Party Rank</label>
-              </div><!-- checkbox -->
+                <input class="styled-checkbox" id="partyRank" type="checkbox" (click)="toggleColumns('RANK')" />
+                <label for="partyRank" class="mr-2">Party Rank</label>
+              </div>
+              <!-- checkbox -->
               <!-- <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
                 <input class="styled-checkbox" id="partyType" type="checkbox">
                   <label for="partyType" class="mr-2">Party Type</label>
               </div> --><!-- checkbox -->
               <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
-                <input class="styled-checkbox" checked id="noOfParty" type="checkbox">
-                  <label for="noOfParty" class="mr-2">No. of Party</label>
-              </div><!-- checkbox -->
+                <input class="styled-checkbox" checked id="noOfParty" type="checkbox" (click)="toggleColumns('NOOFPARTY')" />
+                <label for="noOfParty" class="mr-2">No. of Party</label>
+              </div>
+              <!-- checkbox -->
               <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
-                <input class="styled-checkbox" checked id="name" type="checkbox">
-                  <label for="name" class="mr-2">Name</label>
-              </div><!-- checkbox -->
+                <input class="styled-checkbox" checked id="name" type="checkbox" (click)="toggleColumns('NAME')" />
+                <label for="name" class="mr-2">Name</label>
+              </div>
+              <!-- checkbox -->
               <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
-                <input class="styled-checkbox" checked id="checkIn" type="checkbox">
-                  <label for="checkIn" class="mr-2">Check In Time</label>
-              </div><!-- checkbox -->
+                <input class="styled-checkbox" checked id="checkIn" type="checkbox" (click)="toggleColumns('CHECKIN')" />
+                <label for="checkIn" class="mr-2">Check In Time</label>
+              </div>
+              <!-- checkbox -->
               <!-- <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
                 <input class="styled-checkbox" id="quoteTime" type="checkbox">
                   <label for="quoteTime" class="mr-2">Quote Time</label>
               </div> --><!-- checkbox -->
               <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
-                <input class="styled-checkbox" id="note" type="checkbox">
-                  <label for="note" class="mr-2">Note</label>
-              </div><!-- checkbox -->
-              <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
-                <input class="styled-checkbox" checked id="delete" type="checkbox">
-                  <label for="delete" class="mr-2">Delete</label>
-              </div><!-- checkbox -->
-              <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
-                <input class="styled-checkbox" checked id="sendText" type="checkbox">
-                  <label for="sendText" class="mr-2">Send Text</label>
-              </div><!-- checkbox -->
-              <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
-                <input class="styled-checkbox" id="lanPre" type="checkbox">
-                  <label for="lanPre" class="mr-2">Language Preference</label>
-              </div><!-- checkbox -->
-              <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
-                <input class="styled-checkbox" id="optIn" type="checkbox">
-                  <label for="optIn" class="mr-2">Opt - In</label>
-              </div><!-- checkbox -->
-              <div class="col-lg-12 col-md-12 col-sm-12 text-center modal-btn my-2">
-                <button type="button" class="btn btn-theme background-color shadow">Done</button>
+                <input class="styled-checkbox" id="note" type="checkbox" (click)="toggleColumns('NOTE')" />
+                <label for="note" class="mr-2">Note</label>
               </div>
-            </div><!-- row -->
-
-          </div><!-- modal-body -->
-        </div><!-- "modal-content -->
-      </div><!-- modal-dialog -->
-    </div><!-- modal fade -->
+              <!-- checkbox -->
+              <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
+                <input class="styled-checkbox" checked id="delete" type="checkbox" (click)="toggleColumns('DELETE')" />
+                <label for="delete" class="mr-2">Delete</label>
+              </div>
+              <!-- checkbox -->
+              <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
+                <input class="styled-checkbox" checked id="sendText" type="checkbox" (click)="toggleColumns('SENDTEXT')" />
+                <label for="sendText" class="mr-2">Send Text</label>
+              </div>
+              <!-- checkbox -->
+              <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
+                <input class="styled-checkbox" id="lanPre" type="checkbox" (click)="toggleColumns('LANGUAGEPREF')" />
+                <label for="lanPre" class="mr-2">Language Preference</label>
+              </div>
+              <!-- checkbox -->
+              <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
+                <input class="styled-checkbox" id="optIn" type="checkbox" (click)="toggleColumns('OPTIN')" />
+                <label for="optIn" class="mr-2">Opt - In</label>
+              </div>
+              <!-- checkbox -->
+              <div class="col-lg-12 col-md-12 col-sm-12 text-center modal-btn my-2">
+                <button type="button" class="btn btn-theme background-color shadow" data-dismiss="modal">Done</button>
+              </div>
+            </div>
+            <!-- row -->
+          </div>
+          <!-- modal-body -->
+        </div>
+        <!-- "modal-content -->
+      </div>
+      <!-- modal-dialog -->
+    </div>
+    <!-- modal fade -->
     <!-- seat modal -->
     <div class="modal fade" id="seatModal">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-radius border-0">
           <div class="custom-modal-header background-color">
             <span class="modal-title text-white">Confirm Table Ready</span>
-            <button type="button" class="close text-white" (click)="removeSelected('SEATMODAL');">&times;</button>
+            <button type="button" class="close text-white" (click)="removeSelected('SEATMODAL')">&times;</button>
           </div>
           <div class="modal-body text-center">
-            <h4 class="pt-3 pb-2">Guest {{selectedGuest!=null ? selectedGuest.rank :null }}</h4>
-            <h4>{{selectedGuest!=null ?  selectedGuest.name : null}}</h4>
+            <h4 class="pt-3 pb-2">Guest {{ selectedGuest != null ? selectedGuest.rank : null }}</h4>
+            <h4>{{ selectedGuest != null ? selectedGuest.name : null }}</h4>
             <div class="row py-4">
               <div class="col-lg-4 col-md-4 col-sm-12 text-right modal-btn my-2">
-                <button type="button" (click)="changeStatus('NOTPRESENT');" class="btn btn-theme background-color shadow">Not Present</button>
+                <button type="button" (click)="changeStatus('NOTPRESENT')" class="btn btn-theme background-color shadow">Not Present</button>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-12 text-center modal-btn my-2">
-                <button type="button" (click)="changeStatus('INCOMPLETE');" class="btn btn-theme background-color shadow">Incomplete</button>
+                <button type="button" (click)="changeStatus('INCOMPLETE')" class="btn btn-theme background-color shadow">Incomplete</button>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-12 text-left modal-btn my-2">
-                <button type="button" (click)="changeStatus('SEATED');" class="btn btn-theme background-color shadow">Yes</button>
+                <button type="button" (click)="changeStatus('SEATED')" class="btn btn-theme background-color shadow">Yes</button>
               </div>
             </div>
           </div>
@@ -226,7 +262,7 @@
         <div class="modal-content border-radius border-0">
           <div class="custom-modal-header background-color">
             <span class="modal-title text-white">Delete</span>
-            <button type="button" class="close text-white" (click)="removeSelected('DELETE');" data-dismiss="modal">&times;</button>
+            <button type="button" class="close text-white" (click)="removeSelected('DELETE')" data-dismiss="modal">&times;</button>
           </div>
           <div class="modal-body text-center">
             <h4>Are you sure ?</h4>
@@ -235,7 +271,7 @@
                 <button type="button" class="btn btn-theme background-color shadow">cancel</button>
               </div> -->
               <div class="col-lg-12 col-md-12 col-sm-12 text-center modal-btn my-2">
-                <button type="button" class="btn btn-theme background-color shadow" (click)="changeStatus('DELETE');">Yes</button>
+                <button type="button" class="btn btn-theme background-color shadow" (click)="changeStatus('DELETE')">Yes</button>
               </div>
             </div>
           </div>
@@ -249,14 +285,14 @@
         <div class="modal-content border-radius border-0">
           <div class="custom-modal-header background-color">
             <span class="modal-title text-white">Send Text</span>
-            <button type="button" class="close text-white" (click)="removeSelected('SMSMODAL');">&times;</button>
+            <button type="button" class="close text-white" (click)="removeSelected('SMSMODAL')">&times;</button>
           </div>
           <div class="modal-body">
-            <h4 class="pt-3 pb-3 text-center">Guest {{selectedGuest!=null ? selectedGuest.rank :null }} ({{selectedGuest!=null ? selectedGuest.name :null }})</h4>
+            <h4 class="pt-3 pb-3 text-center">Guest {{ selectedGuest != null ? selectedGuest.rank : null }} ({{ selectedGuest != null ? selectedGuest.name : null }})</h4>
             <div class="pt-3 sms-tab-container">
               <ul class="nav nav-tabs nav-justified" role="tablist">
                 <li class="nav-item">
-                  <a class="nav-link active"  data-toggle="tab" href="#level1">Check-in</a>
+                  <a class="nav-link active" data-toggle="tab" href="#level1">Check-in</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" data-toggle="tab" href="#level2">Reminder</a>
@@ -266,10 +302,11 @@
                 </li>
               </ul>
               <div class="tab-content">
-                <div *ngFor="let orgTemp of organizationTemplateDTOList;let i = index" id="level{{i+1}}" class="container tab-pane " [ngClass]="{'active': i===0 }"><br>
-                  <p>{{i+1}} {{orgTemp.templateText}}</p>
+                <div *ngFor="let orgTemp of organizationTemplateDTOList; let i = index" id="level{{ i + 1 }}" class="container tab-pane " [ngClass]="{ active: i === 0 }">
+                  <br />
+                  <p>{{ i + 1 }} {{ orgTemp.templateText }}</p>
                 </div>
-               <!--  <div id="level2" class="container tab-pane fade"><br>
+                <!--  <div id="level2" class="container tab-pane fade"><br>
                   <p>Guest #2: There are 0 parties ahead of you w/ approx. wait-time of 6 min. For LIVE updates: https://tinyurl.com/yc8kfl5m/s/eb2702fb</p>
                 </div>
                 <div id="level3" class="container tab-pane fade"><br>

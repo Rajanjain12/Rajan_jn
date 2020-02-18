@@ -8,15 +8,18 @@ import { AddGuestComponent } from './add-guest/add-guest.component';
 import { HistoryComponent } from './history/history.component';
 import { SettingsComponent } from './settings/settings.component';
 import { FormsModule } from '@angular/forms';
-
-
+import { PubNubAngular } from 'pubnub-angular2';
 
 @NgModule({
-  declarations: [DashboardComponent, SidebarComponent, MainpageComponent, AddGuestComponent, HistoryComponent, SettingsComponent],
-  imports: [
-    CommonModule,
-    WaitlistRoutingModule,
-    FormsModule
-  ]
+  declarations: [
+    DashboardComponent,
+    SidebarComponent,
+    MainpageComponent,
+    AddGuestComponent,
+    HistoryComponent,
+    SettingsComponent
+  ],
+  imports: [CommonModule, WaitlistRoutingModule, FormsModule],
+  providers: [PubNubAngular]
 })
-export class WaitlistModule { }
+export class WaitlistModule {}

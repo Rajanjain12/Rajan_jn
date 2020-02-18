@@ -8,34 +8,40 @@ import { SettingsComponent } from './settings/settings.component';
 import { HistoryComponent } from './history/history.component';
 
 const routes: Routes = [
-{
-  path: 'waitlist',
-  component: MainpageComponent,
-  children: [
-{
-  path: 'dashboard',
- component: DashboardComponent
-},
-{
-  path: 'addguest',
- component: AddGuestComponent
-},
-{
-  path: 'addguest/:id',
- component: AddGuestComponent
-},
-{
-  path: 'history',
- component: HistoryComponent
-},
-{
-  path: 'settings',
- component: SettingsComponent
-} ] }
+  {
+    path: 'waitlist',
+    component: MainpageComponent,
+    children: [
+      {
+        path: 'dashboard',
+        component: DashboardComponent
+      },
+      {
+        path: 'addguest',
+        component: AddGuestComponent
+      },
+      {
+        path: 'addguest/:id',
+        component: AddGuestComponent
+      },
+      {
+        path: 'addguest/:id',
+        component: AddGuestComponent
+      },
+      {
+        path: 'history',
+        component: HistoryComponent
+      },
+      {
+        path: 'settings',
+        component: SettingsComponent
+      }
+    ]
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class WaitlistRoutingModule { }
+export class WaitlistRoutingModule {}

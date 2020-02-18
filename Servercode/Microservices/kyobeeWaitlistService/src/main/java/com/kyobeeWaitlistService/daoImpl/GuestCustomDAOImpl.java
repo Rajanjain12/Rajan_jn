@@ -58,10 +58,10 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 			}
 			query=query.append(" order by g.rank asc limit :pageSize OFFSET :startIndex");	
 			if((searchText!=null) && (!searchText.equalsIgnoreCase("null"))) {
-				guestList=entityManager.createNativeQuery(query.toString()).setParameter("orgId",orgId).setParameter("sliderMinValue", sliderMinTimeString).setParameter("sliderMaxValue", sliderMaxTimeString).setParameter("clientTimezone", clientTimezone).setParameter("searchText", "%"+searchText+"%").setParameter("pageSize", pageSize).setParameter("startIndex", startIndex).getResultList();
+				guestList=entityManager.createNativeQuery(query.toString(),Guest.class).setParameter("orgId",orgId).setParameter("sliderMinValue", sliderMinTimeString).setParameter("sliderMaxValue", sliderMaxTimeString).setParameter("clientTimezone", clientTimezone).setParameter("searchText", "%"+searchText+"%").setParameter("pageSize", pageSize).setParameter("startIndex", startIndex).getResultList();
 				//guestList= session.createSQLQuery(query.toString()).setParameter("orgId",orgId).setParameter("sliderMinValue", sliderMinTimeString).setParameter("sliderMaxValue", sliderMaxTimeString).setParameter("clientTimezone", clientTimezone).setParameter("searchText", "%"+searchText+"%").setParameter("pageSize", pageSize).setParameter("startIndex", startIndex).getResultList();	
 			}else {
-				guestList=entityManager.createNativeQuery(query.toString()).setParameter("orgId",orgId).setParameter("sliderMinValue", sliderMinTimeString).setParameter("sliderMaxValue", sliderMaxTimeString).setParameter("clientTimezone",clientTimezone).setParameter("pageSize",pageSize).setParameter("startIndex", startIndex).getResultList();
+				guestList=entityManager.createNativeQuery(query.toString(),Guest.class).setParameter("orgId",orgId).setParameter("sliderMinValue", sliderMinTimeString).setParameter("sliderMaxValue", sliderMaxTimeString).setParameter("clientTimezone",clientTimezone).setParameter("pageSize",pageSize).setParameter("startIndex", startIndex).getResultList();
 				//guestList= session.createSQLQuery(query.toString()).setParameter("orgId",orgId).setParameter("sliderMinValue", sliderMinTimeString).setParameter("sliderMaxValue", sliderMaxTimeString).setParameter("clientTimezone",clientTimezone).setParameter("pageSize",pageSize).setParameter("startIndex", startIndex).getResultList();
 			}
 		}
@@ -101,7 +101,7 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 						cStmt.setLong(6, guestObj.getNoOfChildren());
 						
 						cStmt.setLong(7, guestObj.getNoOfPeople());
-						cStmt.setLong(8, guestObj.getLangguagePref().getLangId());
+						cStmt.setLong(8, guestObj.getLanguagePref().getLangId());
 						cStmt.setInt(9, guestObj.getPartyType());
 						cStmt.setString(10, guestObj.getDeviceType());
 						cStmt.setString(11, guestObj.getDeviceId());
@@ -179,7 +179,7 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 						cStmt.setLong(6, guestObj.getNoOfChildren());
 						
 						cStmt.setLong(7, guestObj.getNoOfPeople());
-						cStmt.setLong(8, guestObj.getLangguagePref().getLangId());
+						cStmt.setLong(8, guestObj.getLanguagePref().getLangId());
 						cStmt.setInt(9, guestObj.getPartyType());
 						cStmt.setString(10, guestObj.getDeviceType());
 						cStmt.setString(11, guestObj.getDeviceId());

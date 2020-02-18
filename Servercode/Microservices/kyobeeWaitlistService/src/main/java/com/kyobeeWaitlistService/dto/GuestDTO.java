@@ -28,7 +28,7 @@ public class GuestDTO {
 	private Date createdTime;
 	private Date updatedTime;
 	private Integer incompleteParty;
-	private LanguageMasterDTO langguagePref;
+	private LanguageMasterDTO languagePref;
     private List<SeatingMarketingPrefDTO> seatingPreference;
     private List<SeatingMarketingPrefDTO> marketingPreference;
     private String note;
@@ -172,11 +172,12 @@ public class GuestDTO {
 	public void setIncompleteParty(Integer incompleteParty) {
 		this.incompleteParty = incompleteParty;
 	}
-	public LanguageMasterDTO getLangguagePref() {
-		return langguagePref;
+	
+	public LanguageMasterDTO getLanguagePref() {
+		return languagePref;
 	}
-	public void setLangguagePref(LanguageMasterDTO langguagePref) {
-		this.langguagePref = langguagePref;
+	public void setLanguagePref(LanguageMasterDTO languagePref) {
+		this.languagePref = languagePref;
 	}
 	public List<SeatingMarketingPrefDTO> getSeatingPreference() {
 		return seatingPreference;
