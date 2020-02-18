@@ -145,35 +145,36 @@
 //     }
 //   }
 // }
-.social-icon {
-  .styled-checkbox {
-    & ~ .label {
-      background-color: gray; /* sdf */
-      color: white; /* sdf */
-    }
 
-    // Box.
-    & ~ i.background {
-      background-color: gray; /* sdf */
-      color: white; /* sdf */
-    }
-    & ~ i.icon {
-      background-color: transparent; /* sdf */
-      color: white; /* sdf */
-    }
-    // Box checked
-    &:checked ~ .label,
-    &:checked ~ i.background {
-      background-color: red !important;
-    }
-    &:checked + label:before {
-      border: 2px solid red;
-      background: white;
-    }
-    &:checked + label:after {
-      border: 1px solid red;
-      background-color: red !important;
-      box-shadow: 2px 0 0 red, 4px 0 0 red, 4px -2px 0 red, 4px -4px 0 red, 4px -6px 0 red, 4px -8px 0 red;
-    }
-  }
-}
+// .social-icon {
+//   .styled-checkbox {
+//     & ~ .label {
+//       background-color: gray; /* sdf */
+//       color: white; /* sdf */
+//     }
+
+//     // Box.
+//     & ~ i.background {
+//       background-color: gray; /* sdf */
+//       color: white; /* sdf */
+//     }
+//     & ~ i.icon {
+//       background-color: transparent; /* sdf */
+//       color: white; /* sdf */
+//     }
+//     // Box checked
+//     &:checked ~ .label,
+//     &:checked ~ i.background {
+//       background-color: red !important;
+//     }
+//     &:checked + label:before {
+//       border: 2px solid red;
+//       background: white;
+//     }
+//     &:checked + label:after {
+//       border: 1px solid red;
+//       background-color: red !important;
+//       box-shadow: 2px 0 0 red, 4px 0 0 red, 4px -2px 0 red, 4px -4px 0 red, 4px -6px 0 red, 4px -8px 0 red;
+//     }
+//   }
+// }

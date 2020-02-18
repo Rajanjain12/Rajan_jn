@@ -16,12 +16,9 @@ export class AppComponent {
   public getUserLoggedIn() {
     return this.authService.getLogflag();
   }
-  constructor(
-    private authService: AuthService,
-    @Inject(DOCUMENT) private document: Document
-  ) {
-     this.loadStyle('theme-admin');
-    //this.loadStyle('theme-advantech');
+  constructor(private authService: AuthService, @Inject(DOCUMENT) private document: Document) {
+    this.loadStyle('theme-admin');
+    // this.loadStyle('theme-advantech');
   }
 
   /* Change Theme of Stylesheet */
@@ -29,9 +26,7 @@ export class AppComponent {
     if (environment.production) {
       // console.log(environment.production);
 
-      const themeLink = this.document.getElementById(
-        'client-theme'
-      ) as HTMLLinkElement;
+      const themeLink = this.document.getElementById('client-theme') as HTMLLinkElement;
       console.log('prod');
       styleName += '.css';
       themeLink.href = styleName;

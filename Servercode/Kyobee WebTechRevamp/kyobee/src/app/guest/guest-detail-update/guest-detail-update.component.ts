@@ -18,7 +18,7 @@ export class GuestDetailUpdateComponent implements OnInit {
   id: string;
   listSeatingPref: Array<Preference>;
   listMarketingPref: Array<Preference>;
-  listLanguageKeyMap: Array<Map<String, String>>;
+  listLanguageKeyMap: Array<Map<string, string>>;
 
   constructor(private route: ActivatedRoute, private guestService: GuestService) {}
 
@@ -45,7 +45,7 @@ export class GuestDetailUpdateComponent implements OnInit {
   }
 
   fetchOrgPrefandKeyMap() {
-    var params = new HttpParams().set('orgId', this.guest.organizationID.toString());
+    const params = new HttpParams().set('orgId', this.guest.organizationID.toString());
     this.guestService.fetchOrgPrefandKeyMap(params).subscribe(res => {
       if (res.success == 1) {
         this.listSeatingPref = res.serviceResult.seatingPreference;
@@ -58,7 +58,7 @@ export class GuestDetailUpdateComponent implements OnInit {
   }
 
   fetchGuestMetric() {
-    var params = new HttpParams()
+    const params = new HttpParams()
       .set('orgId', this.guest.organizationID.toString())
       .set('guestId', this.guest.guestID.toString());
     this.guestService.fetchGuestMetrics(params).subscribe(res => {

@@ -1,4 +1,4 @@
-@import "variable";
+@import 'variable';
 
 $theme-color: #8e684a;
 /*common css*/
@@ -180,3 +180,41 @@ a:hover {
 footer {
   background-color: #594f45;
 }
+
+/* Guest Detail Update Page */
+.guest-detail-update {
+  .social-icon {
+    .styled-checkbox {
+      & ~ .label {
+        background-color: $grey-color;
+        color: $white-color;
+      }
+
+      // Box.
+      & ~ i.background {
+        background-color: $grey-color;
+        color: $white-color;
+      }
+      & ~ i.icon {
+        background-color: transparent;
+        color: $white-color;
+      }
+      // Box checked
+      &:checked ~ .label,
+      &:checked ~ i.background {
+        background-color: $theme-color !important;
+      }
+      &:checked + label:before {
+        border: 2px solid $theme-color;
+        background: $white-color;
+      }
+      &:checked + label:after {
+        border: 1px solid $theme-color;
+        background-color: $theme-color !important;
+        box-shadow: 2px 0 0 $theme-color, 4px 0 0 $theme-color, 4px -2px 0 $theme-color, 4px -4px 0 $theme-color,
+          4px -6px 0 $theme-color, 4px -8px 0 $theme-color;
+      }
+    }
+  }
+}
+/* Guest Detail Update Page Ends */
