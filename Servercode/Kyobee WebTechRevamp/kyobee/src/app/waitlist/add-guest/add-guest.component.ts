@@ -20,7 +20,6 @@ export class AddGuestComponent implements OnInit {
   public sum: number = 0;
   marketingPref: Array<Preference>;
   seatingPref: Array<Preference>;
-  id$: Observable<string>;
   id: string;
 
   constructor(
@@ -35,7 +34,6 @@ export class AddGuestComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.id$ = this.route.paramMap.pipe(map(paramMap => paramMap.get('id')));
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id !== null) {
       this.guestService.fetchGuest(this.id).subscribe(res => {
@@ -58,27 +56,29 @@ export class AddGuestComponent implements OnInit {
 
   seatingOrMarketingPref() {
     this.user = this.authService.getUser();
-    this.user.seatingpref.map(obj => {
-      let present = false;
-      if (this.guest != null && this.guest != undefined) {
-        present = this.guest.seatingPreference.some(el => {
-          return el.prefValueId === obj.prefValueId;
-        });
-      }
-
-      if (present) {
-        obj.selected = true;
-      } else {
-        obj.selected = false;
-      }
-    });
+    let present = false;
+    if (this.user.seatingpref != null) {
+      this.user.seatingpref.map(obj => {
+        present = false;
+        if (this.guest != null && this.guest != undefined) {
+          if (this.guest.seatingPreference != null) {
+            present = this.guest.seatingPreference.some(el => {
+              return el.prefValueId === obj.prefValueId;
+            });
+          }
+        }
+        obj.selected = present;
+      });
+    }
 
     this.user.marketingPref.map(obj => {
       let present = false;
       if (this.guest != null && this.guest != undefined) {
-        present = this.guest.marketingPreference.some(el => {
-          return el.prefValueId === obj.prefValueId;
-        });
+        if (this.guest.marketingPreference != null) {
+          present = this.guest.marketingPreference.some(el => {
+            return el.prefValueId === obj.prefValueId;
+          });
+        }
       }
       if (present) {
         obj.selected = true;
@@ -105,8 +105,16 @@ export class AddGuestComponent implements OnInit {
     });
   }
 
+  onOptinChange() {
+    if (this.guest.optin == 0) {
+      this.guest.optin = 1;
+    } else {
+      this.guest.optin = 0;
+    }
+  }
+
   addGuest() {
-    this.removeSelected();
+    //this.onOptinChange();
     this.guest.incompleteParty = 0;
     this.guest.organizationID = this.user.organizationID;
     this.guest.partyType = -1;
@@ -124,8 +132,7 @@ export class AddGuestComponent implements OnInit {
     this.guest.email = null;
     //  this.guest.guestID=0;
     this.guest.incompleteParty = 0;
-    this.guest.seatingPreference = this.seatingPref;
-    this.guest.marketingPreference = this.marketingPref;
+
     this.guest.languagePref = {
       langId: 1,
       keyName: null,
@@ -133,7 +140,6 @@ export class AddGuestComponent implements OnInit {
       langIsoCode: 'en',
       langName: 'English'
     };
-    // this.guest.optin=0;
     console.log(' updatee guest ' + JSON.stringify(this.guest));
   }
 
@@ -142,17 +148,18 @@ export class AddGuestComponent implements OnInit {
       this.errorMessage = 'Please enter proper values ';
       return;
     }
-
     this.resultSeating();
     this.resultMarketing();
+    this.removeSelected();
     this.guest.noOfPeople = +this.guest.noOfAdults + +this.guest.noOfChildren;
     if (this.sum > this.user.maxParty) {
       this.errorMessage = 'More than ' + this.user.maxParty + ' people are not allowed';
       return;
     } else {
-      console.log(this.sum);
+      console.log(this.guest.noOfPeople);
     }
-
+    this.guest.seatingPreference = this.seatingPref;
+    this.guest.marketingPreference = this.marketingPref;
     if (this.guest.guestID == 0) {
       this.addGuest();
       this.guestService.addGuest(this.guest).subscribe(res => {
