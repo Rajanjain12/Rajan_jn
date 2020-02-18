@@ -5,17 +5,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class NotificationUtil {
-	
-	private NotificationUtil()
-	{
-		
-	}
+
 	static Pusher pusher;
 
 	static {
-
 		pusher = new PubNubUtil();
-
 	}
 
 	public static void sendMessage(Object rootMap, String channel) {

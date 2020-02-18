@@ -1,5 +1,6 @@
 package com.kyobeeUserService.serviceImpl;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,6 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,23 +35,22 @@ import com.kyobeeUserService.entity.OrganizationTemplate;
 import com.kyobeeUserService.entity.User;
 import com.kyobeeUserService.service.UserService;
 import com.kyobeeUserService.util.CommonUtil;
-import com.kyobeeUserService.util.EmailUtil;
+
 import com.kyobeeUserService.util.LoggerUtil;
 import com.kyobeeUserService.util.UserServiceConstants;
 import com.kyobeeUserService.util.Exception.AccountNotActivatedExeception;
 import com.kyobeeUserService.util.Exception.InvalidAuthCodeException;
 import com.kyobeeUserService.util.Exception.InvalidLoginException;
 import com.kyobeeUserService.util.Exception.UserNotFoundException;
+import com.kyobeeUserService.util.emailImpl.AWSUtil;
+import com.kyobeeUserService.util.emailImpl.EmailUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserDAO userDAO;
-
-	@Autowired
-	EmailUtil emailUtil;
-
+	
 	@Autowired
 	OrganizationDAO organizationDAO;
 
@@ -57,6 +62,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	OrganizationTemplateDAO organizationTemplateDAO;
+	
 
 	//to validate user and fetch data needed after login in web and mobile, single API for login from web and mobile
 	@Override
@@ -156,6 +162,7 @@ public class UserServiceImpl implements UserService {
 						}
 
 					}
+				// seating marketing pref end
 
 					List<OrganizationTemplate> templetList = organizationTemplateDAO
 							.fetchSmsTemplateForOrganization(organization.getOrganizationID());
@@ -243,7 +250,26 @@ public class UserServiceImpl implements UserService {
 					+ authcode;
 
 			LoggerUtil.logInfo("url:- "+forgotPasswordURL);
-			StringBuilder htmlContent = new StringBuilder();
+			
+			//velocity template
+			VelocityEngine ve = new VelocityEngine();
+			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+			ve.init();
+
+			Template t = ve.getTemplate("templates/ForgotPassword.vm");
+			String name = user.getFirstName() + " " + user.getLastName();
+
+			VelocityContext context = new VelocityContext();
+			context.put("name", name);
+			context.put("link", forgotPasswordURL);
+			context.put("email", user.getEmail());
+			context.put("kyobeeEmail", UserServiceConstants.KYOBEEMAILID);
+
+			StringWriter writer = new StringWriter();
+			t.merge(context, writer);
+			//----
+		/*	StringBuilder htmlContent = new StringBuilder();
 
 			htmlContent.append("<p>Hi " + user.getFirstName() + " " + user.getLastName() + ", </p>");
 			htmlContent.append("<p>We received a request to reset your password for your Kyobee account: "
@@ -254,12 +280,11 @@ public class UserServiceImpl implements UserService {
 			htmlContent.append("<p>We love hearing from you.</p>");
 			htmlContent.append(
 					"<p>Email us at " + UserServiceConstants.KYOBEEMAILID + " if you have any other questions! </p>");
-			htmlContent.append("<p>Best,<br/>Kyobee</p>");
+			htmlContent.append("<p>Best,<br/>Kyobee</p>");*/
 			response = "password sent successufully to your registered account";
-			/*
-			 * emailUtil.sendEmail(user.getEmail(), UserServiceConstants.KYOBEEMAILID,
-			 * "Forgot Password Email", htmlContent.toString());
-			 */
+			
+			EmailUtil.sendMail(user.getEmail(), UserServiceConstants.EMAIL_SUBJECT, writer.toString());
+			 
 		} else {
 			throw new UserNotFoundException("Please Enter valid email address.");
 		}

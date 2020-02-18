@@ -5,15 +5,22 @@ import java.util.LinkedHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kyobeeWaitlistService.dto.GuestDTO;
+import com.kyobeeWaitlistService.dto.OrgPrefKeyMapDTO;
 import com.kyobeeWaitlistService.dto.OrganizationMetricsDTO;
 import com.kyobeeWaitlistService.dto.PusherDTO;
 import com.kyobeeWaitlistService.dto.ResponseDTO;
+import com.kyobeeWaitlistService.dto.SmsContentDTO;
+import com.kyobeeWaitlistService.dto.WaitListMetricsDTO;
+import com.kyobeeWaitlistService.service.GuestService;
 import com.kyobeeWaitlistService.service.WaitListService;
 import com.kyobeeWaitlistService.util.LoggerUtil;
 import com.kyobeeWaitlistService.util.WaitListServiceConstants;
@@ -25,6 +32,9 @@ public class WaitListController {
 
 	@Autowired
 	WaitListService waitListService;
+
+	@Autowired
+	GuestService guestService;
 
 	// for sending pusher while there is change language key or value
 	@PutMapping(value = "/refreshLanguage", produces = "application/vnd.kyobee.v1+json")
@@ -88,4 +98,23 @@ public class WaitListController {
 		return responseDTO;
 	}
 
+	@GetMapping(value = "/orgPrefAndKeyMap", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO fetchOrgPrefandKeyMap(@RequestParam(value = "orgId") Integer orgId) {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			OrgPrefKeyMapDTO orgPrefKeyMapDTO = waitListService.fetchOrgPrefandKeyMap(orgId);
+			responseDTO.setServiceResult(orgPrefKeyMapDTO);
+			responseDTO.setMessage("Organization Preference Key Map fetched successfully");
+			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
+
+		} catch (Exception ex) {
+			LoggerUtil.logError(ex);
+			responseDTO.setServiceResult("Error while fetching organization preference key map");
+			responseDTO.setMessage("Error while fetching organization preference key map");
+			responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);
+		}
+		return responseDTO;
+	}
+  	 
 }

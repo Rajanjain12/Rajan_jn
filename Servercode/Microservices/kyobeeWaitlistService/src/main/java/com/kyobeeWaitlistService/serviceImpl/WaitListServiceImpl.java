@@ -1,11 +1,16 @@
 package com.kyobeeWaitlistService.serviceImpl;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import com.kyobeeWaitlistService.dao.GuestDAO;
 import com.kyobeeWaitlistService.dao.LanguageKeyMappingDAO;
@@ -13,9 +18,15 @@ import com.kyobeeWaitlistService.dao.LookupDAO;
 import com.kyobeeWaitlistService.dao.OrganizationCustomDAO;
 import com.kyobeeWaitlistService.dao.OrganizationDAO;
 import com.kyobeeWaitlistService.dao.OrganizationTemplateDAO;
+import com.kyobeeWaitlistService.dto.LanguageKeyMappingDTO;
+import com.kyobeeWaitlistService.dto.LanguageMasterDTO;
+import com.kyobeeWaitlistService.dto.OrgPrefKeyMapDTO;
 import com.kyobeeWaitlistService.dto.OrganizationMetricsDTO;
 import com.kyobeeWaitlistService.dto.PusherDTO;
+import com.kyobeeWaitlistService.dto.SeatingMarketingPrefDTO;
+import com.kyobeeWaitlistService.dto.WaitListMetricsDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;
+import com.kyobeeWaitlistService.entity.Lookup;
 import com.kyobeeWaitlistService.service.WaitListService;
 import com.kyobeeWaitlistService.util.LoggerUtil;
 import com.kyobeeWaitlistService.util.WaitListServiceConstants;
@@ -86,6 +97,75 @@ public class WaitListServiceImpl implements WaitListService {
 		NotificationUtil.sendMessage(pusherDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV+"_"+orgId);
 		
 		return pusherDTO;
+	}
+
+
+	@Override
+	public OrgPrefKeyMapDTO fetchOrgPrefandKeyMap(Integer orgId) {
+		//fetch seating pref and marketing pref associated with org
+		List<Lookup> lookupList = lookupDAO.fetchSeatingAndMarketingPref(orgId, WaitListServiceConstants.SEATINGPREFID,WaitListServiceConstants.MARKETINGPREFID);
+		OrgPrefKeyMapDTO orgPrefDTO=new OrgPrefKeyMapDTO();
+		List<SeatingMarketingPrefDTO> seatingPrefList = new ArrayList<>();
+		List<SeatingMarketingPrefDTO> marketingPrefList = new ArrayList<>();
+		
+		List<LanguageMasterDTO> languageList = languageKeyMappingDAO.fetchLanguageKeyMapForOrganization(orgId);
+		
+		Map<String, String> keymap = new HashMap<>();
+		
+		LanguageKeyMappingDTO languageKeyMappingDTO=new LanguageKeyMappingDTO();
+		languageKeyMappingDTO.setLangId(languageList.get(0).getLangId());
+		languageKeyMappingDTO.setLangName(languageList.get(0).getLangName());
+		languageKeyMappingDTO.setLangIsoCode(languageList.get(0).getLangIsoCode());
+		keymap.put(languageList.get(0).getKeyName(), languageList.get(0).getValue());
+		for(LanguageMasterDTO langMaster:languageList) {
+			keymap.put(langMaster.getKeyName(), langMaster.getValue());
+			
+        }
+		languageKeyMappingDTO.setLanguageMap(keymap);
+		SeatingMarketingPrefDTO seatingPref;
+		SeatingMarketingPrefDTO marketingPref;
+		//to separate seating pref and marketing pref 
+		for (Lookup lookup : lookupList) {
+			if (lookup.getLookuptype().getLookupTypeID() == WaitListServiceConstants.SEATINGPREFID) {
+				seatingPref = new SeatingMarketingPrefDTO();
+				seatingPref.setPrefValue(lookup.getName());
+				seatingPref.setPrefValueId(lookup.getLookupID());
+				if (keymap.containsValue(lookup.getName())) {
+					String key = null;
+					for (Map.Entry<String, String> entry : keymap.entrySet()) {
+						if ((lookup.getName()).equals(entry.getValue())) {
+							key = entry.getKey();
+							seatingPref.setPrefKey(key);
+							break;
+						}
+					}
+				}
+				seatingPrefList.add(seatingPref);
+			} else if (lookup.getLookuptype().getLookupTypeID() == WaitListServiceConstants.MARKETINGPREFID) {
+				marketingPref = new SeatingMarketingPrefDTO();
+				marketingPref.setPrefValue(lookup.getName());
+				marketingPref.setPrefValueId(lookup.getLookupID());
+				if (keymap.containsValue(lookup.getName())) {
+
+					String key = null;
+					for (Map.Entry<String, String> entry : keymap.entrySet()) {
+						if ((lookup.getName()).equals(entry.getValue())) {
+							key = entry.getKey();
+							marketingPref.setPrefKey(key);
+							break;
+						}
+					}
+				}
+				marketingPrefList.add(marketingPref);
+			}
+		
+
+		}
+		orgPrefDTO.setMarketingPreference(marketingPrefList);
+		orgPrefDTO.setSeatingPreference(seatingPrefList);
+		orgPrefDTO.setLanguageKeyMappingDTO(languageKeyMappingDTO);
+	// seating marketing pref end
+		return orgPrefDTO;
 	}
 	
 	

@@ -38,5 +38,8 @@ public class WaitListServiceConstants {
 	public static final String SEATED_STATUS="SEATED";
 	public static final String UPDATE_STATUS="UPDATE";
 	public static final String FROM_ADMIN="ADMIN";
+	
+	public static final Integer SEATINGPREFID=18;
+	public static final Integer MARKETINGPREFID=19;
 
 }

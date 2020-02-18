@@ -15,5 +15,9 @@ public interface LookupDAO extends CrudRepository<Lookup, Integer>{
 	
 	@Query("select l from GuestMarketingPreferences gmp join gmp.lookup l where gmp.guest.guestID=:guestId")
 	List<Lookup> fetchLookupForGuest(@Param("guestId") Integer guestId);
+	
+	@Query(value="SELECT distinct * FROM KyobeeTechRevamp.ORGANIZATIONCATEGORY oc " + 
+			"inner join KyobeeTechRevamp.LOOKUP l on oc.CategoryTypeID=l.LookupTypeID where (oc.OrganizationID=:orgId and oc.CategoryTypeID in(:seatingLookupId,:marketingLookupId) and oc.CategoryValueID=l.LookupID) ",nativeQuery=true)
+	List<Lookup> fetchSeatingAndMarketingPref(@Param("orgId") Integer orgId,@Param("seatingLookupId") Integer seatingPrefLookupId,@Param("marketingLookupId") Integer marketingPrefLookupId);
 
 }

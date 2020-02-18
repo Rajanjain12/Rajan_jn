@@ -1,0 +1,37 @@
+package com.kyobeeWaitlistService.dto;
+
+import java.util.List;
+
+public class OrgPrefKeyMapDTO {
+
+	private List<SeatingMarketingPrefDTO> seatingPreference;
+	private List<SeatingMarketingPrefDTO> marketingPreference;
+    private LanguageKeyMappingDTO languageKeyMappingDTO;
+	
+	public List<SeatingMarketingPrefDTO> getSeatingPreference() {
+		return seatingPreference;
+	}
+
+	public void setSeatingPreference(List<SeatingMarketingPrefDTO> seatingPreference) {
+		this.seatingPreference = seatingPreference;
+	}
+
+	public List<SeatingMarketingPrefDTO> getMarketingPreference() {
+		return marketingPreference;
+	}
+
+	public void setMarketingPreference(List<SeatingMarketingPrefDTO> marketingPreference) {
+		this.marketingPreference = marketingPreference;
+	}
+
+	public LanguageKeyMappingDTO getLanguageKeyMappingDTO() {
+		return languageKeyMappingDTO;
+	}
+
+	public void setLanguageKeyMappingDTO(LanguageKeyMappingDTO languageKeyMappingDTO) {
+		this.languageKeyMappingDTO = languageKeyMappingDTO;
+	}
+	
+	
+
+}
