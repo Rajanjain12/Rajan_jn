@@ -2,6 +2,7 @@ package com.kyobeeWaitlistService.rest;
 
 import java.util.Arrays;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +20,12 @@ import com.kyobeeWaitlistService.dto.GuestDTO;
 import com.kyobeeWaitlistService.dto.GuestMarketingPreferenceDTO;
 import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
 import com.kyobeeWaitlistService.dto.GuestResponseDTO;
+import com.kyobeeWaitlistService.dto.GuestWebDTO;
 import com.kyobeeWaitlistService.dto.ResponseDTO;
 import com.kyobeeWaitlistService.service.GuestService;
 import com.kyobeeWaitlistService.util.LoggerUtil;
 import com.kyobeeWaitlistService.util.WaitListServiceConstants;
+import com.kyobeeWaitlistService.util.Exeception.InvalidGuestException;
 
 @RestController
 @CrossOrigin
@@ -199,11 +202,19 @@ public class GuestController {
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
 			GuestDTO guest = guestService.fetchGuestDetails(null, guestUUID);
-			responseDTO.setServiceResult(guest);
+			GuestWebDTO guestDTO=guestService.addLanguageKeyMap(guest);		
+			responseDTO.setServiceResult(guestDTO);
 			responseDTO.setMessage("guest details fetched Successfully.");
 			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
 
-		} catch (Exception ex) {
+		}
+		catch (InvalidGuestException e) {
+			LoggerUtil.logError(e);
+			responseDTO.setServiceResult(e.getMessage());
+			responseDTO.setMessage(e.getMessage());
+			responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);
+		}
+		catch (Exception ex) {
 			LoggerUtil.logError(ex);
 			responseDTO.setServiceResult("Error while fetching guest details");
 			responseDTO.setMessage("Error while fetching guest details");

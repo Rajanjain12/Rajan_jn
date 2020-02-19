@@ -15,7 +15,7 @@ declare var $: any;
   styleUrls: ['./guest-detail-update.component.scss']
 })
 export class GuestDetailUpdateComponent implements OnInit {
-  guest: GuestDTO = new GuestDTO();
+  guest: GuestDTO;
   id: string;
   marketingPref: Array<Preference>;
   seatingPref: Array<Preference>;
@@ -37,13 +37,15 @@ export class GuestDetailUpdateComponent implements OnInit {
     if (this.id !== null) {
       this.guestService.fetchGuestDetail(this.id).subscribe(res => {
         if (res.success == 1) {
+          this.languageKeyMap = res.serviceResult.languageKeyMap;
           this.guest = res.serviceResult;
           this.orgId = this.guest.organizationID;
           this.fetchGuestMetric();
           this.fetchOrgPrefandKeyMap();
           console.log(res.serviceResult);
         } else {
-          alert(res.message);
+          //alert(res.message);
+          this.errorMessage = res.message;
         }
       });
     } else {
@@ -63,6 +65,7 @@ export class GuestDetailUpdateComponent implements OnInit {
             });
           }
         }
+        obj.prefValue = this.languageKeyMap[obj.prefKey != null ? obj.prefKey : 0];
         obj.selected = present;
       });
     }
@@ -110,14 +113,16 @@ export class GuestDetailUpdateComponent implements OnInit {
       delete obj.selected;
     });
   }
-
+  showDeleteModal(guest) {
+    $('#deleteModal').modal('show');
+  }
   fetchOrgPrefandKeyMap() {
     const params = new HttpParams().set('orgId', this.guest.organizationID.toString());
     this.guestService.fetchOrgPrefandKeyMap(params).subscribe(res => {
       if (res.success == 1) {
         this.listSeatingPref = res.serviceResult.seatingPreference;
         this.listMarketingPref = res.serviceResult.marketingPreference;
-        this.languageKeyMap = res.serviceResult.languageKeyMappingDTO.languageMap;
+
         console.log(
           JSON.stringify(this.listSeatingPref) +
             ' --- ' +
@@ -214,6 +219,9 @@ export class GuestDetailUpdateComponent implements OnInit {
     var m = min % 60;
     var minute = m.toString().length == 1 ? 0 + m.toString() : m;
     return hour + ':' + minute;
+  }
+  hideDeletePopup() {
+    $('#deleteModal').modal('hide');
   }
   removeGuest() {
     var params = new HttpParams()

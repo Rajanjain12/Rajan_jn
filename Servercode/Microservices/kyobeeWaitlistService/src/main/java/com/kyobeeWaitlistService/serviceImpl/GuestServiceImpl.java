@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kyobeeWaitlistService.dao.GuestCustomDAO;
 import com.kyobeeWaitlistService.dao.GuestDAO;
 import com.kyobeeWaitlistService.dao.GuestMarketingPreferencesDAO;
+import com.kyobeeWaitlistService.dao.LanguageKeyMappingDAO;
 import com.kyobeeWaitlistService.dao.LookupDAO;
 import com.kyobeeWaitlistService.dao.OrganizationCustomDAO;
 import com.kyobeeWaitlistService.dao.OrganizationDAO;
@@ -24,17 +26,20 @@ import com.kyobeeWaitlistService.dto.GuestDetailsDTO;
 import com.kyobeeWaitlistService.dto.GuestMarketingPreferenceDTO;
 import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
 import com.kyobeeWaitlistService.dto.GuestResponseDTO;
+import com.kyobeeWaitlistService.dto.GuestWebDTO;
 import com.kyobeeWaitlistService.dto.LanguageMasterDTO;
 import com.kyobeeWaitlistService.dto.PusherDTO;
 import com.kyobeeWaitlistService.dto.SeatingMarketingPrefDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.entity.Guest;
 import com.kyobeeWaitlistService.entity.GuestMarketingPreferences;
+import com.kyobeeWaitlistService.entity.Languagekeymapping;
 import com.kyobeeWaitlistService.entity.Lookup;
 import com.kyobeeWaitlistService.service.GuestService;
 import com.kyobeeWaitlistService.util.CommonUtil;
 import com.kyobeeWaitlistService.util.LoggerUtil;
 import com.kyobeeWaitlistService.util.WaitListServiceConstants;
+import com.kyobeeWaitlistService.util.Exeception.InvalidGuestException;
 import com.kyobeeWaitlistService.util.pusherImpl.NotificationUtil;
 
 @Service
@@ -61,6 +66,9 @@ public class GuestServiceImpl implements GuestService {
 
 	@Autowired
 	OrganizationCustomDAO organizationCustomDAO;
+	
+	@Autowired
+	LanguageKeyMappingDAO languageKeyMappingDAO;
 
 	@Override
 	public GuestMetricsDTO getGuestMetrics(Integer guestId, Integer orgId) {
@@ -343,7 +351,7 @@ public class GuestServiceImpl implements GuestService {
 		 */
 	}
 
-	public GuestDTO fetchGuestDetails(Integer guestID, String guestUUID) {
+	public GuestDTO fetchGuestDetails(Integer guestID, String guestUUID) throws InvalidGuestException{
 
 		Guest guest = null;
 
@@ -356,47 +364,53 @@ public class GuestServiceImpl implements GuestService {
 		}
 
 		GuestDTO guestDTO = new GuestDTO();
-		BeanUtils.copyProperties(guest, guestDTO);
+		if(guest!=null) {
+			BeanUtils.copyProperties(guest, guestDTO);
 
-		// for adding language
-		LanguageMasterDTO languageMasterDTO = new LanguageMasterDTO();
-		languageMasterDTO.setLangId(guest.getLangmaster().getLangID());
-		languageMasterDTO.setLangIsoCode(guest.getLangmaster().getLangIsoCode());
-		languageMasterDTO.setLangName(guest.getLangmaster().getLangName());
-		guestDTO.setLanguagePref(languageMasterDTO);
+			// for adding language
+			LanguageMasterDTO languageMasterDTO = new LanguageMasterDTO();
+			languageMasterDTO.setLangId(guest.getLangmaster().getLangID());
+			languageMasterDTO.setLangIsoCode(guest.getLangmaster().getLangIsoCode());
+			languageMasterDTO.setLangName(guest.getLangmaster().getLangName());
+			guestDTO.setLanguagePref(languageMasterDTO);
 
-		List<SeatingMarketingPrefDTO> seatingPrefList = new ArrayList<>();
-		List<SeatingMarketingPrefDTO> marketingPrefList = new ArrayList<>();
+			List<SeatingMarketingPrefDTO> seatingPrefList = new ArrayList<>();
+			List<SeatingMarketingPrefDTO> marketingPrefList = new ArrayList<>();
 
-		// for arranging seating pref in list
-		String seatingPref = guest.getSeatingPreference();
-		if (seatingPref != null) {
-			String[] stringSeatingPref = seatingPref.split(",");
-			List<Lookup> seatingLookup = lookupDAO.fetchLookup(stringSeatingPref);
+			// for arranging seating pref in list
+			String seatingPref = guest.getSeatingPreference();
+			if (seatingPref != null) {
+				String[] stringSeatingPref = seatingPref.split(",");
+				List<Lookup> seatingLookup = lookupDAO.fetchLookup(stringSeatingPref);
 
-			for (Lookup lookup : seatingLookup) {
-				SeatingMarketingPrefDTO seatingPrefence = new SeatingMarketingPrefDTO();
-				seatingPrefence.setPrefValueId(lookup.getLookupID());
-				seatingPrefence.setPrefValue(lookup.getName());
-				seatingPrefList.add(seatingPrefence);
+				for (Lookup lookup : seatingLookup) {
+					SeatingMarketingPrefDTO seatingPrefence = new SeatingMarketingPrefDTO();
+					seatingPrefence.setPrefValueId(lookup.getLookupID());
+					seatingPrefence.setPrefValue(lookup.getName());
+					seatingPrefList.add(seatingPrefence);
+				}
 			}
+
+			guestDTO.setSeatingPreference(seatingPrefList);
+
+			// for arranging marketing pref in list
+
+			List<Lookup> marketingLookup = lookupDAO.fetchLookupForGuest(guestDTO.getGuestID());
+
+			for (Lookup lookup : marketingLookup) {
+				SeatingMarketingPrefDTO marketingPrefence = new SeatingMarketingPrefDTO();
+				marketingPrefence.setPrefValueId(lookup.getLookupID());
+				marketingPrefence.setPrefValue(lookup.getName());
+				marketingPrefList.add(marketingPrefence);
+			}
+
+			guestDTO.setMarketingPreference(marketingPrefList);
+
 		}
-
-		guestDTO.setSeatingPreference(seatingPrefList);
-
-		// for arranging marketing pref in list
-
-		List<Lookup> marketingLookup = lookupDAO.fetchLookupForGuest(guestDTO.getGuestID());
-
-		for (Lookup lookup : marketingLookup) {
-			SeatingMarketingPrefDTO marketingPrefence = new SeatingMarketingPrefDTO();
-			marketingPrefence.setPrefValueId(lookup.getLookupID());
-			marketingPrefence.setPrefValue(lookup.getName());
-			marketingPrefList.add(marketingPrefence);
+		else {
+			throw new InvalidGuestException("Requested Guest does not exists.");
 		}
-
-		guestDTO.setMarketingPreference(marketingPrefList);
-
+	
 		return guestDTO;
 	}
 	
@@ -472,6 +486,21 @@ public class GuestServiceImpl implements GuestService {
 		}
 		guestMarketingPreferencesDAO.saveAll(guestMarketingPref);
 
+	}
+
+	@Override
+	public GuestWebDTO addLanguageKeyMap(GuestDTO guest) {
+		
+		GuestWebDTO guestWeb=new GuestWebDTO();
+		if(guest!=null) {
+			BeanUtils.copyProperties(guest, guestWeb);
+			Map<String,String> languageMap = new HashMap<>();
+			List<LanguageMasterDTO> languageKeyMap=languageKeyMappingDAO.fetchByLangIsoCode("en");
+			languageKeyMap.forEach(r -> {languageMap.put(r.getKeyName(),r.getValue());});
+			guestWeb.setLanguageKeyMap(languageMap);
+		}
+
+		return guestWeb;
 	}
 
 }

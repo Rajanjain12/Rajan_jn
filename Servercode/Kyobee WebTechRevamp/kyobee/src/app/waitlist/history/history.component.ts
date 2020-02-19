@@ -18,6 +18,8 @@ export class HistoryComponent implements OnInit {
   pageNo;
   pageSize;
   searchText;
+  sliderMaxTime = 24;
+  sliderMinTime = 0;
   guestDTOList: Array<GuestDTO>;
   toggleColumnArr = {
     action: true,
@@ -67,8 +69,8 @@ export class HistoryComponent implements OnInit {
       .set('pageSize', this.pageSize)
       .set('searchText', this.searchText)
       .set('clientTimezone', '%2B05%3A30')
-      .set('sliderMaxTime', '24')
-      .set('sliderMinTime', '0')
+      .set('sliderMaxTime', this.sliderMaxTime.toString())
+      .set('sliderMinTime', this.sliderMinTime.toString())
       .set('statusOption', this.selectedStatus);
     // alert(params);
     this.guestService.fetchGuestHistoryList(params).subscribe((res: any) => {
@@ -159,7 +161,10 @@ export class HistoryComponent implements OnInit {
     this.pageNo = this.pageNo - 1;
     this.fetchGuestHistory();
   }
-
+  onSliderChange(selectedValues: number[]) {
+    //this. = selectedValues.values;
+    console.log(JSON.stringify(selectedValues));
+  }
   connectPubnub() {
     var channel = environment.pubnubIndividualChannel + '_' + this.orgId;
     this.pubnub.init({

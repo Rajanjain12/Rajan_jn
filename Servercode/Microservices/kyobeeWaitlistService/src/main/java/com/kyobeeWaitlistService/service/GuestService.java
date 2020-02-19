@@ -5,6 +5,8 @@ import com.kyobeeWaitlistService.dto.GuestDTO;
 import com.kyobeeWaitlistService.dto.GuestMarketingPreferenceDTO;
 import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
 import com.kyobeeWaitlistService.dto.GuestResponseDTO;
+import com.kyobeeWaitlistService.dto.GuestWebDTO;
+import com.kyobeeWaitlistService.util.Exeception.InvalidGuestException;
 
 public interface GuestService {
 
@@ -19,8 +21,9 @@ public interface GuestService {
 	public AddUpdateGuestDTO updateGuestDetails(GuestDTO guestDTO);
 	//for mark as seated,delete,incomplete,not present
 	public void updateGuestStatus(Integer guestId,Integer orgId,String status);
-	public GuestDTO fetchGuestDetails(Integer guestID, String guestUUID);
+	public GuestDTO fetchGuestDetails(Integer guestID, String guestUUID) throws InvalidGuestException;
 	public GuestDTO fetchGuestByContact(Integer orgID, String contactNo);
 	public void addMarketingPref(GuestMarketingPreferenceDTO marketingPrefDTO);
+	public GuestWebDTO addLanguageKeyMap(GuestDTO guest);
 
 }
