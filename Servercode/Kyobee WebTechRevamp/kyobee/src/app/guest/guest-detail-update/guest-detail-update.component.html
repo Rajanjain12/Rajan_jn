@@ -96,7 +96,7 @@
 
         <div class="col-12">
           <div class="mt-0 mb-4">
-            <input class="styled-checkbox" id="promotion" type="checkbox" [checked]="guest.optin == 0" />
+            <input class="styled-checkbox" id="promotion" type="checkbox" [checked]="guest.optin == 1" (click)="onOptinChange()" />
             <label for="promotion">{{ languageKeyMap.opt_in_receive }}</label>
           </div>
         </div>

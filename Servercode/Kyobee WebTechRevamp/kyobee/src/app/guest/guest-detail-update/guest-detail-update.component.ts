@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { GuestDTO } from 'src/app/core/models/guest.model';
-import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
 import { GuestService } from 'src/app/core/services/guest.service';
@@ -161,7 +160,7 @@ export class GuestDetailUpdateComponent implements OnInit {
 
     this.guest.seatingPreference = this.seatingPref;
     this.guest.marketingPreference = this.marketingPref;
-    console.log('serating' + JSON.stringify(this.guest));
+    console.log('seating' + JSON.stringify(this.guest));
     this.removeSelected();
     this.guestService.updateGuest(this.guest).subscribe(res => {
       if (res.success == 1) {

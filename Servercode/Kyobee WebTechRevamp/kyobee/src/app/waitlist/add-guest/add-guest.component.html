@@ -64,9 +64,8 @@
               </div>
             </div>
             <div class="form-group">
-              <textarea id="text" name="text" maxlength="150" class="form-control" #text="ngModel" [ngClass]="{ 'is-invalid': f.submitted && text.invalid }" [(ngModel)]="guest.note" required="required"> </textarea>
+              <textarea id="text" name="text" maxlength="150" class="form-control" #text="ngModel" [ngClass]="{ 'is-invalid': f.submitted && text.invalid }" [(ngModel)]="guest.note"> </textarea>
               <div *ngIf="f.submitted && text.invalid" class="invalid-feedback">
-                <small class="text-danger" *ngIf="text.errors?.required">Note is required</small>
                 <small class="text-danger" *ngIf="text.errors?.maxlength">Note is too large.</small>
               </div>
               <label for="textarea" class="control-label">Note</label><i class="bar"></i>
