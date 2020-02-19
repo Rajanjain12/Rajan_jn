@@ -1,5 +1,10 @@
 <section class="pb-5 fix-wrapper center-items fade-in signinPage" id="login">
-  <section class="container pt-3">
+  <div *ngIf="guest === undefined || guest === null" class="container pt-3">
+    <div class="alert alert-danger text-center p-3">
+      <h3>{{ errorMessage }}</h3>
+    </div>
+  </div>
+  <section *ngIf="languageKeyMap && userMetrics" class="container pt-3">
     <form name="form" class="row guest-detail-update" #f="ngForm" novalidate>
       <div class="col-12 col-md-10 row p-0 mx-auto">
         <div class="col-12 col-sm font-color my-3 text-center">
@@ -103,7 +108,7 @@
 
         <div class="col-lg-12 row text-center m-0 p-0 pb-3">
           <div class="col-6">
-            <button type="button" class="btn btn-theme background-color w-100 shadow" (click)="removeGuest()">{{ languageKeyMap.rmv_waitlist }}</button>
+            <button type="button" class="btn btn-theme background-color w-100 shadow" (click)="showDeleteModal()">{{ languageKeyMap.rmv_waitlist }}</button>
           </div>
           <div class="col-6">
             <button type="submit" class="btn btn-theme background-color w-100 shadow" (click)="onSubmit()">{{ languageKeyMap.save_changes }}</button>
@@ -113,3 +118,27 @@
     </form>
   </section>
 </section>
+
+<!-- deleteModal modal -->
+<div class="modal fade" id="deleteModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-radius border-0">
+      <div class="custom-modal-header background-color">
+        <span class="modal-title text-white">Delete</span>
+        <button type="button" class="close text-white" (click)="removeSelected('DELETE')" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <h4>Are you sure you want to delete?</h4>
+        <div class="row pt-3">
+          <!-- <div class="col-lg-6 col-md-6 col-sm-12 text-right modal-btn my-2">
+              <button type="button" class="btn btn-theme background-color shadow">cancel</button>
+            </div> -->
+          <div class="col-lg-12 col-md-12 col-sm-12 text-center modal-btn my-2">
+            <button type="button" class="btn btn-theme background-color shadow" (click)="hideDeletePopup()">Yes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- .deleteModal Ends-->

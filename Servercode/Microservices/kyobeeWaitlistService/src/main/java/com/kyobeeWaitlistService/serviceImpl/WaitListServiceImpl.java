@@ -108,20 +108,16 @@ public class WaitListServiceImpl implements WaitListService {
 		List<SeatingMarketingPrefDTO> seatingPrefList = new ArrayList<>();
 		List<SeatingMarketingPrefDTO> marketingPrefList = new ArrayList<>();
 		
-		List<LanguageMasterDTO> languageList = languageKeyMappingDAO.fetchLanguageKeyMapForOrganization(orgId);
+		List<LanguageMasterDTO> languageList = languageKeyMappingDAO.fetchByLangIsoCodeAndScreenName(WaitListServiceConstants.ENGISOCODE,WaitListServiceConstants.SCREENNAME);
 		
 		Map<String, String> keymap = new HashMap<>();
 		
-		LanguageKeyMappingDTO languageKeyMappingDTO=new LanguageKeyMappingDTO();
-		languageKeyMappingDTO.setLangId(languageList.get(0).getLangId());
-		languageKeyMappingDTO.setLangName(languageList.get(0).getLangName());
-		languageKeyMappingDTO.setLangIsoCode(languageList.get(0).getLangIsoCode());
-		keymap.put(languageList.get(0).getKeyName(), languageList.get(0).getValue());
+		
 		for(LanguageMasterDTO langMaster:languageList) {
 			keymap.put(langMaster.getKeyName(), langMaster.getValue());
 			
         }
-		languageKeyMappingDTO.setLanguageMap(keymap);
+		
 		SeatingMarketingPrefDTO seatingPref;
 		SeatingMarketingPrefDTO marketingPref;
 		//to separate seating pref and marketing pref 
@@ -163,7 +159,7 @@ public class WaitListServiceImpl implements WaitListService {
 		}
 		orgPrefDTO.setMarketingPreference(marketingPrefList);
 		orgPrefDTO.setSeatingPreference(seatingPrefList);
-		orgPrefDTO.setLanguageKeyMappingDTO(languageKeyMappingDTO);
+		
 	// seating marketing pref end
 		return orgPrefDTO;
 	}

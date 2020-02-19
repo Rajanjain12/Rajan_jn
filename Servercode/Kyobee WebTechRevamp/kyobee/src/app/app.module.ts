@@ -13,9 +13,20 @@ import { WaitlistModule } from './waitlist/waitlist.module';
 import { PostLoginHeaderComponent } from './shared/layout/post-login-header/post-login-header.component';
 import { GuestModule } from './guest/guest.module';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 @NgModule({
   declarations: [AppComponent, FooterComponent, HeaderComponent, LoaderComponent, PostLoginHeaderComponent],
-  imports: [BrowserModule, AppRoutingModule, SharedModule, AuthModule, CoreModule, WaitlistModule, GuestModule],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    SharedModule,
+    AuthModule,
+    CoreModule,
+    WaitlistModule,
+    GuestModule
+  ],
   exports: [],
   providers: [],
   bootstrap: [AppComponent]

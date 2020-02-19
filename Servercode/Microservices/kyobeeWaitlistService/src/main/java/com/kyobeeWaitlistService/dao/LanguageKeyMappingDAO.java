@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,5 +30,12 @@ public interface LanguageKeyMappingDAO extends CrudRepository<Languagekeymapping
 			"join Languagekeymapping lm on l.langIsoCode=lm.langIsoCode " +
 			"where o.organizationID=:orgId order by l.langID")
 	List<LanguageMasterDTO> fetchLanguageKeyMapForOrganization(@Param("orgId") Integer orgId);
+	
+	
+	  @Query(value="SELECT new com.kyobeeWaitlistService.dto.LanguageMasterDTO(lm.languageKeyMappingId,lm.langIsoCode,lm.langIsoCode,lm.keyName,lm.value) From Languagekeymapping lm where lm.langIsoCode=:langIsoCode ")
+		List<LanguageMasterDTO> fetchByLangIsoCode(String langIsoCode);
+	
+	@Query(value="SELECT new com.kyobeeWaitlistService.dto.LanguageMasterDTO(lm.languageKeyMappingId,lm.langIsoCode,lm.langIsoCode,lm.keyName,lm.value) From Languagekeymapping lm where lm.langIsoCode=:langIsoCode and lm.screenName=:screenName ")
+	List<LanguageMasterDTO> fetchByLangIsoCodeAndScreenName( String langIsoCode, String screenName);
 		
 }

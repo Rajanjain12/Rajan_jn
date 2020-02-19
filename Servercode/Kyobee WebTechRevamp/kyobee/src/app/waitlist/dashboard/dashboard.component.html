@@ -125,7 +125,7 @@
                 </span>
               </td>
               <td *ngIf="toggleColumnArr.deleteSym == true">
-                <a click=""><i class="flaticon-rubbish-bin"></i></a>
+                <a (click)="showDeleteModal(guest)"><i class="flaticon-rubbish-bin"></i></a>
               </td>
               <td *ngIf="toggleColumnArr.sendText == true">
                 <a (click)="fetchSMSContent(guest)"><i class="flaticon-chat"></i></a>
@@ -265,7 +265,7 @@
             <button type="button" class="close text-white" (click)="removeSelected('DELETE')" data-dismiss="modal">&times;</button>
           </div>
           <div class="modal-body text-center">
-            <h4>Are you sure ?</h4>
+            <h4>Are you sure you want to delete?</h4>
             <div class="row pt-3">
               <!-- <div class="col-lg-6 col-md-6 col-sm-12 text-right modal-btn my-2">
                 <button type="button" class="btn btn-theme background-color shadow">cancel</button>

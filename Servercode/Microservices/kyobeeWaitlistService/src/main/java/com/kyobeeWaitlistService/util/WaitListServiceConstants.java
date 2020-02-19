@@ -41,5 +41,8 @@ public class WaitListServiceConstants {
 	
 	public static final Integer SEATINGPREFID=18;
 	public static final Integer MARKETINGPREFID=19;
+	
+	public static final String SCREENNAME="seatingOrMarketingPref";
+	public static final String 	ENGISOCODE="en";
 
 }

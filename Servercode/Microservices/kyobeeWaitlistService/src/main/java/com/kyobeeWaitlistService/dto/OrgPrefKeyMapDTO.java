@@ -6,7 +6,7 @@ public class OrgPrefKeyMapDTO {
 
 	private List<SeatingMarketingPrefDTO> seatingPreference;
 	private List<SeatingMarketingPrefDTO> marketingPreference;
-    private LanguageKeyMappingDTO languageKeyMappingDTO;
+   
 	
 	public List<SeatingMarketingPrefDTO> getSeatingPreference() {
 		return seatingPreference;
@@ -23,15 +23,5 @@ public class OrgPrefKeyMapDTO {
 	public void setMarketingPreference(List<SeatingMarketingPrefDTO> marketingPreference) {
 		this.marketingPreference = marketingPreference;
 	}
-
-	public LanguageKeyMappingDTO getLanguageKeyMappingDTO() {
-		return languageKeyMappingDTO;
-	}
-
-	public void setLanguageKeyMappingDTO(LanguageKeyMappingDTO languageKeyMappingDTO) {
-		this.languageKeyMappingDTO = languageKeyMappingDTO;
-	}
-	
-	
 
 }

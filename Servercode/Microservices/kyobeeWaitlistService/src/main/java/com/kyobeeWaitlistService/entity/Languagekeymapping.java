@@ -21,7 +21,7 @@ public class Languagekeymapping implements Serializable{
 		@Column(name="LanguageKeyMappingId")
 		private int languageKeyMappingId;
 
-		@Temporal(TemporalType.DATE)
+	/* @Temporal(TemporalType.DATE) */
 		@Column(name="CreatedAt")
 		private Date createdAt;
 
@@ -33,7 +33,7 @@ public class Languagekeymapping implements Serializable{
 		@Column(name="LangIsoCode")
 		private String langIsoCode;
 
-		@Temporal(TemporalType.DATE)
+	/* @Temporal(TemporalType.DATE) */
 		@Column(name="ModifiedAt")
 		private Date modifiedAt;
 
