@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kyobeeWaitlistService.dto.GuestDTO;
 import com.kyobeeWaitlistService.dto.OrgPrefKeyMapDTO;
 import com.kyobeeWaitlistService.dto.OrganizationMetricsDTO;
+import com.kyobeeWaitlistService.dto.OrganizationTemplateDTO;
 import com.kyobeeWaitlistService.dto.PusherDTO;
 import com.kyobeeWaitlistService.dto.ResponseDTO;
-import com.kyobeeWaitlistService.dto.SmsContentDTO;
-import com.kyobeeWaitlistService.dto.WaitListMetricsDTO;
+import com.kyobeeWaitlistService.dto.SendSMSDTO;
 import com.kyobeeWaitlistService.service.GuestService;
 import com.kyobeeWaitlistService.service.WaitListService;
 import com.kyobeeWaitlistService.util.LoggerUtil;
@@ -112,6 +112,34 @@ public class WaitListController {
 			LoggerUtil.logError(ex);
 			responseDTO.setServiceResult("Error while fetching organization preference key map");
 			responseDTO.setMessage("Error while fetching organization preference key map");
+			responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);
+		}
+		return responseDTO;
+	}
+	
+	@PostMapping(value = "/sendSMS", produces = "application/vnd.kyobee.v1+json", consumes = "application/json")
+	public @ResponseBody ResponseDTO sendSMS(@RequestBody SendSMSDTO sendSMSDTO) {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			GuestDTO guest = guestService.fetchGuestDetails(sendSMSDTO.getGuestId(), null);
+			if(sendSMSDTO.getSmsContent()!= null)
+			{
+			OrganizationMetricsDTO orgMetricsDTO = waitListService.getOrganizationMetrics(sendSMSDTO.getOrgId());
+			OrganizationTemplateDTO smsTemplate=waitListService.getOrganizationTemplateByLevel(guest,sendSMSDTO);
+			sendSMSDTO = waitListService.getSmsContentByLevel(guest, smsTemplate, orgMetricsDTO);
+			}
+			waitListService.getSMSDetails(guest, sendSMSDTO);
+			waitListService.saveSmsLog(guest, sendSMSDTO);
+			
+			responseDTO.setServiceResult("Sms sent successfully");
+			responseDTO.setMessage("Sms sent successfully");
+			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
+			
+		} catch (Exception ex) {
+			LoggerUtil.logError(ex);
+			responseDTO.setServiceResult("Error while sending sms");
+			responseDTO.setMessage("Error while sending sms");
 			responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);
 		}
 		return responseDTO;

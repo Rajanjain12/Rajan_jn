@@ -9,6 +9,7 @@ public class OrganizationMetricsDTO {
 	private Integer perPartyWaitTime;
 	private Integer guestNotifiedWaitTime;
 	private Integer guestMinRank;
+	private String  clientBase;
 	
 	public Integer getNotifyUserCount() {
 		return notifyUserCount;
@@ -52,6 +53,12 @@ public class OrganizationMetricsDTO {
 	}
 	public void setGuestMinRank(Integer guestMinRank) {
 		this.guestMinRank = guestMinRank;
+	}
+	public String getClientBase() {
+		return clientBase;
+	}
+	public void setClientBase(String clientBase) {
+		this.clientBase = clientBase;
 	}
 	
 }

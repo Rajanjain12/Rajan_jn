@@ -20,7 +20,7 @@ public interface GuestService {
 	//for update Guest
 	public AddUpdateGuestDTO updateGuestDetails(GuestDTO guestDTO);
 	//for mark as seated,delete,incomplete,not present
-	public void updateGuestStatus(Integer guestId,Integer orgId,String status);
+	public void updateGuestStatus(Integer guestId,Integer orgId,String status) throws InvalidGuestException;
 	public GuestDTO fetchGuestDetails(Integer guestID, String guestUUID) throws InvalidGuestException;
 	public GuestDTO fetchGuestByContact(Integer orgID, String contactNo);
 	public void addMarketingPref(GuestMarketingPreferenceDTO marketingPrefDTO);

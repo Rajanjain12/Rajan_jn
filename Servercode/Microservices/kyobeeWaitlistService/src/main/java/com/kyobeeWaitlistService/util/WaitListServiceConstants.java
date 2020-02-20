@@ -17,7 +17,7 @@ public class WaitListServiceConstants {
 	public static final Integer MARK_AS_LANGUAGE_UPDATED = 1;
 	public static final Integer MARK_AS_LANGUAGE_RESET = 0;
 
-	public static final String ADMIN_URL = "https://tinyurl.com/tsha6g4";
+	public static final String ADMIN_URL = "https://tinyurl.com/wamax57#";
 	public static final String ADVANTECH_URL = "https://tinyurl.com/y7nl9ugt";
 	public static final String SWEETHONEYDESSERT_URL = "https://tinyurl.com/y95p4eug";
 	public static final String RBSUSHI_URL = "https://tinyurl.com/ybnzpy9w";
@@ -41,8 +41,30 @@ public class WaitListServiceConstants {
 	
 	public static final Integer SEATINGPREFID=18;
 	public static final Integer MARKETINGPREFID=19;
-	
-	public static final String SCREENNAME="seatingOrMarketingPref";
+
+    public static final String SCREENNAME="seatingOrMarketingPref";
 	public static final String 	ENGISOCODE="en";
+	
+	public static final String SNS_DEFAULT_SENDER_ID = "KYOBEE";
+	public static final String SNS_MONTHLY_SPEND_LIMIT = "1000";
+	public static final String SNS_DELIVERY_STATUS_IAM_ROLE = "arn:aws:iam::437586897314:role/snscloudwatchrole";
+	public static final String SNS_DELIVERY_STATUS_SUCCESS_SAMPLING_RATE = "100";
+	public static final String SNS_DEFAULT_SMS_TYPE = "Transactional";
+	public static final String SNS_USAGE_REPORT_S3_BUCKET = "smsusagekyobee";
+	
+	public static final String AWS_ACCESS_KEY_ID="AKIAJQJN2NTV6IWMZXMQ";
+	public static final String AWS_SECRET_KEY="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";
+	public static final String AWS_REGION="us-west-2";
+	
+	public static final String SMS_SERVICE = "AWS SNS";
+	public static final String SNS_SMS_SERVICE = "AWS SNS";
+	
+	public static final String PROCESS = "P";
+	public static final Integer PHONE_NO_PREFIX = +91;
+	public static final Integer TEMP_LEVEL_FIRST = 1;
+	public static final Integer TEMP_LEVEL_SECOND = 2;
+	public static final String SEND_SMS_API = "http://localhost:8082/rest/waitlist/sendSMS";
+	public static final String SMS_SIGNATURE="SweetHoneyDessert";
+	
 
 }

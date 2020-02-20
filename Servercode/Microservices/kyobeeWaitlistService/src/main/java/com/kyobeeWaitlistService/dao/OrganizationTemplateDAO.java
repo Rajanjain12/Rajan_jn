@@ -12,5 +12,8 @@ public interface OrganizationTemplateDAO extends CrudRepository<OrganizationTemp
 	@Query(value = "select ot from OrganizationTemplate ot where ot.organization.organizationID=:orgId and ot.languageID=:languageID and ot.active=1")
 	List<OrganizationTemplate> getSmsTemplatesForOrganization(@Param("orgId") Integer orgId,
 			@Param("languageID") Integer languageID);
+	
+	@Query(value="select ot from OrganizationTemplate ot where ot.organization.organizationID=:orgId and ot.languageID=:languageID  and ot.active=1 and ot.level=:level")
+	OrganizationTemplate fetchSmsTemplateForOrgByLevel(@Param("orgId") Integer orgId,@Param("languageID") Integer languageID,@Param("level") Integer level);
 
 }

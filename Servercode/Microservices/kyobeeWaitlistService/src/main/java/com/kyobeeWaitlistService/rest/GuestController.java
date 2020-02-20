@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.kyobeeWaitlistService.dto.AddUpdateGuestDTO;
 import com.kyobeeWaitlistService.dto.GuestDTO;
@@ -22,6 +23,7 @@ import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
 import com.kyobeeWaitlistService.dto.GuestResponseDTO;
 import com.kyobeeWaitlistService.dto.GuestWebDTO;
 import com.kyobeeWaitlistService.dto.ResponseDTO;
+import com.kyobeeWaitlistService.dto.SendSMSDTO;
 import com.kyobeeWaitlistService.service.GuestService;
 import com.kyobeeWaitlistService.util.LoggerUtil;
 import com.kyobeeWaitlistService.util.WaitListServiceConstants;
@@ -77,16 +79,16 @@ public class GuestController {
 
 	// for fetching guest list , search text will be null for fetching whole data
 	@GetMapping(value = "/", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
-	public @ResponseBody ResponseDTO fetchGuestList(@RequestParam Integer orgId,@RequestParam Integer pageSize,
-			@RequestParam Integer pageNo,@RequestParam String searchText) {
+	public @ResponseBody ResponseDTO fetchGuestList(@RequestParam Integer orgId, @RequestParam Integer pageSize,
+			@RequestParam Integer pageNo, @RequestParam String searchText) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			GuestResponseDTO guestList = guestService.fetchGuestList(orgId,pageSize,pageNo,searchText);
+			GuestResponseDTO guestList = guestService.fetchGuestList(orgId, pageSize, pageNo, searchText);
 			responseDTO.setServiceResult(guestList);
 			responseDTO.setMessage("guest list fetched Successfully.");
 			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
- 
+
 		} catch (Exception ex) {
 			LoggerUtil.logError(ex);
 			responseDTO.setServiceResult("System Error - fetchGuestList failed");
@@ -98,12 +100,15 @@ public class GuestController {
 
 	// for fetching guest list , search text will be null for fetching whole data
 	@GetMapping(value = "/fetchGuestHistory", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
-	public @ResponseBody ResponseDTO fetchGuestHistoryList(@RequestParam Integer orgId,@RequestParam Integer pageSize,
-			@RequestParam Integer pageNo,@RequestParam String searchText,@RequestParam("clientTimezone") String clientTimezone,@RequestParam Integer sliderMaxTime,@RequestParam Integer sliderMinTime,@RequestParam String statusOption ) {
+	public @ResponseBody ResponseDTO fetchGuestHistoryList(@RequestParam Integer orgId, @RequestParam Integer pageSize,
+			@RequestParam Integer pageNo, @RequestParam String searchText,
+			@RequestParam("clientTimezone") String clientTimezone, @RequestParam Integer sliderMaxTime,
+			@RequestParam Integer sliderMinTime, @RequestParam String statusOption) {
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
 			LoggerUtil.logInfo(clientTimezone);
-			GuestResponseDTO guestList = guestService.fetchGuestHistoryList(orgId,pageSize,pageNo,searchText,clientTimezone,sliderMaxTime,sliderMinTime,statusOption);
+			GuestResponseDTO guestList = guestService.fetchGuestHistoryList(orgId, pageSize, pageNo, searchText,
+					clientTimezone, sliderMaxTime, sliderMinTime, statusOption);
 			responseDTO.setServiceResult(guestList);
 			responseDTO.setMessage("guest history list fetched Successfully.");
 			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
@@ -124,19 +129,20 @@ public class GuestController {
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
 			AddUpdateGuestDTO addUpdateGuestDTO = guestService.addGuest(guestDTO);
+			
 			responseDTO.setServiceResult(addUpdateGuestDTO);
 			responseDTO.setMessage("guest added Successfully.");
 			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
 
 		} catch (Exception ex) {
-			LoggerUtil.logError("add "+ Arrays.toString(ex.getStackTrace()));
+			LoggerUtil.logError("add " + Arrays.toString(ex.getStackTrace()));
 			responseDTO.setServiceResult("System Error - addGuestDetails failed");
 			responseDTO.setMessage("System Error - addGuestDetails failed");
 			responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);
 		}
 		return responseDTO;
 	}
-	
+
 	@PutMapping(value = "/", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO updateGuestDetails(@RequestBody GuestDTO guestDTO) {
 
@@ -148,16 +154,17 @@ public class GuestController {
 			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
 
 		} catch (Exception ex) {
-			LoggerUtil.logError("update detail method ERROR "+Arrays.toString(ex.getStackTrace()));
+			LoggerUtil.logError("update detail method ERROR " + Arrays.toString(ex.getStackTrace()));
 			responseDTO.setServiceResult("System Error - updateGuestDetails failed");
 			responseDTO.setMessage("System Error - updateGuestDetails failed");
 			responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);
 		}
 		return responseDTO;
 	}
-	
+
 	@PutMapping(value = "/status", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
-	public @ResponseBody ResponseDTO updateGuestStatus(@RequestParam Integer guestId,@RequestParam Integer orgId,@RequestParam String status) {
+	public @ResponseBody ResponseDTO updateGuestStatus(@RequestParam Integer guestId, @RequestParam Integer orgId,
+			@RequestParam String status) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
@@ -167,7 +174,7 @@ public class GuestController {
 			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
 
 		} catch (Exception ex) {
-			LoggerUtil.logError("update status method ERROR "+Arrays.toString(ex.getStackTrace()));
+			LoggerUtil.logError("update status method ERROR " + Arrays.toString(ex.getStackTrace()));
 			responseDTO.setServiceResult("System Error - updateGuestStatus failed");
 			responseDTO.setMessage("System Error - updateGuestStatus failed");
 			responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);
@@ -225,7 +232,8 @@ public class GuestController {
 
 	// for fetching guest details by contact no and organization id
 	@GetMapping(value = "/guestDetails", produces = "application/vnd.kyobee.v1+json")
-	public @ResponseBody ResponseDTO fetchGuestByContact(@RequestParam("orgID") Integer orgID, @RequestParam("contactNo") String contactNo) {
+	public @ResponseBody ResponseDTO fetchGuestByContact(@RequestParam("orgID") Integer orgID,
+			@RequestParam("contactNo") String contactNo) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
@@ -242,7 +250,7 @@ public class GuestController {
 		}
 		return responseDTO;
 	}
-	
+
 	@PostMapping(value = "/marketingPref", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO addMarketingPref(@RequestBody GuestMarketingPreferenceDTO marketingPrefDTO) {
 

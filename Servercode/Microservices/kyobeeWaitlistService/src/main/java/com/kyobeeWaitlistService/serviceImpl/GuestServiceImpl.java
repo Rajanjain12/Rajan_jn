@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import com.kyobeeWaitlistService.dao.GuestCustomDAO;
 import com.kyobeeWaitlistService.dao.GuestDAO;
@@ -29,7 +30,9 @@ import com.kyobeeWaitlistService.dto.GuestResponseDTO;
 import com.kyobeeWaitlistService.dto.GuestWebDTO;
 import com.kyobeeWaitlistService.dto.LanguageMasterDTO;
 import com.kyobeeWaitlistService.dto.PusherDTO;
+import com.kyobeeWaitlistService.dto.ResponseDTO;
 import com.kyobeeWaitlistService.dto.SeatingMarketingPrefDTO;
+import com.kyobeeWaitlistService.dto.SendSMSDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.entity.Guest;
 import com.kyobeeWaitlistService.entity.GuestMarketingPreferences;
@@ -276,6 +279,16 @@ public class GuestServiceImpl implements GuestService {
 		}
 		guestMarketingPreferencesDAO.saveAll(guestMarketingPref);
 		NotificationUtil.sendMessage(addUpdateGuestDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV+"_"+guestDTO.getOrganizationID());
+		
+		//API call for sending sms to Guest
+		
+		SendSMSDTO sendSMSDTO = new SendSMSDTO();
+		sendSMSDTO.setGuestId(addUpdateGuestDTO.getAddedGuestId());
+		sendSMSDTO.setTemplateLevel(WaitListServiceConstants.TEMP_LEVEL_FIRST);
+		
+	    RestTemplate restTemplate = new RestTemplate();
+	    restTemplate.postForObject(	WaitListServiceConstants.SEND_SMS_API, sendSMSDTO, ResponseDTO.class);
+	    
 		return addUpdateGuestDTO;
 	}
 
@@ -332,7 +345,7 @@ public class GuestServiceImpl implements GuestService {
 	}
 
 	@Override
-	public void updateGuestStatus(Integer guestId, Integer orgId, String status) {
+	public void updateGuestStatus(Integer guestId, Integer orgId, String status) throws InvalidGuestException {
 
 		WaitlistMetrics waitlistMetrics = guestCustomDAO.updateGuestStatus(guestId, orgId, status);
 		PusherDTO pusherDTO=new PusherDTO();
@@ -341,6 +354,19 @@ public class GuestServiceImpl implements GuestService {
 		pusherDTO.setOp(status);
 		pusherDTO.setWaitlistMetrics(waitlistMetrics);
 		NotificationUtil.sendMessage(pusherDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV+"_"+orgId);
+		
+		LoggerUtil.logInfo("guest to be notified:"+waitlistMetrics.getGuestToBeNotified());
+		if(guestId < waitlistMetrics.getGuestToBeNotified())
+		{
+			GuestDTO guestToBeNotified = fetchGuestDetails(waitlistMetrics.getGuestToBeNotified(), null);
+
+			SendSMSDTO sendSMSDTO = new SendSMSDTO();
+			sendSMSDTO.setGuestId(guestToBeNotified.getGuestID());
+			sendSMSDTO.setTemplateLevel(WaitListServiceConstants.TEMP_LEVEL_SECOND);
+
+			RestTemplate restTemplate = new RestTemplate();
+			restTemplate.postForObject(WaitListServiceConstants.SEND_SMS_API, sendSMSDTO, ResponseDTO.class);	
+		}
 		
 		/*
 		 * StatusUpdateResponseDTO statusUpdateResponseDTO=new StatusUpdateResponseDTO();
