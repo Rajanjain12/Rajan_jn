@@ -5,8 +5,7 @@ import { GuestDTO } from 'src/app/core/models/guest.model';
 import { Preference } from 'src/app/core/models/preference.model';
 import { GuestService } from 'src/app/core/services/guest.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-add-guest',
@@ -130,6 +129,7 @@ export class AddGuestComponent implements OnInit {
     this.guest.deviceId = null;
     this.guest.deviceType = null;
     this.guest.email = null;
+
     //  this.guest.guestID=0;
     this.guest.incompleteParty = 0;
 
@@ -151,6 +151,10 @@ export class AddGuestComponent implements OnInit {
     this.resultSeating();
     this.resultMarketing();
     this.removeSelected();
+    this.guest.noOfInfants=0;
+    if(this.guest.noOfChildren==null){
+      this.guest.noOfChildren=0;
+    }
     this.guest.noOfPeople = +this.guest.noOfAdults + +this.guest.noOfChildren;
     if (this.sum > this.user.maxParty) {
       this.errorMessage = 'More than ' + this.user.maxParty + ' people are not allowed';
@@ -165,6 +169,10 @@ export class AddGuestComponent implements OnInit {
       this.guestService.addGuest(this.guest).subscribe(res => {
         if (res.success == 1) {
           console.log(res);
+          this.router.navigateByUrl('/waitlist/dashboard');
+        }
+        else{
+          alert(res.message);
         }
       });
     } else {

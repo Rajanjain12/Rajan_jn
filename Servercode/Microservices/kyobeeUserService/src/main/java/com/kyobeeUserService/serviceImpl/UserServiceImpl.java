@@ -42,7 +42,6 @@ import com.kyobeeUserService.util.Exception.AccountNotActivatedExeception;
 import com.kyobeeUserService.util.Exception.InvalidAuthCodeException;
 import com.kyobeeUserService.util.Exception.InvalidLoginException;
 import com.kyobeeUserService.util.Exception.UserNotFoundException;
-import com.kyobeeUserService.util.emailImpl.AWSUtil;
 import com.kyobeeUserService.util.emailImpl.EmailUtil;
 
 @Service

@@ -17,7 +17,7 @@ public class WaitListServiceConstants {
 	public static final Integer MARK_AS_LANGUAGE_UPDATED = 1;
 	public static final Integer MARK_AS_LANGUAGE_RESET = 0;
 
-	public static final String ADMIN_URL = "https://tinyurl.com/wamax57#";
+	public static final String ADMIN_URL = "https://tinyurl.com/tsha6g4";
 	public static final String ADVANTECH_URL = "https://tinyurl.com/y7nl9ugt";
 	public static final String SWEETHONEYDESSERT_URL = "https://tinyurl.com/y95p4eug";
 	public static final String RBSUSHI_URL = "https://tinyurl.com/ybnzpy9w";

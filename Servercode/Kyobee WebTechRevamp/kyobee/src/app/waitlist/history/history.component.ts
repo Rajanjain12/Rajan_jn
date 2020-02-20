@@ -4,6 +4,9 @@ import { GuestDTO } from 'src/app/core/models/guest.model';
 import { GuestService } from 'src/app/core/services/guest.service';
 import { PubNubAngular } from 'pubnub-angular2';
 import { environment } from '@env/environment';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { User } from 'src/app/core/models/user.model';
+import { Options } from 'ng5-slider';
 
 @Component({
   selector: 'app-history',
@@ -11,15 +14,22 @@ import { environment } from '@env/environment';
   styleUrls: ['./history.component.scss']
 })
 export class HistoryComponent implements OnInit {
-  constructor(private guestService: GuestService, private pubnub: PubNubAngular) {}
+  constructor(private guestService: GuestService, private pubnub: PubNubAngular,private authService:AuthService) {}
+  sliderMaxTime :number= 24;
+  sliderMinTime :number= 0;
+  options: Options = {
+    floor: 0,
+    ceil: 24
+  };
   statusOptions = ['All', 'Not Present', 'Incomplete'];
+  roundarrow = '../../../assets/images/roundarrow.png';
   selectedStatus: string;
+  user:User;
   orgId;
   pageNo;
   pageSize;
   searchText;
-  sliderMaxTime = 24;
-  sliderMinTime = 0;
+
   guestDTOList: Array<GuestDTO>;
   toggleColumnArr = {
     action: true,
@@ -34,7 +44,8 @@ export class HistoryComponent implements OnInit {
 
   ngOnInit() {
     this.selectedStatus = this.statusOptions[0];
-    this.orgId = 2;
+    this.user = this.authService.getUser();
+    this.orgId = this.user.organizationID;
     this.pageNo = 0;
     this.pageSize = 10;
     this.searchText = null;
@@ -156,7 +167,16 @@ export class HistoryComponent implements OnInit {
     this.pageNo = this.pageNo + 1;
     this.fetchGuestHistory();
   }
-
+  onSubmit(invalid) {
+    if (invalid) {
+      return;
+    }
+    if(this.searchText.toString().trim()==''){
+      this.searchText=null;
+    }
+    
+    this.fetchGuestHistory();
+  }
   fetchPrevGuest() {
     this.pageNo = this.pageNo - 1;
     this.fetchGuestHistory();

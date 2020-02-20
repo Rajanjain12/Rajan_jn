@@ -16,13 +16,34 @@
           <div class="col-lg-auto pb-2">
             <span class="table-column-btn">Check-in Time</span>
             <div>
-              <npn-slider [min]="sliderMinTime" [max]="sliderMaxTime" [step]="1" [showStepIndicator]="true"></npn-slider>
-            </div>
+                <ng5-slider  [(value)]="sliderMinTime" [(highValue)]="sliderMaxTime" [options]="options"></ng5-slider>
+                <!-- <npn-slider [min]="sliderMinTime" [max]="sliderMaxTime"  [step]="1" (onChange)="onSliderChange($event)" [showStepIndicator]="true"></npn-slider> -->
+                <!-- <ion-range-slider #sliderElement
+                type="double"
+                [min]="0"
+                max="100"
+                from="28"
+                from_min="10"
+                from_max="30"
+                from_shadow="true"
+                to="40"
+                to_min="40"
+                to_max="90"
+                to_shadow="true"
+                grid="true"
+                grid_num="10"
+                prefix="Weight: "
+                postfix=" million pounds"
+                decorate_both="false"
+               ></ion-range-slider> -->
+              </div>
           </div>
         </div>
       </div>
       <div class="col-lg-3 text-right pb-2">
-        <input class="form-control search" type="text" name="" placeholder="Search" />
+          <form #f="ngForm" (ngSubmit)="onSubmit(f.invalid)">
+        <input class="form-control search" #searchData="ngModel" [(ngModel)]="searchText" type="text" name="" placeholder="Search" />
+        </form>
       </div>
     </div>
     <div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { GuestDTO } from 'src/app/core/models/guest.model';
+import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
 import { GuestService } from 'src/app/core/services/guest.service';
@@ -22,7 +23,7 @@ export class GuestDetailUpdateComponent implements OnInit {
   errorMessage: string;
   listSeatingPref: Array<Preference>;
   listMarketingPref: Array<Preference>;
-  languageKeyMap: Map<String, String>;
+  languageKeyMap: Map<string, string>;
   userMetrics: Map<string, string>;
   orgId = 0;
 
@@ -113,7 +114,7 @@ export class GuestDetailUpdateComponent implements OnInit {
       delete obj.selected;
     });
   }
-  showDeleteModal(guest) {
+  showDeleteModal() {
     $('#deleteModal').modal('show');
   }
   fetchOrgPrefandKeyMap() {
@@ -165,7 +166,7 @@ export class GuestDetailUpdateComponent implements OnInit {
 
     this.guest.seatingPreference = this.seatingPref;
     this.guest.marketingPreference = this.marketingPref;
-    console.log('seating' + JSON.stringify(this.guest));
+    console.log('serating' + JSON.stringify(this.guest));
     this.removeSelected();
     this.guestService.updateGuest(this.guest).subscribe(res => {
       if (res.success == 1) {

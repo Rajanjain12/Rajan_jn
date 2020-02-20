@@ -11,28 +11,28 @@
           <small class="text-danger" style="text-align: center;">
             {{ errorMessage }}
           </small>
-          <h2>{{ languageKeyMap.now_serving }}</h2>
-          <h1>#{{ userMetrics.guestRank }}</h1>
+          <h2>{{ languageKeyMap['now_serving'] }}</h2>
+          <h1>#{{ userMetrics['guestRank'] }}</h1>
         </div>
 
         <div class="col-12 col-sm-auto p-0 grey my-3 text-center">
-          <h2>({{ userMetrics.guestAheadCount }})</h2>
-          <h6>{{ languageKeyMap.parties_waiting }} <br class="d-none d-md-block" /></h6>
+          <h2>({{ userMetrics['guestAheadCount'] }})</h2>
+          <h6>{{ languageKeyMap['parties_waiting'] }} <br class="d-none d-md-block" /></h6>
         </div>
 
         <div class="col-12 col-sm font-color my-3 text-center">
-          <h2>{{ languageKeyMap.est_wait_time }}</h2>
-          <h1>{{ convertMinstoMMHH(userMetrics.totalWaitTime) }}</h1>
+          <h2>{{ languageKeyMap['est_wait_time'] }}</h2>
+          <h1>{{ convertMinstoMMHH(userMetrics['totalWaitTime']) }}</h1>
         </div>
       </div>
       <div class="col-12 col-md-10 row my-3 mx-auto">
         <div class="col-12 col-md-4">
           <div class="form-group mt-0 mb-3">
             <input type="text" id="name" name="name" #name="ngModel" [ngClass]="{ 'is-invalid': f.submitted && name.invalid }" class="form-control" [(ngModel)]="guest.name" maxlength="50" required="required" />
-            <label for="input" class="control-label">{{ languageKeyMap.name }}</label
+            <label for="input" class="control-label">{{ languageKeyMap['name'] }}</label
             ><i class="bar"></i>
             <div *ngIf="f.submitted && name.invalid" class="invalid-feedback">
-              <small class="text-danger" *ngIf="name.errors?.required">{{ languageKeyMap.name_can_not_be_blank }}</small>
+              <small class="text-danger" *ngIf="name.errors?.required">{{languageKeyMap['name_can_not_be_blank']}}</small>
             </div>
           </div>
         </div>
@@ -40,10 +40,10 @@
         <div class="col-6 col-md-2">
           <div class="form-group mt-0 mb-3">
             <input type="text" id="adults" name="adults" #adults="ngModel" [ngClass]="{ 'is-invalid': f.submitted && adults.invalid }" class="form-control" [(ngModel)]="guest.noOfAdults" required="required" />
-            <label for="input" class="control-label">{{ languageKeyMap.adults }}</label
+            <label for="input" class="control-label">{{ languageKeyMap['adults'] }}</label
             ><i class="bar"></i>
             <div *ngIf="f.submitted && adults.invalid" class="invalid-feedback">
-              <small class="text-danger" *ngIf="adults.errors?.required">{{ languageKeyMap.no_of_adult_cannot_be_blank }}</small>
+              <small class="text-danger" *ngIf="adults.errors?.required">{{ languageKeyMap['no_of_adult_cannot_be_blank'] }}</small>
             </div>
           </div>
         </div>
@@ -51,7 +51,7 @@
         <div class="col-6 col-md-2">
           <div class="form-group mt-0 mb-3">
             <input type="text" id="children" name="children" #children="ngModel" [ngClass]="{ 'is-invalid': f.submitted && children.invalid }" class="form-control" [(ngModel)]="guest.noOfChildren" />
-            <label for="input" class="control-label">{{ languageKeyMap.children }}</label
+            <label for="input" class="control-label">{{ languageKeyMap['children'] }}</label
             ><i class="bar"></i>
             <!-- <div *ngIf="f.submitted && children.invalid" class="invalid-feedback">
               <small class="text-danger" *ngIf="children.errors?.required">children is required</small>
@@ -72,16 +72,16 @@
               [(ngModel)]="guest.sms"
               required="required"
             />
-            <label for="input" class="control-label">{{ languageKeyMap.contact_number }}</label
+            <label for="input" class="control-label">{{ languageKeyMap['contact_number'] }}</label
             ><i class="bar"></i>
             <div *ngIf="f.submitted && contactNumber.invalid" class="invalid-feedback">
-              <small class="text-danger" *ngIf="contactNumber.errors?.required">{{ languageKeyMap.valid_num_error }}</small>
-              <small class="text-danger" *ngIf="contactNumber.errors?.pattern">{{ languageKeyMap.valid_num_error }}</small>
+              <small class="text-danger" *ngIf="contactNumber.errors?.required">{{ languageKeyMap['valid_num_error'] }}</small>
+              <small class="text-danger" *ngIf="contactNumber.errors?.pattern">{{ languageKeyMap['valid_num_error'] }}</small>
             </div>
           </div>
         </div>
         <div class="col-12 row m-0">
-          <label class="col-12 font-weight-bold font-16 px-0">{{ languageKeyMap.seating_preference }}</label>
+          <label class="col-12 font-weight-bold font-16 px-0">{{ languageKeyMap['seating_preference'] }}</label>
           <div class="col-12 col-sm-auto pl-0" *ngFor="let seating of listSeatingPref; index as i">
             <input class="styled-checkbox" id="Preferance{{ i }}" type="checkbox" [(ngModel)]="seating.selected" [ngModelOptions]="{ standalone: true }" />
             <label for="Preferance{{ i }}">{{ seating.prefValue }}</label>
@@ -89,7 +89,7 @@
         </div>
 
         <div class="col-12 row m-0 my-3">
-          <label class="col-12 font-weight-bold font-16 px-0">{{ languageKeyMap.how_did_you_here_about_us }}</label>
+          <label class="col-12 font-weight-bold font-16 px-0">{{ languageKeyMap['how_did_you_here_about_us'] }}</label>
           <div class="col-12 col-sm-6 col-lg-3 social-icon" *ngFor="let marketing of listMarketingPref; index as i">
             <input class="styled-checkbox" id="marketingPref{{ i }}" type="checkbox" [(ngModel)]="marketing.selected" [ngModelOptions]="{ standalone: true }" />
             <label for="marketingPref"></label>
@@ -101,17 +101,17 @@
 
         <div class="col-12">
           <div class="mt-0 mb-4">
-            <input class="styled-checkbox" id="promotion" type="checkbox" [checked]="guest.optin == 1" (click)="onOptinChange()" />
-            <label for="promotion">{{ languageKeyMap.opt_in_receive }}</label>
+            <input class="styled-checkbox" id="promotion" type="checkbox" [checked]="guest.optin == 0" />
+            <label for="promotion">{{ languageKeyMap['opt_in_receive'] }}</label>
           </div>
         </div>
 
         <div class="col-lg-12 row text-center m-0 p-0 pb-3">
           <div class="col-6">
-            <button type="button" class="btn btn-theme background-color w-100 shadow" (click)="showDeleteModal()">{{ languageKeyMap.rmv_waitlist }}</button>
+            <button type="button" class="btn btn-theme background-color w-100 shadow" (click)="showDeleteModal()">{{ languageKeyMap['rmv_waitlist']}}</button>
           </div>
           <div class="col-6">
-            <button type="submit" class="btn btn-theme background-color w-100 shadow" (click)="onSubmit()">{{ languageKeyMap.save_changes }}</button>
+            <button type="submit" class="btn btn-theme background-color w-100 shadow" (click)="onSubmit(f.invalid)">{{ languageKeyMap['save_changes'] }}</button>
           </div>
         </div>
       </div>
@@ -125,7 +125,7 @@
     <div class="modal-content border-radius border-0">
       <div class="custom-modal-header background-color">
         <span class="modal-title text-white">Delete</span>
-        <button type="button" class="close text-white" (click)="removeSelected('DELETE')" data-dismiss="modal">&times;</button>
+        <button type="button" class="close text-white" (click)="removeSelected()" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body text-center">
         <h4>Are you sure you want to delete?</h4>

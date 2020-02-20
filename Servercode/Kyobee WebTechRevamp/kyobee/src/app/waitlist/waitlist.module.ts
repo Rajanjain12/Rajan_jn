@@ -9,7 +9,8 @@ import { HistoryComponent } from './history/history.component';
 import { SettingsComponent } from './settings/settings.component';
 import { FormsModule } from '@angular/forms';
 import { PubNubAngular } from 'pubnub-angular2';
-import { NpnSliderModule } from 'npn-slider';
+import { Ng5SliderModule } from 'ng5-slider';
+
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { NpnSliderModule } from 'npn-slider';
     HistoryComponent,
     SettingsComponent
   ],
-  imports: [CommonModule, WaitlistRoutingModule, FormsModule, NpnSliderModule],
+  imports: [CommonModule, WaitlistRoutingModule, FormsModule,Ng5SliderModule],
   providers: [PubNubAngular]
 })
 export class WaitlistModule {}

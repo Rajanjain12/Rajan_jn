@@ -14,6 +14,7 @@ import org.hibernate.jdbc.ReturningWork;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kyobeeWaitlistService.dao.GuestCustomDAO;
 import com.kyobeeWaitlistService.dto.AddUpdateGuestDTO;
@@ -26,6 +27,7 @@ import com.kyobeeWaitlistService.util.LoggerUtil;
 import com.kyobeeWaitlistService.util.WaitListServiceConstants;
 
 @Repository
+@Transactional
 public class GuestCustomDAOImpl implements GuestCustomDAO{
 
 	@Autowired
@@ -36,10 +38,9 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 	@Override
 	public List<Guest> fetchAllGuestHistoryList(Integer orgId,Integer pageSize,Integer startIndex,String searchText,String clientTimezone,Integer sliderMaxTime,Integer sliderMinTime,String statusOption) {
 		//for fetching data according to page number 
-		Session session=null;
+		
 		List<Guest> guestList=null;
-		SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
-		 session = sessionFactory.openSession();
+		
 		try {
 			//LoggerUtil.logInfo(orgId+" "+pageSize+" "+startIndex+" "+searchText+" "+clientTimezone+" "+sliderMaxTime+" "+sliderMinTime+" "+statusOption);
 		//int firstPage = (pageNo == 1) ? 0 : (pageSize*(pageNo-1));
@@ -67,9 +68,6 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 		}
 		catch (Exception e) {
 			LoggerUtil.logError("Error in fetch history  " + e.getMessage());
-		} finally {
-			
-			session.close();
 		}
 		return guestList;
 	 }
@@ -79,17 +77,17 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 	public AddUpdateGuestDTO addGuest(GuestDTO guestObj,String seatingPref,String marketingPref) {
 		
 		SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
-	         
+		Session session= sessionFactory.openSession();
 		//SessionFactory sessionFactory=getSessionFactory();
 		AddUpdateGuestDTO addUpdateGuestDTO = null;
 		try {
 			
-			addUpdateGuestDTO = sessionFactory.getCurrentSession().doReturningWork(new ReturningWork<AddUpdateGuestDTO>() {
+			addUpdateGuestDTO = session.doReturningWork(new ReturningWork<AddUpdateGuestDTO>() {
 
 				@Override
 				public AddUpdateGuestDTO execute(Connection connection) throws SQLException {
-					CallableStatement cStmt = connection.prepareCall("{call ADDGUESTLATEST(?, ?, ?, ?, "
-							+ "?, ?, ?, ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ? , ? , ?, ?, ?)}");
+					CallableStatement cStmt = connection.prepareCall("{call ADDGUESTLATEST(? , ? , ? , ? , "
+							+ "?, ?, ?, ? , ?, ?, ?, ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? )}");
 					
 					AddUpdateGuestDTO addUpdateGuestDTO = new AddUpdateGuestDTO();
 					try {
@@ -97,8 +95,8 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 						cStmt.setString(2, guestObj.getName());
 						cStmt.setString(3, guestObj.getUuid());
 						cStmt.setLong(4, guestObj.getNoOfChildren());
-						cStmt.setLong(5, guestObj.getNoOfChildren());
-						cStmt.setLong(6, guestObj.getNoOfChildren());
+						cStmt.setLong(5, guestObj.getNoOfAdults());
+						cStmt.setLong(6, guestObj.getNoOfInfants());
 						
 						cStmt.setLong(7, guestObj.getNoOfPeople());
 						cStmt.setLong(8, guestObj.getLanguagePref().getLangId());
@@ -148,7 +146,7 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 		}
 		finally {
 			//session.flush();
-			//session.close();	
+			session.close();	
 		}
 		return addUpdateGuestDTO;	
 	}

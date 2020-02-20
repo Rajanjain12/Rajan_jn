@@ -10,6 +10,7 @@ import { OrganizationTemplateDTO } from 'src/app/core/models/organization-templa
 import { PubNubAngular } from 'pubnub-angular2';
 import { environment } from '@env/environment';
 import { User } from 'src/app/core/models/user.model';
+import { SendSMSDTO } from 'src/app/core/models/send-sms.model';
 
 declare var $: any;
 @Component({
@@ -32,6 +33,7 @@ export class DashboardComponent implements OnInit {
   guestDTOList: Array<GuestDTO>;
   selectedGuest: GuestDTO;
   organizationMetrics: OrganizationMetrics;
+  sendSMSDTO:SendSMSDTO;
   organizationTemplateDTOList: Array<OrganizationTemplateDTO>;
   waitTime: any = null;
   waitTimeOption = [
@@ -157,7 +159,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.authService.getUser();
-    this.orgId = 2;
+    this.orgId = this.user.organizationID;
     this.pageNo = 0;
     this.pageSize = 10;
     this.searchText = null;
@@ -307,6 +309,10 @@ export class DashboardComponent implements OnInit {
     if (invalid) {
       return;
     }
+    if(this.searchText.toString().trim()==''){
+      this.searchText=null;
+    }
+    
     this.fetchGuest();
   }
 
@@ -397,6 +403,22 @@ export class DashboardComponent implements OnInit {
         }
         break;
     }
+  }
+  sendSMS(content,level){
+this.sendSMSDTO.guestId=this.selectedGuest.guestID;
+this.sendSMSDTO.orgId=this.selectedGuest.organizationID;
+this.sendSMSDTO.smsContent=content;
+this.sendSMSDTO.templateLevel=level;
+    this.guestService.sendSMS(this.sendSMSDTO).subscribe((res: any) => {
+      if (res.success == 1) {
+       // this.organizationTemplateDTOList = res.serviceResult;
+        console.log(JSON.stringify(res));
+       // $('#smsModal').modal('show');
+      } else {
+        alert(res.serviceResult);
+      }
+    });
+
   }
 
   connectPubnub() {

@@ -12,6 +12,7 @@
 	<groupId>com.kyobeeWaitlistService</groupId>
 	<artifactId>kyobeeWaitlistService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>kyobeeWaitlistService</name>
 	<description>Demo project for Spring Boot</description>
 
