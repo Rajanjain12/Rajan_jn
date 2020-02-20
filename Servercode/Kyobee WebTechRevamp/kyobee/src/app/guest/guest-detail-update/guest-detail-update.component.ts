@@ -30,10 +30,10 @@ export class GuestDetailUpdateComponent implements OnInit {
   constructor(private route: ActivatedRoute, private guestService: GuestService, private pubnub: PubNubAngular) {}
 
   ngOnInit() {
-    this.fetchGuest();
+    this.fetchGuest(1);
   }
 
-  fetchGuest() {
+  fetchGuest(i) {
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id !== null) {
       this.guestService.fetchGuestDetail(this.id).subscribe(res => {
@@ -41,6 +41,10 @@ export class GuestDetailUpdateComponent implements OnInit {
           this.languageKeyMap = res.serviceResult.languageKeyMap;
           this.guest = res.serviceResult;
           this.orgId = this.guest.organizationID;
+          if(i==1){
+            this.connectPubnub();
+          }
+         
           this.fetchGuestMetric();
           this.fetchOrgPrefandKeyMap();
           console.log(res.serviceResult);
@@ -201,7 +205,7 @@ export class GuestDetailUpdateComponent implements OnInit {
           msg.message.op == 'SEATED'
         ) {
           if (msg.message.orgId == this.orgId) {
-            this.fetchGuest();
+            this.fetchGuest(2);
           }
         }
         if (msg.message.op == 'REFRESH_LANGUAGE_PUSHER') {

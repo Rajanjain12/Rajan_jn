@@ -25,7 +25,6 @@ import com.kyobeeWaitlistService.dao.OrganizationTemplateDAO;
 import com.kyobeeWaitlistService.dao.SmsLogDAO;
 import com.kyobeeWaitlistService.dto.GuestDTO;
 import com.kyobeeWaitlistService.dto.GuestNotificationDTO;
-import com.kyobeeWaitlistService.dto.LanguageKeyMappingDTO;
 import com.kyobeeWaitlistService.dto.LanguageMasterDTO;
 import com.kyobeeWaitlistService.dto.OrgPrefKeyMapDTO;
 import com.kyobeeWaitlistService.dto.OrganizationMetricsDTO;

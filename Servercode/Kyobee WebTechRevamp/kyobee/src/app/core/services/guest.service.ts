@@ -47,6 +47,6 @@ export class GuestService {
     return this.apiService.getParam('rest/waitlist/orgPrefAndKeyMap', params);
   }
   sendSMS(params) {
-    return this.apiService.post('rest/waitlist/orgPrefAndKeyMap', params);
+    return this.apiService.post('rest/waitlist/sendSMS', params);
   }
 }

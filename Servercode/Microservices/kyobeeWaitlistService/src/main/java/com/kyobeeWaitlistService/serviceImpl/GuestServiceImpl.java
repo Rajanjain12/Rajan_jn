@@ -36,7 +36,6 @@ import com.kyobeeWaitlistService.dto.SendSMSDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.entity.Guest;
 import com.kyobeeWaitlistService.entity.GuestMarketingPreferences;
-import com.kyobeeWaitlistService.entity.Languagekeymapping;
 import com.kyobeeWaitlistService.entity.Lookup;
 import com.kyobeeWaitlistService.service.GuestService;
 import com.kyobeeWaitlistService.util.CommonUtil;

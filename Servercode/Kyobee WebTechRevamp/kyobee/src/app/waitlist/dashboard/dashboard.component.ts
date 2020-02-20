@@ -268,7 +268,7 @@ export class DashboardComponent implements OnInit {
   fetchSMSContent(guest) {
     this.smsContentDTO = new SmsContentDTO();
     this.selectedGuest = guest;
-    this.smsContentDTO.orgId = 1;
+    this.smsContentDTO.orgId = this.selectedGuest.organizationID;
     this.smsContentDTO.guestId = this.selectedGuest.guestID;
     this.smsContentDTO.clientBase = 'admin';
     this.smsContentDTO.guestName = this.selectedGuest.name;

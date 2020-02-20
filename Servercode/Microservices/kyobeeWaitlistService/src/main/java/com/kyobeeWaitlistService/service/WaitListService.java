@@ -8,7 +8,6 @@ import com.kyobeeWaitlistService.dto.OrganizationMetricsDTO;
 import com.kyobeeWaitlistService.dto.OrganizationTemplateDTO;
 import com.kyobeeWaitlistService.dto.PusherDTO;
 import com.kyobeeWaitlistService.dto.SendSMSDTO;
-import com.kyobeeWaitlistService.entity.Guest;
 
 
 public interface WaitListService {

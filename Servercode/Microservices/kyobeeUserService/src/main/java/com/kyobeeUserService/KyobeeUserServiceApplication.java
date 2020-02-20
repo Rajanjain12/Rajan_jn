@@ -17,7 +17,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableEurekaClient 
 public class KyobeeUserServiceApplication {
 
-	
+	public static void main(String[] args) {
+		SpringApplication.run(KyobeeUserServiceApplication.class, args);
+	}
 	
 	@Bean
     public Docket api() { 
@@ -28,8 +30,4 @@ public class KyobeeUserServiceApplication {
           .build();                                           
     }
 	
-	public static void main(String[] args) {
-		SpringApplication.run(KyobeeUserServiceApplication.class, args);
-	}
-
 }
