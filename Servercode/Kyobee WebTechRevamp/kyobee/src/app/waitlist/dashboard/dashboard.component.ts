@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit {
     private organizationService: OrganizationService,
     private authService: AuthService,
     private pubnub: PubNubAngular
-  ) {}
+  ) { }
   user: User;
   orgId;
   pageNo;
@@ -33,9 +33,11 @@ export class DashboardComponent implements OnInit {
   guestDTOList: Array<GuestDTO>;
   selectedGuest: GuestDTO;
   organizationMetrics: OrganizationMetrics;
-  sendSMSDTO:SendSMSDTO;
+  sendSMSDTO: SendSMSDTO;
   organizationTemplateDTOList: Array<OrganizationTemplateDTO>;
   waitTime: any = null;
+  content = null;
+  level;
   waitTimeOption = [
     1,
     2,
@@ -276,7 +278,7 @@ export class DashboardComponent implements OnInit {
     this.smsContentDTO.guestUuid = this.selectedGuest.uuid;
     this.smsContentDTO.langId = this.selectedGuest.languagePref.langId;
     this.smsContentDTO.tempLevel = 1;
-    alert(JSON.stringify(this.smsContentDTO));
+    //alert(JSON.stringify(this.smsContentDTO));
     this.organizationService.fetchSmsContent(this.smsContentDTO).subscribe((res: any) => {
       if (res.success == 1) {
         this.organizationTemplateDTOList = res.serviceResult;
@@ -287,7 +289,10 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+  fetchOrgLevelMsg(level) {
 
+
+  }
   fetchNextGuest() {
     this.pageNo = this.pageNo + 1;
     this.fetchGuest();
@@ -309,15 +314,15 @@ export class DashboardComponent implements OnInit {
     if (invalid) {
       return;
     }
-    if(this.searchText.toString().trim()==''){
-      this.searchText=null;
+    if (this.searchText.toString().trim() == '') {
+      this.searchText = null;
     }
-    
+
     this.fetchGuest();
   }
 
   onChangeWaitTime() {
-    alert();
+
     console.log('' + this.waitTime);
   }
 
@@ -404,16 +409,16 @@ export class DashboardComponent implements OnInit {
         break;
     }
   }
-  sendSMS(content,level){
-this.sendSMSDTO.guestId=this.selectedGuest.guestID;
-this.sendSMSDTO.orgId=this.selectedGuest.organizationID;
-this.sendSMSDTO.smsContent=content;
-this.sendSMSDTO.templateLevel=level;
+  sendSMS() {
+    this.sendSMSDTO.guestId = this.selectedGuest.guestID;
+    this.sendSMSDTO.orgId = this.selectedGuest.organizationID;
+    this.sendSMSDTO.smsContent = this.content;
+    this.sendSMSDTO.templateLevel = this.level;
     this.guestService.sendSMS(this.sendSMSDTO).subscribe((res: any) => {
       if (res.success == 1) {
-       // this.organizationTemplateDTOList = res.serviceResult;
+        // this.organizationTemplateDTOList = res.serviceResult;
         console.log(JSON.stringify(res));
-       // $('#smsModal').modal('show');
+        // $('#smsModal').modal('show');
       } else {
         alert(res.serviceResult);
       }
@@ -428,7 +433,7 @@ this.sendSMSDTO.templateLevel=level;
       subscribeKey: environment.pubnubSubscribeKey
     });
     this.pubnub.addListener({
-      message: function(msg) {
+      message: function (msg) {
         console.log('pusher ' + JSON.stringify(msg));
         if (msg.message.op == 'NOTIFY_USER') {
           if (msg.message.orgId == this.orgId) {

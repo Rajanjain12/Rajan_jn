@@ -4,11 +4,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kyobeeWaitlistService.dto.SmsDetailsDTO;
 import com.kyobeeWaitlistService.entity.Organization;
 
 @Repository
+@Transactional
 public interface OrganizationDAO extends CrudRepository<Organization, Integer> {
 
 	@Query(value="select waitTime from Organization where organizationID =:orgId")

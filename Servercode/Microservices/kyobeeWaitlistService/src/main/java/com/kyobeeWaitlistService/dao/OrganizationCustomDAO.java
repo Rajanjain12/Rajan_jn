@@ -1,8 +1,11 @@
 package com.kyobeeWaitlistService.dao;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.kyobeeWaitlistService.dto.OrganizationMetricsDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 
+@Transactional
 public interface OrganizationCustomDAO {
 	
 	public OrganizationMetricsDTO getOrganizationMetrics(Integer orgId);

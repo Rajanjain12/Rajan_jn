@@ -5,10 +5,11 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kyobeeUserService.entity.Lookup;
 
-
+@Transactional
 public interface LookupDAO extends CrudRepository<Lookup, Integer>{
 
 	@Query(value="SELECT distinct * FROM KyobeeTechRevamp.ORGANIZATIONCATEGORY oc " + 

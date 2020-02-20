@@ -2,13 +2,15 @@ package com.kyobeeWaitlistService.dao;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.kyobeeWaitlistService.dto.AddUpdateGuestDTO;
 import com.kyobeeWaitlistService.dto.GuestDTO;
 import com.kyobeeWaitlistService.dto.GuestDetailsDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.entity.Guest;
 
-
+@Transactional
 public interface GuestCustomDAO {
 	
 	public List<Guest> fetchAllGuestHistoryList(Integer orgId,Integer pageSize,Integer startIndex,String searchText,String clientTimezone,Integer sliderMaxTime,Integer sliderMinTime,String statusOption);

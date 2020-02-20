@@ -292,17 +292,17 @@
             <div class="pt-3 sms-tab-container">
               <ul class="nav nav-tabs nav-justified" role="tablist">
                 <li class="nav-item">
-                  <a class="nav-link active" data-toggle="tab" href="#level1">Check-in</a>
+                  <a class="nav-link active" data-toggle="tab" (click)="fetchOrgLevelMsg(1);" href="#level1">Check-in</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" data-toggle="tab" href="#level2">Reminder</a>
+                  <a class="nav-link" data-toggle="tab" href="#level2" (click)="fetchOrgLevelMsg(2);" >Reminder</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" data-toggle="tab" href="#level3">Custom</a>
+                  <a class="nav-link" data-toggle="tab" href="#level3" (click)="fetchOrgLevelMsg(3);" >Custom</a>
                 </li>
               </ul>
-              <div *ngFor="let orgTemp of organizationTemplateDTOList; let i = index"  class="tab-content">
-                <div id="level{{ i + 1 }}" class="container tab-pane " [ngClass]="{ active: i === 0 }">
+              <div  class="tab-content">
+                <div *ngFor="let orgTemp of organizationTemplateDTOList; let i = index"  id="level{{ i + 1 }}" class="container tab-pane " [ngClass]="{ active: i === 0 }">
                   <br />
                   <p>{{ i + 1 }} {{ orgTemp.templateText }}</p>
                 </div>
@@ -314,7 +314,7 @@
                 </div> -->
                 <div class="row py-3">
                   <div class="col-lg-12 col-md-12 col-sm-12 modal-btn text-center my-2">
-                    <button type="button" (click)="sendSMS(orgTemp.templateText,i+1);" class="btn btn-theme background-color shadow">Send Text</button>
+                    <button type="button" (click)="sendSMS();" class="btn btn-theme background-color shadow">Send Text</button>
                   </div>
                   <!-- <div class="col-lg-6 col-md-6 col-sm-12 text-left modal-btn my-2">
                     <button type="button" class="btn btn-theme background-color shadow" data-dismiss="modal">Cancel</button>
