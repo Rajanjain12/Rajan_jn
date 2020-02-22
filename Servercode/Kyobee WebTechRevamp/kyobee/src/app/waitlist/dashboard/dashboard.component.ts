@@ -290,8 +290,20 @@ export class DashboardComponent implements OnInit {
     });
   }
   fetchOrgLevelMsg(level) {
-
-
+    switch (level) {
+      case 1:
+        this.content = this.organizationTemplateDTOList[0].templateText;
+        this.level = 1;
+        break;
+      case 2:
+        this.content = this.organizationTemplateDTOList[1].templateText;
+        this.level = 2;
+        break;
+      case 3:
+        this.content = this.organizationTemplateDTOList[2].templateText;
+        this.level = 3;
+        break;
+    }
   }
   fetchNextGuest() {
     this.pageNo = this.pageNo + 1;

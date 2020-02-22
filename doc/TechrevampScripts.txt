@@ -21,3 +21,14 @@ ADD PRIMARY KEY (`GUEST_MARKETING_PREF_ID`);
 ;
 ALTER TABLE `KyobeeTechRevamp`.`GUEST` 
 CHANGE COLUMN `noOfPeople` `noOfPeople` INT(11) NULL DEFAULT NULL ;
+
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `ScreenName` = 'seatingOrMarketingPref' WHERE (`LanguageKeyMappingId` = '15');
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `ScreenName` = 'seatingOrMarketingPref' WHERE (`LanguageKeyMappingId` = '16');
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `ScreenName` = 'seatingOrMarketingPref' WHERE (`LanguageKeyMappingId` = '19');
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `ScreenName` = 'seatingOrMarketingPref' WHERE (`LanguageKeyMappingId` = '22');
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `ScreenName` = 'seatingOrMarketingPref' WHERE (`LanguageKeyMappingId` = '24');
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `ScreenName` = 'seatingOrMarketingPref' WHERE (`LanguageKeyMappingId` = '25');
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `ScreenName` = 'seatingOrMarketingPref' WHERE (`LanguageKeyMappingId` = '26');
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `ScreenName` = 'seatingOrMarketingPref' WHERE (`LanguageKeyMappingId` = '17');
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `ScreenName` = 'seatingOrMarketingPref' WHERE (`LanguageKeyMappingId` = '18');
+
