@@ -74,22 +74,22 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 
 	
 	@Override
-	public AddUpdateGuestDTO addGuest(GuestDTO guestObj,String seatingPref,String marketingPref) {
+	public WaitlistMetrics addGuest(GuestDTO guestObj,String seatingPref,String marketingPref) {
 		
 		SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
 		Session session= sessionFactory.openSession();
 		//SessionFactory sessionFactory=getSessionFactory();
-		AddUpdateGuestDTO addUpdateGuestDTO = null;
+		WaitlistMetrics waitlistMetrics = null;
 		try {
 			
-			addUpdateGuestDTO = session.doReturningWork(new ReturningWork<AddUpdateGuestDTO>() {
+			waitlistMetrics = session.doReturningWork(new ReturningWork<WaitlistMetrics>() {
 
 				@Override
-				public AddUpdateGuestDTO execute(Connection connection) throws SQLException {
+				public WaitlistMetrics execute(Connection connection) throws SQLException {
 					CallableStatement cStmt = connection.prepareCall("{call ADDGUESTLATEST(? , ? , ? , ? , "
 							+ "?, ?, ?, ? , ?, ?, ?, ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? )}");
 					
-					AddUpdateGuestDTO addUpdateGuestDTO = new AddUpdateGuestDTO();
+					WaitlistMetrics waitlistMetrics = new WaitlistMetrics();
 					try {
 						cStmt.setLong(1, guestObj.getOrganizationID());
 						cStmt.setString(2, guestObj.getName());
@@ -122,20 +122,20 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 						
 						cStmt.execute();
 					
-						addUpdateGuestDTO.setAddedGuestId(cStmt.getInt(19));
-						addUpdateGuestDTO.setGuestRank(cStmt.getInt(20));			
-						addUpdateGuestDTO.setNextToNotifyGuestId(cStmt.getInt(25));
-						addUpdateGuestDTO.setNowServingGuestId(cStmt.getInt(21));					
-						addUpdateGuestDTO.setTotalGuestWaiting(cStmt.getInt(22));	
-						addUpdateGuestDTO.setTotalWaitTime(cStmt.getInt(23));
-						addUpdateGuestDTO.setClientBase(cStmt.getString(26));
+						waitlistMetrics.setGuestId(cStmt.getInt(19));
+						waitlistMetrics.setGuestRank(cStmt.getInt(20));			
+						waitlistMetrics.setGuestToBeNotified(cStmt.getInt(25));
+						waitlistMetrics.setNowServingGuest(cStmt.getInt(21));					
+						waitlistMetrics.setTotalWaitingGuest(cStmt.getInt(22));	
+						waitlistMetrics.setTotalWaitTime(cStmt.getInt(23));
+						waitlistMetrics.setClientBase(cStmt.getString(26));
 					
 					} finally {
 						if (cStmt != null) {
 							cStmt.close();
 						}
 					}
-					return addUpdateGuestDTO;
+					return waitlistMetrics;
 				}
 			});
 
@@ -148,25 +148,25 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 			//session.flush();
 			session.close();	
 		}
-		return addUpdateGuestDTO;	
+		return waitlistMetrics;	
 	}
 
 	@Override
-	public AddUpdateGuestDTO updateGuestDetails(GuestDTO guestObj, String seatingPref, String marketingPref) {
+	public WaitlistMetrics updateGuestDetails(GuestDTO guestObj, String seatingPref, String marketingPref) {
 		
 		SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
-		AddUpdateGuestDTO addUpdateGuestDTO = null;
+		WaitlistMetrics waitlistMetrics = null;
 		Session session= sessionFactory.openSession();
 		try {
 			
-			addUpdateGuestDTO = session.doReturningWork(new ReturningWork<AddUpdateGuestDTO>() {
+			waitlistMetrics = session.doReturningWork(new ReturningWork<WaitlistMetrics>() {
 
 				@Override
-				public AddUpdateGuestDTO execute(Connection connection) throws SQLException {
+				public WaitlistMetrics execute(Connection connection) throws SQLException {
 					CallableStatement cStmt = connection.prepareCall("{call UPDATEGUESTREVAMP(?, ?, ?, ?, "
 							+ "?, ?, ?, ? , ?, ?, ?, ?, ?, ?, ?, ? , ?, ? , ? , ? , ?, ?, ? , ? )}");
 					
-					AddUpdateGuestDTO addUpdateGuestDTO = new AddUpdateGuestDTO();
+					WaitlistMetrics waitlistMetrics = new WaitlistMetrics();
 					try {
 						cStmt.setLong(1, guestObj.getOrganizationID());
 						cStmt.setLong(2, guestObj.getGuestID());
@@ -198,19 +198,19 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 						
 						cStmt.execute();
 					
-						addUpdateGuestDTO.setAddedGuestId(guestObj.getGuestID());	
-						addUpdateGuestDTO.setNextToNotifyGuestId(cStmt.getInt(22));
-						addUpdateGuestDTO.setNowServingGuestId(cStmt.getInt(18));					
-						addUpdateGuestDTO.setTotalGuestWaiting(cStmt.getInt(19));	
-						addUpdateGuestDTO.setTotalWaitTime(cStmt.getInt(20));
-						addUpdateGuestDTO.setClientBase(cStmt.getString(24));
+						waitlistMetrics.setGuestId(guestObj.getGuestID());	
+						waitlistMetrics.setGuestToBeNotified(cStmt.getInt(22));
+						waitlistMetrics.setNowServingGuest(cStmt.getInt(18));					
+						waitlistMetrics.setTotalWaitingGuest(cStmt.getInt(19));	
+						waitlistMetrics.setTotalWaitTime(cStmt.getInt(20));
+						waitlistMetrics.setClientBase(cStmt.getString(24));
 					
 					} finally {
 						if (cStmt != null) {
 							cStmt.close();
 						}
 					}
-					return addUpdateGuestDTO;
+					return waitlistMetrics;
 				}
 			});
 
@@ -223,7 +223,7 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 			
 			session.close();
 		}
-		return addUpdateGuestDTO;	
+		return waitlistMetrics;	
 	}
 
 

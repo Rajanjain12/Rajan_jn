@@ -33,6 +33,7 @@ import com.kyobeeWaitlistService.dto.PusherDTO;
 import com.kyobeeWaitlistService.dto.SeatingMarketingPrefDTO;
 import com.kyobeeWaitlistService.dto.SendSMSDTO;
 import com.kyobeeWaitlistService.dto.SmsDetailsDTO;
+import com.kyobeeWaitlistService.dto.WaitListMetricsDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.entity.Lookup;
 import com.kyobeeWaitlistService.entity.OrganizationTemplate;
@@ -87,11 +88,11 @@ public class WaitListServiceImpl implements WaitListService {
 	
 	//for fetching organization related matrix
 	@Override
-	public OrganizationMetricsDTO getOrganizationMetrics(Integer orgId) {
+	public WaitlistMetrics getOrganizationMetrics(Integer orgId) {
 		
-		OrganizationMetricsDTO orgMetricsDTO = organizationCustomDAO.getOrganizationMetrics(orgId);
+		WaitlistMetrics waitListMetricsDTO = organizationCustomDAO.getOrganizationMetrics(orgId);
 		
-		return orgMetricsDTO;
+		return waitListMetricsDTO;
 	}
 
 
@@ -217,7 +218,7 @@ public class WaitListServiceImpl implements WaitListService {
 
 	@Override
 	public SendSMSDTO getSmsContentByLevel(GuestDTO guestDTO, OrganizationTemplateDTO organizationTemplateDTO,
-			OrganizationMetricsDTO orgMetricsDTO) {
+			WaitlistMetrics waitlistMetrics) {
 		
 		SendSMSDTO smsDTO = new SendSMSDTO();
 		String smsContent = organizationTemplateDTO.getTemplateText();
@@ -226,9 +227,9 @@ public class WaitListServiceImpl implements WaitListService {
 		smsContent = smsContent.replace("#G_name", guestDTO.getName());
 		smsContent = smsContent.replace("G_rank", guestDTO.getRank().toString());
 		smsContent = smsContent.replace("Turl",
-				CommonUtil.buildURL(orgMetricsDTO.getClientBase(), guestDTO.getUuid()));
-		smsContent = smsContent.replace("P_ahead", String.valueOf(orgMetricsDTO.getOrgGuestCount() - 1));
-		smsContent = smsContent.replace("W_time", orgMetricsDTO.getOrgTotalWaitTime().toString());
+				CommonUtil.buildURL(waitlistMetrics.getClientBase(), guestDTO.getUuid()));
+		smsContent = smsContent.replace("P_ahead", String.valueOf(waitlistMetrics.getTotalWaitingGuest() - 1));
+		smsContent = smsContent.replace("W_time", waitlistMetrics.getTotalWaitTime().toString());
 		smsDTO.setSmsContent(smsContent);
 		
 		return smsDTO;

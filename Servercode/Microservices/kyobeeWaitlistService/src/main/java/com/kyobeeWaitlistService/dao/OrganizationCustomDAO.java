@@ -8,7 +8,7 @@ import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 @Transactional
 public interface OrganizationCustomDAO {
 	
-	public OrganizationMetricsDTO getOrganizationMetrics(Integer orgId);
+	public WaitlistMetrics getOrganizationMetrics(Integer orgId);
 	public WaitlistMetrics updateOrgSettings(Integer orgId, Integer perPartyWaitTime, Integer numberOfUsers);
 	public void resetOrganizationByOrgId(Long orgId);
 }

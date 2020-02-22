@@ -11,6 +11,9 @@ public class WaitlistMetrics {
 	private Integer guestRank;
 	private Integer guestNotifiedWaitTime;
 	private String clientBase;
+	private Integer perPartyWaitTime;
+	private Integer notifyUserCount;
+	
 	public Integer getGuestId() {
 		return guestId;
 	}
@@ -65,6 +68,17 @@ public class WaitlistMetrics {
 	public void setClientBase(String clientBase) {
 		this.clientBase = clientBase;
 	}
-	
+	public Integer getPerPartyWaitTime() {
+		return perPartyWaitTime;
+	}
+	public void setPerPartyWaitTime(Integer perPartyWaitTime) {
+		this.perPartyWaitTime = perPartyWaitTime;
+	}
+	public Integer getNotifyUserCount() {
+		return notifyUserCount;
+	}
+	public void setNotifyUserCount(Integer notifyUserCount) {
+		this.notifyUserCount = notifyUserCount;
+	}
 	
 }

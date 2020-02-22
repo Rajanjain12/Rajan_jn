@@ -248,17 +248,19 @@ public class GuestServiceImpl implements GuestService {
 		seatingPref = convertToString(guestDTO.getSeatingPreference());
 		marketingPref = convertToString(guestDTO.getMarketingPreference());
 		guestDTO.setUuid(guestUUID);
-		AddUpdateGuestDTO addUpdateGuestDTO = guestCustomDAO.addGuest(guestDTO, seatingPref, marketingPref);
+		WaitlistMetrics waitlistMetrics = guestCustomDAO.addGuest(guestDTO, seatingPref, marketingPref);
+		AddUpdateGuestDTO addUpdateGuestDTO = new AddUpdateGuestDTO();
+		addUpdateGuestDTO.setWaitlistMetrics(waitlistMetrics);
 		addUpdateGuestDTO.setGuestUUID(guestUUID);
 		addUpdateGuestDTO.setLanguagePref(guestDTO.getLanguagePref());
 		addUpdateGuestDTO.setOrgId(guestDTO.getOrganizationID());
 		addUpdateGuestDTO.setOp("ADD");
 
-		tinyURL = CommonUtil.buildURL(addUpdateGuestDTO.getClientBase(), guestUUID);
+		tinyURL = CommonUtil.buildURL(waitlistMetrics.getClientBase(), guestUUID);
 		addUpdateGuestDTO.setTinyURL(tinyURL);
 		List<GuestMarketingPreferences> guestMarketingPref=new ArrayList<>();
 		GuestMarketingPreferences guestMarketingPreferences;
-		Optional<Guest> guest = guestDAO.findById(addUpdateGuestDTO.getAddedGuestId());
+		Optional<Guest> guest = guestDAO.findById(waitlistMetrics.getGuestId());
 
 		List<SeatingMarketingPrefDTO> marketingPreference = guestDTO.getMarketingPreference();
 		for (SeatingMarketingPrefDTO pref : marketingPreference) {
@@ -282,7 +284,7 @@ public class GuestServiceImpl implements GuestService {
 		//API call for sending sms to Guest
 		
 		SendSMSDTO sendSMSDTO = new SendSMSDTO();
-		sendSMSDTO.setGuestId(addUpdateGuestDTO.getAddedGuestId());
+		sendSMSDTO.setGuestId(waitlistMetrics.getGuestId());
 		sendSMSDTO.setTemplateLevel(WaitListServiceConstants.TEMP_LEVEL_FIRST);
 		
 	    RestTemplate restTemplate = new RestTemplate();
@@ -310,11 +312,13 @@ public class GuestServiceImpl implements GuestService {
 		seatingPref = convertToString(guestDTO.getSeatingPreference());
 		marketingPref = convertToString(guestDTO.getMarketingPreference());
 		
-		AddUpdateGuestDTO addUpdateGuestDTO = guestCustomDAO.updateGuestDetails(guestDTO, seatingPref, marketingPref);
+		WaitlistMetrics waitlistMetrics = guestCustomDAO.updateGuestDetails(guestDTO, seatingPref, marketingPref);
+		AddUpdateGuestDTO addUpdateGuestDTO = new AddUpdateGuestDTO();
+		addUpdateGuestDTO.setWaitlistMetrics(waitlistMetrics);
 		addUpdateGuestDTO.setLanguagePref(guestDTO.getLanguagePref());
 		addUpdateGuestDTO.setOrgId(guestDTO.getOrganizationID());
 		addUpdateGuestDTO.setOp(WaitListServiceConstants.UPDATE_STATUS);
-		tinyURL = CommonUtil.buildURL(addUpdateGuestDTO.getClientBase(), guestDTO.getUuid());
+		tinyURL = CommonUtil.buildURL(waitlistMetrics.getClientBase(), guestDTO.getUuid());
 		addUpdateGuestDTO.setTinyURL(tinyURL);
 
 		guestMarketingPreferencesDAO.deleteGuestMarketingPref(guestDTO.getGuestID());

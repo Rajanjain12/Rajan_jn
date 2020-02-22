@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kyobeeWaitlistService.dto.GuestDTO;
 import com.kyobeeWaitlistService.dto.OrgPrefKeyMapDTO;
-import com.kyobeeWaitlistService.dto.OrganizationMetricsDTO;
 import com.kyobeeWaitlistService.dto.OrganizationTemplateDTO;
 import com.kyobeeWaitlistService.dto.PusherDTO;
 import com.kyobeeWaitlistService.dto.ResponseDTO;
 import com.kyobeeWaitlistService.dto.SendSMSDTO;
+import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.service.GuestService;
 import com.kyobeeWaitlistService.service.WaitListService;
 import com.kyobeeWaitlistService.util.LoggerUtil;
@@ -58,12 +58,12 @@ public class WaitListController {
 
 	// for fetching organization matrix related details
 	@GetMapping(value = "/organizationMetrics", produces = "application/vnd.kyobee.v1+json")
-	public @ResponseBody ResponseDTO organizationMetrics(@RequestParam(value = "orgId") Integer orgId) {
+	public @ResponseBody ResponseDTO getOrganizationMetrics(@RequestParam(value = "orgId") Integer orgId) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			OrganizationMetricsDTO orgMetricsDTO = waitListService.getOrganizationMetrics(orgId);
-			responseDTO.setServiceResult(orgMetricsDTO);
+			WaitlistMetrics waitlistMetricsDTO = waitListService.getOrganizationMetrics(orgId);
+			responseDTO.setServiceResult(waitlistMetricsDTO);
 			responseDTO.setMessage("Organization metrics fetched successfully");
 			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
 
@@ -125,9 +125,9 @@ public class WaitListController {
 			GuestDTO guest = guestService.fetchGuestDetails(sendSMSDTO.getGuestId(), null);
 			if(sendSMSDTO.getSmsContent()!= null)
 			{
-			OrganizationMetricsDTO orgMetricsDTO = waitListService.getOrganizationMetrics(sendSMSDTO.getOrgId());
+			WaitlistMetrics waitlistMetrics = waitListService.getOrganizationMetrics(sendSMSDTO.getOrgId());
 			OrganizationTemplateDTO smsTemplate=waitListService.getOrganizationTemplateByLevel(guest,sendSMSDTO);
-			sendSMSDTO = waitListService.getSmsContentByLevel(guest, smsTemplate, orgMetricsDTO);
+			sendSMSDTO = waitListService.getSmsContentByLevel(guest, smsTemplate, waitlistMetrics);
 			}
 			waitListService.getSMSDetails(guest, sendSMSDTO);
 			waitListService.saveSmsLog(guest, sendSMSDTO);

@@ -28,22 +28,22 @@ public class OrganizationCustomDAOImpl implements OrganizationCustomDAO {
 	private EntityManager entityManager;
 
 	@Override
-	public OrganizationMetricsDTO getOrganizationMetrics(Integer orgId) {
+	public WaitlistMetrics getOrganizationMetrics(Integer orgId) {
 
 		SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
 
-		OrganizationMetricsDTO organizationMetricsDTO = null;
+		WaitlistMetrics waitListMetricsDTO = null;
 		Session session = sessionFactory.openSession();
 		try {
 
-			organizationMetricsDTO = session.doReturningWork(new ReturningWork<OrganizationMetricsDTO>() {
+			waitListMetricsDTO = session.doReturningWork(new ReturningWork<WaitlistMetrics>() {
 
 				@Override
-				public OrganizationMetricsDTO execute(Connection connection) throws SQLException {
+				public WaitlistMetrics execute(Connection connection) throws SQLException {
 					CallableStatement cStmt = connection
 							.prepareCall("{call CALCHEADERMETRICS(?, ?, ?, ?, " + "?, ?, ?, ? , ?, ?)}");
 
-					OrganizationMetricsDTO organizationMetricsDTO = new OrganizationMetricsDTO();
+					WaitlistMetrics waitListMetricsDTO = new WaitlistMetrics();
 					try {
 						cStmt.setInt(1, orgId);
 
@@ -51,7 +51,7 @@ public class OrganizationCustomDAOImpl implements OrganizationCustomDAO {
 						cStmt.registerOutParameter(3, Types.INTEGER);
 						cStmt.registerOutParameter(4, Types.INTEGER);
 						cStmt.registerOutParameter(5, Types.INTEGER);
-						cStmt.registerOutParameter(6, Types.VARCHAR);
+						cStmt.registerOutParameter(6, Types.INTEGER);
 						cStmt.registerOutParameter(7, Types.INTEGER);
 						cStmt.registerOutParameter(8, Types.INTEGER);
 						cStmt.registerOutParameter(9, Types.INTEGER);
@@ -59,21 +59,21 @@ public class OrganizationCustomDAOImpl implements OrganizationCustomDAO {
 
 						cStmt.execute();
 
-						organizationMetricsDTO.setGuestMinRank(cStmt.getInt(2));
-						organizationMetricsDTO.setGuestNotifiedWaitTime(cStmt.getInt(7));
-						organizationMetricsDTO.setGuestToBeNotified(cStmt.getString(6));
-						organizationMetricsDTO.setNotifyUserCount(cStmt.getInt(9));
-						organizationMetricsDTO.setOrgGuestCount(cStmt.getInt(3));
-						organizationMetricsDTO.setOrgTotalWaitTime(cStmt.getInt(4));
-						organizationMetricsDTO.setPerPartyWaitTime(cStmt.getInt(8));
-						organizationMetricsDTO.setClientBase(cStmt.getString(10));
+						waitListMetricsDTO.setNowServingGuest(cStmt.getInt(2));
+						waitListMetricsDTO.setGuestNotifiedWaitTime(cStmt.getInt(7));
+						waitListMetricsDTO.setGuestToBeNotified(cStmt.getInt(6));
+						waitListMetricsDTO.setNotifyUserCount(cStmt.getInt(9));
+						waitListMetricsDTO.setTotalWaitingGuest(cStmt.getInt(3));
+						waitListMetricsDTO.setTotalWaitTime(cStmt.getInt(4));
+						waitListMetricsDTO.setPerPartyWaitTime(cStmt.getInt(8));
+						waitListMetricsDTO.setClientBase(cStmt.getString(10));
 
 					} finally {
 						if (cStmt != null) {
 							cStmt.close();
 						}
 					}
-					return organizationMetricsDTO;
+					return waitListMetricsDTO;
 				}
 			});
 
@@ -83,7 +83,7 @@ public class OrganizationCustomDAOImpl implements OrganizationCustomDAO {
 			
 			session.close();
 		}
-		return organizationMetricsDTO;
+		return waitListMetricsDTO;
 
 	}
 
