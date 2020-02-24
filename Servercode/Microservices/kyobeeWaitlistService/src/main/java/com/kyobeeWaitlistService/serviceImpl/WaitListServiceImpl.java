@@ -27,13 +27,11 @@ import com.kyobeeWaitlistService.dto.GuestDTO;
 import com.kyobeeWaitlistService.dto.GuestNotificationDTO;
 import com.kyobeeWaitlistService.dto.LanguageMasterDTO;
 import com.kyobeeWaitlistService.dto.OrgPrefKeyMapDTO;
-import com.kyobeeWaitlistService.dto.OrganizationMetricsDTO;
 import com.kyobeeWaitlistService.dto.OrganizationTemplateDTO;
 import com.kyobeeWaitlistService.dto.PusherDTO;
 import com.kyobeeWaitlistService.dto.SeatingMarketingPrefDTO;
 import com.kyobeeWaitlistService.dto.SendSMSDTO;
 import com.kyobeeWaitlistService.dto.SmsDetailsDTO;
-import com.kyobeeWaitlistService.dto.WaitListMetricsDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.entity.Lookup;
 import com.kyobeeWaitlistService.entity.OrganizationTemplate;
@@ -202,7 +200,7 @@ public class WaitListServiceImpl implements WaitListService {
 			msg = msg + signature;
 		}
 
-		SMSUtil.sendSMS(guestNotification.getSms(), msg);
+		SMSUtil.sendSMS(guestNotification.getContactNo(), msg);
 	}
 
 
@@ -245,7 +243,7 @@ public class WaitListServiceImpl implements WaitListService {
 		SmsLog log = new SmsLog();
 		log.setOrgID(guestDTO.getOrganizationID());
 		log.setGuestID(guestDTO.getGuestID());
-		log.setPhoneNo(guestDTO.getSms());
+		log.setPhoneNo(guestDTO.getContactNo());
 		log.setMsgText(sendSMSDTO.getSmsContent());
 		log.setProcess(WaitListServiceConstants.PROCESS);
 		log.setCreatedBy(WaitListServiceConstants.ADMIN);

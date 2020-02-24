@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kyobeeWaitlistService.dto.AddUpdateGuestDTO;
 import com.kyobeeWaitlistService.dto.GuestDTO;
 import com.kyobeeWaitlistService.dto.GuestDetailsDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;

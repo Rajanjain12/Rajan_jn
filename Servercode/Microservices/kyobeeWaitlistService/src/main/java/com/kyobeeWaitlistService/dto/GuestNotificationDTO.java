@@ -7,7 +7,7 @@ public class GuestNotificationDTO {
 	private String smsSignature;
 	private String smsRoute;
 	private String smsRouteNo;
-	private String sms;
+	private Integer contactNo;
 	private String prefType;
 	private String deviceType;
 	private String deviceId;
@@ -42,11 +42,11 @@ public class GuestNotificationDTO {
 	public void setSmsRouteNo(String smsRouteNo) {
 		this.smsRouteNo = smsRouteNo;
 	}
-	public String getSms() {
-		return sms;
+	public Integer getContactNo() {
+		return contactNo;
 	}
-	public void setSms(String sms) {
-		this.sms = sms;
+	public void setContactNo(Integer contactNo) {
+		this.contactNo = contactNo;
 	}
 	public String getPrefType() {
 		return prefType;

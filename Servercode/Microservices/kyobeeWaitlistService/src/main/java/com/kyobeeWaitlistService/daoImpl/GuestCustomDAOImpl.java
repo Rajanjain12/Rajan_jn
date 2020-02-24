@@ -17,7 +17,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kyobeeWaitlistService.dao.GuestCustomDAO;
-import com.kyobeeWaitlistService.dto.AddUpdateGuestDTO;
 import com.kyobeeWaitlistService.dto.GuestDTO;
 import com.kyobeeWaitlistService.dto.GuestDetailsDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;
@@ -55,7 +54,7 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 				query=query.append(" and incompleteParty > 0");
 			}
 			if((searchText != null) && (!searchText.equalsIgnoreCase("null"))) {
-				query=query.append(" and (g.name like :searchText  or g.sms like :searchText)");
+				query=query.append(" and (g.name like :searchText  or g.contactNo like :searchText)");
 			}
 			query=query.append(" order by g.rank asc limit :pageSize OFFSET :startIndex");	
 			if((searchText!=null) && (!searchText.equalsIgnoreCase("null"))) {
@@ -103,7 +102,7 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 						cStmt.setInt(9, guestObj.getPartyType());
 						cStmt.setString(10, guestObj.getDeviceType());
 						cStmt.setString(11, guestObj.getDeviceId());
-						cStmt.setString(12, guestObj.getSms());
+						cStmt.setInt(12, guestObj.getContactNo());
 						cStmt.setString(13, guestObj.getEmail());
 						cStmt.setString(14, guestObj.getPrefType());
 						cStmt.setInt(15, guestObj.getOptin());
@@ -181,7 +180,7 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 						cStmt.setInt(9, guestObj.getPartyType());
 						cStmt.setString(10, guestObj.getDeviceType());
 						cStmt.setString(11, guestObj.getDeviceId());
-						cStmt.setString(12, guestObj.getSms());
+						cStmt.setInt(12, guestObj.getContactNo());
 						cStmt.setString(13, guestObj.getEmail());
 						cStmt.setString(14, guestObj.getPrefType());
 						cStmt.setInt(15, guestObj.getOptin());
@@ -292,8 +291,8 @@ public class GuestCustomDAOImpl implements GuestCustomDAO{
 	public List<GuestDetailsDTO> fetchGuestByContact(Integer orgID, String contactNumber) {
 		
 		@SuppressWarnings({ "deprecation", "unchecked" })
-		List<GuestDetailsDTO> guestDTO  = entityManager.createNativeQuery("select * from (select gr.GuestID, gr.organizationID, gr.name,gr.note,gr.uuid,gr.noOfPeople,gr.email,gr.sms,gr.status,gr.rank,gr.prefType,gr.optin,gr.calloutCount,gr.checkinTime,gr.seatedTime,gr.createdTime,gr.updatedTime,gr.incompleteParty,gr.seatingPreference,gr.marketingPreference,gr.deviceType,gr.deviceId,gr.languagePrefID from GUESTRESET gr left join GUEST g on g.guestID = gr.GuestID where gr.organizationID=:orgID and gr.sms=:contactNumber union" + 
-" select g.guestID, g.organizationID, g.name,g.note,g.uuid,g.noOfPeople,g.email,g.sms,g.status,g.rank,g.prefType,g.optin,g.calloutCount,g.checkinTime,g.seatedTime,g.createdTime,g.updatedTime,g.incompleteParty,g.seatingPreference,g.marketingPreference,g.deviceType,g.deviceId,g.languagePrefID from GUEST g where g.organizationID=:orgID and g.sms=:contactNumber) as u order by u.createdTime desc").setParameter("orgID", orgID).setParameter("contactNumber", contactNumber).unwrap(org.hibernate.query.NativeQuery.class ).setResultTransformer(Transformers.aliasToBean( GuestDetailsDTO.class)).getResultList();
+		List<GuestDetailsDTO> guestDTO  = entityManager.createNativeQuery("select * from (select gr.GuestID, gr.organizationID, gr.name,gr.note,gr.uuid,gr.noOfPeople,gr.email,gr.contactNo,gr.status,gr.rank,gr.prefType,gr.optin,gr.calloutCount,gr.checkinTime,gr.seatedTime,gr.createdTime,gr.updatedTime,gr.incompleteParty,gr.seatingPreference,gr.marketingPreference,gr.deviceType,gr.deviceId,gr.languagePrefID from GUESTRESET gr left join GUEST g on g.guestID = gr.GuestID where gr.organizationID=:orgID and gr.contactNo=:contactNumber union" + 
+" select g.guestID, g.organizationID, g.name,g.note,g.uuid,g.noOfPeople,g.email,g.contactNo,g.status,g.rank,g.prefType,g.optin,g.calloutCount,g.checkinTime,g.seatedTime,g.createdTime,g.updatedTime,g.incompleteParty,g.seatingPreference,g.marketingPreference,g.deviceType,g.deviceId,g.languagePrefID from GUEST g where g.organizationID=:orgID and g.contactNo=:contactNumber) as u order by u.createdTime desc").setParameter("orgID", orgID).setParameter("contactNumber", contactNumber).unwrap(org.hibernate.query.NativeQuery.class ).setResultTransformer(Transformers.aliasToBean( GuestDetailsDTO.class)).getResultList();
 				
 		return guestDTO;
 	}

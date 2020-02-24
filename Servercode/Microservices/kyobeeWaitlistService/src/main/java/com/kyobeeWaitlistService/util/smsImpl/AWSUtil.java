@@ -20,7 +20,7 @@ import com.kyobeeWaitlistService.util.sms.SMS;
 public class AWSUtil implements SMS {
 
 	@Override
-	public void sendMessage(String number, String message) {
+	public void sendMessage(Integer contactNo, String message) {
 		
 		Map<String, MessageAttributeValue> smsAttributes = new HashMap<>();
 		smsAttributes.put("AWS.SNS.SMS.SenderID", new MessageAttributeValue()
@@ -58,10 +58,10 @@ public class AWSUtil implements SMS {
 			
 		 PublishResult result = snsClient.publish(( new PublishRequest()
                  .withMessage(message))
-                 .withPhoneNumber(WaitListServiceConstants.PHONE_NO_PREFIX+number)
+                 .withPhoneNumber(WaitListServiceConstants.PHONE_NO_PREFIX+contactNo.toString())
                  .withMessageAttributes(smsAttributes));
 		 
-		 LoggerUtil.logInfo("sms sent successfully to phone no: "+number+" result:"+result);
+		 LoggerUtil.logInfo("sms sent successfully to phone no: "+contactNo+" result:"+result);
 		 
 		}catch(Exception e) {
 			LoggerUtil.logError(e.getMessage(),e);

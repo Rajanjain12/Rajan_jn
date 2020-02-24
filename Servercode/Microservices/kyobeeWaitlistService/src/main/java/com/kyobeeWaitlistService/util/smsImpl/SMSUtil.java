@@ -19,8 +19,8 @@ public class SMSUtil {
 		}
 	}
 
-	public static void sendSMS(String number, String message) {
-		sms.sendMessage(number, message);
+	public static void sendSMS(Integer contactNo, String message) {
+		sms.sendMessage(contactNo, message);
 	}
 
 }

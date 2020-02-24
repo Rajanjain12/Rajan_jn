@@ -73,7 +73,7 @@ public class Guest implements Serializable{
 
 	private String seatingPreference;
 
-	private String sms;
+	private Integer contactNo;
 
 	private String status;
 
@@ -291,12 +291,12 @@ public class Guest implements Serializable{
 		this.seatingPreference = seatingPreference;
 	}
 
-	public String getSms() {
-		return this.sms;
+	public Integer getContactNo() {
+		return contactNo;
 	}
 
-	public void setSms(String sms) {
-		this.sms = sms;
+	public void setContactNo(Integer contactNo) {
+		this.contactNo = contactNo;
 	}
 
 	public String getStatus() {

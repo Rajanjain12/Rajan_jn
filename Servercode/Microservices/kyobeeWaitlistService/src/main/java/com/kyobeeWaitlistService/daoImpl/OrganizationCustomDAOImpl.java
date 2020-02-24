@@ -16,7 +16,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kyobeeWaitlistService.dao.OrganizationCustomDAO;
-import com.kyobeeWaitlistService.dto.OrganizationMetricsDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.util.LoggerUtil;
 

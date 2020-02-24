@@ -16,7 +16,7 @@ public class GuestDetailsDTO {
 	private Integer calloutCount;
 	private String deviceId;
 	private String deviceType;
-	private String sms;
+	private Integer contactNo;
 	private String email;
 	private String prefType;
 	private Byte optin;
@@ -104,11 +104,11 @@ public class GuestDetailsDTO {
 	public void setDeviceType(String deviceType) {
 		this.deviceType = deviceType;
 	}
-	public String getSms() {
-		return sms;
+	public Integer getContactNo() {
+		return contactNo;
 	}
-	public void setSms(String sms) {
-		this.sms = sms;
+	public void setContactNo(Integer contactNo) {
+		this.contactNo = contactNo;
 	}
 	public String getEmail() {
 		return email;
