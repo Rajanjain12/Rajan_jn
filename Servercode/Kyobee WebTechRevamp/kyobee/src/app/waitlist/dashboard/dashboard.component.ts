@@ -38,6 +38,8 @@ export class DashboardComponent implements OnInit {
   waitTime: any = null;
   content = null;
   level;
+  totalGuest:number;
+  totalPageNo:number;
   waitTimeOption = [
     1,
     2,
@@ -180,6 +182,9 @@ export class DashboardComponent implements OnInit {
     this.guestService.fetchGuestList(params).subscribe((res: any) => {
       if (res.success == 1) {
         this.guestDTOList = res.serviceResult.records;
+        this.totalGuest=res.serviceResult.totalRecords;
+        this.pageNo=res.serviceResult.pageNo;
+        this.pagination(this.totalGuest,this.pageNo,this.pageSize);
         console.log('user==' + JSON.stringify(this.guestDTOList));
         this.selectedGuest = new GuestDTO();
       } else {
@@ -210,7 +215,7 @@ export class DashboardComponent implements OnInit {
       if (res.success == 1) {
         console.log('org == ' + JSON.stringify(res));
         this.organizationMetrics = res.serviceResult.waitlistMetrics;
-        this.organizationMetrics.orgTotalWaitTime = res.serviceResult.waitlistMetrics.totalWaitTime;
+        this.organizationMetrics.totalWaitTime = res.serviceResult.waitlistMetrics.totalWaitTime;
       } else {
         alert(res.message);
       }
@@ -312,6 +317,11 @@ export class DashboardComponent implements OnInit {
 
   fetchPrevGuest() {
     this.pageNo = this.pageNo - 1;
+    this.fetchGuest();
+  }
+
+  fetchGuestByPageNo(pageNo){
+    this.pageNo=pageNo;
     this.fetchGuest();
   }
 
@@ -437,6 +447,11 @@ export class DashboardComponent implements OnInit {
     });
 
   }
+pagination(totalItems, currentPage, pageSize){
+  currentPage = currentPage || 1;
+  this.totalPageNo = Math.ceil(totalItems / pageSize);
+ 
+}
 
   connectPubnub() {
     var channel = environment.pubnubIndividualChannel + '_' + this.orgId;

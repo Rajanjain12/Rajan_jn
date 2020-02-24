@@ -15,7 +15,8 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   post(path: string, body): Observable<any> {
-    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });   
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    headers.append('Accept','application/vnd.kyobee.v1+json');   
     return this.http.post(
       `${environment.serverUrl}${path}`,
       JSON.stringify(body),
@@ -24,6 +25,7 @@ export class ApiService {
   }
   put(path: string, body): Observable<any> {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });   
+    headers.append('Accept','application/vnd.kyobee.v1+json');   
     return this.http.put(
       `${environment.serverUrl}${path}`,
       JSON.stringify(body),
@@ -46,6 +48,7 @@ export class ApiService {
 
   postParams(path: string, params : HttpParams): Observable<any> {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    headers.append('Accept','application/vnd.kyobee.v1+json');   
    let postbody={};
     return this.http.post(
         `${environment.serverUrl}${path}`,postbody,{headers,params}
@@ -54,6 +57,7 @@ export class ApiService {
   
   putParams(path: string, params : HttpParams): Observable<any> {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    headers.append('Accept','application/vnd.kyobee.v1+json');   
    let postbody={};
     return this.http.put(
         `${environment.serverUrl}${path}`,postbody,{headers,params}

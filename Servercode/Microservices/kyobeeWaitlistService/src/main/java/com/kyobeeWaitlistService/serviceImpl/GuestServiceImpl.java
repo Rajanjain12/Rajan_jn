@@ -109,15 +109,10 @@ public class GuestServiceImpl implements GuestService {
 			startIndex = pageSize * pageNo;
 		}
 		List<Guest> guestList;
-
-		if (searchText != null && !(searchText.trim().equalsIgnoreCase("")) && !(searchText.trim().equalsIgnoreCase("null"))) {
-			// for fetching data related to search text
-			searchText = "%" + searchText + "%";
-			guestList = guestDAO.fetchCheckinGuestBySearchText(orgId, pageSize, startIndex, searchText);
-		} else {
-			// for fetching whole list of guest
-			guestList = guestDAO.fetchCheckinGuestList(orgId, pageSize, startIndex);
-		}
+  
+		Integer totalGuest=0;	
+			guestList = guestCustomDAO.fetchAllGuestList(orgId, pageSize, startIndex, searchText);
+			totalGuest=guestCustomDAO.fetchAllGuestListCount(orgId,searchText);
 
 		List<GuestDTO> guestDTOs = new ArrayList<>();
 		GuestResponseDTO guestResponse = new GuestResponseDTO();
@@ -152,9 +147,6 @@ public class GuestServiceImpl implements GuestService {
 
 			guestDTO.setSeatingPreference(seatingPrefList);
 
-			// for arranging marketing pref in list
-			// String marketingPref = guest.getMarketingPreference();
-
 			List<Lookup> marketingLookup = lookupDAO.fetchLookupForGuest(guestDTO.getGuestID());
 
 			for (Lookup lookup : marketingLookup) {
@@ -169,7 +161,7 @@ public class GuestServiceImpl implements GuestService {
 			guestDTOs.add(guestDTO);
 		}
 		guestResponse.setPageNo(pageNo);
-		guestResponse.setTotalRecords(guestDTOs.size());
+		guestResponse.setTotalRecords(totalGuest);
 		guestResponse.setRecords(guestDTOs);
 		return guestResponse;
 	}
@@ -178,13 +170,14 @@ public class GuestServiceImpl implements GuestService {
 	public GuestResponseDTO fetchGuestHistoryList(Integer orgId,Integer pageSize,Integer pageNo,String searchText,String clientTimezone,Integer sliderMaxTime,Integer sliderMinTime,String statusOption) {
 
 		Integer startIndex = 0;
+		Integer totalGuest=0;
 		if (pageNo != 1) {
 			startIndex = pageSize * pageNo;
 		}
 		List<Guest> guestList;
 		LoggerUtil.logInfo(clientTimezone);
 		guestList = guestCustomDAO.fetchAllGuestHistoryList(orgId,pageSize,startIndex,searchText,clientTimezone,sliderMaxTime,sliderMinTime,statusOption);
-
+		totalGuest= guestCustomDAO.fetchAllGuestHistoryListCount(orgId, searchText, clientTimezone, sliderMaxTime, sliderMinTime, statusOption);
 		List<GuestDTO> guestDTOs = new ArrayList<>();
 		GuestResponseDTO guestResponse = new GuestResponseDTO();
 
@@ -234,7 +227,7 @@ public class GuestServiceImpl implements GuestService {
 			guestDTOs.add(guestDTO);
 		}
 		guestResponse.setPageNo(pageNo);
-		guestResponse.setTotalRecords(guestDTOs.size());
+		guestResponse.setTotalRecords(totalGuest);
 		guestResponse.setRecords(guestDTOs);
 		return guestResponse;
 	}

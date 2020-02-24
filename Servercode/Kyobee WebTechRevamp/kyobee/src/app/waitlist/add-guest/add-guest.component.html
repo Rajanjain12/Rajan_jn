@@ -8,7 +8,7 @@
         <form #f="ngForm" novalidate>
           <div class="col-lg-10">
             <div class="form-group mb-3">
-              <input type="text " id="phone" name="phone" class="form-control" #phone="ngModel" pattern="^(\+\d{2,4})?\s?(\d{10})$" [ngClass]="{ 'is-invalid': f.submitted && phone.invalid }" [(ngModel)]="guest.sms" required="required" />
+              <input type="text " id="phone" name="phone" class="form-control" #phone="ngModel" pattern="^(\+\d{2,4})?\s?(\d{10})$" [ngClass]="{ 'is-invalid': f.submitted && phone.invalid }" [(ngModel)]="guest.contactNo" required="required" />
               <div *ngIf="f.submitted && phone.invalid" class="invalid-feedback">
                 <small class="text-danger" *ngIf="phone.errors?.required">Phone no is required</small>
                 <small class="text-danger" *ngIf="phone.errors?.pattern">Phone no should be in proper form</small>

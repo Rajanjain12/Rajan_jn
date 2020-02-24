@@ -14,7 +14,7 @@ export class GuestDTO {
   calloutCount: number;
   deviceId: string;
   deviceType: string;
-  sms: String;
+  contactNo: String;
   email: string;
   prefType: String;
   optin: number;

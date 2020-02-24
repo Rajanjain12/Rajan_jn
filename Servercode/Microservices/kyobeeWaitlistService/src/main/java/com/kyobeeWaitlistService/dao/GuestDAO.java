@@ -27,10 +27,19 @@ public interface GuestDAO extends CrudRepository<Guest, Integer> {
 	public List<Guest> fetchCheckinGuestList(@Param("orgId") Integer orgId, @Param("pageSize") Integer pageSize,
 			@Param("startIndex") Integer startIndex);
 
+	// for fetching guest check in
+	@Query(value = "SELECT count(*) FROM GUEST g join LANGMASTER l on l.langID=g.languagePrefID WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId ", nativeQuery = true)
+	public Integer fetchCheckinGuestListCount(@Param("orgId") Integer orgId);
+
 	// for fetching guest related details by search Text
-	@Query(value = "SELECT * FROM GUEST g join LANGMASTER l on l.langID=g.languagePrefID WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId and ( g.name like :searchText or g.sms like :searchText) order by g.rank asc limit :pageSize OFFSET :startIndex", nativeQuery = true)
+	@Query(value = "SELECT * FROM GUEST g join LANGMASTER l on l.langID=g.languagePrefID WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId and ( g.name like :searchText or g.contactNo like :searchText) order by g.rank asc limit :pageSize OFFSET :startIndex", nativeQuery = true)
 	public List<Guest> fetchCheckinGuestBySearchText(@Param("orgId") Integer orgId, @Param("pageSize") Integer pageSize,
 			@Param("startIndex") Integer startIndex, @Param("searchText") String searchText);
+
+	// for fetching guest related details by search Text
+	@Query(value = "SELECT count(*) FROM GUEST g join LANGMASTER l on l.langID=g.languagePrefID WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId and ( g.name like :searchText or g.contactNo like :searchText)", nativeQuery = true)
+	public List<Guest> fetchCheckinGuestBySearchTextCount(@Param("orgId") Integer orgId,
+			@Param("searchText") String searchText);
 
 	// for fetching guest details by id
 	@Query(value = "select g from Guest g join LangMaster l on l.langID=g.langmaster.langID WHERE g.status ='CHECKIN' and g.resetTime is null and g.guestID=:guestId")
@@ -39,6 +48,5 @@ public interface GuestDAO extends CrudRepository<Guest, Integer> {
 	// for fetching guest details by uuid
 	@Query(value = "select g from Guest g join LangMaster l on l.langID=g.langmaster.langID WHERE g.status ='CHECKIN' and g.resetTime is null and g.uuid=:guestUUID")
 	public Guest fetchGuestByUUID(@Param("guestUUID") String guestUUID);
-	
 
 }
