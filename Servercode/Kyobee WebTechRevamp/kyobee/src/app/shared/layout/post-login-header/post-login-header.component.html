@@ -1,108 +1,110 @@
 <header class="fix-header p-0 header">
-    <div class="container-fluid">
-        <div class="alert alert-danger mt-2 row-eq-height" style="display: none;" role="alert">
-            <span class="m-auto float-left">Notification about renewing plan. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</span>
-            <button href="#" data-dismiss="alert"><i class="flaticon-close font-color"></i></button>
-            <div class="clearfix"></div>
-        </div>
-        <nav class="navbar navbar-expand-lg navbar-expand-md navbar-light topnav p-md-0">
-          <a class="navbar-brand" href="" [routerLink]="['/waitlist/dashboard']"><img src="assets/images/logo.png"></a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbar-menu">
-            <!-- For smaller size(Mobile View) -->
-            <ul class="navbar-nav" id="showMobile">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="flaticon-to-do-list"></i>
-                      <p>WaitList</p>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                      <a class="dropdown-item"  href="">
-                        <span class="font-12">Dashboard</span>
-                      </a>
-                      <a class="dropdown-item"  href="add-user.html">
-                        <span class="font-12">Add Guest</span>
-                      </a>
-                      <a class="dropdown-item"  href="history.html">
-                        <span class="font-12">History</span>
-                      </a>
-                      <a class="dropdown-item"  href="setting.html">
-                        <span class="font-12">Setting</span>
-                      </a>
-                      <a class="dropdown-item sidehide" data-toggle="modal" data-target="#resetModal">
-                        <span class="font-12">Reset</span>
-                      </a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="text-marketing.html">
-                      <i class="flaticon-message"></i>
-                      <p>Text Marketing</p>
-                    </a>
-                    <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+  <div class="container-fluid">
+    <div class="alert alert-danger mt-2 row-eq-height" style="display: none;" role="alert">
+      <span class="m-auto float-left">Notification about renewing plan. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</span>
+      <button href="#" data-dismiss="alert"><i class="flaticon-close font-color"></i></button>
+      <div class="clearfix"></div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-expand-md navbar-light topnav p-md-0">
+      <a class="navbar-brand" [routerLink]="['/waitlist/dashboard']"><img src="/assets/images/logo.png"/></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar-menu">
+        <!-- For smaller size(Mobile View) -->
+        <ul class="navbar-nav" id="showMobile">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active" href="" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="flaticon-to-do-list"></i>
+              <p>WaitList</p>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="">
+                <span class="font-12">Dashboard</span>
+              </a>
+              <a class="dropdown-item" href="add-user.html">
+                <span class="font-12">Add Guest</span>
+              </a>
+              <a class="dropdown-item" href="history.html">
+                <span class="font-12">History</span>
+              </a>
+              <a class="dropdown-item" href="setting.html">
+                <span class="font-12">Setting</span>
+              </a>
+              <a class="dropdown-item sidehide" data-toggle="modal" data-target="#resetModal">
+                <span class="font-12">Reset</span>
+              </a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="text-marketing.html">
+              <i class="flaticon-message"></i>
+              <p>Text Marketing</p>
+            </a>
+            <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                       
                     </div> -->
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="table-management.html">
-                      <i class="flaticon-dining"></i>
-                      <p>Table Management</p>
-                    </a>
-                    <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="table-management.html">
+              <i class="flaticon-dining"></i>
+              <p>Table Management</p>
+            </a>
+            <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                       
                     </div> -->
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="profile.html" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="flaticon-user"></i>
-                      <p>My Account</p>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                      <a class="dropdown-item"  href="profile.html">
-                        <span class="font-12">Organization Profile</span>
-                      </a>
-                      <a class="dropdown-item"  href="plan-detail.html">
-                        <span class="font-12">Plans & Payment</span>
-                      </a>
-                    </div>
-                </li>   
-            </ul>
-            <!-- For web view -->
-            <ul class="navbar-nav" id="hideMobile">
-                <li class="nav-item">
-                    <a class="nav-link active" href="" [routerLink]="['/waitlist/dashboard']">
-                      <i class="flaticon-to-do-list"></i>
-                      <p>WaitList</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="text-marketing.html">
-                      <i class="flaticon-message"></i>
-                      <p>Text Marketing</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="table-management.html">
-                      <i class="flaticon-dining"></i>
-                      <p>Table Management</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="profile.html">
-                      <i class="flaticon-user"></i>
-                      <p>My Account</p>
-                    </a>
-                </li>   
-            </ul>
-          </div>
-          <div class="ml-auto logout-res mt-2 mt-md-0">
-            <button class="navbar-toggler float-left p-0 asidebar" id="asidetogglebtn" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="flaticon-right"></span>
-            </button>
-            Hello, <span>Kyobee</span> | <a class="ml-3" href="" [routerLink]="['/login']"><i class="error flaticon-power mr-2"></i><span class="font-weight-semibold">Logout</span></a>
-          </div>
-        </nav>
-    </div><!-- container-fluid -->
-</header><!-- header Ends -->
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="profile.html" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="flaticon-user"></i>
+              <p>My Account</p>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="profile.html">
+                <span class="font-12">Organization Profile</span>
+              </a>
+              <a class="dropdown-item" href="plan-detail.html">
+                <span class="font-12">Plans & Payment</span>
+              </a>
+            </div>
+          </li>
+        </ul>
+        <!-- For web view -->
+        <ul class="navbar-nav" id="hideMobile">
+          <li class="nav-item">
+            <a class="nav-link active" href="" [routerLink]="['/waitlist/dashboard']">
+              <i class="flaticon-to-do-list"></i>
+              <p>WaitList</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="text-marketing.html">
+              <i class="flaticon-message"></i>
+              <p>Text Marketing</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="table-management.html">
+              <i class="flaticon-dining"></i>
+              <p>Table Management</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="profile.html">
+              <i class="flaticon-user"></i>
+              <p>My Account</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="ml-auto logout-res mt-2 mt-md-0">
+        <button class="navbar-toggler float-left p-0 asidebar" id="asidetogglebtn" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="flaticon-right"></span>
+        </button>
+        Hello, <span>Kyobee</span> | <a class="ml-3" href="" [routerLink]="['/auth/login']"><i class="error flaticon-power mr-2"></i><span class="font-weight-semibold">Logout</span></a>
+      </div>
+    </nav>
+  </div>
+  <!-- container-fluid -->
+</header>
+<!-- header Ends -->

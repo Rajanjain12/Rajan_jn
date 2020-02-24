@@ -1,11 +1,13 @@
-<!--Pre-logIn-->
+<!-- Pre-logIn Start -->
 <app-loader></app-loader>
 <div *ngIf="!getUserLoggedIn()">
   <app-header></app-header>
   <router-outlet></router-outlet>
   <app-footer></app-footer>
 </div>
-<!-- post login -->
+<!-- Pre-logIn Ends -->
+
+<!-- post login Starts -->
 <div *ngIf="getUserLoggedIn()">
   <app-post-login-header></app-post-login-header>
   <section class="pb-5 fix-wrapper">
@@ -15,3 +17,4 @@
   </section>
   <app-footer></app-footer>
 </div>
+<!-- post login Ends -->

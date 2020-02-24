@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SignupDTO } from 'src/app/core/models/signup.model';
 
-
-
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -13,9 +11,7 @@ export class SignupComponent implements OnInit {
   confirmPassword;
   user: SignupDTO = new SignupDTO();
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-    
-  }
+  ngOnInit() {}
 }

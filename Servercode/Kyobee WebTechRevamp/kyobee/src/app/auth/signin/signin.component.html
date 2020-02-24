@@ -1,56 +1,49 @@
 <section class="pb-5 fix-wrapper center-items fade-in signinPage" id="login">
-    <section class="custom-container pt-3">
-        <div class="row">
-            <div class="col-12">
-                <h2 class="text-center font-weight-semibold">Welcome !</h2>
-                <p class="text-center pb-3">Sign in by entering the information below.</p>
+  <section class="custom-container pt-3">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="text-center font-weight-semibold">Welcome !</h2>
+        <p class="text-center pb-3">Sign in by entering the information below.</p>
+      </div>
+      <div class="col-lg-6 col-md-12 col-sm-12">
+        <img src="assets/images/sign-in-illu.png" class="img-fluid m-md-auto d-md-block" alt="image" />
+      </div>
+      <div class="col-lg-6 col-md-12 col-sm-12 py-3 pb-md-0 d-flex justyfy-content-center align-item-center">
+        <div class="container-box float-lg-right float-md-none m-md-auto">
+          <form name="form" #f="ngForm" (ngSubmit)="(f.form.valid)" novalidate>
+            <div class="form-group mt-0">
+              <input type="text" id="userName" name="userName" #uname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && uname.invalid }" class="form-control" [(ngModel)]="user.userName" required="required" />
+              <div *ngIf="f.submitted && uname.invalid" class="invalid-feedback">
+                <small class="text-danger" *ngIf="uname.errors?.required">Email/Username is required</small>
+              </div>
+              <label for="input" class="control-label">Email/Username</label><i class="bar"></i>
             </div>
-            <div class="col-lg-6 col-md-12 col-sm-12">
-                <img src="assets/images/sign-in-illu.png" class="img-fluid m-md-auto d-md-block" alt="image">
+
+            <div class="form-group mb-0">
+              <input type="password" id="password" name="password" #pwd="ngModel" [ngClass]="{ 'is-invalid': f.submitted && pwd.invalid }" class="form-control" [(ngModel)]="user.password" required="required" />
+              <div *ngIf="f.submitted && pwd.invalid" class="invalid-feedback">
+                <small class="text-danger" *ngIf="pwd.errors.required">Password is required</small>
+              </div>
+              <label for="input" class="control-label">Password</label><i class="bar"></i>
+              <span toggle="#password" class="grey flaticon-padlock eye-icon toggle-password font-weight-semibold"></span>
             </div>
-            <div class="col-lg-6 col-md-12 col-sm-12 py-3 pb-md-0 d-flex justyfy-content-center align-item-center">
-                <div class="container-box float-lg-right float-md-none m-md-auto">
 
-
-                    <form name="form" #f="ngForm" (ngSubmit)= "f.form.valid" novalidate>
-                        <div class="form-group mt-0">
-                            <input type="text" id="userName" name="userName" #uname="ngModel" 
-                                [ngClass]="{ 'is-invalid': f.submitted && uname.invalid }" class="form-control" 
-                                [(ngModel)]="user.userName" required="required"/>
-                            <div *ngIf="f.submitted && uname.invalid" class="invalid-feedback">
-                                <small class="text-danger" *ngIf="uname.errors?.required">Email/Username is required</small>
-                            </div>
-                            <label for="input" class="control-label" >Email/Username</label><i class="bar"></i>
-                        </div>
-
-                        <div class="form-group mb-0">
-                            <input type="password" id="password" name="password" #pwd="ngModel"  
-                                [ngClass]="{ 'is-invalid': f.submitted && pwd.invalid }" class="form-control" 
-                                [(ngModel)]="user.password" required="required"/>
-                            <div *ngIf="f.submitted && pwd.invalid" class="invalid-feedback">
-                                <small class="text-danger" *ngIf="pwd.errors.required">Password is required</small>
-                            </div>
-                            <label for="input" class="control-label">Password</label><i class="bar"></i>
-                            <span toggle="#password" class="grey flaticon-padlock eye-icon toggle-password font-weight-semibold"></span>
-                        </div>
-
-                        <div class="py-2 text-right">
-                            <a href="" [routerLink]="['/forgot-password']" class="font-color forgot-pass-link font-weight-semibold">Forgot Password?</a>
-                        </div>
-
-                        <div class="pb-3">
-                            <input class="styled-checkbox" id="rememberMe" type="checkbox">
-                            <label for="rememberMe">Remember Me</label>
-                        </div>
-
-                        <div class="col-ld-12 text-center pb-3">
-                            <button type="submit" class="btn btn-theme background-color shadow w-50" (click)="validateLogin(f.form.invalid)"><span>Sign In</span></button>
-                        </div>
-
-                    </form>
-                    <p class="text-center pt-2">You don’t have an account? <a [routerLink]="['/signup']" href="" class="font-color font-weight-semibold">Sign Up</a></p>
-                </div>
+            <div class="py-2 text-right">
+              <a href="" [routerLink]="['/auth/forgot-password']" class="font-color forgot-pass-link font-weight-semibold">Forgot Password?</a>
             </div>
+
+            <div class="pb-3">
+              <input class="styled-checkbox" id="rememberMe" type="checkbox" />
+              <label for="rememberMe">Remember Me</label>
+            </div>
+
+            <div class="col-ld-12 text-center pb-3">
+              <button type="submit" class="btn btn-theme background-color shadow w-50" (click)="validateLogin(f.form.invalid)"><span>Sign In</span></button>
+            </div>
+          </form>
+          <p class="text-center pt-2">You don’t have an account? <a [routerLink]="['/auth/signup']" class="font-color font-weight-semibold">Sign Up</a></p>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 </section>

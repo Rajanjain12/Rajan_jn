@@ -1,18 +1,18 @@
 <section class="pb-2 fix-wrapper center-items fade-in">
-    <section class="custom-container pt-3">
-        <div class="row">
-            <div class="col-lg-6 col-md-12 col-sm-12 py-4">
-                <img src="assets/images/reset-pass-illu.png" class="img-fluid m-md-auto d-md-block" alt="image">
-            </div>
-            <div class="col-lg-6 text-center d-flex justyfy-content-center align-item-center">
-                <div class="thank-you-container float-lg-right float-md-none m-md-auto">
-                    <h1 class="thank-you-text font-color pb-4">Thank You!</h1>
-                    <p class="pb-4">{{content}}</p>
-                    <div class="col-ld-12 pt-3 pb-4">
-                        <button  [routerLink]="['/login']" class="btn btn-theme background-color shadow w-30"><span>Sign In</span></button>
-                    </div>
-                </div>
-            </div>
+  <section class="custom-container pt-3">
+    <div class="row">
+      <div class="col-lg-6 col-md-12 col-sm-12 py-4">
+        <img src="assets/images/reset-pass-illu.png" class="img-fluid m-md-auto d-md-block" alt="image" />
+      </div>
+      <div class="col-lg-6 text-center d-flex justyfy-content-center align-item-center">
+        <div class="thank-you-container float-lg-right float-md-none m-md-auto">
+          <h1 class="thank-you-text font-color pb-4">Thank You!</h1>
+          <p class="pb-4">{{ content }}</p>
+          <div class="col-ld-12 pt-3 pb-4">
+            <button [routerLink]="['/auth/login']" class="btn btn-theme background-color shadow w-30"><span>Sign In</span></button>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 </section>

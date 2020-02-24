@@ -3,12 +3,21 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
+  },
+  {
     path: 'waitlist',
-    loadChildren: './waitlist/waitlist.module#WaitlistModule'
+    loadChildren: () => import('./waitlist/waitlist.module').then(m => m.WaitlistModule)
   },
   {
     path: 'guest',
-    loadChildren: './guest/guest.module#GuestModule'
+    loadChildren: () => import('./guest/guest.module').then(m => m.GuestModule)
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'auth/login'
   }
 ];
 

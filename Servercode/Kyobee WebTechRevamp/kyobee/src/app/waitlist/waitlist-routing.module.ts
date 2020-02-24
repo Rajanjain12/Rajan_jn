@@ -9,7 +9,7 @@ import { HistoryComponent } from './history/history.component';
 
 const routes: Routes = [
   {
-    path: 'waitlist',
+    path: '',
     component: MainpageComponent,
     children: [
       {
