@@ -13,14 +13,14 @@
       <div class="col-lg-9">
         <div class="row pb-2">
           <div class="col-lg-3 pb-2">
-            <a class="table-column-btn" href="" data-toggle="modal" id="tableColumnModalBtn" data-target="#tableColumnModal">Show Column<i class="flaticon-funnel font-color float-right"></i></a>
+            <a class="table-column-btn" href="javascript:void(0)" data-toggle="modal" id="tableColumnModalBtn" data-target="#tableColumnModal">Show Column<i class="flaticon-funnel font-color float-right"></i></a>
           </div>
           <div class="col-lg-auto pb-2">
             <span class="table-column-btn">
               <span class="col-lg-4 col-md-4 col-sm-6 sm-block p-0 my-2 mr-3"
                 >Party Wait Time
                 <select class="font-color ml-2" name="perPartyTime" (change)="saveOrgMetrics()" #perPartyTime="ngModel" [(ngModel)]="waitTime">
-                  <option *ngFor="let waitOption of waitTimeOption" value="{{ waitOption }}">{{ waitOption }} Min.</option>
+                  <option *ngFor="let waitOption of [].constructor(waitTimeOption); let j = index;" value="{{ j+1 }}">{{ j+1 }} Min.</option>
                 </select>
               </span>
               <!-- <span class="col-lg-4 col-md-4 col-sm-6">Notify First
@@ -97,7 +97,7 @@
           <tbody>
             <tr *ngFor="let guest of guestDTOList">
               <td *ngIf="toggleColumnArr.action == true">
-                <a (click)="showSeatModal(guest)"
+                <a href="javascript:void(0)" (click)="showSeatModal(guest)"
                   ><i *ngIf="guest.calloutCount == null && guest.incompleteParty == null" class="flaticon-black-male-user-symbol font-color"></i>
                   <i *ngIf="!(guest.calloutCount == null && guest.incompleteParty == null)" class="flaticon-black-male-user-symbol grey"></i
                 ></a>
@@ -125,10 +125,10 @@
                 </span>
               </td>
               <td *ngIf="toggleColumnArr.deleteSym == true">
-                <a (click)="showDeleteModal(guest)"><i class="flaticon-rubbish-bin"></i></a>
+                <a href="javascript:void(0)" (click)="showDeleteModal(guest)"><i class="flaticon-rubbish-bin"></i></a>
               </td>
               <td *ngIf="toggleColumnArr.sendText == true">
-                <a (click)="fetchSMSContent(guest)"><i class="flaticon-chat"></i></a>
+                <a href="javascript:void(0)" (click)="fetchSMSContent(guest)"><i class="flaticon-chat"></i></a>
               </td>
             </tr>
           </tbody>
@@ -136,18 +136,15 @@
       </div>
       <div class="float-right pb-2">
         <ul class="pagination">
-         <!--  <li class="page-item disabled"><a class="page-link" href="#"></a></li> -->
-          <li *ngIf="pageNo > 1" class="page-item"><a class="page-link" (click)="fetchPrevGuest()">Previous</a></li>
-         <!--  <li class="page-item">
-            <a class="page-link active-pagination" (click)="fetchGuest()">{{ this.totalPageNo }}</a>
-            
-          </li> -->
-          <li *ngFor="let i of [].constructor(totalPageNo); let j = index; ">
-            <a class="page-link" [ngClass]="{ 'active-pagination' : pageNo === j+1 }  " (click)="fetchGuestByPageNo(j+1);"> {{ j+1 }}</a>
+          <li *ngIf="pageNo !== 1" class="page-item">
+            <a href="javascript:void(0)" class="page-link" (click)="fetchPrevGuest();">&#60;</a>
           </li>
-          <li *ngIf="guestDTOList != null ? guestDTOList.length > pageSize : null" class="page-item"><a class="page-link" (click)="fetchNextGuest();">Next</a></li>
-          <!-- <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">></a></li> -->
+          <li *ngFor="let i of [].constructor(totalPageNo); let j = index; " class="page-item">
+           <a href="javascript:void(0)"class="page-link" [ngClass]="{ 'active-pagination' : pageNo === j+1 }  " (click)="fetchGuestByPageNo(j+1);"> {{ j+1 }}</a>
+          </li>
+          <li *ngIf="totalPageNo !== pageNo" class="page-item">
+            <a href="javascript:void(0)" class="page-link" (click)="fetchNextGuest();">&#62;</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -296,13 +293,13 @@
             <div class="pt-3 sms-tab-container">
               <ul class="nav nav-tabs nav-justified" role="tablist">
                 <li class="nav-item">
-                  <a class="nav-link active" data-toggle="tab" (click)="fetchOrgLevelMsg(1);" href="#level1">Check-in</a>
+                  <a href="javascript:void(0)" class="nav-link active" data-toggle="tab" (click)="fetchOrgLevelMsg(1);" href="#level1">Check-in</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" data-toggle="tab" href="#level2" (click)="fetchOrgLevelMsg(2);" >Reminder</a>
+                  <a href="javascript:void(0)" class="nav-link" data-toggle="tab" href="#level2" (click)="fetchOrgLevelMsg(2);" >Reminder</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" data-toggle="tab" href="#level3" (click)="fetchOrgLevelMsg(3);" >Custom</a>
+                  <a href="javascript:void(0)" class="nav-link" data-toggle="tab" href="#level3" (click)="fetchOrgLevelMsg(3);" >Custom</a>
                 </li>
               </ul>
               <div  class="tab-content">

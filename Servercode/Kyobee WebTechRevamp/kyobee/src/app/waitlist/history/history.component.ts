@@ -19,9 +19,10 @@ export class HistoryComponent implements OnInit {
   sliderMinTime :number= 0;
   options: Options = {
     floor: 0,
-    ceil: 24
+    ceil: 24,
+    step: 1
   };
-  statusOptions = ['All', 'Not Present', 'Incomplete'];
+  statusOptions ;
   roundarrow = '../../../assets/images/roundarrow.png';
   selectedStatus: string;
   user:User;
@@ -29,7 +30,8 @@ export class HistoryComponent implements OnInit {
   pageNo;
   pageSize;
   searchText;
-
+  totalGuest:number;
+  totalPageNo:number;
   guestDTOList: Array<GuestDTO>;
   toggleColumnArr = {
     action: true,
@@ -43,6 +45,7 @@ export class HistoryComponent implements OnInit {
   };
 
   ngOnInit() {
+    this.statusOptions= ['All', 'Not Present', 'Incomplete'];
     this.selectedStatus = this.statusOptions[0];
     this.user = this.authService.getUser();
     this.orgId = this.user.organizationID;
@@ -56,8 +59,8 @@ export class HistoryComponent implements OnInit {
 
   optionChange(status) {
     this.selectedStatus = status;
+    this.fetchGuestHistory();
   }
-
   pad(value) {
     return value < 10 ? '0' + value : value;
   }
@@ -87,6 +90,9 @@ export class HistoryComponent implements OnInit {
     this.guestService.fetchGuestHistoryList(params).subscribe((res: any) => {
       if (res.success == 1) {
         this.guestDTOList = res.serviceResult.records;
+        this.totalGuest=res.serviceResult.totalRecords;
+        this.pageNo=res.serviceResult.pageNo;
+        this.pagination(this.totalGuest,this.pageNo,this.pageSize);
         console.log('user==' + JSON.stringify(res.serviceResult));
         // this.selectedGuest=new GuestDTO();
       } else {
@@ -167,6 +173,24 @@ export class HistoryComponent implements OnInit {
     this.pageNo = this.pageNo + 1;
     this.fetchGuestHistory();
   }
+
+  fetchPrevGuest() {
+    this.pageNo = this.pageNo - 1;
+    this.fetchGuestHistory();
+  }
+
+  fetchGuestByPageNo(pageNo){
+    this.pageNo=pageNo;
+    this.fetchGuestHistory();
+  }
+  pagination(totalItems, currentPage, pageSize){
+    currentPage = currentPage || 1;
+    this.totalPageNo = Math.ceil(totalItems / pageSize);
+    if(this.totalPageNo==0){
+      this.totalPageNo=1;
+    }
+   console.log("total pages"+this.totalPageNo);
+  }
   onSubmit(invalid) {
     if (invalid) {
       return;
@@ -177,13 +201,9 @@ export class HistoryComponent implements OnInit {
     
     this.fetchGuestHistory();
   }
-  fetchPrevGuest() {
-    this.pageNo = this.pageNo - 1;
-    this.fetchGuestHistory();
-  }
-  onSliderChange(selectedValues: number[]) {
-    //this. = selectedValues.values;
-    console.log(JSON.stringify(selectedValues));
+
+  onSliderChange() {
+    console.log("=="+this.sliderMinTime+"---"+this.sliderMaxTime);
   }
   connectPubnub() {
     var channel = environment.pubnubIndividualChannel + '_' + this.orgId;

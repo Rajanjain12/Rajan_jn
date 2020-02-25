@@ -8,7 +8,7 @@
           </div>
           <div class="col-lg-3 pb-2">
             <select class="table-column-btn bg-white" name="statusSelected" #statusSelected="ngModel" [(ngModel)]="selectedStatus" (change)="optionChange(selectedStatus)">
-              <option *ngFor="let status of statusOptions">{{ status }}</option>
+              <option *ngFor="let status of statusOptions" value="{{ status }}">{{ status }}</option>
               <!--  <option>Incomplete</option>
                             <option>Not Present</option> -->
             </select>
@@ -16,7 +16,7 @@
           <div class="col-lg-auto pb-2">
             <span class="table-column-btn">Check-in Time</span>
             <div>
-                <ng5-slider  [(value)]="sliderMinTime" [(highValue)]="sliderMaxTime" [options]="options"></ng5-slider>
+                <ng5-slider  [(value)]="sliderMinTime" [(highValue)]="sliderMaxTime" [options]="options" (valueChange)="onSliderChange()"></ng5-slider>
                 <!-- <npn-slider [min]="sliderMinTime" [max]="sliderMaxTime"  [step]="1" (onChange)="onSliderChange($event)" [showStepIndicator]="true"></npn-slider> -->
                 <!-- <ion-range-slider #sliderElement
                 type="double"
@@ -42,7 +42,7 @@
       </div>
       <div class="col-lg-3 text-right pb-2">
           <form #f="ngForm" (ngSubmit)="onSubmit(f.invalid)">
-        <input class="form-control search" #searchData="ngModel" [(ngModel)]="searchText" type="text" name="" placeholder="Search" />
+        <input class="form-control search" type="text" name="searchData" #searchData="ngModel" [(ngModel)]="searchText"  placeholder="Search" />
         </form>
       </div>
     </div>
@@ -90,12 +90,15 @@
       </div>
       <div class="float-right">
         <ul class="pagination pb-2">
-          <li class="page-item disabled"><a class="page-link" href="#"></a></li>
-          <li *ngIf="pageNo > 1" class="page-item"><a class="page-link" (click)="fetchPrevGuest()">Next</a></li>
-          <li class="page-item">
-            <a class="page-link active-pagination" (click)="fetchGuestHistory()">{{ this.pageNo }}</a>
-          </li>
-          <li *ngIf="guestDTOList != null ? guestDTOList.length > pageSize : null" class="page-item"><a class="page-link" (click)="fetchNextGuest()">Next</a></li>
+            <li *ngIf="pageNo !== 1" class="page-item">
+                <a href="javascript:void(0)" class="page-link" (click)="fetchPrevGuest();">&#60;</a>
+              </li>
+              <li *ngFor="let i of [].constructor(totalPageNo); let j = index; " class="page-item">
+               <a href="javascript:void(0)"class="page-link" [ngClass]="{ 'active-pagination' : pageNo === j+1 }  " (click)="fetchGuestByPageNo(j+1);"> {{ j+1 }}</a>
+              </li>
+              <li *ngIf="totalPageNo !== pageNo" class="page-item">
+                <a href="javascript:void(0)" class="page-link" (click)="fetchNextGuest();">&#62;</a>
+              </li>
         </ul>
       </div>
     </div>

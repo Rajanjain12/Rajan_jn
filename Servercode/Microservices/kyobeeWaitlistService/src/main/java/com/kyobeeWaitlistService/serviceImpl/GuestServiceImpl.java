@@ -105,7 +105,10 @@ public class GuestServiceImpl implements GuestService {
 	@Override
 	public GuestResponseDTO fetchGuestList(Integer orgId, Integer pageSize, Integer pageNo, String searchText) {
 		Integer startIndex = 0;
+		GuestResponseDTO guestResponse = new GuestResponseDTO();
+		guestResponse.setPageNo(pageNo);
 		if (pageNo != 1) {
+			pageNo=pageNo-1;
 			startIndex = pageSize * pageNo;
 		}
 		List<Guest> guestList;
@@ -115,7 +118,7 @@ public class GuestServiceImpl implements GuestService {
 			totalGuest=guestCustomDAO.fetchAllGuestListCount(orgId,searchText);
 
 		List<GuestDTO> guestDTOs = new ArrayList<>();
-		GuestResponseDTO guestResponse = new GuestResponseDTO();
+		
 
 		for (Guest guest : guestList) {
 			GuestDTO guestDTO = new GuestDTO();
@@ -160,7 +163,7 @@ public class GuestServiceImpl implements GuestService {
 
 			guestDTOs.add(guestDTO);
 		}
-		guestResponse.setPageNo(pageNo);
+		//guestResponse.setPageNo(pageNo);
 		guestResponse.setTotalRecords(totalGuest);
 		guestResponse.setRecords(guestDTOs);
 		return guestResponse;
@@ -168,10 +171,13 @@ public class GuestServiceImpl implements GuestService {
 
 	@Override
 	public GuestResponseDTO fetchGuestHistoryList(Integer orgId,Integer pageSize,Integer pageNo,String searchText,String clientTimezone,Integer sliderMaxTime,Integer sliderMinTime,String statusOption) {
-
+		
+		GuestResponseDTO guestResponse = new GuestResponseDTO();
+		guestResponse.setPageNo(pageNo);
 		Integer startIndex = 0;
 		Integer totalGuest=0;
 		if (pageNo != 1) {
+			pageNo=pageNo-1;
 			startIndex = pageSize * pageNo;
 		}
 		List<Guest> guestList;
@@ -179,7 +185,7 @@ public class GuestServiceImpl implements GuestService {
 		guestList = guestCustomDAO.fetchAllGuestHistoryList(orgId,pageSize,startIndex,searchText,clientTimezone,sliderMaxTime,sliderMinTime,statusOption);
 		totalGuest= guestCustomDAO.fetchAllGuestHistoryListCount(orgId, searchText, clientTimezone, sliderMaxTime, sliderMinTime, statusOption);
 		List<GuestDTO> guestDTOs = new ArrayList<>();
-		GuestResponseDTO guestResponse = new GuestResponseDTO();
+		
 
 		for (Guest guest : guestList) {
 			GuestDTO guestDTO = new GuestDTO();
@@ -226,7 +232,7 @@ public class GuestServiceImpl implements GuestService {
 
 			guestDTOs.add(guestDTO);
 		}
-		guestResponse.setPageNo(pageNo);
+		
 		guestResponse.setTotalRecords(totalGuest);
 		guestResponse.setRecords(guestDTOs);
 		return guestResponse;
