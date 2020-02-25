@@ -5,7 +5,7 @@ public class WaitlistMetrics {
 	private Integer guestId;
 	private Integer nowServingGuest;
 	private Integer totalWaitTime;
-	private Integer guestToBeNotified;//notify first
+	private Integer guestToBeNotified;
 	private Integer totalWaitingGuest;
 	private Integer noOfPartiesAhead;
 	private Integer guestRank;

@@ -6,11 +6,13 @@ import { MainpageComponent } from './mainpage/mainpage.component';
 import { AddGuestComponent } from './add-guest/add-guest.component';
 import { SettingsComponent } from './settings/settings.component';
 import { HistoryComponent } from './history/history.component';
+import { AuthGuardGuard } from '../core/auth-guard.guard';
 
 const routes: Routes = [
   {
     path: '',
-    component: MainpageComponent,
+    component: MainpageComponent, 
+    canActivate:[AuthGuardGuard],
     children: [
       {
         path: 'dashboard',

@@ -321,6 +321,7 @@ export class DashboardComponent implements OnInit {
   }
 
   fetchGuestByPageNo(pageNo){
+    alert(pageNo);
     this.pageNo=pageNo;
     this.fetchGuest();
   }
@@ -450,7 +451,10 @@ export class DashboardComponent implements OnInit {
 pagination(totalItems, currentPage, pageSize){
   currentPage = currentPage || 1;
   this.totalPageNo = Math.ceil(totalItems / pageSize);
- 
+  if(this.totalPageNo==0){
+    this.totalPageNo=1;
+  }
+ console.log("total pages"+this.totalPageNo);
 }
 
   connectPubnub() {

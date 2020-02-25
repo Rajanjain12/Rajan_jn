@@ -1,5 +1,6 @@
 package com.kyobeeWaitlistService.daoImpl;
 
+import java.math.BigInteger;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -318,22 +319,22 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 	@Override
 	public List<GuestDetailsDTO> fetchGuestByContact(Integer orgID, String contactNumber) {
 
-		@SuppressWarnings({ "deprecation", "unchecked" })
+		@SuppressWarnings("unchecked" )
 		List<GuestDetailsDTO> guestDTO = entityManager.createNativeQuery(
 				"select * from (select gr.GuestID, gr.organizationID, gr.name,gr.note,gr.uuid,gr.noOfPeople,gr.email,gr.contactNo,gr.status,gr.rank,gr.prefType,gr.optin,gr.calloutCount,gr.checkinTime,gr.seatedTime,gr.createdTime,gr.updatedTime,gr.incompleteParty,gr.seatingPreference,gr.marketingPreference,gr.deviceType,gr.deviceId,gr.languagePrefID from GUESTRESET gr left join GUEST g on g.guestID = gr.GuestID where gr.organizationID=:orgID and gr.contactNo=:contactNumber union"
-						+ " select g.guestID, g.organizationID, g.name,g.note,g.uuid,g.noOfPeople,g.email,g.contactNo,g.status,g.rank,g.prefType,g.optin,g.calloutCount,g.checkinTime,g.seatedTime,g.createdTime,g.updatedTime,g.incompleteParty,g.seatingPreference,g.marketingPreference,g.deviceType,g.deviceId,g.languagePrefID from GUEST g where g.organizationID=:orgID and g.contactNo=:contactNumber) as u order by u.createdTime desc")
-				.setParameter("orgID", orgID).setParameter("contactNumber", contactNumber)
-				.unwrap(org.hibernate.query.NativeQuery.class)
-				.setResultTransformer(Transformers.aliasToBean(GuestDetailsDTO.class)).getResultList();
+						+ " select g.guestID, g.organizationID, g.name,g.note,g.uuid,g.noOfPeople,g.email,g.contactNo,g.status,g.rank,g.prefType,g.optin,g.calloutCount,g.checkinTime,g.seatedTime,g.createdTime,g.updatedTime,g.incompleteParty,g.seatingPreference,g.marketingPreference,g.deviceType,g.deviceId,g.languagePrefID from GUEST g where g.organizationID=:orgID and g.contactNo=:contactNumber) as u order by u.createdTime desc",GuestDetailsDTO.class)
+				.setParameter("orgID", orgID).setParameter("contactNumber", contactNumber).getResultList();
 
 		return guestDTO;
 	}
+	
+	
 
 	@Override
 	public Integer fetchAllGuestListCount(Integer orgId, String searchText) {
 		// for fetching data according to page number
 
-				Integer count = 0;
+		   BigInteger count  = BigInteger. valueOf(0);
 
 				try {
 					StringBuilder query = new StringBuilder(
@@ -344,17 +345,17 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 					}
 					
 					if ((searchText != null) && (!searchText.equalsIgnoreCase("null"))) {
-						count = entityManager.createNativeQuery(query.toString()).setParameter("orgId", orgId)
-								.setParameter("searchText", "%" + searchText + "%").getFirstResult();
+						count = (BigInteger) entityManager.createNativeQuery(query.toString()).setParameter("orgId", orgId)
+								.setParameter("searchText", "%" + searchText + "%").getSingleResult();
 
 					} else {
-						count = entityManager.createNativeQuery(query.toString()).setParameter("orgId", orgId).getFirstResult();
+						count = (BigInteger) entityManager.createNativeQuery(query.toString()).setParameter("orgId", orgId).getSingleResult();
 
 					}
 				} catch (Exception e) {
 					LoggerUtil.logError("Error in fetch guest  " + e.getMessage());
 				}
-				return count;
+				return count.intValue();
 	}
 
 	@Override

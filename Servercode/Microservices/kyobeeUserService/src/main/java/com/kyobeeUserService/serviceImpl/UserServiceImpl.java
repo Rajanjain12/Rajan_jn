@@ -81,8 +81,10 @@ public class UserServiceImpl implements UserService {
 					loginUserDTO.setCompanyEmail(organization.getEmail());
 					Map<String, String> defaultLanguageKeyMap = new HashMap<>();
 					
-					if(!credentialsDTO.getDeviceType().equalsIgnoreCase(UserServiceConstants.WEBUSER))
-					{
+					/*
+					 * if(!credentialsDTO.getDeviceType().equalsIgnoreCase(UserServiceConstants.
+					 * WEBUSER)) {
+					 */
 						//fetch languages associated with org and arrange labels in key value 
 						List<LanguageMasterDTO> languageList = languageKeyMappingDAO.fetchLanguageKeyMapForOrganization(organization.getOrganizationID());
 
@@ -115,7 +117,7 @@ public class UserServiceImpl implements UserService {
 						}
 
 						loginUserDTO.setLanguagePref(langkeyMapList);
-					}
+					//}
 
 					//fetch seating pref and marketing pref associated with org
 					List<Lookup> lookupList = lookupDAO.fetchSeatingAndMarketingPref(organization.getOrganizationID(), UserServiceConstants.SEATINGPREFID,UserServiceConstants.MARKETINGPREFID);
