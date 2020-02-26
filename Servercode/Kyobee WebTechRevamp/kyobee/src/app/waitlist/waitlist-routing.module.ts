@@ -11,8 +11,8 @@ import { AuthGuardGuard } from '../core/auth-guard.guard';
 const routes: Routes = [
   {
     path: '',
-    component: MainpageComponent, 
-    canActivate:[AuthGuardGuard],
+    component: MainpageComponent,
+    canActivate: [AuthGuardGuard],
     children: [
       {
         path: 'dashboard',

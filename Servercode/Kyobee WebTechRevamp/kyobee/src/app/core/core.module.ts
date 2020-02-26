@@ -7,19 +7,18 @@ import { UserService } from './services/user.service';
 import { ApiService } from './services/api.service';
 import { LoaderService } from './services/loader.service';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
-
+import { AutosizeDirective } from './directives/autosize.directive';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    HttpClientModule
-  ],
+  declarations: [AutosizeDirective],
+  imports: [CommonModule, HttpClientModule],
   providers: [
     UserService,
     ApiService,
     AuthService,
-    LoaderService, { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
-  ]
+    LoaderService,
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
+  ],
+  exports: [AutosizeDirective]
 })
-export class CoreModule { }
+export class CoreModule {}
