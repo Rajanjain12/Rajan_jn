@@ -3,7 +3,6 @@ import { UserService } from 'src/app/core/services/user.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
 import { LoginDTO } from 'src/app/core/models/loginDTO.model';
-import { JsonPipe } from '@angular/common';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { User } from 'src/app/core/models/user.model';
 
@@ -13,45 +12,58 @@ import { User } from 'src/app/core/models/user.model';
   styleUrls: ['./signin.component.scss']
 })
 export class SigninComponent implements OnInit {
-
   user: LoginDTO = new LoginDTO();
 
   // flag denoting invalid login i.e wrong username or password.
-  invalidLogin: Boolean = false;
+  invalidLogin = false;
   loading = false;
-  userResponse:User ;
-  constructor(private userService: UserService, private authService: AuthService, private router: Router,private loaderService:LoaderService) { }
+  userResponse: User;
 
-  ngOnInit() {
-  }
+  constructor(
+    private userService: UserService,
+    private authService: AuthService,
+    private router: Router,
+    private loaderService: LoaderService
+  ) {}
+
+  ngOnInit() {}
   validateLogin(invalid) {
-
     this.loaderService.show();
     if (invalid) {
-
       return;
     }
-   
-    this.user.deviceType="Web";
-    this.user.deviceToken="";
-    this.user.clientBase="admin";
-    console.log("user "+JSON.stringify(this.user));
+
+    this.user.deviceType = 'Web';
+    this.user.deviceToken = '';
+    this.user.clientBase = 'admin';
+    console.log('user ' + JSON.stringify(this.user));
     this.userService.login(this.user).subscribe((res: any) => {
       var respData = res;
-      console.log("log== "+JSON.stringify(respData));
+      console.log('log== ' + JSON.stringify(respData));
       if (respData.success == 1) {
         this.loading = false;
         this.invalidLogin = false;
         this.authService.SetLogFlag();
-        this.userResponse=respData.serviceResult;
+        this.userResponse = respData.serviceResult;
         this.authService.setSessionData(this.userResponse);
         this.router.navigateByUrl('/waitlist/dashboard', { replaceUrl: true });
       } else {
         this.loading = false;
-        alert("username password wrong");
+        alert('username password wrong');
         this.invalidLogin = true;
       }
     });
   }
 
+  toggleEye(event) {
+    const targetId = event.target.attributes.toggle.value;
+
+    if (document.querySelector(targetId).getAttribute('type') === 'password') {
+      document.querySelector(targetId).setAttribute('type', 'text');
+      event.target.className = 'grey flaticon-unlocked eye-icon toggle-password font-weight-semibold';
+    } else {
+      document.querySelector(targetId).setAttribute('type', 'password');
+      event.target.className = 'grey flaticon-padlock eye-icon toggle-password font-weight-semibold';
+    }
+  }
 }

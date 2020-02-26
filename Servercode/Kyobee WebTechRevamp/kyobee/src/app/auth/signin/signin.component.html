@@ -25,7 +25,7 @@
                 <small class="text-danger" *ngIf="pwd.errors.required">Password is required</small>
               </div>
               <label for="input" class="control-label">Password</label><i class="bar"></i>
-              <span toggle="#password" class="grey flaticon-padlock eye-icon toggle-password font-weight-semibold"></span>
+              <span toggle="#password" (click)="toggleEye($event)" class="grey flaticon-padlock eye-icon toggle-password font-weight-semibold"></span>
             </div>
 
             <div class="py-2 text-right">

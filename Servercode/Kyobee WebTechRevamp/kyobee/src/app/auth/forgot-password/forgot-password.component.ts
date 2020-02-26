@@ -9,29 +9,29 @@ import { Router } from '@angular/router';
   styleUrls: ['./forgot-password.component.scss']
 })
 export class ForgotPasswordComponent implements OnInit {
+  constructor(private userService: UserService, private router: Router) {}
+  username = '';
+  resend = false;
+  error: { show: boolean; type: string; msg: string } = { show: false, type: '', msg: '' };
+  ngOnInit() {}
 
-  constructor(private userService: UserService,private router: Router) { }
-  username :string ="";
-  show: boolean=null;
-  ngOnInit() {
-  }
-
-  sendLinkForPwordReset(invalid){
-    if(invalid){
+  sendLinkForPwordReset(invalid) {
+    if (invalid) {
       return;
     }
-    var params = new HttpParams()
-    .set('username', this.username);
-   this.userService.forgotPassword(params).subscribe((res: any) => {
-      var respData = res;
-  
-      if (respData.success == 1) {  
-       
-        this.show=true;
-       
-      } else {
-        this.show = false;   
+    const params = new HttpParams().set('username', this.username);
+    this.userService.forgotPassword(params).subscribe(
+      success => {
+        console.log('TCL: ForgotPasswordComponent -> sendLinkForPwordReset -> success', success);
+        if (success.success === 0) {
+          this.error = { show: true, type: 'danger', msg: success.message };
+        } else if (success.success === 1) {
+          this.resend = true;
+        }
+      },
+      error => {
+        console.log('TCL: ForgotPasswordComponent -> sendLinkForPwordReset -> error', error);
       }
-    }); 
+    );
   }
 }
