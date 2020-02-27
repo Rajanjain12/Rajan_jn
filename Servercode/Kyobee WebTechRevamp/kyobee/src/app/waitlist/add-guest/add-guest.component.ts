@@ -47,6 +47,7 @@ export class AddGuestComponent implements OnInit {
     } else {
       this.guest = new GuestDTO();
       this.guest.guestID = 0;
+      this.guest.optin=0;
       this.seatingOrMarketingPref();
       console.log('id is absent');
       console.log(this.guest);

@@ -1,0 +1,62 @@
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats','congrats!','en','English',1,'admin','2020-02-26');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats','恭喜！','zh','Chinese',1,'admin','2020-02-26');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats','恭喜！','zh-Hans','Chinese (Simplified)',1,'admin','2020-02-26');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats','恭喜！','zh-Hant','Chinese (Traditional)',1,'admin','2020-02-26');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats','félicitations!','fr','French',1,'admin','2020-02-26');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats','축하합니다!','ko','Korean',1,'admin','2020-02-26');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('you_are_in_your_customer_no_is','you are in your customer no is','en','English',1,'admin','2020-02-26');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('you_are_in_your_customer_no_is','你在你的客户中是','zh','Chinese',1,'admin','2020-02-26');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('you_are_in_your_customer_no_is','你在你的客户中是','zh-Hans','Chinese (Simplified)',1,'admin','2020-02-26');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('you_are_in_your_customer_no_is','你在你的客戶中是','zh-Hant','Chinese (Traditional)',1,'admin','2020-02-26');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('you_are_in_your_customer_no_is','vous êtes chez votre client non','fr','French',1,'admin','2020-02-26');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('you_are_in_your_customer_no_is','당신은 당신의 고객에 없습니다','ko','Korean',1,'admin','2020-02-26');
+------------------------------------------------------------------------
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats_you_are_in','축하합니다! 당신은 포함 됐어!','ko','Korean',1,'admin','2020-02-26');
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats_you_are_in','恭喜你！你在！','zh-Hant','Chinese (Traditional)',1,'admin','2020-02-26');
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats_you_are_in','恭喜你！你在！','zh-Hans',Chinese (Simplified)',1,'admin','2020-02-26');
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats_you_are_in','恭喜你！你在！','zh','Chinese',1,'admin','2020-02-26');
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats_you_are_in','Toutes nos félicitations! Vous y êtes!','fr','French',1,'admin','2020-02-26');
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats_you_are_in','Congratulations! You're in!','en','English',1,'admin','2020-02-26');
+
+---------------------------------------------------------------------------------------------------------
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('your_customer_number_is','고객 번호는','ko','Korean',1,'admin','2020-02-26');
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('your_customer_number_is','您的客戶號碼是','zh-Hant','Chinese (Traditional)',1,'admin','2020-02-26');
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('your_customer_number_is','您的客户号码是','zh-Hans',Chinese (Simplified)',1,'admin','2020-02-26');
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('your_customer_number_is','您的客户号码是','zh','Chinese',1,'admin','2020-02-26');
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('your_customer_number_is','Votre numéro de client est','fr','French',1,'admin','2020-02-26');
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('your_customer_number_is','Your customer number is','en','English',1,'admin','2020-02-26');
+

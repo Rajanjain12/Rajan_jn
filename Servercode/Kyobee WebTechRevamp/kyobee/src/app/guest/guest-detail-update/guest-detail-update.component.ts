@@ -30,32 +30,54 @@ export class GuestDetailUpdateComponent implements OnInit {
   constructor(private route: ActivatedRoute, private guestService: GuestService, private pubnub: PubNubAngular) {}
 
   ngOnInit() {
-    this.fetchGuest(1);
+
+    var promise =this.fetchGuest();
+/*     new Promise((resolve, reject) =>{
+      
+        resolve('I promise to return this after 1 second!');
+    }); */
+    promise.then((value)=>{
+      this.connectPubnub()
+    });
+  
   }
 
-  fetchGuest(i) {
-    this.id = this.route.snapshot.paramMap.get('id');
-    if (this.id !== null) {
-      this.guestService.fetchGuestDetail(this.id).subscribe(res => {
-        if (res.success == 1) {
-          this.languageKeyMap = res.serviceResult.languageKeyMap;
-          this.guest = res.serviceResult;
-          this.orgId = this.guest.organizationID;
-          if(i==1){
-            this.connectPubnub();
+  fetchGuest() {
+    /* var promise = new Promise(function(resolve, reject) {
+      setTimeout(function() {
+        resolve('I promise to return this after 1 second!');
+      }, 1000);
+    });
+    promise.then(function(value) {
+      console.log(value);
+    }); */
+    var promise = promise=new Promise((resolve, reject)=> {   
+      this.id = this.route.snapshot.paramMap.get('id');
+      if (this.id !== null) {
+        this.guestService.fetchGuestDetail(this.id).subscribe(res => {
+          if (res.success == 1) {
+            this.languageKeyMap = res.serviceResult.languageKeyMap;
+            this.guest = res.serviceResult;
+            this.orgId = this.guest.organizationID;
+            resolve('I promise to return this after 1 second!');
+            this.fetchGuestMetric();
+            this.fetchOrgPref();
+            
+            console.log(res.serviceResult);
+          } else {
+            reject('I promise to return this after 1 second!');
+            this.errorMessage = res.message;
           }
-         
-          this.fetchGuestMetric();
-          this.fetchOrgPrefandKeyMap();
-          console.log(res.serviceResult);
-        } else {
-          //alert(res.message);
-          this.errorMessage = res.message;
-        }
-      });
-    } else {
-      alert('invalid url');
-    }
+        });
+      } else {   
+        reject('I promise to return this after 1 second!'); 
+        alert('invalid url');
+      }
+      
+      
+  });
+
+    return promise;
   }
 
   seatingOrMarketingPref() {
@@ -121,9 +143,9 @@ export class GuestDetailUpdateComponent implements OnInit {
   showDeleteModal() {
     $('#deleteModal').modal('show');
   }
-  fetchOrgPrefandKeyMap() {
+  fetchOrgPref() {
     const params = new HttpParams().set('orgId', this.guest.organizationID.toString());
-    this.guestService.fetchOrgPrefandKeyMap(params).subscribe(res => {
+    this.guestService.fetchOrgPref(params).subscribe(res => {
       if (res.success == 1) {
         this.listSeatingPref = res.serviceResult.seatingPreference;
         this.listMarketingPref = res.serviceResult.marketingPreference;
@@ -182,13 +204,16 @@ export class GuestDetailUpdateComponent implements OnInit {
   }
 
   connectPubnub() {
+    console.log("org Id " +this.orgId);
     var channel = environment.pubnubIndividualChannel + '_' + this.orgId;
+   
     this.pubnub.init({
       publishKey: environment.pubnubPublishKey,
       subscribeKey: environment.pubnubSubscribeKey
     });
     this.pubnub.addListener({
-      message: function(msg) {
+      message: (msg) =>{
+       
         console.log('pusher ' + JSON.stringify(msg));
         if (msg.message.op == 'NOTIFY_USER') {
           if (msg.message.orgId == this.orgId) {
@@ -205,11 +230,12 @@ export class GuestDetailUpdateComponent implements OnInit {
           msg.message.op == 'SEATED'
         ) {
           if (msg.message.orgId == this.orgId) {
-            this.fetchGuest(2);
+            this.fetchGuest();
           }
         }
         if (msg.message.op == 'REFRESH_LANGUAGE_PUSHER') {
-          this.fetchOrgPrefandKeyMap();
+          this.fetchOrgPref();
+          this.fetchGuest();
         }
       }
     });

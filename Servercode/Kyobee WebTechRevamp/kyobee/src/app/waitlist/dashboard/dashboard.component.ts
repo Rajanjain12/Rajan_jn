@@ -99,6 +99,7 @@ export class DashboardComponent implements OnInit {
       if (res.success == 1) {
         this.organizationMetrics = res.serviceResult;
         this.waitTime = res.serviceResult.perPartyWaitTime;
+        
         console.log('org == ' + JSON.stringify(this.organizationMetrics));
       } else {
         alert(res.message);
@@ -363,7 +364,7 @@ pagination(totalItems, currentPage, pageSize){
       subscribeKey: environment.pubnubSubscribeKey
     });
     this.pubnub.addListener({
-      message: function (msg) {
+      message:  (msg) =>{
         console.log('pusher ' + JSON.stringify(msg));
         if (msg.message.op == 'NOTIFY_USER') {
           if (msg.message.orgId == this.orgId) {

@@ -82,7 +82,7 @@ export class HistoryComponent implements OnInit {
       .set('pageNo', this.pageNo)
       .set('pageSize', this.pageSize)
       .set('searchText', this.searchText)
-      .set('clientTimezone', '%2B05%3A30')
+      .set('clientTimezone', encodeURIComponent(tzName))
       .set('sliderMaxTime', this.sliderMaxTime.toString())
       .set('sliderMinTime', this.sliderMinTime.toString())
       .set('statusOption', this.selectedStatus);
@@ -212,13 +212,13 @@ export class HistoryComponent implements OnInit {
       subscribeKey: environment.pubnubSubscribeKey
     });
     this.pubnub.addListener({
-      message: function(msg) {
+      message: (msg)=> {
         console.log('pusher ' + JSON.stringify(msg));
-        if (msg.message.op == 'NOTIFY_USER') {
+    /*     if (msg.message.op == 'NOTIFY_USER') {
           if (msg.message.orgId == this.orgId) {
             this.fetchOrgMetrics();
           }
-        }
+        } */
         if (
           msg.message.op == 'UPDATE' ||
           msg.message.op == 'ADD' ||
@@ -229,7 +229,7 @@ export class HistoryComponent implements OnInit {
           msg.message.op == 'SEATED'
         ) {
           if (msg.message.orgId == this.orgId) {
-            this.fetchGuest();
+            this.fetchGuestHistory();
           }
         }
       }

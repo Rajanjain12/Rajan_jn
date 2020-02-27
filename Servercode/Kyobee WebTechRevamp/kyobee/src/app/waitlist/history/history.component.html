@@ -16,7 +16,7 @@
           <div class="col-lg-auto pb-2">
             <span class="table-column-btn">Check-in Time</span>
             <div>
-                <ng5-slider  [(value)]="sliderMinTime" [(highValue)]="sliderMaxTime" [options]="options" (valueChange)="onSliderChange()"></ng5-slider>
+                <ng5-slider  [(value)]="sliderMinTime" [(highValue)]="sliderMaxTime" [options]="options" (valueChange)="fetchGuestHistory();"></ng5-slider>
                 <!-- <npn-slider [min]="sliderMinTime" [max]="sliderMaxTime"  [step]="1" (onChange)="onSliderChange($event)" [showStepIndicator]="true"></npn-slider> -->
                 <!-- <ion-range-slider #sliderElement
                 type="double"
@@ -114,7 +114,7 @@
           <div class="modal-body">
             <div class="row">
               <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
-                <input class="styled-checkbox" id="action" type="checkbox" (click)="toggleColumns('ACTION')" />
+                <input class="styled-checkbox" checked id="action" type="checkbox" (click)="toggleColumns('ACTION')" />
                 <label for="action" class="mr-2">Action</label>
               </div>
               <!-- checkbox -->
@@ -128,17 +128,17 @@
                                 <label for="partyType" class="mr-2">Party Type</label>
                             </div> --><!-- checkbox -->
               <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
-                <input class="styled-checkbox" id="noOfParty" type="checkbox" (click)="toggleColumns('NOOFPARTY')" />
+                <input class="styled-checkbox" checked id="noOfParty" type="checkbox" (click)="toggleColumns('NOOFPARTY')" />
                 <label for="noOfParty" class="mr-2">No. of Party</label>
               </div>
               <!-- checkbox -->
               <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
-                <input class="styled-checkbox" id="name" type="checkbox" (click)="toggleColumns('NAME')" />
+                <input class="styled-checkbox" checked id="name" type="checkbox" (click)="toggleColumns('NAME')" />
                 <label for="name" class="mr-2">Name</label>
               </div>
               <!-- checkbox -->
               <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
-                <input class="styled-checkbox" id="checkIn" type="checkbox" (click)="toggleColumns('CHECKIN')" />
+                <input class="styled-checkbox" checked id="checkIn" type="checkbox" (click)="toggleColumns('CHECKIN')" />
                 <label for="checkIn" class="mr-2">Check In Time</label>
               </div>
               <!-- checkbox -->

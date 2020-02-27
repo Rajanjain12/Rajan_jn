@@ -43,7 +43,7 @@ export class GuestService {
   fetchGuestMetrics(params) {
     return this.apiService.getParam('rest/waitlist/guest/metrics', params);
   }
-  fetchOrgPrefandKeyMap(params) {
+  fetchOrgPref(params) {
     return this.apiService.getParam('rest/waitlist/orgPrefAndKeyMap', params);
   }
   sendSMS(params) {

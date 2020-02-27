@@ -27,10 +27,6 @@ const routes: Routes = [
         component: AddGuestComponent
       },
       {
-        path: 'addguest/:id',
-        component: AddGuestComponent
-      },
-      {
         path: 'history',
         component: HistoryComponent
       },
