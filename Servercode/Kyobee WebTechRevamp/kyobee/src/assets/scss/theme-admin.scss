@@ -207,3 +207,24 @@ footer {
   }
 }
 /* Guest Detail Update Page Ends */
+
+/* ng5-slider Start */
+.custom-slider {
+  .ng5-slider {
+    .ng5-slider-bar,
+    .ng5-slider-tick {
+      background: lighten($color: $theme-color, $amount: 40);
+    }
+    .ng5-slider-selection,
+    .ng5-slider-tick.ng5-slider-selected {
+      background: $theme-color;
+    }
+    .ng5-slider-pointer {
+      background-color: $black-color;
+    }
+    .ng5-slider-limit {
+      color: $theme-color;
+    }
+  }
+}
+/* ng5-slider Ends */

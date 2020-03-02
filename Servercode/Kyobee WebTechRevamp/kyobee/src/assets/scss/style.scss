@@ -677,3 +677,41 @@ fieldset {
   padding: 3px;
   transform: rotate(45deg);
 }
+
+/* ng5-slider Start */
+.custom-slider {
+  .ng5-slider {
+    margin: 15px 0 0;
+    .ng5-slider-bar-wrapper {
+      padding-top: 20px;
+    }
+    .ng5-slider-bar {
+      height: 2px;
+    }
+    .ng5-slider-pointer {
+      width: 10px;
+      height: 10px;
+      top: auto;
+      bottom: 0;
+      border-radius: 0;
+      &:after {
+        display: none;
+      }
+    }
+    .ng5-slider-bubble {
+      bottom: 7px;
+      font-size: 14px;
+    }
+    .ng5-slider-limit {
+      font-weight: bold;
+    }
+    .ng5-slider-tick {
+      width: 1px;
+      height: 10px;
+      margin-left: 4px;
+      border-radius: 0;
+      top: -1px;
+    }
+  }
+}
+/* ng5-slider Ends */

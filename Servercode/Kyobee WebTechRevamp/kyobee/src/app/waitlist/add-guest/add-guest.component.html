@@ -15,46 +15,49 @@
                 <small class="text-danger" *ngIf="gname.errors?.required">{{ languageKeyMap['name_can_not_be_blank'] }}</small>
                 <small class="text-danger" *ngIf="gname.errors?.maxlength">{{ languageKeyMap['maximum_characters_limit_reached'] }}</small>
               </div>
-              <!--   <span class="error">error</span>   -->
             </div>
             <div class="row">
-              <div class="form-group mt-2 mb-3 col-lg-3">
-                <!-- <select id="adult" name="adult" class="form-control" #adult="ngModel" [ngClass]="{ 'is-invalid': f.submitted && adult.invalid }" [(ngModel)]="guest.noOfAdults" required="required">
-                  <option *ngFor="let in of counter(100); let i = index">{{ i }}</option>
-                </select> -->
-                <input type="number" name="adult" class="form-control" #adult="ngModel" id="adult" [(ngModel)]="guest.noOfAdults" required="required" />
-                <label for="adult" class="control-label padding-left-18">{{ languageKeyMap['adults'] }}</label
-                ><i class="bar"></i>
-                <div *ngIf="f.submitted && adult.invalid" class="invalid-feedback">
-                  <small class="text-danger" *ngIf="adult.errors?.required">{{ languageKeyMap['please_enter_values_for_adults'] }}</small>
+              <div class="col-lg-3">
+                <div class="form-group mt-2 mb-3">
+                  <input type="number" name="adult" class="form-control" #adult="ngModel" id="adult" [(ngModel)]="guest.noOfAdults" required="required" />
+                  <label for="adult" class="control-label">{{ languageKeyMap['adults'] }}</label>
+                  <i class="bar"></i>
+                  <div *ngIf="f.submitted && adult.invalid" class="invalid-feedback">
+                    <small class="text-danger" *ngIf="adult.errors?.required">{{ languageKeyMap['please_enter_values_for_adults'] }}</small>
+                  </div>
                 </div>
               </div>
-              <div class="form-group mt-2 mb-3 col-lg-3">
-                <input type="number" name="children" class="form-control" id="children" #children="ngModel" [(ngModel)]="guest.noOfChildren" required="required" />
-                <!-- <select id="children" name="children" class="form-control" #children="ngModel" [(ngModel)]="guest.noOfChildren">
+              <div class="col-lg-3">
+                <div class="form-group mt-2 mb-3">
+                  <input type="number" name="children" class="form-control" id="children" #children="ngModel" [(ngModel)]="guest.noOfChildren" required="required" />
+                  <!-- <select id="children" name="children" class="form-control" #children="ngModel" [(ngModel)]="guest.noOfChildren">
                   <option *ngFor="let in of counter(100); let i = index">{{ i }}</option>
                 </select> -->
-                <label for="children" class="control-label padding-left-18">{{ languageKeyMap['children'] }}</label
-                ><i class="bar"></i>
+                  <label for="children" class="control-label">{{ languageKeyMap['children'] }}</label
+                  ><i class="bar"></i>
+                </div>
               </div>
-              <div class="form-group mt-2 mb-3 col-lg-6">
-                <input
-                  type="text"
-                  id="phone"
-                  name="phone"
-                  class="form-control"
-                  #phone="ngModel"
-                  maxlength="10"
-                  pattern="^(\+\d{2,4})?\s?(\d{10})$"
-                  [ngClass]="{ 'is-invalid': f.submitted && phone.invalid }"
-                  [(ngModel)]="guest.contactNo"
-                  required="required"
-                />
-                <label for="input" class="control-label">{{ languageKeyMap['mobile_number'] }}</label
-                ><i class="bar"></i>
-                <div *ngIf="f.submitted && phone.invalid" class="invalid-feedback">
-                  <small class="text-danger" *ngIf="phone.errors?.required">{{ languageKeyMap['enter_your_phone_number'] }}</small>
-                  <small class="text-danger" *ngIf="phone.errors?.pattern">{{ languageKeyMap['the_phone_number_that_you_typed_is_invalid_please_correct_your_phone_number_and_try_again'] }}</small>
+              <div class="col-lg-6">
+                <div class="form-group mt-2 mb-3">
+                  <!-- <input type="text" id="phone" name="phone" class="form-control" #phone="ngModel" maxlength="10" pattern="^(\+\d{2,4})?\s?(\d{10})$" [ngClass]="{ 'is-invalid': f.submitted && phone.invalid }" [(ngModel)]="guest.contactNo" required="required" /> -->
+                  <input
+                    type="text"
+                    id="phone"
+                    name="phone"
+                    class="form-control"
+                    #phone="ngModel"
+                    [specialCharacters]="[' ', '-', '(', ')']"
+                    mask="(000)-000-0000"
+                    [ngClass]="{ 'is-invalid': f.submitted && phone.invalid }"
+                    [(ngModel)]="guest.contactNo"
+                    required="required"
+                  />
+                  <label for="input" class="control-label">{{ languageKeyMap['mobile_number'] }}</label
+                  ><i class="bar"></i>
+                  <div *ngIf="f.submitted && phone.invalid" class="invalid-feedback">
+                    <small class="text-danger" *ngIf="phone.errors?.required">{{ languageKeyMap['enter_your_phone_number'] }}</small>
+                    <small class="text-danger" *ngIf="phone.errors?.pattern">{{ languageKeyMap['the_phone_number_that_you_typed_is_invalid_please_correct_your_phone_number_and_try_again'] }}</small>
+                  </div>
                 </div>
               </div>
             </div>
@@ -96,7 +99,7 @@
               ><i class="bar"></i>
             </div>
             <div class="col-ld-12 text-center pb-3">
-              <button type="submit" class="btn btn-theme background-color shadow" (click)="validate(f.form.invalid)"><span *ngIf="id==null">Add Guest</span><span *ngIf="id!=null">Update Guest</span></button>
+              <button type="submit" class="btn btn-theme background-color shadow" (click)="validate(f.form.invalid)"><span *ngIf="id == null">Add Guest</span><span *ngIf="id != null">Update Guest</span></button>
             </div>
           </div>
         </form>

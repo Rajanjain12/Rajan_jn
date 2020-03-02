@@ -30,16 +30,14 @@ export class GuestDetailUpdateComponent implements OnInit {
   constructor(private route: ActivatedRoute, private guestService: GuestService, private pubnub: PubNubAngular) {}
 
   ngOnInit() {
-
-    var promise =this.fetchGuest();
-/*     new Promise((resolve, reject) =>{
+    var promise = this.fetchGuest();
+    /*     new Promise((resolve, reject) =>{
       
         resolve('I promise to return this after 1 second!');
     }); */
-    promise.then((value)=>{
-      this.connectPubnub()
+    promise.then(value => {
+      this.connectPubnub();
     });
-  
   }
 
   fetchGuest() {
@@ -51,7 +49,7 @@ export class GuestDetailUpdateComponent implements OnInit {
     promise.then(function(value) {
       console.log(value);
     }); */
-    var promise = promise=new Promise((resolve, reject)=> {   
+    var promise = (promise = new Promise((resolve, reject) => {
       this.id = this.route.snapshot.paramMap.get('id');
       if (this.id !== null) {
         this.guestService.fetchGuestDetail(this.id).subscribe(res => {
@@ -62,20 +60,18 @@ export class GuestDetailUpdateComponent implements OnInit {
             resolve('I promise to return this after 1 second!');
             this.fetchGuestMetric();
             this.fetchOrgPref();
-            
+
             console.log(res.serviceResult);
           } else {
             reject('I promise to return this after 1 second!');
             this.errorMessage = res.message;
           }
         });
-      } else {   
-        reject('I promise to return this after 1 second!'); 
+      } else {
+        reject('I promise to return this after 1 second!');
         alert('invalid url');
       }
-      
-      
-  });
+    }));
 
     return promise;
   }
@@ -204,16 +200,15 @@ export class GuestDetailUpdateComponent implements OnInit {
   }
 
   connectPubnub() {
-    console.log("org Id " +this.orgId);
+    console.log('org Id ' + this.orgId);
     var channel = environment.pubnubIndividualChannel + '_' + this.orgId;
-   
+
     this.pubnub.init({
       publishKey: environment.pubnubPublishKey,
       subscribeKey: environment.pubnubSubscribeKey
     });
     this.pubnub.addListener({
-      message: (msg) =>{
-       
+      message: msg => {
         console.log('pusher ' + JSON.stringify(msg));
         if (msg.message.op == 'NOTIFY_USER') {
           if (msg.message.orgId == this.orgId) {
