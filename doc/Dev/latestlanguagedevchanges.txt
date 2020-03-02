@@ -1,4 +1,4 @@
-insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+﻿insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
 values('congrats','congrats!','en','English',1,'admin','2020-02-26');
 insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
 values('congrats','恭喜！','zh','Chinese',1,'admin','2020-02-26');
@@ -49,7 +49,7 @@ insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName
 values('your_customer_number_is','您的客戶號碼是','zh-Hant','Chinese (Traditional)',1,'admin','2020-02-26');
 
 insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
-values('your_customer_number_is','您的客户号码是','zh-Hans',Chinese (Simplified)',1,'admin','2020-02-26');
+values('your_customer_number_is','您的客户号码是','zh-Hans','Chinese (Simplified)',1,'admin','2020-02-26');
 
 insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
 values('your_customer_number_is','您的客户号码是','zh','Chinese',1,'admin','2020-02-26');
@@ -59,4 +59,26 @@ values('your_customer_number_is','Votre numéro de client est','fr','French',1,'
 
 insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
 values('your_customer_number_is','Your customer number is','en','English',1,'admin','2020-02-26');
+------------------------------------------------------------------------------------------------------------
+
+insert into LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) values('standard_text_message_charges_may_apply','* Standard text message charges may apply','en','English',1,'admin','2020-02-03');
+insert into LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('standard_text_message_charges_may_apply','*可能会收取标准短信费用','zh','Chinese',1,'admin','2020-02-03');
+
+
+insert into LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('standard_text_message_charges_may_apply','*可能会收取标准短信费用','zh-Hans','Chinese (Simplified)',1,'admin','2020-02-03');
+
+
+insert into LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('standard_text_message_charges_may_apply','*可能會收取標準短信費用','zh-Hant','Chinese (Traditional)',1,'admin','2020-02-03');
+
+
+insert into LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('standard_text_message_charges_may_apply','* 표준 문자 메시지 요금이 부과 될 수 있습니다','ko','Korean',1,'admin','2020-02-03');
+insert into LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('standard_text_message_charges_may_apply','* Des frais de SMS standard peuvent s'appliquer','fr','French',1,'admin','2020-02-03');
+
+------------------------------------------------------------------------------------------------------------------
+
 

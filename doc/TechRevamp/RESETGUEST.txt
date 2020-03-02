@@ -1,0 +1,58 @@
+USE `KyobeeTechRevamp`;
+DROP procedure IF EXISTS `RESETGUEST`;
+
+DELIMITER $$
+USE `KyobeeTechRevamp`$$
+CREATE DEFINER=`root`@`%` PROCEDURE `RESETGUEST`()
+    NO SQL
+    COMMENT 'This is the method to reset the data everyday'
+BEGIN
+
+
+   DECLARE   V_ORGID ,  done INT default 0;
+ 
+	
+DECLARE orgrecords CURSOR
+FOR
+ SELECT OrganizationID
+ FROM ORGANIZATION 
+where ACTIVE = 1 ; 
+  DECLARE  CONTINUE HANDLER FOR SQLSTATE '02000'  SET done = 1;
+   -- DECLARE CONTINUE HANDLER FOR SQLSTATE '23000' SET @x2 = 1;
+
+
+OPEN orgrecords;
+   
+   
+   REPEAT
+			-- SELECT 'BEfore FEtch';
+            FETCH orgrecords INTO  V_ORGID;
+            IF  not done THEN
+            
+			
+            SELECT * FROM GUEST WHERE ORGANIZATIONID=V_ORGID FOR UPDATE;
+             
+            INSERT INTO GUESTRESET (guestID, OrganizationID, name, uuid, noOfPeople, deviceType, deviceId, sms, email, prefType, languagePrefID, optin, rank, status, seatingPreference, recvLeveltwo, calloutCount, note, incompleteParty, resetTime, checkinTime, seatedTime, createdTime, updatedTime)
+                 SELECT guestID, OrganizationID, name, uuid, noOfPeople, deviceType, deviceId, sms, email, prefType, languagePrefID, optin, rank, status, seatingPreference, recvLeveltwo, calloutCount, note, incompleteParty, now(), checkinTime, seatedTime, createdTime, updatedTime
+                 FROM GUEST WHERE ORGANIZATIONID=V_ORGID;
+            -- SELECT 'after update';
+            
+            Insert into GUESTMARKETINGPREFERENCESRESET(GUEST_MARKETING_PREF_RESET_ID,PREF_ID,GUEST_ID) 
+            select GUEST_MARKETING_PREF_ID,PREF_ID,GUEST_ID  from
+            GUESTMARKETINGPREFERENCES where GUEST_ID in (SELECT guestID FROM GUEST WHERE ORGANIZATIONID=V_ORGID);
+            
+            Delete from GUESTMARKETINGPREFERENCES WHERE GUEST_ID in (SELECT guestID FROM GUEST WHERE ORGANIZATIONID=V_ORGID);
+            
+            DELETE FROM GUEST WHERE ORGANIZATIONID=V_ORGID;
+             
+			COMMIT;
+            
+            END IF;
+
+	UNTIL done END REPEAT;
+   CLOSE orgrecords;
+
+END$$
+
+DELIMITER ;
+

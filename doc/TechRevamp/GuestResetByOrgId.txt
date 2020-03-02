@@ -1,0 +1,49 @@
+USE `KyobeeTechRevamp`;
+DROP procedure IF EXISTS `RESETGUESTBYORGID`;
+
+DELIMITER $$
+USE `KyobeeTechRevamp`$$
+CREATE DEFINER=`root`@`%` PROCEDURE `RESETGUESTBYORGID`(IN ORGID INT(11))
+    NO SQL
+    COMMENT 'This is the method to reset the data by organizationID'
+BEGIN
+
+
+  -- DECLARE   V_ORGID ,  done INT default 0;
+ 
+	
+-- DECLARE orgrecords CURSOR
+-- FOR
+ -- SELECT OrganizationID
+-- FROM ORGANIZATION 
+-- where ACTIVE = 1 ; 
+ -- DECLARE  CONTINUE HANDLER FOR SQLSTATE '02000'  SET done = 1;
+  -- -- DECLARE CONTINUE HANDLER FOR SQLSTATE '23000' SET @x2 = 1;
+
+
+-- OPEN orgrecords;
+   
+   
+ --  REPEAT
+			-- -- SELECT 'BEfore FEtch';
+            -- FETCH orgrecords INTO  V_ORGID;
+            -- IF  not done THEN
+     	
+            SELECT * FROM GUEST WHERE ORGANIZATIONID=ORGID FOR UPDATE;
+             
+            INSERT INTO GUESTRESET (guestID, OrganizationID, name, uuid, noOfPeople, deviceType, deviceId, sms, email, prefType, languagePrefID, optin, rank, status, seatingPreference, recvLeveltwo, calloutCount, note, incompleteParty, resetTime, checkinTime, seatedTime, createdTime, updatedTime)
+                 SELECT guestID, OrganizationID, name, uuid, noOfPeople, deviceType, deviceId, sms, email, prefType, languagePrefID, optin, rank, status, seatingPreference, recvLeveltwo, calloutCount, note, incompleteParty, now(), checkinTime, seatedTime, createdTime, updatedTime
+                 FROM GUEST WHERE ORGANIZATIONID=ORGID;
+            -- SELECT 'after update';
+            
+            
+            DELETE FROM GUEST WHERE ORGANIZATIONID=ORGID;
+             
+			COMMIT;
+	-- UNTIL done END REPEAT;
+   -- CLOSE orgrecords;
+
+END$$
+
+DELIMITER ;
+

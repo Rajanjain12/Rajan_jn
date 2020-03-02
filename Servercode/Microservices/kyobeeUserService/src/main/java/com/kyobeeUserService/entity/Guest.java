@@ -36,7 +36,7 @@ public class Guest implements Serializable{
 
 	private Integer incompleteParty;
 
-	private String marketingPreference;
+	/* private String marketingPreference; */
 
 	private String name;
 
@@ -155,13 +155,12 @@ public class Guest implements Serializable{
 		this.incompleteParty = incompleteParty;
 	}
 
-	public String getMarketingPreference() {
-		return this.marketingPreference;
-	}
-
-	public void setMarketingPreference(String marketingPreference) {
-		this.marketingPreference = marketingPreference;
-	}
+	/*
+	 * public String getMarketingPreference() { return this.marketingPreference; }
+	 * 
+	 * public void setMarketingPreference(String marketingPreference) {
+	 * this.marketingPreference = marketingPreference; }
+	 */
 
 	public String getName() {
 		return this.name;

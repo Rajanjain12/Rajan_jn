@@ -14,14 +14,14 @@ public interface GuestCustomDAO {
 	
 	public List<Guest> fetchAllGuestHistoryList(Integer orgId,Integer pageSize,Integer startIndex,String searchText,String clientTimezone,Integer sliderMaxTime,Integer sliderMinTime,String statusOption);
 	
-	public WaitlistMetrics addGuest(GuestDTO guestDTO,String seatingPref,String marketingPref);
+	public WaitlistMetrics addGuest(GuestDTO guestDTO,String seatingPref);
 	public Integer fetchAllGuestHistoryListCount(Integer orgId,String searchText,String clientTimezone,Integer sliderMaxTime,Integer sliderMinTime,String statusOption);
 	
 	public List<Guest> fetchAllGuestList(Integer orgId,Integer pageSize,Integer startIndex,String searchText);
 	
 	public Integer fetchAllGuestListCount(Integer orgId,String searchText);
 	
-	public WaitlistMetrics updateGuestDetails(GuestDTO guestDTO,String seatingPref,String marketingPref);
+	public WaitlistMetrics updateGuestDetails(GuestDTO guestDTO,String seatingPref);
 	
 	public WaitlistMetrics updateGuestStatus(Integer guestId,Integer orgId,String status);
 	

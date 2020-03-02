@@ -102,7 +102,7 @@ public class GuestController {
 			@RequestParam Integer pageNo, @RequestParam String searchText,
 			@RequestParam("clientTimezone") String clientTimezone, @RequestParam Integer sliderMaxTime,
 			@RequestParam Integer sliderMinTime, @RequestParam String statusOption) {
-		ResponseDTO responseDTO = new ResponseDTO();
+		ResponseDTO responseDTO = new ResponseDTO(); 
 		try {
 			LoggerUtil.logInfo(clientTimezone);
 			GuestResponseDTO guestList = guestService.fetchGuestHistoryList(orgId, pageSize, pageNo, searchText,

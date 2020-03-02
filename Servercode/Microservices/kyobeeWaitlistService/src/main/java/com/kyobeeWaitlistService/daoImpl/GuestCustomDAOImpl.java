@@ -112,7 +112,7 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 	 }
 
 	@Override
-	public WaitlistMetrics addGuest(GuestDTO guestObj,String seatingPref,String marketingPref) {
+	public WaitlistMetrics addGuest(GuestDTO guestObj,String seatingPref) {
 		
 		SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
 		Session session = sessionFactory.openSession();
@@ -123,8 +123,8 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 
 				@Override
 				public WaitlistMetrics execute(Connection connection) throws SQLException {
-					CallableStatement cStmt = connection.prepareCall("{call ADDGUESTLATEST(? , ? , ? , ? , "
-							+ "?, ?, ?, ? , ?, ?, ?, ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? )}");
+					CallableStatement cStmt = connection.prepareCall("{call ADDGUESTTECHREVAMP(? , ? , ? , ? , "
+							+ "?, ?, ?, ? , ?, ?, ?, ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? )}");
 
 					WaitlistMetrics waitlistMetrics = new WaitlistMetrics();
 					try {
@@ -146,26 +146,26 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 						cStmt.setInt(15, guestObj.getOptin());
 						cStmt.setString(16, guestObj.getNote());
 						cStmt.setString(17, seatingPref);
-						cStmt.setString(18, marketingPref);
+						
 
+						cStmt.registerOutParameter(18, Types.INTEGER);
 						cStmt.registerOutParameter(19, Types.INTEGER);
 						cStmt.registerOutParameter(20, Types.INTEGER);
-						cStmt.registerOutParameter(21, Types.INTEGER);
-						cStmt.registerOutParameter(22, Types.VARCHAR);
-						cStmt.registerOutParameter(23, Types.INTEGER);
-						cStmt.registerOutParameter(24, Types.VARCHAR);
-						cStmt.registerOutParameter(25, Types.INTEGER);
-						cStmt.registerOutParameter(26, Types.VARCHAR);
+						cStmt.registerOutParameter(21, Types.VARCHAR);
+						cStmt.registerOutParameter(22, Types.INTEGER);
+						cStmt.registerOutParameter(23, Types.VARCHAR);
+						cStmt.registerOutParameter(24, Types.INTEGER);
+						cStmt.registerOutParameter(25, Types.VARCHAR);
 
 						cStmt.execute();
 
-						waitlistMetrics.setGuestId(cStmt.getInt(19));
-						waitlistMetrics.setGuestRank(cStmt.getInt(20));			
-						waitlistMetrics.setGuestToBeNotified(cStmt.getInt(25));
-						waitlistMetrics.setNowServingGuest(cStmt.getInt(21));					
-						waitlistMetrics.setTotalWaitingGuest(cStmt.getInt(22));	
-						waitlistMetrics.setTotalWaitTime(cStmt.getInt(23));
-						waitlistMetrics.setClientBase(cStmt.getString(26));
+						waitlistMetrics.setGuestId(cStmt.getInt(18));
+						waitlistMetrics.setGuestRank(cStmt.getInt(19));			
+						waitlistMetrics.setGuestToBeNotified(cStmt.getInt(24));
+						waitlistMetrics.setNowServingGuest(cStmt.getInt(20));					
+						waitlistMetrics.setTotalWaitingGuest(cStmt.getInt(21));	
+						waitlistMetrics.setTotalWaitTime(cStmt.getInt(22));
+						waitlistMetrics.setClientBase(cStmt.getString(25));
 
 					} finally {
 						if (cStmt != null) {
@@ -187,7 +187,7 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 	}
 
 	@Override
-	public WaitlistMetrics updateGuestDetails(GuestDTO guestObj, String seatingPref, String marketingPref) {
+	public WaitlistMetrics updateGuestDetails(GuestDTO guestObj, String seatingPref) {
 
 		SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
 		WaitlistMetrics waitlistMetrics = null;

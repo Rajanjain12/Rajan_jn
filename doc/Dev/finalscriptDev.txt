@@ -1,0 +1,137 @@
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats_you_are_in','축하합니다! 당신은 포함 됐어!','ko','Korean',1,'admin','2020-02-26');
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats_you_are_in','恭喜你！你在！','zh-Hant','Chinese (Traditional)',1,'admin','2020-02-26');
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats_you_are_in','恭喜你！你在！','zh-Hans',Chinese (Simplified)',1,'admin','2020-02-26');
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats_you_are_in','恭喜你！你在！','zh','Chinese',1,'admin','2020-02-26');
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats_you_are_in','Toutes nos félicitations! Vous y êtes!','fr','French',1,'admin','2020-02-26');
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats_you_are_in','Congratulations! You're in!','en','English',1,'admin','2020-02-26');
+
+---------------------------------------------------------------------------------------------------------
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('your_customer_number_is','고객 번호는','ko','Korean',1,'admin','2020-02-26');
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('your_customer_number_is','您的客戶號碼是','zh-Hant','Chinese (Traditional)',1,'admin','2020-02-26');
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('your_customer_number_is','您的客户号码是','zh-Hans','Chinese (Simplified)',1,'admin','2020-02-26');
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('your_customer_number_is','您的客户号码是','zh','Chinese',1,'admin','2020-02-26');
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('your_customer_number_is','Votre numéro de client est','fr','French',1,'admin','2020-02-26');
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('your_customer_number_is','Your customer number is','en','English',1,'admin','2020-02-26');
+-------------------------------------------------------------------------------------------------------------
+
+insert into LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) values('standard_text_message_charges_may_apply','* Standard text message charges may apply','en','English',1,'admin','2020-02-03');
+insert into LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('standard_text_message_charges_may_apply','*可能会收取标准短信费用','zh','Chinese',1,'admin','2020-02-03');
+
+
+insert into LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('standard_text_message_charges_may_apply','*可能会收取标准短信费用','zh-Hans','Chinese (Simplified)',1,'admin','2020-02-03');
+
+
+insert into LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('standard_text_message_charges_may_apply','*可能會收取標準短信費用','zh-Hant','Chinese (Traditional)',1,'admin','2020-02-03');
+
+
+insert into LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('standard_text_message_charges_may_apply','* 표준 문자 메시지 요금이 부과 될 수 있습니다','ko','Korean',1,'admin','2020-02-03');
+insert into LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('standard_text_message_charges_may_apply','* Des frais de SMS standard peuvent s'appliquer','fr','French',1,'admin','2020-02-03');
+
+
+
+---------------------------------------------------------------------------------------------------------------
+
+
+insert into LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("no_of_adult_cannot_be_blank","No of Adult cannot be blank.","en","English","admin",'2020-02-03');
+insert into LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("no_of_adult_cannot_be_blank","성인은 비워 둘 수 없습니다.","ko","Korean","admin",'2020-02-03');
+insert into LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("no_of_adult_cannot_be_blank","Aucun adulte ne peut être vierge.","fr","French","admin",'2020-02-03');
+insert into LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("no_of_adult_cannot_be_blank","成人人數不能為空​​。","zh-Hant","Chinese Traditional","admin",'2020-02-03');
+insert into LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("no_of_adult_cannot_be_blank","成人人数不能为空。","zh-Hans","Chinese Simplified","admin",'2020-02-03');
+insert into LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("no_of_adult_cannot_be_blank","成人人数不能为空。","zh","Chinese","admin",'2020-02-03');
+
+
+
+
+---------------------------------------------------------------------------------------------------------
+
+
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("maximum_number_of_allowed_adults_are_100","Maximum number of allowed adults are 100.","en","English","admin",'2020-02-03');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("maximum_number_of_allowed_adults_are_100","허용되는 성인의 최대 수는 100입니다.","ko","Korean","admin",'2020-02-03');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("maximum_number_of_allowed_adults_are_100","Le nombre maximum d'adultes autorisés est de 100.","fr","French","admin",'2020-02-03');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("maximum_number_of_allowed_adults_are_100","最多可容納100位成人。","zh-Hant","Chinese Traditional","admin",'2020-02-03');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("maximum_number_of_allowed_adults_are_100","最多可容纳100位成人。","zh-Hans","Chinese Simplified","admin",'2020-02-03');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("maximum_number_of_allowed_adults_are_100","最多可容纳100位成人。","zh","Chinese","admin",'2020-02-03');
+
+----------------------------------------------------------------------------------------------------------------
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("maximum_number_of_allowed_children_are_99","Maximum number of allowed children are 99.","en","English","admin",'2020-02-03');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("maximum_number_of_allowed_children_are_99","허용되는 어린이의 최대 수는 99입니다.","ko","Korean","admin",'2020-02-03');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("maximum_number_of_allowed_children_are_99","Le nombre maximum d'enfants autorisés est de 99.","fr","French","admin",'2020-02-03');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("maximum_number_of_allowed_children_are_99","最多允許99個孩子。","zh-Hant","Chinese Traditional","admin",'2020-02-03');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("maximum_number_of_allowed_children_are_99","最多允许99个孩子。","zh-Hans","Chinese Simplified","admin",'2020-02-03');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("maximum_number_of_allowed_children_are_99","最多允许99个孩子。","zh","Chinese","admin",'2020-02-03');
+--------------------------------------------------------------------------------------------------------------------
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("emoji_characters_are_not_allowed","Emojis not allowed.","en","English","admin",'2020-02-03');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("emoji_characters_are_not_allowed","이모티콘 허용 안함","ko","Korean","admin",'2020-02-03');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("emoji_characters_are_not_allowed","Emojis non autorisés","fr","French","admin",'2020-02-03');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("emoji_characters_are_not_allowed","不允許使用表情符號。","zh-Hant","Chinese Traditional","admin",'2020-02-03');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("emoji_characters_are_not_allowed","不允许使用表情符号。","zh-Hans","Chinese Simplified","admin",'2020-02-03');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("emoji_characters_are_not_allowed","不允许使用表情符号","zh","Chinese","admin",'2020-02-03');
+-----------------------------------------------------------------------------------------------------
+
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("emojis_and_special_characters_are_not_allowed","Emojis and special characters are not allowed.","en","English","admin",'2020-02-03');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("emojis_and_special_characters_are_not_allowed","이모티콘과 특수 문자는 허용되지 않습니다.","ko","Korean","admin",'2020-02-03');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("emojis_and_special_characters_are_not_allowed","Les émojis et les caractères spéciaux ne sont pas autorisés.","fr","French","admin",'2020-02-03');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("emojis_and_special_characters_are_not_allowed","禁止使用表情符號和特殊字符。","zh-Hant","Chinese Traditional","admin",'2020-02-03');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("emojis_and_special_characters_are_not_allowed","禁止使用表情符号和特殊字符。","zh-Hans","Chinese Simplified","admin",'2020-02-03');
+insert into kyobeeproddb.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,CreatedBy,CreatedAt) 
+values("emojis_and_special_characters_are_not_allowed","禁止使用表情符号和特殊字符。","zh","Chinese","admin",'2020-02-03');
+------------------------------------------------------------------------------------------------

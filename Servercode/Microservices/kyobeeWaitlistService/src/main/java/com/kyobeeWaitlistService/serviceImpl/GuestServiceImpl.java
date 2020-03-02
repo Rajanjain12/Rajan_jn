@@ -241,13 +241,12 @@ public class GuestServiceImpl implements GuestService {
 	@Override
 	public AddUpdateGuestDTO addGuest(GuestDTO guestDTO) {
 		String seatingPref;
-		String marketingPref;
+
 		String tinyURL = "";
 		String guestUUID = UUID.randomUUID().toString().substring(0, 8);
 		seatingPref = convertToString(guestDTO.getSeatingPreference());
-		marketingPref = convertToString(guestDTO.getMarketingPreference());
 		guestDTO.setUuid(guestUUID);
-		WaitlistMetrics waitlistMetrics = guestCustomDAO.addGuest(guestDTO, seatingPref, marketingPref);
+		WaitlistMetrics waitlistMetrics = guestCustomDAO.addGuest(guestDTO, seatingPref);
 		AddUpdateGuestDTO addUpdateGuestDTO = new AddUpdateGuestDTO();
 		addUpdateGuestDTO.setWaitlistMetrics(waitlistMetrics);
 		addUpdateGuestDTO.setGuestUUID(guestUUID);
@@ -305,13 +304,12 @@ public class GuestServiceImpl implements GuestService {
 	public AddUpdateGuestDTO updateGuestDetails(GuestDTO guestDTO) {
 
 		String seatingPref;
-		String marketingPref;
 		String tinyURL = "";
 		
 		seatingPref = convertToString(guestDTO.getSeatingPreference());
-		marketingPref = convertToString(guestDTO.getMarketingPreference());
 		
-		WaitlistMetrics waitlistMetrics = guestCustomDAO.updateGuestDetails(guestDTO, seatingPref, marketingPref);
+		
+		WaitlistMetrics waitlistMetrics = guestCustomDAO.updateGuestDetails(guestDTO, seatingPref);
 		AddUpdateGuestDTO addUpdateGuestDTO = new AddUpdateGuestDTO();
 		addUpdateGuestDTO.setWaitlistMetrics(waitlistMetrics);
 		addUpdateGuestDTO.setLanguagePref(guestDTO.getLanguagePref());

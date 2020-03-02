@@ -1,0 +1,124 @@
+
+CREATE TABLE GUESTMARKETINGPREFERENCES
+  AS (SELECT * FROM GUESTPREFERENCES);
+
+CREATE TABLE GUESTMARKETINGPREFERENCESRESET
+  AS (SELECT * FROM GUESTPREFERENCESRESET);
+
+ALTER TABLE `KyobeeTechRevamp`.`GUESTMARKETINGPREFERENCES` 
+ADD INDEX `FK1_GUESTID_idx` (`GUEST_ID` ASC);
+;
+ALTER TABLE `KyobeeTechRevamp`.`USER` 
+DROP COLUMN `Address`;
+ALTER TABLE `KyobeeTechRevamp`.`GUESTMARKETINGPREFERENCES` 
+ADD CONSTRAINT `FK1_GUESTID`
+  FOREIGN KEY (`GUEST_ID`)
+  REFERENCES `KyobeeTechRevamp`.`GUEST` (`guestID`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+  
+  ALTER TABLE `KyobeeTechRevamp`.`GUESTMARKETINGPREFERENCES` 
+CHANGE COLUMN `GUEST_PREF_ID` `GUEST_MARKETING_PREF_ID` INT(11) NOT NULL DEFAULT '0' ;
+
+ALTER TABLE `KyobeeTechRevamp`.`GUESTMARKETINGPREFERENCES` 
+CHANGE COLUMN `GUEST_MARKETING_PREF_ID` `GUEST_MARKETING_PREF_ID` INT(11) NOT NULL AUTO_INCREMENT ,
+CHANGE COLUMN `PREF_ID` `PREF_ID` INT(11) NOT NULL ,
+ADD PRIMARY KEY (`GUEST_MARKETING_PREF_ID`);
+;
+ALTER TABLE `KyobeeTechRevamp`.`GUESTMARKETINGPREFERENCESRESET` 
+CHANGE COLUMN `GUEST_PREF_RESET_ID` `GUEST_MARKETING_PREF_RESET_ID` INT(11) NOT NULL AUTO_INCREMENT ,
+CHANGE COLUMN `PREF_ID` `PREF_ID` INT(11) NOT NULL ,
+ADD PRIMARY KEY (`GUEST_MARKETING_PREF_RESET_ID`);
+;
+ALTER TABLE `KyobeeTechRevamp`.`GUEST` 
+CHANGE COLUMN `noOfPeople` `noOfPeople` INT(11) NULL DEFAULT NULL ;
+
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `ScreenName` = 'seatingOrMarketingPref' WHERE (`LanguageKeyMappingId` = '15');
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `ScreenName` = 'seatingOrMarketingPref' WHERE (`LanguageKeyMappingId` = '16');
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `ScreenName` = 'seatingOrMarketingPref' WHERE (`LanguageKeyMappingId` = '19');
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `ScreenName` = 'seatingOrMarketingPref' WHERE (`LanguageKeyMappingId` = '22');
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `ScreenName` = 'seatingOrMarketingPref' WHERE (`LanguageKeyMappingId` = '24');
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `ScreenName` = 'seatingOrMarketingPref' WHERE (`LanguageKeyMappingId` = '25');
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `ScreenName` = 'seatingOrMarketingPref' WHERE (`LanguageKeyMappingId` = '26');
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `ScreenName` = 'seatingOrMarketingPref' WHERE (`LanguageKeyMappingId` = '17');
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `ScreenName` = 'seatingOrMarketingPref' WHERE (`LanguageKeyMappingId` = '18');
+
+ALTER TABLE `KyobeeTechRevamp`.`SMSLOG` 
+CHANGE COLUMN `PhoneNo` `PhoneNo` INT NULL DEFAULT NULL ;
+
+ALTER TABLE `KyobeeTechRevamp`.`GUEST` 
+CHANGE COLUMN `sms` `contactNo` INT NULL DEFAULT NULL ;
+
+ALTER TABLE `KyobeeTechRevamp`.`GUEST` 
+DROP COLUMN `marketingPreference`;
+
+CREATE TABLE `KyobeeTechRevamp`.`ROLE` (
+  `RoleId` INT(11) NOT NULL,
+  `RoleName` VARCHAR(100) NULL,
+  `Active` TINYINT(1) NULL,
+  `CreatedBy` VARCHAR(100) NULL,
+  `CreatedAt` DATE NULL,
+  `ModifiedBy` VARCHAR(100) NULL,
+  `ModifiedAt` DATE NULL,
+  PRIMARY KEY (`RoleId`));
+  
+CREATE TABLE `KyobeeTechRevamp`.`ORGANIZATIONTYPE` (
+  `TypeId` INT(11) NOT NULL,
+  `TypeName` VARCHAR(100) NULL,
+  `Active` TINYINT(1) NULL,
+  `CreatedBy` VARCHAR(100) NULL,
+  `CreatedAt` DATE NULL,
+  `ModifiedBy` VARCHAR(100) NULL,
+  `ModifiedAt` DATE NULL,
+  PRIMARY KEY (`TypeId`));
+  
+  
+ALTER TABLE `KyobeeTechRevamp`.`USERROLE` 
+DROP FOREIGN KEY `FK1RoleID`;
+ALTER TABLE `KyobeeTechRevamp`.`USERROLE` 
+DROP INDEX `FK1RoleID` ,
+ADD INDEX `FK1RoleID_idx` (`RoleID` ASC);
+;
+ALTER TABLE `KyobeeTechRevamp`.`USERROLE` 
+ADD CONSTRAINT `FK1RoleID`
+FOREIGN KEY (`RoleID`)
+REFERENCES `KyobeeTechRevamp`.`ROLE` (`RoleId`);
+
+CREATE TABLE `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` (
+  `ID` INT NOT NULL,
+  `LangId` INT NULL,
+  `IsoCode` VARCHAR(10) NULL,
+  `level` INT NULL,
+  `TemplateText` VARCHAR(250) NULL,
+  `Active` TINYINT(1) NULL,
+  `CreatedBy` VARCHAR(45) NULL,
+  `CreatedAt` DATE NULL,
+  `ModifiedBy` VARCHAR(45) NULL,
+  `ModifiedAt` DATE NULL,
+  PRIMARY KEY (`ID`),
+  INDEX `FK01LangID_idx` (`LangId` ASC),
+  CONSTRAINT `FK01LangID`
+    FOREIGN KEY (`LangId`)
+    REFERENCES `KyobeeTechRevamp`.`LANGMASTER` (`LangID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATION` 
+DROP FOREIGN KEY `FK2OrganizationTypeID`;
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATION` 
+DROP INDEX `FK2OrganizationTypeID` ,
+ADD INDEX `FK2OrganizationTypeID_idx` (`OrganizationTypeID` ASC);
+;
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATION` 
+ADD CONSTRAINT `FK2OrganizationTypeID`
+  FOREIGN KEY (`OrganizationTypeID`)
+  REFERENCES `KyobeeTechRevamp`.`ORGANIZATIONTYPE` (`TypeId`);
+  
+  ALTER TABLE `KyobeeTechRevamp`.`USER` 
+CHANGE COLUMN `UserName` `UserName` VARCHAR(255) NULL ;
+  
+ 
+
+
+
