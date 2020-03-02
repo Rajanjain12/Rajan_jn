@@ -9,10 +9,11 @@
             </small>
             <div class="form-group mb-3">
               <input type="text" id="gname" class="form-control" #gname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && gname.invalid }" maxlength="50" [(ngModel)]="guest.name" name="gname" required="required" />
-              <label for="input" class="control-label">Name</label><i class="bar"></i>
+              <label for="input" class="control-label">{{ languageKeyMap['name'] }}</label
+              ><i class="bar"></i>
               <div *ngIf="f.submitted && gname.invalid" class="invalid-feedback">
-                <small class="text-danger" *ngIf="gname.errors?.required">Name is required</small>
-                <small class="text-danger" *ngIf="gname.errors?.maxlength">Name Length is too large.</small>
+                <small class="text-danger" *ngIf="gname.errors?.required">{{ languageKeyMap['name_can_not_be_blank'] }}</small>
+                <small class="text-danger" *ngIf="gname.errors?.maxlength">{{ languageKeyMap['maximum_characters_limit_reached'] }}</small>
               </div>
               <!--   <span class="error">error</span>   -->
             </div>
@@ -22,9 +23,10 @@
                   <option *ngFor="let in of counter(100); let i = index">{{ i }}</option>
                 </select> -->
                 <input type="number" name="adult" class="form-control" #adult="ngModel" id="adult" [(ngModel)]="guest.noOfAdults" required="required" />
-                <label for="adult" class="control-label padding-left-18">Adults</label><i class="bar"></i>
+                <label for="adult" class="control-label padding-left-18">{{ languageKeyMap['adults'] }}</label
+                ><i class="bar"></i>
                 <div *ngIf="f.submitted && adult.invalid" class="invalid-feedback">
-                  <small class="text-danger" *ngIf="adult.errors?.required">Adults are required</small>
+                  <small class="text-danger" *ngIf="adult.errors?.required">{{ languageKeyMap['please_enter_values_for_adults'] }}</small>
                 </div>
               </div>
               <div class="form-group mt-2 mb-3 col-lg-3">
@@ -32,7 +34,8 @@
                 <!-- <select id="children" name="children" class="form-control" #children="ngModel" [(ngModel)]="guest.noOfChildren">
                   <option *ngFor="let in of counter(100); let i = index">{{ i }}</option>
                 </select> -->
-                <label for="children" class="control-label padding-left-18">Children</label><i class="bar"></i>
+                <label for="children" class="control-label padding-left-18">{{ languageKeyMap['children'] }}</label
+                ><i class="bar"></i>
               </div>
               <div class="form-group mt-2 mb-3 col-lg-6">
                 <input
@@ -47,24 +50,25 @@
                   [(ngModel)]="guest.contactNo"
                   required="required"
                 />
-                <label for="input" class="control-label">Mobile Number</label><i class="bar"></i>
+                <label for="input" class="control-label">{{ languageKeyMap['mobile_number'] }}</label
+                ><i class="bar"></i>
                 <div *ngIf="f.submitted && phone.invalid" class="invalid-feedback">
-                  <small class="text-danger" *ngIf="phone.errors?.required">Phone no is required</small>
-                  <small class="text-danger" *ngIf="phone.errors?.pattern">Phone no should be in proper form</small>
+                  <small class="text-danger" *ngIf="phone.errors?.required">{{ languageKeyMap['enter_your_phone_number'] }}</small>
+                  <small class="text-danger" *ngIf="phone.errors?.pattern">{{ languageKeyMap['the_phone_number_that_you_typed_is_invalid_please_correct_your_phone_number_and_try_again'] }}</small>
                 </div>
               </div>
             </div>
 
             <div class="my-1">
               <input class="styled-checkbox" id="promotion" type="checkbox" [checked]="guest.optin == 1" (click)="onOptinChange()" />
-              <label for="promotion">Opt-in for special Promotions and loyalty program.</label>
+              <label for="promotion">{{ languageKeyMap['opt_in_for_special_promotions_and_ads'] }}</label>
             </div>
             <small class="my-1">
-              * Standard text message charges may apply
+              {{ languageKeyMap['standard_text_message_charges_may_apply'] }}
             </small>
             <div class="row">
               <div class="col-lg-3 my-1">
-                <span class="font-weight-semibold">Seating Preference</span>
+                <span class="font-weight-semibold">{{ languageKeyMap['seating_preference'] }}</span>
               </div>
               <div class="col-lg-9 my-1" *ngFor="let seating of user.seatingpref; index as i">
                 <input class="styled-checkbox" id="firstAvailable{{ i }}" type="checkbox" [(ngModel)]="seating.selected" [ngModelOptions]="{ standalone: true }" />
@@ -73,12 +77,12 @@
             </div>
             <div class="row pt-3">
               <div class="col-lg-3 my-1">
-                <span class="font-weight-semibold">How did you hear about us</span>
+                <span class="font-weight-semibold">{{ languageKeyMap['how_did_you_here_about_us'] }}</span>
               </div>
               <div class="col-lg-9 my-1">
                 <div *ngFor="let marketing of user.marketingPref; index as i" class="d-inline-block">
                   <input class="styled-checkbox" id="facebook{{ i }}" type="checkbox" [(ngModel)]="marketing.selected" [ngModelOptions]="{ standalone: true }" />
-                  <label for="facebook{{ i }}" class="mr-2">{{ marketing.prefValue }}</label>
+                  <label for="facebook{{ i }}" class="mr-2">{{ languageKeyMap[marketing.prefKey != null ? marketing.prefKey : 0] }}</label>
                 </div>
               </div>
             </div>
@@ -86,9 +90,10 @@
               <textarea id="text" name="text" maxlength="150" class="form-control" #text="ngModel" [ngClass]="{ 'is-invalid': f.submitted && text.invalid }" [(ngModel)]="guest.note"> </textarea>
               <div *ngIf="f.submitted && text.invalid" class="invalid-feedback">
                 <!--  <small class="text-danger" *ngIf="text.errors?.required">Note is required</small> -->
-                <small class="text-danger" *ngIf="text.errors?.maxlength">Note is too large.</small>
+                <small class="text-danger" *ngIf="text.errors?.maxlength">{{ languageKeyMap['maximum_characters_limit_reached'] }}</small>
               </div>
-              <label for="textarea" class="control-label">Note</label><i class="bar"></i>
+              <label for="textarea" class="control-label">{{ languageKeyMap['note'] }}</label
+              ><i class="bar"></i>
             </div>
             <div class="col-ld-12 text-center pb-3">
               <button type="submit" class="btn btn-theme background-color shadow" (click)="validate(f.form.invalid)"><span>Add Guest</span></button>
@@ -98,8 +103,10 @@
       </div>
       <div class="col-lg-3 col-md-12 col-sm-12 col-12 mt-4">
         <form class="col-lg-12 col-md-6 col-sm-6 col-8 float-right">
-          <select class="form-control">
-            <option>English</option>
+          <select class="form-control" [(ngModel)]="selectedItem" (change)="selectedLanguage()" name="language">
+            <option *ngFor="let lang of user.languagePref" [ngValue]="lang">
+              {{ lang.langName }}
+            </option>
           </select>
         </form>
       </div>

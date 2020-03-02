@@ -4,8 +4,8 @@ import { Preference } from './preference.model';
 export class GuestDTO {
   guestID: number;
   organizationID: number;
-  name: String;
-  uuid: String;
+  name: string;
+  uuid: string;
   noOfPeople: number;
   noOfChildren: number;
   noOfAdults: number;
@@ -14,9 +14,9 @@ export class GuestDTO {
   calloutCount: number;
   deviceId: string;
   deviceType: string;
-  contactNo: String;
+  contactNo: string;
   email: string;
-  prefType: String;
+  prefType: string;
   optin: number;
   rank: number;
   status: string;

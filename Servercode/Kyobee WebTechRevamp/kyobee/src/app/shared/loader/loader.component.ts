@@ -7,14 +7,12 @@ import { LoaderService } from 'src/app/core/services/loader.service';
   styleUrls: ['./loader.component.scss']
 })
 export class LoaderComponent implements OnInit {
-
   color = 'primary';
   mode = 'indeterminate';
   value = 50;
   isLoading: Subject<boolean> = this.loaderService.isLoading;
 
-  constructor(private loaderService: LoaderService) { }
-  
-  ngOnInit() {
-  }
+  constructor(private loaderService: LoaderService) {}
+
+  ngOnInit() {}
 }

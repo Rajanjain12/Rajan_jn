@@ -152,3 +152,73 @@ END$$
 
 DELIMITER ;
 
+CREATE TABLE `KyobeeTechRevamp`.`ROLE` (
+  `RoleId` INT(11) NOT NULL,
+  `RoleName` VARCHAR(100) NULL,
+  `Active` TINYINT(1) NULL,
+  `CreatedBy` VARCHAR(100) NULL,
+  `CreatedAt` DATE NULL,
+  `ModifiedBy` VARCHAR(100) NULL,
+  `ModifiedAt` DATE NULL,
+  PRIMARY KEY (`RoleId`));
+  
+CREATE TABLE `KyobeeTechRevamp`.`ORGANIZATIONTYPE` (
+  `TypeId` INT(11) NOT NULL,
+  `TypeName` VARCHAR(100) NULL,
+  `Active` TINYINT(1) NULL,
+  `CreatedBy` VARCHAR(100) NULL,
+  `CreatedAt` DATE NULL,
+  `ModifiedBy` VARCHAR(100) NULL,
+  `ModifiedAt` DATE NULL,
+  PRIMARY KEY (`TypeId`));
+  
+  
+ALTER TABLE `KyobeeTechRevamp`.`USERROLE` 
+DROP FOREIGN KEY `FK1RoleID`;
+ALTER TABLE `KyobeeTechRevamp`.`USERROLE` 
+DROP INDEX `FK1RoleID` ,
+ADD INDEX `FK1RoleID_idx` (`RoleID` ASC);
+;
+ALTER TABLE `KyobeeTechRevamp`.`USERROLE` 
+ADD CONSTRAINT `FK1RoleID`
+FOREIGN KEY (`RoleID`)
+REFERENCES `KyobeeTechRevamp`.`ROLE` (`RoleId`);
+
+CREATE TABLE `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` (
+  `ID` INT NOT NULL,
+  `LangId` INT NULL,
+  `IsoCode` VARCHAR(10) NULL,
+  `level` INT NULL,
+  `TemplateText` VARCHAR(250) NULL,
+  `Active` TINYINT(1) NULL,
+  `CreatedBy` VARCHAR(45) NULL,
+  `CreatedAt` DATE NULL,
+  `ModifiedBy` VARCHAR(45) NULL,
+  `ModifiedAt` DATE NULL,
+  PRIMARY KEY (`ID`),
+  INDEX `FK01LangID_idx` (`LangId` ASC),
+  CONSTRAINT `FK01LangID`
+    FOREIGN KEY (`LangId`)
+    REFERENCES `KyobeeTechRevamp`.`LANGMASTER` (`LangID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATION` 
+DROP FOREIGN KEY `FK2OrganizationTypeID`;
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATION` 
+DROP INDEX `FK2OrganizationTypeID` ,
+ADD INDEX `FK2OrganizationTypeID_idx` (`OrganizationTypeID` ASC);
+;
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATION` 
+ADD CONSTRAINT `FK2OrganizationTypeID`
+  FOREIGN KEY (`OrganizationTypeID`)
+  REFERENCES `KyobeeTechRevamp`.`ORGANIZATIONTYPE` (`TypeId`);
+  
+  ALTER TABLE `KyobeeTechRevamp`.`USER` 
+CHANGE COLUMN `UserName` `UserName` VARCHAR(255) NULL ;
+  
+ 
+
+
+

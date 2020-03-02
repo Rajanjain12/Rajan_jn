@@ -20,7 +20,7 @@ import com.kyobeeWaitlistService.util.sms.SMS;
 public class AWSUtil implements SMS {
 
 	@Override
-	public void sendMessage(Integer contactNo, String message) {
+	public void sendMessage(String contactNo, String message) {
 		
 		Map<String, MessageAttributeValue> smsAttributes = new HashMap<>();
 		smsAttributes.put("AWS.SNS.SMS.SenderID", new MessageAttributeValue()

@@ -29,7 +29,7 @@ public class SmsLog {
 	private Integer guestID;
 
 	@Column(name = "PhoneNo")
-	private Integer phoneNo;
+	private String phoneNo;
 
 	@Column(name = "MessageText")
 	private String msgText;
@@ -88,11 +88,11 @@ public class SmsLog {
 		this.tempLevel = tempLevel;
 	}
 
-	public Integer getPhoneNo() {
+	public String getPhoneNo() {
 		return phoneNo;
 	}
 
-	public void setPhoneNo(Integer phoneNo) {
+	public void setPhoneNo(String phoneNo) {
 		this.phoneNo = phoneNo;
 	}
 

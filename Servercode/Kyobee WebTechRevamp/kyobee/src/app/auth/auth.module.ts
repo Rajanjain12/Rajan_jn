@@ -8,13 +8,14 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { SignupComponent } from './signup/signup.component';
 import { ConfirmEqualValidatorDirective } from './signup/confirm-equal-validator.directive';
 
-
 @NgModule({
-  declarations: [SigninComponent, ForgotPasswordComponent, SignupComponent, ConfirmEqualValidatorDirective,ResetPasswordComponent],
-  imports: [
-    CommonModule,
-    AuthRoutingModule,
-    FormsModule
-  ]
+  declarations: [
+    SigninComponent,
+    ForgotPasswordComponent,
+    SignupComponent,
+    ConfirmEqualValidatorDirective,
+    ResetPasswordComponent
+  ],
+  imports: [CommonModule, AuthRoutingModule, FormsModule]
 })
-export class AuthModule { }
+export class AuthModule {}

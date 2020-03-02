@@ -19,7 +19,7 @@ public class SMSUtil {
 		}
 	}
 
-	public static void sendSMS(Integer contactNo, String message) {
+	public static void sendSMS(String contactNo, String message) {
 		sms.sendMessage(contactNo, message);
 	}
 

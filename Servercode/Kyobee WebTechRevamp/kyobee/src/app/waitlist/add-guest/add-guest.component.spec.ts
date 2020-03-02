@@ -8,9 +8,8 @@ describe('AddGuestComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddGuestComponent ]
-    })
-    .compileComponents();
+      declarations: [AddGuestComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

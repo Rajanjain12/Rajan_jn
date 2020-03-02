@@ -9,26 +9,23 @@ import { HttpParams } from '@angular/common/http';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
+  constructor(private authService: AuthService, private guestService: GuestService) {}
+  orgid: string;
 
-  constructor(private authService: AuthService, private guestService: GuestService) { }
-    orgid : string;
+  ngOnInit() {}
 
-  ngOnInit() {
-  }
- 
-  onClick(){
-    var user =  this.authService.getUser();
-    console.log("user=="+JSON.stringify(user.organizationID));
-   //window.alert("user=="+JSON.stringify(user.organizationID));
+  onClick() {
+    var user = this.authService.getUser();
+    console.log('user==' + JSON.stringify(user.organizationID));
+    //window.alert("user=="+JSON.stringify(user.organizationID));
 
     this.orgid = user.organizationID;
-    var params = new HttpParams()
-      .set('orgid', this.orgid );
+    var params = new HttpParams().set('orgid', this.orgid);
     this.guestService.resetUser(params).subscribe((res: any) => {
-      if(res.success == 1){
+      if (res.success == 1) {
         //window.alert('');
-        console.log("user=="+JSON.stringify(res));
+        console.log('user==' + JSON.stringify(res));
       }
-    })
+    });
   }
 }

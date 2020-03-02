@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit {
     private organizationService: OrganizationService,
     private authService: AuthService,
     private pubnub: PubNubAngular
-  ) { }
+  ) {}
   user: User;
   orgId;
   pageNo;
@@ -38,9 +38,9 @@ export class DashboardComponent implements OnInit {
   waitTime: any = null;
   content = null;
   level;
-  totalGuest:number;
-  totalPageNo:number;
-  waitTimeOption:number=100;
+  totalGuest: number;
+  totalPageNo: number;
+  waitTimeOption: number = 100;
   smsContentDTO: SmsContentDTO = new SmsContentDTO();
   dashboardIlluImageSrc = '../../../assets/images/dashboard-illu.png';
   notPresentImg = '../../../assets/images/not-present.png';
@@ -82,9 +82,9 @@ export class DashboardComponent implements OnInit {
     this.guestService.fetchGuestList(params).subscribe((res: any) => {
       if (res.success == 1) {
         this.guestDTOList = res.serviceResult.records;
-        this.totalGuest=res.serviceResult.totalRecords;
-        this.pageNo=res.serviceResult.pageNo;
-        this.pagination(this.totalGuest,this.pageNo,this.pageSize);
+        this.totalGuest = res.serviceResult.totalRecords;
+        this.pageNo = res.serviceResult.pageNo;
+        this.pagination(this.totalGuest, this.pageNo, this.pageSize);
         console.log('user==' + JSON.stringify(this.guestDTOList));
         this.selectedGuest = new GuestDTO();
       } else {
@@ -99,7 +99,7 @@ export class DashboardComponent implements OnInit {
       if (res.success == 1) {
         this.organizationMetrics = res.serviceResult;
         this.waitTime = res.serviceResult.perPartyWaitTime;
-        
+
         console.log('org == ' + JSON.stringify(this.organizationMetrics));
       } else {
         alert(res.message);
@@ -221,8 +221,8 @@ export class DashboardComponent implements OnInit {
     this.fetchGuest();
   }
 
-  fetchGuestByPageNo(pageNo){
-    this.pageNo=pageNo;
+  fetchGuestByPageNo(pageNo) {
+    this.pageNo = pageNo;
     this.fetchGuest();
   }
 
@@ -245,7 +245,6 @@ export class DashboardComponent implements OnInit {
   }
 
   onChangeWaitTime() {
-
     console.log('' + this.waitTime);
   }
 
@@ -346,16 +345,15 @@ export class DashboardComponent implements OnInit {
         alert(res.serviceResult);
       }
     });
-
   }
-pagination(totalItems, currentPage, pageSize){
-  currentPage = currentPage || 1;
-  this.totalPageNo = Math.ceil(totalItems / pageSize);
-  if(this.totalPageNo==0){
-    this.totalPageNo=1;
+  pagination(totalItems, currentPage, pageSize) {
+    currentPage = currentPage || 1;
+    this.totalPageNo = Math.ceil(totalItems / pageSize);
+    if (this.totalPageNo == 0) {
+      this.totalPageNo = 1;
+    }
+    console.log('total pages' + this.totalPageNo);
   }
- console.log("total pages"+this.totalPageNo);
-}
 
   connectPubnub() {
     var channel = environment.pubnubIndividualChannel + '_' + this.orgId;
@@ -364,7 +362,7 @@ pagination(totalItems, currentPage, pageSize){
       subscribeKey: environment.pubnubSubscribeKey
     });
     this.pubnub.addListener({
-      message:  (msg) =>{
+      message: msg => {
         console.log('pusher ' + JSON.stringify(msg));
         if (msg.message.op == 'NOTIFY_USER') {
           if (msg.message.orgId == this.orgId) {

@@ -1,6 +1,6 @@
 export class SmsTemplate {
-    smsTemplateID: number;
-    templateText: string;
-    level: number;
-    languageID: number
+  smsTemplateID: number;
+  templateText: string;
+  level: number;
+  languageID: number;
 }

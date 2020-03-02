@@ -8,9 +8,8 @@ describe('PostLoginHeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PostLoginHeaderComponent ]
-    })
-    .compileComponents();
+      declarations: [PostLoginHeaderComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

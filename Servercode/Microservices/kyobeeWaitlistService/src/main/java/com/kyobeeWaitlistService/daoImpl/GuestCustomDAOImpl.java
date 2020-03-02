@@ -140,7 +140,7 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 						cStmt.setInt(9, guestObj.getPartyType());
 						cStmt.setString(10, guestObj.getDeviceType());
 						cStmt.setString(11, guestObj.getDeviceId());
-						cStmt.setInt(12, guestObj.getContactNo());
+						cStmt.setString(12, guestObj.getContactNo());
 						cStmt.setString(13, guestObj.getEmail());
 						cStmt.setString(14, guestObj.getPrefType());
 						cStmt.setInt(15, guestObj.getOptin());
@@ -216,7 +216,7 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 						cStmt.setInt(9, guestObj.getPartyType());
 						cStmt.setString(10, guestObj.getDeviceType());
 						cStmt.setString(11, guestObj.getDeviceId());
-						cStmt.setInt(12, guestObj.getContactNo());
+						cStmt.setString(12, guestObj.getContactNo());
 						cStmt.setString(13, guestObj.getEmail());
 						cStmt.setString(14, guestObj.getPrefType());
 						cStmt.setInt(15, guestObj.getOptin());

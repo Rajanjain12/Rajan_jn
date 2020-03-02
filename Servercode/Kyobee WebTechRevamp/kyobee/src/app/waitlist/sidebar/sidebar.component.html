@@ -1,79 +1,78 @@
 <div id="sidebar-wrapper" class="collapse navbar-collapse sidehide">
-    <button class="navbar-toggler float-right asidebar sidehide" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="flaticon-close"></span>
-    </button>
-    <!-- web sidebar -->
-    <aside id="sidebar">
-        <ul id="sidemenu" class="sidebar-nav sidehide text-center pt-2">
-            <li class="border-bottom active">
-                <a [routerLink]="['/waitlist/dashboard']">
-                    <div class="icon-border-right">
-                        <div class="icon-circle">
-                            <i class="flaticon-empire-state-building grey"></i>
-                        </div>
-                    </div>
-                    <span class="font-12">Dashboard</span>
-                </a>
-            </li>
-            <li class="border-bottom">
-                <a [routerLink]="['/waitlist/addguest']">
-                    <div class="icon-border-right">
-                        <div class="icon-circle">
-                            <i class="flaticon-add-group grey"></i>
-                        </div>
-                    </div>
-                    <span class="font-12">Add Guest</span>
-                </a>
-            </li>
-            <li class="border-bottom">
-                <a [routerLink]="['/waitlist/history']">
-                    <div class="icon-border-right">
-                        <div class="icon-circle">
-                            <i class="flaticon-counterclockwise grey"></i>
-                        </div>
-                    </div>
-                    <span class="font-12">History</span>
-                </a>
-            </li>
-            <li class="border-bottom">
-                <a [routerLink]="['/waitlist/settings']">
-                    <div class="icon-border-right">
-                        <div class="icon-circle">
-                            <i class="flaticon-settings grey"></i>
-                        </div>
-                    </div>
-                    <span class="font-12">Setting</span>
-                </a>
-            </li>
-            <li class="border-bottom">
-                <a class="dropdown-item sidehide" data-toggle="modal" data-target="#resetModal" style="cursor: pointer;">
-                    <div class="icon-border-right">
-                        <div class="icon-circle">
-                            <i class="flaticon-refresh grey"></i>
-                        </div>
-                    </div>
-                    <span class="font-12">Reset</span>
-                </a>
-            </li>
-        </ul>
-    </aside>
+  <button class="navbar-toggler float-right asidebar sidehide" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="flaticon-close"></span>
+  </button>
+  <!-- web sidebar -->
+  <aside id="sidebar">
+    <ul id="sidemenu" class="sidebar-nav sidehide text-center pt-2">
+      <li class="border-bottom active">
+        <a [routerLink]="['/waitlist/dashboard']">
+          <div class="icon-border-right">
+            <div class="icon-circle">
+              <i class="flaticon-empire-state-building grey"></i>
+            </div>
+          </div>
+          <span class="font-12">Dashboard</span>
+        </a>
+      </li>
+      <li class="border-bottom">
+        <a [routerLink]="['/waitlist/addguest']">
+          <div class="icon-border-right">
+            <div class="icon-circle">
+              <i class="flaticon-add-group grey"></i>
+            </div>
+          </div>
+          <span class="font-12">Add Guest</span>
+        </a>
+      </li>
+      <li class="border-bottom">
+        <a [routerLink]="['/waitlist/history']">
+          <div class="icon-border-right">
+            <div class="icon-circle">
+              <i class="flaticon-counterclockwise grey"></i>
+            </div>
+          </div>
+          <span class="font-12">History</span>
+        </a>
+      </li>
+      <li class="border-bottom">
+        <a [routerLink]="['/waitlist/settings']">
+          <div class="icon-border-right">
+            <div class="icon-circle">
+              <i class="flaticon-settings grey"></i>
+            </div>
+          </div>
+          <span class="font-12">Setting</span>
+        </a>
+      </li>
+      <li class="border-bottom">
+        <a class="dropdown-item sidehide" data-toggle="modal" data-target="#resetModal" style="cursor: pointer;">
+          <div class="icon-border-right">
+            <div class="icon-circle">
+              <i class="flaticon-refresh grey"></i>
+            </div>
+          </div>
+          <span class="font-12">Reset</span>
+        </a>
+      </li>
+    </ul>
+  </aside>
 </div>
 <!-- reset popup -->
 <div class="modal fade" id="resetModal">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-radius border-0">
-        <div class="custom-modal-header background-color">
-            <span class="modal-title text-white">Confirm Reset Organization</span>
-            <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-radius border-0">
+      <div class="custom-modal-header background-color">
+        <span class="modal-title text-white">Confirm Reset Organization</span>
+        <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <h3 class="big-font"><i class="flaticon-refresh font-color"></i></h3>
+        <h4 class="pt-3 pb-3">If you want to remove all your guest information, you can reset.</h4>
+        <div class="pt-3 pb-4">
+          <button type="button" class="btn btn-theme background-color shadow" (click)="onClick()">Reset</button>
         </div>
-        <div class="modal-body text-center">
-            <h3 class="big-font"><i class="flaticon-refresh font-color"></i></h3>
-            <h4 class="pt-3 pb-3">If you want to remove all your guest information, you can reset.</h4>
-            <div class="pt-3 pb-4">
-            <button type="button" class="btn btn-theme background-color shadow" (click)="onClick()">Reset</button>
-            </div>
-        </div>
-        </div>
+      </div>
     </div>
+  </div>
 </div>
-

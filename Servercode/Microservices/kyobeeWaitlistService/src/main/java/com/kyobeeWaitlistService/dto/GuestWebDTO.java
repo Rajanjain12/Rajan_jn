@@ -17,7 +17,7 @@ public class GuestWebDTO {
 	private Integer calloutCount;
 	private String deviceId;
 	private String deviceType;
-	private Integer contactNo;
+	private String contactNo;
 	private String email;
 	private String prefType;
 	private Byte optin;
@@ -105,10 +105,11 @@ public class GuestWebDTO {
 	public void setDeviceType(String deviceType) {
 		this.deviceType = deviceType;
 	}
-	public Integer getContactNo() {
+	
+	public String getContactNo() {
 		return contactNo;
 	}
-	public void setContactNo(Integer contactNo) {
+	public void setContactNo(String contactNo) {
 		this.contactNo = contactNo;
 	}
 	public String getEmail() {

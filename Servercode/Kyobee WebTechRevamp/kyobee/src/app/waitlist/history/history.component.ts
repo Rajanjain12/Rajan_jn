@@ -14,24 +14,24 @@ import { Options } from 'ng5-slider';
   styleUrls: ['./history.component.scss']
 })
 export class HistoryComponent implements OnInit {
-  constructor(private guestService: GuestService, private pubnub: PubNubAngular,private authService:AuthService) {}
-  sliderMaxTime :number= 24;
-  sliderMinTime :number= 0;
+  constructor(private guestService: GuestService, private pubnub: PubNubAngular, private authService: AuthService) {}
+  sliderMaxTime: number = 24;
+  sliderMinTime: number = 0;
   options: Options = {
     floor: 0,
     ceil: 24,
     step: 1
   };
-  statusOptions ;
+  statusOptions;
   roundarrow = '../../../assets/images/roundarrow.png';
   selectedStatus: string;
-  user:User;
+  user: User;
   orgId;
   pageNo;
   pageSize;
   searchText;
-  totalGuest:number;
-  totalPageNo:number;
+  totalGuest: number;
+  totalPageNo: number;
   guestDTOList: Array<GuestDTO>;
   toggleColumnArr = {
     action: true,
@@ -45,7 +45,7 @@ export class HistoryComponent implements OnInit {
   };
 
   ngOnInit() {
-    this.statusOptions= ['All', 'Not Present', 'Incomplete'];
+    this.statusOptions = ['All', 'Not Present', 'Incomplete'];
     this.selectedStatus = this.statusOptions[0];
     this.user = this.authService.getUser();
     this.orgId = this.user.organizationID;
@@ -90,9 +90,9 @@ export class HistoryComponent implements OnInit {
     this.guestService.fetchGuestHistoryList(params).subscribe((res: any) => {
       if (res.success == 1) {
         this.guestDTOList = res.serviceResult.records;
-        this.totalGuest=res.serviceResult.totalRecords;
-        this.pageNo=res.serviceResult.pageNo;
-        this.pagination(this.totalGuest,this.pageNo,this.pageSize);
+        this.totalGuest = res.serviceResult.totalRecords;
+        this.pageNo = res.serviceResult.pageNo;
+        this.pagination(this.totalGuest, this.pageNo, this.pageSize);
         console.log('user==' + JSON.stringify(res.serviceResult));
         // this.selectedGuest=new GuestDTO();
       } else {
@@ -179,31 +179,31 @@ export class HistoryComponent implements OnInit {
     this.fetchGuestHistory();
   }
 
-  fetchGuestByPageNo(pageNo){
-    this.pageNo=pageNo;
+  fetchGuestByPageNo(pageNo) {
+    this.pageNo = pageNo;
     this.fetchGuestHistory();
   }
-  pagination(totalItems, currentPage, pageSize){
+  pagination(totalItems, currentPage, pageSize) {
     currentPage = currentPage || 1;
     this.totalPageNo = Math.ceil(totalItems / pageSize);
-    if(this.totalPageNo==0){
-      this.totalPageNo=1;
+    if (this.totalPageNo == 0) {
+      this.totalPageNo = 1;
     }
-   console.log("total pages"+this.totalPageNo);
+    console.log('total pages' + this.totalPageNo);
   }
   onSubmit(invalid) {
     if (invalid) {
       return;
     }
-    if(this.searchText.toString().trim()==''){
-      this.searchText=null;
+    if (this.searchText.toString().trim() == '') {
+      this.searchText = null;
     }
-    
+
     this.fetchGuestHistory();
   }
 
   onSliderChange() {
-    console.log("=="+this.sliderMinTime+"---"+this.sliderMaxTime);
+    console.log('==' + this.sliderMinTime + '---' + this.sliderMaxTime);
   }
   connectPubnub() {
     var channel = environment.pubnubIndividualChannel + '_' + this.orgId;
@@ -212,9 +212,9 @@ export class HistoryComponent implements OnInit {
       subscribeKey: environment.pubnubSubscribeKey
     });
     this.pubnub.addListener({
-      message: (msg)=> {
+      message: msg => {
         console.log('pusher ' + JSON.stringify(msg));
-    /*     if (msg.message.op == 'NOTIFY_USER') {
+        /*     if (msg.message.op == 'NOTIFY_USER') {
           if (msg.message.orgId == this.orgId) {
             this.fetchOrgMetrics();
           }

@@ -6,7 +6,6 @@ import { Preference } from 'src/app/core/models/preference.model';
 import { GuestService } from 'src/app/core/services/guest.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-add-guest',
   templateUrl: './add-guest.component.html',
@@ -20,6 +19,11 @@ export class AddGuestComponent implements OnInit {
   marketingPref: Array<Preference>;
   seatingPref: Array<Preference>;
   id: string;
+  languageKeyMap: Map<string, string>;
+  selectedItem;
+  defaultLanguage = [];
+  listSeatingPref: Array<Preference>;
+  listMarketingPref: Array<Preference>;
 
   constructor(
     private authService: AuthService,
@@ -47,15 +51,22 @@ export class AddGuestComponent implements OnInit {
     } else {
       this.guest = new GuestDTO();
       this.guest.guestID = 0;
-      this.guest.optin=0;
+      this.guest.optin = 0;
       this.seatingOrMarketingPref();
       console.log('id is absent');
       console.log(this.guest);
     }
+
+    //default lang settings
+    this.user = this.authService.getUser();
+    this.defaultLanguage = this.user.languagePref;
+    this.selectedItem = this.defaultLanguage.find(x => x.langName === 'English');
+    this.languageKeyMap = this.defaultLanguage.find(x => x.langName === 'English').languageMap;
   }
 
   seatingOrMarketingPref() {
     this.user = this.authService.getUser();
+    console.log('user:' + JSON.stringify(this.authService.getUser()));
     let present = false;
     if (this.user.seatingpref != null) {
       this.user.seatingpref.map(obj => {
@@ -67,6 +78,7 @@ export class AddGuestComponent implements OnInit {
             });
           }
         }
+        obj.prefValue = this.languageKeyMap[obj.prefKey != null ? obj.prefKey : 0];
         obj.selected = present;
       });
     }
@@ -113,6 +125,24 @@ export class AddGuestComponent implements OnInit {
     }
   }
 
+  selectedLanguage() {
+    console.log('lang:' + JSON.stringify(this.selectedItem));
+
+    this.languageKeyMap = this.selectedItem.languageMap;
+    console.log('language map:' + JSON.stringify(this.languageKeyMap));
+
+    this.listSeatingPref = this.user.seatingpref;
+    this.listMarketingPref = this.user.marketingPref;
+
+    this.guest.languagePref = {
+      langId: this.selectedItem.langId,
+      keyName: null,
+      value: null,
+      langIsoCode: this.selectedItem.langIsoCode,
+      langName: this.selectedItem.langName
+    };
+  }
+
   addGuest() {
     //this.onOptinChange();
     this.guest.incompleteParty = 0;
@@ -134,13 +164,13 @@ export class AddGuestComponent implements OnInit {
     //  this.guest.guestID=0;
     this.guest.incompleteParty = 0;
 
-    this.guest.languagePref = {
+    /* this.guest.languagePref = {
       langId: 1,
       keyName: null,
       value: null,
       langIsoCode: 'en',
       langName: 'English'
-    };
+    };*/
     console.log(' updatee guest ' + JSON.stringify(this.guest));
   }
 
@@ -152,9 +182,9 @@ export class AddGuestComponent implements OnInit {
     this.resultSeating();
     this.resultMarketing();
     this.removeSelected();
-    this.guest.noOfInfants=0;
-    if(this.guest.noOfChildren==null){
-      this.guest.noOfChildren=0;
+    this.guest.noOfInfants = 0;
+    if (this.guest.noOfChildren == null) {
+      this.guest.noOfChildren = 0;
     }
     this.guest.noOfPeople = +this.guest.noOfAdults + +this.guest.noOfChildren;
     if (this.sum > this.user.maxParty) {
@@ -171,8 +201,7 @@ export class AddGuestComponent implements OnInit {
         if (res.success == 1) {
           console.log(res);
           this.router.navigateByUrl('/waitlist/dashboard');
-        }
-        else{
+        } else {
           alert(res.message);
         }
       });

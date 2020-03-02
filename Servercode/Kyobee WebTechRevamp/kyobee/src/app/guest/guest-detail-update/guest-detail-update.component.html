@@ -32,7 +32,7 @@
             <label for="input" class="control-label">{{ languageKeyMap['name'] }}</label
             ><i class="bar"></i>
             <div *ngIf="f.submitted && name.invalid" class="invalid-feedback">
-              <small class="text-danger" *ngIf="name.errors?.required">{{languageKeyMap['name_can_not_be_blank']}}</small>
+              <small class="text-danger" *ngIf="name.errors?.required">{{ languageKeyMap['name_can_not_be_blank'] }}</small>
             </div>
           </div>
         </div>
@@ -108,7 +108,7 @@
 
         <div class="col-lg-12 row text-center m-0 p-0 pb-3">
           <div class="col-6">
-            <button type="button" class="btn btn-theme background-color w-100 shadow" (click)="showDeleteModal()">{{ languageKeyMap['rmv_waitlist']}}</button>
+            <button type="button" class="btn btn-theme background-color w-100 shadow" (click)="showDeleteModal()">{{ languageKeyMap['rmv_waitlist'] }}</button>
           </div>
           <div class="col-6">
             <button type="submit" class="btn btn-theme background-color w-100 shadow" (click)="onSubmit(f.invalid)">{{ languageKeyMap['save_changes'] }}</button>

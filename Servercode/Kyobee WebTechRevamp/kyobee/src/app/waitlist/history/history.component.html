@@ -16,9 +16,9 @@
           <div class="col-lg-auto pb-2">
             <span class="table-column-btn">Check-in Time</span>
             <div>
-                <ng5-slider  [(value)]="sliderMinTime" [(highValue)]="sliderMaxTime" [options]="options" (valueChange)="fetchGuestHistory();"></ng5-slider>
-                <!-- <npn-slider [min]="sliderMinTime" [max]="sliderMaxTime"  [step]="1" (onChange)="onSliderChange($event)" [showStepIndicator]="true"></npn-slider> -->
-                <!-- <ion-range-slider #sliderElement
+              <ng5-slider [(value)]="sliderMinTime" [(highValue)]="sliderMaxTime" [options]="options" (valueChange)="fetchGuestHistory()"></ng5-slider>
+              <!-- <npn-slider [min]="sliderMinTime" [max]="sliderMaxTime"  [step]="1" (onChange)="onSliderChange($event)" [showStepIndicator]="true"></npn-slider> -->
+              <!-- <ion-range-slider #sliderElement
                 type="double"
                 [min]="0"
                 max="100"
@@ -36,13 +36,13 @@
                 postfix=" million pounds"
                 decorate_both="false"
                ></ion-range-slider> -->
-              </div>
+            </div>
           </div>
         </div>
       </div>
       <div class="col-lg-3 text-right pb-2">
-          <form #f="ngForm" (ngSubmit)="onSubmit(f.invalid)">
-        <input class="form-control search" type="text" name="searchData" #searchData="ngModel" [(ngModel)]="searchText"  placeholder="Search" />
+        <form #f="ngForm" (ngSubmit)="onSubmit(f.invalid)">
+          <input class="form-control search" type="text" name="searchData" #searchData="ngModel" [(ngModel)]="searchText" placeholder="Search" />
         </form>
       </div>
     </div>
@@ -90,15 +90,15 @@
       </div>
       <div class="float-right">
         <ul class="pagination pb-2">
-            <li *ngIf="pageNo !== 1" class="page-item">
-                <a href="javascript:void(0)" class="page-link" (click)="fetchPrevGuest();">&#60;</a>
-              </li>
-              <li *ngFor="let i of [].constructor(totalPageNo); let j = index; " class="page-item">
-               <a href="javascript:void(0)"class="page-link" [ngClass]="{ 'active-pagination' : pageNo === j+1 }  " (click)="fetchGuestByPageNo(j+1);"> {{ j+1 }}</a>
-              </li>
-              <li *ngIf="totalPageNo !== pageNo" class="page-item">
-                <a href="javascript:void(0)" class="page-link" (click)="fetchNextGuest();">&#62;</a>
-              </li>
+          <li *ngIf="pageNo !== 1" class="page-item">
+            <a href="javascript:void(0)" class="page-link" (click)="fetchPrevGuest()">&#60;</a>
+          </li>
+          <li *ngFor="let i of [].constructor(totalPageNo); let j = index" class="page-item">
+            <a href="javascript:void(0)" class="page-link" [ngClass]="{ 'active-pagination': pageNo === j + 1 }" (click)="fetchGuestByPageNo(j + 1)"> {{ j + 1 }}</a>
+          </li>
+          <li *ngIf="totalPageNo !== pageNo" class="page-item">
+            <a href="javascript:void(0)" class="page-link" (click)="fetchNextGuest()">&#62;</a>
+          </li>
         </ul>
       </div>
     </div>

@@ -9,6 +9,7 @@
 
 Angular CLI: 8.3.23
 Node: 12.14.0
+npm:6.13.4
 OS: win32 x64
 Angular: 8.2.14
 ... animations, common, compiler, compiler-cli, core, forms
