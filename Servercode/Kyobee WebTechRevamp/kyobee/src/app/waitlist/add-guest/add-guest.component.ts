@@ -61,7 +61,7 @@ export class AddGuestComponent implements OnInit {
     this.user = this.authService.getUser();
     this.defaultLanguage = this.user.languagePref;
     this.selectedItem = this.defaultLanguage.find(x => x.langName === 'English');
-    this.languageKeyMap = this.defaultLanguage.find(x => x.langName === 'English').languageMap;
+    this.selectedLanguage();
   }
 
   seatingOrMarketingPref() {
