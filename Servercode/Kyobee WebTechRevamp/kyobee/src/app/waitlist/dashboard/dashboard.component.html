@@ -20,6 +20,7 @@
               <span class="col-lg-4 col-md-4 col-sm-6 sm-block p-0 my-2 mr-3"
                 >Party Wait Time
                 <select class="font-color ml-2" name="perPartyTime" (change)="saveOrgMetrics()" #perPartyTime="ngModel" [(ngModel)]="waitTime">
+                  <option selected value="null">Select Wait Time</option>
                   <option *ngFor="let waitOption of [].constructor(waitTimeOption); let j = index" value="{{ j + 1 }}">{{ j + 1 }} Min.</option>
                 </select>
               </span>
@@ -172,7 +173,8 @@
               <!-- <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
                 <input class="styled-checkbox" id="partyType" type="checkbox">
                   <label for="partyType" class="mr-2">Party Type</label>
-              </div> --><!-- checkbox -->
+              </div> -->
+              <!-- checkbox -->
               <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
                 <input class="styled-checkbox" checked id="noOfParty" type="checkbox" (click)="toggleColumns('NOOFPARTY')" />
                 <label for="noOfParty" class="mr-2">No. of Party</label>
@@ -191,7 +193,8 @@
               <!-- <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
                 <input class="styled-checkbox" id="quoteTime" type="checkbox">
                   <label for="quoteTime" class="mr-2">Quote Time</label>
-              </div> --><!-- checkbox -->
+              </div> -->
+              <!-- checkbox -->
               <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
                 <input class="styled-checkbox" id="note" type="checkbox" (click)="toggleColumns('NOTE')" />
                 <label for="note" class="mr-2">Note</label>

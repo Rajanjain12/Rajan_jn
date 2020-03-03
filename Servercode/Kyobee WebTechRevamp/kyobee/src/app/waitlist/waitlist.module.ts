@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PubNubAngular } from 'pubnub-angular2';
 import { Ng5SliderModule } from 'ng5-slider';
+import { NgxMaskModule } from 'ngx-mask';
 
 import { CoreModule } from '../core/core.module';
 import { WaitlistRoutingModule } from './waitlist-routing.module';
@@ -23,7 +24,7 @@ import { SettingsComponent } from './settings/settings.component';
     HistoryComponent,
     SettingsComponent
   ],
-  imports: [CommonModule, CoreModule, WaitlistRoutingModule, FormsModule, Ng5SliderModule],
+  imports: [CommonModule, CoreModule, WaitlistRoutingModule, FormsModule, Ng5SliderModule, NgxMaskModule.forRoot()],
   providers: [PubNubAngular]
 })
 export class WaitlistModule {}

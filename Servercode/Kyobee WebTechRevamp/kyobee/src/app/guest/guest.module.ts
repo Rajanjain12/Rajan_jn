@@ -9,6 +9,6 @@ import { GuestDetailUpdateComponent } from './guest-detail-update/guest-detail-u
 @NgModule({
   declarations: [GuestDetailUpdateComponent],
   imports: [CommonModule, GuestRoutingModule, FormsModule],
-  providers:[PubNubAngular]
+  providers: [PubNubAngular]
 })
 export class GuestModule {}

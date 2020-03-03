@@ -6,7 +6,7 @@ import { PubNubAngular } from 'pubnub-angular2';
 import { environment } from '@env/environment';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { User } from 'src/app/core/models/user.model';
-import { Options } from 'ng5-slider';
+import { Options, LabelType } from 'ng5-slider';
 
 @Component({
   selector: 'app-history',
@@ -15,12 +15,16 @@ import { Options } from 'ng5-slider';
 })
 export class HistoryComponent implements OnInit {
   constructor(private guestService: GuestService, private pubnub: PubNubAngular, private authService: AuthService) {}
-  sliderMaxTime: number = 24;
-  sliderMinTime: number = 0;
+  sliderMaxTime = 24;
+  sliderMinTime = 0;
   options: Options = {
     floor: 0,
     ceil: 24,
-    step: 1
+    step: 1,
+    showTicks: true,
+    translate: (value: number, label: LabelType): string => {
+      return value + ' hr';
+    }
   };
   statusOptions;
   roundarrow = '../../../assets/images/roundarrow.png';
