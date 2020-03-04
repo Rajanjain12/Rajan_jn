@@ -8,22 +8,24 @@
               {{ errorMessage }}
             </small>
             <div class="form-group mb-3">
-              <input type="text" id="gname" class="form-control" #gname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && gname.invalid }" maxlength="50" [(ngModel)]="guest.name" name="gname" required="required" />
+              <input type="text" id="gname" class="form-control" pattern="[A-Za-z0-9 ]*" #gname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && gname.invalid }" maxlength="50" [(ngModel)]="guest.name" name="gname" required="required" />
               <label for="input" class="control-label">{{ languageKeyMap['name'] }}</label
               ><i class="bar"></i>
               <div *ngIf="f.submitted && gname.invalid" class="invalid-feedback">
                 <small class="text-danger" *ngIf="gname.errors?.required">{{ languageKeyMap['name_can_not_be_blank'] }}</small>
                 <small class="text-danger" *ngIf="gname.errors?.maxlength">{{ languageKeyMap['maximum_characters_limit_reached'] }}</small>
+                <small class="text-danger" *ngIf="gname.errors?.pattern">{{languageKeyMap['enter_name_error']}}</small>
               </div>
             </div>
             <div class="row">
               <div class="col-lg-3">
                 <div class="form-group mt-2 mb-3">
-                  <input type="number" name="adult" class="form-control" #adult="ngModel" id="adult" [(ngModel)]="guest.noOfAdults" required="required" />
+                  <input type="number" name="adult" minValue="1" max="100" class="form-control" #adult="ngModel" id="adult" [(ngModel)]="guest.noOfAdults" [ngClass]="{ 'is-invalid': f.submitted && adult.invalid }" pattern="[0-100]" required="required" />
                   <label for="adult" class="control-label">{{ languageKeyMap['adults'] }}</label>
                   <i class="bar"></i>
                   <div *ngIf="f.submitted && adult.invalid" class="invalid-feedback">
                     <small class="text-danger" *ngIf="adult.errors?.required">{{ languageKeyMap['please_enter_values_for_adults'] }}</small>
+                    <small class="text-danger" *ngIf="adult.errors?.pattern">{{ languageKeyMap['valid_num_error'] }}</small>
                   </div>
                 </div>
               </div>
@@ -48,12 +50,12 @@
                     #phone="ngModel"
                     [specialCharacters]="[' ', '-', '(', ')']"
                     mask="(000)-000-0000"
+                    [showMaskTyped]="true" 
                     [ngClass]="{ 'is-invalid': f.submitted && phone.invalid }"
                     [(ngModel)]="guest.contactNo"
                     required="required"
                   />
-                  <label for="input" class="control-label">{{ languageKeyMap['mobile_number'] }}</label
-                  ><i class="bar"></i>
+                  <!-- <label for="input" class="control-label">{{ languageKeyMap['mobile_number'] }}</label> --><i class="bar"></i>
                   <div *ngIf="f.submitted && phone.invalid" class="invalid-feedback">
                     <small class="text-danger" *ngIf="phone.errors?.required">{{ languageKeyMap['enter_your_phone_number'] }}</small>
                     <small class="text-danger" *ngIf="phone.errors?.pattern">{{ languageKeyMap['the_phone_number_that_you_typed_is_invalid_please_correct_your_phone_number_and_try_again'] }}</small>

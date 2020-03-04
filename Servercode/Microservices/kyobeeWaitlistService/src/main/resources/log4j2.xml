@@ -25,7 +25,7 @@
     </RollingFile>
 </Appenders>
 <Loggers>
-    <Logger name="com.kyobeeUserService" level="debug" additivity="false">
+    <Logger name="com.kyobeeWaitlistService" level="debug" additivity="false">
         <AppenderRef ref="ConsoleAppender" />
         <AppenderRef ref="FileAppender"/>
     </Logger>
