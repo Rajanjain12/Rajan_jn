@@ -3,6 +3,7 @@ package com.kyobeeUserService.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -56,7 +57,7 @@ public class OrgMarketing implements Serializable{
 	private Integer wordofMouth;
 
 	//bi-directional many-to-one association to Organization
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="OrgID")
 	private Organization organization;
 

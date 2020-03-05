@@ -3,6 +3,7 @@ package com.kyobeeUserService.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 @Entity
 @Table(name="USERROLE")
@@ -20,6 +23,7 @@ public class Userrole implements Serializable{
 
 	@Id
 	@Column(name="UserRoleID")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer userRoleID;
 
 	@Temporal(TemporalType.DATE)
@@ -37,14 +41,14 @@ public class Userrole implements Serializable{
 	private String modifiedBy;
 
 	//bi-directional many-to-one association to User
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="UserID")
 	private User user;
 
 	//bi-directional many-to-one association to Lookup
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="RoleID")
-	private Lookup lookup;
+	private Role role;
 
 	//bi-directional many-to-one association to User
 	/*
@@ -104,18 +108,12 @@ public class Userrole implements Serializable{
 		this.user = user;
 	}
 
-	public Lookup getLookup() {
-		return this.lookup;
+	public Role getRole() {
+		return role;
 	}
 
-	public void setLookup(Lookup lookup) {
-		this.lookup = lookup;
+	public void setRole(Role role) {
+		this.role = role;
 	}
-
-	/*
-	 * public User getUser2() { return this.user2; }
-	 * 
-	 * public void setUser2(User user2) { this.user2 = user2; }
-	 */
-
+    
 }

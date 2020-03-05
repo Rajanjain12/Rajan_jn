@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kyobeeUserService.dto.ResponseDTO;
+import com.kyobeeUserService.dto.SignUpDTO;
 import com.kyobeeUserService.service.UserService;
 import com.kyobeeUserService.util.LoggerUtil;
 import com.kyobeeUserService.util.UserServiceConstants;
@@ -112,6 +113,59 @@ public class UserController {
 			responseDTO.setMessage("Error while fetching user.");
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
 
+		}
+		return responseDTO;
+	}
+	
+	@PostMapping(value = "/signUp", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO signUp(@RequestBody SignUpDTO signUpDTO) {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {		
+            userService.signUp(signUpDTO);
+            responseDTO.setServiceResult("Success");
+			responseDTO.setSuccess(UserServiceConstants.SUSSESS_CODE);
+		}  catch (Exception e) {
+			LoggerUtil.logError(e);
+			responseDTO.setServiceResult("Error while fetching details of user");
+			responseDTO.setMessage("Error while fetching details of user");
+			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+		}
+		return responseDTO;
+	}
+	
+	@PostMapping(value = "/activateUser", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO activateUser(@RequestParam String activationCode, @RequestParam Integer userId) {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			String response = userService.activateUser(activationCode, userId);
+			responseDTO.setServiceResult(response);
+			responseDTO.setMessage(response);
+			responseDTO.setSuccess(UserServiceConstants.SUSSESS_CODE);
+		} catch (Exception e) {
+			LoggerUtil.logError(e);
+			responseDTO.setServiceResult("Error while activating user account.");
+			responseDTO.setMessage("Error while activating user account.");
+			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+		}
+		return responseDTO;
+	}
+	
+	@PostMapping(value = "/resendCode", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO resendCode(@RequestParam Integer userId) {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			String response = userService.resendCode(userId);
+			responseDTO.setServiceResult(response);
+			responseDTO.setMessage(response);
+			responseDTO.setSuccess(UserServiceConstants.SUSSESS_CODE);
+		} catch (Exception e) {
+			LoggerUtil.logError(e);
+			responseDTO.setServiceResult("Error while resending code.");
+			responseDTO.setMessage("Error while resending code.");
+			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
 		}
 		return responseDTO;
 	}

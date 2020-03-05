@@ -1,7 +1,10 @@
 package com.kyobeeUserService.serviceImpl;
 
 import java.io.StringWriter;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +24,10 @@ import com.kyobeeUserService.dao.LanguageKeyMappingDAO;
 import com.kyobeeUserService.dao.LookupDAO;
 import com.kyobeeUserService.dao.OrganizationDAO;
 import com.kyobeeUserService.dao.OrganizationTemplateDAO;
+import com.kyobeeUserService.dao.OrganizationTypeDAO;
+import com.kyobeeUserService.dao.PlanDAO;
+import com.kyobeeUserService.dao.RoleDAO;
+import com.kyobeeUserService.dao.SmsTemplateLanguageMappingDAO;
 import com.kyobeeUserService.dao.UserDAO;
 import com.kyobeeUserService.dto.CredentialsDTO;
 import com.kyobeeUserService.dto.LanguageKeyMappingDTO;
@@ -28,11 +35,20 @@ import com.kyobeeUserService.dto.LanguageMasterDTO;
 import com.kyobeeUserService.dto.LoginUserDTO;
 import com.kyobeeUserService.dto.ResetPasswordDTO;
 import com.kyobeeUserService.dto.SeatingMarketingPrefDTO;
+import com.kyobeeUserService.dto.SignUpDTO;
 import com.kyobeeUserService.dto.SmsTemplateDTO;
 import com.kyobeeUserService.entity.Lookup;
 import com.kyobeeUserService.entity.Organization;
+import com.kyobeeUserService.entity.OrganizationCategory;
+import com.kyobeeUserService.entity.OrganizationPlanSubscription;
 import com.kyobeeUserService.entity.OrganizationTemplate;
+import com.kyobeeUserService.entity.OrganizationType;
+import com.kyobeeUserService.entity.OrganizationUser;
+import com.kyobeeUserService.entity.Plan;
+import com.kyobeeUserService.entity.Role;
+import com.kyobeeUserService.entity.SmsTemplateLanguageMapping;
 import com.kyobeeUserService.entity.User;
+import com.kyobeeUserService.entity.Userrole;
 import com.kyobeeUserService.service.UserService;
 import com.kyobeeUserService.util.CommonUtil;
 
@@ -40,6 +56,7 @@ import com.kyobeeUserService.util.LoggerUtil;
 import com.kyobeeUserService.util.UserServiceConstants;
 import com.kyobeeUserService.util.Exception.AccountNotActivatedExeception;
 import com.kyobeeUserService.util.Exception.InvalidAuthCodeException;
+import com.kyobeeUserService.util.Exception.InvalidActivationCodeException;
 import com.kyobeeUserService.util.Exception.InvalidLoginException;
 import com.kyobeeUserService.util.Exception.UserNotFoundException;
 import com.kyobeeUserService.util.emailImpl.EmailUtil;
@@ -49,7 +66,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserDAO userDAO;
-	
+
 	@Autowired
 	OrganizationDAO organizationDAO;
 
@@ -61,72 +78,90 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	OrganizationTemplateDAO organizationTemplateDAO;
-	
 
-	//to validate user and fetch data needed after login in web and mobile, single API for login from web and mobile
+	@Autowired
+	RoleDAO roleDAO;
+
+	@Autowired
+	OrganizationTypeDAO organizationTypeDAO;
+
+	@Autowired
+	PlanDAO planDAO;
+
+	@Autowired
+	SmsTemplateLanguageMappingDAO smsTemplateLanguageMappingDAO;
+
+	// to validate user and fetch data needed after login in web and mobile, single
+	// API for login from web and mobile
 	@Override
 	public LoginUserDTO logInCredentialValidate(CredentialsDTO credentialsDTO)
 			throws InvalidLoginException, AccountNotActivatedExeception {
 
 		LoginUserDTO loginUserDTO;
-		User user = userDAO.findByUserNameAndPassword(credentialsDTO.getUserName(),CommonUtil.encryptPassword(credentialsDTO.getPassword()));
+		User user = userDAO.findByUserNameAndPassword(credentialsDTO.getUserName(),
+				CommonUtil.encryptPassword(credentialsDTO.getPassword()));
 		if (user != null) {
-			if (user.getActive() ==  UserServiceConstants.ACTIVATEDUSER) {
+			if (user.getActive() == UserServiceConstants.ACTIVATEDUSER) {
 				loginUserDTO = new LoginUserDTO();
 				BeanUtils.copyProperties(user, loginUserDTO);
-				//fetch organization details associated with user
+				// fetch organization details associated with user
 				Organization organization = organizationDAO.fetchOrganizationByUserId(user.getUserID());
-				if( (organization.getClientBase().equalsIgnoreCase(credentialsDTO.getClientBase()) && credentialsDTO.getDeviceType().equalsIgnoreCase(UserServiceConstants.WEBUSER) || (!credentialsDTO.getDeviceType().equalsIgnoreCase(UserServiceConstants.WEBUSER) ))) {
+				if ((organization.getClientBase().equalsIgnoreCase(credentialsDTO.getClientBase())
+						&& credentialsDTO.getDeviceType().equalsIgnoreCase(UserServiceConstants.WEBUSER)
+						|| (!credentialsDTO.getDeviceType().equalsIgnoreCase(UserServiceConstants.WEBUSER)))) {
 					BeanUtils.copyProperties(organization, loginUserDTO);
 					loginUserDTO.setCompanyEmail(organization.getEmail());
 					Map<String, String> defaultLanguageKeyMap = new HashMap<>();
-					
+
 					/*
 					 * if(!credentialsDTO.getDeviceType().equalsIgnoreCase(UserServiceConstants.
 					 * WEBUSER)) {
 					 */
-						//fetch languages associated with org and arrange labels in key value 
-						List<LanguageMasterDTO> languageList = languageKeyMappingDAO.fetchLanguageKeyMapForOrganization(organization.getOrganizationID());
+					// fetch languages associated with org and arrange labels in key value
+					List<LanguageMasterDTO> languageList = languageKeyMappingDAO
+							.fetchLanguageKeyMapForOrganization(organization.getOrganizationID());
 
-						List<LanguageKeyMappingDTO> langkeyMapList = new ArrayList<>();
-						LanguageKeyMappingDTO languageKeyMappingDTO;
-						
-						Map<Integer, List<LanguageMasterDTO>> langListById = languageList.stream()
-								.collect(Collectors.groupingBy(LanguageMasterDTO::getLangId));
+					List<LanguageKeyMappingDTO> langkeyMapList = new ArrayList<>();
+					LanguageKeyMappingDTO languageKeyMappingDTO;
 
-						for (Map.Entry<Integer, List<LanguageMasterDTO>> entry : langListById.entrySet()) {
+					Map<Integer, List<LanguageMasterDTO>> langListById = languageList.stream()
+							.collect(Collectors.groupingBy(LanguageMasterDTO::getLangId));
 
-							LanguageMasterDTO first = entry.getValue().get(0);
-							languageKeyMappingDTO = new LanguageKeyMappingDTO();
-							languageKeyMappingDTO.setLangId(entry.getKey());
-							languageKeyMappingDTO.setLangName(first.getLangName());
-							languageKeyMappingDTO.setLangIsoCode(first.getLangIsoCode());
-							Map<String, String> keymap = new HashMap<>();
-							keymap.put(first.getKeyName(), first.getValue());
+					for (Map.Entry<Integer, List<LanguageMasterDTO>> entry : langListById.entrySet()) {
 
-							for (LanguageMasterDTO languageMasterDTO : entry.getValue()) {
-								keymap.put(languageMasterDTO.getKeyName(), languageMasterDTO.getValue());
-							}
-							
-							if (UserServiceConstants.ENGLISHLANGID == entry.getKey()) {
-								defaultLanguageKeyMap = keymap;
-							}
+						LanguageMasterDTO first = entry.getValue().get(0);
+						languageKeyMappingDTO = new LanguageKeyMappingDTO();
+						languageKeyMappingDTO.setLangId(entry.getKey());
+						languageKeyMappingDTO.setLangName(first.getLangName());
+						languageKeyMappingDTO.setLangIsoCode(first.getLangIsoCode());
+						Map<String, String> keymap = new HashMap<>();
+						keymap.put(first.getKeyName(), first.getValue());
 
-							languageKeyMappingDTO.setLanguageMap(keymap);
-							langkeyMapList.add(languageKeyMappingDTO);
+						for (LanguageMasterDTO languageMasterDTO : entry.getValue()) {
+							keymap.put(languageMasterDTO.getKeyName(), languageMasterDTO.getValue());
 						}
 
-						loginUserDTO.setLanguagePref(langkeyMapList);
-					//}
+						if (UserServiceConstants.ENGLISHLANGID == entry.getKey()) {
+							defaultLanguageKeyMap = keymap;
+						}
 
-					//fetch seating pref and marketing pref associated with org
-					List<Lookup> lookupList = lookupDAO.fetchSeatingAndMarketingPref(organization.getOrganizationID(), UserServiceConstants.SEATINGPREFID,UserServiceConstants.MARKETINGPREFID);
+						languageKeyMappingDTO.setLanguageMap(keymap);
+						langkeyMapList.add(languageKeyMappingDTO);
+					}
+
+					loginUserDTO.setLanguagePref(langkeyMapList);
+					// }
+
+					// fetch seating pref and marketing pref associated with org
+					List<Lookup> lookupList = lookupDAO.fetchOrgSeatingAndMarketingPref(
+							organization.getOrganizationID(), UserServiceConstants.SEATINGPREFID,
+							UserServiceConstants.MARKETINGPREFID);
 					List<SeatingMarketingPrefDTO> seatingPrefList = new ArrayList<>();
 					List<SeatingMarketingPrefDTO> marketingPrefList = new ArrayList<>();
 
 					SeatingMarketingPrefDTO seatingPref;
 					SeatingMarketingPrefDTO marketingPref;
-					//to separate seating pref and marketing pref 
+					// to separate seating pref and marketing pref
 					for (Lookup lookup : lookupList) {
 						if (lookup.getLookuptype().getLookupTypeID() == UserServiceConstants.SEATINGPREFID) {
 							seatingPref = new SeatingMarketingPrefDTO();
@@ -163,7 +198,7 @@ public class UserServiceImpl implements UserService {
 						}
 
 					}
-				// seating marketing pref end
+					// seating marketing pref end
 
 					List<OrganizationTemplate> templetList = organizationTemplateDAO
 							.fetchSmsTemplateForOrganization(organization.getOrganizationID());
@@ -178,15 +213,16 @@ public class UserServiceImpl implements UserService {
 					loginUserDTO.setSeatingpref(seatingPrefList);
 					loginUserDTO.setMarketingPref(marketingPrefList);
 					loginUserDTO.setFooterMsg(UserServiceConstants.FOOTERMSG);
-					loginUserDTO.setLogoPath(UserServiceConstants.KYOBEESERVERURL+loginUserDTO.getOrganizationID()+UserServiceConstants.EXTENSION);
+					loginUserDTO.setLogoPath(UserServiceConstants.KYOBEESERVERURL + loginUserDTO.getOrganizationID()
+							+ UserServiceConstants.EXTENSION);
 					return loginUserDTO;
 
-				}
-				else {
+				} else {
 					throw new InvalidLoginException("Invalid username or password");
 				}
 			} else {
-				throw new AccountNotActivatedExeception("Account is not activated.Please Activate your account using code given at registration.");
+				throw new AccountNotActivatedExeception(
+						"Account is not activated.Please Activate your account using code given at registration.");
 			}
 		} else {
 			throw new InvalidLoginException("Invalid username or password");
@@ -200,17 +236,16 @@ public class UserServiceImpl implements UserService {
 		String response;
 		User user = userDAO.findByUserIDAndAuthCode(resetpassword.getUserId(), resetpassword.getAuthcode());
 		if (user != null) {
-			Date today=new Date();
-			if(today.after(user.getActivationExpiryDate())) {
-				//if user enters authcode after 24 hour 
+			Date today = new Date();
+			if (today.after(user.getActivationExpiryDate())) {
+				// if user enters authcode after 24 hour
 				throw new InvalidAuthCodeException("Invalid Authcode exception");
-			}
-			else {
+			} else {
 				user.setPassword(CommonUtil.encryptPassword(resetpassword.getPassword()));
 				userDAO.save(user);
 				response = "password reset successfully.";
 			}
-			
+
 		} else {
 			throw new InvalidAuthCodeException("Invalid Authcode exception");
 		}
@@ -221,38 +256,37 @@ public class UserServiceImpl implements UserService {
 	public String forgotPassword(String username) throws UserNotFoundException {
 		String response;
 		User user = userDAO.findByUserName(username);
-		Date today=new Date();
-		long hour = 3600*1000; 
+		Date today = new Date();
+		long hour = 3600 * 1000;
 		if (user != null) {
 			String authcode;
-			//if authcode is null then generate new one
+			// if authcode is null then generate new one
 			if (user.getAuthCode() == null || user.getAuthCode().equals("")) {
-				
-				Date nextDay=new Date(today.getTime() + 24 * hour);
+
+				Date nextDay = new Date(today.getTime() + 24 * hour);
 				authcode = CommonUtil.generateRandomToken().toString();
 				user.setAuthCode(authcode);
 				user.setActivationExpiryDate(nextDay);
 				userDAO.save(user);
 			} else {
-				
-				if(today.after(user.getActivationExpiryDate())) {
-					//24 hour are complete then generate new one
+
+				if (today.after(user.getActivationExpiryDate())) {
+					// 24 hour are complete then generate new one
 					authcode = CommonUtil.generateRandomToken().toString();
-					user.setAuthCode(authcode);				
-					Date nextDay=new Date(today.getTime() + 24 * hour);
+					user.setAuthCode(authcode);
+					Date nextDay = new Date(today.getTime() + 24 * hour);
 					user.setActivationExpiryDate(nextDay);
 					userDAO.save(user);
-				}
-				else {
+				} else {
 					authcode = user.getAuthCode();
-				}	
+				}
 			}
-			String forgotPasswordURL = UserServiceConstants.KYOBEEWEBHOST + UserServiceConstants.RESETPWDLINK + user.getUserID() + "/"
-					+ authcode;
+			String forgotPasswordURL = UserServiceConstants.KYOBEEWEBHOST + UserServiceConstants.RESETPWDLINK
+					+ user.getUserID() + "/" + authcode;
 
-			LoggerUtil.logInfo("url:- "+forgotPasswordURL);
-			
-			//velocity template
+			LoggerUtil.logInfo("url:- " + forgotPasswordURL);
+
+			// velocity template
 			VelocityEngine ve = new VelocityEngine();
 			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
 			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
@@ -269,27 +303,263 @@ public class UserServiceImpl implements UserService {
 
 			StringWriter writer = new StringWriter();
 			t.merge(context, writer);
-			//----
-		/*	StringBuilder htmlContent = new StringBuilder();
-
-			htmlContent.append("<p>Hi " + user.getFirstName() + " " + user.getLastName() + ", </p>");
-			htmlContent.append("<p>We received a request to reset your password for your Kyobee account: "
-					+ user.getEmail() + ". We are here to help!");
-			htmlContent.append("<p>Use the link below to set up a new password for your account.</p>");
-			htmlContent.append("<p><a href='" + forgotPasswordURL + "'>Click here</a></p>");
-			htmlContent.append("<p>If you did not request to reset your password, then simply ignore this mail.</p>");
-			htmlContent.append("<p>We love hearing from you.</p>");
-			htmlContent.append(
-					"<p>Email us at " + UserServiceConstants.KYOBEEMAILID + " if you have any other questions! </p>");
-			htmlContent.append("<p>Best,<br/>Kyobee</p>");*/
+			// ----
 			response = "password sent successufully to your registered account";
-			
+
 			EmailUtil.sendMail(user.getEmail(), UserServiceConstants.EMAIL_SUBJECT, writer.toString());
-			 
+
 		} else {
 			throw new UserNotFoundException("Please Enter valid email address.");
 		}
 		return response;
+	}
+
+	@Override
+	public void signUp(SignUpDTO signUpDTO) {
+
+		// check if user exists or not
+		Boolean exists = checkIfUserExist(signUpDTO.getEmail());
+
+		if (!exists) {
+
+			User user = new User();
+			
+			
+			Date today = new Date();
+			long hour = 3600 * 1000;
+			Date nextDay = new Date(today.getTime() + 24 * hour);
+
+			BeanUtils.copyProperties(signUpDTO, user);
+			user.setPassword(signUpDTO.getPassword());
+			user.setContactNoOne(signUpDTO.getContactNo());
+			user.setActivationCode(CommonUtil.generateRandomToken().toString());
+			user.setActivationExpiryDate(nextDay);
+			user.setActive(UserServiceConstants.INACTIVEUSER);
+			user.setCreatedAt(new Date());
+			user.setCreatedBy(signUpDTO.getEmail());
+
+			Role role = roleDAO.fetchRole(UserServiceConstants.DEFAULT_ROLE);
+
+			Userrole userRole = new Userrole();
+			userRole.setRole(role);
+			userRole.setCreatedBy(signUpDTO.getEmail());
+			userRole.setCreatedAt(new Date());
+			userRole.setUser(user);
+
+			List<Userrole> userRoles = new ArrayList<>();
+			userRoles.add(userRole);
+			user.setUserroles(userRoles);
+
+			LoggerUtil.logInfo("user role inserted");
+
+			OrganizationType organizationType = organizationTypeDAO
+					.fetchOrganizationType(UserServiceConstants.DEFAULT_ORG_TYPE);
+
+			Organization organization = new Organization();
+			organization.setOrganizationName(signUpDTO.getStoreName());
+			organization.setEmail(signUpDTO.getEmail());
+			organization.setPrimaryPhone(new BigInteger(signUpDTO.getContactNo()));
+			organization.setActive(UserServiceConstants.ACTIVEORG);
+			organization.setOrganizationType(organizationType);
+			organization.setCreatedBy(signUpDTO.getEmail());
+			organization.setCreatedAt(new Date());
+			organization.setSmsSignature(organization.getOrganizationName());
+			organization.setSmsRoute(UserServiceConstants.SMS_ROUTE);
+			organization.setOrganizationType(organizationType);
+			LoggerUtil.logInfo("organization type inserted");
+			List<OrganizationCategory> orgCategoryList = new ArrayList<>();
+			List<Lookup> lookupList = lookupDAO.fetchSeatingAndMarketingPref(UserServiceConstants.SEATINGPREFID,
+					UserServiceConstants.MARKETINGPREFID);
+
+			OrganizationCategory orgCategory;
+			for (Lookup lookup : lookupList) {
+				orgCategory = new OrganizationCategory();
+				orgCategory.setOrganization(organization);
+				orgCategory.setLookup(lookup);
+				orgCategory.setLookuptype(lookup.getLookuptype());
+				orgCategoryList.add(orgCategory);
+			}
+			organization.setOrganizationcategories(orgCategoryList);
+
+			LoggerUtil.logInfo("organization categoery inserted");
+
+			Plan plan = planDAO.fetchPlan(signUpDTO.getPlanId());
+			LoggerUtil.logInfo("planid:" + plan.getPlanId() + " " + plan.getPlanName());
+			OrganizationPlanSubscription organizationPlanSubscription = new OrganizationPlanSubscription();
+			organizationPlanSubscription.setOrganization(organization);
+			organizationPlanSubscription.setPlan(plan);
+			organizationPlanSubscription.setCreatedBy(signUpDTO.getEmail());
+			organizationPlanSubscription.setCreatedAt(new Date());
+			// temporary added code
+			organizationPlanSubscription.setAmountPerUnit(new BigDecimal(0.0));
+			organizationPlanSubscription.setCostPerAd(new BigDecimal(0.0));
+			organizationPlanSubscription.setCreatedBy(signUpDTO.getEmail());
+			organizationPlanSubscription.setCurrencyId(11);
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(new Date());
+			cal.add(Calendar.MONTH, 1);
+			organizationPlanSubscription.setEndDate(cal.getTime());
+			organizationPlanSubscription.setModifiedBy(signUpDTO.getEmail());
+			organizationPlanSubscription.setModifiedAt(new Date());
+			organizationPlanSubscription.setNoOfAdsPerUnit(0);
+			organizationPlanSubscription.setNumberOfUnits(0);
+			organizationPlanSubscription.setOrganization(organization);
+			organizationPlanSubscription.setStartDate(new Date());
+			organizationPlanSubscription.setTerminateDate(null);
+			organizationPlanSubscription.setTotalAmount(new BigDecimal(0.0));
+			organizationPlanSubscription.setUnitId(9);
+
+			// ---
+
+			List<OrganizationPlanSubscription> orgPlanSubscriptionList = new ArrayList<>();
+			orgPlanSubscriptionList.add(organizationPlanSubscription);
+			organization.setOrganizationPlanSubscriptionList(orgPlanSubscriptionList);
+			LoggerUtil.logInfo("organization plan inserted");
+
+			LoggerUtil.logInfo("going to fetch template");
+			List<SmsTemplateLanguageMapping> smstemplateList = smsTemplateLanguageMappingDAO
+					.fetchSmsTemplate(UserServiceConstants.DEFAULT_LANG);
+			List<OrganizationTemplate> orgTemplateList = new ArrayList<>();
+			LoggerUtil.logInfo("completed");
+			OrganizationTemplate orgTemplate;
+			for (SmsTemplateLanguageMapping smstemplate : smstemplateList) {
+				orgTemplate = new OrganizationTemplate();
+				BeanUtils.copyProperties(smstemplate, orgTemplate);
+				orgTemplate.setLanguageID(smstemplate.getLangmaster().getLangID());
+				orgTemplate.setOrganization(organization);
+				orgTemplate.setCreatedAt(new Date());
+				orgTemplateList.add(orgTemplate);
+			}
+
+			organization.setOrganizationtemplates(orgTemplateList);
+
+			OrganizationUser organizationUser = new OrganizationUser();
+			organizationUser.setOrganization(organization);
+			organizationUser.setCreatedBy(signUpDTO.getEmail());
+			organizationUser.setCreatedAt(new Date());
+			organizationUser.setUser(user);
+			LoggerUtil.logInfo("organization user inserted");
+
+			List<OrganizationUser> organizationUserList = new ArrayList<>();
+			organizationUserList.add(organizationUser);
+			organization.setOrganizationusers(organizationUserList);
+			user.setOrganizationusers(organizationUserList);
+
+			User savedUser=userDAO.save(user);
+			//sending activation mail
+			sendActivationEmail(savedUser);
+			
+		} else {
+			LoggerUtil.logInfo("user exists");
+		}
+
+	}
+
+	@Override
+	public Boolean checkIfUserExist(String Email) {
+
+		User user = userDAO.findByEmail(Email);
+
+		if(user != null) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void sendActivationEmail(User user) {
+
+		VelocityEngine ve = new VelocityEngine();
+		ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+		ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+		ve.init();
+
+		Template t = ve.getTemplate("templates/ActivationMail.vm");
+		String name = user.getFirstName() + " " + user.getLastName();
+
+		VelocityContext context = new VelocityContext();
+		context.put("name", name);
+		context.put("activationCode", user.getActivationCode());
+
+		StringWriter writer = new StringWriter();
+		t.merge(context, writer);
+
+		EmailUtil.sendMail(user.getEmail(), UserServiceConstants.ACTIVATION_EMAIL, writer.toString());
+
+	}
+
+	@Override
+	public String activateUser(String activationCode, Integer userId) throws InvalidActivationCodeException
+	{
+		
+		String response = null;
+		User user = userDAO.findByUserIDAndActivationCode(userId,activationCode);
+		LoggerUtil.logInfo("user:"+user);
+		if (user != null) {
+			Date today = new Date();
+			if (today.after(user.getActivationExpiryDate())) {
+				// if user enters activation code after 24 hour
+				throw new InvalidActivationCodeException("Invalid activation code exception");
+				
+			} else {
+				user.setActive(UserServiceConstants.ACTIVATEDUSER);
+				user.setActivationCode(null);
+				user.setActivationExpiryDate(null);
+				userDAO.save(user);
+				sendWelcomeEmail(user);
+				
+				response = "User account activated successfully.";
+			}
+
+		} else {
+			throw new InvalidActivationCodeException("Invalid activation code exception");
+		}
+		return response;
+	}
+	
+	public void sendWelcomeEmail(User user) {
+
+		VelocityEngine ve = new VelocityEngine();
+		ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+		ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+		ve.init();
+
+		Template t = ve.getTemplate("templates/WelcomeMail.vm");
+		String name = user.getFirstName() + " " + user.getLastName();
+
+		VelocityContext context = new VelocityContext();
+		context.put("name", name);
+
+		StringWriter writer = new StringWriter();
+		t.merge(context, writer);
+
+		EmailUtil.sendMail(user.getEmail(), UserServiceConstants.WELCOME_EMAIL, writer.toString());
+
+	}
+
+	@Override
+	public String resendCode(Integer userId) {
+
+		Date today = new Date();
+		long hour = 3600 * 1000;
+		Date nextDay = new Date(today.getTime() + 24 * hour);
+
+		User user = userDAO.findByUserID(userId);
+
+		if (user.getActive().equals(UserServiceConstants.ACTIVATEDUSER)) {
+			return "Account is already activated";
+		} else {
+			if (today.after(user.getActivationExpiryDate())) {
+				user.setActivationCode(CommonUtil.generateRandomToken().toString());
+				user.setActivationExpiryDate(nextDay);
+				User savedUser = userDAO.save(user);
+				// sending activation mail
+				sendActivationEmail(savedUser);
+			} else {
+				sendActivationEmail(user);
+			}
+		}
+
+		return "Code Resend Successfully";
 	}
 
 }

@@ -1,0 +1,9 @@
+<html>
+<body>
+<p>Hi $name, </p>
+<p>Welcome to Kyobee Waitlist.</p>
+<p>Your authentication code for account activation : $activationCode,</p>
+<p>Thank You,</p>
+<p>Kyobee Team.</p>
+</body>
+</html>

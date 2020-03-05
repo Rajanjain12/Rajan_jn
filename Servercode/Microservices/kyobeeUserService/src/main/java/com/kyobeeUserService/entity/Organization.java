@@ -5,8 +5,11 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.JoinColumns;
 
 @Entity
 @Table(name="ORGANIZATION")
@@ -22,6 +26,7 @@ public class Organization implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="OrganizationID")
 	private Integer organizationID;
 
@@ -138,36 +143,39 @@ public class Organization implements Serializable{
 	private Integer waitTime;
 
 	//bi-directional many-to-one association to Address
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="AddressID")
 	private Address address;
 
 	//bi-directional many-to-one association to Lookup
-	@ManyToOne
-	@JoinColumn(name="OrganizationTypeID")
-	private Lookup lookup;
+	@ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "OrganizationTypeID",referencedColumnName="TypeID")
+	private OrganizationType organizationType;
 
 	
 	//bi-directional many-to-one association to Organizationcategory
-	@OneToMany(mappedBy="organization")
+	@OneToMany(mappedBy="organization",cascade=CascadeType.ALL)
 	private List<OrganizationCategory> organizationcategories;
 
 	//bi-directional many-to-one association to Organizationlang
-	@OneToMany(mappedBy="organization")
+	@OneToMany(mappedBy="organization",cascade=CascadeType.ALL)
 	private List<OrganizationLang> organizationlangs;
 
 	
 	//bi-directional many-to-one association to Organizationtemplate
-	@OneToMany(mappedBy="organization")
+	@OneToMany(mappedBy="organization",cascade=CascadeType.ALL)
 	private List<OrganizationTemplate> organizationtemplates;
 
 	//bi-directional many-to-one association to Organizationuser
-	@OneToMany(mappedBy="organization")
+	@OneToMany(mappedBy="organization",cascade=CascadeType.ALL)
 	private List<OrganizationUser> organizationusers;
 	
 	//bi-directional many-to-one association to Orgmarketing
-	@OneToMany(mappedBy="organization")
+	@OneToMany(mappedBy="organization",cascade=CascadeType.ALL)
 	private List<OrgMarketing> orgmarketings;
+	
+	@OneToMany(mappedBy="organization",cascade=CascadeType.ALL)
+	private List<OrganizationPlanSubscription> organizationPlanSubscriptionList;
 
 	public Organization() {
 		//constructor  
@@ -501,18 +509,19 @@ public class Organization implements Serializable{
 		this.address = address;
 	}
 
-	public Lookup getLookup() {
-		return this.lookup;
+	public OrganizationType getOrganizationType() {
+		return organizationType;
 	}
 
-	public void setLookup(Lookup lookup) {
-		this.lookup = lookup;
+	public void setOrganizationType(OrganizationType organizationType) {
+		this.organizationType = organizationType;
 	}
+
 	public List<OrganizationCategory> getOrganizationcategories() {
 		return this.organizationcategories;
 	}
 
-	public void setOrganizationcategories1(List<OrganizationCategory> organizationcategories) {
+	public void setOrganizationcategories(List<OrganizationCategory> organizationcategories) {
 		this.organizationcategories = organizationcategories;
 	}
 
@@ -589,6 +598,14 @@ public class Organization implements Serializable{
 		orgmarketing.setOrganization(null);
 
 		return orgmarketing;
+	}
+
+	public List<OrganizationPlanSubscription> getOrganizationPlanSubscriptionList() {
+		return organizationPlanSubscriptionList;
+	}
+
+	public void setOrganizationPlanSubscriptionList(List<OrganizationPlanSubscription> organizationPlanSubscriptionList) {
+		this.organizationPlanSubscriptionList = organizationPlanSubscriptionList;
 	}
 
 }

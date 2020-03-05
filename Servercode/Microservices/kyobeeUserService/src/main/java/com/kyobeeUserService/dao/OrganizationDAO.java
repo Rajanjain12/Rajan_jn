@@ -15,4 +15,6 @@ public interface OrganizationDAO extends CrudRepository<Organization, Integer>{
 
 	@Query("select o from Organization o join o.organizationusers ou where ou.user.userID=?1 ")
 	public Organization fetchOrganizationByUserId(Integer userId);
+	
+	public Organization findByEmail(String Email);
 }

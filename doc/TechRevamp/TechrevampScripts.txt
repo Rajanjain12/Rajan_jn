@@ -88,7 +88,7 @@ CREATE TABLE `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` (
   `ID` INT NOT NULL,
   `LangId` INT NULL,
   `IsoCode` VARCHAR(10) NULL,
-  `level` INT NULL,
+  `Level` INT NULL,
   `TemplateText` VARCHAR(250) NULL,
   `Active` TINYINT(1) NULL,
   `CreatedBy` VARCHAR(45) NULL,
@@ -117,6 +117,9 @@ ADD CONSTRAINT `FK2OrganizationTypeID`
   
   ALTER TABLE `KyobeeTechRevamp`.`USER` 
 CHANGE COLUMN `UserName` `UserName` VARCHAR(255) NULL ;
+
+ALTER TABLE `KyobeeTechRevamp`.`USER` 
+CHANGE COLUMN `ActivationID` `ActivationCode` VARCHAR(100) NULL DEFAULT NULL ;
   
  
 

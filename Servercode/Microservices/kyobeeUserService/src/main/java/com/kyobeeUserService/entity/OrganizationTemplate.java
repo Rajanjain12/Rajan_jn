@@ -3,8 +3,11 @@ package com.kyobeeUserService.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,7 +25,8 @@ public class OrganizationTemplate implements Serializable{
 	private static final long serialVersionUID = -7095270916142896899L;
 
 	@Id
-	@Column(name="SmsTemplateID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="SmsTemplateID")
 	private Integer smsTemplateID;
 
 	@Column(name="Active")
@@ -52,7 +56,7 @@ public class OrganizationTemplate implements Serializable{
 	private String templateText;
 
 	//bi-directional many-to-one association to Organization
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="OrgID")
 	private Organization organization;
 

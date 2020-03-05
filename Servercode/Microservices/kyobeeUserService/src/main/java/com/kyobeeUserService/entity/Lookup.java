@@ -76,9 +76,6 @@ public class Lookup implements Serializable{
 	@JoinColumn(name="LookupTypeID")
 	private LookupType lookuptype;
 
-	//bi-directional many-to-one association to Organization
-	@OneToMany(mappedBy="lookup")
-	private List<Organization> organizations;
 
 	//bi-directional many-to-one association to Organizationadcredit
 	/*
@@ -126,10 +123,6 @@ public class Lookup implements Serializable{
 	 * 
 	 * @OneToMany(mappedBy="lookup4") private List<Planprice> planprices4;
 	 */
-
-	//bi-directional many-to-one association to Userrole
-	@OneToMany(mappedBy="lookup")
-	private List<Userrole> userroles;
 
 	public Lookup() {
 	}
@@ -288,28 +281,6 @@ public class Lookup implements Serializable{
 		this.lookuptype = lookuptype;
 	}
 
-	public List<Organization> getOrganizations() {
-		return this.organizations;
-	}
-
-	public void setOrganizations(List<Organization> organizations) {
-		this.organizations = organizations;
-	}
-
-	public Organization addOrganization(Organization organization) {
-		getOrganizations().add(organization);
-		organization.setLookup(this);
-
-		return organization;
-	}
-
-	public Organization removeOrganization(Organization organization) {
-		getOrganizations().remove(organization);
-		organization.setLookup(null);
-
-		return organization;
-	}
-
 	public List<OrganizationCategory> getOrganizationcategories() {
 		return this.organizationcategories;
 	}
@@ -332,26 +303,5 @@ public class Lookup implements Serializable{
 		return organizationcategory;
 	}
 
-	public List<Userrole> getUserroles() {
-		return this.userroles;
-	}
-
-	public void setUserroles(List<Userrole> userroles) {
-		this.userroles = userroles;
-	}
-
-	public Userrole addUserrole(Userrole userrole) {
-		getUserroles().add(userrole);
-		userrole.setLookup(this);
-
-		return userrole;
-	}
-
-	public Userrole removeUserrole(Userrole userrole) {
-		getUserroles().remove(userrole);
-		userrole.setLookup(null);
-
-		return userrole;
-	}
 
 }

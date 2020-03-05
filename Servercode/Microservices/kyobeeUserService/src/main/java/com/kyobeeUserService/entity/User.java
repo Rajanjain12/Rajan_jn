@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -13,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.GenerationType;
+import javax.persistence.GeneratedValue;
 
 @Entity
 @Table(name="USER")
@@ -22,10 +25,11 @@ public class User implements Serializable{
 
 	@Id
 	@Column(name="UserID")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer userID;
 
-	@Column(name="ActivationID")
-	private String activationID;
+	@Column(name="ActivationCode")
+	private String activationCode;
 
 	@Column(name="Active")
 	private Byte active;
@@ -69,7 +73,7 @@ public class User implements Serializable{
 	private String userName;
 
 	//bi-directional many-to-one association to Organizationuser
-	@OneToMany
+	@OneToMany(mappedBy="user",cascade=CascadeType.ALL)
 	private List<OrganizationUser> organizationusers;
 
 	//bi-directional many-to-one association to Address
@@ -81,7 +85,7 @@ public class User implements Serializable{
 	private Date activationExpiryDate;
 	
 	//bi-directional many-to-one association to Userrole
-	@OneToMany
+	@OneToMany(mappedBy="user",cascade=CascadeType.ALL)
 	private List<Userrole> userroles;
 
 	public User() {
@@ -95,12 +99,12 @@ public class User implements Serializable{
 		this.userID = userID;
 	}
 
-	public String getActivationID() {
-		return this.activationID;
+	public String getActivationCode() {
+		return activationCode;
 	}
 
-	public void setActivationID(String activationID) {
-		this.activationID = activationID;
+	public void setActivationCode(String activationCode) {
+		this.activationCode = activationCode;
 	}
 
 	public Byte getActive() {

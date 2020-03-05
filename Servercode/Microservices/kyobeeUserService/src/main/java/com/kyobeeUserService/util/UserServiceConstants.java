@@ -11,6 +11,8 @@ public class UserServiceConstants {
 	public static final String EMAIL_SERVICE = "AWS_SES";
 	public static final String SES_EMAIL_SERVICE = "AWS_SES";
 	public static final String EMAIL_SUBJECT = "Forgot Password";
+	public static final String ACTIVATION_EMAIL = "Activation Mail";
+	public static final String WELCOME_EMAIL = "Welcome Mail";
 	
 	
 	public static final Integer SUSSESS_CODE=1;
@@ -33,5 +35,13 @@ public class UserServiceConstants {
 	
 	public static final String AWS_ACCESS_KEY_ID="AKIAJQJN2NTV6IWMZXMQ";
 	public static final String AWS_SECRET_KEY="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";
+	
+	public static final Byte INACTIVEUSER=0;
+	public static final Integer DEFAULT_ROLE=1;
+	public static final Byte ACTIVEORG=1;
+	public static final Integer DEFAULT_ORG_TYPE=1;
+	public static final String SMS_ROUTE="AWS";
+	public static final Integer DEFAULT_LANG=1;
+	
 	
 }

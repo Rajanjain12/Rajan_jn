@@ -3,6 +3,7 @@ package com.kyobeeUserService.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -10,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Table;
 
 @Entity
@@ -19,6 +22,7 @@ public class OrganizationUser implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="OrganizationUserID")
 	private Integer organizationUserID;
 
@@ -37,12 +41,12 @@ public class OrganizationUser implements Serializable{
 	private String modifiedBy;
 
 	//bi-directional many-to-one association to Organization
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="OrganizationID")
 	private Organization organization;
 
 	//bi-directional many-to-one association to User
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="UserID")
 	private User user;
 

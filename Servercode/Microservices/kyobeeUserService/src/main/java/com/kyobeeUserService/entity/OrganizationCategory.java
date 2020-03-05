@@ -1,10 +1,13 @@
 package com.kyobeeUserService.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Table;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -18,21 +21,22 @@ public class OrganizationCategory implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="OrganizationCategoryID")
 	private Integer organizationCategoryID;
 
 	//bi-directional many-to-one association to Lookuptype
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="CategoryTypeID")
 	private LookupType lookuptype;
 
 	//bi-directional many-to-one association to Lookup
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="CategoryValueID")
 	private Lookup lookup;
 
 	//bi-directional many-to-one association to Organization
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="OrganizationID")
 	private Organization organization;
 	

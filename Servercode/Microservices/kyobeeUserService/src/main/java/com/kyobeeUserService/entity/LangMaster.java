@@ -55,6 +55,10 @@ public class LangMaster implements Serializable{
 	//bi-directional many-to-one association to Organizationlang
 	@OneToMany(mappedBy="langmaster")
 	private List<OrganizationLang> organizationlangs;
+	
+	//bi-directional many-to-one association to SmsTemplateLanguageMapping
+	@OneToMany(mappedBy="langmaster")
+	private List<SmsTemplateLanguageMapping> smsTemplateLanguageMapping;
 
 	public void Langmaster() {
 		//constructor 
@@ -174,5 +178,16 @@ public class LangMaster implements Serializable{
 		organizationlang.setLangmaster(null);
 
 		return organizationlang;
+	}
+	public void setOrganizationlangs(List<OrganizationLang> organizationlangs) {
+		this.organizationlangs = organizationlangs;
+	}
+
+	public List<SmsTemplateLanguageMapping> getSmsTemplateLanguageMapping() {
+		return smsTemplateLanguageMapping;
+	}
+
+	public void setSmsTemplateLanguageMapping(List<SmsTemplateLanguageMapping> smsTemplateLanguageMapping) {
+		this.smsTemplateLanguageMapping = smsTemplateLanguageMapping;
 	}
 }
