@@ -123,7 +123,7 @@ public class WaitListController {
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
 			GuestDTO guest = guestService.fetchGuestDetails(sendSMSDTO.getGuestId(), null);
-			if(sendSMSDTO.getSmsContent()!= null)
+			if(sendSMSDTO.getSmsContent() == null)
 			{
 			WaitlistMetrics waitlistMetrics = waitListService.getOrganizationMetrics(sendSMSDTO.getOrgId());
 			OrganizationTemplateDTO smsTemplate=waitListService.getOrganizationTemplateByLevel(guest,sendSMSDTO);

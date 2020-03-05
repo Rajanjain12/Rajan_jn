@@ -253,7 +253,7 @@ public class GuestServiceImpl implements GuestService {
 		addUpdateGuestDTO.setLanguagePref(guestDTO.getLanguagePref());
 		addUpdateGuestDTO.setOrgId(guestDTO.getOrganizationID());
 		addUpdateGuestDTO.setOp("ADD");
-
+        LoggerUtil.logInfo("client base:"+waitlistMetrics.getClientBase());
 		tinyURL = CommonUtil.buildURL(waitlistMetrics.getClientBase(), guestUUID);
 		addUpdateGuestDTO.setTinyURL(tinyURL);
 		List<GuestMarketingPreferences> guestMarketingPref=new ArrayList<>();
@@ -282,9 +282,9 @@ public class GuestServiceImpl implements GuestService {
 		//API call for sending sms to Guest
 		
 		SendSMSDTO sendSMSDTO = new SendSMSDTO();
-		sendSMSDTO.setGuestId(waitlistMetrics.getGuestId());
+		sendSMSDTO.setGuestId(guestDTO.getGuestID());
 		sendSMSDTO.setTemplateLevel(WaitListServiceConstants.TEMP_LEVEL_FIRST);
-		
+		sendSMSDTO.setOrgId(guestDTO.getOrganizationID());
 	    RestTemplate restTemplate = new RestTemplate();
 	    restTemplate.postForObject(	WaitListServiceConstants.SEND_SMS_API, sendSMSDTO, ResponseDTO.class);
 	    
@@ -363,6 +363,7 @@ public class GuestServiceImpl implements GuestService {
 			SendSMSDTO sendSMSDTO = new SendSMSDTO();
 			sendSMSDTO.setGuestId(guestToBeNotified.getGuestID());
 			sendSMSDTO.setTemplateLevel(WaitListServiceConstants.TEMP_LEVEL_SECOND);
+			sendSMSDTO.setOrgId(guestToBeNotified.getOrganizationID());
 
 			RestTemplate restTemplate = new RestTemplate();
 			restTemplate.postForObject(WaitListServiceConstants.SEND_SMS_API, sendSMSDTO, ResponseDTO.class);	
