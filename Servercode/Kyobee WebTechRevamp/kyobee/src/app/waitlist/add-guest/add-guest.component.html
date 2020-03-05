@@ -20,7 +20,7 @@
             <div class="row">
               <div class="col-lg-3">
                 <div class="form-group mt-2 mb-3">
-                  <input type="number" name="adult" minValue="1" max="100" class="form-control" #adult="ngModel" id="adult" [(ngModel)]="guest.noOfAdults" [ngClass]="{ 'is-invalid': f.submitted && adult.invalid }" pattern="[0-100]" required="required" />
+                  <input type="number" name="adult" min="1" max="100" class="form-control" #adult="ngModel" id="adult" [(ngModel)]="guest.noOfAdults" [ngClass]="{ 'is-invalid': f.submitted && adult.invalid }" pattern="[0-100]" required="required" />
                   <label for="adult" class="control-label">{{ languageKeyMap['adults'] }}</label>
                   <i class="bar"></i>
                   <div *ngIf="f.submitted && adult.invalid" class="invalid-feedback">
