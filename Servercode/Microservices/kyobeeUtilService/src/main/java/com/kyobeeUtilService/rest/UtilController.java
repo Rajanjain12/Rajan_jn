@@ -25,6 +25,7 @@ public class UtilController {
 	@Autowired
 	UtilService utilService;
 	
+	//purpose : for sending sms
 	@GetMapping(value = "/sendSMS", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO sendSMS(@RequestParam String contactNo,@RequestParam String message) {
 
@@ -35,8 +36,26 @@ public class UtilController {
 			responseDTO.setSuccess(UtilServiceConstants.SUCCESS_CODE);
 		}  catch (Exception e) {
 			LoggerUtil.logError(e);
-			responseDTO.setServiceResult("Error while fetching details of user");
-			responseDTO.setMessage("Error while fetching details of user");
+			responseDTO.setServiceResult("Error while sending sms");
+			responseDTO.setMessage("Error while sending sms");
+			responseDTO.setSuccess(UtilServiceConstants.ERROR_CODE);
+		}
+		return responseDTO;
+	}
+	
+	//purpose : for sending email
+	@GetMapping(value = "/sendEmail", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO sendEmail(@RequestParam String toEmail ,@RequestParam String subject,@RequestParam String body) {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {		
+			utilService.sendEmail(toEmail, subject, body);
+            responseDTO.setServiceResult("Success");
+			responseDTO.setSuccess(UtilServiceConstants.SUCCESS_CODE);
+		}  catch (Exception e) {
+			LoggerUtil.logError(e);
+			responseDTO.setServiceResult("Error while sending mail");
+			responseDTO.setMessage("Error while sending mail");
 			responseDTO.setSuccess(UtilServiceConstants.ERROR_CODE);
 		}
 		return responseDTO;
