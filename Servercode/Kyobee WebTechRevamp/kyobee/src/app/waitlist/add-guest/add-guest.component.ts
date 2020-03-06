@@ -43,7 +43,7 @@ export class AddGuestComponent implements OnInit {
         console.log('res' + JSON.stringify(res));
         if (res.success == 1) {
           this.guest = res.serviceResult;
-          this.seatingOrMarketingPref();
+
           console.log(res.serviceResult);
         }
       });
@@ -52,7 +52,7 @@ export class AddGuestComponent implements OnInit {
       this.guest = new GuestDTO();
       this.guest.guestID = 0;
       this.guest.optin = 0;
-      this.seatingOrMarketingPref();
+
       console.log('id is absent');
       console.log(this.guest);
     }
@@ -60,7 +60,7 @@ export class AddGuestComponent implements OnInit {
     //default lang settings
     this.user = this.authService.getUser();
     this.defaultLanguage = this.user.languagePref;
-    this.selectedItem = this.defaultLanguage.find(x => x.langName === 'English');
+    this.selectedItem = this.defaultLanguage.find(x => x.langIsoCode === 'en');
     this.selectedLanguage();
   }
 
@@ -130,7 +130,7 @@ export class AddGuestComponent implements OnInit {
 
     this.languageKeyMap = this.selectedItem.languageMap;
     console.log('language map:' + JSON.stringify(this.languageKeyMap));
-
+    //  this.seatingOrMarketingPref();
     this.listSeatingPref = this.user.seatingpref;
     this.listMarketingPref = this.user.marketingPref;
 

@@ -3,6 +3,8 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { GuestService } from 'src/app/core/services/guest.service';
 import { HttpParams } from '@angular/common/http';
 
+declare var $: any;
+
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -24,6 +26,7 @@ export class SidebarComponent implements OnInit {
     this.guestService.resetUser(params).subscribe((res: any) => {
       if (res.success == 1) {
         //window.alert('');
+        $('#resetModal').modal('hide');
         console.log('user==' + JSON.stringify(res));
       }
     });

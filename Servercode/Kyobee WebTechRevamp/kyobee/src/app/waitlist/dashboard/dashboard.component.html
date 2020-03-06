@@ -5,10 +5,11 @@
       <button href="#" data-dismiss="alert"><i class="flaticon-close font-color"></i></button>
       <div class="clearfix"></div>
     </div>
-    <!-- <div class="alert alert-custom alert-dismissible" style="">
+    <div class="alert alert-success alert-dismissible" *ngIf="successMsg != null">
       <button type="button" class="close" data-dismiss="alert">&times;</button>
-      <p>Notification about renewing plan. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-    </div>-->
+      <p>{{ successMsg }}</p>
+    </div>
+    <!--   <div >{{successMsg}}</div>-->
     <div class="row">
       <div class="col-lg-9">
         <div class="row pb-2">

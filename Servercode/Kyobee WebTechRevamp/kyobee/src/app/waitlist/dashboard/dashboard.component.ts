@@ -42,6 +42,7 @@ export class DashboardComponent implements OnInit {
   totalPageNo: number;
   waitTimeOption: number = 100;
   smsContentDTO: SmsContentDTO = new SmsContentDTO();
+  successMsg = null;
   dashboardIlluImageSrc = '../../../assets/images/dashboard-illu.png';
   notPresentImg = '../../../assets/images/not-present.png';
   noteIconImg = '../../../assets/images/note-icon.png';
@@ -158,8 +159,6 @@ export class DashboardComponent implements OnInit {
           $('#seatModal').modal('hide');
         }
 
-        alert(res.serviceResult);
-
         this.selectedGuest = new GuestDTO();
       } else {
         if (status == 'DELETE') {
@@ -167,9 +166,10 @@ export class DashboardComponent implements OnInit {
         } else {
           $('#seatModal').modal('hide');
         }
-        alert(res.message);
+
         this.selectedGuest = new GuestDTO();
       }
+      this.successMsg = res.serviceResult;
     });
   }
 
