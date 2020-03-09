@@ -62,15 +62,15 @@ public class GuestServiceImpl implements GuestService {
 
 	@Autowired
 	GuestMarketingPreferencesDAO guestMarketingPreferencesDAO;
-
-	@Autowired
-	OrganizationTemplateServiceImpl organizationTemplateServiceImpl;
-
+	
 	@Autowired
 	OrganizationCustomDAO organizationCustomDAO;
 	
 	@Autowired
 	LanguageKeyMappingDAO languageKeyMappingDAO;
+	
+	@Autowired
+	RestTemplate restTemplate;
 
 	@Override
 	public GuestMetricsDTO getGuestMetrics(Integer guestId, Integer orgId) {
@@ -282,10 +282,9 @@ public class GuestServiceImpl implements GuestService {
 		//API call for sending sms to Guest
 		
 		SendSMSDTO sendSMSDTO = new SendSMSDTO();
-		sendSMSDTO.setGuestId(guestDTO.getGuestID());
+		sendSMSDTO.setGuestId(waitlistMetrics.getGuestId());
 		sendSMSDTO.setTemplateLevel(WaitListServiceConstants.TEMP_LEVEL_FIRST);
 		sendSMSDTO.setOrgId(guestDTO.getOrganizationID());
-	    RestTemplate restTemplate = new RestTemplate();
 	    restTemplate.postForObject(	WaitListServiceConstants.SEND_SMS_API, sendSMSDTO, ResponseDTO.class);
 	    
 		return addUpdateGuestDTO;
@@ -365,7 +364,6 @@ public class GuestServiceImpl implements GuestService {
 			sendSMSDTO.setTemplateLevel(WaitListServiceConstants.TEMP_LEVEL_SECOND);
 			sendSMSDTO.setOrgId(guestToBeNotified.getOrganizationID());
 
-			RestTemplate restTemplate = new RestTemplate();
 			restTemplate.postForObject(WaitListServiceConstants.SEND_SMS_API, sendSMSDTO, ResponseDTO.class);	
 		}
 		
