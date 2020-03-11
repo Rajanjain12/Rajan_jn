@@ -59,6 +59,7 @@ export class AddGuestComponent implements OnInit {
 
     //default lang settings
     this.user = this.authService.getUser();
+    console.log("seating pref "+JSON.stringify(this.user.seatingpref));
     this.defaultLanguage = this.user.languagePref;
     this.selectedItem = this.defaultLanguage.find(x => x.langIsoCode === 'en');
     console.log("default language" + JSON.stringify(this.selectedItem));
@@ -136,7 +137,7 @@ export class AddGuestComponent implements OnInit {
     this.listMarketingPref = this.user.marketingPref;
 
     this.guest.languagePref = {
-      langId: this.selectedItem.langId,
+      langID: this.selectedItem.langId,
       keyName: null,
       value: null,
       langIsoCode: this.selectedItem.langIsoCode,
@@ -198,6 +199,7 @@ export class AddGuestComponent implements OnInit {
     this.guest.marketingPreference = this.marketingPref;
     if (this.guest.guestID == 0) {
       this.addGuest();
+      console.log("guest"+JSON.stringify(this.guest));
       this.guestService.addGuest(this.guest).subscribe(res => {
         if (res.success == 1) {
           console.log(res);

@@ -294,7 +294,8 @@
           </div>
           <div class="modal-body">
             <h4 class="pt-3 pb-3 text-center">Guest {{ selectedGuest != null ? selectedGuest.rank : null }} ({{ selectedGuest != null ? selectedGuest.name : null }})</h4>
-            <div class="pt-3 sms-tab-container">
+            <div class="pt-3 sms-tab-container" *ngIf="organizationTemplateDTOList  !=  undefined ">
+              <div *ngIf="organizationTemplateDTOList.length != 0">
               <ul class="nav nav-tabs nav-justified" role="tablist">
                 <li class="nav-item">
                   <a href="javascript:void(0)" class="nav-link active" data-toggle="tab" (click)="fetchOrgLevelMsg(1)" href="#level1">Check-in</a>
@@ -327,6 +328,8 @@
                 </div>
               </div>
             </div>
+            <div *ngIf="organizationTemplateDTOList?.length==0">No Data to show</div>
+          </div>
           </div>
         </div>
       </div>

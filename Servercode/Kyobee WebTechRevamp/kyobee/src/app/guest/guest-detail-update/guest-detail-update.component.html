@@ -80,16 +80,16 @@
             </div>
           </div>
         </div>
-        <div class="col-12 row m-0">
-          <label class="col-12 font-weight-bold font-16 px-0">{{ languageKeyMap['seating_preference'] }}</label>
+        <div *ngIf="listSeatingPref !=null "class="col-12 row m-0">
+          <label *ngIf="listSeatingPref.length != 0"class="col-12 font-weight-bold font-16 px-0">{{ languageKeyMap['seating_preference'] }}</label>
           <div class="col-12 col-sm-auto pl-0" *ngFor="let seating of listSeatingPref; index as i">
             <input class="styled-checkbox" id="Preferance{{ i }}" type="checkbox" [(ngModel)]="seating.selected" [ngModelOptions]="{ standalone: true }" />
             <label for="Preferance{{ i }}">{{ seating.prefValue }}</label>
           </div>
         </div>
 
-        <div class="col-12 row m-0 my-3">
-          <label class="col-12 font-weight-bold font-16 px-0">{{ languageKeyMap['how_did_you_here_about_us'] }}</label>
+        <div *ngIf="listMarketingPref != null"class="col-12 row m-0 my-3">
+          <label *ngIf="listMarketingPref.length != 0" class="col-12 font-weight-bold font-16 px-0">{{ languageKeyMap['how_did_you_here_about_us'] }}</label>
           <div class="col-12 col-sm-6 col-lg-3 social-icon" *ngFor="let marketing of listMarketingPref; index as i">
             <input class="styled-checkbox" id="marketingPref{{ i }}" type="checkbox" [(ngModel)]="marketing.selected" [ngModelOptions]="{ standalone: true }" />
             <label for="marketingPref"></label>

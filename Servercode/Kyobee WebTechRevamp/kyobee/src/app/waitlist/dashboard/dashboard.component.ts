@@ -176,19 +176,23 @@ export class DashboardComponent implements OnInit {
   fetchSMSContent(guest) {
     this.smsContentDTO = new SmsContentDTO();
     this.selectedGuest = guest;
+
     this.smsContentDTO.orgId = this.selectedGuest.organizationID;
     this.smsContentDTO.guestId = this.selectedGuest.guestID;
     this.smsContentDTO.clientBase = 'admin';
     this.smsContentDTO.guestName = this.selectedGuest.name;
     this.smsContentDTO.guestRank = this.selectedGuest.rank;
     this.smsContentDTO.guestUuid = this.selectedGuest.uuid;
-    this.smsContentDTO.langId = this.selectedGuest.languagePref.langId;
+    this.smsContentDTO.langId = this.selectedGuest.languagePref.langID;
     this.smsContentDTO.tempLevel = 1;
-    //alert(JSON.stringify(this.smsContentDTO));
+    console.log("sms "+JSON.stringify(guest));
     this.organizationService.fetchSmsContent(this.smsContentDTO).subscribe((res: any) => {
       if (res.success == 1) {
         this.organizationTemplateDTOList = res.serviceResult;
         console.log(JSON.stringify(this.organizationTemplateDTOList));
+        if(this.organizationTemplateDTOList.length>0){
+          this.content=this.organizationTemplateDTOList[0].templateText;
+        }
         $('#smsModal').modal('show');
       } else {
         alert(res.serviceResult);
@@ -332,16 +336,18 @@ export class DashboardComponent implements OnInit {
     }
   }
   sendSMS() {
+    this.sendSMSDTO=new SendSMSDTO();
     this.sendSMSDTO.guestId = this.selectedGuest.guestID;
     this.sendSMSDTO.orgId = this.selectedGuest.organizationID;
     this.sendSMSDTO.smsContent = this.content;
     this.sendSMSDTO.templateLevel = this.level;
+    console.log("sendSMS "+JSON.stringify(this.sendSMSDTO));
     this.guestService.sendSMS(this.sendSMSDTO).subscribe((res: any) => {
       if (res.success == 1) {
-        // this.organizationTemplateDTOList = res.serviceResult;
         console.log(JSON.stringify(res));
-        // $('#smsModal').modal('show');
+         $('#smsModal').modal('hide');
       } else {
+        $('#smsModal').modal('hide');
         alert(res.serviceResult);
       }
     });
