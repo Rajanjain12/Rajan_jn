@@ -32,6 +32,7 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
+	//For login of mobile and web both
 	@PostMapping(value = "/login", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO login(@RequestBody CredentialsDTO credentialsDTO) {
 
@@ -61,6 +62,7 @@ public class UserController {
 		return responseDTO;
 	}
 
+	//For reset password of user account
 	@PostMapping(value = "/resetPassword", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO resetPassword(@RequestBody ResetPasswordDTO resetpassword) {
 
@@ -86,6 +88,7 @@ public class UserController {
 		return responseDTO;
 	}
 
+	// for sending forgot password link 
 	@PostMapping(value = "/forgotPassword", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO forgotPassword(@RequestParam String username) {
 
@@ -117,6 +120,7 @@ public class UserController {
 		return responseDTO;
 	}
 	
+	//for signUp of organization
 	@PostMapping(value = "/signUp", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO signUp(@RequestBody SignUpDTO signUpDTO) {
 
@@ -134,6 +138,7 @@ public class UserController {
 		return responseDTO;
 	}
 	
+	//for activating user account
 	@PostMapping(value = "/activateUser", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO activateUser(@RequestParam String activationCode, @RequestParam Integer userId) {
 
@@ -152,6 +157,7 @@ public class UserController {
 		return responseDTO;
 	}
 	
+	//for resend code
 	@PostMapping(value = "/resendCode", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO resendCode(@RequestParam Integer userId) {
 

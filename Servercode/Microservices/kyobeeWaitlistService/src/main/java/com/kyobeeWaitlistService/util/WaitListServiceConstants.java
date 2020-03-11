@@ -5,8 +5,8 @@ public class WaitListServiceConstants {
 	public static final Integer SUCCESS_CODE = 1;
 	public static final Integer ERROR_CODE = 0;
 
-	public static final Byte ACTIVATEDUSER = 1;
-	public static final String WEBUSER = "Web";
+	public static final Byte ACTIVATED_USER = 1;
+	public static final String WEB_USER = "Web";
 
 	public static final String PUSHER_CHANNEL_ENV = "RSNT_GUEST_DEV";
 	public static final String GLOBAL_CHANNEL_ENV = "RSNT_GLOBAL_DEV";
@@ -39,11 +39,11 @@ public class WaitListServiceConstants {
 	public static final String UPDATE_STATUS="UPDATE";
 	public static final String FROM_ADMIN="ADMIN";
 	
-	public static final Integer SEATINGPREFID=18;
-	public static final Integer MARKETINGPREFID=19;
+	public static final Integer SEATING_PREF_ID=18;
+	public static final Integer MARKETING_PREF_ID=19;
 
-    public static final String SCREENNAME="seatingOrMarketingPref";
-	public static final String 	ENGISOCODE="en";
+    public static final String SCREEN_NAME="seatingOrMarketingPref";
+	public static final String 	ENG_ISO_CODE="en";
 	
 	public static final String SNS_DEFAULT_SENDER_ID = "KYOBEE";
 	public static final String SNS_MONTHLY_SPEND_LIMIT = "1000";
@@ -65,6 +65,8 @@ public class WaitListServiceConstants {
 	public static final Integer TEMP_LEVEL_SECOND = 2;
 	public static final String SEND_SMS_API = "http://localhost:8082/rest/waitlist/sendSMS";
 	public static final String SMS_SIGNATURE="SweetHoneyDessert";
+	
+	public static final Byte ACTIVE = 1;
 	
 
 }

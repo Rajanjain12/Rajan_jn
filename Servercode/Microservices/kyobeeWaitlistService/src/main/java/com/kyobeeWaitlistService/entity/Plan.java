@@ -3,29 +3,29 @@ package com.kyobeeWaitlistService.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="ORGANIZATIONLANG")
-	
-public class OrganizationLang implements Serializable{
+@Table(name="PLAN")
+public class Plan implements Serializable{
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="OrganizationLangID")
-	private Integer organizationLangID;
-
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="PlanID")
+	private Integer planId;
+	
+	@Column(name="PLANNAME")
+	private String planName;
+	
 	@Column(name="Active")
 	private Byte active;
 
@@ -43,30 +43,25 @@ public class OrganizationLang implements Serializable{
 	@Column(name="ModifiedBy")
 	private String modifiedBy;
 
-	//bi-directional many-to-one association to Organization
-	@ManyToOne
-	@JoinColumn(name="OrganizationID")
-	private Organization organization;
 
-	//bi-directional many-to-one association to Langmaster
-	@ManyToOne
-	@JoinColumn(name="LanguageID")
-	private LangMaster langmaster;
-
-	public OrganizationLang() {
-		//constructor 
+	public Integer getPlanId() {
+		return planId;
 	}
 
-	public Integer getOrganizationLangID() {
-		return this.organizationLangID;
+	public void setPlanId(Integer planId) {
+		this.planId = planId;
 	}
 
-	public void setOrganizationLangID(Integer organizationLangID) {
-		this.organizationLangID = organizationLangID;
+	public String getPlanName() {
+		return planName;
+	}
+
+	public void setPlanName(String planName) {
+		this.planName = planName;
 	}
 
 	public Byte getActive() {
-		return this.active;
+		return active;
 	}
 
 	public void setActive(Byte active) {
@@ -74,7 +69,7 @@ public class OrganizationLang implements Serializable{
 	}
 
 	public Date getCreatedAt() {
-		return this.createdAt;
+		return createdAt;
 	}
 
 	public void setCreatedAt(Date createdAt) {
@@ -82,7 +77,7 @@ public class OrganizationLang implements Serializable{
 	}
 
 	public String getCreatedBy() {
-		return this.createdBy;
+		return createdBy;
 	}
 
 	public void setCreatedBy(String createdBy) {
@@ -90,7 +85,7 @@ public class OrganizationLang implements Serializable{
 	}
 
 	public Date getModifiedAt() {
-		return this.modifiedAt;
+		return modifiedAt;
 	}
 
 	public void setModifiedAt(Date modifiedAt) {
@@ -98,27 +93,11 @@ public class OrganizationLang implements Serializable{
 	}
 
 	public String getModifiedBy() {
-		return this.modifiedBy;
+		return modifiedBy;
 	}
 
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
-	}
-
-	public Organization getOrganization() {
-		return this.organization;
-	}
-
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
-
-	public LangMaster getLangmaster() {
-		return this.langmaster;
-	}
-
-	public void setLangmaster(LangMaster langmaster) {
-		this.langmaster = langmaster;
 	}
 
 }

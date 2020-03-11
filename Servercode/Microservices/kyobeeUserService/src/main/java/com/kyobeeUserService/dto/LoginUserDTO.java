@@ -24,6 +24,7 @@ public class LoginUserDTO {
 	    private List<LanguageKeyMappingDTO> languagePref;
 	    private String footerMsg;
 	    private String logoPath;
+	    private Integer notifyFirst;
 	    
 		public Integer getUserID() {
 			return userID;
@@ -138,5 +139,11 @@ public class LoginUserDTO {
 		}
 		public void setLogoPath(String logoPath) {
 			this.logoPath = logoPath;
+		}
+		public Integer getNotifyFirst() {
+			return notifyFirst;
+		}
+		public void setNotifyFirst(Integer notifyFirst) {
+			this.notifyFirst = notifyFirst;
 		}
 }

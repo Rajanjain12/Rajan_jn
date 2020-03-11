@@ -16,15 +16,24 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="ORGANIZATIONLANG")
+@Table(name="SMSTEMPLATELANGUAGEMAPPING")
+public class SmsTemplateLanguageMapping implements Serializable {
 	
-public class OrganizationLang implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="OrganizationLangID")
-	private Integer organizationLangID;
+	@Column(name="ID")
+	private Integer Id;
+	
+	@Column(name="IsoCode")
+	private String isoCode;
+	
+	@Column(name="TemplateText")
+	private String templateText;
+	
+	@Column(name="Level")
+	private Integer level;
 
 	@Column(name="Active")
 	private Byte active;
@@ -42,31 +51,46 @@ public class OrganizationLang implements Serializable{
 
 	@Column(name="ModifiedBy")
 	private String modifiedBy;
-
-	//bi-directional many-to-one association to Organization
-	@ManyToOne
-	@JoinColumn(name="OrganizationID")
-	private Organization organization;
-
+	
 	//bi-directional many-to-one association to Langmaster
-	@ManyToOne
-	@JoinColumn(name="LanguageID")
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="LangId")
 	private LangMaster langmaster;
 
-	public OrganizationLang() {
-		//constructor 
+	public Integer getId() {
+		return Id;
 	}
 
-	public Integer getOrganizationLangID() {
-		return this.organizationLangID;
+	public void setId(Integer id) {
+		Id = id;
+	}
+	
+	public String getIsoCode() {
+		return isoCode;
 	}
 
-	public void setOrganizationLangID(Integer organizationLangID) {
-		this.organizationLangID = organizationLangID;
+	public void setIsoCode(String isoCode) {
+		this.isoCode = isoCode;
+	}
+
+	public String getTemplateText() {
+		return templateText;
+	}
+
+	public void setTemplateText(String templateText) {
+		this.templateText = templateText;
+	}
+	
+	public Integer getLevel() {
+		return level;
+	}
+
+	public void setLevel(Integer level) {
+		this.level = level;
 	}
 
 	public Byte getActive() {
-		return this.active;
+		return active;
 	}
 
 	public void setActive(Byte active) {
@@ -74,7 +98,7 @@ public class OrganizationLang implements Serializable{
 	}
 
 	public Date getCreatedAt() {
-		return this.createdAt;
+		return createdAt;
 	}
 
 	public void setCreatedAt(Date createdAt) {
@@ -82,7 +106,7 @@ public class OrganizationLang implements Serializable{
 	}
 
 	public String getCreatedBy() {
-		return this.createdBy;
+		return createdBy;
 	}
 
 	public void setCreatedBy(String createdBy) {
@@ -90,7 +114,7 @@ public class OrganizationLang implements Serializable{
 	}
 
 	public Date getModifiedAt() {
-		return this.modifiedAt;
+		return modifiedAt;
 	}
 
 	public void setModifiedAt(Date modifiedAt) {
@@ -98,27 +122,19 @@ public class OrganizationLang implements Serializable{
 	}
 
 	public String getModifiedBy() {
-		return this.modifiedBy;
+		return modifiedBy;
 	}
 
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 
-	public Organization getOrganization() {
-		return this.organization;
-	}
-
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
-
 	public LangMaster getLangmaster() {
-		return this.langmaster;
+		return langmaster;
 	}
 
 	public void setLangmaster(LangMaster langmaster) {
 		this.langmaster = langmaster;
 	}
-
+	
 }

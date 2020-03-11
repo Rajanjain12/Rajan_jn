@@ -22,16 +22,11 @@ public class UtilServiceConstants {
 	public static final String SNS_SMS_SERVICE = "AWS SNS";
 	
 	// EmailUtil constants
-	public static final String MAILHOST = "mail.smtp.host";
-	public static final String MAILSERVERPORT = "mail.smtp.port";
-	public static final String SMTPAUTH = "mail.smtp.auth";
-	public static final String ENABLESTARTTLS = "mail.smtp.starttls.enable";
 	public static final String EMAIL_FROM = "ria.sahesnani@ordextechnology.com";
 	public static final String EMAIL_SERVICE = "AWS_SES";
 	public static final String SES_EMAIL_SERVICE = "AWS_SES";
 	public static final String EMAIL_SUBJECT = "Forgot Password";
 	public static final String ACTIVATION_EMAIL = "Activation Mail";
 	public static final String WELCOME_EMAIL = "Welcome Mail";
-	public static final Integer SUSSESS_CODE = null;
 	
 }

@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.JoinColumns;
 
 @Entity
 @Table(name = "ORGANIZATION")
@@ -451,7 +452,6 @@ public class Organization implements Serializable {
 	@OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
 	private List<OrganizationUser> organizationusers;
 
-
 	@OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
 	private List<OrganizationPlanSubscription> organizationPlanSubscriptionList;
 
@@ -518,7 +518,6 @@ public class Organization implements Serializable {
 
 		return organizationusers;
 	}
-
 
 	public List<OrganizationPlanSubscription> getOrganizationPlanSubscriptionList() {
 		return organizationPlanSubscriptionList;

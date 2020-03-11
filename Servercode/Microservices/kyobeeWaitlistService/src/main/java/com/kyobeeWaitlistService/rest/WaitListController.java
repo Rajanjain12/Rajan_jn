@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kyobeeWaitlistService.dto.GuestDTO;
 import com.kyobeeWaitlistService.dto.OrgPrefKeyMapDTO;
+import com.kyobeeWaitlistService.dto.OrgSettingDTO;
 import com.kyobeeWaitlistService.dto.OrganizationTemplateDTO;
 import com.kyobeeWaitlistService.dto.PusherDTO;
 import com.kyobeeWaitlistService.dto.ResponseDTO;
@@ -98,6 +99,7 @@ public class WaitListController {
 		return responseDTO;
 	}
 
+	//For fetching seating pref and marketing pref associated with org
 	@GetMapping(value = "/orgPrefAndKeyMap", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO fetchOrgPrefandKeyMap(@RequestParam(value = "orgId") Integer orgId) {
 
@@ -117,21 +119,13 @@ public class WaitListController {
 		return responseDTO;
 	}
 	
+	//for sending sms
 	@PostMapping(value = "/sendSMS", produces = "application/vnd.kyobee.v1+json", consumes = "application/json")
 	public @ResponseBody ResponseDTO sendSMS(@RequestBody SendSMSDTO sendSMSDTO) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
-		try {
-			GuestDTO guest = guestService.fetchGuestDetails(sendSMSDTO.getGuestId(), null);
-			if(sendSMSDTO.getSmsContent() == null)
-			{
-			WaitlistMetrics waitlistMetrics = waitListService.getOrganizationMetrics(sendSMSDTO.getOrgId());
-			OrganizationTemplateDTO smsTemplate=waitListService.getOrganizationTemplateByLevel(guest,sendSMSDTO);
-			sendSMSDTO = waitListService.getSmsContentByLevel(guest, smsTemplate, waitlistMetrics);
-			}
-			waitListService.getSMSDetails(guest, sendSMSDTO);
-			waitListService.saveSmsLog(guest, sendSMSDTO);
-			
+		try {		
+			waitListService.sendSMS(sendSMSDTO);
 			responseDTO.setServiceResult("Sms sent successfully");
 			responseDTO.setMessage("Sms sent successfully");
 			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
@@ -144,5 +138,6 @@ public class WaitListController {
 		}
 		return responseDTO;
 	}
+	
   	 
 }
