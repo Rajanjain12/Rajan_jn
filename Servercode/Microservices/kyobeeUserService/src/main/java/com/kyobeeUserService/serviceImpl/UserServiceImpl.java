@@ -364,7 +364,7 @@ public class UserServiceImpl implements UserService {
 			organization.setCreatedBy(signUpDTO.getEmail());
 			organization.setCreatedAt(new Date());
 			organization.setSmsSignature(organization.getOrganizationName());
-			organization.setSmsRoute(UserServiceConstants.SMS_ROUTE);
+			/* organization.setSmsRoute(UserServiceConstants.SMS_ROUTE); */
 			organization.setOrganizationType(organizationType);
 			LoggerUtil.logInfo("organization type inserted");
 			List<OrganizationCategory> orgCategoryList = new ArrayList<>();

@@ -13,124 +13,168 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="LANGMASTER")
-public class LangMaster implements Serializable{
+@Table(name = "LANGMASTER")
+public class LangMaster implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="LangID")
+	@Column(name = "LangID")
 	private Integer langID;
 
-	@Column(name="Active")
-	private Byte active;
-
-	@Temporal(TemporalType.DATE)
-	@Column(name="CreatedAt")
-	private Date createdAt;
-
-	@Column(name="CreatedBy")
-	private String createdBy;
-
-	@Column(name="LangIsoCode")
-	private String langIsoCode;
-
-	@Column(name="LangName")
+	@Column(name = "LangName")
 	private String langName;
 
-	@Column(name="LanguageDisplayName")
+	@Column(name = "LanguageDisplayName")
 	private String languageDisplayName;
 
+	@Column(name = "LangIsoCode")
+	private String langIsoCode;
+
+	@Column(name = "Active")
+	private Byte active;
+
+	@Column(name = "CreatedBy")
+	private String createdBy;
+
 	@Temporal(TemporalType.DATE)
-	@Column(name="ModifiedAt")
+	@Column(name = "CreatedAt")
+	private Date createdAt;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "ModifiedAt")
 	private Date modifiedAt;
 
-	@Column(name="ModifiedBy")
+	@Column(name = "ModifiedBy")
 	private String modifiedBy;
 
-	//bi-directional many-to-one association to Guest
-	@OneToMany(mappedBy="langmaster")
+	// bi-directional many-to-one association to Guest
+	@OneToMany(mappedBy = "langmaster")
 	private List<Guest> guests;
 
-	//bi-directional many-to-one association to Organizationlang
-	@OneToMany(mappedBy="langmaster")
+	// bi-directional many-to-one association to Organizationlang
+	@OneToMany(mappedBy = "langmaster")
 	private List<OrganizationLang> organizationlangs;
 
 	public void Langmaster() {
-		//constructor 
+		// constructor
 	}
 
+
+
 	public Integer getLangID() {
-		return this.langID;
+		return langID;
 	}
+
+
 
 	public void setLangID(Integer langID) {
 		this.langID = langID;
 	}
 
-	public Byte getActive() {
-		return this.active;
-	}
 
-	public void setActive(Byte active) {
-		this.active = active;
-	}
-
-	public Date getCreatedAt() {
-		return this.createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public String getCreatedBy() {
-		return this.createdBy;
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public String getLangIsoCode() {
-		return this.langIsoCode;
-	}
-
-	public void setLangIsoCode(String langIsoCode) {
-		this.langIsoCode = langIsoCode;
-	}
 
 	public String getLangName() {
-		return this.langName;
+		return langName;
 	}
+
+
 
 	public void setLangName(String langName) {
 		this.langName = langName;
 	}
 
+
+
 	public String getLanguageDisplayName() {
-		return this.languageDisplayName;
+		return languageDisplayName;
 	}
+
+
 
 	public void setLanguageDisplayName(String languageDisplayName) {
 		this.languageDisplayName = languageDisplayName;
 	}
 
-	public Date getModifiedAt() {
-		return this.modifiedAt;
+
+
+	public String getLangIsoCode() {
+		return langIsoCode;
 	}
+
+
+
+	public void setLangIsoCode(String langIsoCode) {
+		this.langIsoCode = langIsoCode;
+	}
+
+
+
+	public Byte getActive() {
+		return active;
+	}
+
+
+
+	public void setActive(Byte active) {
+		this.active = active;
+	}
+
+
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+
+
+	public Date getModifiedAt() {
+		return modifiedAt;
+	}
+
+
 
 	public void setModifiedAt(Date modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
 
+
+
 	public String getModifiedBy() {
-		return this.modifiedBy;
+		return modifiedBy;
 	}
+
+
 
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
+
+
+
+	public void setOrganizationlangs(List<OrganizationLang> organizationlangs) {
+		this.organizationlangs = organizationlangs;
+	}
+
+
 
 	public List<Guest> getGuests() {
 		return this.guests;

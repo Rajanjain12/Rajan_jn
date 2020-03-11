@@ -31,7 +31,6 @@ import com.kyobeeWaitlistService.dto.OrganizationTemplateDTO;
 import com.kyobeeWaitlistService.dto.PusherDTO;
 import com.kyobeeWaitlistService.dto.SeatingMarketingPrefDTO;
 import com.kyobeeWaitlistService.dto.SendSMSDTO;
-import com.kyobeeWaitlistService.dto.SmsDetailsDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.entity.Lookup;
 import com.kyobeeWaitlistService.entity.OrganizationTemplate;
@@ -184,14 +183,13 @@ public class WaitListServiceImpl implements WaitListService {
 		String msg = "";
 		String signature = "";
 
-		SmsDetailsDTO smsDetails = organizationDAO.getSmsDetails(guestDTO.getOrganizationID());
+		 signature = organizationDAO.getSmsDetails(guestDTO.getOrganizationID());
 		GuestNotificationDTO guestNotification = new GuestNotificationDTO();
 
 		// copying the guest details
 		BeanUtils.copyProperties(guestDTO, guestNotification);
-		// copying the sms details
-		BeanUtils.copyProperties(smsDetails, guestNotification);
-
+		guestNotification.setSmsSignature(signature);
+		
 		// preparing sms content
 		msg = sendSMSDTO.getSmsContent();
 		if (guestNotification.getSmsSignature() != null && !guestNotification.getSmsSignature().equals("")

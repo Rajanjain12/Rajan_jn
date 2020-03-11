@@ -22,8 +22,9 @@ export class AuthService {
   }
 
   //removeLogFlag is deleted from cookies on clicking of logOut button
-  removeLogFlag(): void {
-    this.session.set('loggedIn', '');
+  removeLoginData(): void {
+    this.session.set('loggedIn','');
+    this.session.set('userDTO',null);
   }
 
   setSessionData(data) {

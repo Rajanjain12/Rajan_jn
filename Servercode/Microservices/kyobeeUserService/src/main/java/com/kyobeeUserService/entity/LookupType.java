@@ -13,54 +13,62 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="LOOKUPTYPE")
-public class LookupType implements Serializable{
+@Table(name = "LOOKUPTYPE")
+public class LookupType implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="LookupTypeID")
+	@Column(name = "LookupTypeID")
 	private Integer lookupTypeID;
 
+	@Column(name = "Name")
+	private String name;
+
+	// bi-directional many-to-one association to Lookup
+	@OneToMany(mappedBy = "lookuptype")
+	private List<Lookup> lookups;
+
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="CreatedAt")
+	@Column(name = "CreatedAt")
 	private Date createdAt;
 
-	@Column(name="CreatedBy")
+	@Column(name = "CreatedBy")
 	private String createdBy;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="ModifiedAt")
+	@Column(name = "ModifiedAt")
 	private Date modifiedAt;
 
-	@Column(name="ModifiedBy")
+	@Column(name = "ModifiedBy")
 	private String modifiedBy;
 
-	@Column(name="Name")
-	private String name;
-
-	//bi-directional many-to-one association to Lookup
-	@OneToMany(mappedBy="lookuptype")
-	private List<Lookup> lookups;
-
-	//bi-directional many-to-one association to Organizationcategory
-	@OneToMany(mappedBy="lookuptype")
+	// bi-directional many-to-one association to Organizationcategory
+	@OneToMany(mappedBy = "lookuptype")
 	private List<OrganizationCategory> organizationcategories;
 
 	public LookupType() {
-		//constructor 
+		// constructor
 	}
 
 	public Integer getLookupTypeID() {
-		return this.lookupTypeID;
+		return lookupTypeID;
 	}
 
 	public void setLookupTypeID(Integer lookupTypeID) {
 		this.lookupTypeID = lookupTypeID;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public Date getCreatedAt() {
-		return this.createdAt;
+		return createdAt;
 	}
 
 	public void setCreatedAt(Date createdAt) {
@@ -68,7 +76,7 @@ public class LookupType implements Serializable{
 	}
 
 	public String getCreatedBy() {
-		return this.createdBy;
+		return createdBy;
 	}
 
 	public void setCreatedBy(String createdBy) {
@@ -76,7 +84,7 @@ public class LookupType implements Serializable{
 	}
 
 	public Date getModifiedAt() {
-		return this.modifiedAt;
+		return modifiedAt;
 	}
 
 	public void setModifiedAt(Date modifiedAt) {
@@ -84,19 +92,11 @@ public class LookupType implements Serializable{
 	}
 
 	public String getModifiedBy() {
-		return this.modifiedBy;
+		return modifiedBy;
 	}
 
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public List<Lookup> getLookups() {

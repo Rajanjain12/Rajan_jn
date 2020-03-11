@@ -11,124 +11,125 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="LANGUAGEKEYMAPPING")
-public class Languagekeymapping implements Serializable{
+@Table(name = "LANGUAGEKEYMAPPING")
+public class Languagekeymapping implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@Column(name = "LanguageKeyMappingId")
+	private int languageKeyMappingId;
+
+	private String keyName;
 	
-		private static final long serialVersionUID = 1L;
+	@Column(name = "Value")
+	private String value;
 
-		@Id
-		@Column(name="LanguageKeyMappingId")
-		private int languageKeyMappingId;
+	@Column(name = "LangIsoCode")
+	private String langIsoCode;
 
-		@Temporal(TemporalType.DATE)
-		@Column(name="CreatedAt")
-		private Date createdAt;
+	@Column(name = "ScreenName")
+	private String screenName;
 
-		@Column(name="CreatedBy")
-		private String createdBy;
+	@Column(name = "UpdateFlag")
+	private int updateFlag;
 
-		private String keyName;
+	@Temporal(TemporalType.DATE)
+	@Column(name = "CreatedAt")
+	private Date createdAt;
 
-		@Column(name="LangIsoCode")
-		private String langIsoCode;
+	@Column(name = "CreatedBy")
+	private String createdBy;
 
-		@Temporal(TemporalType.DATE)
-		@Column(name="ModifiedAt")
-		private Date modifiedAt;
+	@Temporal(TemporalType.DATE)
+	@Column(name = "ModifiedAt")
+	private Date modifiedAt;
 
-		@Column(name="ModifiedBy")
-		private String modifiedBy;
+	@Column(name = "ModifiedBy")
+	private String modifiedBy;
 
-		@Column(name="ScreenName")
-		private String screenName;
+	public Languagekeymapping() {
+	}
 
-		@Column(name="UpdateFlag")
-		private int updateFlag;
+	public int getLanguageKeyMappingId() {
+		return languageKeyMappingId;
+	}
 
-		@Column(name="Value")
-		private String value;
+	public void setLanguageKeyMappingId(int languageKeyMappingId) {
+		this.languageKeyMappingId = languageKeyMappingId;
+	}
 
-		public Languagekeymapping() {
-		}
+	public String getKeyName() {
+		return keyName;
+	}
 
-		public int getLanguageKeyMappingId() {
-			return this.languageKeyMappingId;
-		}
+	public void setKeyName(String keyName) {
+		this.keyName = keyName;
+	}
 
-		public void setLanguageKeyMappingId(int languageKeyMappingId) {
-			this.languageKeyMappingId = languageKeyMappingId;
-		}
+	public String getValue() {
+		return value;
+	}
 
-		public Date getCreatedAt() {
-			return this.createdAt;
-		}
+	public void setValue(String value) {
+		this.value = value;
+	}
 
-		public void setCreatedAt(Date createdAt) {
-			this.createdAt = createdAt;
-		}
+	public String getLangIsoCode() {
+		return langIsoCode;
+	}
 
-		public String getCreatedBy() {
-			return this.createdBy;
-		}
+	public void setLangIsoCode(String langIsoCode) {
+		this.langIsoCode = langIsoCode;
+	}
 
-		public void setCreatedBy(String createdBy) {
-			this.createdBy = createdBy;
-		}
+	public String getScreenName() {
+		return screenName;
+	}
 
-		public String getKeyName() {
-			return this.keyName;
-		}
+	public void setScreenName(String screenName) {
+		this.screenName = screenName;
+	}
 
-		public void setKeyName(String keyName) {
-			this.keyName = keyName;
-		}
+	public int getUpdateFlag() {
+		return updateFlag;
+	}
 
-		public String getLangIsoCode() {
-			return this.langIsoCode;
-		}
+	public void setUpdateFlag(int updateFlag) {
+		this.updateFlag = updateFlag;
+	}
 
-		public void setLangIsoCode(String langIsoCode) {
-			this.langIsoCode = langIsoCode;
-		}
+	public Date getCreatedAt() {
+		return createdAt;
+	}
 
-		public Date getModifiedAt() {
-			return this.modifiedAt;
-		}
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
 
-		public void setModifiedAt(Date modifiedAt) {
-			this.modifiedAt = modifiedAt;
-		}
+	public String getCreatedBy() {
+		return createdBy;
+	}
 
-		public String getModifiedBy() {
-			return this.modifiedBy;
-		}
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
 
-		public void setModifiedBy(String modifiedBy) {
-			this.modifiedBy = modifiedBy;
-		}
+	public Date getModifiedAt() {
+		return modifiedAt;
+	}
 
-		public String getScreenName() {
-			return this.screenName;
-		}
+	public void setModifiedAt(Date modifiedAt) {
+		this.modifiedAt = modifiedAt;
+	}
 
-		public void setScreenName(String screenName) {
-			this.screenName = screenName;
-		}
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
 
-		public int getUpdateFlag() {
-			return this.updateFlag;
-		}
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
 
-		public void setUpdateFlag(int updateFlag) {
-			this.updateFlag = updateFlag;
-		}
 
-		public String getValue() {
-			return this.value;
-		}
-
-		public void setValue(String value) {
-			this.value = value;
-		}
 }

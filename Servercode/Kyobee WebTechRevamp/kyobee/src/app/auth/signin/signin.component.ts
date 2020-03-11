@@ -18,18 +18,20 @@ export class SigninComponent implements OnInit {
   invalidLogin = false;
   loading = false;
   userResponse: User;
+  errorMsg;
 
   constructor(
     private userService: UserService,
     private authService: AuthService,
     private router: Router,
-    private loaderService: LoaderService
+    
   ) {}
 
   ngOnInit() {}
   validateLogin(invalid) {
-    this.loaderService.show();
+    
     if (invalid) {
+      this.errorMsg="Please enter proper values for mandatory fields";
       return;
     }
 
@@ -41,6 +43,7 @@ export class SigninComponent implements OnInit {
       var respData = res;
       console.log('log== ' + JSON.stringify(respData));
       if (respData.success == 1) {
+        this.errorMsg=null;
         this.loading = false;
         this.invalidLogin = false;
         this.authService.SetLogFlag();
@@ -48,8 +51,9 @@ export class SigninComponent implements OnInit {
         this.authService.setSessionData(this.userResponse);
         this.router.navigateByUrl('/waitlist/dashboard', { replaceUrl: true });
       } else {
+        
         this.loading = false;
-        alert('username password wrong');
+        this.errorMsg=respData.message;
         this.invalidLogin = true;
       }
     });

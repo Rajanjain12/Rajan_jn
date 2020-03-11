@@ -9,7 +9,9 @@
         <img src="assets/images/sign-in-illu.png" class="img-fluid m-md-auto d-md-block" alt="image" />
       </div>
       <div class="col-lg-6 col-md-12 col-sm-12 py-3 pb-md-0 d-flex justyfy-content-center align-item-center">
+        
         <div class="container-box float-lg-right float-md-none m-md-auto">
+            <span *ngIf="errorMsg!=null || errorMsg != '' ">{{errorMsg}}</span>
           <form name="form" #f="ngForm" (ngSubmit)="(f.form.valid)" novalidate>
             <div class="form-group mt-0">
               <input type="text" id="userName" name="userName" #uname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && uname.invalid }" class="form-control" [(ngModel)]="user.userName" required="required" />

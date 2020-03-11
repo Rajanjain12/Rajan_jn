@@ -16,46 +16,46 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="SMSTEMPLATELANGUAGEMAPPING")
+@Table(name = "SMSTEMPLATELANGUAGEMAPPING")
 public class SmsTemplateLanguageMapping implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID")
+	@Column(name = "ID")
 	private Integer Id;
-	
-	@Column(name="IsoCode")
+
+	// bi-directional many-to-one association to Langmaster
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "LangId")
+	private LangMaster langmaster;
+
+	@Column(name = "IsoCode")
 	private String isoCode;
-	
-	@Column(name="TemplateText")
+
+	@Column(name = "TemplateText")
 	private String templateText;
-	
-	@Column(name="Level")
+
+	@Column(name = "Level")
 	private Integer level;
 
-	@Column(name="Active")
+	@Column(name = "Active")
 	private Byte active;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="CreatedAt")
+	@Column(name = "CreatedAt")
 	private Date createdAt;
 
-	@Column(name="CreatedBy")
+	@Column(name = "CreatedBy")
 	private String createdBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="ModifiedAt")
+	@Column(name = "ModifiedAt")
 	private Date modifiedAt;
 
-	@Column(name="ModifiedBy")
+	@Column(name = "ModifiedBy")
 	private String modifiedBy;
-	
-	//bi-directional many-to-one association to Langmaster
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="LangId")
-	private LangMaster langmaster;
 
 	public Integer getId() {
 		return Id;
@@ -64,7 +64,15 @@ public class SmsTemplateLanguageMapping implements Serializable {
 	public void setId(Integer id) {
 		Id = id;
 	}
-	
+
+	public LangMaster getLangmaster() {
+		return langmaster;
+	}
+
+	public void setLangmaster(LangMaster langmaster) {
+		this.langmaster = langmaster;
+	}
+
 	public String getIsoCode() {
 		return isoCode;
 	}
@@ -80,7 +88,7 @@ public class SmsTemplateLanguageMapping implements Serializable {
 	public void setTemplateText(String templateText) {
 		this.templateText = templateText;
 	}
-	
+
 	public Integer getLevel() {
 		return level;
 	}
@@ -129,12 +137,4 @@ public class SmsTemplateLanguageMapping implements Serializable {
 		this.modifiedBy = modifiedBy;
 	}
 
-	public LangMaster getLangmaster() {
-		return langmaster;
-	}
-
-	public void setLangmaster(LangMaster langmaster) {
-		this.langmaster = langmaster;
-	}
-	
 }

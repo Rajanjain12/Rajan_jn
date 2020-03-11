@@ -30,7 +30,7 @@ export class AddGuestComponent implements OnInit {
     private guestService: GuestService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) { }
 
   counter(i: number) {
     return Array(i);
@@ -61,6 +61,7 @@ export class AddGuestComponent implements OnInit {
     this.user = this.authService.getUser();
     this.defaultLanguage = this.user.languagePref;
     this.selectedItem = this.defaultLanguage.find(x => x.langIsoCode === 'en');
+    console.log("default language" + JSON.stringify(this.selectedItem));
     this.selectedLanguage();
   }
 

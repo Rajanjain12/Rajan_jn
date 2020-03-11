@@ -13,32 +13,19 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="GUEST")
-public class Guest implements Serializable{
+@Table(name = "GUEST")
+public class Guest implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	private Integer guestID;
 
-	private Integer calloutCount;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date checkinTime;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createdTime;
-
-	private String deviceId;
-
-	private String deviceType;
-
-	private String email;
-
-	private Integer incompleteParty;
-
-	/* private String marketingPreference; */
+	@Column(name = "OrganizationID")
+	private Integer organizationID;
 
 	private String name;
+
+	private String uuid;
 
 	private Integer noOfAdults;
 
@@ -46,132 +33,93 @@ public class Guest implements Serializable{
 
 	private Integer noOfInfants;
 
-	private String noOfPeople;
-
-	private String note;
-
-	private Byte optin;
-
-	@Column(name="OrganizationID")
-	private Integer organizationID;
-
-	private Integer partyType;
-
-	private String prefType;
+	private Integer noOfPeople;
 
 	private Integer quoteTime;
 
+	private Integer partyType;
+
+	private String deviceType;
+
+	private String deviceId;
+
+	private String contactNo;
+	private String email;
+	private String prefType;
+
+	// bi-directional many-to-one association to Langmaster
+	@ManyToOne
+	@JoinColumn(name = "languagePrefID")
+	private LangMaster langmaster;
+	private Byte optin;
+
 	private Integer rank;
 
+	private String status;
+
+	private String seatingPreference;
+
 	private Byte recvLeveltwo;
+
+	private Integer calloutCount;
+
+	private String note;
+
+	private Integer incompleteParty;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date resetTime;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	private Date checkinTime;
+
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date seatedTime;
 
-	private String seatingPreference;
-
-	private String contactNo;
-
-	private String status;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createdTime;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updatedTime;
 
-	private String uuid;
-
-	//bi-directional many-to-one association to Langmaster
-	@ManyToOne
-	@JoinColumn(name="languagePrefID")
-	private LangMaster langmaster;
-
 	public Guest() {
-		//constructor 
+		// constructor
 	}
 
 	public Integer getGuestID() {
-		return this.guestID;
+		return guestID;
 	}
 
 	public void setGuestID(Integer guestID) {
 		this.guestID = guestID;
 	}
 
-	public Integer getCalloutCount() {
-		return this.calloutCount;
+	public Integer getOrganizationID() {
+		return organizationID;
 	}
 
-	public void setCalloutCount(Integer calloutCount) {
-		this.calloutCount = calloutCount;
+	public void setOrganizationID(Integer organizationID) {
+		this.organizationID = organizationID;
 	}
-
-	public Date getCheckinTime() {
-		return this.checkinTime;
-	}
-
-	public void setCheckinTime(Date checkinTime) {
-		this.checkinTime = checkinTime;
-	}
-
-	public Date getCreatedTime() {
-		return this.createdTime;
-	}
-
-	public void setCreatedTime(Date createdTime) {
-		this.createdTime = createdTime;
-	}
-
-	public String getDeviceId() {
-		return this.deviceId;
-	}
-
-	public void setDeviceId(String deviceId) {
-		this.deviceId = deviceId;
-	}
-
-	public String getDeviceType() {
-		return this.deviceType;
-	}
-
-	public void setDeviceType(String deviceType) {
-		this.deviceType = deviceType;
-	}
-
-	public String getEmail() {
-		return this.email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Integer getIncompleteParty() {
-		return this.incompleteParty;
-	}
-
-	public void setIncompleteParty(Integer incompleteParty) {
-		this.incompleteParty = incompleteParty;
-	}
-
-	/*
-	 * public String getMarketingPreference() { return this.marketingPreference; }
-	 * 
-	 * public void setMarketingPreference(String marketingPreference) {
-	 * this.marketingPreference = marketingPreference; }
-	 */
 
 	public String getName() {
-		return this.name;
+		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
 	public Integer getNoOfAdults() {
-		return this.noOfAdults;
+		return noOfAdults;
 	}
 
 	public void setNoOfAdults(Integer noOfAdults) {
@@ -179,7 +127,7 @@ public class Guest implements Serializable{
 	}
 
 	public Integer getNoOfChildren() {
-		return this.noOfChildren;
+		return noOfChildren;
 	}
 
 	public void setNoOfChildren(Integer noOfChildren) {
@@ -187,108 +135,53 @@ public class Guest implements Serializable{
 	}
 
 	public Integer getNoOfInfants() {
-		return this.noOfInfants;
+		return noOfInfants;
 	}
 
 	public void setNoOfInfants(Integer noOfInfants) {
 		this.noOfInfants = noOfInfants;
 	}
 
-	public String getNoOfPeople() {
-		return this.noOfPeople;
+	public Integer getNoOfPeople() {
+		return noOfPeople;
 	}
 
-	public void setNoOfPeople(String noOfPeople) {
+	public void setNoOfPeople(Integer noOfPeople) {
 		this.noOfPeople = noOfPeople;
 	}
 
-	public String getNote() {
-		return this.note;
-	}
-
-	public void setNote(String note) {
-		this.note = note;
-	}
-
-	public Byte getOptin() {
-		return this.optin;
-	}
-
-	public void setOptin(Byte optin) {
-		this.optin = optin;
-	}
-
-	public Integer getOrganizationID() {
-		return this.organizationID;
-	}
-
-	public void setOrganizationID(Integer organizationID) {
-		this.organizationID = organizationID;
-	}
-
-	public Integer getPartyType() {
-		return this.partyType;
-	}
-
-	public void setPartyType(Integer partyType) {
-		this.partyType = partyType;
-	}
-
-	public String getPrefType() {
-		return this.prefType;
-	}
-
-	public void setPrefType(String prefType) {
-		this.prefType = prefType;
-	}
-
 	public Integer getQuoteTime() {
-		return this.quoteTime;
+		return quoteTime;
 	}
 
 	public void setQuoteTime(Integer quoteTime) {
 		this.quoteTime = quoteTime;
 	}
 
-	public Integer getRank() {
-		return this.rank;
+	public Integer getPartyType() {
+		return partyType;
 	}
 
-	public void setRank(Integer rank) {
-		this.rank = rank;
+	public void setPartyType(Integer partyType) {
+		this.partyType = partyType;
 	}
 
-	public Byte getRecvLeveltwo() {
-		return this.recvLeveltwo;
+	public String getDeviceType() {
+		return deviceType;
 	}
 
-	public void setRecvLeveltwo(Byte recvLeveltwo) {
-		this.recvLeveltwo = recvLeveltwo;
+	public void setDeviceType(String deviceType) {
+		this.deviceType = deviceType;
 	}
 
-	public Date getResetTime() {
-		return this.resetTime;
+	public String getDeviceId() {
+		return deviceId;
 	}
 
-	public void setResetTime(Date resetTime) {
-		this.resetTime = resetTime;
+	public void setDeviceId(String deviceId) {
+		this.deviceId = deviceId;
 	}
 
-	public Date getSeatedTime() {
-		return this.seatedTime;
-	}
-
-	public void setSeatedTime(Date seatedTime) {
-		this.seatedTime = seatedTime;
-	}
-
-	public String getSeatingPreference() {
-		return this.seatingPreference;
-	}
-
-	public void setSeatingPreference(String seatingPreference) {
-		this.seatingPreference = seatingPreference;
-	}
 	public String getContactNo() {
 		return contactNo;
 	}
@@ -297,35 +190,136 @@ public class Guest implements Serializable{
 		this.contactNo = contactNo;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPrefType() {
+		return prefType;
+	}
+
+	public void setPrefType(String prefType) {
+		this.prefType = prefType;
+	}
+
+	public LangMaster getLangmaster() {
+		return langmaster;
+	}
+
+	public void setLangmaster(LangMaster langmaster) {
+		this.langmaster = langmaster;
+	}
+
+	public Byte getOptin() {
+		return optin;
+	}
+
+	public void setOptin(Byte optin) {
+		this.optin = optin;
+	}
+
+	public Integer getRank() {
+		return rank;
+	}
+
+	public void setRank(Integer rank) {
+		this.rank = rank;
+	}
+
 	public String getStatus() {
-		return this.status;
+		return status;
 	}
 
 	public void setStatus(String status) {
 		this.status = status;
 	}
 
+	public String getSeatingPreference() {
+		return seatingPreference;
+	}
+
+	public void setSeatingPreference(String seatingPreference) {
+		this.seatingPreference = seatingPreference;
+	}
+
+	public Byte getRecvLeveltwo() {
+		return recvLeveltwo;
+	}
+
+	public void setRecvLeveltwo(Byte recvLeveltwo) {
+		this.recvLeveltwo = recvLeveltwo;
+	}
+
+	public Integer getCalloutCount() {
+		return calloutCount;
+	}
+
+	public void setCalloutCount(Integer calloutCount) {
+		this.calloutCount = calloutCount;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public Integer getIncompleteParty() {
+		return incompleteParty;
+	}
+
+	public void setIncompleteParty(Integer incompleteParty) {
+		this.incompleteParty = incompleteParty;
+	}
+
+	public Date getResetTime() {
+		return resetTime;
+	}
+
+	public void setResetTime(Date resetTime) {
+		this.resetTime = resetTime;
+	}
+
+	public Date getCheckinTime() {
+		return checkinTime;
+	}
+
+	public void setCheckinTime(Date checkinTime) {
+		this.checkinTime = checkinTime;
+	}
+
+	public Date getSeatedTime() {
+		return seatedTime;
+	}
+
+	public void setSeatedTime(Date seatedTime) {
+		this.seatedTime = seatedTime;
+	}
+
+	public Date getCreatedTime() {
+		return createdTime;
+	}
+
+	public void setCreatedTime(Date createdTime) {
+		this.createdTime = createdTime;
+	}
+
 	public Date getUpdatedTime() {
-		return this.updatedTime;
+		return updatedTime;
 	}
 
 	public void setUpdatedTime(Date updatedTime) {
 		this.updatedTime = updatedTime;
 	}
 
-	public String getUuid() {
-		return this.uuid;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
-	}
-
-	public LangMaster getLangmaster() {
-		return this.langmaster;
-	}
-
-	public void setLangmaster(LangMaster langmaster) {
-		this.langmaster = langmaster;
-	}
 }

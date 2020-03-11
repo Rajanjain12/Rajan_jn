@@ -14,16 +14,16 @@ import javax.persistence.Table;
 public class GuestMarketingPreferences {
 
 	@Id
-	@Column(name="GUEST_MARKETING_PREF_ID")
+	@Column(name="GuestMarketingPrefID")
 	@GeneratedValue
 	private Integer guestMarketingPrefId;
 	
 	@OneToOne
-	@JoinColumn(name="PREF_ID")
+	@JoinColumn(name="PrefId")
 	private Lookup lookup;
 	
 	@ManyToOne
-	@JoinColumn(name="GUEST_ID")
+	@JoinColumn(name="GuestId")
 	private Guest guest;
 
 	public Integer getGuestMarketingPrefId() {

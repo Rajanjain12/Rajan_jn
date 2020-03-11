@@ -40,7 +40,7 @@ public class UserController {
 			LoggerUtil.logInfo("inside login v1 v2");
 			LoginUserDTO loginUserDTO = userService.logInCredentialValidate(credentialsDTO);
 			responseDTO.setServiceResult(loginUserDTO);
-			responseDTO.setSuccess(UserServiceConstants.SUSSESS_CODE);
+			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
 		} catch (AccountNotActivatedExeception aae) {
 			LoggerUtil.logError(aae);
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
@@ -69,7 +69,7 @@ public class UserController {
 			LoggerUtil.logInfo("inside resetPassword");
 			String response = userService.resetPassword(resetpassword);
 			responseDTO.setServiceResult(response);
-			responseDTO.setSuccess(UserServiceConstants.SUSSESS_CODE);
+			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
 			responseDTO.setMessage("password reset successfully.");
 		} catch (InvalidAuthCodeException iae) {
 			LoggerUtil.logError(iae);
@@ -94,7 +94,7 @@ public class UserController {
 			LoggerUtil.logInfo("inside forgot");
 			String response = userService.forgotPassword(username);
 			responseDTO.setServiceResult(response);
-			responseDTO.setSuccess(UserServiceConstants.SUSSESS_CODE);
+			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
 			responseDTO.setMessage(
 					"Email has been sent to your registered email Id. Please follow the steps to reset your password");
 		}
@@ -124,7 +124,7 @@ public class UserController {
 		try {		
             userService.signUp(signUpDTO);
             responseDTO.setServiceResult("Success");
-			responseDTO.setSuccess(UserServiceConstants.SUSSESS_CODE);
+			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
 		}  catch (Exception e) {
 			LoggerUtil.logError(e);
 			responseDTO.setServiceResult("Error while fetching details of user");
@@ -142,7 +142,7 @@ public class UserController {
 			String response = userService.activateUser(activationCode, userId);
 			responseDTO.setServiceResult(response);
 			responseDTO.setMessage(response);
-			responseDTO.setSuccess(UserServiceConstants.SUSSESS_CODE);
+			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
 		} catch (Exception e) {
 			LoggerUtil.logError(e);
 			responseDTO.setServiceResult("Error while activating user account.");
@@ -160,7 +160,7 @@ public class UserController {
 			String response = userService.resendCode(userId);
 			responseDTO.setServiceResult(response);
 			responseDTO.setMessage(response);
-			responseDTO.setSuccess(UserServiceConstants.SUSSESS_CODE);
+			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
 		} catch (Exception e) {
 			LoggerUtil.logError(e);
 			responseDTO.setServiceResult("Error while resending code.");
