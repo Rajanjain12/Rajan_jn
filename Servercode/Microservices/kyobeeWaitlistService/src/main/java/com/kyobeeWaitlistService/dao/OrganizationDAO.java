@@ -18,5 +18,7 @@ public interface OrganizationDAO extends CrudRepository<Organization, Integer> {
 	@Query("select o.smsSignature from Organization o where o.organizationID =:orgId")
 	public String getSmsDetails(@Param("orgId") Integer orgId);
 	
+	public Organization findByOrganizationID(Integer orgId);
+	
 	
 }

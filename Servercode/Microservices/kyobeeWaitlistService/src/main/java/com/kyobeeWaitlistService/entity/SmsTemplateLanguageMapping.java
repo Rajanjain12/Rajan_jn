@@ -3,26 +3,38 @@ package com.kyobeeWaitlistService.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="ORGANIZATIONTYPE")
-public class OrganizationType implements Serializable {
+@Table(name="SMSTEMPLATELANGUAGEMAPPING")
+public class SmsTemplateLanguageMapping implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="TypeID")
-	private Integer typeID;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="ID")
+	private Integer Id;
 	
-	@Column(name="TypeName")
-	private String typeName;
+	@Column(name="IsoCode")
+	private String isoCode;
 	
+	@Column(name="TemplateText")
+	private String templateText;
+	
+	@Column(name="Level")
+	private Integer level;
+
 	@Column(name="Active")
 	private Byte active;
 
@@ -40,20 +52,41 @@ public class OrganizationType implements Serializable {
 	@Column(name="ModifiedBy")
 	private String modifiedBy;
 	
-	public Integer getTypeID() {
-		return typeID;
+	//bi-directional many-to-one association to Langmaster
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="LangId")
+	private LangMaster langmaster;
+
+	public Integer getId() {
+		return Id;
 	}
 
-	public void setTypeID(Integer typeID) {
-		this.typeID = typeID;
+	public void setId(Integer id) {
+		Id = id;
+	}
+	
+	public String getIsoCode() {
+		return isoCode;
 	}
 
-	public String getTypeName() {
-		return typeName;
+	public void setIsoCode(String isoCode) {
+		this.isoCode = isoCode;
 	}
 
-	public void setTypeName(String typeName) {
-		this.typeName = typeName;
+	public String getTemplateText() {
+		return templateText;
+	}
+
+	public void setTemplateText(String templateText) {
+		this.templateText = templateText;
+	}
+	
+	public Integer getLevel() {
+		return level;
+	}
+
+	public void setLevel(Integer level) {
+		this.level = level;
 	}
 
 	public Byte getActive() {
@@ -95,6 +128,13 @@ public class OrganizationType implements Serializable {
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
-	
+
+	public LangMaster getLangmaster() {
+		return langmaster;
+	}
+
+	public void setLangmaster(LangMaster langmaster) {
+		this.langmaster = langmaster;
+	}
 	
 }

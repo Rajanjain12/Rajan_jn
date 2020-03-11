@@ -39,8 +39,10 @@ import com.kyobeeWaitlistService.service.WaitListService;
 import com.kyobeeWaitlistService.util.CommonUtil;
 import com.kyobeeWaitlistService.util.LoggerUtil;
 import com.kyobeeWaitlistService.util.WaitListServiceConstants;
+import com.kyobeeWaitlistService.util.Exeception.InvalidGuestException;
 import com.kyobeeWaitlistService.util.pusherImpl.NotificationUtil;
 import com.kyobeeWaitlistService.util.smsImpl.SMSUtil;
+import com.kyobeeWaitlistService.service.GuestService;
 
 @Service
 @Transactional
@@ -66,6 +68,9 @@ public class WaitListServiceImpl implements WaitListService {
 	
 	@Autowired
 	SmsLogDAO smsLogDAO;
+	
+	@Autowired
+	GuestService guestService;
 	
 	@Override
 	public HashMap<String, Object> updateLanguagesPusher() {
@@ -116,12 +121,12 @@ public class WaitListServiceImpl implements WaitListService {
 	@Override
 	public OrgPrefKeyMapDTO fetchOrgPrefandKeyMap(Integer orgId) {
 		//fetch seating pref and marketing pref associated with org
-		List<Lookup> lookupList = lookupDAO.fetchSeatingAndMarketingPref(orgId, WaitListServiceConstants.SEATINGPREFID,WaitListServiceConstants.MARKETINGPREFID);
+		List<Lookup> lookupList = lookupDAO.fetchSeatingAndMarketingPref(orgId, WaitListServiceConstants.SEATING_PREF_ID,WaitListServiceConstants.MARKETING_PREF_ID);
 		OrgPrefKeyMapDTO orgPrefDTO=new OrgPrefKeyMapDTO();
 		List<SeatingMarketingPrefDTO> seatingPrefList = new ArrayList<>();
 		List<SeatingMarketingPrefDTO> marketingPrefList = new ArrayList<>();
 		
-		List<LanguageMasterDTO> languageList = languageKeyMappingDAO.fetchByLangIsoCodeAndScreenName(WaitListServiceConstants.ENGISOCODE,WaitListServiceConstants.SCREENNAME);
+		List<LanguageMasterDTO> languageList = languageKeyMappingDAO.fetchByLangIsoCodeAndScreenName(WaitListServiceConstants.ENG_ISO_CODE,WaitListServiceConstants.SCREEN_NAME);
 		
 		Map<String, String> keymap = new HashMap<>();
 		
@@ -135,7 +140,7 @@ public class WaitListServiceImpl implements WaitListService {
 		SeatingMarketingPrefDTO marketingPref;
 		//to separate seating pref and marketing pref 
 		for (Lookup lookup : lookupList) {
-			if (lookup.getLookuptype().getLookupTypeID() == WaitListServiceConstants.SEATINGPREFID) {
+			if (lookup.getLookuptype().getLookupTypeID() == WaitListServiceConstants.SEATING_PREF_ID) {
 				seatingPref = new SeatingMarketingPrefDTO();
 				seatingPref.setPrefValue(lookup.getName());
 				seatingPref.setPrefValueId(lookup.getLookupID());
@@ -150,7 +155,7 @@ public class WaitListServiceImpl implements WaitListService {
 					}
 				}
 				seatingPrefList.add(seatingPref);
-			} else if (lookup.getLookuptype().getLookupTypeID() == WaitListServiceConstants.MARKETINGPREFID) {
+			} else if (lookup.getLookuptype().getLookupTypeID() == WaitListServiceConstants.MARKETING_PREF_ID) {
 				marketingPref = new SeatingMarketingPrefDTO();
 				marketingPref.setPrefValue(lookup.getName());
 				marketingPref.setPrefValueId(lookup.getLookupID());
@@ -205,7 +210,7 @@ public class WaitListServiceImpl implements WaitListService {
 	@Override
 	public OrganizationTemplateDTO getOrganizationTemplateByLevel(GuestDTO guestDTO,SendSMSDTO sendSMSDTO) {
 		
-		OrganizationTemplate orgTemplate= organizationTemplateDAO.fetchSmsTemplateForOrgByLevel(guestDTO.getOrganizationID(), guestDTO.getLanguagePref().getLangId(),sendSMSDTO.getTemplateLevel());
+		OrganizationTemplate orgTemplate= organizationTemplateDAO.fetchSmsTemplateForOrgByLevel(guestDTO.getOrganizationID(), guestDTO.getLanguagePref().getLangID(),sendSMSDTO.getTemplateLevel());
 		OrganizationTemplateDTO orgTempalteDTO = new OrganizationTemplateDTO();
 		BeanUtils.copyProperties(orgTemplate, orgTempalteDTO);
 		return orgTempalteDTO;
@@ -251,6 +256,19 @@ public class WaitListServiceImpl implements WaitListService {
 		smsLogDAO.save(log);
 		
 	}
-	
+
+
+	@Override
+	public void sendSMS(SendSMSDTO sendSMSDTO) throws InvalidGuestException {
+		
+		GuestDTO guest = guestService.fetchGuestDetails(sendSMSDTO.getGuestId(), null);
+		if (sendSMSDTO.getSmsContent() == null) {
+			WaitlistMetrics waitlistMetrics = getOrganizationMetrics(sendSMSDTO.getOrgId());
+			OrganizationTemplateDTO smsTemplate = getOrganizationTemplateByLevel(guest, sendSMSDTO);
+			sendSMSDTO = getSmsContentByLevel(guest, smsTemplate, waitlistMetrics);
+		}
+		getSMSDetails(guest, sendSMSDTO);
+		saveSmsLog(guest, sendSMSDTO);
+	}
 	
 }

@@ -136,7 +136,7 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 						cStmt.setLong(6, guestObj.getNoOfInfants());
 
 						cStmt.setLong(7, guestObj.getNoOfPeople());
-						cStmt.setLong(8, guestObj.getLanguagePref().getLangId());
+						cStmt.setLong(8, guestObj.getLanguagePref().getLangID());
 						cStmt.setInt(9, guestObj.getPartyType());
 						cStmt.setString(10, guestObj.getDeviceType());
 						cStmt.setString(11, guestObj.getDeviceId());
@@ -166,6 +166,9 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 						waitlistMetrics.setTotalWaitingGuest(cStmt.getInt(21));	
 						waitlistMetrics.setTotalWaitTime(cStmt.getInt(22));
 						waitlistMetrics.setClientBase(cStmt.getString(25));
+					
+						
+						
 
 					} finally {
 						if (cStmt != null) {
@@ -180,7 +183,6 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 			LoggerUtil.logError("Error in proc " + e.getMessage());
 		}
 		finally {
-			//session.flush();
 			session.close();	
 		}
 		return waitlistMetrics;	
@@ -212,7 +214,7 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 						cStmt.setLong(6, guestObj.getNoOfChildren());
 
 						cStmt.setLong(7, guestObj.getNoOfPeople());
-						cStmt.setLong(8, guestObj.getLanguagePref().getLangId());
+						cStmt.setLong(8, guestObj.getLanguagePref().getLangID());
 						cStmt.setInt(9, guestObj.getPartyType());
 						cStmt.setString(10, guestObj.getDeviceType());
 						cStmt.setString(11, guestObj.getDeviceId());

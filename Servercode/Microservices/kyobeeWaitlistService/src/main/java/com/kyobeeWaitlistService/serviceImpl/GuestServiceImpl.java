@@ -126,7 +126,7 @@ public class GuestServiceImpl implements GuestService {
 
 			// for adding language
 			LanguageMasterDTO languageMasterDTO = new LanguageMasterDTO();
-			languageMasterDTO.setLangId(guest.getLangmaster().getLangID());
+			languageMasterDTO.setLangID(guest.getLangmaster().getLangID());
 			languageMasterDTO.setLangIsoCode(guest.getLangmaster().getLangIsoCode());
 			languageMasterDTO.setLangName(guest.getLangmaster().getLangName());
 			guestDTO.setLanguagePref(languageMasterDTO);
@@ -193,7 +193,7 @@ public class GuestServiceImpl implements GuestService {
 
 			// for adding language
 			LanguageMasterDTO languageMasterDTO = new LanguageMasterDTO();
-			languageMasterDTO.setLangId(guest.getLangmaster().getLangID());
+			languageMasterDTO.setLangID(guest.getLangmaster().getLangID());
 			languageMasterDTO.setLangIsoCode(guest.getLangmaster().getLangIsoCode());
 			languageMasterDTO.setLangName(guest.getLangmaster().getLangName());
 			guestDTO.setLanguagePref(languageMasterDTO);
@@ -394,7 +394,7 @@ public class GuestServiceImpl implements GuestService {
 
 			// for adding language
 			LanguageMasterDTO languageMasterDTO = new LanguageMasterDTO();
-			languageMasterDTO.setLangId(guest.getLangmaster().getLangID());
+			languageMasterDTO.setLangID(guest.getLangmaster().getLangID());
 			languageMasterDTO.setLangIsoCode(guest.getLangmaster().getLangIsoCode());
 			languageMasterDTO.setLangName(guest.getLangmaster().getLangName());
 			guestDTO.setLanguagePref(languageMasterDTO);
@@ -449,7 +449,7 @@ public class GuestServiceImpl implements GuestService {
 
 		// for adding language
 		LanguageMasterDTO languageMasterDTO = new LanguageMasterDTO();
-		languageMasterDTO.setLangId(guest.get(0).getLanguagePrefID());
+		languageMasterDTO.setLangID(guest.get(0).getLanguagePrefID());
 		guestDTO.setLanguagePref(languageMasterDTO);
 
 		List<SeatingMarketingPrefDTO> seatingPrefList = new ArrayList<>();

@@ -55,7 +55,7 @@ public class GuestController {
 		}
 		return responseDTO;
 	}
-
+    // For reseting guest list of particular organization
 	@GetMapping(value = "/resetGuestList", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO resetGuests(@RequestParam(value = "orgid") Long orgID) {
 
@@ -120,7 +120,7 @@ public class GuestController {
 		return responseDTO;
 	}
 
-	// for add or update of guest according to guestId
+	// for add guest according to guestId
 	@PostMapping(value = "/", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO addGuestDetails(@RequestBody GuestDTO guestDTO) {
 
@@ -141,6 +141,7 @@ public class GuestController {
 		return responseDTO;
 	}
 
+	// for updating guest details
 	@PutMapping(value = "/", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO updateGuestDetails(@RequestBody GuestDTO guestDTO) {
 
@@ -160,6 +161,7 @@ public class GuestController {
 		return responseDTO;
 	}
 
+	// for updating guest status
 	@PutMapping(value = "/status", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO updateGuestStatus(@RequestParam Integer guestId, @RequestParam Integer orgId,
 			@RequestParam String status) {
@@ -249,6 +251,7 @@ public class GuestController {
 		return responseDTO;
 	}
 
+	// for adding marketing pref from mobile side
 	@PostMapping(value = "/marketingPref", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO addMarketingPref(@RequestBody GuestMarketingPreferenceDTO marketingPrefDTO) {
 

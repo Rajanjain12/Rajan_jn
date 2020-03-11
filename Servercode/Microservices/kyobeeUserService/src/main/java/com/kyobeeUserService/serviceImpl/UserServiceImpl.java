@@ -101,26 +101,21 @@ public class UserServiceImpl implements UserService {
 		User user = userDAO.findByUserNameAndPassword(credentialsDTO.getUserName(),
 				CommonUtil.encryptPassword(credentialsDTO.getPassword()));
 		if (user != null) {
-			if (user.getActive() == UserServiceConstants.ACTIVATEDUSER) {
+			if (user.getActive() == UserServiceConstants.ACTIVATED_USER) {
 				loginUserDTO = new LoginUserDTO();
 				BeanUtils.copyProperties(user, loginUserDTO);
 				// fetch organization details associated with user
 				Organization organization = organizationDAO.fetchOrganizationByUserId(user.getUserID());
 				if ((organization.getClientBase().equalsIgnoreCase(credentialsDTO.getClientBase())
-						&& credentialsDTO.getDeviceType().equalsIgnoreCase(UserServiceConstants.WEBUSER)
-						|| (!credentialsDTO.getDeviceType().equalsIgnoreCase(UserServiceConstants.WEBUSER)))) {
+						&& credentialsDTO.getDeviceType().equalsIgnoreCase(UserServiceConstants.WEB_USER)
+						|| (!credentialsDTO.getDeviceType().equalsIgnoreCase(UserServiceConstants.WEB_USER)))) {
 					BeanUtils.copyProperties(organization, loginUserDTO);
 					loginUserDTO.setCompanyEmail(organization.getEmail());
 					Map<String, String> defaultLanguageKeyMap = new HashMap<>();
 
-					/*
-					 * if(!credentialsDTO.getDeviceType().equalsIgnoreCase(UserServiceConstants.
-					 * WEBUSER)) {
-					 */
 					// fetch languages associated with org and arrange labels in key value
 					List<LanguageMasterDTO> languageList = languageKeyMappingDAO
 							.fetchLanguageKeyMapForOrganization(organization.getOrganizationID());
-
 					List<LanguageKeyMappingDTO> langkeyMapList = new ArrayList<>();
 					LanguageKeyMappingDTO languageKeyMappingDTO;
 
@@ -141,7 +136,7 @@ public class UserServiceImpl implements UserService {
 							keymap.put(languageMasterDTO.getKeyName(), languageMasterDTO.getValue());
 						}
 
-						if (UserServiceConstants.ENGLISHLANGID == entry.getKey()) {
+						if (UserServiceConstants.ENGLISH_LANG_ID == entry.getKey()) {
 							defaultLanguageKeyMap = keymap;
 						}
 
@@ -150,12 +145,11 @@ public class UserServiceImpl implements UserService {
 					}
 
 					loginUserDTO.setLanguagePref(langkeyMapList);
-					// }
 
 					// fetch seating pref and marketing pref associated with org
 					List<Lookup> lookupList = lookupDAO.fetchOrgSeatingAndMarketingPref(
-							organization.getOrganizationID(), UserServiceConstants.SEATINGPREFID,
-							UserServiceConstants.MARKETINGPREFID);
+							organization.getOrganizationID(), UserServiceConstants.SEATING_PREF_ID,
+							UserServiceConstants.MARKETING_PREF_ID);
 					List<SeatingMarketingPrefDTO> seatingPrefList = new ArrayList<>();
 					List<SeatingMarketingPrefDTO> marketingPrefList = new ArrayList<>();
 
@@ -163,7 +157,7 @@ public class UserServiceImpl implements UserService {
 					SeatingMarketingPrefDTO marketingPref;
 					// to separate seating pref and marketing pref
 					for (Lookup lookup : lookupList) {
-						if (lookup.getLookuptype().getLookupTypeID() == UserServiceConstants.SEATINGPREFID) {
+						if (lookup.getLookuptype().getLookupTypeID() == UserServiceConstants.SEATING_PREF_ID) {
 							seatingPref = new SeatingMarketingPrefDTO();
 							seatingPref.setPrefValue(lookup.getName());
 							seatingPref.setPrefValueId(lookup.getLookupID());
@@ -178,7 +172,7 @@ public class UserServiceImpl implements UserService {
 								}
 							}
 							seatingPrefList.add(seatingPref);
-						} else if (lookup.getLookuptype().getLookupTypeID() == UserServiceConstants.MARKETINGPREFID) {
+						} else if (lookup.getLookuptype().getLookupTypeID() == UserServiceConstants.MARKETING_PREF_ID) {
 							marketingPref = new SeatingMarketingPrefDTO();
 							marketingPref.setPrefValue(lookup.getName());
 							marketingPref.setPrefValueId(lookup.getLookupID());
@@ -212,9 +206,10 @@ public class UserServiceImpl implements UserService {
 					loginUserDTO.setSmsTemplate(smsTemplateList);
 					loginUserDTO.setSeatingpref(seatingPrefList);
 					loginUserDTO.setMarketingPref(marketingPrefList);
-					loginUserDTO.setFooterMsg(UserServiceConstants.FOOTERMSG);
-					loginUserDTO.setLogoPath(UserServiceConstants.KYOBEESERVERURL + loginUserDTO.getOrganizationID()
+					loginUserDTO.setFooterMsg(UserServiceConstants.FOOTER_MSG);
+					loginUserDTO.setLogoPath(UserServiceConstants.KYOBEE_SERVER_URL + loginUserDTO.getOrganizationID()
 							+ UserServiceConstants.EXTENSION);
+					loginUserDTO.setNotifyFirst(organization.getNotifyUserCount());
 					return loginUserDTO;
 
 				} else {
@@ -281,7 +276,7 @@ public class UserServiceImpl implements UserService {
 					authcode = user.getAuthCode();
 				}
 			}
-			String forgotPasswordURL = UserServiceConstants.KYOBEEWEBHOST + UserServiceConstants.RESETPWDLINK
+			String forgotPasswordURL = UserServiceConstants.KYOBEE_WEB_HOST + UserServiceConstants.RESET_PWD_LINK
 					+ user.getUserID() + "/" + authcode;
 
 			LoggerUtil.logInfo("url:- " + forgotPasswordURL);
@@ -299,7 +294,7 @@ public class UserServiceImpl implements UserService {
 			context.put("name", name);
 			context.put("link", forgotPasswordURL);
 			context.put("email", user.getEmail());
-			context.put("kyobeeEmail", UserServiceConstants.KYOBEEMAILID);
+			context.put("kyobeeEmail", UserServiceConstants.KYOBEE_MAIL_ID);
 
 			StringWriter writer = new StringWriter();
 			t.merge(context, writer);
@@ -330,11 +325,11 @@ public class UserServiceImpl implements UserService {
 			Date nextDay = new Date(today.getTime() + 24 * hour);
 
 			BeanUtils.copyProperties(signUpDTO, user);
-			user.setPassword(signUpDTO.getPassword());
+			user.setPassword(CommonUtil.encryptPassword(signUpDTO.getPassword()));
 			user.setContactNoOne(signUpDTO.getContactNo());
 			user.setActivationCode(CommonUtil.generateRandomToken().toString());
 			user.setActivationExpiryDate(nextDay);
-			user.setActive(UserServiceConstants.INACTIVEUSER);
+			user.setActive(UserServiceConstants.INACTIVE_USER);
 			user.setCreatedAt(new Date());
 			user.setCreatedBy(signUpDTO.getEmail());
 
@@ -359,7 +354,7 @@ public class UserServiceImpl implements UserService {
 			organization.setOrganizationName(signUpDTO.getStoreName());
 			organization.setEmail(signUpDTO.getEmail());
 			organization.setPrimaryPhone(new BigInteger(signUpDTO.getContactNo()));
-			organization.setActive(UserServiceConstants.ACTIVEORG);
+			organization.setActive(UserServiceConstants.ACTIVE_ORG);
 			organization.setOrganizationType(organizationType);
 			organization.setCreatedBy(signUpDTO.getEmail());
 			organization.setCreatedAt(new Date());
@@ -368,8 +363,8 @@ public class UserServiceImpl implements UserService {
 			organization.setOrganizationType(organizationType);
 			LoggerUtil.logInfo("organization type inserted");
 			List<OrganizationCategory> orgCategoryList = new ArrayList<>();
-			List<Lookup> lookupList = lookupDAO.fetchSeatingAndMarketingPref(UserServiceConstants.SEATINGPREFID,
-					UserServiceConstants.MARKETINGPREFID);
+			List<Lookup> lookupList = lookupDAO.fetchSeatingAndMarketingPref(UserServiceConstants.SEATING_PREF_ID,
+					UserServiceConstants.MARKETING_PREF_ID);
 
 			OrganizationCategory orgCategory;
 			for (Lookup lookup : lookupList) {
@@ -456,14 +451,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Boolean checkIfUserExist(String Email) {
+	public Boolean checkIfUserExist(String email) {
 
-		User user = userDAO.findByEmail(Email);
+		User user = userDAO.findByEmail(email);
 
 		if(user != null) {
 			return true;
+		} else {
+			return false;
 		}
-		return false;
 	}
 	
 	public void sendActivationEmail(User user) {
@@ -501,7 +497,7 @@ public class UserServiceImpl implements UserService {
 				throw new InvalidActivationCodeException("Invalid activation code exception");
 				
 			} else {
-				user.setActive(UserServiceConstants.ACTIVATEDUSER);
+				user.setActive(UserServiceConstants.ACTIVATED_USER);
 				user.setActivationCode(null);
 				user.setActivationExpiryDate(null);
 				userDAO.save(user);
@@ -545,7 +541,7 @@ public class UserServiceImpl implements UserService {
 
 		User user = userDAO.findByUserID(userId);
 
-		if (user.getActive().equals(UserServiceConstants.ACTIVATEDUSER)) {
+		if (user.getActive().equals(UserServiceConstants.ACTIVATED_USER)) {
 			return "Account is already activated";
 		} else {
 			if (today.after(user.getActivationExpiryDate())) {

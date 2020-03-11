@@ -8,6 +8,7 @@ import com.kyobeeWaitlistService.dto.OrganizationTemplateDTO;
 import com.kyobeeWaitlistService.dto.PusherDTO;
 import com.kyobeeWaitlistService.dto.SendSMSDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;
+import com.kyobeeWaitlistService.util.Exeception.InvalidGuestException;
 
 
 public interface WaitListService {
@@ -20,5 +21,6 @@ public interface WaitListService {
 	OrganizationTemplateDTO getOrganizationTemplateByLevel(GuestDTO guestDTO,SendSMSDTO sendSMSDTO);
 	SendSMSDTO getSmsContentByLevel(GuestDTO guestDTO, OrganizationTemplateDTO smsTemplate, WaitlistMetrics waitlistMetrics);
 	void saveSmsLog(GuestDTO guestDTO,SendSMSDTO sendSMSDTO);
+	void sendSMS(SendSMSDTO sendSMSDTO) throws InvalidGuestException;
 	
 }

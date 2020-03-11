@@ -20,7 +20,7 @@
             <div class="row">
               <div class="col-lg-3">
                 <div class="form-group mt-2 mb-3">
-                  <input type="number" name="adult" min="1" max="100" class="form-control" #adult="ngModel" id="adult" [(ngModel)]="guest.noOfAdults" [ngClass]="{ 'is-invalid': f.submitted && adult.invalid }"  required="required" />
+                  <input type="number" name="adult" min="1" max="100" class="form-control" #adult="ngModel" id="adult" [(ngModel)]="guest.noOfAdults" [ngClass]="{ 'is-invalid': f.submitted && adult.invalid }" required="required" />
                   <label for="adult" class="control-label">{{ languageKeyMap['adults'] }}</label>
                   <i class="bar"></i>
                   <div *ngIf="f.submitted && adult.invalid" class="invalid-feedback">
@@ -77,7 +77,7 @@
               </div>
               <div class="col-lg-9 my-1" *ngFor="let seating of user.seatingpref; index as i">
                 <input class="styled-checkbox" id="firstAvailable{{ i }}" type="checkbox" [(ngModel)]="seating.selected" [ngModelOptions]="{ standalone: true }" />
-                <label for="firstAvailable{{ i }}" class="mr-2">{{ seating.prefValue }}</label>
+                <label for="firstAvailable{{ i }}" class="mr-2">{{ languageKeyMap[seating.prefKey != null ? seating.prefKey : 0] }}</label>
               </div>
             </div>
             <div class="row pt-3">
