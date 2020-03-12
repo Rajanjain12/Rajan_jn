@@ -45,7 +45,7 @@ export class AddGuestComponent implements OnInit {
         if (res.success == 1) {
         
           this.guest = res.serviceResult;
-          //this.seatingOrMarketingPref();
+          this.seatingOrMarketingPref();
           console.log("result "+JSON.stringify(res.serviceResult));
         }
       });
@@ -54,7 +54,7 @@ export class AddGuestComponent implements OnInit {
       this.guest = new GuestDTO();
       this.guest.guestID = 0;
       this.guest.optin = 0;
-      
+      this.seatingOrMarketingPref();
       console.log('id is absent');
       console.log(this.guest);
     }
@@ -72,7 +72,7 @@ export class AddGuestComponent implements OnInit {
     
     console.log('user:' + JSON.stringify(this.guest));
     let present = false;
-    if (this.user.seatingpref != null) {
+    if ( this.user.seatingpref != null) {
       this.user.seatingpref.map(obj => {
         present = false;
         if (this.guest != null && this.guest != undefined) {
@@ -132,7 +132,7 @@ export class AddGuestComponent implements OnInit {
 
     this.languageKeyMap = this.selectedItem.languageMap;
     console.log('language map:' + JSON.stringify(this.languageKeyMap));
-    this.seatingOrMarketingPref();
+    
     this.listSeatingPref = this.user.seatingpref;
     this.listMarketingPref = this.user.marketingPref;
 
