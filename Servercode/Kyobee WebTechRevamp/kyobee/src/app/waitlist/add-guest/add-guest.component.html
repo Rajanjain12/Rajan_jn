@@ -72,19 +72,21 @@
               {{ languageKeyMap['standard_text_message_charges_may_apply'] }}
             </small>
             <div class="row">
-              <div *ngIf="user.seatingpref != null " class="col-lg-3 my-1">
-                <span *ngIf=" user.seatingpref.length != 0 "class="font-weight-semibold">{{ languageKeyMap['seating_preference'] }}</span>
+              <div *ngIf="user.seatingpref != undefined " class="col-lg-3 my-1">
+                <span *ngIf=" user.seatingpref.length != 0 " class="font-weight-semibold">{{ languageKeyMap['seating_preference'] }}</span>
               </div>
-              <div class="col-lg-9 my-1" *ngFor="let seating of user.seatingpref; index as i">
+              <div class="col-lg-9 my-1" >
+                  <div *ngFor="let seating of user.seatingpref; index as i" class="d-inline-block">
                 <input class="styled-checkbox" id="firstAvailable{{ i }}" type="checkbox" [(ngModel)]="seating.selected" [ngModelOptions]="{ standalone: true }" />
                 <label for="firstAvailable{{ i }}" class="mr-2">{{ languageKeyMap[seating.prefKey != null ? seating.prefKey : 0] }}</label>
+             </div>
               </div>
             </div>
             <div class="row pt-3">
-              <div class="col-lg-3 my-1">
+              <div *ngIf="user.marketingPref != undefined "  class="col-lg-3 my-1">
                 <span *ngIf=" user.marketingPref.length != 0 " class="font-weight-semibold">{{ languageKeyMap['how_did_you_here_about_us'] }}</span>
               </div>
-              <div *ngIf="user.seatingpref != null " class="col-lg-9 my-1">
+              <div class="col-lg-9 my-1">
                 <div *ngFor="let marketing of user.marketingPref; index as i" class="d-inline-block">
                   <input class="styled-checkbox" id="lablekey{{ i }}" type="checkbox" [(ngModel)]="marketing.selected" [ngModelOptions]="{ standalone: true }" />
                   <label for="lablekey{{ i }}" class="mr-2">{{ languageKeyMap[marketing.prefKey != null ? marketing.prefKey : 0] }}</label>

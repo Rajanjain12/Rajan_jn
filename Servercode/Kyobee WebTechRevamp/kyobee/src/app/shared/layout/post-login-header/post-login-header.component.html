@@ -101,7 +101,7 @@
         <button class="navbar-toggler float-left p-0 asidebar" id="asidetogglebtn" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
           <span class="flaticon-right"></span>
         </button>
-        Hello, <span>Kyobee</span> | <a class="ml-3" href="" (click)="logout();"><i class="error flaticon-power mr-2"></i><span class="font-weight-semibold">Logout</span></a>
+        Hello, <span>{{user?.firstName}} {{user?.lastName}}</span> | <a class="ml-3" href="" (click)="logout();"><i class="error flaticon-power mr-2"></i><span class="font-weight-semibold">Logout</span></a>
       </div>
     </nav>
   </div>

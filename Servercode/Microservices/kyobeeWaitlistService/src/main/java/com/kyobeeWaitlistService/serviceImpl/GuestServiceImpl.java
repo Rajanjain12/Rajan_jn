@@ -295,6 +295,7 @@ public class GuestServiceImpl implements GuestService {
 		StringBuilder stringPref = new StringBuilder();
 		for (SeatingMarketingPrefDTO pref : seatingOrMarketingPref) {
 			stringPref.append(pref.getPrefValueId());
+			stringPref.append(",");
 		}
 		return stringPref.toString();
 	}

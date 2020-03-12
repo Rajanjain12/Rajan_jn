@@ -38,13 +38,15 @@ export class AddGuestComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
+    this.user = this.authService.getUser();
     if (this.id !== null) {
       this.guestService.fetchGuest(this.id).subscribe(res => {
         console.log('res' + JSON.stringify(res));
         if (res.success == 1) {
+        
           this.guest = res.serviceResult;
-
-          console.log(res.serviceResult);
+          //this.seatingOrMarketingPref();
+          console.log("result "+JSON.stringify(res.serviceResult));
         }
       });
       console.log(this.id);
@@ -52,13 +54,13 @@ export class AddGuestComponent implements OnInit {
       this.guest = new GuestDTO();
       this.guest.guestID = 0;
       this.guest.optin = 0;
-
+      
       console.log('id is absent');
       console.log(this.guest);
     }
-
+    
     //default lang settings
-    this.user = this.authService.getUser();
+   
     console.log("seating pref "+JSON.stringify(this.user.seatingpref));
     this.defaultLanguage = this.user.languagePref;
     this.selectedItem = this.defaultLanguage.find(x => x.langIsoCode === 'en');
@@ -67,8 +69,8 @@ export class AddGuestComponent implements OnInit {
   }
 
   seatingOrMarketingPref() {
-    this.user = this.authService.getUser();
-    console.log('user:' + JSON.stringify(this.authService.getUser()));
+    
+    console.log('user:' + JSON.stringify(this.guest));
     let present = false;
     if (this.user.seatingpref != null) {
       this.user.seatingpref.map(obj => {
@@ -80,7 +82,7 @@ export class AddGuestComponent implements OnInit {
             });
           }
         }
-        obj.prefValue = this.languageKeyMap[obj.prefKey != null ? obj.prefKey : 0];
+     // obj.prefValue = this.languageKeyMap[obj.prefKey != null ? obj.prefKey : 0];
         obj.selected = present;
       });
     }
@@ -94,11 +96,9 @@ export class AddGuestComponent implements OnInit {
           });
         }
       }
-      if (present) {
-        obj.selected = true;
-      } else {
-        obj.selected = false;
-      }
+     
+        obj.selected = present;
+      
     });
   }
 
@@ -132,7 +132,7 @@ export class AddGuestComponent implements OnInit {
 
     this.languageKeyMap = this.selectedItem.languageMap;
     console.log('language map:' + JSON.stringify(this.languageKeyMap));
-    //  this.seatingOrMarketingPref();
+    this.seatingOrMarketingPref();
     this.listSeatingPref = this.user.seatingpref;
     this.listMarketingPref = this.user.marketingPref;
 
@@ -209,6 +209,7 @@ export class AddGuestComponent implements OnInit {
         }
       });
     } else {
+      console.log("guest"+JSON.stringify(this.guest));
       this.guestService.updateGuest(this.guest).subscribe(res => {
         if (res.success == 1) {
           console.log(res);

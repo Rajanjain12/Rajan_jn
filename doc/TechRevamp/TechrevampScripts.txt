@@ -225,5 +225,7 @@ ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATION`
 DROP INDEX `ActiveOrganizationPlanId` ;
 ;
 
+DROP TABLE `KyobeeTechRevamp`.`GUESTPREFERENCES`
+
 
 
