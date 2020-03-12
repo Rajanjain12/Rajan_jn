@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { GuestDTO } from 'src/app/core/models/guest.model';
-import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
 import { GuestService } from 'src/app/core/services/guest.service';

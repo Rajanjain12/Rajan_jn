@@ -8,14 +8,18 @@ import { ApiService } from './services/api.service';
 import { LoaderService } from './services/loader.service';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { AutosizeDirective } from './directives/autosize.directive';
+import { MaxValidator } from './directives/max.validator';
+import { MinValidator } from './directives/min.validator';
 
 @NgModule({
-  declarations: [AutosizeDirective],
+  declarations: [AutosizeDirective,MaxValidator,MinValidator],
   imports: [CommonModule, HttpClientModule],
   providers: [
     UserService,
     ApiService,
     AuthService,
+    MaxValidator,
+    MinValidator,
     LoaderService,
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
   ],

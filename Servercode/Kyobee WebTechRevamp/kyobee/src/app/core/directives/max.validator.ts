@@ -1,30 +1,37 @@
-import { Directive, Input, SimpleChanges } from '@angular/core';
+import { Directive, Input, SimpleChanges, ElementRef } from '@angular/core';
 import { NG_VALIDATORS, Validator, ValidatorFn, AbstractControl } from '@angular/forms';
 
-export const max = (max: number): ValidatorFn => {
+/* export const max = (max: number): ValidatorFn => {
   return (control: AbstractControl): { [key: string]: any } => {
     let v: number = +control.value;
     console.log(v);
-    return v <= +max ? null : { actualValue: v, requiredValue: +max, max: true };
+    return v = +max ? null : { actualValue: v, requiredValue: +max, max: true };
   };
-};
+}; */
 
 @Directive({
   selector: '[maxValidator]',
-  providers: [
+/*   providers: [
     {
       provide: NG_VALIDATORS,
       useExisting: MaxValidator,
       multi: true
     }
-  ]
+  ] */
 })
-export class MaxValidator implements Validator {
-  @Input() max: number;
+export class MaxValidator  {
+/*   @Input() max: number; */
 
-  private validator: ValidatorFn;
-  private onChange: () => void;
+  constructor(el: ElementRef) {
+    alert("abv");
+    console.log("inside max ");
+ }
 
+ /*  private validator: ValidatorFn;
+   private onChange: () => void;
+ */
+
+/* 
   ngOnInit() {
     this.validator = max(this.max);
   }
@@ -36,13 +43,13 @@ export class MaxValidator implements Validator {
         if (this.onChange) this.onChange();
       }
     }
-  }
+  } */
 
-  validate(c: AbstractControl): { [key: string]: any } {
+/*   validate(c: AbstractControl): { [key: string]: any } {
     return this.validator(c);
-  }
+  } */
 
-  registerOnValidatorChange(fn: () => void): void {
+ /*  registerOnValidatorChange(fn: () => void): void {
     this.onChange = fn;
-  }
+  } */
 }

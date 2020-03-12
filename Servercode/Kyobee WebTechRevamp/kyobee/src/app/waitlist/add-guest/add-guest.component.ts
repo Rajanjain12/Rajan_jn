@@ -5,6 +5,9 @@ import { GuestDTO } from 'src/app/core/models/guest.model';
 import { Preference } from 'src/app/core/models/preference.model';
 import { GuestService } from 'src/app/core/services/guest.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import {MaxValidator}  from '../../core/directives/max.validator';
+
+
 
 @Component({
   selector: 'app-add-guest',

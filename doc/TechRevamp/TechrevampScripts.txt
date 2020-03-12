@@ -313,5 +313,13 @@ CHANGE COLUMN `guestResetID` `GuestResetID` INT(11) NOT NULL AUTO_INCREMENT ;
 
 
 
+ALTER TABLE `KyobeeTechRevamp`.`PLAN` 
+CHANGE COLUMN `PLANNAME` `PlanName` VARCHAR(80) NULL DEFAULT NULL ;
+
+
+ALTER TABLE `KyobeeTechRevamp`.`ADDRESS` 
+CHANGE COLUMN `ActiveFlag` `ActiveFlag` INT(11) NULL DEFAULT '0' AFTER `Latitude`;
+
+
 
 

@@ -23,7 +23,7 @@ public class Plan implements Serializable{
 	@Column(name="PlanID")
 	private Integer planId;
 	
-	@Column(name="PLANNAME")
+	@Column(name="PlanName")
 	private String planName;
 	
 	@Column(name="Active")
