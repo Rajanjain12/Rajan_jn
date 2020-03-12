@@ -22,8 +22,8 @@ export class GuestDTO {
   status: string;
   checkinTime: Date;
   seatedTime: Date;
-  createdTime: Date;
-  updatedTime: Date;
+  createdAt: Date;
+  modifiedAt: Date;
   incompleteParty: number;
   languagePref: LanguageDTO;
   seatingPreference: Array<Preference>;

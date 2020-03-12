@@ -21,6 +21,7 @@ public class Languagekeymapping implements Serializable {
 	@Column(name = "LanguageKeyMappingId")
 	private int languageKeyMappingId;
 
+	@Column(name="KeyName")
 	private String keyName;
 	
 	@Column(name = "Value")

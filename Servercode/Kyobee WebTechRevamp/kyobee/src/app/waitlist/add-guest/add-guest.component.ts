@@ -154,11 +154,11 @@ export class AddGuestComponent implements OnInit {
     this.guest.rank = 0;
     this.guest.seatedTime = null;
     this.guest.status = 'CHECKIN';
-    this.guest.updatedTime = null;
+    this.guest.modifiedAt = null;
     this.guest.uuid = null;
     this.guest.calloutCount = 0;
     this.guest.checkinTime = new Date();
-    this.guest.createdTime = new Date();
+    this.guest.createdAt= new Date();
     this.guest.deviceId = null;
     this.guest.deviceType = null;
     this.guest.email = null;

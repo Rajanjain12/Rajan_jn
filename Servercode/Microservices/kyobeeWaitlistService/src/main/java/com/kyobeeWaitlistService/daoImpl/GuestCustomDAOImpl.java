@@ -89,12 +89,12 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 		try {
 
 			StringBuilder query = new StringBuilder(
-					"SELECT * FROM GUEST g join LANGMASTER l on l.langID=g.languagePrefID WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId");
+					"SELECT * FROM GUEST g join LANGMASTER l on l.langID=g.languagePrefID WHERE g.Status ='CHECKIN' and g.ResetTime is null and g.OrganizationID=:orgId");
 
 			if ((searchText != null) && (!searchText.equalsIgnoreCase("null"))) {
-				query = query.append(" and (g.name like :searchText  or g.contactNo like :searchText)");
+				query = query.append(" and (g.Name like :searchText  or g.ContactNo like :searchText)");
 			}
-			query = query.append(" order by g.rank asc limit :pageSize OFFSET :startIndex");
+			query = query.append(" order by g.Rank asc limit :pageSize OFFSET :startIndex");
 			if ((searchText != null) && (!searchText.equalsIgnoreCase("null"))) {
 				guestList = entityManager.createNativeQuery(query.toString(), Guest.class).setParameter("orgId", orgId)
 						.setParameter("searchText", "%" + searchText + "%").setParameter("pageSize", pageSize)
@@ -323,8 +323,8 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 
 		@SuppressWarnings("unchecked" )
 		List<GuestDetailsDTO> guestDTO = entityManager.createNativeQuery(
-				"select * from (select gr.GuestID, gr.organizationID, gr.name,gr.note,gr.uuid,gr.noOfPeople,gr.email,gr.contactNo,gr.status,gr.rank,gr.prefType,gr.optin,gr.calloutCount,gr.checkinTime,gr.seatedTime,gr.createdTime,gr.updatedTime,gr.incompleteParty,gr.seatingPreference,gr.marketingPreference,gr.deviceType,gr.deviceId,gr.languagePrefID from GUESTRESET gr left join GUEST g on g.guestID = gr.GuestID where gr.organizationID=:orgID and gr.contactNo=:contactNumber union"
-						+ " select g.guestID, g.organizationID, g.name,g.note,g.uuid,g.noOfPeople,g.email,g.contactNo,g.status,g.rank,g.prefType,g.optin,g.calloutCount,g.checkinTime,g.seatedTime,g.createdTime,g.updatedTime,g.incompleteParty,g.seatingPreference,g.marketingPreference,g.deviceType,g.deviceId,g.languagePrefID from GUEST g where g.organizationID=:orgID and g.contactNo=:contactNumber) as u order by u.createdTime desc",GuestDetailsDTO.class)
+				"select * from (select gr.GuestID, gr.OrganizationID, gr.Name,gr.Note,gr.Uuid,gr.NoOfAdults,gr.NoOfChildren,gr.NoOfInfants,gr.NoOfPeople,gr.Email,gr.ContactNo,gr.Status,gr.Rank,gr.PrefType,gr.Optin,gr.CalloutCount,gr.CheckinTime,gr.SeatedTime,gr.createdAt,gr.ModifiedAt,gr.IncompleteParty,gr.SeatingPreference,gr.DeviceType,gr.DeviceId,gr.LanguagePrefID from GUESTRESET gr left join GUEST g on g.GuestID = gr.GuestID where gr.OrganizationID=:orgID and gr.ContactNo=:contactNumber union"
+						+ " select g.GuestID, g.OrganizationID, g.Name,g.Note,g.Uuid,g.NoOfAdults,g.NoOfChildren,g.NoOfInfants,g.NoOfPeople,g.Email,g.ContactNo,g.Status,g.Rank,g.PrefType,g.Optin,g.CalloutCount,g.CheckinTime,g.SeatedTime,g.createdAt,g.ModifiedAt,g.IncompleteParty,g.SeatingPreference,g.DeviceType,g.DeviceId,g.LanguagePrefID from GUEST g where g.OrganizationID=:orgID and g.ContactNo=:contactNumber) as u order by u.createdAt desc",GuestDetailsDTO.class)
 				.setParameter("orgID", orgID).setParameter("contactNumber", contactNumber).getResultList();
 
 		return guestDTO;
@@ -340,10 +340,10 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 
 				try {
 					StringBuilder query = new StringBuilder(
-							"SELECT count(*) FROM GUEST g join LANGMASTER l on l.langID=g.languagePrefID WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId");
+							"SELECT count(*) FROM GUEST g join LANGMASTER l on l.langID=g.LanguagePrefID WHERE g.status ='CHECKIN' and g.ResetTime is null and g.OrganizationID=:orgId");
 
 					if ((searchText != null) && (!searchText.equalsIgnoreCase("null"))) {
-						query = query.append(" and (g.name like :searchText  or g.contactNo like :searchText)");
+						query = query.append(" and (g.Name like :searchText  or g.ContactNo like :searchText)");
 					}
 					
 					if ((searchText != null) && (!searchText.equalsIgnoreCase("null"))) {
@@ -372,18 +372,18 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 					String sliderMinTimeString = sliderMinTime + ":00";
 					String sliderMaxTimeString = sliderMaxTime + ":01";
 					StringBuilder query = new StringBuilder(
-							"SELECT count(*) FROM GUEST g WHERE g.resetTime is  null and g.status not in ('CHECKIN')"
-									+ " and g.OrganizationID=:orgId and ((time(convert_tz(g.checkinTime,'-05:00', :clientTimezone)) between time(:sliderMinValue) and time(:sliderMaxValue)))");
+							"SELECT count(*) FROM GUEST g WHERE g.ResetTime is  null and g.Status not in ('CHECKIN')"
+									+ " and g.OrganizationID=:orgId and ((time(convert_tz(g.CheckinTime,'-05:00', :clientTimezone)) between time(:sliderMinValue) and time(:sliderMaxValue)))");
 					if (statusOption.equals("Not Present")) {
-						query = query.append(" and calloutCount > 0");
+						query = query.append(" and CalloutCount > 0");
 					}
 					if (statusOption.equals("Incomplete")) {
-						query = query.append(" and incompleteParty > 0");
+						query = query.append(" and IncompleteParty > 0");
 					}
 					if ((searchText != null) && (!searchText.equalsIgnoreCase("null"))) {
-						query = query.append(" and (g.name like :searchText  or g.contactNo like :searchText)");
+						query = query.append(" and (g.Name like :searchText  or g.ContactNo like :searchText)");
 					}
-					query = query.append(" order by g.rank asc limit :pageSize OFFSET :startIndex");
+					query = query.append(" order by g.Rank asc limit :pageSize OFFSET :startIndex");
 					if ((searchText != null) && (!searchText.equalsIgnoreCase("null"))) {
 						count = entityManager.createNativeQuery(query.toString(), Guest.class).setParameter("orgId", orgId)
 								.setParameter("sliderMinValue", sliderMinTimeString)

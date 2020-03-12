@@ -1,3 +1,8 @@
+USE `KyobeeTechRevamp`;
+DROP procedure IF EXISTS `RESETGUESTBYORGID`;
+
+DELIMITER $$
+USE `KyobeeTechRevamp`$$
 CREATE DEFINER=`root`@`%` PROCEDURE `RESETGUESTBYORGID`(IN ORGID INT(11))
     NO SQL
     COMMENT 'This is the method to reset the data by organizationID'
@@ -26,8 +31,8 @@ BEGIN
      	
             SELECT * FROM GUEST WHERE ORGANIZATIONID=ORGID FOR UPDATE;
              
-            INSERT INTO GUESTRESET (guestID, OrganizationID, name, uuid, noOfPeople, deviceType, deviceId, contactNo, email, prefType, languagePrefID, optin, rank, status, seatingPreference, recvLeveltwo, calloutCount, note, incompleteParty, resetTime, checkinTime, seatedTime, createdTime, updatedTime)
-                 SELECT guestID, OrganizationID, name, uuid, noOfPeople, deviceType, deviceId, contactNo, email, prefType, languagePrefID, optin, rank, status, seatingPreference, recvLeveltwo, calloutCount, note, incompleteParty, now(), checkinTime, seatedTime, createdTime, updatedTime
+            INSERT INTO GUESTRESET (GuestID, OrganizationID, Name, Uuid , NoOfChildren , NoOfAdults, NoOfInfants , NoOfPeople, DeviceType, DeviceId, ContactNo, Email, PrefType, LanguagePrefID, Optin, Rank, Status, SeatingPreference, RecvLeveltwo, CalloutCount, Note, IncompleteParty, ResetTime, CheckinTime, SeatedTime, CreatedBy, CreatedAt , ModifiedBy , ModifiedAt)
+                 SELECT GuestID, OrganizationID, Name, Uuid , NoOfChildren , NoOfAdults, NoOfInfants , NoOfPeople , DeviceType, DeviceId, ContactNo, Email, PrefType, LanguagePrefID,Optin, Rank, Status, SeatingPreference, RecvLeveltwo, CalloutCount, Note, IncompleteParty, now(), CheckinTime, SeatedTime, CreatedBy, CreatedAt , ModifiedBy , ModifiedAt
                  FROM GUEST WHERE ORGANIZATIONID=ORGID;
             -- SELECT 'after update';
             
@@ -43,4 +48,7 @@ BEGIN
 	-- UNTIL done END REPEAT;
    -- CLOSE orgrecords;
 
-END
+END$$
+
+DELIMITER ;
+

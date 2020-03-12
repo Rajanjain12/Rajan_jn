@@ -1,5 +1,4 @@
 package com.kyobeeUserService.entity;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,69 +17,105 @@ public class Guest implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name = "GuestID")
 	private Integer guestID;
 
 	@Column(name = "OrganizationID")
 	private Integer organizationID;
 
+	@Column(name = "Name")
 	private String name;
 
+	@Column(name = "Uuid")
 	private String uuid;
 
+	@Column(name = "NoOfAdults")
 	private Integer noOfAdults;
 
+	@Column(name = "NoOfChildren")
 	private Integer noOfChildren;
 
+	@Column(name = "NoOfInfants")
 	private Integer noOfInfants;
 
+	@Column(name = "NoOfPeople")
 	private Integer noOfPeople;
 
+	@Column(name = "QuoteTime")
 	private Integer quoteTime;
 
+	@Column(name = "PartyType")
 	private Integer partyType;
 
+	@Column(name = "DeviceType")
 	private String deviceType;
 
+	@Column(name = "DeviceId")
 	private String deviceId;
 
+	@Column(name = "ContactNo")
 	private String contactNo;
+
+	@Column(name = "Email")
 	private String email;
+
+	@Column(name = "PrefType")
 	private String prefType;
 
 	// bi-directional many-to-one association to Langmaster
 	@ManyToOne
-	@JoinColumn(name = "languagePrefID")
+	@JoinColumn(name = "LanguagePrefID")
 	private LangMaster langmaster;
+
+	@Column(name = "Optin")
 	private Byte optin;
 
+	@Column(name = "Rank")
 	private Integer rank;
 
+	@Column(name = "Status")
 	private String status;
 
+	@Column(name = "SeatingPreference")
 	private String seatingPreference;
 
+	@Column(name = "RecvLeveltwo")
 	private Byte recvLeveltwo;
 
+	@Column(name = "CalloutCount")
 	private Integer calloutCount;
 
+	@Column(name = "Note")
 	private String note;
 
+	@Column(name = "TncompleteParty")
 	private Integer incompleteParty;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "ResetTime")
 	private Date resetTime;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "CheckinTime")
 	private Date checkinTime;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "SeatedTime")
 	private Date seatedTime;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createdTime;
+	@Column(name = "CreatedBy")
+	private String createdBy;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date updatedTime;
+	@Column(name = "CreatedAt")
+	private Date createdAt;
+
+	@Column(name = "ModifiedBy")
+	private String modifiedBy;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "ModifiedAt")
+	private Date modifiedAt;
 
 	public Guest() {
 		// constructor
@@ -302,24 +337,36 @@ public class Guest implements Serializable {
 		this.seatedTime = seatedTime;
 	}
 
-	public Date getCreatedTime() {
-		return createdTime;
+	public String getCreatedBy() {
+		return createdBy;
 	}
 
-	public void setCreatedTime(Date createdTime) {
-		this.createdTime = createdTime;
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
 	}
 
-	public Date getUpdatedTime() {
-		return updatedTime;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setUpdatedTime(Date updatedTime) {
-		this.updatedTime = updatedTime;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public Date getModifiedAt() {
+		return modifiedAt;
+	}
+
+	public void setModifiedAt(Date modifiedAt) {
+		this.modifiedAt = modifiedAt;
 	}
 
 }

@@ -56,7 +56,10 @@
               <td *ngIf="toggleColumnArr.rank == true">{{ guest.rank }}</td>
               <!-- <td>Small</td> -->
               <td *ngIf="toggleColumnArr.noOfParty == true">Total {{ guest.noOfPeople }} [ A-{{ guest.noOfAdults }} C-{{ guest.noOfChildren }}]</td>
-              <td *ngIf="toggleColumnArr.name == true">{{ guest.name }}</td>
+              <td *ngIf="toggleColumnArr.name == true">
+                <span [ngClass]="{ 'incomplete ' : guest.incompleteParty != null }">{{ guest.name }}</span>
+                <span *ngIf="guest.calloutCount != null"><img [src]="notPresentImg" class="pl-2" alt="not present" />{{ guest.calloutCount }}</span>
+              </td>
               <td *ngIf="toggleColumnArr.checkInTime == true">{{ guest.checkinTime | date }}</td>
               <td *ngIf="toggleColumnArr.languagePref == true">{{ guest.languagePref.langName }}</td>
               <td *ngIf="toggleColumnArr.optIn == true"><img ng-show="guest.optin == 1" [src]="roundarrow" class="roundarrow ng-hide" /></td>

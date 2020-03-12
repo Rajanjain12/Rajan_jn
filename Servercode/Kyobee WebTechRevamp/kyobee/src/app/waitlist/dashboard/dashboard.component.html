@@ -1,7 +1,8 @@
 <main id="page-content-wrapper fade-in" role="main">
   <section class="container pt-lg-4 pt-md-4 pt-sm-5 pt-5 fade-in" id="dashboardPage">
     <div class="alert alert-danger mt-2 row-eq-height" style="display: none;" role="alert">
-      <span class="m-auto float-left">Notification about renewing plan. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</span>
+      <span class="m-auto float-left">Notification about renewing plan. Lorem Ipsum is simply dummy text of the printing
+        and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</span>
       <button href="#" data-dismiss="alert"><i class="flaticon-close font-color"></i></button>
       <div class="clearfix"></div>
     </div>
@@ -14,15 +15,17 @@
       <div class="col-lg-9">
         <div class="row pb-2">
           <div class="col-lg-3 pb-2">
-            <a class="table-column-btn" href="javascript:void(0)" data-toggle="modal" id="tableColumnModalBtn" data-target="#tableColumnModal">Show Column<i class="flaticon-funnel font-color float-right"></i></a>
+            <a class="table-column-btn" href="javascript:void(0)" data-toggle="modal" id="tableColumnModalBtn"
+              data-target="#tableColumnModal">Show Column<i class="flaticon-funnel font-color float-right"></i></a>
           </div>
           <div class="col-lg-auto pb-2">
             <span class="table-column-btn">
-              <span class="col-lg-4 col-md-4 col-sm-6 sm-block p-0 my-2 mr-3"
-                >Party Wait Time
-                <select class="font-color ml-2" name="perPartyTime" (change)="saveOrgMetrics()" #perPartyTime="ngModel" [(ngModel)]="waitTime">
+              <span class="col-lg-4 col-md-4 col-sm-6 sm-block p-0 my-2 mr-3">Party Wait Time
+                <select class="font-color ml-2" name="perPartyTime" (change)="saveOrgMetrics()" #perPartyTime="ngModel"
+                  [(ngModel)]="waitTime">
                   <option selected value="null">Select Wait Time</option>
-                  <option *ngFor="let waitOption of [].constructor(waitTimeOption); let j = index" value="{{ j + 1 }}">{{ j + 1 }} Min.</option>
+                  <option *ngFor="let waitOption of [].constructor(waitTimeOption); let j = index" value="{{ j + 1 }}">
+                    {{ j + 1 }} Min.</option>
                 </select>
               </span>
               <!-- <span class="col-lg-4 col-md-4 col-sm-6">Notify First
@@ -34,7 +37,8 @@
               </span> -->
               <span class="col-lg-4 col-md-4 col-sm-6 sm-block p-0 my-2">
                 Total Wait Time
-                <span class="text-white background-color py-1 px-4 rounded ml-2">{{ organizationMetrics != null ? convertMinstoMMHH(organizationMetrics.totalWaitTime) : null }}</span>
+                <span
+                  class="text-white background-color py-1 px-4 rounded ml-2">{{ organizationMetrics != null ? convertMinstoMMHH(organizationMetrics.totalWaitTime) : null }}</span>
               </span>
             </span>
           </div>
@@ -45,7 +49,8 @@
       <!-- col -->
       <div class="col-lg-3 text-right pb-2">
         <form #f="ngForm" (ngSubmit)="onSubmit(f.invalid)">
-          <input class="form-control search" type="text" name="searchData" #searchData="ngModel" [(ngModel)]="searchText" placeholder="Search" />
+          <input class="form-control search" type="text" name="searchData" #searchData="ngModel"
+            [(ngModel)]="searchText" placeholder="Search" />
         </form>
       </div>
       <!-- col -->
@@ -99,25 +104,28 @@
           <tbody>
             <tr *ngFor="let guest of guestDTOList">
               <td *ngIf="toggleColumnArr.action == true">
-                <a href="javascript:void(0)" (click)="showSeatModal(guest)"
-                  ><i *ngIf="guest.calloutCount == null && guest.incompleteParty == null" class="flaticon-black-male-user-symbol font-color"></i>
-                  <i *ngIf="!(guest.calloutCount == null && guest.incompleteParty == null)" class="flaticon-black-male-user-symbol grey"></i
-                ></a>
+                <a href="javascript:void(0)" (click)="showSeatModal(guest)"><i
+                    *ngIf="guest.calloutCount == null && guest.incompleteParty == null"
+                    class="flaticon-black-male-user-symbol font-color"></i>
+                  <i *ngIf="!(guest.calloutCount == null && guest.incompleteParty == null)"
+                    class="flaticon-black-male-user-symbol grey"></i></a>
               </td>
               <td *ngIf="toggleColumnArr.rank == true">{{ guest.rank }}</td>
               <!-- <td>Small</td> data-toggle="modal" data-target="#seatModal" -->
-              <td *ngIf="toggleColumnArr.noOfParty == true">Total {{ guest.noOfPeople }} [ A-{{ guest.noOfAdults }} C-{{ guest.noOfChildren }}]</td>
+              <td *ngIf="toggleColumnArr.noOfParty == true">Total {{ guest.noOfPeople }} [ A-{{ guest.noOfAdults }}
+                C-{{ guest.noOfChildren }}]</td>
               <td *ngIf="toggleColumnArr.name == true">
-                <a [routerLink]="['/waitlist/addguest', guest.guestID]"
-                  ><span *ngIf="guest.incompleteParty != null" class="incomplete">{{ guest.name }}</span
-                  ><span *ngIf="guest.incompleteParty == null">{{ guest.name }}</span></a
-                >
-                <span *ngIf="guest.calloutCount != null"><img [src]="notPresentImg" class="pl-2" alt="not present" />{{ guest.calloutCount }}</span>
+                <a [routerLink]="['/waitlist/addguest', guest.guestID]"><span *ngIf="guest.incompleteParty != null"
+                    class="incomplete">{{ guest.name }}</span><span
+                    *ngIf="guest.incompleteParty == null">{{ guest.name }}</span></a>
+                <span *ngIf="guest.calloutCount != null"><img [src]="notPresentImg" class="pl-2"
+                    alt="not present" />{{ guest.calloutCount }}</span>
               </td>
               <td *ngIf="toggleColumnArr.checkInTime == true">{{ guest.checkinTime | date }}</td>
               <!-- <td>10 Min.</td> -->
               <td *ngIf="toggleColumnArr.languagePref == true">{{ guest.languagePref.langName }}</td>
-              <td *ngIf="toggleColumnArr.optIn == true"><img ng-show="guest.optin == 1" [src]="roundarrow" class="roundarrow ng-hide" /></td>
+              <td *ngIf="toggleColumnArr.optIn == true"><img ng-show="guest.optin == 1" [src]="roundarrow"
+                  class="roundarrow ng-hide" /></td>
               <td *ngIf="toggleColumnArr.note == true">
                 <span *ngIf="guest.note != ''" class="info-icon custom-tooltip">
                   <i class="flaticon-file"></i>
@@ -142,7 +150,8 @@
             <a href="javascript:void(0)" class="page-link" (click)="fetchPrevGuest()">&#60;</a>
           </li>
           <li *ngFor="let i of [].constructor(totalPageNo); let j = index" class="page-item">
-            <a href="javascript:void(0)" class="page-link" [ngClass]="{ 'active-pagination': pageNo === j + 1 }" (click)="fetchGuestByPageNo(j + 1)"> {{ j + 1 }}</a>
+            <a href="javascript:void(0)" class="page-link" [ngClass]="{ 'active-pagination': pageNo === j + 1 }"
+              (click)="fetchGuestByPageNo(j + 1)"> {{ j + 1 }}</a>
           </li>
           <li *ngIf="totalPageNo !== pageNo" class="page-item">
             <a href="javascript:void(0)" class="page-link" (click)="fetchNextGuest()">&#62;</a>
@@ -177,7 +186,8 @@
               </div> -->
               <!-- checkbox -->
               <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
-                <input class="styled-checkbox" checked id="noOfParty" type="checkbox" (click)="toggleColumns('NOOFPARTY')" />
+                <input class="styled-checkbox" checked id="noOfParty" type="checkbox"
+                  (click)="toggleColumns('NOOFPARTY')" />
                 <label for="noOfParty" class="mr-2">No. of Party</label>
               </div>
               <!-- checkbox -->
@@ -187,7 +197,8 @@
               </div>
               <!-- checkbox -->
               <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
-                <input class="styled-checkbox" checked id="checkIn" type="checkbox" (click)="toggleColumns('CHECKIN')" />
+                <input class="styled-checkbox" checked id="checkIn" type="checkbox"
+                  (click)="toggleColumns('CHECKIN')" />
                 <label for="checkIn" class="mr-2">Check In Time</label>
               </div>
               <!-- checkbox -->
@@ -207,7 +218,8 @@
               </div>
               <!-- checkbox -->
               <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
-                <input class="styled-checkbox" checked id="sendText" type="checkbox" (click)="toggleColumns('SENDTEXT')" />
+                <input class="styled-checkbox" checked id="sendText" type="checkbox"
+                  (click)="toggleColumns('SENDTEXT')" />
                 <label for="sendText" class="mr-2">Send Text</label>
               </div>
               <!-- checkbox -->
@@ -247,13 +259,16 @@
             <h4>{{ selectedGuest != null ? selectedGuest.name : null }}</h4>
             <div class="row py-4">
               <div class="col-lg-4 col-md-4 col-sm-12 text-right modal-btn my-2">
-                <button type="button" (click)="changeStatus('NOTPRESENT')" class="btn btn-theme background-color shadow">Not Present</button>
+                <button type="button" (click)="changeStatus('NOTPRESENT')"
+                  class="btn btn-theme background-color shadow">Not Present</button>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-12 text-center modal-btn my-2">
-                <button type="button" (click)="changeStatus('INCOMPLETE')" class="btn btn-theme background-color shadow">Incomplete</button>
+                <button type="button" (click)="changeStatus('INCOMPLETE')"
+                  class="btn btn-theme background-color shadow">Incomplete</button>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-12 text-left modal-btn my-2">
-                <button type="button" (click)="changeStatus('SEATED')" class="btn btn-theme background-color shadow">Yes</button>
+                <button type="button" (click)="changeStatus('SEATED')"
+                  class="btn btn-theme background-color shadow">Yes</button>
               </div>
             </div>
           </div>
@@ -267,7 +282,8 @@
         <div class="modal-content border-radius border-0">
           <div class="custom-modal-header background-color">
             <span class="modal-title text-white">Delete</span>
-            <button type="button" class="close text-white" (click)="removeSelected('DELETE')" data-dismiss="modal">&times;</button>
+            <button type="button" class="close text-white" (click)="removeSelected('DELETE')"
+              data-dismiss="modal">&times;</button>
           </div>
           <div class="modal-body text-center">
             <h4>Are you sure you want to delete?</h4>
@@ -276,7 +292,8 @@
                 <button type="button" class="btn btn-theme background-color shadow">cancel</button>
               </div> -->
               <div class="col-lg-12 col-md-12 col-sm-12 text-center modal-btn my-2">
-                <button type="button" class="btn btn-theme background-color shadow" (click)="changeStatus('DELETE')">Yes</button>
+                <button type="button" class="btn btn-theme background-color shadow"
+                  (click)="changeStatus('DELETE')">Yes</button>
               </div>
             </div>
           </div>
@@ -293,43 +310,49 @@
             <button type="button" class="close text-white" (click)="removeSelected('SMSMODAL')">&times;</button>
           </div>
           <div class="modal-body">
-            <h4 class="pt-3 pb-3 text-center">Guest {{ selectedGuest != null ? selectedGuest.rank : null }} ({{ selectedGuest != null ? selectedGuest.name : null }})</h4>
+            <h4 class="pt-3 pb-3 text-center">Guest {{ selectedGuest != null ? selectedGuest.rank : null }}
+              ({{ selectedGuest != null ? selectedGuest.name : null }})</h4>
             <div class="pt-3 sms-tab-container" *ngIf="organizationTemplateDTOList  !=  undefined ">
               <div *ngIf="organizationTemplateDTOList.length != 0">
-              <ul class="nav nav-tabs nav-justified" role="tablist">
-                <li class="nav-item">
-                  <a href="javascript:void(0)" class="nav-link active" data-toggle="tab" (click)="fetchOrgLevelMsg(1)" href="#level1">Check-in</a>
-                </li>
-                <li class="nav-item">
-                  <a href="javascript:void(0)" class="nav-link" data-toggle="tab" href="#level2" (click)="fetchOrgLevelMsg(2)">Reminder</a>
-                </li>
-                <li class="nav-item">
-                  <a href="javascript:void(0)" class="nav-link" data-toggle="tab" href="#level3" (click)="fetchOrgLevelMsg(3)">Custom</a>
-                </li>
-              </ul>
-              <div class="tab-content">
-                <div *ngFor="let orgTemp of organizationTemplateDTOList; let i = index" id="level{{ i + 1 }}" class="container tab-pane " [ngClass]="{ active: i === 0 }">
-                  <br />
-                  <p>{{ i + 1 }} {{ orgTemp.templateText }}</p>
-                </div>
-                <!--  <div id="level2" class="container tab-pane fade"><br>
+                <ul class="nav nav-tabs nav-justified" role="tablist">
+                  <li class="nav-item">
+                    <a href="javascript:void(0)" class="nav-link active" data-toggle="tab" (click)="fetchOrgLevelMsg(1)"
+                      href="#level1">Check-in</a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="javascript:void(0)" class="nav-link" data-toggle="tab" href="#level2"
+                      (click)="fetchOrgLevelMsg(2)">Reminder</a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="javascript:void(0)" class="nav-link" data-toggle="tab" href="#level3"
+                      (click)="fetchOrgLevelMsg(3)">Custom</a>
+                  </li>
+                </ul>
+                <div class="tab-content">
+                  <div *ngFor="let orgTemp of organizationTemplateDTOList; let i = index" id="level{{ i + 1 }}"
+                    class="container tab-pane " [ngClass]="{ active: i === 0 }">
+                    <br />
+                    <p>{{ i + 1 }} {{ orgTemp.templateText }}</p>
+                  </div>
+                  <!--  <div id="level2" class="container tab-pane fade"><br>
                   <p>Guest #2: There are 0 parties ahead of you w/ approx. wait-time of 6 min. For LIVE updates: https://tinyurl.com/yc8kfl5m/s/eb2702fb</p>
                 </div>
                 <div id="level3" class="container tab-pane fade"><br>
                   <p>Guest #3: There are 0 parties ahead of you w/ approx. wait-time of 6 min. For LIVE updates: https://tinyurl.com/yc8kfl5m/s/eb2702fb</p>
                 </div> -->
-                <div class="row py-3">
-                  <div class="col-lg-12 col-md-12 col-sm-12 modal-btn text-center my-2">
-                    <button type="button" (click)="sendSMS()" class="btn btn-theme background-color shadow">Send Text</button>
-                  </div>
-                  <!-- <div class="col-lg-6 col-md-6 col-sm-12 text-left modal-btn my-2">
+                  <div class="row py-3">
+                    <div class="col-lg-12 col-md-12 col-sm-12 modal-btn text-center my-2">
+                      <button type="button" (click)="sendSMS()" class="btn btn-theme background-color shadow">Send
+                        Text</button>
+                    </div>
+                    <!-- <div class="col-lg-6 col-md-6 col-sm-12 text-left modal-btn my-2">
                     <button type="button" class="btn btn-theme background-color shadow" data-dismiss="modal">Cancel</button>
                   </div> -->
+                  </div>
                 </div>
               </div>
+              <div *ngIf="organizationTemplateDTOList?.length==0">No Data to show</div>
             </div>
-            <div *ngIf="organizationTemplateDTOList?.length==0">No Data to show</div>
-          </div>
           </div>
         </div>
       </div>

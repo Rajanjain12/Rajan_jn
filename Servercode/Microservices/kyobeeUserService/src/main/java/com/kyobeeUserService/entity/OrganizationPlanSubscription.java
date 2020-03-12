@@ -18,72 +18,72 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="ORGANIZATIONPLANSUBSCRIPTION")
+@Table(name = "ORGANIZATIONPLANSUBSCRIPTION")
 public class OrganizationPlanSubscription implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="OrganizationPlanId")
+	@Column(name = "OrganizationPlanId")
 	private Integer organizationPlanId;
-	
-	@OneToOne(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
-	@JoinColumn(name="OrganizationId")
+
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "OrganizationId")
 	private Organization organization;
-	
-	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "PlanID")
 	private Plan plan;
-	
-	@Column(name="UnitId")
+
+	@Column(name = "UnitId")
 	private Integer unitId;
-	
-	@Column(name="AmountPerUnit")
+
+	@Column(name = "AmountPerUnit")
 	private BigDecimal amountPerUnit;
-	
-	@Column(name="CurrencyId")
+
+	@Column(name = "CurrencyId")
 	private Integer currencyId;
-	
-	@Column(name="NoOfUnit")
-	private Integer numberOfUnits;
-	
-	@Column(name="TotalAmount")
-	private BigDecimal totalAmount;
-	
-	@Temporal(TemporalType.DATE)
-	@Column(name="StartDate")
-	private Date startDate;
-	
-	@Temporal(TemporalType.DATE)
-	@Column(name="EndDate")
-	private Date endDate;
-	
-	@Temporal(TemporalType.DATE)
-	@Column(name="TerminateDate")
-	private Date terminateDate;
-	
-	@Column(name="CostPerAd")
-	private BigDecimal costPerAd;
-	
-	@Column(name="NoOfAdsPerUnit")
-	private Integer noOfAdsPerUnit;
-	
-	@Column(name="ChargeId")
+
+	@Column(name = "ChargeID")
 	private String chargeId;
-	
+
+	@Column(name = "NoOfUnit")
+	private Integer numberOfUnits;
+
+	@Column(name = "TotalAmount")
+	private BigDecimal totalAmount;
+
 	@Temporal(TemporalType.DATE)
-	@Column(name="CreatedAt")
+	@Column(name = "StartDate")
+	private Date startDate;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "EndDate")
+	private Date endDate;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "TerminateDate")
+	private Date terminateDate;
+
+	@Column(name = "CostPerAd")
+	private BigDecimal costPerAd;
+
+	@Column(name = "NoOfAdsPerUnit")
+	private Integer noOfAdsPerUnit;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "CreatedAt")
 	private Date createdAt;
 
-	@Column(name="CreatedBy")
+	@Column(name = "CreatedBy")
 	private String createdBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="ModifiedAt")
+	@Column(name = "ModifiedAt")
 	private Date modifiedAt;
 
-	@Column(name="ModifiedBy")
+	@Column(name = "ModifiedBy")
 	private String modifiedBy;
 
 	public Integer getOrganizationPlanId() {
@@ -229,5 +229,5 @@ public class OrganizationPlanSubscription implements Serializable {
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
-	
+
 }

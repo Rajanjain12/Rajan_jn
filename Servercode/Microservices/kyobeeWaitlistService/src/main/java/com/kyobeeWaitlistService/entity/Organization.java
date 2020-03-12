@@ -96,12 +96,16 @@ public class Organization implements Serializable {
 	@Column(name = "DefaultLangId")
 	private Integer defaultLangId;
 
+	@Column(name = "WaitTime")
 	private Integer waitTime;
 
+	@Column(name = "NotifyUserCount")
 	private Integer notifyUserCount;
 
+	@Column(name = "ClientBase")
 	private String clientBase;
 
+	@Column(name = "LogoFileName")
 	private String logoFileName;
 
 	@Column(name = "OrganizationPromotionalCode")
@@ -113,6 +117,7 @@ public class Organization implements Serializable {
 	@Column(name = "TotalWaitTime")
 	private Integer totalWaitTime;
 
+	@Column(name = "SmsSignature")
 	private String smsSignature;
 
 	@Column(name = "MaxParty")

@@ -22,26 +22,7 @@ public interface GuestDAO extends CrudRepository<Guest, Integer> {
 	@Query("select rank from Guest where incompleteParty is null and status in('CHECKIN') and organizationID =:orgId and guestID=:guestId")
 	Integer getGuestRank(@Param("orgId") Integer orgId, @Param("guestId") Integer guestId);
 
-	// for fetching guest check in
-	@Query(value = "SELECT * FROM GUEST g join LANGMASTER l on l.langID=g.languagePrefID WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId order by g.rank asc limit :pageSize OFFSET :startIndex", nativeQuery = true)
-	public List<Guest> fetchCheckinGuestList(@Param("orgId") Integer orgId, @Param("pageSize") Integer pageSize,
-			@Param("startIndex") Integer startIndex);
-
-	// for fetching guest check in
-	@Query(value = "SELECT count(*) FROM GUEST g join LANGMASTER l on l.langID=g.languagePrefID WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId ", nativeQuery = true)
-	public Integer fetchCheckinGuestListCount(@Param("orgId") Integer orgId);
-
-	// for fetching guest related details by search Text
-	@Query(value = "SELECT * FROM GUEST g join LANGMASTER l on l.langID=g.languagePrefID WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId and ( g.name like :searchText or g.contactNo like :searchText) order by g.rank asc limit :pageSize OFFSET :startIndex", nativeQuery = true)
-	public List<Guest> fetchCheckinGuestBySearchText(@Param("orgId") Integer orgId, @Param("pageSize") Integer pageSize,
-			@Param("startIndex") Integer startIndex, @Param("searchText") String searchText);
-
-	// for fetching guest related details by search Text
-	@Query(value = "SELECT count(*) FROM GUEST g join LANGMASTER l on l.langID=g.languagePrefID WHERE g.status ='CHECKIN' and g.resetTime is null and g.OrganizationID=:orgId and ( g.name like :searchText or g.contactNo like :searchText)", nativeQuery = true)
-	public List<Guest> fetchCheckinGuestBySearchTextCount(@Param("orgId") Integer orgId,
-			@Param("searchText") String searchText);
-
-	// for fetching guest details by id
+		// for fetching guest details by id
 	@Query(value = "select g from Guest g join LangMaster l on l.langID=g.langmaster.langID WHERE g.status ='CHECKIN' and g.resetTime is null and g.guestID=:guestId")
 	public Guest fetchGuestById(@Param("guestId") Integer guestId);
 

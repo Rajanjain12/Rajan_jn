@@ -92,7 +92,7 @@
           <label *ngIf="listMarketingPref.length != 0" class="col-12 font-weight-bold font-16 px-0">{{ languageKeyMap['how_did_you_here_about_us'] }}</label>
           <div class="col-12 col-sm-6 col-lg-3 social-icon" *ngFor="let marketing of listMarketingPref; index as i">
             <input class="styled-checkbox" id="marketingPref{{ i }}" type="checkbox" [(ngModel)]="marketing.selected" [ngModelOptions]="{ standalone: true }" />
-            <label for="marketingPref"></label>
+            <label for="marketingPref{{ i }}"></label>
             <label class="label" for="marketingPref{{ i }}"> {{ marketing.prefValue }} </label>
             <i class="background"></i>
             <i class="flaticon-settings icon"></i>

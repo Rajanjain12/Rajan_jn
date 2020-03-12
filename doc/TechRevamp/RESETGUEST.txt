@@ -32,9 +32,9 @@ OPEN orgrecords;
 			
             SELECT * FROM GUEST WHERE ORGANIZATIONID=V_ORGID FOR UPDATE;
              
-            INSERT INTO GUESTRESET (guestID, OrganizationID, name, uuid, noOfPeople, deviceType, deviceId, sms, email, prefType, languagePrefID, optin, rank, status, seatingPreference, recvLeveltwo, calloutCount, note, incompleteParty, resetTime, checkinTime, seatedTime, createdTime, updatedTime)
-                 SELECT guestID, OrganizationID, name, uuid, noOfPeople, deviceType, deviceId, sms, email, prefType, languagePrefID, optin, rank, status, seatingPreference, recvLeveltwo, calloutCount, note, incompleteParty, now(), checkinTime, seatedTime, createdTime, updatedTime
-                 FROM GUEST WHERE ORGANIZATIONID=V_ORGID;
+            INSERT INTO GUESTRESET (GuestID, OrganizationID, Name, Uuid , NoOfChildren , NoOfAdults, NoOfInfants , NoOfPeople, DeviceType, DeviceId, ContactNo, Email, PrefType, LanguagePrefID, Optin, Rank, Status, SeatingPreference, RecvLeveltwo, CalloutCount, Note, IncompleteParty, ResetTime, CheckinTime, SeatedTime, CreatedBy, CreatedAt , ModifiedBy , ModifiedAt)
+                 SELECT GuestID, OrganizationID, Name, Uuid , NoOfChildren , NoOfAdults, NoOfInfants , NoOfPeople , DeviceType, DeviceId, ContactNo, Email, PrefType, LanguagePrefID,Optin, Rank, Status, SeatingPreference, RecvLeveltwo, CalloutCount, Note, IncompleteParty, now(), CheckinTime, SeatedTime, CreatedBy, CreatedAt , ModifiedBy , ModifiedAt
+                 FROM GUEST WHERE ORGANIZATIONID=ORGID;
             -- SELECT 'after update';
             
           Insert into GUESTMARKETINGPREFERENCESRESET(GusetMarketingPrefResetID,PrefID,GuestID,CreatedBy,CreatedAt) 

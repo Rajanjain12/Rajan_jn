@@ -28,6 +28,7 @@ export class HistoryComponent implements OnInit {
   };
   statusOptions;
   roundarrow = '../../../assets/images/roundarrow.png';
+  notPresentImg = '../../../assets/images/not-present.png';
   selectedStatus: string;
   user: User;
   orgId;
@@ -208,6 +209,7 @@ export class HistoryComponent implements OnInit {
 
   onSliderChange() {
     console.log('==' + this.sliderMinTime + '---' + this.sliderMaxTime);
+    this.fetchGuestHistory();
   }
   connectPubnub() {
     var channel = environment.pubnubIndividualChannel + '_' + this.orgId;

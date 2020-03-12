@@ -17,12 +17,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.JoinColumns;
+
+import com.kyobeeUserService.entity.Address;
+import com.kyobeeUserService.entity.OrganizationPlanSubscription;
+import com.kyobeeUserService.entity.OrganizationType;
 
 @Entity
 @Table(name = "ORGANIZATION")
 public class Organization implements Serializable {
-
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -96,12 +98,16 @@ public class Organization implements Serializable {
 	@Column(name = "DefaultLangId")
 	private Integer defaultLangId;
 
+	@Column(name = "WaitTime")
 	private Integer waitTime;
 
+	@Column(name = "NotifyUserCount")
 	private Integer notifyUserCount;
 
+	@Column(name = "ClientBase")
 	private String clientBase;
 
+	@Column(name = "LogoFileName")
 	private String logoFileName;
 
 	@Column(name = "OrganizationPromotionalCode")
@@ -113,6 +119,7 @@ public class Organization implements Serializable {
 	@Column(name = "TotalWaitTime")
 	private Integer totalWaitTime;
 
+	@Column(name = "SmsSignature")
 	private String smsSignature;
 
 	@Column(name = "MaxParty")
