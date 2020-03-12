@@ -20,23 +20,50 @@
             <div class="row">
               <div class="col-lg-3">
                 <div class="form-group mt-2 mb-3">
-                  <input type="number" name="adult" min="1" max="100" class="form-control" #adult="ngModel" id="adult" [(ngModel)]="guest.noOfAdults" [ngClass]="{ 'is-invalid': f.submitted && adult.invalid }" required="required" />
+                  <input
+                    type="number"
+                    name="adult"
+                    min="1"
+                    max="99"
+                    minValidator
+                    maxValidator
+                    class="form-control"
+                    #adult="ngModel"
+                    id="adult"
+                    [(ngModel)]="guest.noOfAdults"
+                    [ngClass]="{ 'is-invalid': f.submitted && adult.invalid }"
+                    required="required"
+                  />
                   <label for="adult" class="control-label">{{ languageKeyMap['adults'] }}</label>
                   <i class="bar"></i>
                   <div *ngIf="f.submitted && adult.invalid" class="invalid-feedback">
                     <small class="text-danger" *ngIf="adult.errors?.required">{{ languageKeyMap['please_enter_values_for_adults'] }}</small>
-                    <small class="text-danger" *ngIf="adult.errors?.pattern">{{ languageKeyMap['valid_num_error'] }}</small>
+                    <small class="text-danger" *ngIf="adult.errors?.min">{{ languageKeyMap['valid_num_error'] }}</small>
+                    <small class="text-danger" *ngIf="adult.errors?.max">{{ languageKeyMap['maximum_number_of_allowed_people_are_99'] }}</small>
                   </div>
                 </div>
               </div>
               <div class="col-lg-3">
                 <div class="form-group mt-2 mb-3">
-                  <input type="number" name="children" class="form-control" id="children" #children="ngModel" [(ngModel)]="guest.noOfChildren" required="required" />
-                  <!-- <select id="children" name="children" class="form-control" #children="ngModel" [(ngModel)]="guest.noOfChildren">
-                  <option *ngFor="let in of counter(100); let i = index">{{ i }}</option>
-                </select> -->
+                  <input
+                    type="number"
+                    name="children"
+                    min="0"
+                    max="99"
+                    minValidator
+                    maxValidator
+                    class="form-control"
+                    id="children"
+                    #children="ngModel"
+                    [(ngModel)]="guest.noOfChildren"
+                    [ngClass]="{ 'is-invalid': f.submitted && children.invalid }"
+                  />
                   <label for="children" class="control-label">{{ languageKeyMap['children'] }}</label
                   ><i class="bar"></i>
+                  <div *ngIf="f.submitted && children.invalid" class="invalid-feedback">
+                    <small class="text-danger" *ngIf="children.errors?.min">{{ languageKeyMap['valid_num_error'] }}</small>
+                    <small class="text-danger" *ngIf="children.errors?.max">{{ languageKeyMap['maximum_number_of_allowed_people_are_99'] }}</small>
+                  </div>
                 </div>
               </div>
               <div class="col-lg-6">
@@ -72,19 +99,19 @@
               {{ languageKeyMap['standard_text_message_charges_may_apply'] }}
             </small>
             <div class="row">
-              <div *ngIf="user.seatingpref != undefined " class="col-lg-3 my-1">
-                <span *ngIf=" user.seatingpref.length != 0 " class="font-weight-semibold">{{ languageKeyMap['seating_preference'] }}</span>
+              <div *ngIf="user.seatingpref != undefined" class="col-lg-3 my-1">
+                <span *ngIf="user.seatingpref.length != 0" class="font-weight-semibold">{{ languageKeyMap['seating_preference'] }}</span>
               </div>
-              <div class="col-lg-9 my-1" >
-                  <div *ngFor="let seating of user.seatingpref; index as i" class="d-inline-block">
-                <input class="styled-checkbox" id="firstAvailable{{ i }}" type="checkbox" [(ngModel)]="seating.selected" [ngModelOptions]="{ standalone: true }" />
-                <label for="firstAvailable{{ i }}" class="mr-2">{{ languageKeyMap[seating.prefKey != null ? seating.prefKey : 0] }}</label>
-             </div>
+              <div class="col-lg-9 my-1">
+                <div *ngFor="let seating of user.seatingpref; index as i" class="d-inline-block">
+                  <input class="styled-checkbox" id="firstAvailable{{ i }}" type="checkbox" [(ngModel)]="seating.selected" [ngModelOptions]="{ standalone: true }" />
+                  <label for="firstAvailable{{ i }}" class="mr-2">{{ languageKeyMap[seating.prefKey != null ? seating.prefKey : 0] }}</label>
+                </div>
               </div>
             </div>
             <div class="row pt-3">
-              <div *ngIf="user.marketingPref != undefined "  class="col-lg-3 my-1">
-                <span *ngIf=" user.marketingPref.length != 0 " class="font-weight-semibold">{{ languageKeyMap['how_did_you_here_about_us'] }}</span>
+              <div *ngIf="user.marketingPref != undefined" class="col-lg-3 my-1">
+                <span *ngIf="user.marketingPref.length != 0" class="font-weight-semibold">{{ languageKeyMap['how_did_you_here_about_us'] }}</span>
               </div>
               <div class="col-lg-9 my-1">
                 <div *ngFor="let marketing of user.marketingPref; index as i" class="d-inline-block">

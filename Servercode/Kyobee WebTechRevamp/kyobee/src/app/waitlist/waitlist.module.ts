@@ -14,6 +14,8 @@ import { MainpageComponent } from './mainpage/mainpage.component';
 import { AddGuestComponent } from './add-guest/add-guest.component';
 import { HistoryComponent } from './history/history.component';
 import { SettingsComponent } from './settings/settings.component';
+import { MaxValidator } from './add-guest/max.validator';
+import { Min_MaxValidatorDirective } from './add-guest/min.validator';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { SettingsComponent } from './settings/settings.component';
     MainpageComponent,
     AddGuestComponent,
     HistoryComponent,
-    SettingsComponent
+    SettingsComponent,
+    MaxValidator,
+    Min_MaxValidatorDirective
   ],
   imports: [CommonModule, CoreModule, WaitlistRoutingModule, FormsModule, Ng5SliderModule, NgxMaskModule.forRoot()],
   providers: [PubNubAngular]
