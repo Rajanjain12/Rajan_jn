@@ -8,7 +8,7 @@
               {{ errorMessage }}
             </small>
             <div class="form-group mb-3">
-              <input type="text" id="gname" class="form-control" pattern="[A-Za-z0-9 ]*" #gname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && gname.invalid }" maxlength="50" [(ngModel)]="guest.name" name="gname" required="required" />
+              <input type="text" id="gname" class="form-control" ng-pattern="/^[A-Za-z0-9 ]*$/" #gname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && gname.invalid }" maxlength="50" [(ngModel)]="guest.name" name="gname" required="required" />
               <label for="input" class="control-label">{{ languageKeyMap['name'] }}</label
               ><i class="bar"></i>
               <div *ngIf="f.submitted && gname.invalid" class="invalid-feedback">
@@ -20,24 +20,29 @@
             <div class="row">
               <div class="col-lg-3">
                 <div class="form-group mt-2 mb-3">
-                  <input type="number" name="adult" min="1" max="99" class="form-control" #adult="ngModel" id="adult" [(ngModel)]="guest.noOfAdults" [ngClass]="{ 'is-invalid': f.submitted && adult.invalid }" required="required" />
+                  <input type="number" name="adult" min="1" max="99" appCustomMax="100" appCustomMin="1" pattern="/^[0-9]*$/" class="form-control" #adult="ngModel" id="adult" [(ngModel)]="guest.noOfAdults" [ngClass]="{ 'is-invalid': f.submitted && adult.invalid }" required="required" />
                   <label for="adult" class="control-label">{{ languageKeyMap['adults'] }}</label>
                   <i class="bar"></i>
                   <div *ngIf="f.submitted && adult.invalid" class="invalid-feedback">
+                    <small class="text-danger" *ngIf="adult.errors?.pattern">{{ languageKeyMap['valid_num_error'] }}</small>
+                    <small class="text-danger" *ngIf="adult.errors?.number">{{ languageKeyMap['valid_num_error'] }}</small>
                     <small class="text-danger" *ngIf="adult.errors?.required">{{ languageKeyMap['please_enter_values_for_adults'] }}</small>
-                    <small class="text-danger" *ngIf="adult.errors?.min">{{ languageKeyMap['valid_num_error'] }}</small>
-                    <small class="text-danger" *ngIf="adult.errors?.max">{{ languageKeyMap['maximum_number_of_allowed_people_are_99'] }}</small>
+                    <small class="text-danger" *ngIf="adult.errors?.appCustomMin">{{ languageKeyMap['valid_num_error'] }}</small>
+                    <small class="text-danger" *ngIf="adult.errors?.appCustomMax">{{ languageKeyMap['maximum_limit_reached'] }}</small>
                   </div>
                 </div>
               </div>
               <div class="col-lg-3">
                 <div class="form-group mt-2 mb-3">
-                  <input type="number" name="children" min="0" max="99" MaxValidator class="form-control" id="children" #children="ngModel" [(ngModel)]="guest.noOfChildren" [ngClass]="{ 'is-invalid': f.submitted && children.invalid }" />
+                  <input type="number" name="children" min="0" max="99" appCustomMax="99" appCustomMin="0" class="form-control" id="children" #children="ngModel" [(ngModel)]="guest.noOfChildren" pattern="/^[0-9]*$/" [ngClass]="{ 'is-invalid': f.submitted && children.invalid }" />
                   <label for="children" class="control-label">{{ languageKeyMap['children'] }}</label
                   ><i class="bar"></i>
                   <div *ngIf="f.submitted && children.invalid" class="invalid-feedback">
-                    <small class="text-danger" *ngIf="children.errors?.min">{{ languageKeyMap['valid_num_error'] }}</small>
-                    <small class="text-danger" *ngIf="children.errors?.max">{{ languageKeyMap['maximum_number_of_allowed_people_are_99'] }}</small>
+                      <small class="text-danger" *ngIf="children.errors?.pattern">{{ languageKeyMap['valid_num_error'] }}</small>
+                      <small class="text-danger" *ngIf="children.errors?.number">{{ languageKeyMap['valid_num_error'] }}</small>
+                      <small class="text-danger" *ngIf="children.errors?.required">{{ languageKeyMap['please_enter_values_for_adults'] }}</small>
+                      <small class="text-danger" *ngIf="children.errors?.appCustomMin">{{ languageKeyMap['valid_num_error'] }}</small>
+                      <small class="text-danger" *ngIf="children.errors?.appCustomMax">{{ languageKeyMap['maximum_limit_reached'] }}</small>
                   </div>
                 </div>
               </div>
@@ -96,7 +101,7 @@
               </div>
             </div>
             <div class="form-group">
-              <textarea id="text" name="text" maxlength="150" class="form-control" #text="ngModel" [ngClass]="{ 'is-invalid': f.submitted && text.invalid }" [(ngModel)]="guest.note"> </textarea>
+              <textarea appAutosize [minRows]="1" [maxRows]="10" id="text" name="text" maxlength="150" class="form-control" #text="ngModel" [ngClass]="{ 'is-invalid': f.submitted && text.invalid }" [(ngModel)]="guest.note"> </textarea>
               <div *ngIf="f.submitted && text.invalid" class="invalid-feedback">
                 <!--  <small class="text-danger" *ngIf="text.errors?.required">Note is required</small> -->
                 <small class="text-danger" *ngIf="text.errors?.maxlength">{{ languageKeyMap['maximum_characters_limit_reached'] }}</small>

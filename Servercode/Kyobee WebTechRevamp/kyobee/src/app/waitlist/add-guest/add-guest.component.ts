@@ -5,7 +5,9 @@ import { GuestDTO } from 'src/app/core/models/guest.model';
 import { Preference } from 'src/app/core/models/preference.model';
 import { GuestService } from 'src/app/core/services/guest.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MaxValidator } from '../../core/directives/max.validator';
+import { PubNubAngular } from 'pubnub-angular2';
+import { environment } from '@env/environment';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-guest',
@@ -16,13 +18,13 @@ export class AddGuestComponent implements OnInit {
   guest: GuestDTO = new GuestDTO();
   user: User = new User();
   errorMessage: string;
-  public sum: number = 0;
+  public sum = 0;
   marketingPref: Array<Preference>;
   seatingPref: Array<Preference>;
   id: string;
   languageKeyMap: Map<string, string>;
   selectedItem;
-  defaultLanguage = [];
+  languageList = [];
   listSeatingPref: Array<Preference>;
   listMarketingPref: Array<Preference>;
 
@@ -30,20 +32,18 @@ export class AddGuestComponent implements OnInit {
     private authService: AuthService,
     private guestService: GuestService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private pubnub: PubNubAngular
   ) {}
-
-  counter(i: number) {
-    return Array(i);
-  }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     this.user = this.authService.getUser();
+    this.connectPubnub();
     if (this.id !== null) {
       this.guestService.fetchGuest(this.id).subscribe(res => {
         console.log('res' + JSON.stringify(res));
-        if (res.success == 1) {
+        if (res.success === 1) {
           this.guest = res.serviceResult;
           this.seatingOrMarketingPref();
           console.log('result ' + JSON.stringify(res.serviceResult));
@@ -62,8 +62,8 @@ export class AddGuestComponent implements OnInit {
     // default lang settings
 
     console.log('seating pref ' + JSON.stringify(this.user.seatingpref));
-    this.defaultLanguage = this.user.languagePref;
-    this.selectedItem = this.defaultLanguage.find(x => x.langIsoCode === 'en');
+    this.languageList = this.user.languagePref;
+    this.selectedItem = this.languageList.find(x => x.langIsoCode === 'en');
     console.log('default language' + JSON.stringify(this.selectedItem));
     this.selectedLanguage();
   }
@@ -71,11 +71,11 @@ export class AddGuestComponent implements OnInit {
   seatingOrMarketingPref() {
     console.log('user:' + JSON.stringify(this.guest));
     let present = false;
-    if (this.user.seatingpref != null) {
+    if (this.user.seatingpref !== null) {
       this.user.seatingpref.map(obj => {
         present = false;
-        if (this.guest != null && this.guest != undefined) {
-          if (this.guest.seatingPreference != null) {
+        if (this.guest !== null && this.guest !== undefined) {
+          if (this.guest.seatingPreference !== null) {
             present = this.guest.seatingPreference.some(el => {
               return el.prefValueId === obj.prefValueId;
             });
@@ -88,7 +88,7 @@ export class AddGuestComponent implements OnInit {
 
     this.user.marketingPref.map(obj => {
       let present = false;
-      if (this.guest != null && this.guest != undefined) {
+      if (this.guest != null && this.guest !== undefined) {
         if (this.guest.marketingPreference != null) {
           present = this.guest.marketingPreference.some(el => {
             return el.prefValueId === obj.prefValueId;
@@ -118,7 +118,7 @@ export class AddGuestComponent implements OnInit {
   }
 
   onOptinChange() {
-    if (this.guest.optin == 0) {
+    if (this.guest.optin === 0) {
       this.guest.optin = 1;
     } else {
       this.guest.optin = 0;
@@ -144,7 +144,6 @@ export class AddGuestComponent implements OnInit {
   }
 
   addGuest() {
-    // this.onOptinChange();
     this.guest.incompleteParty = 0;
     this.guest.organizationID = this.user.organizationID;
     this.guest.partyType = -1;
@@ -161,22 +160,14 @@ export class AddGuestComponent implements OnInit {
     this.guest.deviceType = null;
     this.guest.email = null;
 
-    //  this.guest.guestID=0;
     this.guest.incompleteParty = 0;
 
-    /* this.guest.languagePref = {
-      langId: 1,
-      keyName: null,
-      value: null,
-      langIsoCode: 'en',
-      langName: 'English'
-    };*/
     console.log(' updatee guest ' + JSON.stringify(this.guest));
   }
 
   validate(invalid) {
     if (invalid) {
-      this.errorMessage = 'Please enter proper values ';
+      this.errorMessage = this.languageKeyMap['upd_error'];
       return;
     }
     this.resultSeating();
@@ -188,18 +179,19 @@ export class AddGuestComponent implements OnInit {
     }
     this.guest.noOfPeople = +this.guest.noOfAdults + +this.guest.noOfChildren;
     if (this.sum > this.user.maxParty) {
-      this.errorMessage = 'More than ' + this.user.maxParty + ' people are not allowed';
+      this.errorMessage =
+        this.languageKeyMap['org_max_party_1'] + this.user.maxParty + this.languageKeyMap['org_max_party_2'];
       return;
     } else {
       console.log(this.guest.noOfPeople);
     }
     this.guest.seatingPreference = this.seatingPref;
     this.guest.marketingPreference = this.marketingPref;
-    if (this.guest.guestID == 0) {
+    if (this.guest.guestID === 0) {
       this.addGuest();
       console.log('guest' + JSON.stringify(this.guest));
       this.guestService.addGuest(this.guest).subscribe(res => {
-        if (res.success == 1) {
+        if (res.success === 1) {
           console.log(res);
           this.router.navigateByUrl('/waitlist/dashboard');
         } else {
@@ -209,7 +201,7 @@ export class AddGuestComponent implements OnInit {
     } else {
       console.log('guest' + JSON.stringify(this.guest));
       this.guestService.updateGuest(this.guest).subscribe(res => {
-        if (res.success == 1) {
+        if (res.success === 1) {
           console.log(res);
           this.router.navigateByUrl('/waitlist/dashboard');
         } else {
@@ -217,5 +209,42 @@ export class AddGuestComponent implements OnInit {
         }
       });
     }
+  }
+  fetchLanguageKeyMap() {
+    const params = new HttpParams().set('orgId', this.user.organizationID.toString());
+
+    this.guestService.fetchLanguageKeyMap(params).subscribe(res => {
+      if (res.success === 1) {
+        this.languageList = res.serviceResult;
+        this.user.languagePref = this.languageList;
+        this.user.languagePref.map((lang) => {
+          if ( this.selectedItem.langId === lang.langId) {
+            this.selectedItem = lang;
+          }
+        });
+        this.selectedLanguage();
+      } else {
+        alert(res.serviceResult);
+      }
+    });
+  }
+
+  connectPubnub() {
+    const channel = environment.pubnuGlobalChannel;
+    this.pubnub.init({
+      publishKey: environment.pubnubPublishKey,
+      subscribeKey: environment.pubnubSubscribeKey
+    });
+    this.pubnub.addListener({
+      message: msg => {
+        console.log('pusher ' + JSON.stringify(msg));
+        if (msg.message.op === 'REFRESH_LANGUAGE_PUSHER') {
+          this.fetchLanguageKeyMap();
+        }
+      }
+    });
+    this.pubnub.subscribe({
+      channels: [channel]
+    });
   }
 }

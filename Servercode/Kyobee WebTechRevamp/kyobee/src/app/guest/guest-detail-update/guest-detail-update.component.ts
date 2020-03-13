@@ -29,45 +29,35 @@ export class GuestDetailUpdateComponent implements OnInit {
   constructor(private route: ActivatedRoute, private guestService: GuestService, private pubnub: PubNubAngular) {}
 
   ngOnInit() {
-    var promise = this.fetchGuest();
-    /*     new Promise((resolve, reject) =>{
-      
-        resolve('I promise to return this after 1 second!');
-    }); */
+    const promise = this.fetchGuest();
+
     promise.then(value => {
       this.connectPubnub();
     });
   }
 
   fetchGuest() {
-    /* var promise = new Promise(function(resolve, reject) {
-      setTimeout(function() {
-        resolve('I promise to return this after 1 second!');
-      }, 1000);
-    });
-    promise.then(function(value) {
-      console.log(value);
-    }); */
+
     var promise = (promise = new Promise((resolve, reject) => {
       this.id = this.route.snapshot.paramMap.get('id');
       if (this.id !== null) {
         this.guestService.fetchGuestDetail(this.id).subscribe(res => {
-          if (res.success == 1) {
+          if (res.success === 1) {
             this.languageKeyMap = res.serviceResult.languageKeyMap;
             this.guest = res.serviceResult;
             this.orgId = this.guest.organizationID;
-            resolve('I promise to return this after 1 second!');
+            resolve();
             this.fetchGuestMetric();
             this.fetchOrgPref();
 
             console.log(res.serviceResult);
           } else {
-            reject('I promise to return this after 1 second!');
+            reject();
             this.errorMessage = res.message;
           }
         });
       } else {
-        reject('I promise to return this after 1 second!');
+        reject();
         alert('invalid url');
       }
     }));
@@ -80,7 +70,7 @@ export class GuestDetailUpdateComponent implements OnInit {
     if (this.listSeatingPref != null) {
       this.listSeatingPref.map(obj => {
         present = false;
-        if (this.guest != null && this.guest != undefined) {
+        if (this.guest != null && this.guest !== undefined) {
           if (this.guest.seatingPreference != null) {
             present = this.guest.seatingPreference.some(el => {
               return el.prefValueId === obj.prefValueId;
@@ -94,18 +84,14 @@ export class GuestDetailUpdateComponent implements OnInit {
 
     this.listMarketingPref.map(obj => {
       let present = false;
-      if (this.guest != null && this.guest != undefined) {
+      if (this.guest != null && this.guest !== undefined) {
         if (this.guest.marketingPreference != null) {
           present = this.guest.marketingPreference.some(el => {
             return el.prefValueId === obj.prefValueId;
           });
         }
       }
-      if (present) {
-        obj.selected = true;
-      } else {
-        obj.selected = false;
-      }
+      obj.selected = present;
     });
 
     console.log(JSON.stringify(this.listSeatingPref) + ' --- ' + JSON.stringify(this.listMarketingPref));
@@ -120,7 +106,7 @@ export class GuestDetailUpdateComponent implements OnInit {
   }
 
   onOptinChange() {
-    if (this.guest.optin == 0) {
+    if (this.guest.optin === 0) {
       this.guest.optin = 1;
     } else {
       this.guest.optin = 0;
@@ -141,7 +127,7 @@ export class GuestDetailUpdateComponent implements OnInit {
   fetchOrgPref() {
     const params = new HttpParams().set('orgId', this.guest.organizationID.toString());
     this.guestService.fetchOrgPref(params).subscribe(res => {
-      if (res.success == 1) {
+      if (res.success === 1) {
         this.listSeatingPref = res.serviceResult.seatingPreference;
         this.listMarketingPref = res.serviceResult.marketingPreference;
 
@@ -164,7 +150,7 @@ export class GuestDetailUpdateComponent implements OnInit {
       .set('orgId', this.guest.organizationID.toString())
       .set('guestId', this.guest.guestID.toString());
     this.guestService.fetchGuestMetrics(params).subscribe(res => {
-      if (res.success == 1) {
+      if (res.success === 1) {
         this.userMetrics = res.serviceResult;
         console.log('user Metrics ' + JSON.stringify(this.userMetrics));
       } else {
@@ -173,13 +159,10 @@ export class GuestDetailUpdateComponent implements OnInit {
     });
   }
 
-  onFormSubmit(form: NgForm) {
-    console.log('TCL: GuestDetailUpdateComponent -> onFormSubmit -> form', form);
-  }
 
   onSubmit(invalid) {
     if (invalid) {
-      this.errorMessage = 'Please enter proper values ';
+      this.errorMessage =  this.languageKeyMap['upd_error'];
       return;
     }
     this.resultSeating();
@@ -190,7 +173,7 @@ export class GuestDetailUpdateComponent implements OnInit {
     console.log('serating' + JSON.stringify(this.guest));
     this.removeSelected();
     this.guestService.updateGuest(this.guest).subscribe(res => {
-      if (res.success == 1) {
+      if (res.success === 1) {
         console.log(res);
       } else {
         alert(res.serviceResult);
@@ -200,7 +183,7 @@ export class GuestDetailUpdateComponent implements OnInit {
 
   connectPubnub() {
     console.log('org Id ' + this.orgId);
-    var channel = environment.pubnubIndividualChannel + '_' + this.orgId;
+    const channel = environment.pubnubIndividualChannel + '_' + this.orgId;
 
     this.pubnub.init({
       publishKey: environment.pubnubPublishKey,
@@ -209,25 +192,25 @@ export class GuestDetailUpdateComponent implements OnInit {
     this.pubnub.addListener({
       message: msg => {
         console.log('pusher ' + JSON.stringify(msg));
-        if (msg.message.op == 'NOTIFY_USER') {
-          if (msg.message.orgId == this.orgId) {
+        if (msg.message.op === 'NOTIFY_USER') {
+          if (msg.message.orgId === this.orgId) {
             this.fetchGuestMetric();
           }
         }
         if (
-          msg.message.op == 'UPDATE' ||
-          msg.message.op == 'ADD' ||
-          msg.message.op == 'resetOrganizationPusher' ||
-          msg.message.op == 'DELETE' ||
-          msg.message.op == 'INCOMPLETE' ||
-          msg.message.op == 'NOTPRESENT' ||
-          msg.message.op == 'SEATED'
+          msg.message.op === 'UPDATE' ||
+          msg.message.op === 'ADD' ||
+          msg.message.op === 'RESET_ORGANIZATION_PUSHER' ||
+          msg.message.op === 'DELETE' ||
+          msg.message.op === 'INCOMPLETE' ||
+          msg.message.op === 'NOTPRESENT' ||
+          msg.message.op === 'SEATED'
         ) {
-          if (msg.message.orgId == this.orgId) {
+          if (msg.message.orgId === this.orgId) {
             this.fetchGuest();
           }
         }
-        if (msg.message.op == 'REFRESH_LANGUAGE_PUSHER') {
+        if (msg.message.op === 'REFRESH_LANGUAGE_PUSHER') {
           this.fetchOrgPref();
           this.fetchGuest();
         }
@@ -239,28 +222,28 @@ export class GuestDetailUpdateComponent implements OnInit {
   }
 
   convertMinstoMMHH(min) {
-    var h = Math.floor(min / 60);
-    var hour = h.toString().length == 1 ? 0 + h.toString() : h;
-    var m = min % 60;
-    var minute = m.toString().length == 1 ? 0 + m.toString() : m;
+    const h = Math.floor(min / 60);
+    const hour = h.toString().length === 1 ? 0 + h.toString() : h;
+    const m = min % 60;
+    const minute = m.toString().length === 1 ? 0 + m.toString() : m;
     return hour + ':' + minute;
   }
   hideDeletePopup() {
     $('#deleteModal').modal('hide');
   }
   removeGuest() {
-    var params = new HttpParams()
+    const params = new HttpParams()
       .set('guestId', this.guest.guestID.toString())
       .set('orgId', this.orgId.toString())
       .set('status', 'DELETE');
 
     this.guestService.updateGuestStatus(params).subscribe((res: any) => {
-      if (res.success == 1) {
+      if (res.success === 1) {
         $('#deleteModal').modal('hide');
 
         this.guest = new GuestDTO();
       } else {
-        if (status == 'DELETE') {
+        if (status === 'DELETE') {
           $('#deleteModal').modal('hide');
         }
         alert(res.message);

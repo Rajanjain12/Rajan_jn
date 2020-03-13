@@ -18,7 +18,8 @@ export class User {
   seatingpref: Array<Preference>;
   marketingPref: Array<Preference>;
   smsTemplate: Array<SmsTemplate>;
-  languagePref: null;
+  languagePref: any[];
   footerMsg: string;
   logoPath: string;
+  notifyFirst: string;
 }

@@ -44,9 +44,12 @@ export class GuestService {
     return this.apiService.getParam('rest/waitlist/guest/metrics', params);
   }
   fetchOrgPref(params) {
-    return this.apiService.getParam('rest/waitlist/orgPrefAndKeyMap', params);
+    return this.apiService.getParam('rest/waitlist/orgPref', params);
   }
   sendSMS(params) {
     return this.apiService.post('rest/waitlist/sendSMS', params);
+  }
+  fetchLanguageKeyMap(params) {
+    return this.apiService.getParam('rest/waitlist/orgLangKeyMap', params);
   }
 }

@@ -40,7 +40,7 @@ export class DashboardComponent implements OnInit {
   level;
   totalGuest: number;
   totalPageNo: number;
-  waitTimeOption: number = 100;
+  waitTimeOption = 100;
   smsContentDTO: SmsContentDTO = new SmsContentDTO();
   successMsg = null;
   dashboardIlluImageSrc = '../../../assets/images/dashboard-illu.png';
@@ -75,13 +75,13 @@ export class DashboardComponent implements OnInit {
   }
 
   fetchGuest() {
-    var params = new HttpParams()
+    const params = new HttpParams()
       .set('orgId', this.orgId)
       .set('pageNo', this.pageNo)
       .set('pageSize', this.pageSize)
       .set('searchText', this.searchText);
     this.guestService.fetchGuestList(params).subscribe((res: any) => {
-      if (res.success == 1) {
+      if (res.success === 1) {
         this.guestDTOList = res.serviceResult.records;
         this.totalGuest = res.serviceResult.totalRecords;
         this.pageNo = res.serviceResult.pageNo;
@@ -95,9 +95,9 @@ export class DashboardComponent implements OnInit {
   }
 
   fetchOrgMetrics() {
-    var params = new HttpParams().set('orgId', this.orgId);
+    const params = new HttpParams().set('orgId', this.orgId);
     this.organizationService.fetchOrganizationMetrics(params).subscribe((res: any) => {
-      if (res.success == 1) {
+      if (res.success === 1) {
         this.organizationMetrics = res.serviceResult;
         this.waitTime = res.serviceResult.perPartyWaitTime;
 
@@ -109,12 +109,12 @@ export class DashboardComponent implements OnInit {
   }
 
   saveOrgMetrics() {
-    var params = new HttpParams()
+    const params = new HttpParams()
       .set('orgId', this.orgId)
       .set('perPartyWaitTime', this.waitTime)
       .set('numberOfUsers', this.organizationMetrics.notifyUserCount.toString());
     this.organizationService.saveOrganizationMetrics(params).subscribe((res: any) => {
-      if (res.success == 1) {
+      if (res.success === 1) {
         console.log('org == ' + JSON.stringify(res));
         this.organizationMetrics = res.serviceResult.waitlistMetrics;
         this.organizationMetrics.totalWaitTime = res.serviceResult.waitlistMetrics.totalWaitTime;
@@ -135,25 +135,25 @@ export class DashboardComponent implements OnInit {
   }
 
   removeSelected(status) {
-    if (status == 'DELETE') {
+    if (status === 'DELETE') {
       $('#deleteModal').modal('hide');
-    } else if (status == 'SEATMODAL') {
+    } else if (status === 'SEATMODAL') {
       $('#seatModal').modal('hide');
-    } else if (status == 'SMSMODAL') {
+    } else if (status === 'SMSMODAL') {
       $('#smsModal').modal('hide');
     }
     this.selectedGuest = new GuestDTO();
   }
 
   changeStatus(status) {
-    var params = new HttpParams()
+    const params = new HttpParams()
       .set('guestId', this.selectedGuest.guestID.toString())
       .set('orgId', this.orgId)
       .set('status', status);
 
     this.guestService.updateGuestStatus(params).subscribe((res: any) => {
-      if (res.success == 1) {
-        if (status == 'DELETE') {
+      if (res.success === 1) {
+        if (status === 'DELETE') {
           $('#deleteModal').modal('hide');
         } else {
           $('#seatModal').modal('hide');
@@ -161,7 +161,7 @@ export class DashboardComponent implements OnInit {
 
         this.selectedGuest = new GuestDTO();
       } else {
-        if (status == 'DELETE') {
+        if (status === 'DELETE') {
           $('#deleteModal').modal('hide');
         } else {
           $('#seatModal').modal('hide');
@@ -187,7 +187,7 @@ export class DashboardComponent implements OnInit {
     this.smsContentDTO.tempLevel = 1;
     console.log('sms ' + JSON.stringify(guest));
     this.organizationService.fetchSmsContent(this.smsContentDTO).subscribe((res: any) => {
-      if (res.success == 1) {
+      if (res.success === 1) {
         this.organizationTemplateDTOList = res.serviceResult;
         console.log(JSON.stringify(this.organizationTemplateDTOList));
         if (this.organizationTemplateDTOList.length > 0) {
@@ -231,17 +231,17 @@ export class DashboardComponent implements OnInit {
   }
 
   convertMinstoMMHH(min) {
-    var h = Math.floor(min / 60);
-    var hour = h.toString().length == 1 ? 0 + h.toString() : h;
-    var m = min % 60;
-    var minute = m.toString().length == 1 ? 0 + m.toString() : m;
+    const h = Math.floor(min / 60);
+    const hour = h.toString().length === 1 ? 0 + h.toString() : h;
+    const m = min % 60;
+    const minute = m.toString().length === 1 ? 0 + m.toString() : m;
     return hour + ':' + minute;
   }
   onSubmit(invalid) {
     if (invalid) {
       return;
     }
-    if (this.searchText.toString().trim() == '') {
+    if (this.searchText.toString().trim() === '') {
       this.searchText = null;
     }
 
@@ -255,7 +255,7 @@ export class DashboardComponent implements OnInit {
   toggleColumns(status) {
     switch (status) {
       case 'ACTION':
-        if (this.toggleColumnArr.action == true) {
+        if (this.toggleColumnArr.action === true) {
           this.toggleColumnArr.action = false;
         } else {
           this.toggleColumnArr.action = true;
@@ -263,7 +263,7 @@ export class DashboardComponent implements OnInit {
         break;
 
       case 'RANK':
-        if (this.toggleColumnArr.rank == true) {
+        if (this.toggleColumnArr.rank === true) {
           this.toggleColumnArr.rank = false;
         } else {
           this.toggleColumnArr.rank = true;
@@ -271,7 +271,7 @@ export class DashboardComponent implements OnInit {
         break;
 
       case 'NOOFPARTY':
-        if (this.toggleColumnArr.noOfParty == true) {
+        if (this.toggleColumnArr.noOfParty === true) {
           this.toggleColumnArr.noOfParty = false;
         } else {
           this.toggleColumnArr.noOfParty = true;
@@ -279,7 +279,7 @@ export class DashboardComponent implements OnInit {
         break;
 
       case 'NAME':
-        if (this.toggleColumnArr.name == true) {
+        if (this.toggleColumnArr.name === true) {
           this.toggleColumnArr.name = false;
         } else {
           this.toggleColumnArr.name = true;
@@ -287,7 +287,7 @@ export class DashboardComponent implements OnInit {
         break;
 
       case 'CHECKIN':
-        if (this.toggleColumnArr.checkInTime == true) {
+        if (this.toggleColumnArr.checkInTime === true) {
           this.toggleColumnArr.checkInTime = false;
         } else {
           this.toggleColumnArr.checkInTime = true;
@@ -295,7 +295,7 @@ export class DashboardComponent implements OnInit {
         break;
 
       case 'NOTE':
-        if (this.toggleColumnArr.note == true) {
+        if (this.toggleColumnArr.note === true) {
           this.toggleColumnArr.note = false;
         } else {
           this.toggleColumnArr.note = true;
@@ -303,7 +303,7 @@ export class DashboardComponent implements OnInit {
         break;
 
       case 'DELETE':
-        if (this.toggleColumnArr.deleteSym == true) {
+        if (this.toggleColumnArr.deleteSym === true) {
           this.toggleColumnArr.deleteSym = false;
         } else {
           this.toggleColumnArr.deleteSym = true;
@@ -311,7 +311,7 @@ export class DashboardComponent implements OnInit {
         break;
 
       case 'SENDTEXT':
-        if (this.toggleColumnArr.sendText == true) {
+        if (this.toggleColumnArr.sendText === true) {
           this.toggleColumnArr.sendText = false;
         } else {
           this.toggleColumnArr.sendText = true;
@@ -319,7 +319,7 @@ export class DashboardComponent implements OnInit {
         break;
 
       case 'LANGUAGEPREF':
-        if (this.toggleColumnArr.languagePref == true) {
+        if (this.toggleColumnArr.languagePref === true) {
           this.toggleColumnArr.languagePref = false;
         } else {
           this.toggleColumnArr.languagePref = true;
@@ -327,7 +327,7 @@ export class DashboardComponent implements OnInit {
         break;
 
       case 'OPTIN':
-        if (this.toggleColumnArr.optIn == true) {
+        if (this.toggleColumnArr.optIn === true) {
           this.toggleColumnArr.optIn = false;
         } else {
           this.toggleColumnArr.optIn = true;
@@ -343,7 +343,7 @@ export class DashboardComponent implements OnInit {
     this.sendSMSDTO.templateLevel = this.level;
     console.log('sendSMS ' + JSON.stringify(this.sendSMSDTO));
     this.guestService.sendSMS(this.sendSMSDTO).subscribe((res: any) => {
-      if (res.success == 1) {
+      if (res.success === 1) {
         console.log(JSON.stringify(res));
         $('#smsModal').modal('hide');
       } else {
@@ -355,14 +355,14 @@ export class DashboardComponent implements OnInit {
   pagination(totalItems, currentPage, pageSize) {
     currentPage = currentPage || 1;
     this.totalPageNo = Math.ceil(totalItems / pageSize);
-    if (this.totalPageNo == 0) {
+    if (this.totalPageNo === 0) {
       this.totalPageNo = 1;
     }
     console.log('total pages' + this.totalPageNo);
   }
 
   connectPubnub() {
-    var channel = environment.pubnubIndividualChannel + '_' + this.orgId;
+    const channel = environment.pubnubIndividualChannel + '_' + this.orgId;
     this.pubnub.init({
       publishKey: environment.pubnubPublishKey,
       subscribeKey: environment.pubnubSubscribeKey
@@ -370,21 +370,21 @@ export class DashboardComponent implements OnInit {
     this.pubnub.addListener({
       message: msg => {
         console.log('pusher ' + JSON.stringify(msg));
-        if (msg.message.op == 'NOTIFY_USER') {
-          if (msg.message.orgId == this.orgId) {
+        if (msg.message.op === 'NOTIFY_USER') {
+          if (msg.message.orgId === this.orgId) {
             this.fetchOrgMetrics();
           }
         }
         if (
-          msg.message.op == 'UPDATE' ||
-          msg.message.op == 'ADD' ||
-          msg.message.op == 'resetOrganizationPusher' ||
-          msg.message.op == 'DELETE' ||
-          msg.message.op == 'INCOMPLETE' ||
-          msg.message.op == 'NOTPRESENT' ||
-          msg.message.op == 'SEATED'
+          msg.message.op === 'UPDATE' ||
+          msg.message.op === 'ADD' ||
+          msg.message.op === 'resetOrganizationPusher' ||
+          msg.message.op === 'DELETE' ||
+          msg.message.op === 'INCOMPLETE' ||
+          msg.message.op === 'NOTPRESENT' ||
+          msg.message.op === 'SEATED'
         ) {
-          if (msg.message.orgId == this.orgId) {
+          if (msg.message.orgId === this.orgId) {
             this.fetchGuest();
           }
         }

@@ -18,11 +18,9 @@ import { MinValidator } from './directives/min.validator';
     UserService,
     ApiService,
     AuthService,
-    MaxValidator,
-    MinValidator,
     LoaderService,
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
   ],
-  exports: [AutosizeDirective]
+  exports: [AutosizeDirective, MaxValidator, MinValidator]
 })
 export class CoreModule {}

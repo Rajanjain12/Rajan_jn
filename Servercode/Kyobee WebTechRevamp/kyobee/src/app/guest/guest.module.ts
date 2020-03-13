@@ -5,8 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { GuestRoutingModule } from './guest-routing.module';
 import { PubNubAngular } from 'pubnub-angular2';
 import { GuestDetailUpdateComponent } from './guest-detail-update/guest-detail-update.component';
-/* import { MaxValidator } from '../core/directives/max.validator';
-import { MinValidator } from '../core/directives/min.validator'; */
 
 @NgModule({
   declarations: [GuestDetailUpdateComponent],

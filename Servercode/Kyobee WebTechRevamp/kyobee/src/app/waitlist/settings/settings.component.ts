@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { User } from 'src/app/core/models/user.model';
 
 @Component({
   selector: 'app-settings',
@@ -8,8 +10,12 @@ import { Component, OnInit } from '@angular/core';
 export class SettingsComponent implements OnInit {
   private checkboEexpanded = false;
 
+  user: User;
   langList = ['Hindi', 'English', 'Gujarati'];
-  constructor() {}
+  constructor(private authService: AuthService) {
+    this.user = this.authService.getUser();
+    console.log("user obj " + JSON.stringify(this.user));
+  }
 
   ngOnInit() {}
 
@@ -23,5 +29,9 @@ export class SettingsComponent implements OnInit {
       checkboxes.className = 'hideDropdown';
       this.checkboEexpanded = false;
     }
+  }
+
+  updateNotifyFirst() {
+    alert(this.user.notifyFirst);
   }
 }
