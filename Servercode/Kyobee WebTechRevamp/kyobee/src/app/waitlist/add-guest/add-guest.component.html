@@ -20,20 +20,7 @@
             <div class="row">
               <div class="col-lg-3">
                 <div class="form-group mt-2 mb-3">
-                  <input
-                    type="number"
-                    name="adult"
-                    min="1"
-                    max="99"
-                    
-                    
-                    class="form-control"
-                    #adult="ngModel"
-                    id="adult"
-                    [(ngModel)]="guest.noOfAdults"
-                    [ngClass]="{ 'is-invalid': f.submitted && adult.invalid }"
-                    required="required"
-                  />
+                  <input type="number" name="adult" min="1" max="99" class="form-control" #adult="ngModel" id="adult" [(ngModel)]="guest.noOfAdults" [ngClass]="{ 'is-invalid': f.submitted && adult.invalid }" required="required" />
                   <label for="adult" class="control-label">{{ languageKeyMap['adults'] }}</label>
                   <i class="bar"></i>
                   <div *ngIf="f.submitted && adult.invalid" class="invalid-feedback">
@@ -45,19 +32,7 @@
               </div>
               <div class="col-lg-3">
                 <div class="form-group mt-2 mb-3">
-                  <input
-                    type="number"
-                    name="children"
-                    min="0"
-                    max="99"
-                    
-                    MaxValidator
-                    class="form-control"
-                    id="children"
-                    #children="ngModel"
-                    [(ngModel)]="guest.noOfChildren"
-                    [ngClass]="{ 'is-invalid': f.submitted && children.invalid }"
-                  />
+                  <input type="number" name="children" min="0" max="99" MaxValidator class="form-control" id="children" #children="ngModel" [(ngModel)]="guest.noOfChildren" [ngClass]="{ 'is-invalid': f.submitted && children.invalid }" />
                   <label for="children" class="control-label">{{ languageKeyMap['children'] }}</label
                   ><i class="bar"></i>
                   <div *ngIf="f.submitted && children.invalid" class="invalid-feedback">
@@ -77,12 +52,12 @@
                     #phone="ngModel"
                     [specialCharacters]="[' ', '-', '(', ')']"
                     mask="(000)-000-0000"
-                    [showMaskTyped]="true"
                     [ngClass]="{ 'is-invalid': f.submitted && phone.invalid }"
                     [(ngModel)]="guest.contactNo"
                     required="required"
                   />
-                  <!-- <label for="input" class="control-label">{{ languageKeyMap['mobile_number'] }}</label> --><i class="bar"></i>
+                  <label for="input" class="control-label">{{ languageKeyMap['mobile_number'] }}</label
+                  ><i class="bar"></i>
                   <div *ngIf="f.submitted && phone.invalid" class="invalid-feedback">
                     <small class="text-danger" *ngIf="phone.errors?.required">{{ languageKeyMap['enter_your_phone_number'] }}</small>
                     <small class="text-danger" *ngIf="phone.errors?.pattern">{{ languageKeyMap['the_phone_number_that_you_typed_is_invalid_please_correct_your_phone_number_and_try_again'] }}</small>

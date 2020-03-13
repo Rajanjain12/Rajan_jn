@@ -9,14 +9,11 @@
         <img src="assets/images/sign-in-illu.png" class="img-fluid m-md-auto d-md-block" alt="image" />
       </div>
       <div class="col-lg-6 col-md-12 col-sm-12 py-3 pb-md-0 d-flex justyfy-content-center align-item-center">
-
         <div class="container-box float-lg-right float-md-none m-md-auto">
-          <div class=" mb-5 text-danger" *ngIf="errorMsg!=null && errorMsg != '' ">{{errorMsg}}</div>
+          <div class=" mb-5 text-danger" *ngIf="errorMsg != null && errorMsg != ''">{{ errorMsg }}</div>
           <form name="form" #f="ngForm" (ngSubmit)="(f.form.valid)" novalidate>
             <div class="form-group mt-0">
-              <input type="text" id="userName" name="userName" #uname="ngModel"
-                [ngClass]="{ 'is-invalid': f.submitted && uname.invalid }" class="form-control"
-                [(ngModel)]="user.userName" required="required" />
+              <input type="text" id="userName" name="userName" #uname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && uname.invalid }" class="form-control" [(ngModel)]="user.userName" required="required" />
 
               <label for="input" class="control-label">Email/Username</label><i class="bar"></i>
               <div *ngIf="f.submitted && uname.invalid" class="invalid-feedback">
@@ -25,21 +22,17 @@
             </div>
 
             <div class="form-group mb-0">
-              <input type="password" id="password" name="password" #pwd="ngModel"
-                [ngClass]="{ 'is-invalid': f.submitted && pwd.invalid }" class="form-control"
-                [(ngModel)]="user.password" required="required" />
+              <input type="password" id="password" name="password" #pwd="ngModel" [ngClass]="{ 'is-invalid': f.submitted && pwd.invalid }" class="form-control" [(ngModel)]="user.password" required="required" />
 
               <label for="input" class="control-label">Password</label><i class="bar"></i>
-              <span toggle="#password" (click)="toggleEye($event)"
-                class="grey flaticon-padlock eye-icon toggle-password font-weight-semibold"></span>
+              <span toggle="#password" (click)="toggleEye($event)" class="grey flaticon-padlock eye-icon toggle-password font-weight-semibold"></span>
               <div *ngIf="f.submitted && pwd.invalid" class="invalid-feedback">
                 <small class="text-danger" *ngIf="pwd.errors.required">Password is required</small>
               </div>
             </div>
 
             <div class="py-2 text-right">
-              <a href="" [routerLink]="['/auth/forgot-password']"
-                class="font-color forgot-pass-link font-weight-semibold">Forgot Password?</a>
+              <a href="" [routerLink]="['/auth/forgot-password']" class="font-color forgot-pass-link font-weight-semibold">Forgot Password?</a>
             </div>
 
             <div class="pb-3">
@@ -48,12 +41,10 @@
             </div>
 
             <div class="col-ld-12 text-center pb-3">
-              <button type="submit" class="btn btn-theme background-color shadow w-50"
-                (click)="validateLogin(f.form.invalid)"><span>Sign In</span></button>
+              <button type="submit" class="btn btn-theme background-color shadow w-50" (click)="validateLogin(f.form.invalid)"><span>Sign In</span></button>
             </div>
           </form>
-          <p class="text-center pt-2">You don’t have an account? <a [routerLink]="['/auth/signup']"
-              class="font-color font-weight-semibold">Sign Up</a></p>
+          <p class="text-center pt-2">You don’t have an account? <a [routerLink]="['/auth/signup']" class="font-color font-weight-semibold">Sign Up</a></p>
         </div>
       </div>
     </div>

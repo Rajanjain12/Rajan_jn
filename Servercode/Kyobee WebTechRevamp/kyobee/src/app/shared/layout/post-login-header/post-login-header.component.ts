@@ -9,15 +9,14 @@ import { User } from 'src/app/core/models/user.model';
   styleUrls: ['./post-login-header.component.scss']
 })
 export class PostLoginHeaderComponent implements OnInit {
-  constructor( private router: Router, private authService: AuthService) {}
-  user:User;
+  constructor(private router: Router, private authService: AuthService) {}
+  user: User;
   ngOnInit() {
-    this.user=this.authService.getUser();
-    
+    this.user = this.authService.getUser();
   }
 
-  logout(){
+  logout() {
     this.authService.removeLoginData();
-    this.router.navigateByUrl('/auth/login', { replaceUrl: true });
+    this.router.navigate(['/auth/login']);
   }
 }

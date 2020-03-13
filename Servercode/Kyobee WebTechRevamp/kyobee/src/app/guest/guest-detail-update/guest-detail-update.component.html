@@ -50,18 +50,7 @@
 
         <div class="col-6 col-md-2">
           <div class="form-group mt-0 mb-3">
-            <input
-              type="text"
-              id="children"
-              name="children"
-              min="0"
-              max="99"
-
-              #children="ngModel"
-              [ngClass]="{ 'is-invalid': f.submitted && children.invalid }"
-              class="form-control"
-              [(ngModel)]="guest.noOfChildren"
-            />
+            <input type="text" id="children" name="children" min="0" max="99" #children="ngModel" [ngClass]="{ 'is-invalid': f.submitted && children.invalid }" class="form-control" [(ngModel)]="guest.noOfChildren" />
             <label for="input" class="control-label">{{ languageKeyMap['children'] }}</label
             ><i class="bar"></i>
             <div *ngIf="f.submitted && children.invalid" class="invalid-feedback">

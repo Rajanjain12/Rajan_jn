@@ -16,22 +16,22 @@ export class AuthService {
     this.session.set('loggedIn', this.loggedIn);
   }
 
-  //get loggedIn flag stored in session.
+  // get loggedIn flag stored in session.
   getLogflag(): String {
     return this.session.get('loggedIn');
   }
 
-  //removeLogFlag is deleted from cookies on clicking of logOut button
+  // removeLogFlag is deleted from cookies on clicking of logOut button
   removeLoginData(): void {
-    this.session.set('loggedIn','');
-    this.session.set('userDTO',null);
+    this.session.set('loggedIn', '');
+    this.session.set('userDTO', null);
   }
 
   setSessionData(data) {
     this.session.set('userDTO', data);
   }
 
-  //getting a user stored in session.
+  // getting a user stored in session.
   getUser(): any {
     return this.session.get('userDTO');
   }

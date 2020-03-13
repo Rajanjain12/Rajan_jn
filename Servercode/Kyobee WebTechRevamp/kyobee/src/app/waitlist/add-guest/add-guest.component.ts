@@ -5,9 +5,7 @@ import { GuestDTO } from 'src/app/core/models/guest.model';
 import { Preference } from 'src/app/core/models/preference.model';
 import { GuestService } from 'src/app/core/services/guest.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import {MaxValidator}  from '../../core/directives/max.validator';
-
-
+import { MaxValidator } from '../../core/directives/max.validator';
 
 @Component({
   selector: 'app-add-guest',
@@ -33,7 +31,7 @@ export class AddGuestComponent implements OnInit {
     private guestService: GuestService,
     private route: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {}
 
   counter(i: number) {
     return Array(i);
@@ -46,10 +44,9 @@ export class AddGuestComponent implements OnInit {
       this.guestService.fetchGuest(this.id).subscribe(res => {
         console.log('res' + JSON.stringify(res));
         if (res.success == 1) {
-        
           this.guest = res.serviceResult;
           this.seatingOrMarketingPref();
-          console.log("result "+JSON.stringify(res.serviceResult));
+          console.log('result ' + JSON.stringify(res.serviceResult));
         }
       });
       console.log(this.id);
@@ -61,21 +58,20 @@ export class AddGuestComponent implements OnInit {
       console.log('id is absent');
       console.log(this.guest);
     }
-    
-    //default lang settings
-   
-    console.log("seating pref "+JSON.stringify(this.user.seatingpref));
+
+    // default lang settings
+
+    console.log('seating pref ' + JSON.stringify(this.user.seatingpref));
     this.defaultLanguage = this.user.languagePref;
     this.selectedItem = this.defaultLanguage.find(x => x.langIsoCode === 'en');
-    console.log("default language" + JSON.stringify(this.selectedItem));
+    console.log('default language' + JSON.stringify(this.selectedItem));
     this.selectedLanguage();
   }
 
   seatingOrMarketingPref() {
-    
     console.log('user:' + JSON.stringify(this.guest));
     let present = false;
-    if ( this.user.seatingpref != null) {
+    if (this.user.seatingpref != null) {
       this.user.seatingpref.map(obj => {
         present = false;
         if (this.guest != null && this.guest != undefined) {
@@ -85,7 +81,7 @@ export class AddGuestComponent implements OnInit {
             });
           }
         }
-     // obj.prefValue = this.languageKeyMap[obj.prefKey != null ? obj.prefKey : 0];
+        // obj.prefValue = this.languageKeyMap[obj.prefKey != null ? obj.prefKey : 0];
         obj.selected = present;
       });
     }
@@ -99,9 +95,8 @@ export class AddGuestComponent implements OnInit {
           });
         }
       }
-     
-        obj.selected = present;
-      
+
+      obj.selected = present;
     });
   }
 
@@ -135,7 +130,7 @@ export class AddGuestComponent implements OnInit {
 
     this.languageKeyMap = this.selectedItem.languageMap;
     console.log('language map:' + JSON.stringify(this.languageKeyMap));
-    
+
     this.listSeatingPref = this.user.seatingpref;
     this.listMarketingPref = this.user.marketingPref;
 
@@ -149,7 +144,7 @@ export class AddGuestComponent implements OnInit {
   }
 
   addGuest() {
-    //this.onOptinChange();
+    // this.onOptinChange();
     this.guest.incompleteParty = 0;
     this.guest.organizationID = this.user.organizationID;
     this.guest.partyType = -1;
@@ -161,7 +156,7 @@ export class AddGuestComponent implements OnInit {
     this.guest.uuid = null;
     this.guest.calloutCount = 0;
     this.guest.checkinTime = new Date();
-    this.guest.createdAt= new Date();
+    this.guest.createdAt = new Date();
     this.guest.deviceId = null;
     this.guest.deviceType = null;
     this.guest.email = null;
@@ -202,7 +197,7 @@ export class AddGuestComponent implements OnInit {
     this.guest.marketingPreference = this.marketingPref;
     if (this.guest.guestID == 0) {
       this.addGuest();
-      console.log("guest"+JSON.stringify(this.guest));
+      console.log('guest' + JSON.stringify(this.guest));
       this.guestService.addGuest(this.guest).subscribe(res => {
         if (res.success == 1) {
           console.log(res);
@@ -212,7 +207,7 @@ export class AddGuestComponent implements OnInit {
         }
       });
     } else {
-      console.log("guest"+JSON.stringify(this.guest));
+      console.log('guest' + JSON.stringify(this.guest));
       this.guestService.updateGuest(this.guest).subscribe(res => {
         if (res.success == 1) {
           console.log(res);

@@ -185,13 +185,13 @@ export class DashboardComponent implements OnInit {
     this.smsContentDTO.guestUuid = this.selectedGuest.uuid;
     this.smsContentDTO.langId = this.selectedGuest.languagePref.langID;
     this.smsContentDTO.tempLevel = 1;
-    console.log("sms "+JSON.stringify(guest));
+    console.log('sms ' + JSON.stringify(guest));
     this.organizationService.fetchSmsContent(this.smsContentDTO).subscribe((res: any) => {
       if (res.success == 1) {
         this.organizationTemplateDTOList = res.serviceResult;
         console.log(JSON.stringify(this.organizationTemplateDTOList));
-        if(this.organizationTemplateDTOList.length>0){
-          this.content=this.organizationTemplateDTOList[0].templateText;
+        if (this.organizationTemplateDTOList.length > 0) {
+          this.content = this.organizationTemplateDTOList[0].templateText;
         }
         $('#smsModal').modal('show');
       } else {
@@ -336,16 +336,16 @@ export class DashboardComponent implements OnInit {
     }
   }
   sendSMS() {
-    this.sendSMSDTO=new SendSMSDTO();
+    this.sendSMSDTO = new SendSMSDTO();
     this.sendSMSDTO.guestId = this.selectedGuest.guestID;
     this.sendSMSDTO.orgId = this.selectedGuest.organizationID;
     this.sendSMSDTO.smsContent = this.content;
     this.sendSMSDTO.templateLevel = this.level;
-    console.log("sendSMS "+JSON.stringify(this.sendSMSDTO));
+    console.log('sendSMS ' + JSON.stringify(this.sendSMSDTO));
     this.guestService.sendSMS(this.sendSMSDTO).subscribe((res: any) => {
       if (res.success == 1) {
         console.log(JSON.stringify(res));
-         $('#smsModal').modal('hide');
+        $('#smsModal').modal('hide');
       } else {
         $('#smsModal').modal('hide');
         alert(res.serviceResult);

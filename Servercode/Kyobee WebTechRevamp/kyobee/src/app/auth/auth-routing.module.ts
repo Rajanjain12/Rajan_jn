@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
 import { SigninComponent } from './signin/signin.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
@@ -7,11 +8,6 @@ import { SignupComponent } from './signup/signup.component';
 import { ThankyouComponent } from '../shared/thankyou/thankyou.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'login'
-  },
   {
     path: 'login',
     component: SigninComponent
@@ -31,6 +27,11 @@ const routes: Routes = [
   {
     path: 'thankyou',
     component: ThankyouComponent
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'login'
   }
 ];
 

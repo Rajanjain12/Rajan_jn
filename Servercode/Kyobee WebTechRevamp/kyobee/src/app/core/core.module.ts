@@ -12,7 +12,7 @@ import { MaxValidator } from './directives/max.validator';
 import { MinValidator } from './directives/min.validator';
 
 @NgModule({
-  declarations: [AutosizeDirective,MaxValidator,MinValidator],
+  declarations: [AutosizeDirective, MaxValidator, MinValidator],
   imports: [CommonModule, HttpClientModule],
   providers: [
     UserService,

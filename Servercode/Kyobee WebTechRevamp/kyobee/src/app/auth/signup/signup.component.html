@@ -11,28 +11,28 @@
           <div class="col-lg-6">
             <div class="form-group mt-0">
               <input type="text" id="firstName" name="firstName" #fname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && fname.invalid }" class="form-control" [(ngModel)]="user.firstName" required="required" />
+              <label for="input" class="control-label">First Name</label><i class="bar"></i>
               <div *ngIf="f.submitted && fname.invalid" class="invalid-feedback">
                 <small class="text-danger" *ngIf="fname.errors?.required">First Name is required</small>
               </div>
-              <label for="input" class="control-label">First Name</label><i class="bar"></i>
             </div>
           </div>
           <div class="col-lg-6">
             <div class="form-group mt-0">
               <input type="text" id="lastName" name="lastName" #lname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && lname.invalid }" class="form-control" [(ngModel)]="user.lastName" required="required" />
+              <label for="input" class="control-label">Last Name</label><i class="bar"></i>
               <div *ngIf="f.submitted && lname.invalid" class="invalid-feedback">
                 <small class="text-danger" *ngIf="lname.errors?.required">Last Name is required</small>
               </div>
-              <label for="input" class="control-label">Last Name</label><i class="bar"></i>
             </div>
           </div>
           <div class="col-lg-6">
             <div class="form-group mt-0">
               <input type="text" id="userName" name="userName" #uname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && uname.invalid }" class="form-control" [(ngModel)]="user.userName" required="required" />
+              <label for="input" class="control-label">User Name</label><i class="bar"></i>
               <div *ngIf="f.submitted && uname.invalid" class="invalid-feedback">
                 <small class="text-danger" *ngIf="uname.errors?.required">User Name is required</small>
               </div>
-              <label for="input" class="control-label">User Name</label><i class="bar"></i>
             </div>
           </div>
           <div class="col-lg-6">
@@ -48,20 +48,20 @@
                 [(ngModel)]="user.email"
                 required="required"
               />
+              <label for="input" class="control-label">Email</label><i class="bar"></i>
               <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
                 <small class="text-danger" *ngIf="email.errors.required">Email is a required</small>
                 <small class="text-danger" *ngIf="email.errors.pattern">This is not a valid Email!!!</small>
               </div>
-              <label for="input" class="control-label">Email</label><i class="bar"></i>
             </div>
           </div>
           <div class="col-lg-6">
             <div class="form-group mt-0">
               <input type="text" id="storeName" name="storeName" #stname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && stname.invalid }" class="form-control" [(ngModel)]="user.storeName" required="required" />
+              <label for="input" class="control-label">Store Name</label><i class="bar"></i>
               <div *ngIf="f.submitted && stname.invalid" class="invalid-feedback">
                 <small class="text-danger" *ngIf="stname.errors?.required">Store Name is required</small>
               </div>
-              <label for="input" class="control-label">Store Name</label><i class="bar"></i>
             </div>
           </div>
           <div class="col-lg-6">
@@ -78,20 +78,20 @@
                 [(ngModel)]="user.phone"
                 required="required"
               />
+              <label for="input" class="control-label">Mobile No</label><i class="bar"></i>
               <div *ngIf="f.submitted && phone.invalid" class="invalid-feedback">
                 <small class="text-danger" *ngIf="phone.errors?.required">Phone no is required</small>
                 <small class="text-danger" *ngIf="phone.errors?.pattern">Phone no should be in proper form</small>
               </div>
-              <label for="input" class="control-label">Mobile No</label><i class="bar"></i>
             </div>
           </div>
           <div class="col-lg-12">
             <div class="form-group mt-0">
               <input type="text" id="address" name="address" #addr="ngModel" [ngClass]="{ 'is-invalid': f.submitted && addr.invalid }" class="form-control" [(ngModel)]="user.address" required="required" />
+              <label for="input" class="control-label">Address</label><i class="bar"></i>
               <div *ngIf="f.submitted && addr.invalid" class="invalid-feedback">
                 <small class="text-danger" *ngIf="addr.errors?.required">Phone no is required</small>
               </div>
-              <label for="input" class="control-label">Address</label><i class="bar"></i>
             </div>
           </div>
           <div class="col-lg-6">
@@ -107,11 +107,11 @@
                 [(ngModel)]="user.password"
                 required="required"
               />
+              <label for="input" class="control-label">Password</label><i class="bar"></i>
               <div *ngIf="f.submitted && password.invalid" class="invalid-feedback">
                 <small class="text-danger" *ngIf="password.errors?.required">Password is required</small>
                 <small class="text-danger" *ngIf="password.errors?.pattern">Password should be proper</small>
               </div>
-              <label for="input" class="control-label">Password</label><i class="bar"></i>
               <!-- <span toggle="#password" class="font-color flaticon-eye-1 eye-icon toggle-password font-weight-semibold"></span> -->
               <span class="password-tooltip" id="showWeb" data-toggle="tooltip" data-placement="right" tooltip-title="Password should contain one upercase, one special character and length should be between 8-12."
                 ><i class="flaticon-info-button grey"></i
@@ -134,18 +134,20 @@
                 [(ngModel)]="user.confirmPassword"
                 required="required"
               />
+              <label for="input" class="control-label">Confirm Password</label><i class="bar"></i>
               <div *ngIf="f.submitted && confirmPassword.invalid" class="invalid-feedback">
                 <small class="text-danger" *ngIf="confirmPassword.errors?.required">Password is required</small>
                 <small class="text-danger" *ngIf="confirmPassword.errors?.notEqual">Password does not match</small>
               </div>
-              <label for="input" class="control-label">Confirm Password</label><i class="bar"></i>
               <!-- <span toggle="#repassword" class="font-color flaticon-eye-1 eye-icon toggle-password font-weight-semibold"></span> -->
             </div>
           </div>
           <div class="col-lg-12">
-            <div class="checkbox mt-0">
+            <!-- <div class="checkbox mt-0">
               <label> <input type="checkbox" /><i class="helper"></i> I Agree to the <span class="font-weight-semibold">Terms and Conditions.</span> </label>
-            </div>
+            </div> -->
+            <input class="styled-checkbox" type="checkbox" id="termsAndCondition" />
+            <label for="termsAndCondition"><i class="helper"></i> I Agree to the <span class="font-weight-semibold">Terms and Conditions.</span> </label>
           </div>
           <div class="col-lg-12">
             <div class="form-group mt-0">
