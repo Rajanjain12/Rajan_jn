@@ -312,6 +312,21 @@ ALTER TABLE `KyobeeTechRevamp`.`GUESTRESET`
 CHANGE COLUMN `guestResetID` `GuestResetID` INT(11) NOT NULL AUTO_INCREMENT ;
 
 
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `Value` = 'Note' WHERE (`LanguageKeyMappingId` = '10430');
+
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `Value` = 'How did you hear about us?' WHERE (`LanguageKeyMappingId` = '21');
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `Value` = 'Comment avez-vous entendu parler de nous?' WHERE (`LanguageKeyMappingId` = '7385');
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `Value` = '你是怎么知道我们的？' WHERE (`LanguageKeyMappingId` = '202');
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `Value` = '你是怎麼知道我們的？' WHERE (`LanguageKeyMappingId` = '145');
+UPDATE `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` SET `Value` = '우리에 대해 어떻게 알게 되셨습니까?' WHERE (`LanguageKeyMappingId` = '260');
+
+
+INSERT INTO `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` (`KeyName`, `Value`, `LangIsoCode`, `ScreenName`, `UpdateFlag`, `CreatedBy`, `CreatedAt`) VALUES ('maximum_limit_reached', 'Maximum limit reached', 'en', 'English', '0', 'admin', '2020-03-13');
+INSERT INTO `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` (`KeyName`, `Value`, `LangIsoCode`, `ScreenName`, `UpdateFlag`, `CreatedBy`, `CreatedAt`) VALUES ('maximum_limit_reached', 'Limite maximale atteinte', 'fr', 'French', '0', 'admin', '2020-03-13');
+INSERT INTO `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` (`KeyName`, `Value`, `LangIsoCode`, `ScreenName`, `UpdateFlag`, `CreatedBy`, `CreatedAt`) VALUES ('maximum_limit_reached', '최대 한도에 도달', 'ko', 'Korean', '0', 'admin', '2020-03-13');
+INSERT INTO `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` (`KeyName`, `Value`, `LangIsoCode`, `ScreenName`, `UpdateFlag`, `CreatedBy`, `CreatedAt`) VALUES ('maximum_limit_reached', '达到最大限制', 'zh', 'Chinese', '0', 'admin', '2020-03-13');
+INSERT INTO `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` (`KeyName`, `Value`, `LangIsoCode`, `ScreenName`, `UpdateFlag`, `CreatedBy`, `CreatedAt`) VALUES ('maximum_limit_reached', '达到最大限制', 'zh-Hans', 'Chinese (Simplified)', '0', 'admin', '2020-03-13');
+INSERT INTO `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` (`KeyName`, `Value`, `LangIsoCode`, `ScreenName`, `UpdateFlag`, `CreatedBy`, `CreatedAt`) VALUES ('maximum_limit_reached', '達到最大限制', 'zh-Hant', 'Chinese (Traditional)', '0', 'admin', '2020-03-13');
 
 ALTER TABLE `KyobeeTechRevamp`.`PLAN` 
 CHANGE COLUMN `PLANNAME` `PlanName` VARCHAR(80) NULL DEFAULT NULL ;

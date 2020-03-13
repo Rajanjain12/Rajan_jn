@@ -18,6 +18,7 @@ import com.kyobeeWaitlistService.dto.LanguageMasterDTO;
 import com.kyobeeWaitlistService.dto.OrganizationTemplateDTO;
 import com.kyobeeWaitlistService.dto.SendSMSDTO;
 import com.kyobeeWaitlistService.dto.SmsContentDTO;
+import com.kyobeeWaitlistService.dto.SmsTemplateDTO;
 import com.kyobeeWaitlistService.entity.LangMaster;
 import com.kyobeeWaitlistService.entity.Organization;
 import com.kyobeeWaitlistService.entity.OrganizationLang;
@@ -89,12 +90,13 @@ public class OrganizationTemplateServiceImpl implements OrganizationTemplateServ
 	}
 
 	@Override
-	public void addLanguage(LanguageMasterDTO langMasterDTO, Integer orgId) {
+	public List<SmsTemplateDTO> addLanguage(LanguageMasterDTO langMasterDTO, Integer orgId) {
 		
-		List<SendSMSDTO> smsTemplates = new ArrayList<>();
+		List<SmsTemplateDTO> smsTemplates = new ArrayList<>();
 		Organization organization = organizationDAO.findByOrganizationID(orgId);
 		
 		OrganizationTemplate orgTemplate;
+		SmsTemplateDTO smsTemplateDTO;
 		
 		List<SmsTemplateLanguageMapping> smsTemplateList = smsTemplateLanguageMappingDAO.fetchSmsTemplate(langMasterDTO.getLangID());
 		
@@ -102,11 +104,16 @@ public class OrganizationTemplateServiceImpl implements OrganizationTemplateServ
 		for(SmsTemplateLanguageMapping smsTemplate : smsTemplateList)
 		{
 			orgTemplate = new OrganizationTemplate();
+			smsTemplateDTO = new SmsTemplateDTO();
+			
 			BeanUtils.copyProperties(smsTemplate, orgTemplate);
+			
 			orgTemplate.setOrganization(organization);
 			orgTemplate.setLanguageID(smsTemplate.getLangmaster().getLangID());
 			orgTemplate.setCreatedAt(new Date());
 			orgTemplateList.add(orgTemplate);
+			BeanUtils.copyProperties(orgTemplate, smsTemplateDTO);
+			smsTemplates.add(smsTemplateDTO);
 		}	
 		organizationTemplateDAO.saveAll(orgTemplateList);
 		
@@ -123,6 +130,7 @@ public class OrganizationTemplateServiceImpl implements OrganizationTemplateServ
 
 		organizationLanguageDAO.save(organizationLang);
 		
+		return smsTemplates;
 		
 	}
 

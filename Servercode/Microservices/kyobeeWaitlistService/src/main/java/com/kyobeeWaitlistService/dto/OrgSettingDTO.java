@@ -9,6 +9,7 @@ public class OrgSettingDTO {
 	private List<SeatingMarketingPrefDTO> marketingPreference;
 	private Integer notifyFirst;
 	private List<SmsTemplateDTO> smsTemplateDTO;
+	private List<LanguageMasterDTO> languageList;
 	
 	
 	public Integer getOrgId() {
@@ -40,6 +41,12 @@ public class OrgSettingDTO {
 	}
 	public void setSmsTemplateDTO(List<SmsTemplateDTO> smsTemplateDTO) {
 		this.smsTemplateDTO = smsTemplateDTO;
+	}
+	public List<LanguageMasterDTO> getLanguageList() {
+		return languageList;
+	}
+	public void setLanguageList(List<LanguageMasterDTO> languageList) {
+		this.languageList = languageList;
 	}
 	
 }

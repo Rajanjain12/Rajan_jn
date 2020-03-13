@@ -17,6 +17,7 @@ import com.kyobeeWaitlistService.dto.LanguageMasterDTO;
 import com.kyobeeWaitlistService.dto.OrganizationTemplateDTO;
 import com.kyobeeWaitlistService.dto.ResponseDTO;
 import com.kyobeeWaitlistService.dto.SmsContentDTO;
+import com.kyobeeWaitlistService.dto.SmsTemplateDTO;
 import com.kyobeeWaitlistService.service.GuestService;
 import com.kyobeeWaitlistService.service.OrganizationTemplateService;
 import com.kyobeeWaitlistService.util.LoggerUtil;
@@ -64,8 +65,8 @@ public class OrganizationTemplateController {
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
 			
-			organizationTemplateService.addLanguage(languageMasterDTO,orgId);
-			responseDTO.setServiceResult("Organization lang added successfully");
+			List<SmsTemplateDTO> smsTemplates=organizationTemplateService.addLanguage(languageMasterDTO,orgId);
+			responseDTO.setServiceResult(smsTemplates);
 			responseDTO.setMessage("Organization lang added successfully");
 			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
 		} catch (Exception ex) {

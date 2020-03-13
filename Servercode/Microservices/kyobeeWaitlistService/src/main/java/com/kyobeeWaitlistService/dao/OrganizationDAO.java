@@ -1,5 +1,6 @@
 package com.kyobeeWaitlistService.dao;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -19,6 +20,12 @@ public interface OrganizationDAO extends CrudRepository<Organization, Integer> {
 	public String getSmsDetails(@Param("orgId") Integer orgId);
 	
 	public Organization findByOrganizationID(Integer orgId);
+	
+	@Modifying
+	@Query("update Organization set notifyUserCount = :notifyFirst where organizationID =:orgId")
+	void updateOrgNotifyFirst(@Param("notifyFirst") Integer notifyFirst,@Param("orgId") Integer orgId);
+	
+	
 	
 	
 }

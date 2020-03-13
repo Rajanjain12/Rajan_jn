@@ -96,7 +96,7 @@ public class GuestServiceImpl implements GuestService {
 		LoggerUtil.logInfo("In WaitListService : reseting organization");
 		// reseting org related guest data
 		organizationCustomDAO.resetOrganizationByOrgId(orgId);
-		rootMap.put("op", "resetOrganizationPusher");
+		rootMap.put("op", "RESET_ORGANIZATION_PUSHER");
 		rootMap.put("orgId", orgId);
 		NotificationUtil.sendMessage(rootMap, WaitListServiceConstants.PUSHER_CHANNEL_ENV + "_" + orgId);
 

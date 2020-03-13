@@ -30,11 +30,16 @@ public interface LanguageKeyMappingDAO extends CrudRepository<Languagekeymapping
 			"where o.organizationID=:orgId order by l.langID")
 	List<LanguageMasterDTO> fetchLanguageKeyMapForOrganization(@Param("orgId") Integer orgId);
 	
-	
 	  @Query(value="SELECT new com.kyobeeWaitlistService.dto.LanguageMasterDTO(lm.languageKeyMappingId,lm.langIsoCode,lm.langIsoCode,lm.keyName,lm.value) From Languagekeymapping lm where lm.langIsoCode=:langIsoCode ")
 		List<LanguageMasterDTO> fetchByLangIsoCode(String langIsoCode);
 	
 	@Query(value="SELECT new com.kyobeeWaitlistService.dto.LanguageMasterDTO(lm.languageKeyMappingId,lm.langIsoCode,lm.langIsoCode,lm.keyName,lm.value) From Languagekeymapping lm where lm.langIsoCode=:langIsoCode and lm.screenName=:screenName ")
 	List<LanguageMasterDTO> fetchByLangIsoCodeAndScreenName( String langIsoCode, String screenName);
+	
+	@Query(value="SELECT new com.kyobeeWaitlistService.dto.LanguageMasterDTO(l.langID,l.langName,l.langIsoCode,lm.keyName,lm.value) FROM OrganizationLang ol " +
+			"join LangMaster l on l.langID=ol.langmaster.langID " +
+			"join Languagekeymapping lm on l.langIsoCode=lm.langIsoCode " +
+			"where ol.organization.organizationID=:orgId order by l.langID")
+	List<LanguageMasterDTO> fetchLangKeyMapForOrganization(@Param("orgId") Integer orgId);
 		
 }
