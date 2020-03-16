@@ -15,6 +15,6 @@ import com.kyobeeWaitlistService.entity.LangMaster;
 @Transactional
 public interface LangMasterDAO extends CrudRepository<LangMaster, Integer> {
 
-	@Query("select new com.kyobeeWaitlistService.dto.LanguageKeyMappingDTO(l.langID,l.langIsoCode,l.langName) from LangMaster l ")
+	@Query("select new com.kyobeeWaitlistService.dto.LanguageKeyMappingDTO(l.langID,l.langName,l.langIsoCode) from LangMaster l ")
 	public List<LanguageKeyMappingDTO> getLanguageDetails();
 }
