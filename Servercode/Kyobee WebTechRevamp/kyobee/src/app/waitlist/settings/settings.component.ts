@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { User } from 'src/app/core/models/user.model';
+import { SmsTemplate } from 'src/app/core/models/sms-template.model';
+import { OrganizationService } from 'src/app/core/services/organization.service';
 
 @Component({
   selector: 'app-settings',
@@ -11,10 +13,14 @@ export class SettingsComponent implements OnInit {
   private checkboEexpanded = false;
 
   user: User;
-  langList = ['Hindi', 'English', 'Gujarati'];
-  constructor(private authService: AuthService) {
+  selectedSMSTemplateLangId;
+  selectedSMSTemplateText: Array<SmsTemplate>;
+
+  constructor(private authService: AuthService, private orgService: OrganizationService) {
     this.user = this.authService.getUser();
-    console.log("user obj " + JSON.stringify(this.user));
+    this.selectedSMSTemplateLangId = this.user.defaultLangId;
+    this.changeSelectedTemplate();
+    this.fetchAllPrefAndKeyMap();
   }
 
   ngOnInit() {}
@@ -32,6 +38,25 @@ export class SettingsComponent implements OnInit {
   }
 
   updateNotifyFirst() {
-    alert(this.user.notifyFirst);
+    alert(this.user.defaultLangId);
   }
+
+  changeSelectedTemplate() {
+    this.selectedSMSTemplateText = new Array<SmsTemplate>();
+    alert(this.selectedSMSTemplateLangId);
+    this.user.smsTemplate.map((template) => {
+      if ( template.languageID === parseInt(this.selectedSMSTemplateLangId, 10)) {
+        this.selectedSMSTemplateText.push(template);
+      }
+    });
+  }
+ fetchAllPrefAndKeyMap() {
+    this.orgService.fetchAllPrefAndLanguageMap().subscribe((res: any) => {
+      if (res.success === 1) {
+       console.log( " response " + JSON.stringify(res.serviceResult));
+      } else {
+        alert(res.message);
+      }
+    });
+ }
 }

@@ -9,11 +9,11 @@ export class GuestService {
   constructor(private apiService: ApiService) {}
 
   resetUser(orgid: HttpParams) {
-    return this.apiService.getParam('rest/waitlist/guest/resetGuestList', orgid);
+    return this.apiService.getParams('rest/waitlist/guest/resetGuestList', orgid);
   }
 
   fetchGuestList(params) {
-    return this.apiService.getParam('rest/waitlist/guest/', params);
+    return this.apiService.getParams('rest/waitlist/guest/', params);
   }
 
   addGuest(serviceResult: object) {
@@ -37,19 +37,19 @@ export class GuestService {
   }
 
   fetchGuestHistoryList(params) {
-    return this.apiService.getParam('rest/waitlist/guest/fetchGuestHistory', params);
+    return this.apiService.getParams('rest/waitlist/guest/fetchGuestHistory', params);
   }
 
   fetchGuestMetrics(params) {
-    return this.apiService.getParam('rest/waitlist/guest/metrics', params);
+    return this.apiService.getParams('rest/waitlist/guest/metrics', params);
   }
   fetchOrgPref(params) {
-    return this.apiService.getParam('rest/waitlist/orgPref', params);
+    return this.apiService.getParams('rest/waitlist/orgPref', params);
   }
   sendSMS(params) {
     return this.apiService.post('rest/waitlist/sendSMS', params);
   }
   fetchLanguageKeyMap(params) {
-    return this.apiService.getParam('rest/waitlist/orgLangKeyMap', params);
+    return this.apiService.getParams('rest/waitlist/orgLangKeyMap', params);
   }
 }

@@ -80,16 +80,21 @@
                       <div class="overSelect"></div>
                     </div>
                     <div id="checkboxes">
-                      <div *ngFor="let item of langList; let i = index" class="p-2">
-                        <input class="styled-checkbox" [id]="'checkboxes' + i" type="checkbox" />
-                        <label [for]="'checkboxes' + i" class="mr-2 p-0">{{ item }}</label>
+                      <div *ngFor="let item of user.languagePref; let i = index" class="p-2">
+                        <input class="styled-checkbox" [id]="'checkboxes' + i" type="checkbox" checked />
+                        <label [for]="'checkboxes' + i" class="mr-2 p-0">{{ item.langName }}</label>
                       </div>
+                      <div *ngFor="let item of user.languagePref; let i = index" class="p-2">
+                          <input class="styled-checkbox" [id]="'checkboxes' + i" type="checkbox" />
+                          <label [for]="'checkboxes' + i" class="mr-2 p-0">{{ item.langName }}</label>
+                        </div>
                     </div>
                   </div>
                 </div>
                 <div class="col-lg-3 my-1">
-                  <select class="form-control">
-                    <option>Default Language</option>
+                  <select class="form-control" id="defaultLangId" (change)="updateNotifyFirst();" name="defaultLangId" #defaultLangId="ngModel" [(ngModel)]="user.defaultLangId">
+                    <!-- <option>Default Language</option> -->
+                    <option *ngFor="let item of user.languagePref; let i = index" value="{{item.langId}}">{{item.langName}}</option>
                   </select>
                 </div>
               </div>
@@ -103,22 +108,22 @@
             </div>
             <div class="col-lg-9 my-1">
               <div class="col-lg-3 pl-0">
-                <select class="form-control">
-                  <option>English</option>
+                <select class="form-control" id="selectedSMSTemplate" (change)="changeSelectedTemplate();" name="selectedSMSTemplate" #selectedSMSTemplate="ngModel" [(ngModel)]="selectedSMSTemplateLangId">
+                  <option *ngFor="let item of user.languagePref; let i = index" value="{{item.langId}}" >{{item.langName}}</option>
                 </select>
               </div>
-              <div class="form-group">
-                <textarea appAutosize [minRows]="1" [maxRows]="10" required="required">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</textarea>
-                <label for="textarea" class="control-label">Level 1</label><i class="bar"></i>
+              <div *ngFor="let template of selectedSMSTemplateText; let i = index"class="form-group">
+                <textarea appAutosize [minRows]="1" [maxRows]="10" required="required">{{template.templateText}}</textarea>
+                <label for="textarea" class="control-label">Level {{i+1}}</label><i class="bar"></i>
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <textarea appAutosize [minRows]="1" [maxRows]="10" required="required">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</textarea>
                 <label for="textarea" class="control-label">Level 2</label><i class="bar"></i>
               </div>
               <div class="form-group mb-3">
                 <textarea appAutosize [minRows]="1" [maxRows]="10" required="required">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</textarea>
                 <label for="textarea" class="control-label">Level 3</label><i class="bar"></i>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>

@@ -9,12 +9,17 @@ export class OrganizationService {
   constructor(private apiService: ApiService) {}
 
   fetchOrganizationMetrics(orgId: HttpParams) {
-    return this.apiService.getParam('rest/waitlist/organizationMetrics', orgId);
+    return this.apiService.getParams('rest/waitlist/organizationMetrics', orgId);
   }
 
   saveOrganizationMetrics(params) {
     return this.apiService.putParams('rest/waitlist/orgSetting', params);
   }
+
+  fetchAllPrefAndLanguageMap() {
+    return this.apiService.get('rest/waitlist/setting');
+  }
+
 
   fetchSmsContent(params) {
     return this.apiService.post('rest/waitlist/organizationTemplate/smsContent', params);

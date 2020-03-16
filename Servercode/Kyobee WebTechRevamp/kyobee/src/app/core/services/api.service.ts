@@ -14,43 +14,43 @@ export class ApiService {
   constructor(private http: HttpClient) {}
 
   post(path: string, body): Observable<any> {
-    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     headers.append('Accept', 'application/vnd.kyobee.v1+json');
     return this.http
       .post(`${environment.serverUrl}${path}`, JSON.stringify(body), { headers })
       .pipe(catchError(this.formatErrors));
   }
   put(path: string, body): Observable<any> {
-    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     headers.append('Accept', 'application/vnd.kyobee.v1+json');
     return this.http
       .put(`${environment.serverUrl}${path}`, JSON.stringify(body), { headers })
       .pipe(catchError(this.formatErrors));
   }
   get(path: string): Observable<any> {
-    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     headers.set('Accept', 'application/vnd.kyobee.v1+json');
     return this.http.get(`${environment.serverUrl}${path}`, { headers }).pipe(catchError(this.formatErrors));
   }
-  getParam(path: string, params: HttpParams = new HttpParams()): Observable<any> {
-    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  getParams(path: string, params: HttpParams = new HttpParams()): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     headers.set('Accept', 'application/vnd.kyobee.v1+json');
     return this.http.get(`${environment.serverUrl}${path}`, { headers, params }).pipe(catchError(this.formatErrors));
   }
 
   postParams(path: string, params: HttpParams): Observable<any> {
-    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     headers.append('Accept', 'application/vnd.kyobee.v1+json');
-    let postbody = {};
+    const postbody = {};
     return this.http
       .post(`${environment.serverUrl}${path}`, postbody, { headers, params })
       .pipe(catchError(this.formatErrors));
   }
 
   putParams(path: string, params: HttpParams): Observable<any> {
-    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     headers.append('Accept', 'application/vnd.kyobee.v1+json');
-    let postbody = {};
+    const postbody = {};
     return this.http
       .put(`${environment.serverUrl}${path}`, postbody, { headers, params })
       .pipe(catchError(this.formatErrors));
