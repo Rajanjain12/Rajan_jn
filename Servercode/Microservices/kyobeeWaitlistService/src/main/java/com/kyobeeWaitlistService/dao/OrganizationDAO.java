@@ -22,8 +22,8 @@ public interface OrganizationDAO extends CrudRepository<Organization, Integer> {
 	public Organization findByOrganizationID(Integer orgId);
 	
 	@Modifying
-	@Query("update Organization set notifyUserCount = :notifyFirst where organizationID =:orgId")
-	void updateOrgNotifyFirst(@Param("notifyFirst") Integer notifyFirst,@Param("orgId") Integer orgId);
+	@Query("update Organization set notifyUserCount = :notifyFirst,defaultLangId=:defaultLanguage where organizationID =:orgId")
+	void updateOrgNotifyFirstAndDefLang(@Param("notifyFirst") Integer notifyFirst,@Param("orgId") Integer orgId,@Param("defaultLanguage") Integer defaultLanguage);
 	
 	
 	

@@ -60,12 +60,12 @@ public class OrganizationTemplateController {
 	
 	//For adding organization language
 	@PostMapping(value = "/language", produces = "application/vnd.kyobee.v1+json", consumes = "application/json")
-	public @ResponseBody ResponseDTO addLanguage(@RequestBody LanguageMasterDTO languageMasterDTO, @RequestParam("orgId") Integer orgId) {
+	public @ResponseBody ResponseDTO addLanguage(@RequestParam("langId") Integer langId, @RequestParam("orgId") Integer orgId) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
 			
-			List<SmsTemplateDTO> smsTemplates=organizationTemplateService.addLanguage(languageMasterDTO,orgId);
+			List<SmsTemplateDTO> smsTemplates=organizationTemplateService.addLanguage(langId,orgId);
 			responseDTO.setServiceResult(smsTemplates);
 			responseDTO.setMessage("Organization lang added successfully");
 			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);

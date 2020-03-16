@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.jpa.repository.Query;
 
+import com.kyobeeWaitlistService.dto.LanguageKeyMappingDTO;
 import com.kyobeeWaitlistService.dto.LanguageMasterDTO;
 import com.kyobeeWaitlistService.entity.LangMaster;
 
@@ -14,6 +15,6 @@ import com.kyobeeWaitlistService.entity.LangMaster;
 @Transactional
 public interface LangMasterDAO extends CrudRepository<LangMaster, Integer> {
 
-	@Query("select new com.kyobeeWaitlistService.dto.LanguageMasterDTO(l.langID,l.langIsoCode,l.langName,'','') from LangMaster l ")
-	public List<LanguageMasterDTO> getLanguageDetails();
+	@Query("select new com.kyobeeWaitlistService.dto.LanguageKeyMappingDTO(l.langID,l.langIsoCode,l.langName) from LangMaster l ")
+	public List<LanguageKeyMappingDTO> getLanguageDetails();
 }

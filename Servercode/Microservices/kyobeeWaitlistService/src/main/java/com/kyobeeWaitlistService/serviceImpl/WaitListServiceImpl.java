@@ -316,7 +316,7 @@ public class WaitListServiceImpl implements WaitListService {
 		organizationCategoryDAO.saveAll(orgCategoryList);
 
 		// update notify first setting
-		organizationDAO.updateOrgNotifyFirst(orgSettingDTO.getNotifyFirst(), orgSettingDTO.getOrgId());
+		organizationDAO.updateOrgNotifyFirstAndDefLang(orgSettingDTO.getNotifyFirst(), orgSettingDTO.getOrgId(),orgSettingDTO.getDefaultLanguage());
 
 		// update template text for organization
 		List<SmsTemplateDTO> smsTemplateList = orgSettingDTO.getSmsTemplateDTO();
@@ -358,7 +358,7 @@ public class WaitListServiceImpl implements WaitListService {
 		orgSettingDTO.setSeatingPreference(seatingPrefList);
 		orgSettingDTO.setMarketingPreference(marketingPrefList);
 
-		List<LanguageMasterDTO> langDTOList=langMasterDAO.getLanguageDetails();
+		List<LanguageKeyMappingDTO> langDTOList=langMasterDAO.getLanguageDetails();
 		
 		orgSettingDTO.setLanguageList(langDTOList);
 

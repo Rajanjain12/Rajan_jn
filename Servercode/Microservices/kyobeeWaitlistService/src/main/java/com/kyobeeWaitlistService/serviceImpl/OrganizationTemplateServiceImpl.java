@@ -90,7 +90,7 @@ public class OrganizationTemplateServiceImpl implements OrganizationTemplateServ
 	}
 
 	@Override
-	public List<SmsTemplateDTO> addLanguage(LanguageMasterDTO langMasterDTO, Integer orgId) {
+	public List<SmsTemplateDTO> addLanguage(Integer langId, Integer orgId) {
 		
 		List<SmsTemplateDTO> smsTemplates = new ArrayList<>();
 		Organization organization = organizationDAO.findByOrganizationID(orgId);
@@ -98,7 +98,7 @@ public class OrganizationTemplateServiceImpl implements OrganizationTemplateServ
 		OrganizationTemplate orgTemplate;
 		SmsTemplateDTO smsTemplateDTO;
 		
-		List<SmsTemplateLanguageMapping> smsTemplateList = smsTemplateLanguageMappingDAO.fetchSmsTemplate(langMasterDTO.getLangID());
+		List<SmsTemplateLanguageMapping> smsTemplateList = smsTemplateLanguageMappingDAO.fetchSmsTemplate(langId);
 		
 		List<OrganizationTemplate> orgTemplateList = new ArrayList<>();
 		for(SmsTemplateLanguageMapping smsTemplate : smsTemplateList)
@@ -121,7 +121,7 @@ public class OrganizationTemplateServiceImpl implements OrganizationTemplateServ
 		OrganizationLang organizationLang = new OrganizationLang();
 
 		LangMaster langMaster = new LangMaster();
-		BeanUtils.copyProperties(langMasterDTO, langMaster);
+		langMaster.setLangID(langId);
 		organizationLang.setLangmaster(langMaster);
 		organizationLang.setOrganization(organization);
 		organizationLang.setActive(WaitListServiceConstants.ACTIVE);

@@ -8,6 +8,17 @@ public class LanguageKeyMappingDTO {
 	private String langName;
 	private String langIsoCode;
 	private Map<String, String> languageMap;
+	
+	public LanguageKeyMappingDTO()
+	{
+		
+	}
+	
+	public LanguageKeyMappingDTO(Integer langId,String langName,String langIsoCode) {
+		 this.langId=langId;
+		 this.langName=langName;
+		 this.langIsoCode=langIsoCode;
+	 }
 
 	public Integer getLangId() {
 		return langId;

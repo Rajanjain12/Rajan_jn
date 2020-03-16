@@ -12,7 +12,7 @@ public interface OrganizationTemplateService {
 	
 	List<OrganizationTemplateDTO> getOrganizationTemplates(SmsContentDTO smsContentDTO);
 	List<OrganizationTemplateDTO> getSmsContent(SmsContentDTO smsContentDTO, List<OrganizationTemplateDTO> smsTemplates, GuestMetricsDTO guestMetrics);
-	List<SmsTemplateDTO> addLanguage(LanguageMasterDTO langMasterDTO, Integer orgID);
+	List<SmsTemplateDTO> addLanguage(Integer langId, Integer orgId);
 	void deleteLanguage(Integer orgId,Integer langId);
 
 }
