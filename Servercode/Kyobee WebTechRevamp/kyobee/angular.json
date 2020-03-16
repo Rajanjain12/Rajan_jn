@@ -42,6 +42,21 @@
                 "inject": false
               },
               {
+                "input": "src/assets/scss/theme-masterkim.scss",
+                "bundleName": "theme-masterkim",
+                "inject": false
+              },
+              {
+                "input": "src/assets/scss/theme-rbsushi.scss",
+                "bundleName": "theme-rbsushi",
+                "inject": false
+              },
+              {
+                "input": "src/assets/scss/theme-sweethoneydessert.scss",
+                "bundleName": "theme-sweethoneydessert",
+                "inject": false
+              },
+              {
                 "input": "src/assets/scss/combine.scss",
                 "bundleName": "combine",
                 "inject": false

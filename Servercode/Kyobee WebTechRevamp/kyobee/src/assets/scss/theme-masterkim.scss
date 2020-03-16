@@ -19,11 +19,11 @@ a:hover {
   opacity: 0;
 }
 /*header*/
-.topnav {
-  button {
-    ul {
-      li {
-        a {
+header.header {
+  .topnav {
+    .navbar-nav {
+      .nav-item {
+        .nav-link {
           &:hover {
             background-color: $white-color !important;
             i {
@@ -39,9 +39,9 @@ a:hover {
       }
     }
   }
-  a.active {
+  .nav-link.active {
     background-color: $white-color !important;
-    border-bottom: 3px solid $theme-color;
+    border-bottom: 3px solid $theme-color !important;
     i {
       color: $theme-color;
     }
@@ -218,3 +218,25 @@ footer {
   }
 }
 /* Guest Detail Update Page Ends */
+
+/* ng5-slider Start */
+.custom-slider {
+  .ng5-slider {
+    .ng5-slider-bar,
+    .ng5-slider-tick {
+      background: lighten($color: $theme-color, $amount: 40);
+    }
+    .ng5-slider-selection,
+    .ng5-slider-tick.ng5-slider-selected {
+      background: $theme-color;
+    }
+    .ng5-slider-pointer {
+      border: 1px solid darken($color: $light-grey-color, $amount: 15%);
+      background-color: $light-grey-color;
+    }
+    .ng5-slider-limit {
+      color: $theme-color;
+    }
+  }
+}
+/* ng5-slider Ends */
