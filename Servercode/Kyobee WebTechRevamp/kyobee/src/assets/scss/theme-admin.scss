@@ -220,7 +220,8 @@ footer {
       background: $theme-color;
     }
     .ng5-slider-pointer {
-      background-color: $black-color;
+      border: 1px solid darken($color: $light-grey-color, $amount: 15%);
+      background-color: $light-grey-color;
     }
     .ng5-slider-limit {
       color: $theme-color;

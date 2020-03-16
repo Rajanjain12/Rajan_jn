@@ -18,6 +18,12 @@ const routes: Routes = [
     path: '',
     pathMatch: 'full',
     redirectTo: 'auth/login'
+  },
+  {
+    path: '**',
+    pathMatch: 'full',
+    redirectTo: 'auth/login'
+    // TODO: Please add page not found here, as of now we are redirecting to login page
   }
 ];
 
