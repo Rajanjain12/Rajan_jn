@@ -59,7 +59,7 @@ public class OrganizationTemplateController {
 	}
 	
 	//For adding organization language
-	@PostMapping(value = "/language", produces = "application/vnd.kyobee.v1+json", consumes = "application/json")
+	@PostMapping(value = "/language", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO addLanguage(@RequestParam("langId") Integer langId, @RequestParam("orgId") Integer orgId) {
 
 		ResponseDTO responseDTO = new ResponseDTO();

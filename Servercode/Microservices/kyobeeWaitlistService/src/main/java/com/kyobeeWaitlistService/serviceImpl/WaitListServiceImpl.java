@@ -346,11 +346,13 @@ public class WaitListServiceImpl implements WaitListService {
 				seatingPref = new SeatingMarketingPrefDTO();
 				seatingPref.setPrefValue(lookup.getName());
 				seatingPref.setPrefValueId(lookup.getLookupID());
+				seatingPref.setPrefKey(lookup.getCode());
 				seatingPrefList.add(seatingPref);
 			} else {
 				marketingPref = new SeatingMarketingPrefDTO();
 				marketingPref.setPrefValue(lookup.getName());
 				marketingPref.setPrefValueId(lookup.getLookupID());
+				marketingPref.setPrefKey(lookup.getCode());
 				marketingPrefList.add(marketingPref);
 			}
 

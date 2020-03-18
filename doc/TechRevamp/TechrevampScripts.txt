@@ -335,6 +335,26 @@ CHANGE COLUMN `PLANNAME` `PlanName` VARCHAR(80) NULL DEFAULT NULL ;
 ALTER TABLE `KyobeeTechRevamp`.`ADDRESS` 
 CHANGE COLUMN `ActiveFlag` `ActiveFlag` INT(11) NULL DEFAULT '0' AFTER `Latitude`;
 
+INSERT INTO `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` (`LangId`, `IsoCode`, `Level`, `TemplateText`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('34', 'fr', '1', 'G_name #G_rank: Il y a des soirées P_ahead devant vous avec env. temps d\'attente de W_time min. Pour les mises à jour LIVE:Turl', '1', 'admin', '2020-03-12');
+INSERT INTO `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` (`LangId`, `IsoCode`, `Level`, `TemplateText`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('34', 'fr', '2', 'G_name #G_rank: Votre table est presque prête. Revenez au restaurant avec votre groupe et attendez que votre numéro soit appelé. Cliquez pour les mises à jour: Turl', '1', 'admin', '2020-03-12');
+INSERT INTO `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` (`LangId`, `IsoCode`, `Level`, `TemplateText`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('34', 'fr', '3', '#G_rank: Alerte… vous avez été appelé. Veuillez retourner au magasin IMMÉDIATEMENT. Voir BUREAU AVANT pour le réarrangement. Cordialement, SweethoneyDessert Colma', '1', 'admin', '2020-03-12');
+INSERT INTO `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` (`LangId`, `IsoCode`, `Level`, `TemplateText`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('61', 'ko', '1', 'G_name #G_rank: 있다 P_ahead 약 / 약. 대기 시간 W_time 최소 라이브 업데이트 :Turl', '1', 'admin', '2020-03-12');
+INSERT INTO `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` (`LangId`, `IsoCode`, `Level`, `TemplateText`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('61', 'ko', '2', 'G_name #G_rank: 당신의 테이블은 거의 준비되었습니다. 파티 전체와 함께 식당으로 돌아가서 전화가 올 때까지 기다리십시오. 업데이트를 클릭하십시오 : Turl', '1', 'admin', '2020-03-12');
+INSERT INTO `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` (`LangId`, `IsoCode`, `Level`, `TemplateText`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('61', 'ko', '3', 'G_name, 당신은 RB Sushi에서 당신의 테이블에 부름을 받았습니다. 매장으로 돌아와 좌석 예약에 대해서는 호스트에게 문의하십시오. 친애하는,', '1', 'admin', '2020-03-12');
+
+INSERT INTO `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` (`LangId`, `IsoCode`, `Level`, `TemplateText`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('137', 'zh-Hant', '1', 'G_name #G_rank：歡迎來到金大師的韓國燒烤！你前面有P_ahead派對。等待W_time分鐘的時間。對於實時更新：Turl', '1', 'admin', '2020-03-12');
+INSERT INTO `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` (`LangId`, `IsoCode`, `Level`, `TemplateText`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('137', 'zh-Hant', '2', 'G_name #G_rank：請將您的整個聚會回到商店前台等待您的電話號碼。你前面有P_ahead派對。對於現場更新：Turl  - 金大師的韓國燒烤', '1', 'admin', '2020-03-12');
+INSERT INTO `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` (`LangId`, `IsoCode`, `Level`, `TemplateText`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('137', 'zh-Hant', '3', 'G_name 警報......你被叫了。請立即回到商店。請參閱FRONT DESK進行重新安排。最誠摯的問候，金大師的韓國燒烤', '1', 'admin', '2020-03-12');
+
+UPDATE `KyobeeTechRevamp`.`LOOKUP` SET `Code` = 'patio' WHERE (`LookupID` = '39');
+UPDATE `KyobeeTechRevamp`.`LOOKUP` SET `Code` = 'bar' WHERE (`LookupID` = '40');
+UPDATE `KyobeeTechRevamp`.`LOOKUP` SET `Code` = 'first_available' WHERE (`LookupID` = '41');
+UPDATE `KyobeeTechRevamp`.`LOOKUP` SET `Code` = 'booth' WHERE (`LookupID` = '42');
+UPDATE `KyobeeTechRevamp`.`LOOKUP` SET `Code` = 'table' WHERE (`LookupID` = '43');
+UPDATE `KyobeeTechRevamp`.`LOOKUP` SET `Code` = 'facebook' WHERE (`LookupID` = '45');
+UPDATE `KyobeeTechRevamp`.`LOOKUP` SET `Code` = 'instagram' WHERE (`LookupID` = '46');
+UPDATE `KyobeeTechRevamp`.`LOOKUP` SET `Code` = 'google+' WHERE (`LookupID` = '47');
+UPDATE `KyobeeTechRevamp`.`LOOKUP` SET `Code` = 'word_of_mouth' WHERE (`LookupID` = '48');
 
 
 
