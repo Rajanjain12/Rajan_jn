@@ -45,13 +45,13 @@
   #hideMobile {
     display: none;
   }
-  header {
+  header.header {
     .topnav {
       padding: 0.5rem;
-      ul {
-        li {
+      .navbar-nav {
+        .nav-item {
           display: block;
-          a {
+          .nav-link {
             text-align: left;
             i {
               margin-right: 10px;
@@ -64,7 +64,7 @@
       }
     }
   }
-  .topnav a.active {
+  .topnav a.nav-link.active {
     border-bottom: 0;
   }
   #navbar-menu {
@@ -77,15 +77,15 @@
     }
   }
   #navbar-menu {
-    ul {
-      li {
+    .navbar-nav {
+      .nav-item {
         .dropdown-menu.show {
           display: block;
           border: 0;
           background-color: #f2f2f2;
           padding: 0;
         }
-        a {
+        .nav-link {
           padding: 0.25rem 0.5rem;
           font-size: 16px;
           i {
@@ -249,9 +249,9 @@
     display: none;
   }
   #navbar-menu {
-    ul {
-      li {
-        a {
+    .navbar-nav {
+      .nav-item {
+        .nav-link {
           padding: 5px 16px;
         }
       }
@@ -386,9 +386,9 @@
     font-size: 15px;
   }
   .topnav {
-    ul {
-      li {
-        a {
+    .navbar-nav {
+      .nav-item {
+        .nav-link {
           p {
             font-size: 16px !important;
           }
