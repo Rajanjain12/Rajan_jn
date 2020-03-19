@@ -382,6 +382,7 @@ footer {
 }
 select,
 input {
+  cursor: pointer;
   &:hover,
   &:focus {
     outline: 0;
