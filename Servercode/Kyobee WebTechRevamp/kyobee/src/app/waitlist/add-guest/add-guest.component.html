@@ -12,7 +12,7 @@
                 type="text"
                 id="gname"
                 class="form-control"
-                ng-pattern="/^[A-Za-z0-9 ]*$/"
+                ng-pattern="[A-Za-z0-9 ]*"
                 #gname="ngModel"
                 [ngClass]="{ 'is-invalid': f.submitted && gname.invalid }"
                 maxlength="50"
@@ -38,7 +38,7 @@
                     max="99"
                     appCustomMax="100"
                     appCustomMin="1"
-                    pattern="/^[0-9]*$/"
+                    pattern="[0-9]*"
                     class="form-control"
                     #adult="ngModel"
                     id="adult"
@@ -70,7 +70,7 @@
                     id="children"
                     #children="ngModel"
                     [(ngModel)]="guest.noOfChildren"
-                    pattern="/^[0-9]*$/"
+                    pattern="[0-9]*"
                     [ngClass]="{ 'is-invalid': f.submitted && children.invalid, 'no-value': children.value == null }"
                   />
                   <label for="children" class="control-label">{{ languageKeyMap['children'] }}</label> <i class="bar"></i>

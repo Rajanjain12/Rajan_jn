@@ -28,18 +28,7 @@
       <div class="col-12 col-md-10 row my-3 mx-auto">
         <div class="col-12 col-md-4">
           <div class="form-group mt-0 mb-3">
-            <input
-              type="text"
-              id="name"
-              name="name"
-              ng-pattern="/^[A-Za-z0-9 ]*$/"
-              #gname="ngModel"
-              [ngClass]="{ 'is-invalid': f.submitted && gname.invalid }"
-              class="form-control"
-              [(ngModel)]="guest.name"
-              maxlength="50"
-              required="required"
-            />
+            <input type="text" id="name" name="name" ng-pattern="[A-Za-z0-9 ]*" #gname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && gname.invalid }" class="form-control" [(ngModel)]="guest.name" maxlength="50" required="required" />
             <label for="input" class="control-label">{{ languageKeyMap['name'] }}</label
             ><i class="bar"></i>
             <div *ngIf="f.submitted && gname.invalid" class="invalid-feedback">
@@ -60,7 +49,7 @@
               max="100"
               appCustomMax="100"
               appCustomMin="1"
-              pattern="/^[0-9]*$/"
+              pattern="[0-9]*"
               #adults="ngModel"
               [ngClass]="{ 'is-invalid': f.submitted && adults.invalid }"
               class="form-control"
@@ -89,7 +78,7 @@
               max="99"
               appCustomMax="99"
               appCustomMin="0"
-              pattern="/^[0-9]*$/"
+              pattern="[0-9]*"
               #children="ngModel"
               [ngClass]="{ 'is-invalid': f.submitted && children.invalid }"
               class="form-control"

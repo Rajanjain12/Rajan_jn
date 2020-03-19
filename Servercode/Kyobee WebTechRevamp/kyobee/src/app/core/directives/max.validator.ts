@@ -3,13 +3,13 @@ import { NG_VALIDATORS, Validator, ValidatorFn, AbstractControl, FormControl } f
 
 @Directive({
   selector: '[appCustomMax]',
-  providers: [{provide: NG_VALIDATORS, useExisting: MaxValidator, multi: true}]
+  providers: [{ provide: NG_VALIDATORS, useExisting: MaxValidator, multi: true }]
 })
-export class MaxValidator  implements Validator{
+export class MaxValidator implements Validator {
   @Input() appCustomMax: number;
 
- validate(c: FormControl): {[key: string]: any} {
-  let v = c.value;
-  return ( v > this.appCustomMax) ? { appCustomMax: true} : null;
-}
+  validate(c: FormControl): { [key: string]: any } {
+    let v = c.value;
+    return v > this.appCustomMax ? { appCustomMax: true } : null;
+  }
 }

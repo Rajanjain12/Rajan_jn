@@ -37,7 +37,6 @@ export class GuestDetailUpdateComponent implements OnInit {
   }
 
   fetchGuest() {
-
     var promise = (promise = new Promise((resolve, reject) => {
       this.id = this.route.snapshot.paramMap.get('id');
       if (this.id !== null) {
@@ -159,10 +158,9 @@ export class GuestDetailUpdateComponent implements OnInit {
     });
   }
 
-
   onSubmit(invalid) {
     if (invalid) {
-      this.errorMessage =  this.languageKeyMap['upd_error'];
+      this.errorMessage = this.languageKeyMap['upd_error'];
       return;
     }
     this.resultSeating();

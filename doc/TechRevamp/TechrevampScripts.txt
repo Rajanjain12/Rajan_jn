@@ -353,7 +353,7 @@ UPDATE `KyobeeTechRevamp`.`LOOKUP` SET `Code` = 'booth' WHERE (`LookupID` = '42'
 UPDATE `KyobeeTechRevamp`.`LOOKUP` SET `Code` = 'table' WHERE (`LookupID` = '43');
 UPDATE `KyobeeTechRevamp`.`LOOKUP` SET `Code` = 'facebook' WHERE (`LookupID` = '45');
 UPDATE `KyobeeTechRevamp`.`LOOKUP` SET `Code` = 'instagram' WHERE (`LookupID` = '46');
-UPDATE `KyobeeTechRevamp`.`LOOKUP` SET `Code` = 'google+' WHERE (`LookupID` = '47');
+UPDATE `KyobeeTechRevamp`.`LOOKUP` SET `Code` = 'google' WHERE (`LookupID` = '47');
 UPDATE `KyobeeTechRevamp`.`LOOKUP` SET `Code` = 'word_of_mouth' WHERE (`LookupID` = '48');
 
 

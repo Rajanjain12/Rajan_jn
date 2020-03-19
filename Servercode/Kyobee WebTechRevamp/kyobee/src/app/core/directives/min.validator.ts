@@ -10,6 +10,6 @@ export class MinValidator implements Validator {
 
   validate(c: FormControl): { [key: string]: any } {
     let v = c.value;
-    return v < this.appCustomMin ? { appCustomMin : true } : null;
+    return v < this.appCustomMin ? { appCustomMin: true } : null;
   }
 }

@@ -21,5 +21,5 @@ export class User {
   languagePref: any[];
   footerMsg: string;
   logoPath: string;
-  notifyFirst: string;
+  notifyFirst: number;
 }

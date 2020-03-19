@@ -55,4 +55,10 @@ export class ApiService {
       .put(`${environment.serverUrl}${path}`, postbody, { headers, params })
       .pipe(catchError(this.formatErrors));
   }
+  deleteParams(path: string, params: HttpParams): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    headers.append('Accept', 'application/vnd.kyobee.v1+json');
+    const postbody = {};
+    return this.http.delete(`${environment.serverUrl}${path}`, { headers, params }).pipe(catchError(this.formatErrors));
+  }
 }

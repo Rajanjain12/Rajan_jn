@@ -39,7 +39,16 @@ export class AddGuestComponent implements OnInit {
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     this.user = this.authService.getUser();
+    console.log('user' + JSON.stringify(this.user));
+    this.guest = new GuestDTO();
     this.connectPubnub();
+
+    console.log('seating pref ' + JSON.stringify(this.user.seatingpref));
+    this.languageList = this.user.languagePref;
+    console.log('language List:' + this.languageList);
+    this.selectedItem = this.languageList.find(x => x.langIsoCode === 'en');
+    console.log('default language' + JSON.stringify(this.selectedItem));
+    this.selectedLanguage();
     if (this.id !== null) {
       this.guestService.fetchGuest(this.id).subscribe(res => {
         console.log('res' + JSON.stringify(res));
@@ -51,7 +60,6 @@ export class AddGuestComponent implements OnInit {
       });
       console.log(this.id);
     } else {
-      this.guest = new GuestDTO();
       this.guest.guestID = 0;
       this.guest.optin = 0;
       this.seatingOrMarketingPref();
@@ -60,12 +68,6 @@ export class AddGuestComponent implements OnInit {
     }
 
     // default lang settings
-
-    console.log('seating pref ' + JSON.stringify(this.user.seatingpref));
-    this.languageList = this.user.languagePref;
-    this.selectedItem = this.languageList.find(x => x.langIsoCode === 'en');
-    console.log('default language' + JSON.stringify(this.selectedItem));
-    this.selectedLanguage();
   }
 
   seatingOrMarketingPref() {
@@ -75,13 +77,12 @@ export class AddGuestComponent implements OnInit {
       this.user.seatingpref.map(obj => {
         present = false;
         if (this.guest !== null && this.guest !== undefined) {
-          if (this.guest.seatingPreference !== null) {
+          if (this.guest.seatingPreference !== null && this.guest.seatingPreference !== undefined) {
             present = this.guest.seatingPreference.some(el => {
               return el.prefValueId === obj.prefValueId;
             });
           }
         }
-        // obj.prefValue = this.languageKeyMap[obj.prefKey != null ? obj.prefKey : 0];
         obj.selected = present;
       });
     }
@@ -132,7 +133,9 @@ export class AddGuestComponent implements OnInit {
     console.log('language map:' + JSON.stringify(this.languageKeyMap));
 
     this.listSeatingPref = this.user.seatingpref;
+    console.log('seating list:' + JSON.stringify(this.listSeatingPref));
     this.listMarketingPref = this.user.marketingPref;
+    console.log('marketing list:' + JSON.stringify(this.listMarketingPref));
 
     this.guest.languagePref = {
       langID: this.selectedItem.langId,
@@ -141,6 +144,7 @@ export class AddGuestComponent implements OnInit {
       langIsoCode: this.selectedItem.langIsoCode,
       langName: this.selectedItem.langName
     };
+    console.log('language pref ' + JSON.stringify(this.guest.languagePref));
   }
 
   addGuest() {
@@ -217,8 +221,8 @@ export class AddGuestComponent implements OnInit {
       if (res.success === 1) {
         this.languageList = res.serviceResult;
         this.user.languagePref = this.languageList;
-        this.user.languagePref.map((lang) => {
-          if ( this.selectedItem.langId === lang.langId) {
+        this.user.languagePref.map(lang => {
+          if (this.selectedItem.langId === lang.langId) {
             this.selectedItem = lang;
           }
         });

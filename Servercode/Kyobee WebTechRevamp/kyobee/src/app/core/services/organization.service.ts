@@ -20,8 +20,19 @@ export class OrganizationService {
     return this.apiService.get('rest/waitlist/setting');
   }
 
-
   fetchSmsContent(params) {
     return this.apiService.post('rest/waitlist/organizationTemplate/smsContent', params);
+  }
+
+  addLanguage(params) {
+    return this.apiService.postParams('rest/waitlist/organizationTemplate/language', params);
+  }
+
+  deleteLanguage(params) {
+    return this.apiService.deleteParams('rest/waitlist/organizationTemplate/language', params);
+  }
+
+  saveOrganizationSetting(params) {
+    return this.apiService.put('rest/waitlist/setting', params);
   }
 }

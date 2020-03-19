@@ -3,25 +3,19 @@
     <div class="row">
       <form class="col-lg-12">
         <div class="checkbox my-0 py-2 border-bottom">
+          <div class="alert alert-success alert-dismissible" *ngIf="successMsg != null">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <p>{{ successMsg }}</p>
+          </div>
           <div class="row">
             <div class="col-lg-3 my-1">
               <span class="font-weight-semibold">Seating Preference</span>
             </div>
             <div class="col-lg-9 my-1">
-              <input class="styled-checkbox" id="firstAvailable" type="checkbox" />
-              <label for="firstAvailable" class="mr-2">First Available</label>
-
-              <input class="styled-checkbox" id="pation" type="checkbox" />
-              <label for="pation" class="mr-2">Patio</label>
-
-              <input class="styled-checkbox" id="bar" type="checkbox" />
-              <label for="bar" class="mr-2">Bar</label>
-
-              <input class="styled-checkbox" id="booth" type="checkbox" />
-              <label for="booth" class="mr-2">Booth</label>
-
-              <input class="styled-checkbox" id="table" type="checkbox" />
-              <label for="table" class="mr-2">Table</label>
+              <div *ngFor="let seating of seatingPrefList; index as i" class="d-inline-block">
+                <input class="styled-checkbox" id="firstAvailable{{ i }}" type="checkbox" [(ngModel)]="seating.selected" [ngModelOptions]="{ standalone: true }" />
+                <label for="firstAvailable{{ i }}" class="mr-2">{{ seating.prefValue }}</label>
+              </div>
             </div>
           </div>
         </div>
@@ -31,20 +25,10 @@
               <span class="font-weight-semibold">Marketing Preference</span>
             </div>
             <div class="col-lg-9 my-1">
-              <input class="styled-checkbox" id="facebook" type="checkbox" />
-              <label for="facebook" class="mr-2">Facebook</label>
-
-              <input class="styled-checkbox" id="instagram" type="checkbox" />
-              <label for="instagram" class="mr-2">Instagram</label>
-
-              <input class="styled-checkbox" id="google+" type="checkbox" />
-              <label for="google+" class="mr-2">Google+</label>
-
-              <input class="styled-checkbox" id="twitter" type="checkbox" />
-              <label for="twitter" class="mr-2">Twitter</label>
-
-              <input class="styled-checkbox" id="word" type="checkbox" />
-              <label for="word" class="mr-2">Word of Mouth</label>
+              <div *ngFor="let marketing of marketingPrefList; index as i" class="d-inline-block">
+                <input class="styled-checkbox" id="lablekey{{ i }}" type="checkbox" [(ngModel)]="marketing.selected" [ngModelOptions]="{ standalone: true }" />
+                <label for="lablekey{{ i }}" class="mr-2">{{ marketing.prefValue }}</label>
+              </div>
             </div>
           </div>
         </div>
@@ -56,8 +40,8 @@
             <div class="col-lg-9 my-1">
               <div class="row">
                 <div class="col-lg-3 my-1">
-                  <select class="form-control" id="notifyFirst" name="notifyFirst" (change)="updateNotifyFirst();" #notifyFirst="ngModel" [(ngModel)]="user.notifyFirst">
-                    <option *ngFor="let i of [].constructor(10); let j = index" value="{{ j + 1 }}" >{{j+1}} Minute</option>      
+                  <select class="form-control" id="notifyFirst" name="notifyFirst" #notifyFirst="ngModel" [(ngModel)]="user.notifyFirst">
+                    <option *ngFor="let i of [].constructor(10); let j = index" value="{{ j + 1 }}">{{ j + 1 }} Minute</option>
                   </select>
                 </div>
               </div>
@@ -80,21 +64,21 @@
                       <div class="overSelect"></div>
                     </div>
                     <div id="checkboxes">
-                      <div *ngFor="let item of user.languagePref; let i = index" class="p-2">
-                        <input class="styled-checkbox" [id]="'checkboxes' + i" type="checkbox" checked />
+                      <div *ngFor="let item of languageList; let i = index" class="p-2">
+                        <input class="styled-checkbox" [id]="'checkboxes' + i" type="checkbox" (change)="getSelectedLanguage(item, $event.target.checked)" [(ngModel)]="item.checked" [ngModelOptions]="{ standalone: true }" />
                         <label [for]="'checkboxes' + i" class="mr-2 p-0">{{ item.langName }}</label>
                       </div>
-                      <div *ngFor="let item of user.languagePref; let i = index" class="p-2">
+                      <!--   <div *ngFor="let item of user.languagePref; let i = index" class="p-2">
                           <input class="styled-checkbox" [id]="'checkboxes' + i" type="checkbox" />
                           <label [for]="'checkboxes' + i" class="mr-2 p-0">{{ item.langName }}</label>
-                        </div>
+                        </div>-->
                     </div>
                   </div>
                 </div>
                 <div class="col-lg-3 my-1">
-                  <select class="form-control" id="defaultLangId" (change)="updateNotifyFirst();" name="defaultLangId" #defaultLangId="ngModel" [(ngModel)]="user.defaultLangId">
+                  <select class="form-control" id="defaultLangId" name="defaultLangId" #defaultLangId="ngModel" [(ngModel)]="user.defaultLangId">
                     <!-- <option>Default Language</option> -->
-                    <option *ngFor="let item of user.languagePref; let i = index" value="{{item.langId}}">{{item.langName}}</option>
+                    <option *ngFor="let item of user.languagePref; let i = index" value="{{ item.langId }}">{{ item.langName }}</option>
                   </select>
                 </div>
               </div>
@@ -108,13 +92,16 @@
             </div>
             <div class="col-lg-9 my-1">
               <div class="col-lg-3 pl-0">
-                <select class="form-control" id="selectedSMSTemplate" (change)="changeSelectedTemplate();" name="selectedSMSTemplate" #selectedSMSTemplate="ngModel" [(ngModel)]="selectedSMSTemplateLangId">
-                  <option *ngFor="let item of user.languagePref; let i = index" value="{{item.langId}}" >{{item.langName}}</option>
+                <select class="form-control" id="selectedSMSTemplate" (change)="changeSelectedTemplate()" name="selectedSMSTemplate" #selectedSMSTemplate="ngModel" [(ngModel)]="selectedSMSTemplateLangId">
+                  <option *ngFor="let item of user.languagePref; let i = index" value="{{ item.langId }}">{{ item.langName }}</option>
                 </select>
               </div>
-              <div *ngFor="let template of selectedSMSTemplateText; let i = index"class="form-group">
-                <textarea appAutosize [minRows]="1" [maxRows]="10" required="required">{{template.templateText}}</textarea>
-                <label for="textarea" class="control-label">Level {{i+1}}</label><i class="bar"></i>
+              <div *ngFor="let template of selectedSMSTemplateText; let i = index" class="form-group">
+                <textarea appAutosize [minRows]="1" [maxRows]="10" required="required" [(ngModel)]="template.templateText" (change)="dosomething($event.target.value, template.level)" [ngModelOptions]="{ standalone: true }">{{
+                  template.templateText
+                }}</textarea>
+                <label for="textarea" class="control-label">Level {{ i + 1 }}</label
+                ><i class="bar"></i>
               </div>
               <!-- <div class="form-group">
                 <textarea appAutosize [minRows]="1" [maxRows]="10" required="required">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</textarea>
@@ -128,7 +115,7 @@
           </div>
         </div>
         <div class="col-lg-12 text-center pb-3 pt-2">
-          <button type="button" class="btn btn-theme background-color shadow"><span>Save</span></button>
+          <button type="button" class="btn btn-theme background-color shadow" (click)="saveOrgSetting()"><span>Save</span></button>
         </div>
       </form>
     </div>
