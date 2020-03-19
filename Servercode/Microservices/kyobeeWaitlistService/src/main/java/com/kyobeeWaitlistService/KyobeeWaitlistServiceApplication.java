@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -17,9 +18,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EnableEurekaClient 
 public class KyobeeWaitlistServiceApplication {
-
-	
-
 	
 	public static void main(String[] args) {
 		SpringApplication.run(KyobeeWaitlistServiceApplication.class, args);
@@ -36,6 +34,9 @@ public class KyobeeWaitlistServiceApplication {
 	    return new RestTemplate();
 	}
 
-
+	@Bean
+	public WebClient.Builder getWebClientBuilder(){
+		return WebClient.builder();
+	}
 	
 }

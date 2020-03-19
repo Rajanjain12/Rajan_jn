@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.kyobeeWaitlistService.dao.GuestDAO;
 import com.kyobeeWaitlistService.dao.LangMasterDAO;
@@ -33,6 +34,7 @@ import com.kyobeeWaitlistService.dto.OrgPrefKeyMapDTO;
 import com.kyobeeWaitlistService.dto.OrgSettingDTO;
 import com.kyobeeWaitlistService.dto.OrganizationTemplateDTO;
 import com.kyobeeWaitlistService.dto.PusherDTO;
+import com.kyobeeWaitlistService.dto.ResponseDTO;
 import com.kyobeeWaitlistService.dto.SeatingMarketingPrefDTO;
 import com.kyobeeWaitlistService.dto.SendSMSDTO;
 import com.kyobeeWaitlistService.dto.SmsTemplateDTO;
@@ -86,6 +88,9 @@ public class WaitListServiceImpl implements WaitListService {
 	
 	@Autowired
 	LangMasterDAO langMasterDAO;
+	
+	@Autowired
+	private WebClient.Builder webClientBuilder;
 
 	@Override
 	public HashMap<String, Object> updateLanguagesPusher() {
@@ -214,8 +219,24 @@ public class WaitListServiceImpl implements WaitListService {
 			signature = " - " + guestNotification.getSmsSignature() + "\n";
 			msg = msg + signature;
 		}
+		
+		final String content=msg;
+		//Using Webclient builder
+		webClientBuilder.baseUrl("http://KYOBEE-UTIL-SERVICE/");
+		webClientBuilder.build().get()
+			.uri(uriBuilder -> uriBuilder
+                    .path("rest/util/sendSMS")
+                    .queryParam("message",content)
+                    .queryParam("contactNo", guestNotification.getContactNo())                   
+                    .build())
+			.header("Content-Type", "application/json")
+			//.uri("http://kyobee-util-service:8083/rest/util/sendSMS?contactNo="+guestNotification.getContactNo()+"&message="+msg)
+			.retrieve()
+			.bodyToMono(ResponseDTO.class)
+			.block();
+		LoggerUtil.logInfo("Entering Util service");
 
-		SMSUtil.sendSMS(guestNotification.getContactNo(), msg);
+		//SMSUtil.sendSMS(guestNotification.getContactNo(), msg);
 	}
 
 	@Override
