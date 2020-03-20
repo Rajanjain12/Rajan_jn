@@ -28,7 +28,7 @@ public class UtilController {
 	//purpose : for sending sms
 	@GetMapping(value = "/sendSMS", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO sendSMS(@RequestParam String contactNo,@RequestParam String message) {
-
+		System.out.println("Inside util");
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {		
 			utilService.sendSMS(contactNo, message);

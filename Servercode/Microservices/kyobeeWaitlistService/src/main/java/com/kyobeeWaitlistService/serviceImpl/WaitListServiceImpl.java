@@ -222,7 +222,7 @@ public class WaitListServiceImpl implements WaitListService {
 		
 		final String content=msg;
 		//Using Webclient builder
-		webClientBuilder.baseUrl("http://KYOBEE-UTIL-SERVICE/");
+		webClientBuilder.baseUrl("http://kyobee-util-service/");
 		webClientBuilder.build().get()
 			.uri(uriBuilder -> uriBuilder
                     .path("rest/util/sendSMS")
@@ -230,6 +230,7 @@ public class WaitListServiceImpl implements WaitListService {
                     .queryParam("contactNo", guestNotification.getContactNo())                   
                     .build())
 			.header("Content-Type", "application/json")
+			.header("Accept","application/vnd.kyobee.v1+json")
 			//.uri("http://kyobee-util-service:8083/rest/util/sendSMS?contactNo="+guestNotification.getContactNo()+"&message="+msg)
 			.retrieve()
 			.bodyToMono(ResponseDTO.class)

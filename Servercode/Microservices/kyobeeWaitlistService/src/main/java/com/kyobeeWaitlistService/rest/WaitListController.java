@@ -125,7 +125,7 @@ public class WaitListController {
 	// for sending sms
 	@PostMapping(value = "/sendSMS", produces = "application/vnd.kyobee.v1+json", consumes = "application/json")
 	public @ResponseBody ResponseDTO sendSMS(@RequestBody SendSMSDTO sendSMSDTO) {
-
+		
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
 			waitListService.sendSMS(sendSMSDTO);

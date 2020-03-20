@@ -13,7 +13,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
- @EnableEurekaClient 
+@EnableEurekaClient 
 public class KyobeeUtilServiceApplication {
 
 	public static void main(String[] args) {
