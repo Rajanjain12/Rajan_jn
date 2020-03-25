@@ -19,6 +19,7 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.kyobeeUserService.dao.LanguageKeyMappingDAO;
 import com.kyobeeUserService.dao.LookupDAO;
@@ -59,37 +60,40 @@ import com.kyobeeUserService.util.Exception.InvalidAuthCodeException;
 import com.kyobeeUserService.util.Exception.InvalidActivationCodeException;
 import com.kyobeeUserService.util.Exception.InvalidLoginException;
 import com.kyobeeUserService.util.Exception.UserNotFoundException;
-import com.kyobeeUserService.util.emailImpl.EmailUtil;
+import com.kyobeeUserService.dto.ResponseDTO;
 
 @Service
 public class UserServiceImpl implements UserService {
 
 	@Autowired
-	UserDAO userDAO;
+	private UserDAO userDAO;
 
 	@Autowired
-	OrganizationDAO organizationDAO;
+	private OrganizationDAO organizationDAO;
 
 	@Autowired
-	LookupDAO lookupDAO;
+	private LookupDAO lookupDAO;
 
 	@Autowired
-	LanguageKeyMappingDAO languageKeyMappingDAO;
+	private LanguageKeyMappingDAO languageKeyMappingDAO;
 
 	@Autowired
-	OrganizationTemplateDAO organizationTemplateDAO;
+	private OrganizationTemplateDAO organizationTemplateDAO;
 
 	@Autowired
-	RoleDAO roleDAO;
+	private RoleDAO roleDAO;
 
 	@Autowired
-	OrganizationTypeDAO organizationTypeDAO;
+	private OrganizationTypeDAO organizationTypeDAO;
 
 	@Autowired
-	PlanDAO planDAO;
+	private PlanDAO planDAO;
 
 	@Autowired
-	SmsTemplateLanguageMappingDAO smsTemplateLanguageMappingDAO;
+	private SmsTemplateLanguageMappingDAO smsTemplateLanguageMappingDAO;
+
+	@Autowired
+	private WebClient.Builder webClientBuilder;
 
 	// to validate user and fetch data needed after login in web and mobile, single
 	// API for login from web and mobile
@@ -210,6 +214,8 @@ public class UserServiceImpl implements UserService {
 					loginUserDTO.setLogoPath(UserServiceConstants.KYOBEE_SERVER_URL + loginUserDTO.getOrganizationID()
 							+ UserServiceConstants.EXTENSION);
 					loginUserDTO.setNotifyFirst(organization.getNotifyUserCount());
+					loginUserDTO.setPplBifurcation(organization.getPplBifurcation());
+
 					return loginUserDTO;
 
 				} else {
@@ -301,7 +307,18 @@ public class UserServiceImpl implements UserService {
 			// ----
 			response = "password sent successufully to your registered account";
 
-			EmailUtil.sendMail(user.getEmail(), UserServiceConstants.EMAIL_SUBJECT, writer.toString());
+			// Using Webclient builder
+			webClientBuilder.baseUrl("http://kyobee-util-service/");
+			webClientBuilder.build().get()
+					.uri(uriBuilder -> uriBuilder.path("rest/util/sendEmail").queryParam("toEmail", user.getEmail())
+							.queryParam("subject", UserServiceConstants.EMAIL_SUBJECT)
+							.queryParam("body", writer.toString()).build())
+					.header("Content-Type", "application/json").header("Accept", "application/vnd.kyobee.v1+json")
+					.retrieve().bodyToMono(ResponseDTO.class).block();
+			LoggerUtil.logInfo("Entering Util service");
+
+			// EmailUtil.sendMail(user.getEmail(), UserServiceConstants.EMAIL_SUBJECT,
+			// writer.toString());
 
 		} else {
 			throw new UserNotFoundException("Please Enter valid email address.");
@@ -318,8 +335,7 @@ public class UserServiceImpl implements UserService {
 		if (!exists) {
 
 			User user = new User();
-			
-			
+
 			Date today = new Date();
 			long hour = 3600 * 1000;
 			Date nextDay = new Date(today.getTime() + 24 * hour);
@@ -440,10 +456,10 @@ public class UserServiceImpl implements UserService {
 			organization.setOrganizationusers(organizationUserList);
 			user.setOrganizationusers(organizationUserList);
 
-			User savedUser=userDAO.save(user);
-			//sending activation mail
+			User savedUser = userDAO.save(user);
+			// sending activation mail
 			sendActivationEmail(savedUser);
-			
+
 		} else {
 			LoggerUtil.logInfo("user exists");
 		}
@@ -455,13 +471,13 @@ public class UserServiceImpl implements UserService {
 
 		User user = userDAO.findByEmail(email);
 
-		if(user != null) {
+		if (user != null) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
+
 	public void sendActivationEmail(User user) {
 
 		VelocityEngine ve = new VelocityEngine();
@@ -479,30 +495,40 @@ public class UserServiceImpl implements UserService {
 		StringWriter writer = new StringWriter();
 		t.merge(context, writer);
 
-		EmailUtil.sendMail(user.getEmail(), UserServiceConstants.ACTIVATION_EMAIL, writer.toString());
+		// Using Webclient builder
+		webClientBuilder.baseUrl("http://kyobee-util-service/");
+		webClientBuilder.build().get()
+				.uri(uriBuilder -> uriBuilder.path("rest/util/sendEmail").queryParam("toEmail", user.getEmail())
+						.queryParam("subject", UserServiceConstants.ACTIVATION_EMAIL)
+						.queryParam("body", writer.toString()).build())
+				.header("Content-Type", "application/json").header("Accept", "application/vnd.kyobee.v1+json")
+				.retrieve().bodyToMono(ResponseDTO.class).block();
+		LoggerUtil.logInfo("Entering Util service");
+
+		// EmailUtil.sendMail(user.getEmail(), UserServiceConstants.ACTIVATION_EMAIL,
+		// writer.toString());
 
 	}
 
 	@Override
-	public String activateUser(String activationCode, Integer userId) throws InvalidActivationCodeException
-	{
-		
+	public String activateUser(String activationCode, Integer userId) throws InvalidActivationCodeException {
+
 		String response = null;
-		User user = userDAO.findByUserIDAndActivationCode(userId,activationCode);
-		LoggerUtil.logInfo("user:"+user);
+		User user = userDAO.findByUserIDAndActivationCode(userId, activationCode);
+		LoggerUtil.logInfo("user:" + user);
 		if (user != null) {
 			Date today = new Date();
 			if (today.after(user.getActivationExpiryDate())) {
 				// if user enters activation code after 24 hour
 				throw new InvalidActivationCodeException("Invalid activation code exception");
-				
+
 			} else {
 				user.setActive(UserServiceConstants.ACTIVATED_USER);
 				user.setActivationCode(null);
 				user.setActivationExpiryDate(null);
 				userDAO.save(user);
 				sendWelcomeEmail(user);
-				
+
 				response = "User account activated successfully.";
 			}
 
@@ -511,7 +537,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return response;
 	}
-	
+
 	public void sendWelcomeEmail(User user) {
 
 		VelocityEngine ve = new VelocityEngine();
@@ -528,7 +554,18 @@ public class UserServiceImpl implements UserService {
 		StringWriter writer = new StringWriter();
 		t.merge(context, writer);
 
-		EmailUtil.sendMail(user.getEmail(), UserServiceConstants.WELCOME_EMAIL, writer.toString());
+		// Using Webclient builder
+		webClientBuilder.baseUrl("http://kyobee-util-service/");
+		webClientBuilder.build().get()
+				.uri(uriBuilder -> uriBuilder.path("rest/util/sendEmail").queryParam("toEmail", user.getEmail())
+						.queryParam("subject", UserServiceConstants.WELCOME_EMAIL).queryParam("body", writer.toString())
+						.build())
+				.header("Content-Type", "application/json").header("Accept", "application/vnd.kyobee.v1+json")
+				.retrieve().bodyToMono(ResponseDTO.class).block();
+		LoggerUtil.logInfo("Entering Util service");
+
+		// EmailUtil.sendMail(user.getEmail(), UserServiceConstants.WELCOME_EMAIL,
+		// writer.toString());
 
 	}
 

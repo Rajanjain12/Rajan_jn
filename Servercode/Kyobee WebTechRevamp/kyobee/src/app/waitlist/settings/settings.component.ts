@@ -17,6 +17,7 @@ import { typeWithParameters } from '@angular/compiler/src/render3/util';
 export class SettingsComponent implements OnInit {
   private checkboEexpanded = false;
 
+  
   user: User = new User();
   selectedSMSTemplateLangId;
   selectedSMSTemplateText: Array<SmsTemplate>;
@@ -31,6 +32,7 @@ export class SettingsComponent implements OnInit {
   SMSTemplateText: Array<SmsTemplate> = new Array();
   orgSettingDTO: OrgSettingDTO;
   successMsg = null;
+  disabled = false;
 
   constructor(private authService: AuthService, private orgService: OrganizationService) {
     this.user = this.authService.getUser();
@@ -39,7 +41,7 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.defaultLanguageList = ['English', 'French', 'Chinese', 'Chinese (Traditional)', 'Korean'];
+    this.defaultLanguageList = ['French', 'Chinese', 'Chinese (Traditional)', 'Korean'];
     this.user = this.authService.getUser();
     this.orgLanguageList = this.user.languagePref;
     this.fetchAllPrefAndKeyMap();
@@ -59,7 +61,6 @@ export class SettingsComponent implements OnInit {
 
   changeSelectedTemplate() {
     this.selectedSMSTemplateText = new Array<SmsTemplate>();
-    //alert(this.selectedSMSTemplateLangId);
     this.user.smsTemplate.map(template => {
       if (template.languageID === parseInt(this.selectedSMSTemplateLangId, 10)) {
         this.selectedSMSTemplateText.push(template);
@@ -103,6 +104,7 @@ export class SettingsComponent implements OnInit {
     this.defaultLanguageList.forEach(obj => {
       var langExists = res.serviceResult.languageList.find(x => x.langName === obj);
       if (langExists) {
+
         this.languageList.push(langExists);
       }
     });
@@ -114,16 +116,17 @@ export class SettingsComponent implements OnInit {
         languageExists.checked = true;
       }
     });
+  
   }
 
   getSelectedLanguage(lang, selected) {
-    console.log('selected lanfg:' + selected + '' + JSON.stringify(lang));
+    console.log('selected lang:' + selected + '' + JSON.stringify(lang));
     if (selected) {
       this.addSelectedLanguage(lang);
     } else {
       this.removeLanguage(lang);
     }
-  }
+  } 
 
   addSelectedLanguage(lang) {
     const params = new HttpParams().set('langId', lang.langId).set('orgId', this.user.organizationID.toString());
@@ -131,10 +134,9 @@ export class SettingsComponent implements OnInit {
     this.orgService.addLanguage(params).subscribe((res: any) => {
       if (res.success === 1) {
         console.log('Language Added = ' + JSON.stringify(res));
-        this.user.languagePref.push(lang);
-        //this.user.smsTemplate.push(res.serviceResult);
+        this.user.languagePref.push(res.serviceResult.languageList.find(x => x.langId === lang.langId));
 
-        res.serviceResult.forEach(obj => {
+        res.serviceResult.smsTemplateDTO.forEach(obj => {
           this.user.smsTemplate.push(obj);
         });
         this.authService.setSessionData(this.user);
@@ -185,7 +187,8 @@ export class SettingsComponent implements OnInit {
     this.orgSettingDTO.notifyFirst = this.user.notifyFirst;
     this.orgSettingDTO.smsTemplateDTO = this.user.smsTemplate;
     this.orgSettingDTO.orgId = this.user.organizationID;
-
+    this.orgSettingDTO.pplBifurcation = this.user.pplBifurcation;
+    
     this.orgService.saveOrganizationSetting(this.orgSettingDTO).subscribe((res: any) => {
       if (res.success === 1) {
         console.log('org response:' + res.serviceResult);
@@ -209,4 +212,5 @@ export class SettingsComponent implements OnInit {
 
     console.log('user template:' + JSON.stringify(this.user.smsTemplate));
   }
+ 
 }

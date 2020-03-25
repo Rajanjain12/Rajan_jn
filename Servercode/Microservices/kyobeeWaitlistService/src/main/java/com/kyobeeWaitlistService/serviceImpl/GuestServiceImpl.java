@@ -49,28 +49,28 @@ import com.kyobeeWaitlistService.util.pusherImpl.NotificationUtil;
 public class GuestServiceImpl implements GuestService {
 
 	@Autowired
-	OrganizationDAO organizationDAO;
+	private OrganizationDAO organizationDAO;
 
 	@Autowired
-	GuestDAO guestDAO;
+	private GuestDAO guestDAO;
 
 	@Autowired
-	GuestCustomDAO guestCustomDAO;
+	private GuestCustomDAO guestCustomDAO;
 
 	@Autowired
-	LookupDAO lookupDAO;
+	private LookupDAO lookupDAO;
 
 	@Autowired
-	GuestMarketingPreferencesDAO guestMarketingPreferencesDAO;
+	private GuestMarketingPreferencesDAO guestMarketingPreferencesDAO;
 	
 	@Autowired
-	OrganizationCustomDAO organizationCustomDAO;
+	private OrganizationCustomDAO organizationCustomDAO;
 	
 	@Autowired
-	LanguageKeyMappingDAO languageKeyMappingDAO;
+	private LanguageKeyMappingDAO languageKeyMappingDAO;
 	
 	@Autowired
-	RestTemplate restTemplate;
+	private RestTemplate restTemplate;
 
 	@Override
 	public GuestMetricsDTO getGuestMetrics(Integer guestId, Integer orgId) {

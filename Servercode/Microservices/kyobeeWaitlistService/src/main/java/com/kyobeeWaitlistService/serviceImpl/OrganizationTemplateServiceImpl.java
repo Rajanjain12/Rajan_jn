@@ -14,9 +14,9 @@ import com.kyobeeWaitlistService.dao.OrganizationLanguageDAO;
 import com.kyobeeWaitlistService.dao.OrganizationTemplateDAO;
 import com.kyobeeWaitlistService.dao.SmsTemplateLanguageMappingDAO;
 import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
-import com.kyobeeWaitlistService.dto.LanguageMasterDTO;
+import com.kyobeeWaitlistService.dto.LanguageKeyMappingDTO;
+import com.kyobeeWaitlistService.dto.OrgSettingDTO;
 import com.kyobeeWaitlistService.dto.OrganizationTemplateDTO;
-import com.kyobeeWaitlistService.dto.SendSMSDTO;
 import com.kyobeeWaitlistService.dto.SmsContentDTO;
 import com.kyobeeWaitlistService.dto.SmsTemplateDTO;
 import com.kyobeeWaitlistService.entity.LangMaster;
@@ -25,6 +25,7 @@ import com.kyobeeWaitlistService.entity.OrganizationLang;
 import com.kyobeeWaitlistService.entity.OrganizationTemplate;
 import com.kyobeeWaitlistService.entity.SmsTemplateLanguageMapping;
 import com.kyobeeWaitlistService.service.OrganizationTemplateService;
+import com.kyobeeWaitlistService.service.WaitListService;
 import com.kyobeeWaitlistService.util.CommonUtil;
 import com.kyobeeWaitlistService.util.LoggerUtil;
 import com.kyobeeWaitlistService.util.WaitListServiceConstants;
@@ -33,16 +34,19 @@ import com.kyobeeWaitlistService.util.WaitListServiceConstants;
 @Transactional
 public class OrganizationTemplateServiceImpl implements OrganizationTemplateService {
 	@Autowired
-	OrganizationTemplateDAO organizationTemplateDAO;
+	private OrganizationTemplateDAO organizationTemplateDAO;
 	
 	@Autowired
-	OrganizationDAO organizationDAO;
+	private OrganizationDAO organizationDAO;
 	
 	@Autowired
-	SmsTemplateLanguageMappingDAO smsTemplateLanguageMappingDAO;
+	private SmsTemplateLanguageMappingDAO smsTemplateLanguageMappingDAO;
 	
 	@Autowired
-	OrganizationLanguageDAO organizationLanguageDAO;
+	private OrganizationLanguageDAO organizationLanguageDAO;
+	
+	@Autowired
+	private WaitListService waitListService;
 	
 	
 
@@ -90,10 +94,11 @@ public class OrganizationTemplateServiceImpl implements OrganizationTemplateServ
 	}
 
 	@Override
-	public List<SmsTemplateDTO> addLanguage(Integer langId, Integer orgId) {
+	public OrgSettingDTO addLanguage(Integer langId, Integer orgId) {
 		
 		List<SmsTemplateDTO> smsTemplates = new ArrayList<>();
 		Organization organization = organizationDAO.findByOrganizationID(orgId);
+		OrgSettingDTO orgSettingDTO = new OrgSettingDTO();
 		
 		OrganizationTemplate orgTemplate;
 		SmsTemplateDTO smsTemplateDTO;
@@ -130,7 +135,11 @@ public class OrganizationTemplateServiceImpl implements OrganizationTemplateServ
 
 		organizationLanguageDAO.save(organizationLang);
 		
-		return smsTemplates;
+		List<LanguageKeyMappingDTO> langKeyMapList = waitListService.fetchOrgLangKeyMap(orgId);
+		orgSettingDTO.setLanguageList(langKeyMapList);
+		orgSettingDTO.setSmsTemplateDTO(smsTemplates);
+		
+		return orgSettingDTO;
 		
 	}
 

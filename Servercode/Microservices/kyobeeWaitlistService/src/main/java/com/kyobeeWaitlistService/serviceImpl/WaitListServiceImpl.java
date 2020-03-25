@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.kyobeeWaitlistService.dao.GuestDAO;
 import com.kyobeeWaitlistService.dao.LangMasterDAO;
 import com.kyobeeWaitlistService.dao.LanguageKeyMappingDAO;
 import com.kyobeeWaitlistService.dao.LookupDAO;
@@ -39,8 +38,6 @@ import com.kyobeeWaitlistService.dto.SeatingMarketingPrefDTO;
 import com.kyobeeWaitlistService.dto.SendSMSDTO;
 import com.kyobeeWaitlistService.dto.SmsTemplateDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;
-import com.kyobeeWaitlistService.entity.LangMaster;
-import com.kyobeeWaitlistService.entity.Languagekeymapping;
 import com.kyobeeWaitlistService.entity.Lookup;
 import com.kyobeeWaitlistService.entity.Organization;
 import com.kyobeeWaitlistService.entity.OrganizationCategory;
@@ -52,7 +49,6 @@ import com.kyobeeWaitlistService.util.LoggerUtil;
 import com.kyobeeWaitlistService.util.WaitListServiceConstants;
 import com.kyobeeWaitlistService.util.Exeception.InvalidGuestException;
 import com.kyobeeWaitlistService.util.pusherImpl.NotificationUtil;
-import com.kyobeeWaitlistService.util.smsImpl.SMSUtil;
 import com.kyobeeWaitlistService.service.GuestService;
 
 @Service
@@ -60,34 +56,31 @@ import com.kyobeeWaitlistService.service.GuestService;
 public class WaitListServiceImpl implements WaitListService {
 
 	@Autowired
-	OrganizationDAO organizationDAO;
-
-	@Autowired
-	GuestDAO guestDAO;
-
-	@Autowired
-	LookupDAO lookupDAO;
-
-	@Autowired
-	LanguageKeyMappingDAO languageKeyMappingDAO;
-
-	@Autowired
-	OrganizationTemplateDAO organizationTemplateDAO;
-
-	@Autowired
-	OrganizationCustomDAO organizationCustomDAO;
-
-	@Autowired
-	SmsLogDAO smsLogDAO;
-
-	@Autowired
-	GuestService guestService;
-
-	@Autowired
-	OrganizationCategoryDAO organizationCategoryDAO;
+	private OrganizationDAO organizationDAO;
 	
 	@Autowired
-	LangMasterDAO langMasterDAO;
+	private LookupDAO lookupDAO;
+
+	@Autowired
+	private LanguageKeyMappingDAO languageKeyMappingDAO;
+
+	@Autowired
+	private OrganizationTemplateDAO organizationTemplateDAO;
+
+	@Autowired
+	private OrganizationCustomDAO organizationCustomDAO;
+
+	@Autowired
+	private SmsLogDAO smsLogDAO;
+
+	@Autowired
+	private GuestService guestService;
+
+	@Autowired
+	private OrganizationCategoryDAO organizationCategoryDAO;
+	
+	@Autowired
+	private LangMasterDAO langMasterDAO;
 	
 	@Autowired
 	private WebClient.Builder webClientBuilder;
@@ -338,7 +331,7 @@ public class WaitListServiceImpl implements WaitListService {
 		organizationCategoryDAO.saveAll(orgCategoryList);
 
 		// update notify first setting
-		organizationDAO.updateOrgNotifyFirstAndDefLang(orgSettingDTO.getNotifyFirst(), orgSettingDTO.getOrgId(),orgSettingDTO.getDefaultLanguage());
+		organizationDAO.updateOrgSetting(orgSettingDTO.getNotifyFirst(), orgSettingDTO.getOrgId(),orgSettingDTO.getDefaultLanguage(),orgSettingDTO.getPplBifurcation());
 
 		// update template text for organization
 		List<SmsTemplateDTO> smsTemplateList = orgSettingDTO.getSmsTemplateDTO();

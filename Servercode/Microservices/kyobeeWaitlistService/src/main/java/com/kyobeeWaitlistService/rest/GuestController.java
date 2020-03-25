@@ -33,7 +33,7 @@ import com.kyobeeWaitlistService.util.Exeception.InvalidGuestException;
 public class GuestController {
 
 	@Autowired
-	GuestService guestService;
+	private GuestService guestService;
 
 	// for fetching matrics data related guest
 	@GetMapping(value = "/metrics", produces = "application/vnd.kyobee.v1+json")

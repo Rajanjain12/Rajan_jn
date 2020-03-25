@@ -127,6 +127,9 @@ public class Organization implements Serializable {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "OrganizationTypeID", referencedColumnName = "TypeID")
 	private OrganizationType organizationType;
+	
+	@Column(name="PplBifurcation")
+	private String pplBifurcation;
 
 	@Column(name = "Active")
 	private Byte active;
@@ -399,6 +402,14 @@ public class Organization implements Serializable {
 
 	public void setOrganizationType(OrganizationType organizationType) {
 		this.organizationType = organizationType;
+	}
+	
+	public String getPplBifurcation() {
+		return pplBifurcation;
+	}
+
+	public void setPplBifurcation(String pplBifurcation) {
+		this.pplBifurcation = pplBifurcation;
 	}
 
 	public Byte getActive() {

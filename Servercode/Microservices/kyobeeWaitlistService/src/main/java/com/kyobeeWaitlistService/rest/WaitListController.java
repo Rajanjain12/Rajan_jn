@@ -15,16 +15,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kyobeeWaitlistService.dto.GuestDTO;
 import com.kyobeeWaitlistService.dto.LanguageKeyMappingDTO;
 import com.kyobeeWaitlistService.dto.OrgPrefKeyMapDTO;
 import com.kyobeeWaitlistService.dto.OrgSettingDTO;
-import com.kyobeeWaitlistService.dto.OrganizationTemplateDTO;
 import com.kyobeeWaitlistService.dto.PusherDTO;
 import com.kyobeeWaitlistService.dto.ResponseDTO;
 import com.kyobeeWaitlistService.dto.SendSMSDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;
-import com.kyobeeWaitlistService.service.GuestService;
 import com.kyobeeWaitlistService.service.WaitListService;
 import com.kyobeeWaitlistService.util.LoggerUtil;
 import com.kyobeeWaitlistService.util.WaitListServiceConstants;
@@ -35,10 +32,8 @@ import com.kyobeeWaitlistService.util.WaitListServiceConstants;
 public class WaitListController {
 
 	@Autowired
-	WaitListService waitListService;
+	private WaitListService waitListService;
 
-	@Autowired
-	GuestService guestService;
 
 	// for sending pusher while there is change language key or value
 	@PutMapping(value = "/refreshLanguage", produces = "application/vnd.kyobee.v1+json")

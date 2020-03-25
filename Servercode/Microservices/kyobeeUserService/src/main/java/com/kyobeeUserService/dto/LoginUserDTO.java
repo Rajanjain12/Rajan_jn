@@ -25,6 +25,7 @@ public class LoginUserDTO {
 	    private String footerMsg;
 	    private String logoPath;
 	    private Integer notifyFirst;
+	    private String pplBifurcation;
 	    
 		public Integer getUserID() {
 			return userID;
@@ -145,5 +146,11 @@ public class LoginUserDTO {
 		}
 		public void setNotifyFirst(Integer notifyFirst) {
 			this.notifyFirst = notifyFirst;
+		}
+		public String getPplBifurcation() {
+			return pplBifurcation;
+		}
+		public void setPplBifurcation(String pplBifurcation) {
+			this.pplBifurcation = pplBifurcation;
 		}
 }

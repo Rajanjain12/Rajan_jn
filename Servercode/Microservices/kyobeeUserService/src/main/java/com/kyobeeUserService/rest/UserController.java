@@ -30,7 +30,7 @@ import com.kyobeeUserService.dto.ResetPasswordDTO;
 public class UserController {
 
 	@Autowired
-	UserService userService;
+	private UserService userService;
 
 	//For login of mobile and web both
 	@PostMapping(value = "/login", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")

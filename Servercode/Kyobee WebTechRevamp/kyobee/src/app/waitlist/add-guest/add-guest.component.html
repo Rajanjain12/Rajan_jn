@@ -29,7 +29,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-lg-3">
+              <div class="col-lg-3" *ngIf="user.pplBifurcation ==='Y'">
                 <div class="form-group mt-2 mb-3">
                   <input
                     type="number"
@@ -44,7 +44,7 @@
                     id="adult"
                     [(ngModel)]="guest.noOfAdults"
                     [ngClass]="{ 'is-invalid': f.submitted && adult.invalid }"
-                    required="required"
+                    required="required" 
                   />
                   <label for="adult" class="control-label">{{ languageKeyMap['adults'] }}</label>
                   <i class="bar"></i>
@@ -57,7 +57,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-3">
+              <div class="col-lg-3" *ngIf="user.pplBifurcation ==='Y'">
                 <div class="form-group mt-2 mb-3">
                   <input
                     type="number"
@@ -80,6 +80,34 @@
                     <small class="text-danger" *ngIf="children.errors?.required">{{ languageKeyMap['please_enter_values_for_adults'] }}</small>
                     <small class="text-danger" *ngIf="children.errors?.appCustomMin">{{ languageKeyMap['valid_num_error'] }}</small>
                     <small class="text-danger" *ngIf="children.errors?.appCustomMax">{{ languageKeyMap['maximum_limit_reached'] }}</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3"*ngIf="user.pplBifurcation ==='N'">
+                <div class="form-group mt-2 mb-3">
+                  <input
+                    type="number"
+                    name="people"
+                    min="1"
+                    max="99"
+                    appCustomMax="100"
+                    appCustomMin="1"
+                    pattern="[0-9]*"
+                    class="form-control"
+                    #people="ngModel"
+                    id="people"
+                    [(ngModel)]="guest.noOfPeople"
+                    [ngClass]="{ 'is-invalid': f.submitted && people.invalid }"
+                    required="required"
+                  />
+                  <label for="people" class="control-label">{{ languageKeyMap['people'] }}</label>
+                  <i class="bar"></i>
+                  <div *ngIf="f.submitted && people.invalid" class="invalid-feedback">
+                    <small class="text-danger" *ngIf="people.errors?.pattern">{{ languageKeyMap['valid_num_error'] }}</small>
+                    <small class="text-danger" *ngIf="people.errors?.number">{{ languageKeyMap['valid_num_error'] }}</small>
+                    <small class="text-danger" *ngIf="people.errors?.required">{{ languageKeyMap['no_of_people_cannot_be_blank'] }}</small>
+                    <small class="text-danger" *ngIf="people.errors?.appCustomMin">{{ languageKeyMap['valid_num_error'] }}</small>
+                    <small class="text-danger" *ngIf="people.errors?.appCustomMax">{{ languageKeyMap['maximum_limit_reached'] }}</small>
                   </div>
                 </div>
               </div>

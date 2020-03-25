@@ -13,11 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
-import com.kyobeeWaitlistService.dto.LanguageMasterDTO;
+import com.kyobeeWaitlistService.dto.OrgSettingDTO;
 import com.kyobeeWaitlistService.dto.OrganizationTemplateDTO;
 import com.kyobeeWaitlistService.dto.ResponseDTO;
 import com.kyobeeWaitlistService.dto.SmsContentDTO;
-import com.kyobeeWaitlistService.dto.SmsTemplateDTO;
 import com.kyobeeWaitlistService.service.GuestService;
 import com.kyobeeWaitlistService.service.OrganizationTemplateService;
 import com.kyobeeWaitlistService.util.LoggerUtil;
@@ -29,10 +28,10 @@ import com.kyobeeWaitlistService.util.WaitListServiceConstants;
 public class OrganizationTemplateController {
 
 	@Autowired
-	OrganizationTemplateService organizationTemplateService;
+	private OrganizationTemplateService organizationTemplateService;
 
 	@Autowired
-	GuestService guestService;
+	private GuestService guestService;
 
 	@PostMapping(value = "/smsContent", produces = "application/vnd.kyobee.v1+json", consumes = "application/json")
 	public @ResponseBody ResponseDTO smsContent(@RequestBody SmsContentDTO smsContentDTO) {
@@ -65,8 +64,8 @@ public class OrganizationTemplateController {
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
 			
-			List<SmsTemplateDTO> smsTemplates=organizationTemplateService.addLanguage(langId,orgId);
-			responseDTO.setServiceResult(smsTemplates);
+			OrgSettingDTO orgSettingDTO=organizationTemplateService.addLanguage(langId,orgId);
+			responseDTO.setServiceResult(orgSettingDTO);
 			responseDTO.setMessage("Organization lang added successfully");
 			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
 		} catch (Exception ex) {

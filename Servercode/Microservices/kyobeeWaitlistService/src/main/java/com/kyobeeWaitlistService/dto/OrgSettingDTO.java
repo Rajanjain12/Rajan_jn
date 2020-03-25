@@ -10,7 +10,8 @@ public class OrgSettingDTO {
 	private Integer notifyFirst;
 	private List<SmsTemplateDTO> smsTemplateDTO;
 	private List<LanguageKeyMappingDTO> languageList;
-	private Integer defaultLanguage;	
+	private Integer defaultLanguage;
+	private String pplBifurcation;
 	
 	public Integer getOrgId() {
 		return orgId;
@@ -53,6 +54,12 @@ public class OrgSettingDTO {
 	}
 	public void setDefaultLanguage(Integer defaultLanguage) {
 		this.defaultLanguage = defaultLanguage;
+	}
+	public String getPplBifurcation() {
+		return pplBifurcation;
+	}
+	public void setPplBifurcation(String pplBifurcation) {
+		this.pplBifurcation = pplBifurcation;
 	}
 	
 }

@@ -4,4 +4,5 @@ export class LanguageKeyMappingDTO {
   langIsoCode: string;
   languageMap: Map<String, String>;
   checked: boolean;
+  disabled:boolean;
 }

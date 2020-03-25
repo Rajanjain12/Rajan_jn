@@ -1,4 +1,4 @@
-
+﻿
 CREATE TABLE GUESTMARKETINGPREFERENCES
   AS (SELECT * FROM GUESTPREFERENCES);
 
@@ -355,6 +355,18 @@ UPDATE `KyobeeTechRevamp`.`LOOKUP` SET `Code` = 'facebook' WHERE (`LookupID` = '
 UPDATE `KyobeeTechRevamp`.`LOOKUP` SET `Code` = 'instagram' WHERE (`LookupID` = '46');
 UPDATE `KyobeeTechRevamp`.`LOOKUP` SET `Code` = 'google' WHERE (`LookupID` = '47');
 UPDATE `KyobeeTechRevamp`.`LOOKUP` SET `Code` = 'word_of_mouth' WHERE (`LookupID` = '48');
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATION` 
+ADD COLUMN `PplBifurcation` CHAR(1) NULL DEFAULT 'N' AFTER `MaxParty`;
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONTEMPLATE` 
+CHANGE COLUMN `TemplateText` `TemplateText` TEXT CHARACTER SET 'utf8' NULL DEFAULT NULL ;
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONTEMPLATE` 
+CHANGE COLUMN `TemplateText` `TemplateText` VARCHAR(255) NULL DEFAULT NULL ;
+
+
+
 
 
 

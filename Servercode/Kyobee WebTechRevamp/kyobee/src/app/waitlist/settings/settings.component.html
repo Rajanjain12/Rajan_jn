@@ -17,7 +17,7 @@
                 <label for="firstAvailable{{ i }}" class="mr-2">{{ seating.prefValue }}</label>
               </div>
             </div>
-          </div>
+          </div> 
         </div>
         <div class="checkbox my-0 py-2 border-bottom">
           <div class="row">
@@ -51,6 +51,23 @@
         <div class="py-2 border-bottom">
           <div class="row">
             <div class="col-lg-3 my-1">
+              <span class="font-weight-semibold">Adults and Children</span>
+            </div>
+            <div class="col-lg-9 my-1">
+              <div class="row">
+                <div class="col-lg-3 my-1">
+                  <select class="form-control" id="pplBifurcation" name="pplBifurcation" #notifyFirst="ngModel" [(ngModel)]="user.pplBifurcation">
+                    <option value="Y">Yes</option>
+                    <option value="N">No</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="py-2 border-bottom">
+          <div class="row">
+            <div class="col-lg-3 my-1">
               <span class="font-weight-semibold">SMS/App Interface Language</span>
             </div>
             <div class="col-lg-9 my-1">
@@ -65,7 +82,7 @@
                     </div>
                     <div id="checkboxes">
                       <div *ngFor="let item of languageList; let i = index" class="p-2">
-                        <input class="styled-checkbox" [id]="'checkboxes' + i" type="checkbox" (change)="getSelectedLanguage(item, $event.target.checked)" [(ngModel)]="item.checked" [ngModelOptions]="{ standalone: true }" />
+                        <input [disabled] ="item.langId == user.defaultLangId" class="styled-checkbox" [id]="'checkboxes' + i" type="checkbox" (change)="getSelectedLanguage(item, $event.target.checked)" [(ngModel)]="item.checked" [ngModelOptions]="{ standalone: true }" />
                         <label [for]="'checkboxes' + i" class="mr-2 p-0">{{ item.langName }}</label>
                       </div>
                       <!--   <div *ngFor="let item of user.languagePref; let i = index" class="p-2">
@@ -78,7 +95,7 @@
                 <div class="col-lg-3 my-1">
                   <select class="form-control" id="defaultLangId" name="defaultLangId" #defaultLangId="ngModel" [(ngModel)]="user.defaultLangId">
                     <!-- <option>Default Language</option> -->
-                    <option *ngFor="let item of user.languagePref; let i = index" value="{{ item.langId }}">{{ item.langName }}</option>
+                    <option *ngFor="let item of user.languagePref; let i = index" value="{{ item.langId }}" >{{ item.langName }}</option>
                   </select>
                 </div>
               </div>

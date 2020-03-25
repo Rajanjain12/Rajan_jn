@@ -22,4 +22,5 @@ export class User {
   footerMsg: string;
   logoPath: string;
   notifyFirst: number;
+  pplBifurcation: string;
 }

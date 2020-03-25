@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 
 import com.kyobeeUtilService.service.UtilService;
 import com.kyobeeUtilService.util.emailImpl.EmailUtil;
-import com.kyobeeUtilService.util.message.MessageNotification;
 import com.kyobeeUtilService.util.messageImpl.SMSUtil;
 @Service
 public class UtilServiceImpl implements UtilService{

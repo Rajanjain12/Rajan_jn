@@ -10,4 +10,5 @@ export class OrgSettingDTO {
   smsTemplateDTO: Array<SmsTemplate>;
   languageList: Array<LanguageKeyMappingDTO>;
   defaultLanguage: number;
+  pplBifurcation:string;
 }
