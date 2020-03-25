@@ -210,7 +210,7 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 						cStmt.setString(3, guestObj.getName());
 
 						cStmt.setLong(4, guestObj.getNoOfChildren());
-						cStmt.setLong(5, guestObj.getNoOfChildren());
+						cStmt.setLong(5, guestObj.getNoOfAdults());
 						cStmt.setLong(6, guestObj.getNoOfChildren());
 
 						cStmt.setLong(7, guestObj.getNoOfPeople());
