@@ -17,7 +17,6 @@ import { typeWithParameters } from '@angular/compiler/src/render3/util';
 export class SettingsComponent implements OnInit {
   private checkboEexpanded = false;
 
-  
   user: User = new User();
   selectedSMSTemplateLangId;
   selectedSMSTemplateText: Array<SmsTemplate>;
@@ -104,7 +103,6 @@ export class SettingsComponent implements OnInit {
     this.defaultLanguageList.forEach(obj => {
       var langExists = res.serviceResult.languageList.find(x => x.langName === obj);
       if (langExists) {
-
         this.languageList.push(langExists);
       }
     });
@@ -116,7 +114,6 @@ export class SettingsComponent implements OnInit {
         languageExists.checked = true;
       }
     });
-  
   }
 
   getSelectedLanguage(lang, selected) {
@@ -126,7 +123,7 @@ export class SettingsComponent implements OnInit {
     } else {
       this.removeLanguage(lang);
     }
-  } 
+  }
 
   addSelectedLanguage(lang) {
     const params = new HttpParams().set('langId', lang.langId).set('orgId', this.user.organizationID.toString());
@@ -188,7 +185,7 @@ export class SettingsComponent implements OnInit {
     this.orgSettingDTO.smsTemplateDTO = this.user.smsTemplate;
     this.orgSettingDTO.orgId = this.user.organizationID;
     this.orgSettingDTO.pplBifurcation = this.user.pplBifurcation;
-    
+
     this.orgService.saveOrganizationSetting(this.orgSettingDTO).subscribe((res: any) => {
       if (res.success === 1) {
         console.log('org response:' + res.serviceResult);
@@ -212,5 +209,4 @@ export class SettingsComponent implements OnInit {
 
     console.log('user template:' + JSON.stringify(this.user.smsTemplate));
   }
- 
 }

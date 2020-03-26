@@ -181,7 +181,17 @@ export class AddGuestComponent implements OnInit {
     if (this.guest.noOfChildren == null) {
       this.guest.noOfChildren = 0;
     }
-    this.guest.noOfPeople = +this.guest.noOfAdults + +this.guest.noOfChildren;
+    if (this.guest.noOfPeople == null) {
+      this.guest.noOfPeople = 0;
+    }
+    if (this.guest.noOfAdults == null) {
+      this.guest.noOfAdults = 0;
+    }
+    if (this.guest.noOfAdults !== null) {
+      this.guest.noOfPeople = this.guest.noOfAdults + this.guest.noOfChildren;
+    }
+
+    // this.guest.noOfPeople = +this.guest.noOfAdults + +this.guest.noOfChildren;
     if (this.sum > this.user.maxParty) {
       this.errorMessage =
         this.languageKeyMap['org_max_party_1'] + this.user.maxParty + this.languageKeyMap['org_max_party_2'];
@@ -203,7 +213,10 @@ export class AddGuestComponent implements OnInit {
         }
       });
     } else {
-      console.log('guest' + JSON.stringify(this.guest));
+      console.log('child:' + this.guest.noOfChildren);
+      console.log('adults' + this.guest.noOfAdults);
+
+      console.log('guest update' + JSON.stringify(this.guest));
       this.guestService.updateGuest(this.guest).subscribe(res => {
         if (res.success === 1) {
           console.log(res);

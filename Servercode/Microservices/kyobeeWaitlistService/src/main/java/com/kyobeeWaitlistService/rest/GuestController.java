@@ -76,7 +76,7 @@ public class GuestController {
 	}
 
 	// for fetching guest list , search text will be null for fetching whole data
-	@GetMapping(value = "/", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
+	@GetMapping(value = "/", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO fetchGuestList(@RequestParam Integer orgId, @RequestParam Integer pageSize,
 			@RequestParam Integer pageNo, @RequestParam String searchText) {
 
@@ -97,7 +97,7 @@ public class GuestController {
 	}
 
 	// for fetching guest list , search text will be null for fetching whole data
-	@GetMapping(value = "/fetchGuestHistory", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
+	@GetMapping(value = "/fetchGuestHistory", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO fetchGuestHistoryList(@RequestParam Integer orgId, @RequestParam Integer pageSize,
 			@RequestParam Integer pageNo, @RequestParam String searchText,
 			@RequestParam("clientTimezone") String clientTimezone, @RequestParam Integer sliderMaxTime,

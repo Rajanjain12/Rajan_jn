@@ -29,7 +29,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-lg-3" *ngIf="user.pplBifurcation ==='Y'">
+              <div class="col-lg-3" *ngIf="user.pplBifurcation === 'Y'">
                 <div class="form-group mt-2 mb-3">
                   <input
                     type="number"
@@ -44,7 +44,7 @@
                     id="adult"
                     [(ngModel)]="guest.noOfAdults"
                     [ngClass]="{ 'is-invalid': f.submitted && adult.invalid }"
-                    required="required" 
+                    required="required"
                   />
                   <label for="adult" class="control-label">{{ languageKeyMap['adults'] }}</label>
                   <i class="bar"></i>
@@ -57,7 +57,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-3" *ngIf="user.pplBifurcation ==='Y'">
+              <div class="col-lg-3" *ngIf="user.pplBifurcation === 'Y'">
                 <div class="form-group mt-2 mb-3">
                   <input
                     type="number"
@@ -83,7 +83,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-3"*ngIf="user.pplBifurcation ==='N'">
+              <div class="col-lg-3" *ngIf="user.pplBifurcation === 'N'">
                 <div class="form-group mt-2 mb-3">
                   <input
                     type="number"
