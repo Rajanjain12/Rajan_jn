@@ -118,6 +118,20 @@ public class OrganizationTemplateServiceImpl implements OrganizationTemplateServ
 			orgTemplate.setCreatedAt(new Date());
 			orgTemplateList.add(orgTemplate);
 			BeanUtils.copyProperties(orgTemplate, smsTemplateDTO);
+			
+			switch (smsTemplateDTO.getLevel()) {
+			case 1:
+				smsTemplateDTO.setLevelName(WaitListServiceConstants.SMS_LEVEL_1_NAME);
+				break;
+			case 2:
+				smsTemplateDTO.setLevelName(WaitListServiceConstants.SMS_LEVEL_2_NAME);
+				break;
+			case 3:
+				smsTemplateDTO.setLevelName(WaitListServiceConstants.SMS_LEVEL_3_NAME);
+				break;
+			default:
+				break;
+			}
 			smsTemplates.add(smsTemplateDTO);
 		}	
 		organizationTemplateDAO.saveAll(orgTemplateList);

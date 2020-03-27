@@ -68,5 +68,9 @@ public class WaitListServiceConstants {
 	
 	public static final Byte ACTIVE = 1;
 	
+	public static final String SMS_LEVEL_1_NAME="Check-in";
+	public static final String SMS_LEVEL_2_NAME="Reminder";
+	public static final String SMS_LEVEL_3_NAME="Custom";
+	
 
 }
