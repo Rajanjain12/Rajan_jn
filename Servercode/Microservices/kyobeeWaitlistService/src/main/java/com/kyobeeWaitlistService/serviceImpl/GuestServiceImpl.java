@@ -442,38 +442,40 @@ public class GuestServiceImpl implements GuestService {
 	
 
 	@Override
-	public GuestDTO fetchGuestByContact(Integer orgID, String contactNo) {
+	public ResponseDTO fetchGuestByContact(Integer orgID, String contactNo) {
 
 		List<GuestDetailsDTO> guest = guestCustomDAO.fetchGuestByContact(orgID, contactNo);
-		GuestDTO guestDTO = new GuestDTO();
-		BeanUtils.copyProperties(guest.get(0), guestDTO);
+		ResponseDTO responseDTO = new ResponseDTO();
+		if (!(guest.isEmpty())) {
+			GuestDTO guestDTO = new GuestDTO();
+			BeanUtils.copyProperties(guest.get(0), guestDTO);
 
-		// for adding language
-		LanguageMasterDTO languageMasterDTO = new LanguageMasterDTO();
-		languageMasterDTO.setLangID(guest.get(0).getLanguagePrefID());
-		guestDTO.setLanguagePref(languageMasterDTO);
+			// for adding language
+			LanguageMasterDTO languageMasterDTO = new LanguageMasterDTO();
+			languageMasterDTO.setLangID(guest.get(0).getLanguagePrefID());
+			guestDTO.setLanguagePref(languageMasterDTO);
 
-		List<SeatingMarketingPrefDTO> seatingPrefList = new ArrayList<>();
-		List<SeatingMarketingPrefDTO> marketingPrefList = new ArrayList<>();
+			List<SeatingMarketingPrefDTO> seatingPrefList = new ArrayList<>();
+			List<SeatingMarketingPrefDTO> marketingPrefList = new ArrayList<>();
 
-		// for arranging seating pref in list
-		String seatingPref = guest.get(0).getSeatingPreference();
-		if (seatingPref != null) {
-			String[] stringSeatingPref = seatingPref.split(",");
-			List<Lookup> seatingLookup = lookupDAO.fetchLookup(stringSeatingPref);
+			// for arranging seating pref in list
+			String seatingPref = guest.get(0).getSeatingPreference();
+			if (seatingPref != null) {
+				String[] stringSeatingPref = seatingPref.split(",");
+				List<Lookup> seatingLookup = lookupDAO.fetchLookup(stringSeatingPref);
 
-			for (Lookup lookup : seatingLookup) {
-				SeatingMarketingPrefDTO seatingPrefence = new SeatingMarketingPrefDTO();
-				seatingPrefence.setPrefValueId(lookup.getLookupID());
-				seatingPrefence.setPrefValue(lookup.getName());
-				seatingPrefList.add(seatingPrefence);
+				for (Lookup lookup : seatingLookup) {
+					SeatingMarketingPrefDTO seatingPrefence = new SeatingMarketingPrefDTO();
+					seatingPrefence.setPrefValueId(lookup.getLookupID());
+					seatingPrefence.setPrefValue(lookup.getName());
+					seatingPrefList.add(seatingPrefence);
+				}
 			}
-		}
-		guestDTO.setSeatingPreference(seatingPrefList);
+			guestDTO.setSeatingPreference(seatingPrefList);
 
-		// for arranging marketing pref in list
-	
-		List<Lookup> marketingLookup = lookupDAO.fetchLookupForGuest(guestDTO.getGuestID());
+			// for arranging marketing pref in list
+
+			List<Lookup> marketingLookup = lookupDAO.fetchLookupForGuest(guestDTO.getGuestID());
 
 			for (Lookup lookup : marketingLookup) {
 				SeatingMarketingPrefDTO marketingPrefence = new SeatingMarketingPrefDTO();
@@ -481,10 +483,22 @@ public class GuestServiceImpl implements GuestService {
 				marketingPrefence.setPrefValue(lookup.getName());
 				marketingPrefList.add(marketingPrefence);
 			}
-		
-		guestDTO.setMarketingPreference(marketingPrefList);
 
-		return guestDTO;
+			guestDTO.setMarketingPreference(marketingPrefList);
+
+			responseDTO.setServiceResult(guestDTO);
+			responseDTO.setMessage("guest details fetched Successfully.");
+			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
+
+			return responseDTO;
+
+		} else {
+			responseDTO.setServiceResult("Guest does not exists.");
+			responseDTO.setMessage("Guest does not exists.");
+			responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);
+
+			return responseDTO;
+		}
 	}
 
 	@Override

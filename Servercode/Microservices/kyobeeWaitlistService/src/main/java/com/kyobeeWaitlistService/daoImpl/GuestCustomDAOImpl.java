@@ -321,11 +321,11 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 	@Override
 	public List<GuestDetailsDTO> fetchGuestByContact(Integer orgID, String contactNumber) {
 
-		@SuppressWarnings("unchecked" )
+		@SuppressWarnings({ "unchecked"} )
 		List<GuestDetailsDTO> guestDTO = entityManager.createNativeQuery(
-				"select * from (select gr.GuestID, gr.OrganizationID, gr.Name,gr.Note,gr.Uuid,gr.NoOfAdults,gr.NoOfChildren,gr.NoOfInfants,gr.NoOfPeople,gr.Email,gr.ContactNo,gr.Status,gr.Rank,gr.PrefType,gr.Optin,gr.CalloutCount,gr.CheckinTime,gr.SeatedTime,gr.createdAt,gr.ModifiedAt,gr.IncompleteParty,gr.SeatingPreference,gr.DeviceType,gr.DeviceId,gr.LanguagePrefID from GUESTRESET gr left join GUEST g on g.GuestID = gr.GuestID where gr.OrganizationID=:orgID and gr.ContactNo=:contactNumber union"
-						+ " select g.GuestID, g.OrganizationID, g.Name,g.Note,g.Uuid,g.NoOfAdults,g.NoOfChildren,g.NoOfInfants,g.NoOfPeople,g.Email,g.ContactNo,g.Status,g.Rank,g.PrefType,g.Optin,g.CalloutCount,g.CheckinTime,g.SeatedTime,g.createdAt,g.ModifiedAt,g.IncompleteParty,g.SeatingPreference,g.DeviceType,g.DeviceId,g.LanguagePrefID from GUEST g where g.OrganizationID=:orgID and g.ContactNo=:contactNumber) as u order by u.createdAt desc",GuestDetailsDTO.class)
-				.setParameter("orgID", orgID).setParameter("contactNumber", contactNumber).getResultList();
+				"select * from (select gr.GuestID, gr.OrganizationID, gr.Name,gr.Note,gr.Uuid,gr.NoOfAdults,gr.NoOfChildren,gr.NoOfInfants,gr.NoOfPeople,gr.Email,gr.ContactNo,gr.Status,gr.Rank,gr.PrefType,gr.Optin,gr.CalloutCount,gr.CheckinTime,gr.SeatedTime,gr.CreatedAt,gr.ModifiedAt,gr.IncompleteParty,gr.SeatingPreference,gr.DeviceType,gr.DeviceId,gr.LanguagePrefID from GUESTRESET gr left join GUEST g on g.GuestID = gr.GuestID where gr.OrganizationID=:orgID and gr.ContactNo=:contactNumber union"
+						+ " select g.GuestID, g.OrganizationID, g.Name,g.Note,g.Uuid,g.NoOfAdults,g.NoOfChildren,g.NoOfInfants,g.NoOfPeople,g.Email,g.ContactNo,g.Status,g.Rank,g.PrefType,g.Optin,g.CalloutCount,g.CheckinTime,g.SeatedTime,g.CreatedAt,g.ModifiedAt,g.IncompleteParty,g.SeatingPreference,g.DeviceType,g.DeviceId,g.LanguagePrefID from GUEST g where g.OrganizationID=:orgID and g.ContactNo=:contactNumber) as u order by u.CreatedAt desc")
+				.setParameter("orgID", orgID).setParameter("contactNumber", contactNumber).unwrap(org.hibernate.query.NativeQuery.class ).setResultTransformer(Transformers.aliasToBean( GuestDetailsDTO.class)).getResultList();
 
 		return guestDTO;
 	}

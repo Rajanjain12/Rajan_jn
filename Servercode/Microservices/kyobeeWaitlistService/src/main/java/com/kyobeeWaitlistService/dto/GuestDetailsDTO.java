@@ -6,32 +6,32 @@ import java.util.Date;
 public class GuestDetailsDTO {
 
 	private Integer GuestID;
-	private Integer organizationID;
-	private String name;
-	private String uuid;
-	private String noOfPeople;
-	private Integer noOfChildren;
-	private Integer noOfAdults;
-	private Integer noOfInfants;
-	private Integer partyType;
-	private Integer calloutCount;
-	private String deviceId;
-	private String deviceType;
-	private String contactNo;
-	private String email;
-	private String prefType;
-	private Byte optin;
-	private Integer rank;
-	private String status;
-	private Date checkinTime;
-	private Date seatedTime;
-	private Date createdAt;
-	private Date modifiedAt;
-	private Integer incompleteParty;
-	private Integer languagePrefID;
-	private String seatingPreference;
-	private String marketingPreference;
-	private String note;
+	private Integer OrganizationID;
+	private String Name;
+	private String Note;
+	private String Uuid;
+	private Integer NoOfAdults;
+	private Integer NoOfChildren;
+	private Integer NoOfInfants;
+	private Integer NoOfPeople;
+	private String Email;
+	private String ContactNo;
+	private String Status;
+	private Integer Rank;
+	private String PrefType;
+	private Byte Optin;
+	private Integer CalloutCount;
+	private Date CheckinTime;
+	private Date SeatedTime;
+	private Date CreatedAt;
+	private Date ModifiedAt;
+	private Integer IncompleteParty;
+	private String SeatingPreference;
+	private String DeviceId;
+	private String DeviceType;
+	private Integer LanguagePrefID;
+	
+	
 
 	public Integer getGuestID() {
 		return GuestID;
@@ -42,211 +42,189 @@ public class GuestDetailsDTO {
 	}
 
 	public Integer getOrganizationID() {
-		return organizationID;
+		return OrganizationID;
 	}
 
 	public void setOrganizationID(Integer organizationID) {
-		this.organizationID = organizationID;
+		OrganizationID = organizationID;
 	}
 
 	public String getName() {
-		return name;
+		return Name;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		Name = name;
 	}
 
 	public String getUuid() {
-		return uuid;
+		return Uuid;
 	}
 
 	public void setUuid(String uuid) {
-		this.uuid = uuid;
+		Uuid = uuid;
 	}
 
-	public String getNoOfPeople() {
-		return noOfPeople;
-	}
-
-	public void setNoOfPeople(String noOfPeople) {
-		this.noOfPeople = noOfPeople;
-	}
+	
 
 	public Integer getNoOfChildren() {
-		return noOfChildren;
+		return NoOfChildren;
 	}
 
 	public void setNoOfChildren(Integer noOfChildren) {
-		this.noOfChildren = noOfChildren;
+		NoOfChildren = noOfChildren;
 	}
 
 	public Integer getNoOfAdults() {
-		return noOfAdults;
+		return NoOfAdults;
 	}
 
 	public void setNoOfAdults(Integer noOfAdults) {
-		this.noOfAdults = noOfAdults;
+		NoOfAdults = noOfAdults;
 	}
 
 	public Integer getNoOfInfants() {
-		return noOfInfants;
+		return NoOfInfants;
 	}
 
 	public void setNoOfInfants(Integer noOfInfants) {
-		this.noOfInfants = noOfInfants;
-	}
-
-	public Integer getPartyType() {
-		return partyType;
-	}
-
-	public void setPartyType(Integer partyType) {
-		this.partyType = partyType;
+		NoOfInfants = noOfInfants;
 	}
 
 	public Integer getCalloutCount() {
-		return calloutCount;
+		return CalloutCount;
 	}
 
 	public void setCalloutCount(Integer calloutCount) {
-		this.calloutCount = calloutCount;
+		CalloutCount = calloutCount;
 	}
 
 	public String getDeviceId() {
-		return deviceId;
+		return DeviceId;
 	}
 
 	public void setDeviceId(String deviceId) {
-		this.deviceId = deviceId;
+		DeviceId = deviceId;
 	}
 
 	public String getDeviceType() {
-		return deviceType;
+		return DeviceType;
 	}
 
 	public void setDeviceType(String deviceType) {
-		this.deviceType = deviceType;
+		DeviceType = deviceType;
 	}
 
 	public String getContactNo() {
-		return contactNo;
+		return ContactNo;
 	}
 
 	public void setContactNo(String contactNo) {
-		this.contactNo = contactNo;
+		ContactNo = contactNo;
 	}
 
 	public String getEmail() {
-		return email;
+		return Email;
 	}
 
 	public void setEmail(String email) {
-		this.email = email;
+		Email = email;
 	}
 
 	public String getPrefType() {
-		return prefType;
+		return PrefType;
 	}
 
 	public void setPrefType(String prefType) {
-		this.prefType = prefType;
+		PrefType = prefType;
 	}
 
 	public Byte getOptin() {
-		return optin;
+		return Optin;
 	}
 
 	public void setOptin(Byte optin) {
-		this.optin = optin;
+		Optin = optin;
 	}
 
 	public Integer getRank() {
-		return rank;
+		return Rank;
 	}
 
 	public void setRank(Integer rank) {
-		this.rank = rank;
+		Rank = rank;
 	}
 
 	public String getStatus() {
-		return status;
+		return Status;
 	}
 
 	public void setStatus(String status) {
-		this.status = status;
+		Status = status;
 	}
 
 	public Date getCheckinTime() {
-		return checkinTime;
+		return CheckinTime;
 	}
 
 	public void setCheckinTime(Date checkinTime) {
-		this.checkinTime = checkinTime;
+		CheckinTime = checkinTime;
 	}
 
 	public Date getSeatedTime() {
-		return seatedTime;
+		return SeatedTime;
 	}
 
 	public void setSeatedTime(Date seatedTime) {
-		this.seatedTime = seatedTime;
+		SeatedTime = seatedTime;
 	}
 
 	public Date getCreatedAt() {
-		return createdAt;
+		return CreatedAt;
 	}
 
 	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
+		CreatedAt = createdAt;
 	}
 
 	public Date getModifiedAt() {
-		return modifiedAt;
+		return ModifiedAt;
 	}
 
 	public void setModifiedAt(Date modifiedAt) {
-		this.modifiedAt = modifiedAt;
+		ModifiedAt = modifiedAt;
 	}
 
 	public Integer getIncompleteParty() {
-		return incompleteParty;
+		return IncompleteParty;
 	}
 
 	public void setIncompleteParty(Integer incompleteParty) {
-		this.incompleteParty = incompleteParty;
+		IncompleteParty = incompleteParty;
 	}
 
 	public Integer getLanguagePrefID() {
-		return languagePrefID;
+		return LanguagePrefID;
 	}
 
 	public void setLanguagePrefID(Integer languagePrefID) {
-		this.languagePrefID = languagePrefID;
+		LanguagePrefID = languagePrefID;
 	}
 
 	public String getSeatingPreference() {
-		return seatingPreference;
+		return SeatingPreference;
 	}
 
 	public void setSeatingPreference(String seatingPreference) {
-		this.seatingPreference = seatingPreference;
-	}
-
-	public String getMarketingPreference() {
-		return marketingPreference;
-	}
-
-	public void setMarketingPreference(String marketingPreference) {
-		this.marketingPreference = marketingPreference;
+		SeatingPreference = seatingPreference;
 	}
 
 	public String getNote() {
-		return note;
+		return Note;
 	}
 
 	public void setNote(String note) {
-		this.note = note;
+		Note = note;
 	}
 
 }

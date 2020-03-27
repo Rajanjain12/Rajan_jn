@@ -237,10 +237,7 @@ public class GuestController {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			GuestDTO guest = guestService.fetchGuestByContact(orgID, contactNo);
-			responseDTO.setServiceResult(guest);
-			responseDTO.setMessage("guest details fetched Successfully.");
-			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
+			responseDTO = guestService.fetchGuestByContact(orgID, contactNo);
 
 		} catch (Exception ex) {
 			LoggerUtil.logError(ex);
