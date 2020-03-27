@@ -39,5 +39,9 @@ public class UserServiceConstants {
 	public static final String SMS_ROUTE="AWS";
 	public static final Integer DEFAULT_LANG=1;
 	
+	public static final String SMS_LEVEL_1_NAME="Check-in";
+	public static final String SMS_LEVEL_2_NAME="Reminder";
+	public static final String SMS_LEVEL_3_NAME="Custom";
+	
 	
 }
