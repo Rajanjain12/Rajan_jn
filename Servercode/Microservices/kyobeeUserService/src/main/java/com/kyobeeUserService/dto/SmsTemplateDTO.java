@@ -6,6 +6,8 @@ public class SmsTemplateDTO {
 	String templateText;
 	Integer level;
 	Integer languageID;
+	String levelName;
+	
 	public Integer getSmsTemplateID() {
 		return smsTemplateID;
 	}
@@ -30,5 +32,12 @@ public class SmsTemplateDTO {
 	public void setLanguageID(Integer languageID) {
 		this.languageID = languageID;
 	}
+	public String getLevelName() {
+		return levelName;
+	}
+	public void setLevelName(String levelName) {
+		this.levelName = levelName;
+	}
+	
 	
 }
