@@ -205,6 +205,19 @@ public class UserServiceImpl implements UserService {
 					for (OrganizationTemplate template : templetList) {
 						smsTemplate = new SmsTemplateDTO();
 						BeanUtils.copyProperties(template, smsTemplate);
+						switch (template.getLevel()) { 
+					case 1:
+						smsTemplate.setLevelName(UserServiceConstants.SMS_LEVEL_1_NAME);
+						break;
+					case 2:
+						smsTemplate.setLevelName(UserServiceConstants.SMS_LEVEL_2_NAME);
+						break;
+					case 3:
+						smsTemplate.setLevelName(UserServiceConstants.SMS_LEVEL_3_NAME);
+						break;
+					default:
+						break;
+					}
 						smsTemplateList.add(smsTemplate);
 					}
 					loginUserDTO.setSmsTemplate(smsTemplateList);
