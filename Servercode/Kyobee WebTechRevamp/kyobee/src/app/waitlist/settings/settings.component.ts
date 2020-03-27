@@ -7,7 +7,6 @@ import { LanguageKeyMappingDTO } from 'src/app/core/models/language-keymap.model
 import { OrgSettingDTO } from 'src/app/core/models/organization-setting.model';
 import { OrganizationService } from 'src/app/core/services/organization.service';
 import { HttpParams } from '@angular/common/http';
-import { typeWithParameters } from '@angular/compiler/src/render3/util';
 
 @Component({
   selector: 'app-settings',
@@ -47,13 +46,16 @@ export class SettingsComponent implements OnInit {
   }
 
   showCheckboxes() {
+    const checkboxesBackdrop = document.getElementById('checkboxes-backdrop');
     const checkboxes = document.getElementById('checkboxes');
 
     if (!this.checkboEexpanded) {
       checkboxes.className = 'showDropdown';
+      checkboxesBackdrop.className = 'showDropdown';
       this.checkboEexpanded = true;
     } else {
       checkboxes.className = 'hideDropdown';
+      checkboxesBackdrop.className = 'hideDropdown';
       this.checkboEexpanded = false;
     }
   }

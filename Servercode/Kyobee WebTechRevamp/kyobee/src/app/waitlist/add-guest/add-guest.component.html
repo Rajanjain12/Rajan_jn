@@ -83,7 +83,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-3" *ngIf="user.pplBifurcation === 'N'">
+              <div class="col-lg-6" *ngIf="user.pplBifurcation === 'N'">
                 <div class="form-group mt-2 mb-3">
                   <input
                     type="number"
@@ -143,7 +143,7 @@
             <small class="my-1">
               {{ languageKeyMap['standard_text_message_charges_may_apply'] }}
             </small>
-            <div class="row">
+            <div class="row pt-2">
               <div *ngIf="user.seatingpref != undefined" class="col-lg-3 my-1">
                 <span *ngIf="user.seatingpref.length != 0" class="font-weight-semibold">{{ languageKeyMap['seating_preference'] }}</span>
               </div>
@@ -154,7 +154,7 @@
                 </div>
               </div>
             </div>
-            <div class="row pt-3">
+            <div class="row pt-2">
               <div *ngIf="user.marketingPref != undefined" class="col-lg-3 my-1">
                 <span *ngIf="user.marketingPref.length != 0" class="font-weight-semibold">{{ languageKeyMap['how_did_you_here_about_us'] }}</span>
               </div>
@@ -165,7 +165,7 @@
                 </div>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-2">
               <textarea
                 appAutosize
                 [minRows]="1"
