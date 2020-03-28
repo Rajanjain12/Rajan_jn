@@ -162,7 +162,7 @@ public class GuestController {
 	}
 
 	// for updating guest status
-	@PutMapping(value = "/status", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
+	@PutMapping(value = "/status", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO updateGuestStatus(@RequestParam Integer guestId, @RequestParam Integer orgId,
 			@RequestParam String status) {
 

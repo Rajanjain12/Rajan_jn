@@ -6,6 +6,7 @@ public class OrganizationTemplateDTO {
 	private String templateText;
 	private Integer languageID;
 	private Integer level;
+	String levelName;
 	
 	public Integer getSmsTemplateID() {
 		return smsTemplateID;
@@ -30,6 +31,12 @@ public class OrganizationTemplateDTO {
 	}
 	public void setLevel(Integer level) {
 		this.level = level;
+	}
+	public String getLevelName() {
+		return levelName;
+	}
+	public void setLevelName(String levelName) {
+		this.levelName = levelName;
 	}
 	
 }

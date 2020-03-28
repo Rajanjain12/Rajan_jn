@@ -371,6 +371,44 @@ CHANGE COLUMN `NoOfAdults` `NoOfAdults` INT(11) NULL DEFAULT NULL ,
 CHANGE COLUMN `NoOfInfants` `NoOfInfants` INT(11) NULL DEFAULT NULL ,
 CHANGE COLUMN `NoOfPeople` `NoOfPeople` INT(11) NULL DEFAULT NULL ;
 
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats_you_are_in','축하합니다! 당신은 포함 됐어!','ko','Korean',1,'admin','2020-02-26');
+
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats_you_are_in','恭喜你！你在！','zh-Hant','Chinese (Traditional)',1,'admin','2020-02-26');
+
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats_you_are_in','恭喜你！你在！','zh-Hans','Chinese (Simplified)',1,'admin','2020-02-26');
+
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats_you_are_in','恭喜你！你在！','zh','Chinese',1,'admin','2020-02-26');
+
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats_you_are_in','Toutes nos félicitations! Vous y êtes!','fr','French',1,'admin','2020-02-26');
+
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('congrats_you_are_in',"Congratulations! You're in!",'en','English',1,'admin','2020-02-26');
+
+---------------------------------------------------------------------------------------------------------
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('your_customer_number_is','고객 번호는','ko','Korean',1,'admin','2020-02-26');
+
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('your_customer_number_is','您的客戶號碼是','zh-Hant','Chinese (Traditional)',1,'admin','2020-02-26');
+
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('your_customer_number_is','您的客户号码是','zh-Hans','Chinese (Simplified)',1,'admin','2020-02-26');
+
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('your_customer_number_is','您的客户号码是','zh','Chinese',1,'admin','2020-02-26');
+
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('your_customer_number_is','Votre numéro de client est','fr','French',1,'admin','2020-02-26');
+
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('your_customer_number_is','Your customer number is','en','English',1,'admin','2020-02-26');
+-------------------------------------------------------------------------------------------------------------
+
 
 
 
