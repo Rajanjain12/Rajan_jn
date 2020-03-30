@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PubNubAngular } from 'pubnub-angular2';
 import { environment } from '@env/environment';
 import { HttpParams } from '@angular/common/http';
-
+declare var $: any;
 @Component({
   selector: 'app-add-guest',
   templateUrl: './add-guest.component.html',
@@ -174,6 +174,7 @@ export class AddGuestComponent implements OnInit {
       this.errorMessage = this.languageKeyMap['upd_error'];
       return;
     }
+    $("#btnSubmit").attr("disabled", true);
     this.resultSeating();
     this.resultMarketing();
     this.removeSelected();

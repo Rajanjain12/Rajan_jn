@@ -363,9 +363,9 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 	@Override
 	public Integer fetchAllGuestHistoryListCount(Integer orgId, String searchText, String clientTimezone,
 			Integer sliderMaxTime, Integer sliderMinTime, String statusOption) {
-		// for fetching data according to page number
+		// for fetching history data count  
 
-		Integer count = 0;
+		 BigInteger count  = BigInteger. valueOf(0);
 
 				try {
 
@@ -383,25 +383,25 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 					if ((searchText != null) && (!searchText.equalsIgnoreCase("null"))) {
 						query = query.append(" and (g.Name like :searchText  or g.ContactNo like :searchText)");
 					}
-					query = query.append(" order by g.Rank asc limit :pageSize OFFSET :startIndex");
+					//query = query.append(" order by g.Rank asc limit :pageSize OFFSET :startIndex");
 					if ((searchText != null) && (!searchText.equalsIgnoreCase("null"))) {
-						count = entityManager.createNativeQuery(query.toString(), Guest.class).setParameter("orgId", orgId)
+						count = (BigInteger) entityManager.createNativeQuery(query.toString()).setParameter("orgId", orgId)
 								.setParameter("sliderMinValue", sliderMinTimeString)
 								.setParameter("sliderMaxValue", sliderMaxTimeString)
 								.setParameter("clientTimezone", clientTimezone)
-								.setParameter("searchText", "%" + searchText + "%").getFirstResult();
+								.setParameter("searchText", "%" + searchText + "%").getSingleResult();
 
 					} else {
-						count = entityManager.createNativeQuery(query.toString(), Guest.class).setParameter("orgId", orgId)
+						count = (BigInteger) entityManager.createNativeQuery(query.toString()).setParameter("orgId", orgId)
 								.setParameter("sliderMinValue", sliderMinTimeString)
 								.setParameter("sliderMaxValue", sliderMaxTimeString)
-								.setParameter("clientTimezone", clientTimezone).getFirstResult();
+								.setParameter("clientTimezone", clientTimezone).getSingleResult();
 
 					}
 				} catch (Exception e) {
 					LoggerUtil.logError("Error in fetch history  " + e.getMessage());
 				}
-				return count;
+				return count.intValue();
 	}
 
 }
