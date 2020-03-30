@@ -175,6 +175,10 @@ a:not([href]):not([tabindex]) {
     transform: scale(1.2);
   }
 }
+.btn-icon {
+  border: 0;
+  background-color: transparent;
+}
 .font-weight-semibold {
   font-weight: $font-weight-semibold;
 }
@@ -776,3 +780,33 @@ fieldset {
   }
 }
 /* ng5-slider Ends */
+.tooltip-main {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  font-weight: 700;
+  background: $white-color;
+  border: 1px solid $white-color;
+  color: $white-color;
+  margin: 4px 121px 0 5px;
+  float: right;
+  text-align: left !important;
+}
+
+.tooltip-qm {
+  float: left;
+  margin: -2px 0px 3px 4px;
+  font-size: 12px;
+}
+
+.tooltip-inner {
+  font-size: 14px;
+  border: 1px solid #f0f0f0;
+  text-align: left;
+  color: $black-color;
+  max-width: 200px !important;
+  background-color: $white-color;
+  text-align: left;
+  padding: 10px;
+  box-shadow: 3.5px 3.5px 5px 0 rgba(0, 0, 0, 0.1);
+}

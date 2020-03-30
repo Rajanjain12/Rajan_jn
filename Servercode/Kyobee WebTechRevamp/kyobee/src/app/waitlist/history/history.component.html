@@ -65,12 +65,25 @@
               <td *ngIf="toggleColumnArr.optIn == true"><img ng-show="guest.optin == 1" [src]="roundarrow" class="roundarrow ng-hide" /></td>
               <!--  <td>10 Min.</td> -->
               <td *ngIf="toggleColumnArr.note == true">
-                <span *ngIf="guest.note != ''" class="info-icon custom-tooltip">
+                <button
+                  *ngIf="guest.note != '' && guest.note != null"
+                  type="button"
+                  class="btn btn-icon"
+                  data-toggle="tooltip"
+                  data-trigger="click | hover | focus"
+                  data-placement="auto"
+                  title="<div class='tooltiptext'>{{ guest.note }}</div>"
+                  data-container="body"
+                  data-html="true"
+                >
+                  <i class="flaticon-file"></i>
+                </button>
+                <!-- <span *ngIf="guest.note != ''" class="info-icon custom-tooltip">
                   <i class="flaticon-file"></i>
                   <span class="tooltiptext">
                     <p class="font-12">{{ guest.note }}</p>
                   </span>
-                </span>
+                </span> -->
               </td>
             </tr>
           </tbody>
@@ -112,7 +125,7 @@
               </div>
               <!-- checkbox -->
               <!-- <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
-                                <input class="styled-checkbox" id="partyType" type="checkbox" > 
+                                <input class="styled-checkbox" id="partyType" type="checkbox" >
                                 <label for="partyType" class="mr-2">Party Type</label>
                             </div> --><!-- checkbox -->
               <div class="col-lg-4 col-md-4 col-sm-6 col-6 my-1">
