@@ -41,7 +41,7 @@ import com.kyobeeUserService.dto.SmsTemplateDTO;
 import com.kyobeeUserService.entity.Lookup;
 import com.kyobeeUserService.entity.Organization;
 import com.kyobeeUserService.entity.OrganizationCategory;
-import com.kyobeeUserService.entity.OrganizationPlanSubscription;
+/*import com.kyobeeUserService.entity.OrganizationPlanSubscription;*/
 import com.kyobeeUserService.entity.OrganizationTemplate;
 import com.kyobeeUserService.entity.OrganizationType;
 import com.kyobeeUserService.entity.OrganizationUser;
@@ -409,35 +409,38 @@ public class UserServiceImpl implements UserService {
 
 			Plan plan = planDAO.fetchPlan(signUpDTO.getPlanId());
 			LoggerUtil.logInfo("planid:" + plan.getPlanId() + " " + plan.getPlanName());
-			OrganizationPlanSubscription organizationPlanSubscription = new OrganizationPlanSubscription();
-			organizationPlanSubscription.setOrganization(organization);
-			organizationPlanSubscription.setPlan(plan);
-			organizationPlanSubscription.setCreatedBy(signUpDTO.getEmail());
-			organizationPlanSubscription.setCreatedAt(new Date());
+			//OrganizationPlanSubscription organizationPlanSubscription = new OrganizationPlanSubscription();
+			/*
+			 * organizationPlanSubscription.setOrganization(organization);
+			 * organizationPlanSubscription.setPlan(plan);
+			 * organizationPlanSubscription.setCreatedBy(signUpDTO.getEmail());
+			 * organizationPlanSubscription.setCreatedAt(new Date());
+			 */
 			// temporary added code
-			organizationPlanSubscription.setAmountPerUnit(new BigDecimal(0.0));
-			organizationPlanSubscription.setCostPerAd(new BigDecimal(0.0));
-			organizationPlanSubscription.setCreatedBy(signUpDTO.getEmail());
-			organizationPlanSubscription.setCurrencyId(11);
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(new Date());
-			cal.add(Calendar.MONTH, 1);
-			organizationPlanSubscription.setEndDate(cal.getTime());
-			organizationPlanSubscription.setModifiedBy(signUpDTO.getEmail());
-			organizationPlanSubscription.setModifiedAt(new Date());
-			organizationPlanSubscription.setNoOfAdsPerUnit(0);
-			organizationPlanSubscription.setNumberOfUnits(0);
-			organizationPlanSubscription.setOrganization(organization);
-			organizationPlanSubscription.setStartDate(new Date());
-			organizationPlanSubscription.setTerminateDate(null);
-			organizationPlanSubscription.setTotalAmount(new BigDecimal(0.0));
-			organizationPlanSubscription.setUnitId(9);
-
+			/*
+			 * organizationPlanSubscription.setAmountPerUnit(new BigDecimal(0.0));
+			 * organizationPlanSubscription.setCostPerAd(new BigDecimal(0.0));
+			 * organizationPlanSubscription.setCreatedBy(signUpDTO.getEmail());
+			 * organizationPlanSubscription.setCurrencyId(11); Calendar cal =
+			 * Calendar.getInstance(); cal.setTime(new Date()); cal.add(Calendar.MONTH, 1);
+			 * organizationPlanSubscription.setEndDate(cal.getTime());
+			 * organizationPlanSubscription.setModifiedBy(signUpDTO.getEmail());
+			 * organizationPlanSubscription.setModifiedAt(new Date());
+			 * organizationPlanSubscription.setNoOfAdsPerUnit(0);
+			 * organizationPlanSubscription.setNumberOfUnits(0);s
+			 * organizationPlanSubscription.setOrganization(organization);
+			 * organizationPlanSubscription.setStartDate(new Date());
+			 * organizationPlanSubscription.setTerminateDate(null);
+			 * organizationPlanSubscription.setTotalAmount(new BigDecimal(0.0));
+			 * organizationPlanSubscription.setUnitId(9);
+			 */
 			// ---
 
-			List<OrganizationPlanSubscription> orgPlanSubscriptionList = new ArrayList<>();
-			orgPlanSubscriptionList.add(organizationPlanSubscription);
-			organization.setOrganizationPlanSubscriptionList(orgPlanSubscriptionList);
+			/*
+			 * List<OrganizationPlanSubscription> orgPlanSubscriptionList = new
+			 * ArrayList<>(); orgPlanSubscriptionList.add(organizationPlanSubscription);
+			 */
+			//organization.setOrganizationPlanSubscriptionList(orgPlanSubscriptionList);
 			LoggerUtil.logInfo("organization plan inserted");
 
 			LoggerUtil.logInfo("going to fetch template");

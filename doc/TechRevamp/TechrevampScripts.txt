@@ -408,8 +408,49 @@ values('your_customer_number_is','Votre numéro de client est','fr','French',1,'
 insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
 values('your_customer_number_is','Your customer number is','en','English',1,'admin','2020-02-26');
 -------------------------------------------------------------------------------------------------------------
+DROP TABLE `PLAN`;
+DROP TABLE `PLANFEATURE`;
+DROP TABLE `PLANPRICE`;
 
+FK of ORGANIZATIONPLANSUBSCRIPTION in organization table , so need to remove this ref
+FK of ORGANIZATIONPLANSUBSCRIPTION in ORGANIZATIONADCREDIT table , so need to remove this ref
+FK of ORGANIZATIONPLANSUBSCRIPTION in ORGANIZATIONADCREDITSCHEDULER table , so need to remove this ref
+DROP TABLE  ORGANIZATIONPLANSUBSCRIPTIONINVOICE;
+DROP table  ORGANIZATIONPLANSUBSCRIPTION
+DROP TABLE USERROLE;
 
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATION`   
+  ADD COLUMN `CustomerID` INT(11)  AFTER `ReservationInfo`,
+  ADD CONSTRAINT `FKCustomerID` FOREIGN KEY (`CustomerID`) REFERENCES `KyobeeTechRevamp`.`CUSTOMER`(`CustomerID`);
+Need to add not null after customer added
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONUSER`   
+  ADD COLUMN `CustomerID` INT(11) NULL AFTER `UserID`,
+  ADD COLUMN `RoleID` INT(11) NULL AFTER `CustomerID`,
+  ADD COLUMN `Active` TINYINT(1) DEFAULT 1  NOT NULL AFTER `RoleID`;
+
+ALTER TABLE `KyobeeTechRevamp`.`ROLE`   
+  CHANGE `RoleId` `RoleID` INT(11) NOT NULL;
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONUSER` 
+  ADD CONSTRAINT `Fk3RoleID` FOREIGN KEY (`RoleID`) REFERENCES `KyobeeTechRevamp`.`ROLE`(`RoleID`),
+  DROP FOREIGN KEY `FKA367E77E4E546E32`;
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONUSER` 
+  ADD CONSTRAINT `FK4CustomerID` FOREIGN KEY (`CustomerID`) REFERENCES `KyobeeTechRevamp`.`CUSTOMER`(`CustomerID`),
+  DROP FOREIGN KEY `FKA367E77E5C062662`;
+
+CREATE TABLE `KyobeeTechRevamp`.`PlanTerm`(  
+  `PlanTermID` INT(11) NOT NULL,
+  `PlanTermName` VARCHAR(255) COMMENT 'Monthly,Annually',
+  `SortOrder` INT,
+  `Active` TINYINT(1),
+  `CreatedBy` VARCHAR(100) DEFAULT 'NULL',
+  `CreatedAt` DATE,
+  `ModifiedBy` VARCHAR(100) DEFAULT 'NULL',
+  `ModifiedAt` DATE,
+  PRIMARY KEY (`PlanTermID`)
+);
 
 
 

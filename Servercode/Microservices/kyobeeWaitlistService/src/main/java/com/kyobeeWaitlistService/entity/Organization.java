@@ -17,7 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.JoinColumns;
+
 
 @Entity
 @Table(name = "ORGANIZATION")
@@ -38,9 +38,8 @@ public class Organization implements Serializable {
 	@JoinColumn(name = "AddressID")
 	private Address address;
 
-	@ManyToOne
-	@JoinColumn(name = "ActiveOrganizationPlanId")
-	private OrganizationPlanSubscription activeOrganizationPlanId;
+	@Column(name = "ActiveOrganizationPlanId")
+	private Integer activeOrganizationPlanId;
 
 	@Column(name = "AdsBalance")
 	private Integer adsBalance;
@@ -172,11 +171,11 @@ public class Organization implements Serializable {
 		this.address = address;
 	}
 
-	public OrganizationPlanSubscription getActiveOrganizationPlanId() {
+	public Integer getActiveOrganizationPlanId() {
 		return activeOrganizationPlanId;
 	}
 
-	public void setActiveOrganizationPlanId(OrganizationPlanSubscription activeOrganizationPlanId) {
+	public void setActiveOrganizationPlanId(Integer activeOrganizationPlanId) {
 		this.activeOrganizationPlanId = activeOrganizationPlanId;
 	}
 
@@ -468,8 +467,10 @@ public class Organization implements Serializable {
 	@OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
 	private List<OrganizationUser> organizationusers;
 
-	@OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
-	private List<OrganizationPlanSubscription> organizationPlanSubscriptionList;
+	/*
+	 * @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL) private
+	 * List<OrganizationPlanSubscription> organizationPlanSubscriptionList;
+	 */
 
 	public Organization() {
 		// constructor
@@ -535,13 +536,14 @@ public class Organization implements Serializable {
 		return organizationusers;
 	}
 
-	public List<OrganizationPlanSubscription> getOrganizationPlanSubscriptionList() {
-		return organizationPlanSubscriptionList;
-	}
-
-	public void setOrganizationPlanSubscriptionList(
-			List<OrganizationPlanSubscription> organizationPlanSubscriptionList) {
-		this.organizationPlanSubscriptionList = organizationPlanSubscriptionList;
-	}
+	/*
+	 * public List<OrganizationPlanSubscription>
+	 * getOrganizationPlanSubscriptionList() { return
+	 * organizationPlanSubscriptionList; }
+	 * 
+	 * public void setOrganizationPlanSubscriptionList(
+	 * List<OrganizationPlanSubscription> organizationPlanSubscriptionList) {
+	 * this.organizationPlanSubscriptionList = organizationPlanSubscriptionList; }
+	 */
 
 }
