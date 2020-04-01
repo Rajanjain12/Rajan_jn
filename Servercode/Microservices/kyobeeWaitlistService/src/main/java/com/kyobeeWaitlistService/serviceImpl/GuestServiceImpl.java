@@ -252,7 +252,7 @@ public class GuestServiceImpl implements GuestService {
 		addUpdateGuestDTO.setGuestUUID(guestUUID);
 		addUpdateGuestDTO.setLanguagePref(guestDTO.getLanguagePref());
 		addUpdateGuestDTO.setOrgId(guestDTO.getOrganizationID());
-		addUpdateGuestDTO.setOp("ADD");
+		addUpdateGuestDTO.setOp(WaitListServiceConstants.ADD_STATUS);
         LoggerUtil.logInfo("client base:"+waitlistMetrics.getClientBase());
 		tinyURL = CommonUtil.buildURL(waitlistMetrics.getClientBase(), guestUUID);
 		addUpdateGuestDTO.setTinyURL(tinyURL);

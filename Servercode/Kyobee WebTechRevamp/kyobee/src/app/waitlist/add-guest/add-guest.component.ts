@@ -39,7 +39,7 @@ export class AddGuestComponent implements OnInit {
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     this.user = this.authService.getUser();
-  
+
     this.guest = new GuestDTO();
     this.connectPubnub();
 
@@ -119,13 +119,12 @@ export class AddGuestComponent implements OnInit {
   }
 
   selectedLanguage() {
-    
-    this.errorMessage=null;
+    this.errorMessage = null;
     this.languageKeyMap = this.selectedItem.languageMap;
-    
+
     this.listSeatingPref = this.user.seatingpref;
     this.listMarketingPref = this.user.marketingPref;
-    
+
     this.guest.languagePref = {
       langID: this.selectedItem.langId,
       keyName: null,
@@ -133,7 +132,6 @@ export class AddGuestComponent implements OnInit {
       langIsoCode: this.selectedItem.langIsoCode,
       langName: this.selectedItem.langName
     };
-    
   }
 
   addGuest() {
@@ -154,8 +152,6 @@ export class AddGuestComponent implements OnInit {
     this.guest.email = null;
 
     this.guest.incompleteParty = 0;
-
-  
   }
 
   validate(invalid) {
@@ -177,12 +173,10 @@ export class AddGuestComponent implements OnInit {
     if (this.guest.noOfAdults == null || this.guest.noOfAdults == undefined) {
       this.guest.noOfAdults = 0;
     }
-   if(this.user.pplBifurcation === 'Y'){
-    this.guest.noOfPeople = this.guest.noOfAdults + this.guest.noOfChildren;
-   
-   }
-   this.sum=this.guest.noOfPeople;
-  
+    if (this.user.pplBifurcation === 'Y') {
+      this.guest.noOfPeople = this.guest.noOfAdults + this.guest.noOfChildren;
+    }
+    this.sum = this.guest.noOfPeople;
 
     // this.guest.noOfPeople = +this.guest.noOfAdults + +this.guest.noOfChildren;
     if (this.sum > this.user.maxParty) {

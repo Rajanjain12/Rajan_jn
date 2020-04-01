@@ -4,42 +4,34 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "ORGANIZATIONUSER")
-public class OrganizationUser implements Serializable {
+@Table(name = "COUNTRY")
+public class Country implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "OrganizationUserID")
-	private Integer organizationUserID;
+	@Column(name = "CountryID")
+	private Integer countryID;
 
-	// bi-directional many-to-one association to Organization
-	@ManyToOne
-	@JoinColumn(name = "OrganizationID")
-	private Organization organization;
+	@Column(name = "CountryName")
+	private String countryName;
 
-	// bi-directional many-to-one association to User
+	@Column(name = "ISOCode")
+	private String ISOCode;
+
 	@ManyToOne
-	@JoinColumn(name = "UserID")
-	private User user;
-	
-	@ManyToOne
-	@JoinColumn(name = "CustomerID")
-	private Customer customer;
-	
-	@ManyToOne
-	@JoinColumn(name = "CustomerID")
-	private Role role;
-	
+	@JoinColumn(name = "CurrencyID")
+	private Currency currency;
+
 	@Column(name = "Active")
 	private Byte active;
 
@@ -57,48 +49,36 @@ public class OrganizationUser implements Serializable {
 	@Column(name = "ModifiedBy")
 	private String modifiedBy;
 
-	public OrganizationUser() {
-		// constructor
+	public Integer getCountryID() {
+		return countryID;
 	}
 
-	public Integer getOrganizationUserID() {
-		return organizationUserID;
+	public void setCountryID(Integer countryID) {
+		this.countryID = countryID;
 	}
 
-	public void setOrganizationUserID(Integer organizationUserID) {
-		this.organizationUserID = organizationUserID;
+	public String getCountryName() {
+		return countryName;
 	}
 
-	public Organization getOrganization() {
-		return organization;
+	public void setCountryName(String countryName) {
+		this.countryName = countryName;
 	}
 
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
+	public String getISOCode() {
+		return ISOCode;
 	}
 
-	public User getUser() {
-		return user;
+	public void setISOCode(String iSOCode) {
+		ISOCode = iSOCode;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
-	public Customer getCustomer() {
-		return customer;
+	public Currency getCurrency() {
+		return currency;
 	}
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
 	}
 
 	public Byte getActive() {
@@ -141,4 +121,6 @@ public class OrganizationUser implements Serializable {
 		this.modifiedBy = modifiedBy;
 	}
 
+	
+	
 }

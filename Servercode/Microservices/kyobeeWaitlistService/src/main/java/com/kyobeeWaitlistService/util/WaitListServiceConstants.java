@@ -37,6 +37,7 @@ public class WaitListServiceConstants {
 	public static final String NOTPRESENT_STATUS="NOTPRESENT";
 	public static final String SEATED_STATUS="SEATED";
 	public static final String UPDATE_STATUS="UPDATE";
+	public static final String ADD_STATUS="ADD";
 	public static final String FROM_ADMIN="ADMIN";
 	
 	public static final Integer SEATING_PREF_ID=18;
