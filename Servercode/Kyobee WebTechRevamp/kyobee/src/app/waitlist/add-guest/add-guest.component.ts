@@ -145,7 +145,6 @@ export class AddGuestComponent implements OnInit {
       langName: this.selectedItem.langName
     };
     console.log('language pref ' + JSON.stringify(this.guest.languagePref));
-    
   }
 
   addGuest() {
@@ -175,7 +174,7 @@ export class AddGuestComponent implements OnInit {
       this.errorMessage = this.languageKeyMap['upd_error'];
       return;
     }
-    $("#btnSubmit").attr("disabled", true);
+    $('#btnSubmit').attr('disabled', true);
     this.resultSeating();
     this.resultMarketing();
     this.removeSelected();
@@ -186,13 +185,13 @@ export class AddGuestComponent implements OnInit {
     if (this.guest.noOfPeople == null) {
       this.guest.noOfPeople = 0;
     }
-    if (this.guest.noOfAdults !== null && this.guest.noOfAdults !== undefined ) {
+    if (this.guest.noOfAdults !== null && this.guest.noOfAdults !== undefined) {
       this.guest.noOfPeople = this.guest.noOfAdults + this.guest.noOfChildren;
     }
     if (this.guest.noOfAdults == null) {
       this.guest.noOfAdults = 0;
     }
-    console.log("no of people:"+this.guest.noOfPeople);
+    console.log('no of people:' + this.guest.noOfPeople);
     // this.guest.noOfPeople = +this.guest.noOfAdults + +this.guest.noOfChildren;
     if (this.sum > this.user.maxParty) {
       this.errorMessage =

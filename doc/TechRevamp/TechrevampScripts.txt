@@ -440,8 +440,8 @@ ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONUSER`
   ADD CONSTRAINT `FK4CustomerID` FOREIGN KEY (`CustomerID`) REFERENCES `KyobeeTechRevamp`.`CUSTOMER`(`CustomerID`),
   DROP FOREIGN KEY `FKA367E77E5C062662`;
 
-CREATE TABLE `KyobeeTechRevamp`.`PlanTerm`(  
-  `PlanTermID` INT(11) NOT NULL,
+CREATE TABLE `KyobeeTechRevamp`.`PLANTERM`(  
+  `PlanTermID` INT(11) NOT NULL AUTO_INCREMENT,
   `PlanTermName` VARCHAR(255) COMMENT 'Monthly,Annually',
   `SortOrder` INT,
   `Active` TINYINT(1),
@@ -450,6 +450,163 @@ CREATE TABLE `KyobeeTechRevamp`.`PlanTerm`(
   `ModifiedBy` VARCHAR(100) DEFAULT 'NULL',
   `ModifiedAt` DATE,
   PRIMARY KEY (`PlanTermID`)
+);
+
+CREATE TABLE `KyobeeTechRevamp`.`CURRENCY`(  
+  `CurrencyID` INT(11) NOT NULL AUTO_INCREMENT,
+  `FullName` VARCHAR(255),
+  `ShortName` VARCHAR(255),
+  `Code` VARCHAR(10),
+  `Icon` VARCHAR(255),
+  `Active` TINYINT(1) NOT NULL,
+  `CreatedBy` VARCHAR(100) DEFAULT 'NULL',
+  `CreatedAt` DATE,
+  `ModifiedBy` VARCHAR(100) DEFAULT 'NULL',
+  `ModifiedAt` DATE,
+  PRIMARY KEY (`CurrencyID`)
+);
+
+CREATE TABLE `KyobeeTechRevamp`.`PLANFEATURECHARGE`(  
+  `PlanFeatureChargeID` INT(11) NOT NULL AUTO_INCREMENT,
+  `FeatureID` INT(11) NOT NULL,
+  `PlanID` INT(11) NOT NULL,
+  `CurrencyID` INT(11) NOT NULL,
+  `PlanTermID` INT(11) NOT NULL,
+  `TermChargeAmt` DECIMAL(5,2) NOT NULL,
+  `Active` TINYINT(1) NOT NULL,
+  `CreatedBy` VARCHAR(100) DEFAULT 'NULL',
+  `CreatedAt` DATE,
+  `ModifiedBy` VARCHAR(100) DEFAULT 'NULL',
+  `ModifiedAt` DATE,
+  PRIMARY KEY (`PlanFeatureChargesID`),
+  CONSTRAINT `FK_PlanFeatureCharge_FeatureId` FOREIGN KEY (`FeatureID`) REFERENCES `KyobeeTechRevamp`.`FEATURE`(`FeatureID`),
+  CONSTRAINT `FK_PlanFeatureCharge_PlanID` FOREIGN KEY (`PlanID`) REFERENCES `KyobeeTechRevamp`.`PLAN`(`PlanID`),
+  CONSTRAINT `FK_PlanFeatureCharge_CurrencyID` FOREIGN KEY (`CurrencyID`) REFERENCES `KyobeeTechRevamp`.`Currency`(`CurrencyID`),
+  CONSTRAINT `FK_PlanFeatureCharge_PlanTermID` FOREIGN KEY (`PlanTermID`) REFERENCES `KyobeeTechRevamp`.`PlanTerm`(`PlanTermID`)
+);
+
+CREATE TABLE `KyobeeTechRevamp`.`PROMOTIONALCODE`(  
+  `PromotionalCodeID` INT(11) NOT NULL AUTO_INCREMENT,
+  `PromoCode` VARCHAR(255) NOT NULL,
+  `ValidStartDate` DATE NOT NULL,
+  `ValidEndDate` DATE,
+  `CodeType` VARCHAR(50),
+  `FlatAmt` DECIMAL(5,2),
+  `PercAmt` DECIMAL(5,2),
+  `CurrencyID` INT(11),
+  `Active` TINYINT(1) NOT NULL,
+  `CreatedBy` VARCHAR(100) DEFAULT 'NULL',
+  `CreatedAt` DATE,
+  `ModifiedBy` VARCHAR(100) DEFAULT 'NULL',
+  `ModifiedAt` DATE,
+  PRIMARY KEY (`PromoID`, `PromoCode`, `ValidStartDate`),
+  CONSTRAINT `FK_PromotionalCode_CurrencyID` FOREIGN KEY (`CurrencyID`) REFERENCES `KyobeeTechRevamp`.`Currency`(`CurrencyID`)
+);
+CREATE TABLE `KyobeeTechRevamp`.`COUNTRY`(  
+  `CountryID` INT(11) NOT NULL AUTO_INCREMENT,
+  `CountryName` VARCHAR(255),
+  `ISOCode` VARCHAR(100),		
+  `CurrencyID` INT(11),
+  `Active` TINYINT(1) NOT NULL,
+  `CreatedBy` VARCHAR(100) DEFAULT 'NULL',
+  `CreatedAt` DATE,
+  `ModifiedBy` VARCHAR(100) DEFAULT 'NULL',
+  `ModifiedAt` DATE,
+  PRIMARY KEY (`CountryId`),
+  CONSTRAINT `FK_Country_CurrencyID` FOREIGN KEY (`CurrencyID`) REFERENCES `KyobeeTechRevamp`.`CURRENCY`(`CurrencyID`)
+);
+
+CREATE TABLE `KyobeeTechRevamp`.`ORGANIZATIONSUBSCRIPTION`(  
+  `OrganizationSubscriptionID` INT(11) NOT NULL,
+  `OrganizationID` INT(11),
+  `CustomerID` INT(11),
+  `SubscriptionDate` DATE,
+  `BillAmt` DECIMAL(5,2),
+  `DiscountAmt` DECIMAL(5,2),
+  `TotalBillAmount` DECIMAL(5,2),
+  `startDate` DATE,
+  `EndDate` DATE,
+  `PromotionalCodeID` INT(11),
+  `InvoiceStatus` VARCHAR(100),
+  `InvoiceFile` VARCHAR(1000),
+  `CurrentActiveSubscription` ENUM('Y','N'),
+  `Active` TINYINT(1),
+  `CreatedBy` VARCHAR(100) DEFAULT 'NULL',
+  `CreatedAt` DATE,
+  `ModifiedBy` VARCHAR(100) DEFAULT 'NULL',
+  `ModifiedAt` DATE,
+  PRIMARY KEY (`OrganizationSubscriptionID`),
+  CONSTRAINT `FK_OrgSubScription_CustomerID` FOREIGN KEY (`CustomerID`) REFERENCES `KyobeeTechRevamp`.`CUSTOMER`(`CustomerID`),
+  CONSTRAINT `FK_OrgSubScription_OrganizationID` FOREIGN KEY (`OrganizationID`) REFERENCES `KyobeeTechRevamp`.`ORGANIZATION`(`OrganizationID`),
+  CONSTRAINT `FK_OrgSubScription_PromotionalCodeID` FOREIGN KEY (`PromotionalCodeID`) REFERENCES `KyobeeTechRevamp`.`PROMOTIONALCODE`(`PromotionalCodeID`)
+);
+CREATE TABLE `KyobeeTechRevamp`.`ORGANIZATIONSUBSCRIPTIONDETAIL`(  
+  `OrganizationSubscriptionPlanID` INT(11) NOT NULL AUTO_INCREMENT,
+  `OrganizationID` INT(11),
+  `PlanFeatureChargeID` INT(11),
+  `FeatureID` INT(11),
+  `PlanID` INT(11),
+  `CurrencyID` INT(11),
+  `PlanTermID` INT(11),
+  `TermChargeAmt` DECIMAL(5,2),
+  `StartDate` DATE,
+  `EndDate` DATE,
+  `SubscriptionStatus` VARCHAR(255),
+  `SubscribedDate` DATE,
+  `RenewalType` VARCHAR(100),
+  `IsFree` ENUM('Y','N'),
+  `SubscriptionID` INT(11),
+  `CurrentActiveSubscription` ENUM('Y','N'),
+  `Active` TINYINT(1) NOT NULL,
+  `CreatedBy` VARCHAR(100) DEFAULT 'NULL',
+  `CreatedAt` DATE,
+  `ModifiedBy` VARCHAR(100) DEFAULT 'NULL',
+  `ModifiedAt` DATE,
+  PRIMARY KEY (`OrganizationSubscriptionPlanID`),
+  CONSTRAINT `FK_OrgSubScriptionDetail_OrganizationID` FOREIGN KEY (`OrganizationID`) REFERENCES `KyobeeTechRevamp`.`ORGANIZATION`(`OrganizationID`),
+  CONSTRAINT `FK_OrgSubScriptionDetail_PlanFeatureChargeID` FOREIGN KEY (`PlanFeatureChargeID`) REFERENCES `KyobeeTechRevamp`.`PLANFEATURECHARGE`(`PlanFeatureChargeID`),
+  CONSTRAINT `FK_OrgSubScriptionDetail_FeatureID` FOREIGN KEY (`FeatureID`) REFERENCES `KyobeeTechRevamp`.`FEATURE`(`FeatureID`),
+  CONSTRAINT `FK_OrgSubScriptionDetail_PlanID` FOREIGN KEY (`PlanID`) REFERENCES `KyobeeTechRevamp`.`PLAN`(`PlanID`),
+  constraint `FK_OrgSubScriptionDetail_CurrencyID` foreign key (`CurrencyID`) references `KyobeeTechRevamp`.`CURRENCY`(`CurrencyID`),
+  constraint `FK_OrgSubScriptionDetail_PlanTermID` foreign key (`PlanTermID`) references `KyobeeTechRevamp`.`PLANTERM`(`PlanTermID`),
+  constraint `FK_OrgSubScriptionDetail_SubscriptionID` foreign key (`SubscriptionID`) references `KyobeeTechRevamp`.`ORGANIZATIONSUBSCRIPTION`(`OrganizationSubscriptionID`)
+);
+CREATE TABLE `KyobeeTechRevamp`.`ORGANIZATIONCARDDETAIL`(  
+  `OrganizationCardDetailID` INT(11) NOT NULL,
+  `CardNo` INT(4),
+  `CardType` VARCHAR(255),
+  `CardName` VARCHAR(500),
+  `VaultID` VARCHAR(255),
+  `OrganizationID` INT(11),
+  `CustomerID` INT(11),
+  `Active` TINYINT(1),
+  `CreatedBy` VARCHAR(100) DEFAULT 'NULL',
+  `CreatedAt` DATE,
+  `ModifiedBy` VARCHAR(100) DEFAULT 'NULL',
+  `ModifiedAt` DATE,
+  PRIMARY KEY (`OrganizationCardDetailID`),
+  CONSTRAINT `FK_OrgCardDetail_OrganizationID` FOREIGN KEY (`OrganizationID`) REFERENCES `KyobeeTechRevamp`.`ORGANIZATION`(`OrganizationID`),
+  CONSTRAINT `FK_OrgCardDetail_CustomerID` FOREIGN KEY (`CustomerID`) REFERENCES `KyobeeTechRevamp`.`CUSTOMER`(`CustomerID`)
+);
+CREATE TABLE `KyobeeTechRevamp`.`ORGANIZATIONPAYMENT`(  
+  `OrganizationPaymentID` INT(11) NOT NULL,
+  `InvoiceId` INT(11),
+  `OrganizationID` INT(11),
+  `OrganizationCardDetailID` INT(11),
+  `TransactionID` INT,
+  `PaymentDateTime` DATE,
+  `PaymentStatus` VARCHAR(100),
+  `Amount` DECIMAL(5,2),
+  `PaymentStatusReason` VARCHAR(1000),
+  `Active` TINYINT(1),
+  `CreatedBy` VARCHAR(100) DEFAULT 'NULL',
+  `CreatedAt` DATE,
+  `ModifiedBy` VARCHAR(100) DEFAULT 'NULL',
+  `ModifiedAt` DATE,
+  PRIMARY KEY (`OrganizationPaymentID`),
+  CONSTRAINT `FK_OrganizationPayment_InvoiceID` FOREIGN KEY (`InvoiceId`) REFERENCES `KyobeeTechRevamp`.`ORGANIZATIONSUBSCRIPTION`(`OrganizationSubscriptionID`),
+  CONSTRAINT `FK_OrganizationPayment_OrganizationID` FOREIGN KEY (`OrganizationID`) REFERENCES `KyobeeTechRevamp`.`ORGANIZATION`(`OrganizationID`),
+  CONSTRAINT `FK_OrganizationPayment_OrganizationCardDetailID` FOREIGN KEY (`OrganizationCardDetailID`) REFERENCES `KyobeeTechRevamp`.`ORGANIZATIONCARDDETAIL`(`OrganizationCardDetailID`)
 );
 
 

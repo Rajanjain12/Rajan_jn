@@ -49,7 +49,6 @@ import com.kyobeeUserService.entity.Plan;
 import com.kyobeeUserService.entity.Role;
 import com.kyobeeUserService.entity.SmsTemplateLanguageMapping;
 import com.kyobeeUserService.entity.User;
-import com.kyobeeUserService.entity.Userrole;
 import com.kyobeeUserService.service.UserService;
 import com.kyobeeUserService.util.CommonUtil;
 
@@ -364,15 +363,14 @@ public class UserServiceImpl implements UserService {
 
 			Role role = roleDAO.fetchRole(UserServiceConstants.DEFAULT_ROLE);
 
-			Userrole userRole = new Userrole();
-			userRole.setRole(role);
-			userRole.setCreatedBy(signUpDTO.getEmail());
-			userRole.setCreatedAt(new Date());
-			userRole.setUser(user);
-
-			List<Userrole> userRoles = new ArrayList<>();
-			userRoles.add(userRole);
-			user.setUserroles(userRoles);
+			/*
+			 * Userrole userRole = new Userrole(); userRole.setRole(role);
+			 * userRole.setCreatedBy(signUpDTO.getEmail()); userRole.setCreatedAt(new
+			 * Date()); userRole.setUser(user);
+			 * 
+			 * List<Userrole> userRoles = new ArrayList<>(); userRoles.add(userRole);
+			 * user.setUserroles(userRoles);
+			 */
 
 			LoggerUtil.logInfo("user role inserted");
 

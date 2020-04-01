@@ -12,7 +12,7 @@ declare var $: any;
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-  constructor(private authService: AuthService, private guestService: GuestService,private router: Router) {}
+  constructor(private authService: AuthService, private guestService: GuestService, private router: Router) {}
   orgid: string;
 
   ngOnInit() {}
@@ -28,12 +28,11 @@ export class SidebarComponent implements OnInit {
       if (res.success == 1) {
         //window.alert('');
         $('#resetModal').modal('hide');
-        if(this.router.url !==  '/waitlist/dashboard')
-        {
-        this.router.navigateByUrl('/waitlist/dashboard');
-      }else{
-        window.location.reload();
-      }
+        if (this.router.url !== '/waitlist/dashboard') {
+          this.router.navigateByUrl('/waitlist/dashboard');
+        } else {
+          window.location.reload();
+        }
         console.log('user==' + JSON.stringify(res));
       }
     });

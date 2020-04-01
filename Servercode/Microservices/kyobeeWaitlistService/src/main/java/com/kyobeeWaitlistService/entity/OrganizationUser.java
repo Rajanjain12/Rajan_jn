@@ -31,6 +31,17 @@ public class OrganizationUser implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "UserID")
 	private User user;
+	
+	@ManyToOne
+	@JoinColumn(name = "CustomerID")
+	private Customer customer;
+	
+	@ManyToOne
+	@JoinColumn(name = "CustomerID")
+	private Role role;
+	
+	@Column(name = "Active")
+	private Byte active;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "CreatedAt")
@@ -72,6 +83,30 @@ public class OrganizationUser implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public Byte getActive() {
+		return active;
+	}
+
+	public void setActive(Byte active) {
+		this.active = active;
 	}
 
 	public Date getCreatedAt() {

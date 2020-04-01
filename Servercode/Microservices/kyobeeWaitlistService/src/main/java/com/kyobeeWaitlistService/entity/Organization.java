@@ -38,9 +38,6 @@ public class Organization implements Serializable {
 	@JoinColumn(name = "AddressID")
 	private Address address;
 
-	@Column(name = "ActiveOrganizationPlanId")
-	private Integer activeOrganizationPlanId;
-
 	@Column(name = "AdsBalance")
 	private Integer adsBalance;
 
@@ -80,6 +77,10 @@ public class Organization implements Serializable {
 	@Column(name = "ReservationInfo")
 	private Integer reservationInfo;
 
+	@ManyToOne
+	@JoinColumn(name="CustomerID")
+	private Customer customer;
+	
 	@Column(name = "AutoRenew")
 	private Byte autoRenew;
 
@@ -171,13 +172,13 @@ public class Organization implements Serializable {
 		this.address = address;
 	}
 
-	public Integer getActiveOrganizationPlanId() {
-		return activeOrganizationPlanId;
-	}
-
-	public void setActiveOrganizationPlanId(Integer activeOrganizationPlanId) {
-		this.activeOrganizationPlanId = activeOrganizationPlanId;
-	}
+	/*
+	 * public Integer getActiveOrganizationPlanId() { return
+	 * activeOrganizationPlanId; }
+	 * 
+	 * public void setActiveOrganizationPlanId(Integer activeOrganizationPlanId) {
+	 * this.activeOrganizationPlanId = activeOrganizationPlanId; }
+	 */
 
 	public Integer getAdsBalance() {
 		return adsBalance;
@@ -535,15 +536,5 @@ public class Organization implements Serializable {
 
 		return organizationusers;
 	}
-
-	/*
-	 * public List<OrganizationPlanSubscription>
-	 * getOrganizationPlanSubscriptionList() { return
-	 * organizationPlanSubscriptionList; }
-	 * 
-	 * public void setOrganizationPlanSubscriptionList(
-	 * List<OrganizationPlanSubscription> organizationPlanSubscriptionList) {
-	 * this.organizationPlanSubscriptionList = organizationPlanSubscriptionList; }
-	 */
 
 }

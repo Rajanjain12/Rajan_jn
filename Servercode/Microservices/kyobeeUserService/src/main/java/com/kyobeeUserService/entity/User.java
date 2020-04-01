@@ -84,10 +84,7 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<OrganizationUser> organizationusers;
 
-	// bi-directional many-to-one association to Userrole
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private List<Userrole> userroles;
-
+	
 	public User() {
 	}
 
@@ -233,28 +230,6 @@ public class User implements Serializable {
 
 	public void setOrganizationusers(List<OrganizationUser> organizationusers) {
 		this.organizationusers = organizationusers;
-	}
-
-	public List<Userrole> getUserroles() {
-		return userroles;
-	}
-
-	public void setUserroles(List<Userrole> userroles) {
-		this.userroles = userroles;
-	}
-
-	public Userrole addUserroles(Userrole userroles) {
-		getUserroles().add(userroles);
-		userroles.setUser(this);
-
-		return userroles;
-	}
-
-	public Userrole removeUserroles(Userrole userroles) {
-		getUserroles().remove(userroles);
-		userroles.setUser(null);
-
-		return userroles;
 	}
 
 }
