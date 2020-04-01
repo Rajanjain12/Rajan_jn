@@ -39,23 +39,18 @@ export class AddGuestComponent implements OnInit {
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     this.user = this.authService.getUser();
-    console.log('user' + JSON.stringify(this.user));
+  
     this.guest = new GuestDTO();
     this.connectPubnub();
 
-    console.log('seating pref ' + JSON.stringify(this.user.seatingpref));
     this.languageList = this.user.languagePref;
-    console.log('language List:' + this.languageList);
     this.selectedItem = this.languageList.find(x => x.langIsoCode === 'en');
-    console.log('default language' + JSON.stringify(this.selectedItem));
     this.selectedLanguage();
     if (this.id !== null) {
       this.guestService.fetchGuest(this.id).subscribe(res => {
-        console.log('res' + JSON.stringify(res));
         if (res.success === 1) {
           this.guest = res.serviceResult;
           this.seatingOrMarketingPref();
-          console.log('result ' + JSON.stringify(res.serviceResult));
         }
       });
       console.log(this.id);
@@ -63,15 +58,12 @@ export class AddGuestComponent implements OnInit {
       this.guest.guestID = 0;
       this.guest.optin = 0;
       this.seatingOrMarketingPref();
-      console.log('id is absent');
-      console.log(this.guest);
     }
 
     // default lang settings
   }
 
   seatingOrMarketingPref() {
-    console.log('user:' + JSON.stringify(this.guest));
     let present = false;
     if (this.user.seatingpref !== null) {
       this.user.seatingpref.map(obj => {
@@ -127,16 +119,13 @@ export class AddGuestComponent implements OnInit {
   }
 
   selectedLanguage() {
-    console.log('lang:' + JSON.stringify(this.selectedItem));
-
+    
+    this.errorMessage=null;
     this.languageKeyMap = this.selectedItem.languageMap;
-    console.log('language map:' + JSON.stringify(this.languageKeyMap));
-
+    
     this.listSeatingPref = this.user.seatingpref;
-    console.log('seating list:' + JSON.stringify(this.listSeatingPref));
     this.listMarketingPref = this.user.marketingPref;
-    console.log('marketing list:' + JSON.stringify(this.listMarketingPref));
-
+    
     this.guest.languagePref = {
       langID: this.selectedItem.langId,
       keyName: null,
@@ -144,7 +133,7 @@ export class AddGuestComponent implements OnInit {
       langIsoCode: this.selectedItem.langIsoCode,
       langName: this.selectedItem.langName
     };
-    console.log('language pref ' + JSON.stringify(this.guest.languagePref));
+    
   }
 
   addGuest() {
@@ -166,7 +155,7 @@ export class AddGuestComponent implements OnInit {
 
     this.guest.incompleteParty = 0;
 
-    console.log(' updatee guest ' + JSON.stringify(this.guest));
+  
   }
 
   validate(invalid) {
@@ -179,19 +168,22 @@ export class AddGuestComponent implements OnInit {
     this.resultMarketing();
     this.removeSelected();
     this.guest.noOfInfants = 0;
-    if (this.guest.noOfChildren == null) {
+    if (this.guest.noOfChildren == null || this.guest.noOfChildren == undefined) {
       this.guest.noOfChildren = 0;
     }
-    if (this.guest.noOfPeople == null) {
+    if (this.guest.noOfPeople == null || this.guest.noOfPeople == undefined) {
       this.guest.noOfPeople = 0;
     }
-    if (this.guest.noOfAdults !== null && this.guest.noOfAdults !== undefined) {
-      this.guest.noOfPeople = this.guest.noOfAdults + this.guest.noOfChildren;
-    }
-    if (this.guest.noOfAdults == null) {
+    if (this.guest.noOfAdults == null || this.guest.noOfAdults == undefined) {
       this.guest.noOfAdults = 0;
     }
-    console.log('no of people:' + this.guest.noOfPeople);
+   if(this.user.pplBifurcation === 'Y'){
+    this.guest.noOfPeople = this.guest.noOfAdults + this.guest.noOfChildren;
+   
+   }
+   this.sum=this.guest.noOfPeople;
+  
+
     // this.guest.noOfPeople = +this.guest.noOfAdults + +this.guest.noOfChildren;
     if (this.sum > this.user.maxParty) {
       this.errorMessage =
