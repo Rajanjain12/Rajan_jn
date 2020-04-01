@@ -106,7 +106,7 @@
               </td>
               <td *ngIf="toggleColumnArr.rank == true">{{ guest.rank }}</td>
               <!-- <td>Small</td> data-toggle="modal" data-target="#seatModal" -->
-              <td *ngIf="toggleColumnArr.noOfParty == true">Total {{ guest.noOfPeople }} [ A-{{ guest.noOfAdults }} C-{{ guest.noOfChildren }}]</td>
+              <td *ngIf="toggleColumnArr.noOfParty == true">Total {{ guest.noOfPeople }} <span *ngIf="user.pplBifurcation === 'Y'">[ A-{{ guest.noOfAdults }} C-{{ guest.noOfChildren }}] </span></td>
               <td *ngIf="toggleColumnArr.name == true">
                 <a [routerLink]="['/waitlist/addguest', guest.guestID]"
                   ><span *ngIf="guest.incompleteParty != null" class="incomplete">{{ guest.name }}</span
