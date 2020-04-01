@@ -14,7 +14,7 @@ import com.kyobeeWaitlistService.entity.OrganizationTemplate;
 public interface OrganizationTemplateDAO extends CrudRepository<OrganizationTemplate, Integer> {
 
 	@Query(value = "select ot from OrganizationTemplate ot where ot.organization.organizationID=:orgId and ot.languageID=:languageID and ot.active=1")
-	List<OrganizationTemplate> getSmsTemplatesForOrganization(@Param("orgId") Integer orgId,
+	List<OrganizationTemplate> getSmsTemplatesForOrganizationByLanguage(@Param("orgId") Integer orgId,
 			@Param("languageID") Integer languageID);
 	
 	@Query(value="select ot from OrganizationTemplate ot where ot.organization.organizationID=:orgId and ot.languageID=:languageID  and ot.active=1 and ot.level=:level")
@@ -28,6 +28,7 @@ public interface OrganizationTemplateDAO extends CrudRepository<OrganizationTemp
 	@Query(value="update OrganizationTemplate ot set templateText=:templateText where ot.organization.organizationID=:orgId and ot.languageID=:languageID  and ot.active=1 and ot.level=:level")
 	void updateSmsTemplateForOrgByLevel(@Param("orgId") Integer orgId,@Param("languageID") Integer languageID,@Param("level") Integer level,@Param("templateText") String templateText);
 	
-	
+	@Query(value="select ot from OrganizationTemplate ot where ot.organization.organizationID=:orgId")
+	List<OrganizationTemplate> fetchSmsTemplateForOrganization(@Param("orgId") Integer orgId);
 
 }

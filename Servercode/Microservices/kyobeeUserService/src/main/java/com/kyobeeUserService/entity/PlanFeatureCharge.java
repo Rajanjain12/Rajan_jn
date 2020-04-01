@@ -66,7 +66,7 @@ public class PlanFeatureCharge  implements Serializable {
 	private String modifiedBy;
 	
 	//bi-directional many-to-one association to Organizationsubscriptiondetail
-	@OneToMany(mappedBy="planfeaturecharge")
+	@OneToMany(mappedBy="planFeatureCharge")
 	private List<OrganizationSubscriptionDetail> organizationSubscriptionDetails;
 	
 

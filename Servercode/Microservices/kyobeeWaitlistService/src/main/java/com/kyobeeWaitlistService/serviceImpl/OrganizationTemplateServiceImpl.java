@@ -58,7 +58,7 @@ public class OrganizationTemplateServiceImpl implements OrganizationTemplateServ
 		List<OrganizationTemplateDTO> templates = new ArrayList<>();
 
 		List<OrganizationTemplate> smsTemplates = organizationTemplateDAO
-				.getSmsTemplatesForOrganization(smsContentDTO.getOrgId(), smsContentDTO.getLangId());
+				.getSmsTemplatesForOrganizationByLanguage(smsContentDTO.getOrgId(), smsContentDTO.getLangId());
 		OrganizationTemplateDTO organizationTemplateDTO;
 
 		for (OrganizationTemplate template : smsTemplates) {
@@ -170,7 +170,7 @@ public class OrganizationTemplateServiceImpl implements OrganizationTemplateServ
 			
 		//sending pusher
 		OrgSettingPusherDTO pusherDTO = new OrgSettingPusherDTO();
-		pusherDTO.setOp(WaitListServiceConstants.LANG_PUSHER);
+		pusherDTO.setOp(WaitListServiceConstants.ADD_LANG_PUSHER);
 		pusherDTO.setOrgSettingDTO(orgSettingDTO);
 		
 		NotificationUtil.sendMessage(pusherDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV+"_"+orgId);
@@ -182,7 +182,42 @@ public class OrganizationTemplateServiceImpl implements OrganizationTemplateServ
 	@Override
 	public void deleteLanguage(Integer orgId, Integer langId) {
 		
+		OrgSettingDTO orgSettingDTO = new OrgSettingDTO();
+		OrgSettingPusherDTO pusherDTO = new OrgSettingPusherDTO();
+		
+		
 		organizationTemplateDAO.deleteOrgTemplate(orgId, langId);
 		organizationLanguageDAO.deleteOrgLanguage(orgId, langId);
+		
+		List<OrganizationTemplate> templetList = organizationTemplateDAO.fetchSmsTemplateForOrganization(orgId);
+		List<SmsTemplateDTO> smsTemplateList = new ArrayList<>();
+		SmsTemplateDTO smsTemplate;
+		for (OrganizationTemplate template : templetList) {
+			smsTemplate = new SmsTemplateDTO();
+			BeanUtils.copyProperties(template, smsTemplate);
+			switch (template.getLevel()) { 
+		case 1:
+			smsTemplate.setLevelName(WaitListServiceConstants.SMS_LEVEL_1_NAME);
+			break;
+		case 2:
+			smsTemplate.setLevelName(WaitListServiceConstants.SMS_LEVEL_2_NAME);
+			break;
+		case 3:
+			smsTemplate.setLevelName(WaitListServiceConstants.SMS_LEVEL_3_NAME);
+			break;
+		default:
+			break;
+		}
+			smsTemplateList.add(smsTemplate);
+		}
+			
+		List<LanguageKeyMappingDTO> langKeyMapList = waitListService.fetchOrgLangKeyMap(orgId);
+		orgSettingDTO.setLanguageList(langKeyMapList);
+		orgSettingDTO.setSmsTemplateDTO(smsTemplateList);
+		
+		pusherDTO.setOp(WaitListServiceConstants.DELETE_LANG_PUSHER);
+		pusherDTO.setOrgSettingDTO(orgSettingDTO);
+		
+		NotificationUtil.sendMessage(pusherDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV+"_"+orgId);
 	}
 }

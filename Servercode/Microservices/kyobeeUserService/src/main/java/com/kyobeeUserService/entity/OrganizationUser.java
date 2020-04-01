@@ -37,7 +37,7 @@ public class OrganizationUser implements Serializable {
 	private Customer customer;
 	
 	@ManyToOne
-	@JoinColumn(name = "CustomerID")
+	@JoinColumn(name = "RoleID")
 	private Role role;
 	
 	@Column(name = "Active")
