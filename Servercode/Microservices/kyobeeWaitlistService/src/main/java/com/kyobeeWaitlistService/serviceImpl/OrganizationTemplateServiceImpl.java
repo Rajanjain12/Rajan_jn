@@ -16,6 +16,7 @@ import com.kyobeeWaitlistService.dao.SmsTemplateLanguageMappingDAO;
 import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
 import com.kyobeeWaitlistService.dto.LanguageKeyMappingDTO;
 import com.kyobeeWaitlistService.dto.OrgSettingDTO;
+import com.kyobeeWaitlistService.dto.OrgSettingPusherDTO;
 import com.kyobeeWaitlistService.dto.OrganizationTemplateDTO;
 import com.kyobeeWaitlistService.dto.SmsContentDTO;
 import com.kyobeeWaitlistService.dto.SmsTemplateDTO;
@@ -29,6 +30,7 @@ import com.kyobeeWaitlistService.service.WaitListService;
 import com.kyobeeWaitlistService.util.CommonUtil;
 import com.kyobeeWaitlistService.util.LoggerUtil;
 import com.kyobeeWaitlistService.util.WaitListServiceConstants;
+import com.kyobeeWaitlistService.util.pusherImpl.NotificationUtil;
 
 @Service
 @Transactional
@@ -165,6 +167,13 @@ public class OrganizationTemplateServiceImpl implements OrganizationTemplateServ
 		List<LanguageKeyMappingDTO> langKeyMapList = waitListService.fetchOrgLangKeyMap(orgId);
 		orgSettingDTO.setLanguageList(langKeyMapList);
 		orgSettingDTO.setSmsTemplateDTO(smsTemplates);
+			
+		//sending pusher
+		OrgSettingPusherDTO pusherDTO = new OrgSettingPusherDTO();
+		pusherDTO.setOp(WaitListServiceConstants.LANG_PUSHER);
+		pusherDTO.setOrgSettingDTO(orgSettingDTO);
+		
+		NotificationUtil.sendMessage(pusherDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV+"_"+orgId);
 		
 		return orgSettingDTO;
 		

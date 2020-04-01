@@ -73,5 +73,8 @@ public class WaitListServiceConstants {
 	public static final String SMS_LEVEL_2_NAME="Reminder";
 	public static final String SMS_LEVEL_3_NAME="Custom";
 	
+	public static final String LANG_PUSHER ="ADD_LANGUAGE_PUSHER";
+	public static final String SETTING_PUSHER ="ORG_SETTING_PUSHER";
+	
 
 }

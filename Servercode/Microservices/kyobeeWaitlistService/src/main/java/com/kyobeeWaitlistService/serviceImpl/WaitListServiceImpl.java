@@ -31,6 +31,7 @@ import com.kyobeeWaitlistService.dto.LanguageKeyMappingDTO;
 import com.kyobeeWaitlistService.dto.LanguageMasterDTO;
 import com.kyobeeWaitlistService.dto.OrgPrefKeyMapDTO;
 import com.kyobeeWaitlistService.dto.OrgSettingDTO;
+import com.kyobeeWaitlistService.dto.OrgSettingPusherDTO;
 import com.kyobeeWaitlistService.dto.OrganizationTemplateDTO;
 import com.kyobeeWaitlistService.dto.PusherDTO;
 import com.kyobeeWaitlistService.dto.ResponseDTO;
@@ -340,6 +341,12 @@ public class WaitListServiceImpl implements WaitListService {
 			organizationTemplateDAO.updateSmsTemplateForOrgByLevel(orgSettingDTO.getOrgId(),
 					smsTemplate.getLanguageID(), smsTemplate.getLevel(), smsTemplate.getTemplateText());
 		}
+		//sending pusher
+		OrgSettingPusherDTO pusherDTO = new OrgSettingPusherDTO();
+		pusherDTO.setOp(WaitListServiceConstants.SETTING_PUSHER);
+		pusherDTO.setOrgSettingDTO(orgSettingDTO);
+		
+		NotificationUtil.sendMessage(pusherDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV+"_"+orgSettingDTO.getOrgId());
 	}
 
 	@Override
