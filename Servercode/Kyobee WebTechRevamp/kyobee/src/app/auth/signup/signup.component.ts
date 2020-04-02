@@ -10,6 +10,7 @@ export class SignupComponent implements OnInit {
   password;
   confirmPassword;
   user: SignupDTO = new SignupDTO();
+  alertError: { type: string; msg: string; display: Boolean } = { type: '', msg: '', display: false };
 
   constructor() {}
 

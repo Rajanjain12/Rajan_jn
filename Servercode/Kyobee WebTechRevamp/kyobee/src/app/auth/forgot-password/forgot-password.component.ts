@@ -12,7 +12,7 @@ export class ForgotPasswordComponent implements OnInit {
   constructor(private userService: UserService, private router: Router) {}
   username = '';
   resend = false;
-  error: { show: boolean; type: string; msg: string } = { show: false, type: '', msg: '' };
+  alertError: { type: string; msg: string; display: Boolean } = { type: '', msg: '', display: false };
   ngOnInit() {}
 
   sendLinkForPwordReset(invalid) {
@@ -24,7 +24,7 @@ export class ForgotPasswordComponent implements OnInit {
       success => {
         console.log('TCL: ForgotPasswordComponent -> sendLinkForPwordReset -> success', success);
         if (success.success === 0) {
-          this.error = { show: true, type: 'danger', msg: success.message };
+          this.alertError = { type: 'danger', msg: success.message, display: true };
         } else if (success.success === 1) {
           this.resend = true;
         }

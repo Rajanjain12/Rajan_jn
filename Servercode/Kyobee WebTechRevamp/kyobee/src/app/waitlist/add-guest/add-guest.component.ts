@@ -17,7 +17,7 @@ declare var $: any;
 export class AddGuestComponent implements OnInit {
   guest: GuestDTO = new GuestDTO();
   user: User = new User();
-  errorMessage: string;
+  alertError: { type: string; msg: string; display: Boolean } = { type: '', msg: '', display: false };
   public sum = 0;
   marketingPref: Array<Preference>;
   seatingPref: Array<Preference>;
@@ -119,7 +119,7 @@ export class AddGuestComponent implements OnInit {
   }
 
   selectedLanguage() {
-    this.errorMessage = null;
+    this.alertError.display = false;
     this.languageKeyMap = this.selectedItem.languageMap;
 
     this.listSeatingPref = this.user.seatingpref;
@@ -156,7 +156,11 @@ export class AddGuestComponent implements OnInit {
 
   validate(invalid) {
     if (invalid) {
-      this.errorMessage = this.languageKeyMap['upd_error'];
+      this.alertError = {
+        type: 'danger',
+        msg: this.languageKeyMap['upd_error'],
+        display: true
+      };
       return;
     }
     $('#btnSubmit').attr('disabled', true);
@@ -180,8 +184,11 @@ export class AddGuestComponent implements OnInit {
 
     // this.guest.noOfPeople = +this.guest.noOfAdults + +this.guest.noOfChildren;
     if (this.sum > this.user.maxParty) {
-      this.errorMessage =
-        this.languageKeyMap['org_max_party_1'] + this.user.maxParty + this.languageKeyMap['org_max_party_2'];
+      this.alertError = {
+        type: 'danger',
+        msg: this.languageKeyMap['org_max_party_1'] + this.user.maxParty + this.languageKeyMap['org_max_party_2'],
+        display: true
+      };
       return;
     } else {
       console.log(this.guest.noOfPeople);

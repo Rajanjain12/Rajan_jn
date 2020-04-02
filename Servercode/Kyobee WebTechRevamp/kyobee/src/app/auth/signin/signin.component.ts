@@ -18,14 +18,14 @@ export class SigninComponent implements OnInit {
   invalidLogin = false;
   loading = false;
   userResponse: User;
-  errorMsg;
+  alertError: { type: string; msg: string; display: Boolean } = { type: '', msg: '', display: false };
 
   constructor(private userService: UserService, private authService: AuthService, private router: Router) {}
 
   ngOnInit() {}
   validateLogin(invalid) {
     if (invalid) {
-      this.errorMsg = 'Please enter proper values for mandatory fields';
+      this.alertError = { type: 'danger', msg: 'Please enter proper values for mandatory fields', display: true };
       return;
     }
 
@@ -37,7 +37,7 @@ export class SigninComponent implements OnInit {
       var respData = res;
       console.log('log== ' + JSON.stringify(respData));
       if (respData.success == 1) {
-        this.errorMsg = null;
+        this.alertError.display = false;
         this.loading = false;
         this.invalidLogin = false;
         this.authService.SetLogFlag();
@@ -46,7 +46,7 @@ export class SigninComponent implements OnInit {
         this.router.navigateByUrl('/waitlist/dashboard', { replaceUrl: true });
       } else {
         this.loading = false;
-        this.errorMsg = respData.message;
+        this.alertError = { type: 'danger', msg: respData.message, display: true };
         this.invalidLogin = true;
       }
     });

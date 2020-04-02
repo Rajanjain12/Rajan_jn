@@ -4,9 +4,10 @@
       <div class="col-lg-9">
         <form #f="ngForm" novalidate>
           <div class="col-lg-10">
-            <small class="text-danger" style="text-align: center;">
-              {{ errorMessage }}
-            </small>
+            <div class="alert mt-3 mb-0" [ngClass]="'alert-' + alertError.type" *ngIf="alertError.display != false">
+              <button type="button" class="close" data-dismiss="alert" (click)="alertError.display = false">&times;</button>
+              <p>{{ alertError.msg }}</p>
+            </div>
             <div class="form-group mb-3">
               <input
                 type="text"
@@ -23,9 +24,9 @@
               <label for="input" class="control-label">{{ languageKeyMap['name'] }}</label
               ><i class="bar"></i>
               <div *ngIf="f.submitted && gname.invalid" class="invalid-feedback">
-                <small class="text-danger" *ngIf="gname.errors?.required">{{ languageKeyMap['name_can_not_be_blank'] }}</small>
-                <small class="text-danger" *ngIf="gname.errors?.maxlength">{{ languageKeyMap['maximum_characters_limit_reached'] }}</small>
-                <small class="text-danger" *ngIf="gname.errors?.pattern">{{ languageKeyMap['enter_name_error'] }}</small>
+                <div class="text-danger" *ngIf="gname.errors?.required">{{ languageKeyMap['name_can_not_be_blank'] }}</div>
+                <div class="text-danger" *ngIf="gname.errors?.maxlength">{{ languageKeyMap['maximum_characters_limit_reached'] }}</div>
+                <div class="text-danger" *ngIf="gname.errors?.pattern">{{ languageKeyMap['enter_name_error'] }}</div>
               </div>
             </div>
             <div class="row">
@@ -49,11 +50,11 @@
                   <label for="adult" class="control-label">{{ languageKeyMap['adults'] }}</label>
                   <i class="bar"></i>
                   <div *ngIf="f.submitted && adult.invalid" class="invalid-feedback">
-                    <small class="text-danger" *ngIf="adult.errors?.pattern">{{ languageKeyMap['valid_num_error'] }}</small>
-                    <small class="text-danger" *ngIf="adult.errors?.number">{{ languageKeyMap['valid_num_error'] }}</small>
-                    <small class="text-danger" *ngIf="adult.errors?.required">{{ languageKeyMap['please_enter_values_for_adults'] }}</small>
-                    <small class="text-danger" *ngIf="adult.errors?.appCustomMin">{{ languageKeyMap['valid_num_error'] }}</small>
-                    <small class="text-danger" *ngIf="adult.errors?.appCustomMax">{{ languageKeyMap['maximum_limit_reached'] }}</small>
+                    <div class="text-danger" *ngIf="adult.errors?.pattern">{{ languageKeyMap['valid_num_error'] }}</div>
+                    <div class="text-danger" *ngIf="adult.errors?.number">{{ languageKeyMap['valid_num_error'] }}</div>
+                    <div class="text-danger" *ngIf="adult.errors?.required">{{ languageKeyMap['please_enter_values_for_adults'] }}</div>
+                    <div class="text-danger" *ngIf="adult.errors?.appCustomMin">{{ languageKeyMap['valid_num_error'] }}</div>
+                    <div class="text-danger" *ngIf="adult.errors?.appCustomMax">{{ languageKeyMap['maximum_limit_reached'] }}</div>
                   </div>
                 </div>
               </div>
@@ -75,11 +76,11 @@
                   />
                   <label for="children" class="control-label">{{ languageKeyMap['children'] }}</label> <i class="bar"></i>
                   <div *ngIf="f.submitted && children.invalid" class="invalid-feedback">
-                    <small class="text-danger" *ngIf="children.errors?.pattern">{{ languageKeyMap['valid_num_error'] }}</small>
-                    <small class="text-danger" *ngIf="children.errors?.number">{{ languageKeyMap['valid_num_error'] }}</small>
-                    <small class="text-danger" *ngIf="children.errors?.required">{{ languageKeyMap['please_enter_values_for_adults'] }}</small>
-                    <small class="text-danger" *ngIf="children.errors?.appCustomMin">{{ languageKeyMap['valid_num_error'] }}</small>
-                    <small class="text-danger" *ngIf="children.errors?.appCustomMax">{{ languageKeyMap['maximum_limit_reached'] }}</small>
+                    <div class="text-danger" *ngIf="children.errors?.pattern">{{ languageKeyMap['valid_num_error'] }}</div>
+                    <div class="text-danger" *ngIf="children.errors?.number">{{ languageKeyMap['valid_num_error'] }}</div>
+                    <div class="text-danger" *ngIf="children.errors?.required">{{ languageKeyMap['please_enter_values_for_adults'] }}</div>
+                    <div class="text-danger" *ngIf="children.errors?.appCustomMin">{{ languageKeyMap['valid_num_error'] }}</div>
+                    <div class="text-danger" *ngIf="children.errors?.appCustomMax">{{ languageKeyMap['maximum_limit_reached'] }}</div>
                   </div>
                 </div>
               </div>
@@ -103,11 +104,11 @@
                   <label for="people" class="control-label">{{ languageKeyMap['people'] }}</label>
                   <i class="bar"></i>
                   <div *ngIf="f.submitted && people.invalid" class="invalid-feedback">
-                    <small class="text-danger" *ngIf="people.errors?.pattern">{{ languageKeyMap['valid_num_error'] }}</small>
-                    <small class="text-danger" *ngIf="people.errors?.number">{{ languageKeyMap['valid_num_error'] }}</small>
-                    <small class="text-danger" *ngIf="people.errors?.required">{{ languageKeyMap['no_of_people_cannot_be_blank'] }}</small>
-                    <small class="text-danger" *ngIf="people.errors?.appCustomMin">{{ languageKeyMap['valid_num_error'] }}</small>
-                    <small class="text-danger" *ngIf="people.errors?.appCustomMax">{{ languageKeyMap['maximum_limit_reached'] }}</small>
+                    <div class="text-danger" *ngIf="people.errors?.pattern">{{ languageKeyMap['valid_num_error'] }}</div>
+                    <div class="text-danger" *ngIf="people.errors?.number">{{ languageKeyMap['valid_num_error'] }}</div>
+                    <div class="text-danger" *ngIf="people.errors?.required">{{ languageKeyMap['no_of_people_cannot_be_blank'] }}</div>
+                    <div class="text-danger" *ngIf="people.errors?.appCustomMin">{{ languageKeyMap['valid_num_error'] }}</div>
+                    <div class="text-danger" *ngIf="people.errors?.appCustomMax">{{ languageKeyMap['maximum_limit_reached'] }}</div>
                   </div>
                 </div>
               </div>
@@ -129,8 +130,8 @@
                   <label for="input" class="control-label">{{ languageKeyMap['mobile_number'] }}</label
                   ><i class="bar"></i>
                   <div *ngIf="f.submitted && phone.invalid" class="invalid-feedback">
-                    <small class="text-danger" *ngIf="phone.errors?.required">{{ languageKeyMap['enter_your_phone_number'] }}</small>
-                    <small class="text-danger" *ngIf="phone.errors?.pattern">{{ languageKeyMap['the_phone_number_that_you_typed_is_invalid_please_correct_your_phone_number_and_try_again'] }}</small>
+                    <div class="text-danger" *ngIf="phone.errors?.required">{{ languageKeyMap['enter_your_phone_number'] }}</div>
+                    <div class="text-danger" *ngIf="phone.errors?.pattern">{{ languageKeyMap['the_phone_number_that_you_typed_is_invalid_please_correct_your_phone_number_and_try_again'] }}</div>
                   </div>
                 </div>
               </div>
@@ -140,9 +141,9 @@
               <input class="styled-checkbox" id="promotion" type="checkbox" [checked]="guest.optin == 1" (click)="onOptinChange()" />
               <label for="promotion">{{ languageKeyMap['opt_in_for_special_promotions_and_ads'] }}</label>
             </div>
-            <small class="my-1">
+            <div class="my-1">
               {{ languageKeyMap['standard_text_message_charges_may_apply'] }}
-            </small>
+            </div>
             <div class="row pt-2">
               <div *ngIf="user.seatingpref != undefined" class="col-lg-3 my-1">
                 <span *ngIf="user.seatingpref.length != 0" class="font-weight-semibold">{{ languageKeyMap['seating_preference'] }}</span>
@@ -180,8 +181,8 @@
               >
               </textarea>
               <div *ngIf="f.submitted && text.invalid" class="invalid-feedback">
-                <!--  <small class="text-danger" *ngIf="text.errors?.required">Note is required</small> -->
-                <small class="text-danger" *ngIf="text.errors?.maxlength">{{ languageKeyMap['maximum_characters_limit_reached'] }}</small>
+                <!--  <div class="text-danger" *ngIf="text.errors?.required">Note is required</div> -->
+                <div class="text-danger" *ngIf="text.errors?.maxlength">{{ languageKeyMap['maximum_characters_limit_reached'] }}</div>
               </div>
               <label for="textarea" class="control-label">{{ languageKeyMap['note'] }}</label
               ><i class="bar"></i>

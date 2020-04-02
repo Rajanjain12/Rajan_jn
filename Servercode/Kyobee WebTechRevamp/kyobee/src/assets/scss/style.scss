@@ -219,7 +219,7 @@ a:not([href]):not([tabindex]) {
   border: 1px solid $light-grey-color;
   border-radius: 20px;
   padding: 0;
-  span {
+  p {
     position: relative;
     padding: 0.5em 1em;
     width: calc(100% - 40px);
@@ -233,7 +233,7 @@ a:not([href]):not([tabindex]) {
     border: none;
     height: 100%;
     outline: none;
-    padding: 0.5em 1em;
+    padding: 0.5rem;
     border-left: 1px solid $light-grey-color;
     color: red;
     background-color: transparent;
@@ -573,6 +573,9 @@ fieldset {
   opacity: 0.00000001;
   position: absolute;
   left: 0;
+}
+.invalid-feedback {
+  font-size: 88%;
 }
 
 .radio {

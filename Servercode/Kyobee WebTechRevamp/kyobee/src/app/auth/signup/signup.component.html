@@ -6,6 +6,10 @@
       <p class="text-center pb-3">Let's get started</p>
     </div>
     <div class="normal-box-container mb-3">
+      <div class="alert mb-3" [ngClass]="'alert-' + alertError.type" *ngIf="alertError.display != false">
+        <button type="button" class="close" data-dismiss="alert" (click)="alertError.display = false">&times;</button>
+        <p>{{ alertError.msg }}</p>
+      </div>
       <form #f="ngForm" (ngSubmit)="(f.form.valid)" novalidate>
         <div class="row p-3">
           <div class="col-lg-6">
@@ -13,7 +17,7 @@
               <input type="text" id="firstName" name="firstName" #fname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && fname.invalid }" class="form-control" [(ngModel)]="user.firstName" required="required" />
               <label for="input" class="control-label">First Name</label><i class="bar"></i>
               <div *ngIf="f.submitted && fname.invalid" class="invalid-feedback">
-                <small class="text-danger" *ngIf="fname.errors?.required">First Name is required</small>
+                <div class="text-danger" *ngIf="fname.errors?.required">First Name is required</div>
               </div>
             </div>
           </div>
@@ -22,7 +26,7 @@
               <input type="text" id="lastName" name="lastName" #lname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && lname.invalid }" class="form-control" [(ngModel)]="user.lastName" required="required" />
               <label for="input" class="control-label">Last Name</label><i class="bar"></i>
               <div *ngIf="f.submitted && lname.invalid" class="invalid-feedback">
-                <small class="text-danger" *ngIf="lname.errors?.required">Last Name is required</small>
+                <div class="text-danger" *ngIf="lname.errors?.required">Last Name is required</div>
               </div>
             </div>
           </div>
@@ -31,7 +35,7 @@
               <input type="text" id="userName" name="userName" #uname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && uname.invalid }" class="form-control" [(ngModel)]="user.userName" required="required" />
               <label for="input" class="control-label">User Name</label><i class="bar"></i>
               <div *ngIf="f.submitted && uname.invalid" class="invalid-feedback">
-                <small class="text-danger" *ngIf="uname.errors?.required">User Name is required</small>
+                <div class="text-danger" *ngIf="uname.errors?.required">User Name is required</div>
               </div>
             </div>
           </div>
@@ -50,8 +54,8 @@
               />
               <label for="input" class="control-label">Email</label><i class="bar"></i>
               <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
-                <small class="text-danger" *ngIf="email.errors.required">Email is a required</small>
-                <small class="text-danger" *ngIf="email.errors.pattern">This is not a valid Email!!!</small>
+                <div class="text-danger" *ngIf="email.errors.required">Email is required</div>
+                <div class="text-danger" *ngIf="email.errors.pattern">This is not a valid Email!!!</div>
               </div>
             </div>
           </div>
@@ -60,7 +64,7 @@
               <input type="text" id="storeName" name="storeName" #stname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && stname.invalid }" class="form-control" [(ngModel)]="user.storeName" required="required" />
               <label for="input" class="control-label">Store Name</label><i class="bar"></i>
               <div *ngIf="f.submitted && stname.invalid" class="invalid-feedback">
-                <small class="text-danger" *ngIf="stname.errors?.required">Store Name is required</small>
+                <div class="text-danger" *ngIf="stname.errors?.required">Store Name is required</div>
               </div>
             </div>
           </div>
@@ -80,8 +84,8 @@
               />
               <label for="input" class="control-label">Mobile No</label><i class="bar"></i>
               <div *ngIf="f.submitted && phone.invalid" class="invalid-feedback">
-                <small class="text-danger" *ngIf="phone.errors?.required">Phone no is required</small>
-                <small class="text-danger" *ngIf="phone.errors?.pattern">Phone no should be in proper form</small>
+                <div class="text-danger" *ngIf="phone.errors?.required">Mobile no is required</div>
+                <div class="text-danger" *ngIf="phone.errors?.pattern">Mobile no should be in proper form</div>
               </div>
             </div>
           </div>
@@ -90,7 +94,7 @@
               <input type="text" id="address" name="address" #addr="ngModel" [ngClass]="{ 'is-invalid': f.submitted && addr.invalid }" class="form-control" [(ngModel)]="user.address" required="required" />
               <label for="input" class="control-label">Address</label><i class="bar"></i>
               <div *ngIf="f.submitted && addr.invalid" class="invalid-feedback">
-                <small class="text-danger" *ngIf="addr.errors?.required">Phone no is required</small>
+                <div class="text-danger" *ngIf="addr.errors?.required">Address is required</div>
               </div>
             </div>
           </div>
@@ -109,8 +113,8 @@
               />
               <label for="input" class="control-label">Password</label><i class="bar"></i>
               <div *ngIf="f.submitted && password.invalid" class="invalid-feedback">
-                <small class="text-danger" *ngIf="password.errors?.required">Password is required</small>
-                <small class="text-danger" *ngIf="password.errors?.pattern">Password should be proper</small>
+                <div class="text-danger" *ngIf="password.errors?.required">Password is required</div>
+                <div class="text-danger" *ngIf="password.errors?.pattern">Password should be proper</div>
               </div>
               <!-- <span toggle="#password" class="font-color flaticon-eye-1 eye-icon toggle-password font-weight-semibold"></span> -->
               <span class="password-tooltip" id="showWeb" data-toggle="tooltip" data-placement="right" tooltip-title="Password should contain one upercase, one special character and length should be between 8-12."
@@ -136,8 +140,8 @@
               />
               <label for="input" class="control-label">Confirm Password</label><i class="bar"></i>
               <div *ngIf="f.submitted && confirmPassword.invalid" class="invalid-feedback">
-                <small class="text-danger" *ngIf="confirmPassword.errors?.required">Password is required</small>
-                <small class="text-danger" *ngIf="confirmPassword.errors?.notEqual">Password does not match</small>
+                <div class="text-danger" *ngIf="confirmPassword.errors?.required">Password is required</div>
+                <div class="text-danger" *ngIf="confirmPassword.errors?.notEqual">Password does not match</div>
               </div>
               <!-- <span toggle="#repassword" class="font-color flaticon-eye-1 eye-icon toggle-password font-weight-semibold"></span> -->
             </div>
