@@ -524,7 +524,7 @@ CREATE TABLE `KyobeeTechRevamp`.`ORGANIZATIONSUBSCRIPTION`(
   `BillAmt` DECIMAL(5,2),
   `DiscountAmt` DECIMAL(5,2),
   `TotalBillAmount` DECIMAL(5,2),
-  `startDate` DATE,
+  `StartDate` DATE,
   `EndDate` DATE,
   `PromotionalCodeID` INT(11),
   `InvoiceStatus` VARCHAR(100),
@@ -590,7 +590,7 @@ CREATE TABLE `KyobeeTechRevamp`.`ORGANIZATIONCARDDETAIL`(
 );
 CREATE TABLE `KyobeeTechRevamp`.`ORGANIZATIONPAYMENT`(  
   `OrganizationPaymentID` INT(11) NOT NULL,
-  `InvoiceId` INT(11),
+  `InvoiceID` INT(11),
   `OrganizationID` INT(11),
   `OrganizationCardDetailID` INT(11),
   `TransactionID` INT,
@@ -609,6 +609,71 @@ CREATE TABLE `KyobeeTechRevamp`.`ORGANIZATIONPAYMENT`(
   CONSTRAINT `FK_OrganizationPayment_OrganizationCardDetailID` FOREIGN KEY (`OrganizationCardDetailID`) REFERENCES `KyobeeTechRevamp`.`ORGANIZATIONCARDDETAIL`(`OrganizationCardDetailID`)
 );
 
+ALTER TABLE ORGANIZATION
+DROP ActiveOrganizationPlanId;
 
 
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATION`   
+  CHANGE `CustomerID` `CustomerID` INT(11) NULL  AFTER `OrganizationName`,
+  CHANGE `AddressID` `AddressID` INT(11) NULL  AFTER `CustomerID`,
+  CHANGE `AutoRenew` `AutoRenew` TINYINT(1) DEFAULT 1  NULL  AFTER `ReservationInfo`;
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATION`   
+  CHANGE `OrganizationTypeID` `OrganizationTypeID` INT(11) NOT NULL  AFTER `CustomerID`,
+  CHANGE `AddressID` `AddressID` INT(11) NULL  AFTER `OrganizationTypeID`,
+  CHANGE `AdsBalance` `AdsBalance` INT(11) NULL  AFTER `AddressID`;
+
+CREATE TABLE  `ORGANIZATIONSUBSCRIPTIONHISTORY` AS SELECT * FROM ORGANIZATIONSUBSCRIPTION;
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONSUBSCRIPTIONHISTORY`   
+  ADD COLUMN `OrganizationSubscriptionHistoryID` INT(11) NOT NULL FIRST,
+  CHANGE `OrganizationSubscriptionID` `OrganizationSubscriptionID` INT(11) NULL, 
+  ADD PRIMARY KEY (`OrganizationSubscriptionHistoryID`),
+  ADD CONSTRAINT `FK_OrgSubScriptionHistory_CustomerID` FOREIGN KEY (`CustomerID`) REFERENCES `KyobeeTechRevamp`.`CUSTOMER`(`CustomerID`),
+  ADD CONSTRAINT `FK_OrgSubScriptionHistory_OrganizationID` FOREIGN KEY (`OrganizationID`) REFERENCES `KyobeeTechRevamp`.`ORGANIZATION`(`OrganizationID`),
+  ADD CONSTRAINT `FK_OrgSubScriptionHistory_PromotionalCodeID` FOREIGN KEY (`PromotionalCodeID`) REFERENCES `KyobeeTechRevamp`.`PROMOTIONALCODE`(`PromotionalCodeID`);
+
+CREATE TABLE  `ORGANIZATIONPAYMENTHISTORY` AS SELECT * FROM ORGANIZATIONPAYMENT;
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONPAYMENTHISTORY`   
+  ADD COLUMN `OrganizationPaymentHistoryID` INT(11) NOT NULL FIRST,
+  CHANGE `OrganizationPaymentID` `OrganizationPaymentID` INT(11) NULL, 
+  ADD PRIMARY KEY (`OrganizationPaymentHistoryID`),
+  ADD CONSTRAINT `FK_OrganizationPaymentHistory_OrganizationCardDetailID` FOREIGN KEY (`OrganizationCardDetailID`) REFERENCES `KyobeeTechRevamp`.`ORGANIZATIONCARDDETAIL`(`OrganizationCardDetailID`),
+  ADD CONSTRAINT `FK_OrganizationPaymentHistory_OrganizationID` FOREIGN KEY (`OrganizationID`) REFERENCES `KyobeeTechRevamp`.`ORGANIZATION`(`OrganizationID`);
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONCARDDETAIL`   
+  CHANGE `CustomerID` `CustomerID` INT(11) NULL  AFTER `VaultID`,
+  CHANGE `OrganizationID` `OrganizationID` INT(11) NULL  AFTER `CustomerID`,
+  CHANGE `Active` `Active` TINYINT(1) NULL  AFTER `OrganizationID`;
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONPAYMENT`   
+  CHANGE `Amount` `Amount` DECIMAL(5,2) NULL  AFTER `TransactionID`,
+  CHANGE `PaymentDateTime` `PaymentDateTime` DATE NULL  AFTER `Amount`,
+  CHANGE `PaymentStatusReason` `PaymentStatusReason` VARCHAR(1000) CHARSET latin1 COLLATE latin1_swedish_ci NULL  AFTER `PaymentStatus`;
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONPAYMENTHISTORY`   
+  CHANGE `Amount` `Amount` DECIMAL(5,2) NULL  AFTER `OrganizationCardDetailID`,
+  CHANGE `TransactionID` `TransactionID` INT(11) NULL  AFTER `Amount`,
+  CHANGE `PaymentStatusReason` `PaymentStatusReason` VARCHAR(1000) CHARSET latin1 COLLATE latin1_swedish_ci NULL  AFTER `PaymentStatus`;
+
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONSUBSCRIPTIONHISTORY`  
+  DROP FOREIGN KEY `FK_OrgSubScriptionHistory_OrgSubscriptionID`;
+
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONPAYMENTHISTORY` DROP FOREIGN KEY `FK_OrganizationPaymentHistory_OrganizationCardDetailID`;
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONPAYMENTHISTORY` ADD CONSTRAINT `FK_OrganizationPaymentHistory_OrganizationCardDetailID` FOREIGN KEY (`OrganizationCardDetailID`) REFERENCES `KyobeeTechRevamp`.`ORGANIZATIONCARDDETAIL`(`OrganizationCardDetailID`);
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONSUBSCRIPTIONHISTORY`   
+  CHANGE `OrganizationSubscriptionHistoryID` `OrganizationSubscriptionHistoryID` INT(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONPAYMENT`   
+  CHANGE `Active` `Active` TINYINT(1) NOT NULL;
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONSUBSCRIPTION`   
+  CHANGE `Active` `Active` TINYINT(1) NOT NULL,
+  CHANGE `CreatedBy` `CreatedBy` VARCHAR(100) CHARSET latin1 COLLATE latin1_swedish_ci DEFAULT 'NULL'   NULL,
+  CHANGE `ModifiedBy` `ModifiedBy` VARCHAR(100) CHARSET latin1 COLLATE latin1_swedish_ci DEFAULT 'NULL'   NULL;
 

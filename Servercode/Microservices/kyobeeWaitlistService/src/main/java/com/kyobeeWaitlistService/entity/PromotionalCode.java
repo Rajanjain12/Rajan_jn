@@ -16,56 +16,56 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="PROMOTIONALCODE")
-public class PromotionalCode implements Serializable{
+@Table(name = "PROMOTIONALCODE")
+public class PromotionalCode implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@Column(name = "PromotionalCodeID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer promotionalCodeID;
-	
-	@Column(name="PromoCode")
+
+	@Column(name = "PromoCode")
 	private String promoCode;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="ValidStartDate")
+	@Column(name = "ValidStartDate")
 	private Date validStartDate;
-	
+
 	@Temporal(TemporalType.DATE)
-	@Column(name="ValidEndDate")
+	@Column(name = "ValidEndDate")
 	private Date validEndDate;
-	
-	@Column(name="CodeType")
+
+	@Column(name = "CodeType")
 	private String codeType;
 
-	@Column(name="FlatAmt")
+	@Column(name = "FlatAmt")
 	private BigDecimal flatAmt;
-	
-	@Column(name="PercAmt")
+
+	@Column(name = "PercAmt")
 	private BigDecimal percAmt;
 
-	//bi-directional many-to-one association to Currency
+	// bi-directional many-to-one association to Currency
 	@ManyToOne
-	@JoinColumn(name="CurrencyID")
+	@JoinColumn(name = "CurrencyID")
 	private Currency currency;
-	
-	@Column(name="Active")
-	private byte active;
-	
-	@Temporal(TemporalType.DATE)
-	@Column(name="CreatedAt")
-	private Date createdAt;
 
-	@Column(name="CreatedBy")
+	@Column(name = "Active")
+	private byte active;
+
+	@Column(name = "CreatedBy")
 	private String createdBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="ModifiedAt")
-	private Date modifiedAt;
+	@Column(name = "CreatedAt")
+	private Date createdAt;
 
-	@Column(name="ModifiedBy")
+	@Column(name = "ModifiedBy")
 	private String modifiedBy;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "ModifiedAt")
+	private Date modifiedAt;
 
 	public Integer getPromotionalCodeID() {
 		return promotionalCodeID;
@@ -139,14 +139,6 @@ public class PromotionalCode implements Serializable{
 		this.active = active;
 	}
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -155,12 +147,12 @@ public class PromotionalCode implements Serializable{
 		this.createdBy = createdBy;
 	}
 
-	public Date getModifiedAt() {
-		return modifiedAt;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setModifiedAt(Date modifiedAt) {
-		this.modifiedAt = modifiedAt;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public String getModifiedBy() {
@@ -170,8 +162,13 @@ public class PromotionalCode implements Serializable{
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
-	
-	
-	
+
+	public Date getModifiedAt() {
+		return modifiedAt;
+	}
+
+	public void setModifiedAt(Date modifiedAt) {
+		this.modifiedAt = modifiedAt;
+	}
 
 }

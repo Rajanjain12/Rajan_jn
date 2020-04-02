@@ -35,19 +35,19 @@ public class Country implements Serializable {
 	@Column(name = "Active")
 	private Byte active;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "CreatedAt")
-	private Date createdAt;
-
 	@Column(name = "CreatedBy")
 	private String createdBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "ModifiedAt")
-	private Date modifiedAt;
+	@Column(name = "CreatedAt")
+	private Date createdAt;
 
 	@Column(name = "ModifiedBy")
 	private String modifiedBy;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "ModifiedAt")
+	private Date modifiedAt;
 
 	public Integer getCountryID() {
 		return countryID;
@@ -89,14 +89,6 @@ public class Country implements Serializable {
 		this.active = active;
 	}
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -105,12 +97,12 @@ public class Country implements Serializable {
 		this.createdBy = createdBy;
 	}
 
-	public Date getModifiedAt() {
-		return modifiedAt;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setModifiedAt(Date modifiedAt) {
-		this.modifiedAt = modifiedAt;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public String getModifiedBy() {
@@ -121,6 +113,12 @@ public class Country implements Serializable {
 		this.modifiedBy = modifiedBy;
 	}
 
-	
-	
+	public Date getModifiedAt() {
+		return modifiedAt;
+	}
+
+	public void setModifiedAt(Date modifiedAt) {
+		this.modifiedAt = modifiedAt;
+	}
+
 }

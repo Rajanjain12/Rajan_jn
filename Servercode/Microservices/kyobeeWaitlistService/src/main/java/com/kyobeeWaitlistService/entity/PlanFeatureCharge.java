@@ -15,60 +15,57 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.OneToMany;
 
-
 @Entity
-@Table(name="PLANFEATURECHARGE")
-public class PlanFeatureCharge  implements Serializable {
+@Table(name = "PLANFEATURECHARGE")
+public class PlanFeatureCharge implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="PlanFeatureChargeID")
+	@Column(name = "PlanFeatureChargeID")
 	private int planFeatureChargeID;
-	
-	@Column(name="TermChargeAmt")
-	private BigDecimal termChargeAmt;
-	
-	@ManyToOne
-	@JoinColumn(name="CurrencyID")
-	private Currency currency;
 
-	//bi-directional many-to-one association to Feature
+	// bi-directional many-to-one association to Feature
 	@ManyToOne
-	@JoinColumn(name="FeatureID")
+	@JoinColumn(name = "FeatureID")
 	private Feature feature;
 
-	//bi-directional many-to-one association to Plan
+	// bi-directional many-to-one association to Plan
 	@ManyToOne
-	@JoinColumn(name="PlanID")
+	@JoinColumn(name = "PlanID")
 	private Plan plan;
 
-	//bi-directional many-to-one association to Planterm
 	@ManyToOne
-	@JoinColumn(name="PlanTermID")
-	private PlanTerm planterm;
+	@JoinColumn(name = "CurrencyID")
+	private Currency currency;
 
-	
-	@Column(name="Active")
+	// bi-directional many-to-one association to Planterm
+	@ManyToOne
+	@JoinColumn(name = "PlanTermID")
+	private PlanTerm planTerm;
+
+	@Column(name = "TermChargeAmt")
+	private BigDecimal termChargeAmt;
+
+	@Column(name = "Active")
 	private byte active;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name="CreatedAt")
-	private Date createdAt;
-
-	@Column(name="CreatedBy")
+	@Column(name = "CreatedBy")
 	private String createdBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="ModifiedAt")
+	@Column(name = "CreatedAt")
+	private Date createdAt;
+
+	@Column(name = "ModifiedBy")
+	private String modifiedBy;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "ModifiedAt")
 	private Date modifiedAt;
 
-	@Column(name="ModifiedBy")
-	private String modifiedBy;
-	
-	//bi-directional many-to-one association to Organizationsubscriptiondetail
-	@OneToMany(mappedBy="planFeatureCharge")
+	// bi-directional many-to-one association to Organizationsubscriptiondetail
+	@OneToMany(mappedBy = "planFeatureCharge")
 	private List<OrganizationSubscriptionDetail> organizationSubscriptionDetails;
-	
 
 	public int getPlanFeatureChargeID() {
 		return planFeatureChargeID;
@@ -76,22 +73,6 @@ public class PlanFeatureCharge  implements Serializable {
 
 	public void setPlanFeatureChargeID(int planFeatureChargeID) {
 		this.planFeatureChargeID = planFeatureChargeID;
-	}
-
-	public BigDecimal getTermChargeAmt() {
-		return termChargeAmt;
-	}
-
-	public void setTermChargeAmt(BigDecimal termChargeAmt) {
-		this.termChargeAmt = termChargeAmt;
-	}
-
-	public Currency getCurrency() {
-		return currency;
-	}
-
-	public void setCurrency(Currency currency) {
-		this.currency = currency;
 	}
 
 	public Feature getFeature() {
@@ -110,12 +91,28 @@ public class PlanFeatureCharge  implements Serializable {
 		this.plan = plan;
 	}
 
+	public Currency getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
+	}
+
 	public PlanTerm getPlanterm() {
-		return planterm;
+		return planTerm;
 	}
 
 	public void setPlanterm(PlanTerm planterm) {
-		this.planterm = planterm;
+		this.planTerm = planterm;
+	}
+
+	public BigDecimal getTermChargeAmt() {
+		return termChargeAmt;
+	}
+
+	public void setTermChargeAmt(BigDecimal termChargeAmt) {
+		this.termChargeAmt = termChargeAmt;
 	}
 
 	public byte getActive() {
@@ -126,14 +123,6 @@ public class PlanFeatureCharge  implements Serializable {
 		this.active = active;
 	}
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -142,12 +131,12 @@ public class PlanFeatureCharge  implements Serializable {
 		this.createdBy = createdBy;
 	}
 
-	public Date getModifiedAt() {
-		return modifiedAt;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setModifiedAt(Date modifiedAt) {
-		this.modifiedAt = modifiedAt;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public String getModifiedBy() {
@@ -158,28 +147,37 @@ public class PlanFeatureCharge  implements Serializable {
 		this.modifiedBy = modifiedBy;
 	}
 
+	public Date getModifiedAt() {
+		return modifiedAt;
+	}
+
+	public void setModifiedAt(Date modifiedAt) {
+		this.modifiedAt = modifiedAt;
+	}
+
 	public List<OrganizationSubscriptionDetail> getOrganizationsubscriptiondetails() {
 		return this.organizationSubscriptionDetails;
 	}
 
-	public void setOrganizationSubscriptionDetails(List<OrganizationSubscriptionDetail> organizationSubscriptionDetails) {
+	public void setOrganizationSubscriptionDetails(
+			List<OrganizationSubscriptionDetail> organizationSubscriptionDetails) {
 		this.organizationSubscriptionDetails = organizationSubscriptionDetails;
 	}
 
-	public OrganizationSubscriptionDetail addOrganizationSubscriptionDetail(OrganizationSubscriptionDetail organizationSubscriptionDetail) {
+	public OrganizationSubscriptionDetail addOrganizationSubscriptionDetail(
+			OrganizationSubscriptionDetail organizationSubscriptionDetail) {
 		getOrganizationsubscriptiondetails().add(organizationSubscriptionDetail);
 		organizationSubscriptionDetail.setPlanFeatureCharge(this);
 
 		return organizationSubscriptionDetail;
 	}
 
-	public OrganizationSubscriptionDetail removeOrganizationSubscriptionDsssetail(OrganizationSubscriptionDetail organizationSubscriptionDetail) {
+	public OrganizationSubscriptionDetail removeOrganizationSubscriptionDsssetail(
+			OrganizationSubscriptionDetail organizationSubscriptionDetail) {
 		getOrganizationsubscriptiondetails().remove(organizationSubscriptionDetail);
 		organizationSubscriptionDetail.setPlanFeatureCharge(null);
 
 		return organizationSubscriptionDetail;
 	}
-	
-	
 
 }

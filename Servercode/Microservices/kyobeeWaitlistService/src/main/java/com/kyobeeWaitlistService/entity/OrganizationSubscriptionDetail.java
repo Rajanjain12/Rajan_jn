@@ -48,7 +48,7 @@ public class OrganizationSubscriptionDetail implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "PlanTermID")
-	private PlanTerm planterm;
+	private PlanTerm planTerm;
 
 	@Column(name = "TermChargeAmt")
 	private BigDecimal termChargeAmt;
@@ -85,19 +85,19 @@ public class OrganizationSubscriptionDetail implements Serializable {
 	@Column(name = "Active")
 	private byte active;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "CreatedAt")
-	private Date createdAt;
-
 	@Column(name = "CreatedBy")
 	private String createdBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "ModifiedAt")
-	private Date modifiedAt;
+	@Column(name = "CreatedAt")
+	private Date createdAt;
 
 	@Column(name = "ModifiedBy")
 	private String modifiedBy;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "ModifiedAt")
+	private Date modifiedAt;
 
 	public int getOrganizationSubscriptionPlanID() {
 		return organizationSubscriptionPlanID;
@@ -148,11 +148,11 @@ public class OrganizationSubscriptionDetail implements Serializable {
 	}
 
 	public PlanTerm getPlanterm() {
-		return planterm;
+		return planTerm;
 	}
 
 	public void setPlanterm(PlanTerm planterm) {
-		this.planterm = planterm;
+		this.planTerm = planterm;
 	}
 
 	public BigDecimal getTermChargeAmt() {
@@ -235,14 +235,6 @@ public class OrganizationSubscriptionDetail implements Serializable {
 		this.active = active;
 	}
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -251,12 +243,12 @@ public class OrganizationSubscriptionDetail implements Serializable {
 		this.createdBy = createdBy;
 	}
 
-	public Date getModifiedAt() {
-		return modifiedAt;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setModifiedAt(Date modifiedAt) {
-		this.modifiedAt = modifiedAt;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public String getModifiedBy() {
@@ -265,6 +257,14 @@ public class OrganizationSubscriptionDetail implements Serializable {
 
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
+	}
+
+	public Date getModifiedAt() {
+		return modifiedAt;
+	}
+
+	public void setModifiedAt(Date modifiedAt) {
+		this.modifiedAt = modifiedAt;
 	}
 
 }

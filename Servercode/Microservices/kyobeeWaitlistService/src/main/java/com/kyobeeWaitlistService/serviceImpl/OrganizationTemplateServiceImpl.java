@@ -25,6 +25,7 @@ import com.kyobeeWaitlistService.entity.Organization;
 import com.kyobeeWaitlistService.entity.OrganizationLang;
 import com.kyobeeWaitlistService.entity.OrganizationTemplate;
 import com.kyobeeWaitlistService.entity.SmsTemplateLanguageMapping;
+import com.kyobeeWaitlistService.service.GuestService;
 import com.kyobeeWaitlistService.service.OrganizationTemplateService;
 import com.kyobeeWaitlistService.service.WaitListService;
 import com.kyobeeWaitlistService.util.CommonUtil;
@@ -50,7 +51,8 @@ public class OrganizationTemplateServiceImpl implements OrganizationTemplateServ
 	@Autowired
 	private WaitListService waitListService;
 	
-	
+	@Autowired
+	private GuestService guestService;
 
 	@Override
 	public List<OrganizationTemplateDTO> getOrganizationTemplates(SmsContentDTO smsContentDTO) {
@@ -219,5 +221,16 @@ public class OrganizationTemplateServiceImpl implements OrganizationTemplateServ
 		pusherDTO.setOrgSettingDTO(orgSettingDTO);
 		
 		NotificationUtil.sendMessage(pusherDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV+"_"+orgId);
+	}
+
+	@Override
+	public List<OrganizationTemplateDTO> fetchSmsContentByOrganizationTeplates(SmsContentDTO smsContentDTO) {
+		
+		List<OrganizationTemplateDTO> smsTemplates = getOrganizationTemplates(smsContentDTO);
+		GuestMetricsDTO metricsDTO = guestService.getGuestMetrics(smsContentDTO.getGuestId(),
+				smsContentDTO.getOrgId());
+		List<OrganizationTemplateDTO> smsContents = getSmsContent(smsContentDTO, smsTemplates,
+				metricsDTO);
+		return smsContents;
 	}
 }

@@ -41,6 +41,7 @@ public class UserController {
 			LoggerUtil.logInfo("inside login v1 v2");
 			LoginUserDTO loginUserDTO = userService.logInCredentialValidate(credentialsDTO);
 			responseDTO.setServiceResult(loginUserDTO);
+			responseDTO.setMessage("user logged in successfully");
 			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
 		} catch (AccountNotActivatedExeception aae) {
 			LoggerUtil.logError(aae);
@@ -127,7 +128,8 @@ public class UserController {
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {		
             userService.signUp(signUpDTO);
-            responseDTO.setServiceResult("Success");
+            responseDTO.setServiceResult("Signup done successfully");
+            responseDTO.setMessage("Signup done successfully");
 			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
 		}  catch (Exception e) {
 			LoggerUtil.logError(e);
@@ -157,7 +159,7 @@ public class UserController {
 		return responseDTO;
 	}
 	
-	//for resend code
+	//for re-send code
 	@PostMapping(value = "/resendCode", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO resendCode(@RequestParam Integer userId) {
 

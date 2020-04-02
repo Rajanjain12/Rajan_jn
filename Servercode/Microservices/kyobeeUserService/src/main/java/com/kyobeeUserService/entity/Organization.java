@@ -18,7 +18,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 @Entity
 @Table(name = "ORGANIZATION")
 public class Organization implements Serializable {
@@ -32,6 +31,15 @@ public class Organization implements Serializable {
 
 	@Column(name = "OrganizationName")
 	private String organizationName;
+
+	@ManyToOne
+	@JoinColumn(name = "CustomerID")
+	private Customer customer;
+
+	// bi-directional many-to-one association to Lookup
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "OrganizationTypeID", referencedColumnName = "TypeID")
+	private OrganizationType organizationType;
 
 	// bi-directional many-to-one association to Address
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -77,18 +85,14 @@ public class Organization implements Serializable {
 	@Column(name = "ReservationInfo")
 	private Integer reservationInfo;
 
-	@ManyToOne
-	@JoinColumn(name="CustomerID")
-	private Customer customer;
-	
 	@Column(name = "AutoRenew")
 	private Byte autoRenew;
 
-	@Column(name = "LastPaymentTrxDescription")
-	private String lastPaymentTrxDescription;
-
 	@Column(name = "LastPaymentTrxStatus")
 	private String lastPaymentTrxStatus;
+
+	@Column(name = "LastPaymentTrxDescription")
+	private String lastPaymentTrxDescription;
 
 	@Column(name = "StripeCustomerID")
 	private String stripeCustomerID;
@@ -123,12 +127,7 @@ public class Organization implements Serializable {
 	@Column(name = "MaxParty")
 	private Integer maxParty;
 
-	// bi-directional many-to-one association to Lookup
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "OrganizationTypeID", referencedColumnName = "TypeID")
-	private OrganizationType organizationType;
-	
-	@Column(name="PplBifurcation")
+	@Column(name = "PplBifurcation")
 	private String pplBifurcation;
 
 	@Column(name = "Active")
@@ -147,310 +146,6 @@ public class Organization implements Serializable {
 
 	@Column(name = "ModifiedBy")
 	private String modifiedBy;
-
-	public Integer getOrganizationID() {
-		return organizationID;
-	}
-
-	public void setOrganizationID(Integer organizationID) {
-		this.organizationID = organizationID;
-	}
-
-	public String getOrganizationName() {
-		return organizationName;
-	}
-
-	public void setOrganizationName(String organizationName) {
-		this.organizationName = organizationName;
-	}
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
-	/*
-	 * public Integer getActiveOrganizationPlanId() { return
-	 * activeOrganizationPlanId; }
-	 * 
-	 * public void setActiveOrganizationPlanId(Integer activeOrganizationPlanId) {
-	 * this.activeOrganizationPlanId = activeOrganizationPlanId; }
-	 */
-
-	public Integer getAdsBalance() {
-		return adsBalance;
-	}
-
-	public void setAdsBalance(Integer adsBalance) {
-		this.adsBalance = adsBalance;
-	}
-
-	public BigInteger getPrimaryPhone() {
-		return primaryPhone;
-	}
-
-	public void setPrimaryPhone(BigInteger primaryPhone) {
-		this.primaryPhone = primaryPhone;
-	}
-
-	public BigInteger getSecondaryPhone() {
-		return secondaryPhone;
-	}
-
-	public void setSecondaryPhone(BigInteger secondaryPhone) {
-		this.secondaryPhone = secondaryPhone;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getHoursOfOperation() {
-		return hoursOfOperation;
-	}
-
-	public void setHoursOfOperation(String hoursOfOperation) {
-		this.hoursOfOperation = hoursOfOperation;
-	}
-
-	public Byte[] getOutdoorSeat() {
-		return outdoorSeat;
-	}
-
-	public void setOutdoorSeat(Byte[] outdoorSeat) {
-		this.outdoorSeat = outdoorSeat;
-	}
-
-	public Byte[] getLiveTV() {
-		return liveTV;
-	}
-
-	public void setLiveTV(Byte[] liveTV) {
-		this.liveTV = liveTV;
-	}
-
-	public Byte[] getDelivery() {
-		return delivery;
-	}
-
-	public void setDelivery(Byte[] delivery) {
-		this.delivery = delivery;
-	}
-
-	public Byte[] getAlcoholicDrinks() {
-		return alcoholicDrinks;
-	}
-
-	public void setAlcoholicDrinks(Byte[] alcoholicDrinks) {
-		this.alcoholicDrinks = alcoholicDrinks;
-	}
-
-	public String getAdditionalComment() {
-		return additionalComment;
-	}
-
-	public void setAdditionalComment(String additionalComment) {
-		this.additionalComment = additionalComment;
-	}
-
-	public String getParkingInformation() {
-		return parkingInformation;
-	}
-
-	public void setParkingInformation(String parkingInformation) {
-		this.parkingInformation = parkingInformation;
-	}
-
-	public Integer getNoOfSeat() {
-		return noOfSeat;
-	}
-
-	public void setNoOfSeat(Integer noOfSeat) {
-		this.noOfSeat = noOfSeat;
-	}
-
-	public Integer getReservationInfo() {
-		return reservationInfo;
-	}
-
-	public void setReservationInfo(Integer reservationInfo) {
-		this.reservationInfo = reservationInfo;
-	}
-
-	public Byte getAutoRenew() {
-		return autoRenew;
-	}
-
-	public void setAutoRenew(Byte autoRenew) {
-		this.autoRenew = autoRenew;
-	}
-
-	public String getLastPaymentTrxDescription() {
-		return lastPaymentTrxDescription;
-	}
-
-	public void setLastPaymentTrxDescription(String lastPaymentTrxDescription) {
-		this.lastPaymentTrxDescription = lastPaymentTrxDescription;
-	}
-
-	public String getLastPaymentTrxStatus() {
-		return lastPaymentTrxStatus;
-	}
-
-	public void setLastPaymentTrxStatus(String lastPaymentTrxStatus) {
-		this.lastPaymentTrxStatus = lastPaymentTrxStatus;
-	}
-
-	public String getStripeCustomerID() {
-		return stripeCustomerID;
-	}
-
-	public void setStripeCustomerID(String stripeCustomerID) {
-		this.stripeCustomerID = stripeCustomerID;
-	}
-
-	public Integer getDefaultLangId() {
-		return defaultLangId;
-	}
-
-	public void setDefaultLangId(Integer defaultLangId) {
-		this.defaultLangId = defaultLangId;
-	}
-
-	public Integer getWaitTime() {
-		return waitTime;
-	}
-
-	public void setWaitTime(Integer waitTime) {
-		this.waitTime = waitTime;
-	}
-
-	public Integer getNotifyUserCount() {
-		return notifyUserCount;
-	}
-
-	public void setNotifyUserCount(Integer notifyUserCount) {
-		this.notifyUserCount = notifyUserCount;
-	}
-
-	public String getClientBase() {
-		return clientBase;
-	}
-
-	public void setClientBase(String clientBase) {
-		this.clientBase = clientBase;
-	}
-
-	public String getLogoFileName() {
-		return logoFileName;
-	}
-
-	public void setLogoFileName(String logoFileName) {
-		this.logoFileName = logoFileName;
-	}
-
-	public String getOrganizationPromotionalCode() {
-		return organizationPromotionalCode;
-	}
-
-	public void setOrganizationPromotionalCode(String organizationPromotionalCode) {
-		this.organizationPromotionalCode = organizationPromotionalCode;
-	}
-
-	public String getNotifyFirstFlag() {
-		return notifyFirstFlag;
-	}
-
-	public void setNotifyFirstFlag(String notifyFirstFlag) {
-		this.notifyFirstFlag = notifyFirstFlag;
-	}
-
-	public Integer getTotalWaitTime() {
-		return totalWaitTime;
-	}
-
-	public void setTotalWaitTime(Integer totalWaitTime) {
-		this.totalWaitTime = totalWaitTime;
-	}
-
-	public String getSmsSignature() {
-		return smsSignature;
-	}
-
-	public void setSmsSignature(String smsSignature) {
-		this.smsSignature = smsSignature;
-	}
-
-	public Integer getMaxParty() {
-		return maxParty;
-	}
-
-	public void setMaxParty(Integer maxParty) {
-		this.maxParty = maxParty;
-	}
-
-	public OrganizationType getOrganizationType() {
-		return organizationType;
-	}
-
-	public void setOrganizationType(OrganizationType organizationType) {
-		this.organizationType = organizationType;
-	}
-	
-	public String getPplBifurcation() {
-		return pplBifurcation;
-	}
-
-	public void setPplBifurcation(String pplBifurcation) {
-		this.pplBifurcation = pplBifurcation;
-	}
-
-	public Byte getActive() {
-		return active;
-	}
-
-	public void setActive(Byte active) {
-		this.active = active;
-	}
-
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public Date getModifiedAt() {
-		return modifiedAt;
-	}
-
-	public void setModifiedAt(Date modifiedAt) {
-		this.modifiedAt = modifiedAt;
-	}
-
-	public String getModifiedBy() {
-		return modifiedBy;
-	}
-
-	public void setModifiedBy(String modifiedBy) {
-		this.modifiedBy = modifiedBy;
-	}
 
 	// bi-directional many-to-one association to Organizationcategory
 	@OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
@@ -476,6 +171,387 @@ public class Organization implements Serializable {
 	public Organization() {
 		// constructor
 	}
+
+	
+	public Integer getOrganizationID() {
+		return organizationID;
+	}
+
+
+	public void setOrganizationID(Integer organizationID) {
+		this.organizationID = organizationID;
+	}
+
+
+	public String getOrganizationName() {
+		return organizationName;
+	}
+
+
+	public void setOrganizationName(String organizationName) {
+		this.organizationName = organizationName;
+	}
+
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+
+	public OrganizationType getOrganizationType() {
+		return organizationType;
+	}
+
+
+	public void setOrganizationType(OrganizationType organizationType) {
+		this.organizationType = organizationType;
+	}
+
+
+	public Address getAddress() {
+		return address;
+	}
+
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+
+	public Integer getAdsBalance() {
+		return adsBalance;
+	}
+
+
+	public void setAdsBalance(Integer adsBalance) {
+		this.adsBalance = adsBalance;
+	}
+
+
+	public BigInteger getPrimaryPhone() {
+		return primaryPhone;
+	}
+
+
+	public void setPrimaryPhone(BigInteger primaryPhone) {
+		this.primaryPhone = primaryPhone;
+	}
+
+
+	public BigInteger getSecondaryPhone() {
+		return secondaryPhone;
+	}
+
+
+	public void setSecondaryPhone(BigInteger secondaryPhone) {
+		this.secondaryPhone = secondaryPhone;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	public String getHoursOfOperation() {
+		return hoursOfOperation;
+	}
+
+
+	public void setHoursOfOperation(String hoursOfOperation) {
+		this.hoursOfOperation = hoursOfOperation;
+	}
+
+
+	public Byte[] getOutdoorSeat() {
+		return outdoorSeat;
+	}
+
+
+	public void setOutdoorSeat(Byte[] outdoorSeat) {
+		this.outdoorSeat = outdoorSeat;
+	}
+
+
+	public Byte[] getLiveTV() {
+		return liveTV;
+	}
+
+
+	public void setLiveTV(Byte[] liveTV) {
+		this.liveTV = liveTV;
+	}
+
+
+	public Byte[] getDelivery() {
+		return delivery;
+	}
+
+
+	public void setDelivery(Byte[] delivery) {
+		this.delivery = delivery;
+	}
+
+
+	public Byte[] getAlcoholicDrinks() {
+		return alcoholicDrinks;
+	}
+
+
+	public void setAlcoholicDrinks(Byte[] alcoholicDrinks) {
+		this.alcoholicDrinks = alcoholicDrinks;
+	}
+
+
+	public String getAdditionalComment() {
+		return additionalComment;
+	}
+
+
+	public void setAdditionalComment(String additionalComment) {
+		this.additionalComment = additionalComment;
+	}
+
+
+	public String getParkingInformation() {
+		return parkingInformation;
+	}
+
+
+	public void setParkingInformation(String parkingInformation) {
+		this.parkingInformation = parkingInformation;
+	}
+
+
+	public Integer getNoOfSeat() {
+		return noOfSeat;
+	}
+
+
+	public void setNoOfSeat(Integer noOfSeat) {
+		this.noOfSeat = noOfSeat;
+	}
+
+
+	public Integer getReservationInfo() {
+		return reservationInfo;
+	}
+
+
+	public void setReservationInfo(Integer reservationInfo) {
+		this.reservationInfo = reservationInfo;
+	}
+
+
+	public Byte getAutoRenew() {
+		return autoRenew;
+	}
+
+
+	public void setAutoRenew(Byte autoRenew) {
+		this.autoRenew = autoRenew;
+	}
+
+
+	public String getLastPaymentTrxStatus() {
+		return lastPaymentTrxStatus;
+	}
+
+
+	public void setLastPaymentTrxStatus(String lastPaymentTrxStatus) {
+		this.lastPaymentTrxStatus = lastPaymentTrxStatus;
+	}
+
+
+	public String getLastPaymentTrxDescription() {
+		return lastPaymentTrxDescription;
+	}
+
+
+	public void setLastPaymentTrxDescription(String lastPaymentTrxDescription) {
+		this.lastPaymentTrxDescription = lastPaymentTrxDescription;
+	}
+
+
+	public String getStripeCustomerID() {
+		return stripeCustomerID;
+	}
+
+
+	public void setStripeCustomerID(String stripeCustomerID) {
+		this.stripeCustomerID = stripeCustomerID;
+	}
+
+
+	public Integer getDefaultLangId() {
+		return defaultLangId;
+	}
+
+
+	public void setDefaultLangId(Integer defaultLangId) {
+		this.defaultLangId = defaultLangId;
+	}
+
+
+	public Integer getWaitTime() {
+		return waitTime;
+	}
+
+
+	public void setWaitTime(Integer waitTime) {
+		this.waitTime = waitTime;
+	}
+
+
+	public Integer getNotifyUserCount() {
+		return notifyUserCount;
+	}
+
+
+	public void setNotifyUserCount(Integer notifyUserCount) {
+		this.notifyUserCount = notifyUserCount;
+	}
+
+
+	public String getClientBase() {
+		return clientBase;
+	}
+
+
+	public void setClientBase(String clientBase) {
+		this.clientBase = clientBase;
+	}
+
+
+	public String getLogoFileName() {
+		return logoFileName;
+	}
+
+
+	public void setLogoFileName(String logoFileName) {
+		this.logoFileName = logoFileName;
+	}
+
+
+	public String getOrganizationPromotionalCode() {
+		return organizationPromotionalCode;
+	}
+
+
+	public void setOrganizationPromotionalCode(String organizationPromotionalCode) {
+		this.organizationPromotionalCode = organizationPromotionalCode;
+	}
+
+
+	public String getNotifyFirstFlag() {
+		return notifyFirstFlag;
+	}
+
+
+	public void setNotifyFirstFlag(String notifyFirstFlag) {
+		this.notifyFirstFlag = notifyFirstFlag;
+	}
+
+
+	public Integer getTotalWaitTime() {
+		return totalWaitTime;
+	}
+
+
+	public void setTotalWaitTime(Integer totalWaitTime) {
+		this.totalWaitTime = totalWaitTime;
+	}
+
+
+	public String getSmsSignature() {
+		return smsSignature;
+	}
+
+
+	public void setSmsSignature(String smsSignature) {
+		this.smsSignature = smsSignature;
+	}
+
+
+	public Integer getMaxParty() {
+		return maxParty;
+	}
+
+
+	public void setMaxParty(Integer maxParty) {
+		this.maxParty = maxParty;
+	}
+
+
+	public String getPplBifurcation() {
+		return pplBifurcation;
+	}
+
+
+	public void setPplBifurcation(String pplBifurcation) {
+		this.pplBifurcation = pplBifurcation;
+	}
+
+
+	public Byte getActive() {
+		return active;
+	}
+
+
+	public void setActive(Byte active) {
+		this.active = active;
+	}
+
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+
+	public Date getModifiedAt() {
+		return modifiedAt;
+	}
+
+
+	public void setModifiedAt(Date modifiedAt) {
+		this.modifiedAt = modifiedAt;
+	}
+
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
 
 	public List<OrganizationCategory> getOrganizationcategories() {
 		return this.organizationcategories;

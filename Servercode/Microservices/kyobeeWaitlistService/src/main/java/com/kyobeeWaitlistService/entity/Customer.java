@@ -30,6 +30,11 @@ public class Customer implements Serializable {
 	@Column(name = "CustomerName")
 	private String customerName;
 
+	// bi-directional many-to-one association to Organization
+	@ManyToOne
+	@JoinColumn(name = "CorporateOrgId")
+	private Organization organization;
+
 	@Temporal(TemporalType.DATE)
 	@Column(name = "TrialPeriodStartDate")
 	private Date trialPeriodStartDate;
@@ -38,27 +43,22 @@ public class Customer implements Serializable {
 	@Column(name = "TrialPeriodEndDate")
 	private Date trialPeriodEndDate;
 
-	// bi-directional many-to-one association to Organization
-	@ManyToOne
-	@JoinColumn(name = "CorporateOrgId")
-	private Organization organization;
-
 	@Column(name = "Active")
 	private Byte active;
-
-	@Temporal(TemporalType.DATE)
-	@Column(name = "CreatedAt")
-	private Date createdAt;
 
 	@Column(name = "CreatedBy")
 	private String createdBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "ModifiedAt")
-	private Date modifiedAt;
+	@Column(name = "CreatedAt")
+	private Date createdAt;
 
 	@Column(name = "ModifiedBy")
 	private String modifiedBy;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "ModifiedAt")
+	private Date modifiedAt;
 
 	// bi-directional many-to-one association to Organization
 	@OneToMany(mappedBy = "customer")
@@ -88,6 +88,14 @@ public class Customer implements Serializable {
 		this.customerName = customerName;
 	}
 
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
+
 	public Date getTrialPeriodStartDate() {
 		return trialPeriodStartDate;
 	}
@@ -104,28 +112,12 @@ public class Customer implements Serializable {
 		this.trialPeriodEndDate = trialPeriodEndDate;
 	}
 
-	public Organization getOrganization() {
-		return organization;
-	}
-
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
-
 	public Byte getActive() {
 		return active;
 	}
 
 	public void setActive(Byte active) {
 		this.active = active;
-	}
-
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
 	}
 
 	public String getCreatedBy() {
@@ -136,12 +128,12 @@ public class Customer implements Serializable {
 		this.createdBy = createdBy;
 	}
 
-	public Date getModifiedAt() {
-		return modifiedAt;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setModifiedAt(Date modifiedAt) {
-		this.modifiedAt = modifiedAt;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public String getModifiedBy() {
@@ -150,6 +142,14 @@ public class Customer implements Serializable {
 
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
+	}
+
+	public Date getModifiedAt() {
+		return modifiedAt;
+	}
+
+	public void setModifiedAt(Date modifiedAt) {
+		this.modifiedAt = modifiedAt;
 	}
 
 	public List<Organization> getOrganizations() {
@@ -175,7 +175,5 @@ public class Customer implements Serializable {
 	public void setOrganizationusers(List<OrganizationUser> organizationUsers) {
 		this.organizationUsers = organizationUsers;
 	}
-	
-	
-	
+
 }

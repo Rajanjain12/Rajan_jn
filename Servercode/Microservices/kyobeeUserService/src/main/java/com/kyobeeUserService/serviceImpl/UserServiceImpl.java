@@ -1,10 +1,8 @@
 package com.kyobeeUserService.serviceImpl;
 
 import java.io.StringWriter;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +33,7 @@ import com.kyobeeUserService.dto.LanguageKeyMappingDTO;
 import com.kyobeeUserService.dto.LanguageMasterDTO;
 import com.kyobeeUserService.dto.LoginUserDTO;
 import com.kyobeeUserService.dto.ResetPasswordDTO;
+import com.kyobeeUserService.dto.ResponseDTO;
 import com.kyobeeUserService.dto.SeatingMarketingPrefDTO;
 import com.kyobeeUserService.dto.SignUpDTO;
 import com.kyobeeUserService.dto.SmsTemplateDTO;
@@ -51,15 +50,13 @@ import com.kyobeeUserService.entity.SmsTemplateLanguageMapping;
 import com.kyobeeUserService.entity.User;
 import com.kyobeeUserService.service.UserService;
 import com.kyobeeUserService.util.CommonUtil;
-
 import com.kyobeeUserService.util.LoggerUtil;
 import com.kyobeeUserService.util.UserServiceConstants;
 import com.kyobeeUserService.util.Exception.AccountNotActivatedExeception;
-import com.kyobeeUserService.util.Exception.InvalidAuthCodeException;
 import com.kyobeeUserService.util.Exception.InvalidActivationCodeException;
+import com.kyobeeUserService.util.Exception.InvalidAuthCodeException;
 import com.kyobeeUserService.util.Exception.InvalidLoginException;
 import com.kyobeeUserService.util.Exception.UserNotFoundException;
-import com.kyobeeUserService.dto.ResponseDTO;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -195,7 +192,7 @@ public class UserServiceImpl implements UserService {
 						}
 
 					}
-					// seating marketing pref end
+					// seating sms template
 
 					List<OrganizationTemplate> templetList = organizationTemplateDAO
 							.fetchSmsTemplateForOrganization(organization.getOrganizationID());
@@ -518,9 +515,6 @@ public class UserServiceImpl implements UserService {
 				.header("Content-Type", "application/json").header("Accept", "application/vnd.kyobee.v1+json")
 				.retrieve().bodyToMono(ResponseDTO.class).block();
 		LoggerUtil.logInfo("Entering Util service");
-
-		// EmailUtil.sendMail(user.getEmail(), UserServiceConstants.ACTIVATION_EMAIL,
-		// writer.toString());
 
 	}
 

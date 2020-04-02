@@ -35,7 +35,7 @@ public class GuestController {
 	@Autowired
 	private GuestService guestService;
 
-	// for fetching matrics data related guest
+	// for fetching metrics data related guest
 	@GetMapping(value = "/metrics", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO metrics(@RequestParam("guestId") Integer guestId,
 			@RequestParam("orgId") Integer orgId) {
@@ -207,9 +207,8 @@ public class GuestController {
 	public @ResponseBody ResponseDTO fetchGuestById(@PathVariable("uuid") String guestUUID) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
-		try {
-			GuestDTO guest = guestService.fetchGuestDetails(null, guestUUID);
-			GuestWebDTO guestDTO=guestService.addLanguageKeyMap(guest);		
+		try {	
+			GuestWebDTO guestDTO=guestService.fetchguestDetails(guestUUID);		
 			responseDTO.setServiceResult(guestDTO);
 			responseDTO.setMessage("guest details fetched Successfully.");
 			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
@@ -230,16 +229,26 @@ public class GuestController {
 		return responseDTO;
 	}
 
-	// for fetching guest details by contact no and organization id
+	// for fetching guest details by contact no and organization id (need from mobile side)
 	@GetMapping(value = "/guestDetails", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO fetchGuestByContact(@RequestParam("orgID") Integer orgID,
 			@RequestParam("contactNo") String contactNo) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			responseDTO = guestService.fetchGuestByContact(orgID, contactNo);
-
-		} catch (Exception ex) {
+			GuestDTO guestDTO = guestService.fetchGuestByContact(orgID, contactNo);
+			responseDTO.setServiceResult(guestDTO);
+			responseDTO.setMessage("guest details fetched Successfully.");
+			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
+			
+		}
+		catch (InvalidGuestException e) {
+			LoggerUtil.logError(e);
+			responseDTO.setServiceResult(e.getMessage());
+			responseDTO.setMessage(e.getMessage());
+			responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);
+		}
+		catch (Exception ex) {
 			LoggerUtil.logError(ex);
 			responseDTO.setServiceResult("Error while fetching guest details");
 			responseDTO.setMessage("Error while fetching guest details");

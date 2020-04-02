@@ -14,9 +14,9 @@ import com.kyobeeUserService.util.Exception.UserNotFoundException;
 
 public interface UserService {
 
-	
+	//for authenticating user by username and password 
 	public LoginUserDTO logInCredentialValidate(CredentialsDTO credentialsDTO) throws InvalidLoginException,AccountNotActivatedExeception;
-	
+
 	public String resetPassword(ResetPasswordDTO resetPasswordDTO) throws InvalidAuthCodeException;
 	
 	public String forgotPassword(String username) throws UserNotFoundException;

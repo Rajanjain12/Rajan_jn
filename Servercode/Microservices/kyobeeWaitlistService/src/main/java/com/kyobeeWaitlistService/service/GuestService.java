@@ -6,12 +6,13 @@ import com.kyobeeWaitlistService.dto.GuestMarketingPreferenceDTO;
 import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
 import com.kyobeeWaitlistService.dto.GuestResponseDTO;
 import com.kyobeeWaitlistService.dto.GuestWebDTO;
-import com.kyobeeWaitlistService.dto.ResponseDTO;
 import com.kyobeeWaitlistService.util.Exeception.InvalidGuestException;
 
 public interface GuestService {
 
+	//fetch guest metrics
 	public GuestMetricsDTO getGuestMetrics(Integer guestId, Integer orgId);
+	// reset guest list for organization
 	public void resetOrganizationsByOrgId(Long orgid);
 	public GuestResponseDTO fetchGuestList(Integer orgId,Integer pageSize,Integer pageNo,String searchText);
 	//for fetching guest history list
@@ -22,9 +23,13 @@ public interface GuestService {
 	public AddUpdateGuestDTO updateGuestDetails(GuestDTO guestDTO);
 	//for mark as seated,delete,incomplete,not present
 	public void updateGuestStatus(Integer guestId,Integer orgId,String status) throws InvalidGuestException;
+	//fetch guest detail by id or uuid
 	public GuestDTO fetchGuestDetails(Integer guestID, String guestUUID) throws InvalidGuestException;
-	public ResponseDTO fetchGuestByContact(Integer orgID, String contactNo);
+	//fetch guest by contact number
+	public GuestDTO fetchGuestByContact(Integer orgID, String contactNo) throws InvalidGuestException;
+	//add marketing pref for mobile
 	public void addMarketingPref(GuestMarketingPreferenceDTO marketingPrefDTO);
-	public GuestWebDTO addLanguageKeyMap(GuestDTO guest);
+	//add language key map to guest dto for guest detail page
+	public GuestWebDTO fetchguestDetails(String guestUUID) throws InvalidGuestException;
 
 }

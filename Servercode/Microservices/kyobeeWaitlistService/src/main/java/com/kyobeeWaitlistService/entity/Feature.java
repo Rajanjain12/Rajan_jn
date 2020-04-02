@@ -15,7 +15,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "FEATURE")
 public class Feature implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -31,19 +31,19 @@ public class Feature implements Serializable {
 	@Column(name = "Active")
 	private Byte active;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "CreatedAt")
-	private Date createdAt;
-
 	@Column(name = "CreatedBy")
 	private String createdBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "ModifiedAt")
-	private Date modifiedAt;
+	@Column(name = "CreatedAt")
+	private Date createdAt;
 
 	@Column(name = "ModifiedBy")
 	private String modifiedBy;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "ModifiedAt")
+	private Date modifiedAt;
 
 	// bi-directional many-to-one association to OrganizationSubscriptionDetail
 	@OneToMany(mappedBy = "feature")
@@ -85,14 +85,6 @@ public class Feature implements Serializable {
 		this.active = active;
 	}
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -101,12 +93,12 @@ public class Feature implements Serializable {
 		this.createdBy = createdBy;
 	}
 
-	public Date getModifiedAt() {
-		return modifiedAt;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setModifiedAt(Date modifiedAt) {
-		this.modifiedAt = modifiedAt;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public String getModifiedBy() {
@@ -115,6 +107,14 @@ public class Feature implements Serializable {
 
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
+	}
+
+	public Date getModifiedAt() {
+		return modifiedAt;
+	}
+
+	public void setModifiedAt(Date modifiedAt) {
+		this.modifiedAt = modifiedAt;
 	}
 
 	public List<OrganizationSubscriptionDetail> getOrganizationSubscriptionDetails() {

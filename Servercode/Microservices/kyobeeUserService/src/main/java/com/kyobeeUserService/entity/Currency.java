@@ -37,19 +37,19 @@ public class Currency implements Serializable {
 	@Column(name = "Active")
 	private Byte active;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "CreatedAt")
-	private Date createdAt;
-
 	@Column(name = "CreatedBy")
 	private String createdBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "ModifiedAt")
-	private Date modifiedAt;
+	@Column(name = "CreatedAt")
+	private Date createdAt;
 
 	@Column(name = "ModifiedBy")
 	private String modifiedBy;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "ModifiedAt")
+	private Date modifiedAt;
 
 	// bi-directional many-to-one association to Country
 	@OneToMany(mappedBy = "currency")
@@ -115,6 +115,14 @@ public class Currency implements Serializable {
 		this.active = active;
 	}
 
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -123,12 +131,12 @@ public class Currency implements Serializable {
 		this.createdAt = createdAt;
 	}
 
-	public String getCreatedBy() {
-		return createdBy;
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
 	}
 
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
+	public List<Country> getCountries() {
+		return countries;
 	}
 
 	public Date getModifiedAt() {
@@ -141,14 +149,6 @@ public class Currency implements Serializable {
 
 	public String getModifiedBy() {
 		return modifiedBy;
-	}
-
-	public void setModifiedBy(String modifiedBy) {
-		this.modifiedBy = modifiedBy;
-	}
-
-	public List<Country> getCountries() {
-		return countries;
 	}
 
 	public void setCountries(List<Country> countries) {
@@ -209,7 +209,6 @@ public class Currency implements Serializable {
 	public void setPromotionalCodes(List<PromotionalCode> promotionalCodes) {
 		this.promotionalCodes = promotionalCodes;
 	}
-
 
 	public PromotionalCode addPromotionalcode(PromotionalCode promotionalcode) {
 		getPromotionalCodes().add(promotionalcode);

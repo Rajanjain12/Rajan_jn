@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kyobeeWaitlistService.dao.GuestCustomDAO;
 import com.kyobeeWaitlistService.dto.GuestDTO;
-import com.kyobeeWaitlistService.dto.GuestDetailsDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.entity.Guest;
 
@@ -319,14 +318,14 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 	}
 
 	@Override
-	public List<GuestDetailsDTO> fetchGuestByContact(Integer orgID, String contactNumber) {
+	public List<Guest> fetchGuestByContact(Integer orgID, String contactNumber) {
 
 		@SuppressWarnings({ "unchecked"} )
-		List<GuestDetailsDTO> guestDTO = entityManager.createNativeQuery(
-				"select * from (select gr.GuestID, gr.OrganizationID, gr.Name,gr.Note,gr.Uuid,gr.NoOfAdults,gr.NoOfChildren,gr.NoOfInfants,gr.NoOfPeople,gr.Email,gr.ContactNo,gr.Status,gr.Rank,gr.PrefType,gr.Optin,gr.CalloutCount,gr.CheckinTime,gr.SeatedTime,gr.CreatedAt,gr.ModifiedAt,gr.IncompleteParty,gr.SeatingPreference,gr.DeviceType,gr.DeviceId,gr.LanguagePrefID from GUESTRESET gr left join GUEST g on g.GuestID = gr.GuestID where gr.OrganizationID=:orgID and gr.ContactNo=:contactNumber union"
-						+ " select g.GuestID, g.OrganizationID, g.Name,g.Note,g.Uuid,g.NoOfAdults,g.NoOfChildren,g.NoOfInfants,g.NoOfPeople,g.Email,g.ContactNo,g.Status,g.Rank,g.PrefType,g.Optin,g.CalloutCount,g.CheckinTime,g.SeatedTime,g.CreatedAt,g.ModifiedAt,g.IncompleteParty,g.SeatingPreference,g.DeviceType,g.DeviceId,g.LanguagePrefID from GUEST g where g.OrganizationID=:orgID and g.ContactNo=:contactNumber) as u order by u.CreatedAt desc")
-				.setParameter("orgID", orgID).setParameter("contactNumber", contactNumber).unwrap(org.hibernate.query.NativeQuery.class ).setResultTransformer(Transformers.aliasToBean( GuestDetailsDTO.class)).getResultList();
-
+		List<Guest> guestDTO = entityManager.createNativeQuery(
+				"select * from (select gr.GuestID, gr.OrganizationID, gr.Name,gr.Uuid,gr.NoOfAdults,gr.NoOfChildren,gr.NoOfInfants,gr.NoOfPeople,0 as QuoteTime,0 as PartyType,gr.DeviceType,gr.DeviceId,gr.ContactNo,gr.Email,gr.PrefType,gr.LanguagePrefID,gr.Optin,gr.Rank,gr.Status,gr.SeatingPreference,gr.RecvLeveltwo,gr.CalloutCount,gr.Note,gr.IncompleteParty,gr.ResetTime,gr.CheckinTime,gr.SeatedTime,gr.CreatedBy,gr.CreatedAt,gr.ModifiedBy,gr.ModifiedAt from GUESTRESET gr left join GUEST g on g.GuestID = gr.GuestID where gr.OrganizationID=:orgID and gr.ContactNo=:contactNumber union"
+						+ " select g.GuestID, g.OrganizationID, g.Name,g.Uuid,g.NoOfAdults,g.NoOfChildren,g.NoOfInfants,g.NoOfPeople,g.QuoteTime,g.PartyType,g.DeviceType,g.DeviceId,g.ContactNo,g.Email,g.PrefType,g.LanguagePrefID,g.Optin,g.Rank,g.Status,g.SeatingPreference,g.RecvLeveltwo,g.CalloutCount,g.Note,g.IncompleteParty,g.ResetTime,g.CheckinTime,g.SeatedTime,g.CreatedBy,g.CreatedAt,g.ModifiedBy,g.ModifiedAt from GUEST g where g.OrganizationID=:orgID and g.ContactNo=:contactNumber) as u order by u.CreatedAt desc",Guest.class)
+				.setParameter("orgID", orgID).setParameter("contactNumber", contactNumber).getResultList();
+//unwrap(org.hibernate.query.NativeQuery.class ).setResultTransformer(Transformers.aliasToBean( GuestDetailsDTO.class))
 		return guestDTO;
 	}
 	

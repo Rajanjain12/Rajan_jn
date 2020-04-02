@@ -23,7 +23,7 @@ public class OrganizationCardDetail implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "OrganizationCardDetailID")
 	private Integer organizationCardDetailID;
 
@@ -39,35 +39,35 @@ public class OrganizationCardDetail implements Serializable {
 	@Column(name = "VaultID")
 	private String vaultID;
 
-	// bi-directional many-to-one association to Organization
-	@ManyToOne
-	@JoinColumn(name = "OrganizationID")
-	private Organization organization;
-
 	// bi-directional many-to-one association to Customer
 	@ManyToOne
 	@JoinColumn(name = "CustomerID")
 	private Customer customer;
 
+	// bi-directional many-to-one association to Organization
+	@ManyToOne
+	@JoinColumn(name = "OrganizationID")
+	private Organization organization;
+
 	@Column(name = "Active")
 	private byte active;
-
-	@Temporal(TemporalType.DATE)
-	@Column(name = "CreatedAt")
-	private Date createdAt;
 
 	@Column(name = "CreatedBy")
 	private String createdBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "ModifiedAt")
-	private Date modifiedAt;
+	@Column(name = "CreatedAt")
+	private Date createdAt;
 
 	@Column(name = "ModifiedBy")
 	private String modifiedBy;
-	
-	//bi-directional many-to-one association to Organizationpayment
-	@OneToMany(mappedBy="organizationcarddetail")
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "ModifiedAt")
+	private Date modifiedAt;
+
+	// bi-directional many-to-one association to Organizationpayment
+	@OneToMany(mappedBy = "organizationcarddetail")
 	private List<OrganizationPayment> organizationpayments;
 
 	public Integer getOrganizationCardDetailID() {
@@ -110,20 +110,20 @@ public class OrganizationCardDetail implements Serializable {
 		this.vaultID = vaultID;
 	}
 
-	public Organization getOrganization() {
-		return organization;
-	}
-
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
-
 	public Customer getCustomer() {
 		return customer;
 	}
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 
 	public byte getActive() {
@@ -134,14 +134,6 @@ public class OrganizationCardDetail implements Serializable {
 		this.active = active;
 	}
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -150,12 +142,12 @@ public class OrganizationCardDetail implements Serializable {
 		this.createdBy = createdBy;
 	}
 
-	public Date getModifiedAt() {
-		return modifiedAt;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setModifiedAt(Date modifiedAt) {
-		this.modifiedAt = modifiedAt;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public String getModifiedBy() {
@@ -166,6 +158,14 @@ public class OrganizationCardDetail implements Serializable {
 		this.modifiedBy = modifiedBy;
 	}
 
+	public Date getModifiedAt() {
+		return modifiedAt;
+	}
+
+	public void setModifiedAt(Date modifiedAt) {
+		this.modifiedAt = modifiedAt;
+	}
+
 	public List<OrganizationPayment> getOrganizationpayments() {
 		return this.organizationpayments;
 	}
@@ -174,7 +174,6 @@ public class OrganizationCardDetail implements Serializable {
 		this.organizationpayments = organizationpayments;
 	}
 
-	
 	public OrganizationPayment addOrganizationpayment(OrganizationPayment organizationpayment) {
 		getOrganizationpayments().add(organizationpayment);
 		organizationpayment.setOrganizationcardDetail(this);

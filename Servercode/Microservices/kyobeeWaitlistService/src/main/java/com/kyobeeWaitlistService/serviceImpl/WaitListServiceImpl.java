@@ -87,18 +87,22 @@ public class WaitListServiceImpl implements WaitListService {
 	private WebClient.Builder webClientBuilder;
 
 	@Override
-	public HashMap<String, Object> updateLanguagesPusher() {
+	public String updateLanguagesPusher() {
 
+		String response=null;
 		HashMap<String, Object> rootMap = new LinkedHashMap<>();
 		Long flagCount = languageKeyMappingDAO.getUpdateFlagCount(WaitListServiceConstants.MARK_AS_LANGUAGE_UPDATED);
 		LoggerUtil.logInfo("Update Flag count:" + flagCount);
 		// sending pusher if there is any language key map updated
 		if (flagCount > 0) {
-			rootMap.put("op", "REFRESH_LANGUAGE_PUSHER");
+			rootMap.put("op", WaitListServiceConstants.REFRESH_LANGUAGE_PUSHER);
 			NotificationUtil.sendMessage(rootMap, WaitListServiceConstants.GLOBAL_CHANNEL_ENV);
 			languageKeyMappingDAO.resetUpdateFlagCount(WaitListServiceConstants.MARK_AS_LANGUAGE_RESET);
+			response="Language Refreshed Successfully";
+		}else {
+			response="No data to refresh";
 		}
-		return rootMap;
+		return response;	
 	}
 
 	// for fetching organization related matrix
@@ -121,7 +125,7 @@ public class WaitListServiceImpl implements WaitListService {
 		PusherDTO pusherDTO = new PusherDTO();
 
 		pusherDTO.setWaitlistMetrics(waitlistMetrics);
-		pusherDTO.setOp("NOTIFY_USER");
+		pusherDTO.setOp(WaitListServiceConstants.NOTIFY_USER);
 		pusherDTO.setFrom("ADMIN");
 		pusherDTO.setOrgId(orgId);
 
@@ -195,10 +199,10 @@ public class WaitListServiceImpl implements WaitListService {
 	}
 
 	@Override
-	public void getSMSDetails(GuestDTO guestDTO, SendSMSDTO sendSMSDTO) {
+	public void setSMSContentAndSendSMS(GuestDTO guestDTO, SendSMSDTO sendSMSDTO) {
 		String msg = "";
 		String signature = "";
-
+		//fetch sms related details 
 		signature = organizationDAO.getSmsDetails(guestDTO.getOrganizationID());
 		GuestNotificationDTO guestNotification = new GuestNotificationDTO();
 
@@ -231,7 +235,6 @@ public class WaitListServiceImpl implements WaitListService {
 			.block();
 		LoggerUtil.logInfo("Entering Util service");
 
-		//SMSUtil.sendSMS(guestNotification.getContactNo(), msg);
 	}
 
 	@Override
@@ -292,7 +295,7 @@ public class WaitListServiceImpl implements WaitListService {
 			OrganizationTemplateDTO smsTemplate = getOrganizationTemplateByLevel(guest, sendSMSDTO);
 			sendSMSDTO = getSmsContentByLevel(guest, smsTemplate, waitlistMetrics);
 		}
-		getSMSDetails(guest, sendSMSDTO);
+		setSMSContentAndSendSMS(guest, sendSMSDTO);
 		saveSmsLog(guest, sendSMSDTO);
 	}
 

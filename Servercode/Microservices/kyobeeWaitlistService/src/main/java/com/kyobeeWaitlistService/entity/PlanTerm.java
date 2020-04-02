@@ -16,7 +16,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "PLANTERM")
-public class PlanTerm implements Serializable{
+public class PlanTerm implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -34,25 +34,25 @@ public class PlanTerm implements Serializable{
 	@Column(name = "Active")
 	private Byte active;
 
+	@Column(name = "CreatedBy")
+	private String createdBy;
+
 	@Temporal(TemporalType.DATE)
 	@Column(name = "CreatedAt")
 	private Date createdAt;
 
-	@Column(name = "CreatedBy")
-	private String createdBy;
+	@Column(name = "ModifiedBy")
+	private String modifiedBy;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "ModifiedAt")
 	private Date modifiedAt;
 
-	@Column(name = "ModifiedBy")
-	private String modifiedBy;
-
-	@OneToMany(mappedBy = "planterm")
+	@OneToMany(mappedBy = "planTerm")
 	private List<OrganizationSubscriptionDetail> organizationSubscriptionDetails;
 
 	// bi-directional many-to-one association to Planfeaturecharge
-	@OneToMany(mappedBy = "planterm")
+	@OneToMany(mappedBy = "planTerm")
 	private List<PlanFeatureCharge> planFeatureCharges;
 
 	public Integer getPlanTermID() {
@@ -87,14 +87,6 @@ public class PlanTerm implements Serializable{
 		this.active = active;
 	}
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -103,12 +95,12 @@ public class PlanTerm implements Serializable{
 		this.createdBy = createdBy;
 	}
 
-	public Date getModifiedAt() {
-		return modifiedAt;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setModifiedAt(Date modifiedAt) {
-		this.modifiedAt = modifiedAt;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public String getModifiedBy() {
@@ -117,6 +109,14 @@ public class PlanTerm implements Serializable{
 
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
+	}
+
+	public Date getModifiedAt() {
+		return modifiedAt;
+	}
+
+	public void setModifiedAt(Date modifiedAt) {
+		this.modifiedAt = modifiedAt;
 	}
 
 	public List<OrganizationSubscriptionDetail> getOrganizationSubscriptionDetails() {

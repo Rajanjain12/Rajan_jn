@@ -23,9 +23,9 @@ public class OrganizationPayment implements Serializable {
 	@Column(name = "OrganizationPaymentID")
 	private Integer organizationPaymentID;
 
-	// bi-directional many-to-one association to Organizationsubscription
+	// bi-directional many-to-one association to OrganizationSubscription
 	@ManyToOne
-	@JoinColumn(name = "InvoiceId")
+	@JoinColumn(name = "InvoiceID")
 	private OrganizationSubscription organizationSubscription;
 
 	// bi-directional many-to-one association to Organization
@@ -33,7 +33,7 @@ public class OrganizationPayment implements Serializable {
 	@JoinColumn(name = "OrganizationID")
 	private Organization organization;
 
-	// bi-directional many-to-one association to Organizationcarddetail
+	// bi-directional many-to-one association to OrganizationCardDetail
 	@ManyToOne
 	@JoinColumn(name = "OrganizationCardDetailID")
 	private OrganizationCardDetail organizationcarddetail;
@@ -41,15 +41,15 @@ public class OrganizationPayment implements Serializable {
 	@Column(name = "TransactionID")
 	private Integer transactionID;
 
+	@Column(name = "Amount")
+	private BigDecimal amount;
+
 	@Temporal(TemporalType.DATE)
 	@Column(name = "PaymentDateTime")
 	private Date paymentDateTime;
 
 	@Column(name = "PaymentStatus")
 	private String paymentStatus;
-	
-	@Column(name = "Amount")
-	private BigDecimal amount;
 
 	@Column(name = "PaymentStatusReason")
 	private String paymentStatusReason;
@@ -57,19 +57,19 @@ public class OrganizationPayment implements Serializable {
 	@Column(name = "Active")
 	private Byte active;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "CreatedAt")
-	private Date createdAt;
-
 	@Column(name = "CreatedBy")
 	private String createdBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "ModifiedAt")
-	private Date modifiedAt;
+	@Column(name = "CreatedAt")
+	private Date createdAt;
 
 	@Column(name = "ModifiedBy")
 	private String modifiedBy;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "ModifiedAt")
+	private Date modifiedAt;
 
 	public Integer getOrganizationPaymentID() {
 		return organizationPaymentID;
@@ -111,6 +111,14 @@ public class OrganizationPayment implements Serializable {
 		this.transactionID = transactionID;
 	}
 
+	public BigDecimal getAmount() {
+		return amount;
+	}
+
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
+
 	public Date getPaymentDateTime() {
 		return paymentDateTime;
 	}
@@ -125,14 +133,6 @@ public class OrganizationPayment implements Serializable {
 
 	public void setPaymentStatus(String paymentStatus) {
 		this.paymentStatus = paymentStatus;
-	}
-
-	public BigDecimal getAmount() {
-		return amount;
-	}
-
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
 	}
 
 	public String getPaymentStatusReason() {
@@ -151,6 +151,14 @@ public class OrganizationPayment implements Serializable {
 		this.active = active;
 	}
 
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -159,12 +167,12 @@ public class OrganizationPayment implements Serializable {
 		this.createdAt = createdAt;
 	}
 
-	public String getCreatedBy() {
-		return createdBy;
+	public String getModifiedBy() {
+		return modifiedBy;
 	}
 
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
 	}
 
 	public Date getModifiedAt() {
@@ -175,15 +183,6 @@ public class OrganizationPayment implements Serializable {
 		this.modifiedAt = modifiedAt;
 	}
 
-	public String getModifiedBy() {
-		return modifiedBy;
-	}
-
-	public void setModifiedBy(String modifiedBy) {
-		this.modifiedBy = modifiedBy;
-	}
-	
-	
 	public OrganizationCardDetail getOrganizationcardDetail() {
 		return this.organizationcarddetail;
 	}

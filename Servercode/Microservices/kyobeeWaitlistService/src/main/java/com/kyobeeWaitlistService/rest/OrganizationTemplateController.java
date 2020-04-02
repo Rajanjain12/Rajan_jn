@@ -12,12 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
 import com.kyobeeWaitlistService.dto.OrgSettingDTO;
 import com.kyobeeWaitlistService.dto.OrganizationTemplateDTO;
 import com.kyobeeWaitlistService.dto.ResponseDTO;
 import com.kyobeeWaitlistService.dto.SmsContentDTO;
-import com.kyobeeWaitlistService.service.GuestService;
 import com.kyobeeWaitlistService.service.OrganizationTemplateService;
 import com.kyobeeWaitlistService.util.LoggerUtil;
 import com.kyobeeWaitlistService.util.WaitListServiceConstants;
@@ -30,20 +28,15 @@ public class OrganizationTemplateController {
 	@Autowired
 	private OrganizationTemplateService organizationTemplateService;
 
-	@Autowired
-	private GuestService guestService;
-
+	//for fetching sms content related to guest in particular organization
 	@PostMapping(value = "/smsContent", produces = "application/vnd.kyobee.v1+json", consumes = "application/json")
 	public @ResponseBody ResponseDTO smsContent(@RequestBody SmsContentDTO smsContentDTO) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			List<OrganizationTemplateDTO> smsTemplates = organizationTemplateService
-					.getOrganizationTemplates(smsContentDTO);
-			GuestMetricsDTO metricsDTO = guestService.getGuestMetrics(smsContentDTO.getGuestId(),
-					smsContentDTO.getOrgId());
-			List<OrganizationTemplateDTO> smsContents = organizationTemplateService.getSmsContent(smsContentDTO, smsTemplates,
-					metricsDTO);
+			List<OrganizationTemplateDTO> smsContents = organizationTemplateService
+					.fetchSmsContentByOrganizationTeplates(smsContentDTO);
+
 			LoggerUtil.logInfo(smsContents.toString());
 			responseDTO.setServiceResult(smsContents);
 			responseDTO.setMessage("Sms content fetched successfully");

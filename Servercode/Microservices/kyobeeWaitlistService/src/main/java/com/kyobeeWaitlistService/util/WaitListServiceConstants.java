@@ -76,6 +76,10 @@ public class WaitListServiceConstants {
 	public static final String ADD_LANG_PUSHER ="ADD_LANGUAGE_PUSHER";
 	public static final String DELETE_LANG_PUSHER ="DELETE_LANGUAGE_PUSHER";
 	public static final String SETTING_PUSHER ="ORG_SETTING_PUSHER";
+	public static final String RESET_ORGANIZATION_PUSHER ="RESET_ORGANIZATION_PUSHER";
+	public static final String REFRESH_LANGUAGE_PUSHER ="REFRESH_LANGUAGE_PUSHER";
+	public static final String NOTIFY_USER ="NOTIFY_USER";
+	
 	
 
 }

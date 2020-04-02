@@ -23,7 +23,6 @@ import com.kyobeeWaitlistService.dao.OrganizationCustomDAO;
 import com.kyobeeWaitlistService.dao.OrganizationDAO;
 import com.kyobeeWaitlistService.dto.AddUpdateGuestDTO;
 import com.kyobeeWaitlistService.dto.GuestDTO;
-import com.kyobeeWaitlistService.dto.GuestDetailsDTO;
 import com.kyobeeWaitlistService.dto.GuestMarketingPreferenceDTO;
 import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
 import com.kyobeeWaitlistService.dto.GuestResponseDTO;
@@ -96,7 +95,7 @@ public class GuestServiceImpl implements GuestService {
 		LoggerUtil.logInfo("In WaitListService : reseting organization");
 		// reseting org related guest data
 		organizationCustomDAO.resetOrganizationByOrgId(orgId);
-		rootMap.put("op", "RESET_ORGANIZATION_PUSHER");
+		rootMap.put("op", WaitListServiceConstants.RESET_ORGANIZATION_PUSHER);
 		rootMap.put("orgId", orgId);
 		NotificationUtil.sendMessage(rootMap, WaitListServiceConstants.PUSHER_CHANNEL_ENV + "_" + orgId);
 
@@ -115,6 +114,7 @@ public class GuestServiceImpl implements GuestService {
   
 		Integer totalGuest=0;	
 			guestList = guestCustomDAO.fetchAllGuestList(orgId, pageSize, startIndex, searchText);
+			//for fetching total guest count 
 			totalGuest=guestCustomDAO.fetchAllGuestListCount(orgId,searchText);
 
 		List<GuestDTO> guestDTOs = new ArrayList<>();
@@ -149,7 +149,7 @@ public class GuestServiceImpl implements GuestService {
 			}
 
 			guestDTO.setSeatingPreference(seatingPrefList);
-
+			//for fetching marketing pref for guest and arranging in list 
 			List<Lookup> marketingLookup = lookupDAO.fetchLookupForGuest(guestDTO.getGuestID());
 
 			for (Lookup lookup : marketingLookup) {
@@ -163,7 +163,6 @@ public class GuestServiceImpl implements GuestService {
 
 			guestDTOs.add(guestDTO);
 		}
-		//guestResponse.setPageNo(pageNo);
 		guestResponse.setTotalRecords(totalGuest);
 		guestResponse.setRecords(guestDTOs);
 		return guestResponse;
@@ -183,6 +182,7 @@ public class GuestServiceImpl implements GuestService {
 		List<Guest> guestList;
 		LoggerUtil.logInfo(clientTimezone);
 		guestList = guestCustomDAO.fetchAllGuestHistoryList(orgId,pageSize,startIndex,searchText,clientTimezone,sliderMaxTime,sliderMinTime,statusOption);
+		//for fetching total guest count 
 		totalGuest= guestCustomDAO.fetchAllGuestHistoryListCount(orgId, searchText, clientTimezone, sliderMaxTime, sliderMinTime, statusOption);
 		List<GuestDTO> guestDTOs = new ArrayList<>();
 		
@@ -442,17 +442,17 @@ public class GuestServiceImpl implements GuestService {
 	
 
 	@Override
-	public ResponseDTO fetchGuestByContact(Integer orgID, String contactNo) {
+	public GuestDTO fetchGuestByContact(Integer orgID, String contactNo) throws InvalidGuestException {
 
-		List<GuestDetailsDTO> guest = guestCustomDAO.fetchGuestByContact(orgID, contactNo);
-		ResponseDTO responseDTO = new ResponseDTO();
+		List<Guest> guest = guestCustomDAO.fetchGuestByContact(orgID, contactNo);
+
 		if (!(guest.isEmpty())) {
 			GuestDTO guestDTO = new GuestDTO();
 			BeanUtils.copyProperties(guest.get(0), guestDTO);
 
 			// for adding language
 			LanguageMasterDTO languageMasterDTO = new LanguageMasterDTO();
-			languageMasterDTO.setLangID(guest.get(0).getLanguagePrefID());
+			languageMasterDTO.setLangID(guest.get(0).getLangmaster().getLangID());
 			guestDTO.setLanguagePref(languageMasterDTO);
 
 			List<SeatingMarketingPrefDTO> seatingPrefList = new ArrayList<>();
@@ -485,27 +485,19 @@ public class GuestServiceImpl implements GuestService {
 			}
 
 			guestDTO.setMarketingPreference(marketingPrefList);
-
-			responseDTO.setServiceResult(guestDTO);
-			responseDTO.setMessage("guest details fetched Successfully.");
-			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
-
-			return responseDTO;
+			return guestDTO;
 
 		} else {
-			responseDTO.setServiceResult("Guest does not exists.");
-			responseDTO.setMessage("Guest does not exists.");
-			responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);
+			throw new InvalidGuestException("Requested Guest does not exists.");
 
-			return responseDTO;
 		}
 	}
 
 	@Override
 	public void addMarketingPref(GuestMarketingPreferenceDTO marketingPrefDTO) {
-
+		//for saving marketing pref of guest after saving guest data
 		List<GuestMarketingPreferences> guestMarketingPref = new ArrayList<GuestMarketingPreferences>();
-		GuestMarketingPreferences guestMarketingPreferences = new GuestMarketingPreferences();
+		GuestMarketingPreferences guestMarketingPreferences = null;
 		Optional<Guest> guest = guestDAO.findById(marketingPrefDTO.getGuestID());
 
 		List<SeatingMarketingPrefDTO> marketingPreference = marketingPrefDTO.getMarketingPreference();
@@ -529,8 +521,9 @@ public class GuestServiceImpl implements GuestService {
 	}
 
 	@Override
-	public GuestWebDTO addLanguageKeyMap(GuestDTO guest) {
+	public GuestWebDTO fetchguestDetails(String guestUUID) throws InvalidGuestException {
 		
+		GuestDTO guest = fetchGuestDetails(null, guestUUID);
 		GuestWebDTO guestWeb=new GuestWebDTO();
 		if(guest!=null) {
 			BeanUtils.copyProperties(guest, guestWeb);

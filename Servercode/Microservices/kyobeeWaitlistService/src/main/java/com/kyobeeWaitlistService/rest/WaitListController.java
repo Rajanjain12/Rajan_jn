@@ -1,7 +1,5 @@
 package com.kyobeeWaitlistService.rest;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,15 +33,15 @@ public class WaitListController {
 	private WaitListService waitListService;
 
 
-	// for sending pusher while there is change language key or value
+	// for sending pusher while there is change in language key or value
 	@PutMapping(value = "/refreshLanguage", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO refreshLanguage() {
-		HashMap<String, Object> rootMap = new LinkedHashMap<>();
+		
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			rootMap = waitListService.updateLanguagesPusher();
-			responseDTO.setServiceResult(rootMap);
-			responseDTO.setMessage("Language Refreshed Successfully");
+			String response=waitListService.updateLanguagesPusher();
+			responseDTO.setServiceResult(response);
+			responseDTO.setMessage(response);
 			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
 
 		} catch (Exception ex) {
