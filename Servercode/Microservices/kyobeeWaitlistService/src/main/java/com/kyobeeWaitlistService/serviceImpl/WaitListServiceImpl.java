@@ -288,7 +288,7 @@ public class WaitListServiceImpl implements WaitListService {
 	}
 
 	@Override
-	public void sendSMS(SendSMSDTO sendSMSDTO) throws InvalidGuestException {
+	public void sendSMS(SendSMSDTO sendSMSDTO) throws InvalidGuestException, ParseException {
 
 		GuestDTO guest = guestService.fetchGuestDetails(sendSMSDTO.getGuestId(), null);
 		if (sendSMSDTO.getSmsContent() == null) {

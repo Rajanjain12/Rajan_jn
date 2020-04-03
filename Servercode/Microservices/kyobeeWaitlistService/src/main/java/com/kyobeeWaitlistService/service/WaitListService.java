@@ -33,7 +33,7 @@ public interface WaitListService {
 	//for save sms log while send sms
 	public void saveSmsLog(GuestDTO guestDTO,SendSMSDTO sendSMSDTO) throws ParseException;
 	//for sending sms
-	public void sendSMS(SendSMSDTO sendSMSDTO) throws InvalidGuestException;
+	public void sendSMS(SendSMSDTO sendSMSDTO) throws InvalidGuestException, ParseException;
 	//for updating org setting 
 	public void updateOrgSetting(OrgSettingDTO orgSettingDTO);
 	//for fetching setting related to org
