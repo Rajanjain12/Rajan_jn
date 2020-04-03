@@ -1,5 +1,10 @@
 package com.kyobeeWaitlistService.util;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class CommonUtil {
 
 	public static String buildURL(String clientBase, String uuid) {
@@ -27,6 +32,14 @@ public class CommonUtil {
 		}
 
 		return url;
+	}
+
+	public static Date getCurrentDateWithTime() throws ParseException{
+
+		Date date = new Date();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		date = dateFormat.parse(dateFormat.format(date));
+		return date;
 	}
 
 }

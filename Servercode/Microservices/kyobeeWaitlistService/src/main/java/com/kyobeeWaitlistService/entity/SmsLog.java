@@ -1,11 +1,16 @@
 package com.kyobeeWaitlistService.entity;
 
+
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "SMSLOG")
@@ -40,11 +45,13 @@ public class SmsLog {
 	@Column(name = "CreatedBy")
 	private String createdBy;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "CreatedAt")
-	private String createdAt;
+	private Date createdAt;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "ModifiedAt")
-	private String modifiedAt;
+	private Date modifiedAt;
 
 	
 
@@ -120,20 +127,21 @@ public class SmsLog {
 		this.createdBy = createdBy;
 	}
 
-	public String getCreatedAt() {
+	public Date getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(String createdAt) {
+	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public String getModifiedAt() {
+	public Date getModifiedAt() {
 		return modifiedAt;
 	}
 
-	public void setModifiedAt(String modifiedAt) {
+	public void setModifiedAt(Date modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
+
 
 }

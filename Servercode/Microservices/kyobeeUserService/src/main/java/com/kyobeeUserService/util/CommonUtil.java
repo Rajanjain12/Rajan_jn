@@ -2,6 +2,7 @@ package com.kyobeeUserService.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 
 public class CommonUtil {
 
@@ -39,5 +40,14 @@ public class CommonUtil {
 	{
 		  return (long) (Math.random() * 1000000);
 		  //0000
+	}
+	
+	public static Date getDateByHour(Integer hours)
+	{
+		Date today = new Date();
+		long hour = 3600 * 1000;
+		Date nextDay = new Date(today.getTime() + hours * hour);
+		return nextDay;
+		
 	}
 }

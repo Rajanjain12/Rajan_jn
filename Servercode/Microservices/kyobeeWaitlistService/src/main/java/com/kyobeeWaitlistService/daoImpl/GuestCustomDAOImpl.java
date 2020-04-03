@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kyobeeWaitlistService.dao.GuestCustomDAO;
 import com.kyobeeWaitlistService.dto.GuestDTO;
+import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.entity.Guest;
 
@@ -401,6 +402,54 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 					LoggerUtil.logError("Error in fetch history  " + e.getMessage());
 				}
 				return count.intValue();
+	}
+	
+	@Override
+	public GuestMetricsDTO getGuestMetrics(Integer guestId, Integer orgId) {
+
+		SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
+		GuestMetricsDTO guestMetrics = null;
+		Session session = sessionFactory.openSession();
+		try {
+
+			guestMetrics = session.doReturningWork(new ReturningWork<GuestMetricsDTO>() {
+
+				@Override
+				public GuestMetricsDTO execute(Connection connection) throws SQLException {
+					CallableStatement cStmt = connection.prepareCall("{call FETCHGUESTMETRICS(?, ?, ?, ?,?)}");
+
+					GuestMetricsDTO metricsDTO = new GuestMetricsDTO();
+					try {
+						cStmt.setInt(1, orgId);
+						cStmt.setInt(2, guestId);
+						cStmt.registerOutParameter(3, Types.INTEGER);
+						cStmt.registerOutParameter(4, Types.INTEGER);
+						cStmt.registerOutParameter(5, Types.INTEGER);
+
+						cStmt.execute();
+
+						metricsDTO.setGuestRank(cStmt.getInt(5));
+						metricsDTO.setTotalWaitTime(cStmt.getInt(4) <= 0 ? cStmt.getInt(3)
+								: (cStmt.getInt(4) * cStmt.getInt(3)) + cStmt.getInt(3));
+						metricsDTO.setOrgWaitTime(cStmt.getInt(3));
+						metricsDTO.setGuestAheadCount(cStmt.getInt(4) <= 0 ? 0 : cStmt.getInt(4));
+
+					} finally {
+						if (cStmt != null) {
+							cStmt.close();
+						}
+					}
+					return metricsDTO;
+				}
+			});
+
+		} catch (Exception e) {
+			LoggerUtil.logError("Error in proc " + e.getMessage());
+		} finally {
+
+			session.close();
+		}
+		return guestMetrics;
 	}
 
 }

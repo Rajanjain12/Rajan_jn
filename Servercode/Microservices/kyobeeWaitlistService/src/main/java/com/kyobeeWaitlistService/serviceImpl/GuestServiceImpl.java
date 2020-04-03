@@ -61,29 +61,20 @@ public class GuestServiceImpl implements GuestService {
 
 	@Autowired
 	private GuestMarketingPreferencesDAO guestMarketingPreferencesDAO;
-	
+
 	@Autowired
 	private OrganizationCustomDAO organizationCustomDAO;
-	
+
 	@Autowired
 	private LanguageKeyMappingDAO languageKeyMappingDAO;
-	
+
 	@Autowired
 	private RestTemplate restTemplate;
 
 	@Override
 	public GuestMetricsDTO getGuestMetrics(Integer guestId, Integer orgId) {
-		// need to create proc for this
-		Integer orgWaitTime = organizationDAO.getOrganizationWaitTime(orgId);
-		Integer guestCount = guestDAO.getGuestCount(orgId, guestId);
-		Integer guestRank = guestDAO.getGuestRank(orgId, guestId);
 
-		GuestMetricsDTO metricsDTO = new GuestMetricsDTO();
-
-		metricsDTO.setGuestRank(guestRank);
-		metricsDTO.setTotalWaitTime(guestCount <= 0 ? orgWaitTime : ((guestCount) * orgWaitTime) + orgWaitTime);
-		metricsDTO.setOrgWaitTime(orgWaitTime);
-		metricsDTO.setGuestAheadCount(guestCount <= 0 ? 0 : (guestCount));
+		GuestMetricsDTO metricsDTO = guestCustomDAO.getGuestMetrics(guestId, orgId);
 
 		return metricsDTO;
 	}
@@ -107,18 +98,17 @@ public class GuestServiceImpl implements GuestService {
 		GuestResponseDTO guestResponse = new GuestResponseDTO();
 		guestResponse.setPageNo(pageNo);
 		if (pageNo != 1) {
-			pageNo=pageNo-1;
+			pageNo = pageNo - 1;
 			startIndex = pageSize * pageNo;
 		}
 		List<Guest> guestList;
-  
-		Integer totalGuest=0;	
-			guestList = guestCustomDAO.fetchAllGuestList(orgId, pageSize, startIndex, searchText);
-			//for fetching total guest count 
-			totalGuest=guestCustomDAO.fetchAllGuestListCount(orgId,searchText);
+
+		Integer totalGuest = 0;
+		guestList = guestCustomDAO.fetchAllGuestList(orgId, pageSize, startIndex, searchText);
+		// for fetching total guest count
+		totalGuest = guestCustomDAO.fetchAllGuestListCount(orgId, searchText);
 
 		List<GuestDTO> guestDTOs = new ArrayList<>();
-		
 
 		for (Guest guest : guestList) {
 			GuestDTO guestDTO = new GuestDTO();
@@ -149,7 +139,7 @@ public class GuestServiceImpl implements GuestService {
 			}
 
 			guestDTO.setSeatingPreference(seatingPrefList);
-			//for fetching marketing pref for guest and arranging in list 
+			// for fetching marketing pref for guest and arranging in list
 			List<Lookup> marketingLookup = lookupDAO.fetchLookupForGuest(guestDTO.getGuestID());
 
 			for (Lookup lookup : marketingLookup) {
@@ -169,23 +159,25 @@ public class GuestServiceImpl implements GuestService {
 	}
 
 	@Override
-	public GuestResponseDTO fetchGuestHistoryList(Integer orgId,Integer pageSize,Integer pageNo,String searchText,String clientTimezone,Integer sliderMaxTime,Integer sliderMinTime,String statusOption) {
-		
+	public GuestResponseDTO fetchGuestHistoryList(Integer orgId, Integer pageSize, Integer pageNo, String searchText,
+			String clientTimezone, Integer sliderMaxTime, Integer sliderMinTime, String statusOption) {
+
 		GuestResponseDTO guestResponse = new GuestResponseDTO();
 		guestResponse.setPageNo(pageNo);
 		Integer startIndex = 0;
-		Integer totalGuest=0;
+		Integer totalGuest = 0;
 		if (pageNo != 1) {
-			pageNo=pageNo-1;
+			pageNo = pageNo - 1;
 			startIndex = pageSize * pageNo;
 		}
 		List<Guest> guestList;
 		LoggerUtil.logInfo(clientTimezone);
-		guestList = guestCustomDAO.fetchAllGuestHistoryList(orgId,pageSize,startIndex,searchText,clientTimezone,sliderMaxTime,sliderMinTime,statusOption);
-		//for fetching total guest count 
-		totalGuest= guestCustomDAO.fetchAllGuestHistoryListCount(orgId, searchText, clientTimezone, sliderMaxTime, sliderMinTime, statusOption);
+		guestList = guestCustomDAO.fetchAllGuestHistoryList(orgId, pageSize, startIndex, searchText, clientTimezone,
+				sliderMaxTime, sliderMinTime, statusOption);
+		// for fetching total guest count
+		totalGuest = guestCustomDAO.fetchAllGuestHistoryListCount(orgId, searchText, clientTimezone, sliderMaxTime,
+				sliderMinTime, statusOption);
 		List<GuestDTO> guestDTOs = new ArrayList<>();
-		
 
 		for (Guest guest : guestList) {
 			GuestDTO guestDTO = new GuestDTO();
@@ -232,7 +224,7 @@ public class GuestServiceImpl implements GuestService {
 
 			guestDTOs.add(guestDTO);
 		}
-		
+
 		guestResponse.setTotalRecords(totalGuest);
 		guestResponse.setRecords(guestDTOs);
 		return guestResponse;
@@ -253,10 +245,10 @@ public class GuestServiceImpl implements GuestService {
 		addUpdateGuestDTO.setLanguagePref(guestDTO.getLanguagePref());
 		addUpdateGuestDTO.setOrgId(guestDTO.getOrganizationID());
 		addUpdateGuestDTO.setOp(WaitListServiceConstants.ADD_STATUS);
-        LoggerUtil.logInfo("client base:"+waitlistMetrics.getClientBase());
+		LoggerUtil.logInfo("client base:" + waitlistMetrics.getClientBase());
 		tinyURL = CommonUtil.buildURL(waitlistMetrics.getClientBase(), guestUUID);
 		addUpdateGuestDTO.setTinyURL(tinyURL);
-		List<GuestMarketingPreferences> guestMarketingPref=new ArrayList<>();
+		List<GuestMarketingPreferences> guestMarketingPref = new ArrayList<>();
 		GuestMarketingPreferences guestMarketingPreferences;
 		Optional<Guest> guest = guestDAO.findById(waitlistMetrics.getGuestId());
 
@@ -277,16 +269,17 @@ public class GuestServiceImpl implements GuestService {
 			guestMarketingPref.add(guestMarketingPreferences);
 		}
 		guestMarketingPreferencesDAO.saveAll(guestMarketingPref);
-		NotificationUtil.sendMessage(addUpdateGuestDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV+"_"+guestDTO.getOrganizationID());
-		
-		//API call for sending sms to Guest
-		
+		NotificationUtil.sendMessage(addUpdateGuestDTO,
+				WaitListServiceConstants.PUSHER_CHANNEL_ENV + "_" + guestDTO.getOrganizationID());
+
+		// API call for sending sms to Guest
+
 		SendSMSDTO sendSMSDTO = new SendSMSDTO();
 		sendSMSDTO.setGuestId(waitlistMetrics.getGuestId());
 		sendSMSDTO.setTemplateLevel(WaitListServiceConstants.TEMP_LEVEL_FIRST);
 		sendSMSDTO.setOrgId(guestDTO.getOrganizationID());
-	    restTemplate.postForObject(	WaitListServiceConstants.SEND_SMS_API, sendSMSDTO, ResponseDTO.class);
-	    
+		restTemplate.postForObject(WaitListServiceConstants.SEND_SMS_API, sendSMSDTO, ResponseDTO.class);
+
 		return addUpdateGuestDTO;
 	}
 
@@ -305,10 +298,9 @@ public class GuestServiceImpl implements GuestService {
 
 		String seatingPref;
 		String tinyURL = "";
-		
+
 		seatingPref = convertToString(guestDTO.getSeatingPreference());
-		
-		
+
 		WaitlistMetrics waitlistMetrics = guestCustomDAO.updateGuestDetails(guestDTO, seatingPref);
 		AddUpdateGuestDTO addUpdateGuestDTO = new AddUpdateGuestDTO();
 		addUpdateGuestDTO.setWaitlistMetrics(waitlistMetrics);
@@ -324,7 +316,7 @@ public class GuestServiceImpl implements GuestService {
 		Optional<Guest> guest = guestDAO.findById(guestDTO.getGuestID());
 
 		List<SeatingMarketingPrefDTO> marketingPreference = guestDTO.getMarketingPreference();
-		List<GuestMarketingPreferences> guestMarketingPref=new ArrayList<>();
+		List<GuestMarketingPreferences> guestMarketingPref = new ArrayList<>();
 		for (SeatingMarketingPrefDTO pref : marketingPreference) {
 
 			guestMarketingPreferences = new GuestMarketingPreferences();
@@ -340,7 +332,8 @@ public class GuestServiceImpl implements GuestService {
 			guestMarketingPref.add(guestMarketingPreferences);
 		}
 		guestMarketingPreferencesDAO.saveAll(guestMarketingPref);
-		NotificationUtil.sendMessage(addUpdateGuestDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV+"_"+guestDTO.getOrganizationID());
+		NotificationUtil.sendMessage(addUpdateGuestDTO,
+				WaitListServiceConstants.PUSHER_CHANNEL_ENV + "_" + guestDTO.getOrganizationID());
 		return addUpdateGuestDTO;
 	}
 
@@ -348,16 +341,15 @@ public class GuestServiceImpl implements GuestService {
 	public void updateGuestStatus(Integer guestId, Integer orgId, String status) throws InvalidGuestException {
 
 		WaitlistMetrics waitlistMetrics = guestCustomDAO.updateGuestStatus(guestId, orgId, status);
-		PusherDTO pusherDTO=new PusherDTO();
+		PusherDTO pusherDTO = new PusherDTO();
 		pusherDTO.setFrom(WaitListServiceConstants.FROM_ADMIN);
 		pusherDTO.setOrgId(orgId);
 		pusherDTO.setOp(status);
 		pusherDTO.setWaitlistMetrics(waitlistMetrics);
-		NotificationUtil.sendMessage(pusherDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV+"_"+orgId);
-		
-		LoggerUtil.logInfo("guest to be notified:"+waitlistMetrics.getGuestToBeNotified());
-		if(guestId < waitlistMetrics.getGuestToBeNotified())
-		{
+		NotificationUtil.sendMessage(pusherDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV + "_" + orgId);
+
+		LoggerUtil.logInfo("guest to be notified:" + waitlistMetrics.getGuestToBeNotified());
+		if (guestId < waitlistMetrics.getGuestToBeNotified()) {
 			GuestDTO guestToBeNotified = fetchGuestDetails(waitlistMetrics.getGuestToBeNotified(), null);
 
 			SendSMSDTO sendSMSDTO = new SendSMSDTO();
@@ -365,19 +357,20 @@ public class GuestServiceImpl implements GuestService {
 			sendSMSDTO.setTemplateLevel(WaitListServiceConstants.TEMP_LEVEL_SECOND);
 			sendSMSDTO.setOrgId(guestToBeNotified.getOrganizationID());
 
-			restTemplate.postForObject(WaitListServiceConstants.SEND_SMS_API, sendSMSDTO, ResponseDTO.class);	
+			restTemplate.postForObject(WaitListServiceConstants.SEND_SMS_API, sendSMSDTO, ResponseDTO.class);
 		}
-		
+
 		/*
-		 * StatusUpdateResponseDTO statusUpdateResponseDTO=new StatusUpdateResponseDTO();
-		 * Optional<Guest> guest = guestDAO.findById(guestId); if (guest.isPresent()) {
+		 * StatusUpdateResponseDTO statusUpdateResponseDTO=new
+		 * StatusUpdateResponseDTO(); Optional<Guest> guest =
+		 * guestDAO.findById(guestId); if (guest.isPresent()) {
 		 * statusUpdateResponseDTO.setGuest(guest.get()); }
 		 * statusUpdateResponseDTO.setOrgId(orgId);
 		 * statusUpdateResponseDTO.setWaitlistMetrics(waitlistMetrics);
 		 */
 	}
 
-	public GuestDTO fetchGuestDetails(Integer guestID, String guestUUID) throws InvalidGuestException{
+	public GuestDTO fetchGuestDetails(Integer guestID, String guestUUID) throws InvalidGuestException {
 
 		Guest guest = null;
 
@@ -390,7 +383,7 @@ public class GuestServiceImpl implements GuestService {
 		}
 
 		GuestDTO guestDTO = new GuestDTO();
-		if(guest!=null) {
+		if (guest != null) {
 			BeanUtils.copyProperties(guest, guestDTO);
 
 			// for adding language
@@ -432,14 +425,12 @@ public class GuestServiceImpl implements GuestService {
 
 			guestDTO.setMarketingPreference(marketingPrefList);
 
-		}
-		else {
+		} else {
 			throw new InvalidGuestException("Requested Guest does not exists.");
 		}
-	
+
 		return guestDTO;
 	}
-	
 
 	@Override
 	public GuestDTO fetchGuestByContact(Integer orgID, String contactNo) throws InvalidGuestException {
@@ -495,7 +486,7 @@ public class GuestServiceImpl implements GuestService {
 
 	@Override
 	public void addMarketingPref(GuestMarketingPreferenceDTO marketingPrefDTO) {
-		//for saving marketing pref of guest after saving guest data
+		// for saving marketing pref of guest after saving guest data
 		List<GuestMarketingPreferences> guestMarketingPref = new ArrayList<GuestMarketingPreferences>();
 		GuestMarketingPreferences guestMarketingPreferences = null;
 		Optional<Guest> guest = guestDAO.findById(marketingPrefDTO.getGuestID());
@@ -522,14 +513,16 @@ public class GuestServiceImpl implements GuestService {
 
 	@Override
 	public GuestWebDTO fetchguestDetails(String guestUUID) throws InvalidGuestException {
-		
+
 		GuestDTO guest = fetchGuestDetails(null, guestUUID);
-		GuestWebDTO guestWeb=new GuestWebDTO();
-		if(guest!=null) {
+		GuestWebDTO guestWeb = new GuestWebDTO();
+		if (guest != null) {
 			BeanUtils.copyProperties(guest, guestWeb);
-			Map<String,String> languageMap = new HashMap<>();
-			List<LanguageMasterDTO> languageKeyMap=languageKeyMappingDAO.fetchByLangIsoCode("en");
-			languageKeyMap.forEach(r -> {languageMap.put(r.getKeyName(),r.getValue());});
+			Map<String, String> languageMap = new HashMap<>();
+			List<LanguageMasterDTO> languageKeyMap = languageKeyMappingDAO.fetchByLangIsoCode("en");
+			languageKeyMap.forEach(r -> {
+				languageMap.put(r.getKeyName(), r.getValue());
+			});
 			guestWeb.setLanguageKeyMap(languageMap);
 		}
 

@@ -118,6 +118,7 @@ public class OrganizationCustomDAOImpl implements OrganizationCustomDAO {
 						waitlistMetrics.setTotalWaitingGuest(cStmt.getInt(5));
 						waitlistMetrics.setTotalWaitTime(cStmt.getInt(6));
 						waitlistMetrics.setClientBase(cStmt.getString(7));
+						waitlistMetrics.setPerPartyWaitTime(perPartyWaitTime);
 						
 
 					} finally {

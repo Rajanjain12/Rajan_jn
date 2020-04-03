@@ -2,9 +2,15 @@ package com.kyobeeUserService.service;
 
 
 
+import java.util.List;
+
+import org.json.JSONException;
+
 import com.kyobeeUserService.dto.CredentialsDTO;
 import com.kyobeeUserService.dto.LoginUserDTO;
+import com.kyobeeUserService.dto.PlaceDTO;
 import com.kyobeeUserService.dto.ResetPasswordDTO;
+import com.kyobeeUserService.dto.ResponseDTO;
 import com.kyobeeUserService.dto.SignUpDTO;
 import com.kyobeeUserService.util.Exception.InvalidActivationCodeException;
 import com.kyobeeUserService.util.Exception.AccountNotActivatedExeception;
@@ -28,5 +34,11 @@ public interface UserService {
 	public String activateUser(String activationCode,Integer userId) throws InvalidActivationCodeException;
 	
 	public String resendCode(Integer userId);
+	
+	public ResponseDTO fetchLatLon(Integer zipCode) throws JSONException;
+	
+	public List<PlaceDTO> fetchPlaceList(String place,String latLon) throws JSONException;
+	
+	public void fetchPlaceDetails(String placeId) throws JSONException;
 
 }

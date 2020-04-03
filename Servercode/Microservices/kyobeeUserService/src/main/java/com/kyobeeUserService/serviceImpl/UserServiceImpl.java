@@ -12,11 +12,13 @@ import java.util.stream.Collectors;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.kyobeeUserService.dao.LanguageKeyMappingDAO;
@@ -32,8 +34,8 @@ import com.kyobeeUserService.dto.CredentialsDTO;
 import com.kyobeeUserService.dto.LanguageKeyMappingDTO;
 import com.kyobeeUserService.dto.LanguageMasterDTO;
 import com.kyobeeUserService.dto.LoginUserDTO;
+import com.kyobeeUserService.dto.PlaceDTO;
 import com.kyobeeUserService.dto.ResetPasswordDTO;
-import com.kyobeeUserService.dto.ResponseDTO;
 import com.kyobeeUserService.dto.SeatingMarketingPrefDTO;
 import com.kyobeeUserService.dto.SignUpDTO;
 import com.kyobeeUserService.dto.SmsTemplateDTO;
@@ -50,13 +52,15 @@ import com.kyobeeUserService.entity.SmsTemplateLanguageMapping;
 import com.kyobeeUserService.entity.User;
 import com.kyobeeUserService.service.UserService;
 import com.kyobeeUserService.util.CommonUtil;
+import com.kyobeeUserService.util.EmailUtil;
 import com.kyobeeUserService.util.LoggerUtil;
 import com.kyobeeUserService.util.UserServiceConstants;
 import com.kyobeeUserService.util.Exception.AccountNotActivatedExeception;
-import com.kyobeeUserService.util.Exception.InvalidActivationCodeException;
 import com.kyobeeUserService.util.Exception.InvalidAuthCodeException;
+import com.kyobeeUserService.util.Exception.InvalidActivationCodeException;
 import com.kyobeeUserService.util.Exception.InvalidLoginException;
 import com.kyobeeUserService.util.Exception.UserNotFoundException;
+import com.kyobeeUserService.dto.ResponseDTO;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -90,6 +94,12 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private WebClient.Builder webClientBuilder;
+
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@Autowired
+	EmailUtil emailUtil;
 
 	// to validate user and fetch data needed after login in web and mobile, single
 	// API for login from web and mobile
@@ -192,7 +202,7 @@ public class UserServiceImpl implements UserService {
 						}
 
 					}
-					// seating sms template
+					// seating marketing pref end
 
 					List<OrganizationTemplate> templetList = organizationTemplateDAO
 							.fetchSmsTemplateForOrganization(organization.getOrganizationID());
@@ -201,19 +211,19 @@ public class UserServiceImpl implements UserService {
 					for (OrganizationTemplate template : templetList) {
 						smsTemplate = new SmsTemplateDTO();
 						BeanUtils.copyProperties(template, smsTemplate);
-						switch (template.getLevel()) { 
-					case 1:
-						smsTemplate.setLevelName(UserServiceConstants.SMS_LEVEL_1_NAME);
-						break;
-					case 2:
-						smsTemplate.setLevelName(UserServiceConstants.SMS_LEVEL_2_NAME);
-						break;
-					case 3:
-						smsTemplate.setLevelName(UserServiceConstants.SMS_LEVEL_3_NAME);
-						break;
-					default:
-						break;
-					}
+						switch (template.getLevel()) {
+						case 1:
+							smsTemplate.setLevelName(UserServiceConstants.SMS_LEVEL_1_NAME);
+							break;
+						case 2:
+							smsTemplate.setLevelName(UserServiceConstants.SMS_LEVEL_2_NAME);
+							break;
+						case 3:
+							smsTemplate.setLevelName(UserServiceConstants.SMS_LEVEL_3_NAME);
+							break;
+						default:
+							break;
+						}
 						smsTemplateList.add(smsTemplate);
 					}
 					loginUserDTO.setSmsTemplate(smsTemplateList);
@@ -266,14 +276,14 @@ public class UserServiceImpl implements UserService {
 	public String forgotPassword(String username) throws UserNotFoundException {
 		String response;
 		User user = userDAO.findByUserName(username);
-		Date today = new Date();
-		long hour = 3600 * 1000;
+
 		if (user != null) {
 			String authcode;
+			Date today = new Date();
 			// if authcode is null then generate new one
 			if (user.getAuthCode() == null || user.getAuthCode().equals("")) {
 
-				Date nextDay = new Date(today.getTime() + 24 * hour);
+				Date nextDay = CommonUtil.getDateByHour(24);
 				authcode = CommonUtil.generateRandomToken().toString();
 				user.setAuthCode(authcode);
 				user.setActivationExpiryDate(nextDay);
@@ -284,7 +294,7 @@ public class UserServiceImpl implements UserService {
 					// 24 hour are complete then generate new one
 					authcode = CommonUtil.generateRandomToken().toString();
 					user.setAuthCode(authcode);
-					Date nextDay = new Date(today.getTime() + 24 * hour);
+					Date nextDay = CommonUtil.getDateByHour(24);
 					user.setActivationExpiryDate(nextDay);
 					userDAO.save(user);
 				} else {
@@ -296,34 +306,24 @@ public class UserServiceImpl implements UserService {
 
 			LoggerUtil.logInfo("url:- " + forgotPasswordURL);
 
-			// velocity template
-			VelocityEngine ve = new VelocityEngine();
-			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
-			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
-			ve.init();
+			VelocityEngine ve = emailUtil.velocityTemplate();
 
-			Template t = ve.getTemplate("templates/ForgotPassword.vm");
+			Template template = ve.getTemplate("templates/ForgotPassword.vm");
 			String name = user.getFirstName() + " " + user.getLastName();
 
 			VelocityContext context = new VelocityContext();
-			context.put("name", name);
-			context.put("link", forgotPasswordURL);
-			context.put("email", user.getEmail());
-			context.put("kyobeeEmail", UserServiceConstants.KYOBEE_MAIL_ID);
+			context.put(UserServiceConstants.NAME, name);
+			context.put(UserServiceConstants.LINK, forgotPasswordURL);
+			context.put(UserServiceConstants.EMAIL, user.getEmail());
+			context.put(UserServiceConstants.KYOBEE_EMAIL, UserServiceConstants.KYOBEE_MAIL_ID);
 
 			StringWriter writer = new StringWriter();
-			t.merge(context, writer);
+			template.merge(context, writer);
 			// ----
 			response = "password sent successufully to your registered account";
 
-			// Using Webclient builder
-			webClientBuilder.baseUrl("http://kyobee-util-service/");
-			webClientBuilder.build().get()
-					.uri(uriBuilder -> uriBuilder.path("rest/util/sendEmail").queryParam("toEmail", user.getEmail())
-							.queryParam("subject", UserServiceConstants.EMAIL_SUBJECT)
-							.queryParam("body", writer.toString()).build())
-					.header("Content-Type", "application/json").header("Accept", "application/vnd.kyobee.v1+json")
-					.retrieve().bodyToMono(ResponseDTO.class).block();
+			// Web-Client Builder call
+			emailUtil.sendEmail(user.getEmail(), UserServiceConstants.EMAIL_SUBJECT, writer.toString());
 			LoggerUtil.logInfo("Entering Util service");
 
 			// EmailUtil.sendMail(user.getEmail(), UserServiceConstants.EMAIL_SUBJECT,
@@ -344,10 +344,8 @@ public class UserServiceImpl implements UserService {
 		if (!exists) {
 
 			User user = new User();
-
-			Date today = new Date();
-			long hour = 3600 * 1000;
-			Date nextDay = new Date(today.getTime() + 24 * hour);
+			
+			Date nextDay = CommonUtil.getDateByHour(24);
 
 			BeanUtils.copyProperties(signUpDTO, user);
 			user.setPassword(CommonUtil.encryptPassword(signUpDTO.getPassword()));
@@ -404,7 +402,8 @@ public class UserServiceImpl implements UserService {
 
 			Plan plan = planDAO.fetchPlan(signUpDTO.getPlanId());
 			LoggerUtil.logInfo("planid:" + plan.getPlanId() + " " + plan.getPlanName());
-			//OrganizationPlanSubscription organizationPlanSubscription = new OrganizationPlanSubscription();
+			// OrganizationPlanSubscription organizationPlanSubscription = new
+			// OrganizationPlanSubscription();
 			/*
 			 * organizationPlanSubscription.setOrganization(organization);
 			 * organizationPlanSubscription.setPlan(plan);
@@ -435,7 +434,7 @@ public class UserServiceImpl implements UserService {
 			 * List<OrganizationPlanSubscription> orgPlanSubscriptionList = new
 			 * ArrayList<>(); orgPlanSubscriptionList.add(organizationPlanSubscription);
 			 */
-			//organization.setOrganizationPlanSubscriptionList(orgPlanSubscriptionList);
+			// organization.setOrganizationPlanSubscriptionList(orgPlanSubscriptionList);
 			LoggerUtil.logInfo("organization plan inserted");
 
 			LoggerUtil.logInfo("going to fetch template");
@@ -491,29 +490,19 @@ public class UserServiceImpl implements UserService {
 
 	public void sendActivationEmail(User user) {
 
-		VelocityEngine ve = new VelocityEngine();
-		ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
-		ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
-		ve.init();
-
-		Template t = ve.getTemplate("templates/ActivationMail.vm");
+		VelocityEngine ve = emailUtil.velocityTemplate();
+		Template tempalte = ve.getTemplate("templates/ActivationMail.vm");
 		String name = user.getFirstName() + " " + user.getLastName();
 
 		VelocityContext context = new VelocityContext();
-		context.put("name", name);
-		context.put("activationCode", user.getActivationCode());
+		context.put(UserServiceConstants.NAME, name);
+		context.put(UserServiceConstants.ACTIVATION_CODE, user.getActivationCode());
 
 		StringWriter writer = new StringWriter();
-		t.merge(context, writer);
+		tempalte.merge(context, writer);
 
-		// Using Webclient builder
-		webClientBuilder.baseUrl("http://kyobee-util-service/");
-		webClientBuilder.build().get()
-				.uri(uriBuilder -> uriBuilder.path("rest/util/sendEmail").queryParam("toEmail", user.getEmail())
-						.queryParam("subject", UserServiceConstants.ACTIVATION_EMAIL)
-						.queryParam("body", writer.toString()).build())
-				.header("Content-Type", "application/json").header("Accept", "application/vnd.kyobee.v1+json")
-				.retrieve().bodyToMono(ResponseDTO.class).block();
+		// Web-Client Builder call
+		emailUtil.sendEmail(user.getEmail(), UserServiceConstants.ACTIVATION_EMAIL, writer.toString());
 		LoggerUtil.logInfo("Entering Util service");
 
 	}
@@ -548,32 +537,20 @@ public class UserServiceImpl implements UserService {
 
 	public void sendWelcomeEmail(User user) {
 
-		VelocityEngine ve = new VelocityEngine();
-		ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
-		ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
-		ve.init();
+		VelocityEngine ve = emailUtil.velocityTemplate();
 
-		Template t = ve.getTemplate("templates/WelcomeMail.vm");
+		Template template = ve.getTemplate("templates/WelcomeMail.vm");
 		String name = user.getFirstName() + " " + user.getLastName();
 
 		VelocityContext context = new VelocityContext();
-		context.put("name", name);
+		context.put(UserServiceConstants.NAME, name);
 
 		StringWriter writer = new StringWriter();
-		t.merge(context, writer);
+		template.merge(context, writer);
 
-		// Using Webclient builder
-		webClientBuilder.baseUrl("http://kyobee-util-service/");
-		webClientBuilder.build().get()
-				.uri(uriBuilder -> uriBuilder.path("rest/util/sendEmail").queryParam("toEmail", user.getEmail())
-						.queryParam("subject", UserServiceConstants.WELCOME_EMAIL).queryParam("body", writer.toString())
-						.build())
-				.header("Content-Type", "application/json").header("Accept", "application/vnd.kyobee.v1+json")
-				.retrieve().bodyToMono(ResponseDTO.class).block();
+		// Web-Client Builder call
+		emailUtil.sendEmail(user.getEmail(), UserServiceConstants.WELCOME_EMAIL, writer.toString());
 		LoggerUtil.logInfo("Entering Util service");
-
-		// EmailUtil.sendMail(user.getEmail(), UserServiceConstants.WELCOME_EMAIL,
-		// writer.toString());
 
 	}
 
@@ -581,8 +558,7 @@ public class UserServiceImpl implements UserService {
 	public String resendCode(Integer userId) {
 
 		Date today = new Date();
-		long hour = 3600 * 1000;
-		Date nextDay = new Date(today.getTime() + 24 * hour);
+		Date nextDay = CommonUtil.getDateByHour(24);
 
 		User user = userDAO.findByUserID(userId);
 
@@ -601,6 +577,103 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return "Code Resend Successfully";
+	}
+
+	@Override
+	public ResponseDTO fetchLatLon(Integer zipCode) throws JSONException {
+
+		StringBuffer url = new StringBuffer();
+		url.append(UserServiceConstants.GEOCODING_API);
+		url.append(UserServiceConstants.GEOCODE_PARAM + zipCode);
+
+		// call to google API
+		String response = restTemplate.getForObject(url.toString(), String.class);
+
+		JSONObject obj = new JSONObject(response);
+		JSONArray loc = obj.getJSONArray("results");
+		ResponseDTO responseDTO = null;
+
+		if (loc.length() != 0) {
+			responseDTO = new ResponseDTO();
+			PlaceDTO placeDTO = new PlaceDTO();
+			placeDTO.setLatitude(
+					loc.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getString("lat"));
+			placeDTO.setLongitude(
+					loc.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getString("lng"));
+
+			responseDTO.setServiceResult(placeDTO);
+			responseDTO.setMessage("Latitude and Longitude fetched successfully");
+			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
+
+			return responseDTO;
+		} else {
+			responseDTO = new ResponseDTO();
+			responseDTO.setServiceResult("Invalid zip code");
+			responseDTO.setMessage("Invalid zip code");
+			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+			return responseDTO;
+		}
+
+	}
+
+	@Override
+	public List<PlaceDTO> fetchPlaceList(String place, String latLon) throws JSONException {
+
+		List<PlaceDTO> placeList = new ArrayList<>();
+
+		StringBuffer url = new StringBuffer();
+		url.append(UserServiceConstants.AUTOCOMPLETE_API);
+		url.append(UserServiceConstants.PLACE_PARAM + place + UserServiceConstants.LOCATION_PARAM + latLon);
+
+		// call to google API
+		String response = restTemplate.getForObject(url.toString(), String.class);
+
+		JSONObject obj = new JSONObject(response);
+		JSONArray loc = obj.getJSONArray("predictions");
+		PlaceDTO placeDTO = null;
+		JSONObject placelist;
+
+		for (int i = 0; i < loc.length(); i++) {
+			placeDTO = new PlaceDTO();
+			placelist = loc.getJSONObject(i);
+			placeDTO.setPlaceId(placelist.getString("place_id"));
+			placeDTO.setPlaceName(placelist.getString("description"));
+			placeList.add(placeDTO);
+		}
+		return placeList;
+
+	}
+
+	@Override
+	public void fetchPlaceDetails(String placeId) throws JSONException {
+
+		StringBuffer url = new StringBuffer();
+		url.append(UserServiceConstants.PLACE_DETAILS_API);
+		url.append(UserServiceConstants.PLACE_DETAILS_PARAM + placeId);
+
+		// call to google API
+		String response = restTemplate.getForObject(url.toString(), String.class);
+
+		JSONObject obj = new JSONObject(response);
+		JSONObject loc = obj.getJSONObject("result");
+
+		LoggerUtil.logInfo("loc" + loc.getString("name"));
+		LoggerUtil.logInfo("loc" + loc.getString("formatted_phone_number"));
+		LoggerUtil.logInfo("loc" + loc.getString("vicinity"));
+
+		JSONArray array = loc.getJSONArray("address_components");
+		JSONObject address = null;
+
+		for (int i = 0; i < array.length(); i++) {
+			address = array.getJSONObject(i);
+			String list = address.getString("types");
+			if (list.contains("locality")) {
+				LoggerUtil.logInfo("loc" + address.getString("long_name"));
+			} else if (list.contains("administrative_area_level_1")) {
+				LoggerUtil.logInfo("loc" + address.getString("short_name"));
+			}
+		}
+
 	}
 
 }

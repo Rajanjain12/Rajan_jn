@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kyobeeWaitlistService.dto.GuestDTO;
+import com.kyobeeWaitlistService.dto.GuestMetricsDTO;
 import com.kyobeeWaitlistService.dto.WaitlistMetrics;
 import com.kyobeeWaitlistService.entity.Guest;
 
@@ -26,6 +27,7 @@ public interface GuestCustomDAO {
 	
 	public List<Guest> fetchGuestByContact(Integer orgID, String contactNumber);
 	
+	public GuestMetricsDTO getGuestMetrics(Integer guestId, Integer orgId);
 	
 	
 

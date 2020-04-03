@@ -43,5 +43,28 @@ public class UserServiceConstants {
 	public static final String SMS_LEVEL_2_NAME="Reminder";
 	public static final String SMS_LEVEL_3_NAME="Custom";
 	
+	public static final String GOOGLE_API_KEY = "AIzaSyBQxGio9UszquPB1fY23pl60AlAozHa_p0";
+	public static final String GEOCODING_API = "https://maps.googleapis.com/maps/api/geocode/json?key="+GOOGLE_API_KEY;
+	public static final String AUTOCOMPLETE_API="https://maps.googleapis.com/maps/api/place/autocomplete/json?types=establishment&radius=1000&strictbounds&key="+GOOGLE_API_KEY;
+	public static final String PLACE_DETAILS_API = "https://maps.googleapis.com/maps/api/place/details/json?key="+GOOGLE_API_KEY;
+	public static final String GEOCODE_PARAM ="&components=postal_code:";
+	public static final String PLACE_PARAM ="&input=";
+	public static final String LOCATION_PARAM ="&location=";
+	public static final String PLACE_DETAILS_PARAM ="&place_id=";
 	
+	public static final String UTIL_BASE_URL = "http://kyobee-util-service/";
+	public static final String EMAIL_PATH = "rest/util/sendEmail";
+	public static final String TO_EMAIL = "toEmail";
+	public static final String SUBJECT = "subject";
+	public static final String BODY ="body";
+	public static final String CONTENT_TYPE ="Content-Type";
+	public static final String ACCEPT ="Accept";
+	public static final String CONTENT_TYPE_VALUE="application/json";
+	public static final String API_VERSION ="application/vnd.kyobee.v1+json";
+	public static final String VELOCITY_PROPERTY="classpath.resource.loader.class";
+	public static final String NAME ="name";
+	public static final String EMAIL ="email";
+	public static final String LINK ="link";
+	public static final String KYOBEE_EMAIL="kyobeeEmail";
+	public static final String ACTIVATION_CODE ="activationCode";
 }

@@ -1,5 +1,6 @@
 package com.kyobeeWaitlistService.service;
 
+import java.text.ParseException;
 import java.util.List;
 
 import com.kyobeeWaitlistService.dto.GuestDTO;
@@ -30,7 +31,7 @@ public interface WaitListService {
 	//for fetch sms content by sms level
 	public SendSMSDTO getSmsContentByLevel(GuestDTO guestDTO, OrganizationTemplateDTO smsTemplate, WaitlistMetrics waitlistMetrics);
 	//for save sms log while send sms
-	public void saveSmsLog(GuestDTO guestDTO,SendSMSDTO sendSMSDTO);
+	public void saveSmsLog(GuestDTO guestDTO,SendSMSDTO sendSMSDTO) throws ParseException;
 	//for sending sms
 	public void sendSMS(SendSMSDTO sendSMSDTO) throws InvalidGuestException;
 	//for updating org setting 

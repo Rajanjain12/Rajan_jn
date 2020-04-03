@@ -80,6 +80,7 @@ public class WaitListServiceConstants {
 	public static final String REFRESH_LANGUAGE_PUSHER ="REFRESH_LANGUAGE_PUSHER";
 	public static final String NOTIFY_USER ="NOTIFY_USER";
 	
+	public static final String DATE_FORMAT="yyyy/MM/dd HH:mm:ss";
 	
 
 }
