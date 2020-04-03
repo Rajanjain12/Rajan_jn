@@ -2,7 +2,7 @@ package com.kyobeeWaitlistService.dto;
 
 public class LanguageMasterDTO {
 
-	 private Integer langID;
+	 private Integer langId;
 	 private String langName;
 	 private String langIsoCode;
 	 private String keyName;
@@ -12,7 +12,7 @@ public class LanguageMasterDTO {
 		 	
 	 }
 	 public LanguageMasterDTO(Integer langId,String langName,String langIsoCode,String keyName,String value) {
-		 this.langID=langId;
+		 this.langId=langId;
 		 this.langName=langName;
 		 this.langIsoCode=langIsoCode;
 		 this.keyName=keyName;
@@ -20,11 +20,11 @@ public class LanguageMasterDTO {
 		 
 	 }
 	
-	public Integer getLangID() {
-		return langID;
+	public Integer getLangId() {
+		return langId;
 	}
-	public void setLangID(Integer langID) {
-		this.langID = langID;
+	public void setLangId(Integer langId) {
+		this.langId = langId;
 	}
 	public String getLangName() {
 		return langName;

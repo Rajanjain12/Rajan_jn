@@ -135,7 +135,7 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 						cStmt.setLong(6, guestObj.getNoOfInfants());
 
 						cStmt.setLong(7, guestObj.getNoOfPeople());
-						cStmt.setLong(8, guestObj.getLanguagePref().getLangID());
+						cStmt.setLong(8, guestObj.getLanguagePref().getLangId());
 						cStmt.setInt(9, guestObj.getPartyType());
 						cStmt.setString(10, guestObj.getDeviceType());
 						cStmt.setString(11, guestObj.getDeviceId());
@@ -213,7 +213,7 @@ public class GuestCustomDAOImpl implements GuestCustomDAO {
 						cStmt.setLong(6, guestObj.getNoOfChildren());
 
 						cStmt.setLong(7, guestObj.getNoOfPeople());
-						cStmt.setLong(8, guestObj.getLanguagePref().getLangID());
+						cStmt.setLong(8, guestObj.getLanguagePref().getLangId());
 						cStmt.setInt(9, guestObj.getPartyType());
 						cStmt.setString(10, guestObj.getDeviceType());
 						cStmt.setString(11, guestObj.getDeviceId());

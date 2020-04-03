@@ -241,7 +241,7 @@ public class WaitListServiceImpl implements WaitListService {
 	public OrganizationTemplateDTO getOrganizationTemplateByLevel(GuestDTO guestDTO, SendSMSDTO sendSMSDTO) {
 
 		OrganizationTemplate orgTemplate = organizationTemplateDAO.fetchSmsTemplateForOrgByLevel(
-				guestDTO.getOrganizationID(), guestDTO.getLanguagePref().getLangID(), sendSMSDTO.getTemplateLevel());
+				guestDTO.getOrganizationID(), guestDTO.getLanguagePref().getLangId(), sendSMSDTO.getTemplateLevel());
 		OrganizationTemplateDTO orgTempalteDTO = new OrganizationTemplateDTO();
 		BeanUtils.copyProperties(orgTemplate, orgTempalteDTO);
 		return orgTempalteDTO;
@@ -400,7 +400,7 @@ public class WaitListServiceImpl implements WaitListService {
 		LanguageKeyMappingDTO languageKeyMappingDTO;
 
 		Map<Integer, List<LanguageMasterDTO>> langListById = languageList.stream()
-				.collect(Collectors.groupingBy(LanguageMasterDTO::getLangID));
+				.collect(Collectors.groupingBy(LanguageMasterDTO::getLangId));
 		
 		for (Map.Entry<Integer, List<LanguageMasterDTO>> entry : langListById.entrySet()) {
 
