@@ -22,11 +22,8 @@ public class Currency implements Serializable {
 	@Column(name = "CurrencyID")
 	private Integer currencyID;
 
-	@Column(name = "FullName")
-	private String fullName;
-
-	@Column(name = "ShortName")
-	private String shortName;
+	@Column(name = "CurrencyName")
+	private String currencyName;
 
 	@Column(name = "Code")
 	private String code;
@@ -75,20 +72,12 @@ public class Currency implements Serializable {
 		this.currencyID = currencyID;
 	}
 
-	public String getFullName() {
-		return fullName;
+	public String getCurrencyName() {
+		return currencyName;
 	}
 
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
-
-	public String getShortName() {
-		return shortName;
-	}
-
-	public void setShortName(String shortName) {
-		this.shortName = shortName;
+	public void setCurrencyName(String currencyName) {
+		this.currencyName = currencyName;
 	}
 
 	public String getCode() {

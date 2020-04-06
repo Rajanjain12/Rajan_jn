@@ -74,7 +74,17 @@ public class GuestServiceImpl implements GuestService {
 	@Override
 	public GuestMetricsDTO getGuestMetrics(Integer guestId, Integer orgId) {
 
-		GuestMetricsDTO metricsDTO = guestCustomDAO.getGuestMetrics(guestId, orgId);
+		// GuestMetricsDTO metricsDTO = guestCustomDAO.getGuestMetrics(guestId, orgId);
+		Integer orgWaitTime = organizationDAO.getOrganizationWaitTime(orgId);
+		Integer guestCount = guestDAO.getGuestCount(orgId, guestId);
+		Integer guestRank = guestDAO.getGuestRank(orgId, guestId);
+
+		GuestMetricsDTO metricsDTO = new GuestMetricsDTO();
+
+		metricsDTO.setGuestRank(guestRank);
+		metricsDTO.setTotalWaitTime(guestCount <= 0 ? orgWaitTime : ((guestCount) * orgWaitTime) + orgWaitTime);
+		metricsDTO.setOrgWaitTime(orgWaitTime);
+		metricsDTO.setGuestAheadCount(guestCount <= 0 ? 0 : (guestCount));
 
 		return metricsDTO;
 	}
