@@ -676,4 +676,23 @@ ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONSUBSCRIPTION`
   CHANGE `Active` `Active` TINYINT(1) NOT NULL,
   CHANGE `CreatedBy` `CreatedBy` VARCHAR(100) CHARSET latin1 COLLATE latin1_swedish_ci DEFAULT 'NULL'   NULL,
   CHANGE `ModifiedBy` `ModifiedBy` VARCHAR(100) CHARSET latin1 COLLATE latin1_swedish_ci DEFAULT 'NULL'   NULL;
+  ---------------------------------------------------------------------------------------------------------------------
+  
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('update_changes','업데이트 변경','ko','Korean',1,'admin','2020-04-07');
+
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('update_changes','更新變更','zh-Hant','Chinese (Traditional)',1,'admin','2020-04-07');
+
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('update_changes','更新变更','zh-Hans','Chinese (Simplified)',1,'admin','2020-04-07');
+
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('update_changes','更新变更','zh','Chinese',1,'admin','2020-04-07');
+
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('update_changes','Mettre à jour les modifications','fr','French',1,'admin','2020-04-07');
+
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('update_changes','Update Changes','en','English',1,'admin','2020-04-07');
 
