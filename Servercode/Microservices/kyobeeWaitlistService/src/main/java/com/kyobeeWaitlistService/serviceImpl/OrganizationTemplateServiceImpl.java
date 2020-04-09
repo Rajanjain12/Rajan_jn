@@ -169,11 +169,18 @@ public class OrganizationTemplateServiceImpl implements OrganizationTemplateServ
 		List<LanguageKeyMappingDTO> langKeyMapList = waitListService.fetchOrgLangKeyMap(orgId);
 		orgSettingDTO.setLanguageList(langKeyMapList);
 		orgSettingDTO.setSmsTemplateDTO(smsTemplates);
+		
+		LanguageKeyMappingDTO addedLanguage = langKeyMapList.stream()
+				  .filter(language -> langId.equals(language.getLangId()))
+				  .findAny()
+				  .orElse(null);
+		LoggerUtil.logInfo("added language:"+addedLanguage);
 			
 		//sending pusher
 		OrgSettingPusherDTO pusherDTO = new OrgSettingPusherDTO();
 		pusherDTO.setOp(WaitListServiceConstants.ADD_LANG_PUSHER);
-		pusherDTO.setOrgSettingDTO(orgSettingDTO);
+		pusherDTO.setSmsTemplateDTO(smsTemplates);
+		pusherDTO.setLangKeyMap(addedLanguage);
 		
 		NotificationUtil.sendMessage(pusherDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV+"_"+orgId);
 		
@@ -191,34 +198,12 @@ public class OrganizationTemplateServiceImpl implements OrganizationTemplateServ
 		organizationTemplateDAO.deleteOrgTemplate(orgId, langId);
 		organizationLanguageDAO.deleteOrgLanguage(orgId, langId);
 		
-		List<OrganizationTemplate> templetList = organizationTemplateDAO.fetchSmsTemplateForOrganization(orgId);
-		List<SmsTemplateDTO> smsTemplateList = new ArrayList<>();
-		SmsTemplateDTO smsTemplate;
-		for (OrganizationTemplate template : templetList) {
-			smsTemplate = new SmsTemplateDTO();
-			BeanUtils.copyProperties(template, smsTemplate);
-			switch (template.getLevel()) { 
-		case 1:
-			smsTemplate.setLevelName(WaitListServiceConstants.SMS_LEVEL_1_NAME);
-			break;
-		case 2:
-			smsTemplate.setLevelName(WaitListServiceConstants.SMS_LEVEL_2_NAME);
-			break;
-		case 3:
-			smsTemplate.setLevelName(WaitListServiceConstants.SMS_LEVEL_3_NAME);
-			break;
-		default:
-			break;
-		}
-			smsTemplateList.add(smsTemplate);
-		}
 			
 		List<LanguageKeyMappingDTO> langKeyMapList = waitListService.fetchOrgLangKeyMap(orgId);
 		orgSettingDTO.setLanguageList(langKeyMapList);
-		orgSettingDTO.setSmsTemplateDTO(smsTemplateList);
 		
 		pusherDTO.setOp(WaitListServiceConstants.DELETE_LANG_PUSHER);
-		pusherDTO.setOrgSettingDTO(orgSettingDTO);
+		pusherDTO.setLangID(langId);
 		
 		NotificationUtil.sendMessage(pusherDTO, WaitListServiceConstants.PUSHER_CHANNEL_ENV+"_"+orgId);
 	}

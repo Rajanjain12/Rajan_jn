@@ -720,3 +720,13 @@ values('add_guest','Ajouter un invité','fr','French',1,'admin','2020-04-07');
 insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
 values('add_guest','Add Guest','en','English',1,'admin','2020-04-07');
 
+ALTER TABLE `KyobeeTechRevamp`.`CURRENCY` 
+DROP COLUMN `ShortName`,
+CHANGE COLUMN `FullName` `CurrencyName` VARCHAR(255) NULL DEFAULT NULL ;
+
+ALTER TABLE `KyobeeTechRevamp`.`USER` 
+ADD COLUMN `SaltString` VARCHAR(10) NOT NULL AFTER `Password`;
+
+INSERT INTO `KyobeeTechRevamp`.`ROLE` (`RoleID`,`RoleName`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('4','Customer Admin', '1', 'admin', now());
+
+

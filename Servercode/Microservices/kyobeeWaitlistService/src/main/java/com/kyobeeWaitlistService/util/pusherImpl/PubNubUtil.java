@@ -30,6 +30,8 @@ public class PubNubUtil implements Pusher {
 				public void onResponse(PNPublishResult result, PNStatus status) {
 					// handle publish result, status always present, result if successful
 					// status.isError to see if error happened
+					LoggerUtil.logInfo("result:"+result);
+					LoggerUtil.logInfo("PNStatus:"+status);
 					LoggerUtil.logInfo("Message send");
 				}
 			});
