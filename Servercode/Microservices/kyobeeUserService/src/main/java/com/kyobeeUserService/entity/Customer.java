@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,7 +32,7 @@ public class Customer implements Serializable {
 	private String customerName;
 
 	// bi-directional many-to-one association to Organization
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "CorporateOrgId")
 	private Organization organization;
 
@@ -61,7 +62,7 @@ public class Customer implements Serializable {
 	private Date modifiedAt;
 
 	// bi-directional many-to-one association to Organization
-	@OneToMany(mappedBy = "customer")
+	@OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
 	private List<Organization> organizations;
 
 	// bi-directional many-to-one association to Organizationcarddetail
