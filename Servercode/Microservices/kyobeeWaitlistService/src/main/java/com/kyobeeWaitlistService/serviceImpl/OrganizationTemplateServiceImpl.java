@@ -179,6 +179,7 @@ public class OrganizationTemplateServiceImpl implements OrganizationTemplateServ
 		//sending pusher
 		OrgSettingPusherDTO pusherDTO = new OrgSettingPusherDTO();
 		pusherDTO.setOp(WaitListServiceConstants.ADD_LANG_PUSHER);
+		smsTemplates.forEach(f -> f.setSmsTemplateID(0));
 		pusherDTO.setSmsTemplateDTO(smsTemplates);
 		pusherDTO.setLangKeyMap(addedLanguage);
 		
