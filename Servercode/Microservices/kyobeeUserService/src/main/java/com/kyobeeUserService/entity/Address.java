@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Table;
 
 @Entity
@@ -21,6 +23,7 @@ public class Address implements Serializable{
 
 	@Id
 	@Column(name="AddressID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer addressID;
 
 	@Column(name="AddressLineOne")
