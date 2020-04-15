@@ -126,7 +126,7 @@ export class AddGuestComponent implements OnInit {
     this.listMarketingPref = this.user.marketingPref;
 
     this.guest.languagePref = {
-      langID: this.selectedItem.langId,
+      langId: this.selectedItem.langId,
       keyName: null,
       value: null,
       langIsoCode: this.selectedItem.langIsoCode,
@@ -156,11 +156,19 @@ export class AddGuestComponent implements OnInit {
 
   validate(invalid) {
     if (invalid) {
-      this.alertError = {
-        type: 'danger',
-        msg: this.languageKeyMap['upd_error'],
-        display: true
-      };
+      if (this.guest.guestID === 0) {
+        this.alertError = {
+          type: 'danger',
+          msg: this.languageKeyMap['add_guest_error'],
+          display: true
+        };
+      } else {
+        this.alertError = {
+          type: 'danger',
+          msg: this.languageKeyMap['upd_error'],
+          display: true
+        };
+      }
       return;
     }
     $('#btnSubmit').attr('disabled', true);
@@ -186,9 +194,10 @@ export class AddGuestComponent implements OnInit {
     if (this.sum > this.user.maxParty) {
       this.alertError = {
         type: 'danger',
-        msg: this.languageKeyMap['org_max_party_1'] + this.user.maxParty + this.languageKeyMap['org_max_party_2'],
+        msg: this.languageKeyMap['org_max_party_1'] + ' ' + this.user.maxParty + this.languageKeyMap['org_max_party_2'],
         display: true
       };
+      $('#btnSubmit').attr('disabled', false);
       return;
     } else {
       console.log(this.guest.noOfPeople);

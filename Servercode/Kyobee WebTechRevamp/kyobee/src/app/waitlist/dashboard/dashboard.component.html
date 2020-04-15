@@ -152,7 +152,7 @@
           </tbody>
         </table>
       </div>
-      <div class="float-right pb-2">
+      <div class="float-right pb-2" *ngIf="results">
         <ul class="pagination">
           <li *ngIf="pageNo !== 1" class="page-item">
             <a class="page-link" (click)="fetchPrevGuest()">&#60;</a>
@@ -164,6 +164,9 @@
             <a class="page-link" (click)="fetchNextGuest()">&#62;</a>
           </li>
         </ul>
+      </div>
+      <div class="float-right pb-2" *ngIf="!results">
+        No results found
       </div>
     </div>
     <div class="clearfix"></div>

@@ -7,6 +7,8 @@ import { GuestService } from 'src/app/core/services/guest.service';
 import { Preference } from 'src/app/core/models/preference.model';
 import { PubNubAngular } from 'pubnub-angular2';
 import { environment } from '@env/environment';
+import { User } from 'src/app/core/models/user.model';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 declare var $: any;
 @Component({
@@ -25,10 +27,17 @@ export class GuestDetailUpdateComponent implements OnInit {
   languageKeyMap: Map<string, string>;
   userMetrics: Map<string, string>;
   orgId = 0;
+  user: User = new User();
 
-  constructor(private route: ActivatedRoute, private guestService: GuestService, private pubnub: PubNubAngular) {}
+  constructor(
+    private route: ActivatedRoute,
+    private guestService: GuestService,
+    private pubnub: PubNubAngular,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
+    this.user = this.authService.getUser();
     const promise = this.fetchGuest();
 
     promise.then(value => {

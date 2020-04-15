@@ -730,3 +730,20 @@ ADD COLUMN `SaltString` VARCHAR(10) NOT NULL AFTER `Password`;
 INSERT INTO `KyobeeTechRevamp`.`ROLE` (`RoleID`,`RoleName`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('4','Customer Admin', '1', 'admin', now());
 
 
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('add_guest_error','손님 추가 중 오류','ko','Korean',1,'admin','2020-04-13');
+
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('add_guest_error','添加訪客時出錯','zh-Hant','Chinese (Traditional)',1,'admin','2020-04-13');
+
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('add_guest_error','添加访客时出错','zh-Hans','Chinese (Simplified)',1,'admin','2020-04-13');
+
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('add_guest_error','添加访客时出错','zh','Chinese',1,'admin','2020-04-13');
+
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('add_guest_error','Erreur lors de l'ajout d'un invité','fr','French',1,'admin','2020-04-13');
+
+insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
+values('add_guest_error','Error while adding guest','en','English',1,'admin','2020-04-13');

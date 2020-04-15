@@ -54,7 +54,6 @@ public class SignUpServiceImpl implements SignUpService {
 		Customer customer = new Customer();
 		
 		customer.setCustomerName(organizationDTO.getOrganizationName());
-		LoggerUtil.logInfo(customer.getCustomerName());
 		customer.setTrialPeriodStartDate(new Date());
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, 7);

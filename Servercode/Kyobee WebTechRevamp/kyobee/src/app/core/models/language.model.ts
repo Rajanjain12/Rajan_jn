@@ -1,6 +1,6 @@
 export class LanguageDTO {
   keyName: string;
-  langID: number;
+  langId: number;
   langName: String;
   langIsoCode: string;
   value: string;

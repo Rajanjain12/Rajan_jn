@@ -91,7 +91,7 @@
                     name="people"
                     min="1"
                     [max]="user.maxParty"
-                    [appCustomMax]="user.maxParty"
+                    appCustomMax="user.maxParty"
                     appCustomMin="1"
                     pattern="[0-9]*"
                     class="form-control"
@@ -102,7 +102,7 @@
                     required="required"
                   />
                   <label for="people" class="control-label">{{ languageKeyMap['people'] }}</label>
-                  <i class="bar"></i>
+                  <i class="bar"></i> 
                   <div *ngIf="f.submitted && people.invalid" class="invalid-feedback">
                     <div class="text-danger" *ngIf="people.errors?.pattern">{{ languageKeyMap['valid_num_error'] }}</div>
                     <div class="text-danger" *ngIf="people.errors?.number">{{ languageKeyMap['valid_num_error'] }}</div>
@@ -188,7 +188,7 @@
               ><i class="bar"></i>
             </div>
             <div class="col-ld-12 text-center pb-3">
-              <button type="submit" id="btnSubmit" class="btn btn-theme background-color shadow" (click)="validate(f.form.invalid)"><span *ngIf="id == null">Add Guest</span><span *ngIf="id != null">Update Guest</span></button>
+              <button type="submit" id="btnSubmit" class="btn btn-theme background-color shadow" (click)="validate(f.form.invalid)"><span *ngIf="id == null">{{ languageKeyMap['add_guest'] }}</span><span *ngIf="id != null">{{ languageKeyMap['update_guest'] }}</span></button>
             </div>
           </div>
         </form>

@@ -61,6 +61,7 @@ export class DashboardComponent implements OnInit {
     languagePref: false,
     optIn: false
   };
+  results = true;
 
   ngOnInit() {
     this.user = this.authService.getUser();
@@ -87,6 +88,11 @@ export class DashboardComponent implements OnInit {
         this.pageNo = res.serviceResult.pageNo;
         this.pagination(this.totalGuest, this.pageNo, this.pageSize);
         console.log('user==' + JSON.stringify(this.guestDTOList));
+        if (res.serviceResult.records == [] || res.serviceResult.records == '') {
+          this.results = false;
+        } else {
+          this.results = true;
+        }
         this.selectedGuest = new GuestDTO();
       } else {
         alert(res.message);
@@ -183,9 +189,10 @@ export class DashboardComponent implements OnInit {
     this.smsContentDTO.guestName = this.selectedGuest.name;
     this.smsContentDTO.guestRank = this.selectedGuest.rank;
     this.smsContentDTO.guestUuid = this.selectedGuest.uuid;
-    this.smsContentDTO.langId = this.selectedGuest.languagePref.langID;
-    this.smsContentDTO.tempLevel = 1;
+    this.smsContentDTO.langId = this.selectedGuest.languagePref.langId;
+    //this.smsContentDTO.tempLevel = 1;
     console.log('sms ' + JSON.stringify(guest));
+    console.log('sms content:' + JSON.stringify(this.smsContentDTO));
     this.organizationService.fetchSmsContent(this.smsContentDTO).subscribe((res: any) => {
       if (res.success === 1) {
         this.organizationTemplateDTOList = res.serviceResult;

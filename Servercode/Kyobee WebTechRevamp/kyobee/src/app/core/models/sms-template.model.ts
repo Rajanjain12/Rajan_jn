@@ -3,4 +3,5 @@ export class SmsTemplate {
   templateText: string;
   level: number;
   languageID: number;
+  levelName: string;
 }
