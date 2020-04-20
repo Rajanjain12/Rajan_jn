@@ -67,4 +67,13 @@ public class UserServiceConstants {
 	public static final String LINK ="link";
 	public static final String KYOBEE_EMAIL="kyobeeEmail";
 	public static final String ACTIVATION_CODE ="activationCode";
+	public static final String INACTIVE_PLAN ="N";
+	public static final Byte INACTIVE = 0;
+	public static final String PENDING ="Pending";
+	public static final String ADMIN ="admin";
+	
+	public static final String PERC = "Percentage";
+	public static final String AMOUNT ="Amount";
+	public static final Byte ACTIVE = 1;
+	
 }

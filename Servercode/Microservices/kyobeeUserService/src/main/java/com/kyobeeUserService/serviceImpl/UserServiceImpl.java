@@ -21,24 +21,30 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.kyobeeUserService.dao.CountryDAO;
+import com.kyobeeUserService.dao.CustomerDAO;
 import com.kyobeeUserService.dao.LanguageKeyMappingDAO;
 import com.kyobeeUserService.dao.LookupDAO;
 import com.kyobeeUserService.dao.OrganizationDAO;
 import com.kyobeeUserService.dao.OrganizationTemplateDAO;
 import com.kyobeeUserService.dao.OrganizationTypeDAO;
 import com.kyobeeUserService.dao.PlanDAO;
+import com.kyobeeUserService.dao.PlanFeatureChargeDAO;
 import com.kyobeeUserService.dao.RoleDAO;
 import com.kyobeeUserService.dao.SmsTemplateLanguageMappingDAO;
 import com.kyobeeUserService.dao.UserDAO;
+import com.kyobeeUserService.dto.AddressDTO;
 import com.kyobeeUserService.dto.CredentialsDTO;
 import com.kyobeeUserService.dto.LanguageKeyMappingDTO;
 import com.kyobeeUserService.dto.LanguageMasterDTO;
 import com.kyobeeUserService.dto.LoginUserDTO;
+import com.kyobeeUserService.dto.OrganizationDTO;
 import com.kyobeeUserService.dto.PlaceDTO;
 import com.kyobeeUserService.dto.ResetPasswordDTO;
 import com.kyobeeUserService.dto.SeatingMarketingPrefDTO;
 import com.kyobeeUserService.dto.SignUpDTO;
 import com.kyobeeUserService.dto.SmsTemplateDTO;
+import com.kyobeeUserService.entity.Customer;
 import com.kyobeeUserService.entity.Lookup;
 import com.kyobeeUserService.entity.Organization;
 import com.kyobeeUserService.entity.OrganizationCategory;
@@ -99,7 +105,13 @@ public class UserServiceImpl implements UserService {
 	private RestTemplate restTemplate;
 
 	@Autowired
-	EmailUtil emailUtil;
+	private EmailUtil emailUtil;
+
+	@Autowired
+	private CustomerDAO customerDAO;
+
+	@Autowired
+	private CountryDAO countryDAO;
 
 	// to validate user and fetch data needed after login in web and mobile, single
 	// API for login from web and mobile
@@ -339,140 +351,152 @@ public class UserServiceImpl implements UserService {
 	public void signUp(SignUpDTO signUpDTO) {
 
 		// check if user exists or not
-		Boolean exists = checkIfUserExist(signUpDTO.getEmail());
+		/*
+		 * Boolean exists = checkIfUserExist(signUpDTO.getEmail());
+		 * 
+		 * if (!exists) {
+		 */
 
-		if (!exists) {
+		/*
+		 * User user = new User();
+		 * 
+		 * Date nextDay = CommonUtil.getDateByHour(24);
+		 * 
+		 * BeanUtils.copyProperties(signUpDTO, user);
+		 * user.setPassword(CommonUtil.encryptPassword(signUpDTO.getPassword()));
+		 * user.setContactNoOne(signUpDTO.getContactNo());
+		 * user.setActivationCode(CommonUtil.generateRandomToken().toString());
+		 * user.setActivationExpiryDate(nextDay);
+		 * user.setActive(UserServiceConstants.INACTIVE_USER); user.setCreatedAt(new
+		 * Date()); user.setCreatedBy(signUpDTO.getEmail());
+		 * 
+		 * Role role = roleDAO.fetchRole(UserServiceConstants.DEFAULT_ROLE);
+		 */
 
-			User user = new User();
-			
-			Date nextDay = CommonUtil.getDateByHour(24);
+		/*
+		 * Userrole userRole = new Userrole(); userRole.setRole(role);
+		 * userRole.setCreatedBy(signUpDTO.getEmail()); userRole.setCreatedAt(new
+		 * Date()); userRole.setUser(user);
+		 * 
+		 * List<Userrole> userRoles = new ArrayList<>(); userRoles.add(userRole);
+		 * user.setUserroles(userRoles);
+		 */
 
-			BeanUtils.copyProperties(signUpDTO, user);
-			user.setPassword(CommonUtil.encryptPassword(signUpDTO.getPassword()));
-			user.setContactNoOne(signUpDTO.getContactNo());
-			user.setActivationCode(CommonUtil.generateRandomToken().toString());
-			user.setActivationExpiryDate(nextDay);
-			user.setActive(UserServiceConstants.INACTIVE_USER);
-			user.setCreatedAt(new Date());
-			user.setCreatedBy(signUpDTO.getEmail());
+		LoggerUtil.logInfo("user role inserted");
+		Customer customer = new Customer();
+		customer.setCustomerName("ria");
 
-			Role role = roleDAO.fetchRole(UserServiceConstants.DEFAULT_ROLE);
+		OrganizationType organizationType = organizationTypeDAO
+				.fetchOrganizationType(UserServiceConstants.DEFAULT_ORG_TYPE);
 
-			/*
-			 * Userrole userRole = new Userrole(); userRole.setRole(role);
-			 * userRole.setCreatedBy(signUpDTO.getEmail()); userRole.setCreatedAt(new
-			 * Date()); userRole.setUser(user);
-			 * 
-			 * List<Userrole> userRoles = new ArrayList<>(); userRoles.add(userRole);
-			 * user.setUserroles(userRoles);
-			 */
+		Organization organization = new Organization();
+		organization.setOrganizationName(signUpDTO.getStoreName());
+		organization.setEmail(signUpDTO.getEmail());
+		organization.setPrimaryPhone(new BigInteger(signUpDTO.getContactNo()));
+		organization.setActive(UserServiceConstants.ACTIVE_ORG);
+		organization.setOrganizationType(organizationType);
+		organization.setCreatedBy(signUpDTO.getEmail());
+		organization.setCreatedAt(new Date());
+		organization.setSmsSignature(organization.getOrganizationName());
+		/* organization.setSmsRoute(UserServiceConstants.SMS_ROUTE); */
+		organization.setOrganizationType(organizationType);
+		LoggerUtil.logInfo("organization type inserted");
+		List<OrganizationCategory> orgCategoryList = new ArrayList<>();
+		List<Lookup> lookupList = lookupDAO.fetchSeatingAndMarketingPref(UserServiceConstants.SEATING_PREF_ID,
+				UserServiceConstants.MARKETING_PREF_ID);
 
-			LoggerUtil.logInfo("user role inserted");
-
-			OrganizationType organizationType = organizationTypeDAO
-					.fetchOrganizationType(UserServiceConstants.DEFAULT_ORG_TYPE);
-
-			Organization organization = new Organization();
-			organization.setOrganizationName(signUpDTO.getStoreName());
-			organization.setEmail(signUpDTO.getEmail());
-			organization.setPrimaryPhone(new BigInteger(signUpDTO.getContactNo()));
-			organization.setActive(UserServiceConstants.ACTIVE_ORG);
-			organization.setOrganizationType(organizationType);
-			organization.setCreatedBy(signUpDTO.getEmail());
-			organization.setCreatedAt(new Date());
-			organization.setSmsSignature(organization.getOrganizationName());
-			/* organization.setSmsRoute(UserServiceConstants.SMS_ROUTE); */
-			organization.setOrganizationType(organizationType);
-			LoggerUtil.logInfo("organization type inserted");
-			List<OrganizationCategory> orgCategoryList = new ArrayList<>();
-			List<Lookup> lookupList = lookupDAO.fetchSeatingAndMarketingPref(UserServiceConstants.SEATING_PREF_ID,
-					UserServiceConstants.MARKETING_PREF_ID);
-
-			OrganizationCategory orgCategory;
-			for (Lookup lookup : lookupList) {
-				orgCategory = new OrganizationCategory();
-				orgCategory.setOrganization(organization);
-				orgCategory.setLookup(lookup);
-				orgCategory.setLookuptype(lookup.getLookuptype());
-				orgCategoryList.add(orgCategory);
-			}
-			organization.setOrganizationcategories(orgCategoryList);
-
-			LoggerUtil.logInfo("organization categoery inserted");
-
-			Plan plan = planDAO.fetchPlan(signUpDTO.getPlanId());
-			LoggerUtil.logInfo("planid:" + plan.getPlanId() + " " + plan.getPlanName());
-			// OrganizationPlanSubscription organizationPlanSubscription = new
-			// OrganizationPlanSubscription();
-			/*
-			 * organizationPlanSubscription.setOrganization(organization);
-			 * organizationPlanSubscription.setPlan(plan);
-			 * organizationPlanSubscription.setCreatedBy(signUpDTO.getEmail());
-			 * organizationPlanSubscription.setCreatedAt(new Date());
-			 */
-			// temporary added code
-			/*
-			 * organizationPlanSubscription.setAmountPerUnit(new BigDecimal(0.0));
-			 * organizationPlanSubscription.setCostPerAd(new BigDecimal(0.0));
-			 * organizationPlanSubscription.setCreatedBy(signUpDTO.getEmail());
-			 * organizationPlanSubscription.setCurrencyId(11); Calendar cal =
-			 * Calendar.getInstance(); cal.setTime(new Date()); cal.add(Calendar.MONTH, 1);
-			 * organizationPlanSubscription.setEndDate(cal.getTime());
-			 * organizationPlanSubscription.setModifiedBy(signUpDTO.getEmail());
-			 * organizationPlanSubscription.setModifiedAt(new Date());
-			 * organizationPlanSubscription.setNoOfAdsPerUnit(0);
-			 * organizationPlanSubscription.setNumberOfUnits(0);s
-			 * organizationPlanSubscription.setOrganization(organization);
-			 * organizationPlanSubscription.setStartDate(new Date());
-			 * organizationPlanSubscription.setTerminateDate(null);
-			 * organizationPlanSubscription.setTotalAmount(new BigDecimal(0.0));
-			 * organizationPlanSubscription.setUnitId(9);
-			 */
-			// ---
-
-			/*
-			 * List<OrganizationPlanSubscription> orgPlanSubscriptionList = new
-			 * ArrayList<>(); orgPlanSubscriptionList.add(organizationPlanSubscription);
-			 */
-			// organization.setOrganizationPlanSubscriptionList(orgPlanSubscriptionList);
-			LoggerUtil.logInfo("organization plan inserted");
-
-			LoggerUtil.logInfo("going to fetch template");
-			List<SmsTemplateLanguageMapping> smstemplateList = smsTemplateLanguageMappingDAO
-					.fetchSmsTemplate(UserServiceConstants.DEFAULT_LANG);
-			List<OrganizationTemplate> orgTemplateList = new ArrayList<>();
-			LoggerUtil.logInfo("completed");
-			OrganizationTemplate orgTemplate;
-			for (SmsTemplateLanguageMapping smstemplate : smstemplateList) {
-				orgTemplate = new OrganizationTemplate();
-				BeanUtils.copyProperties(smstemplate, orgTemplate);
-				orgTemplate.setLanguageID(smstemplate.getLangmaster().getLangID());
-				orgTemplate.setOrganization(organization);
-				orgTemplate.setCreatedAt(new Date());
-				orgTemplateList.add(orgTemplate);
-			}
-
-			organization.setOrganizationtemplates(orgTemplateList);
-
-			OrganizationUser organizationUser = new OrganizationUser();
-			organizationUser.setOrganization(organization);
-			organizationUser.setCreatedBy(signUpDTO.getEmail());
-			organizationUser.setCreatedAt(new Date());
-			organizationUser.setUser(user);
-			LoggerUtil.logInfo("organization user inserted");
-
-			List<OrganizationUser> organizationUserList = new ArrayList<>();
-			organizationUserList.add(organizationUser);
-			organization.setOrganizationusers(organizationUserList);
-			user.setOrganizationusers(organizationUserList);
-
-			User savedUser = userDAO.save(user);
-			// sending activation mail
-			sendActivationEmail(savedUser);
-
-		} else {
-			LoggerUtil.logInfo("user exists");
+		OrganizationCategory orgCategory;
+		for (Lookup lookup : lookupList) {
+			orgCategory = new OrganizationCategory();
+			orgCategory.setOrganization(organization);
+			orgCategory.setLookup(lookup);
+			orgCategory.setLookuptype(lookup.getLookuptype());
+			orgCategoryList.add(orgCategory);
 		}
+		organization.setOrganizationcategories(orgCategoryList);
+
+		LoggerUtil.logInfo("organization categoery inserted");
+
+		/*
+		 * Plan plan = planDAO.fetchPlan(signUpDTO.getPlanId());
+		 * LoggerUtil.logInfo("planid:" + plan.getPlanId() + " " + plan.getPlanName());
+		 */
+		// OrganizationPlanSubscription organizationPlanSubscription = new
+		// OrganizationPlanSubscription();
+		/*
+		 * organizationPlanSubscription.setOrganization(organization);
+		 * organizationPlanSubscription.setPlan(plan);
+		 * organizationPlanSubscription.setCreatedBy(signUpDTO.getEmail());
+		 * organizationPlanSubscription.setCreatedAt(new Date());
+		 */
+		// temporary added code
+		/*
+		 * organizationPlanSubscription.setAmountPerUnit(new BigDecimal(0.0));
+		 * organizationPlanSubscription.setCostPerAd(new BigDecimal(0.0));
+		 * organizationPlanSubscription.setCreatedBy(signUpDTO.getEmail());
+		 * organizationPlanSubscription.setCurrencyId(11); Calendar cal =
+		 * Calendar.getInstance(); cal.setTime(new Date()); cal.add(Calendar.MONTH, 1);
+		 * organizationPlanSubscription.setEndDate(cal.getTime());
+		 * organizationPlanSubscription.setModifiedBy(signUpDTO.getEmail());
+		 * organizationPlanSubscription.setModifiedAt(new Date());
+		 * organizationPlanSubscription.setNoOfAdsPerUnit(0);
+		 * organizationPlanSubscription.setNumberOfUnits(0);s
+		 * organizationPlanSubscription.setOrganization(organization);
+		 * organizationPlanSubscription.setStartDate(new Date());
+		 * organizationPlanSubscription.setTerminateDate(null);
+		 * organizationPlanSubscription.setTotalAmount(new BigDecimal(0.0));
+		 * organizationPlanSubscription.setUnitId(9);
+		 */
+		// ---
+
+		/*
+		 * List<OrganizationPlanSubscription> orgPlanSubscriptionList = new
+		 * ArrayList<>(); orgPlanSubscriptionList.add(organizationPlanSubscription);
+		 */
+		// organization.setOrganizationPlanSubscriptionList(orgPlanSubscriptionList);
+		// LoggerUtil.logInfo("organization plan inserted");
+
+		LoggerUtil.logInfo("going to fetch template");
+		List<SmsTemplateLanguageMapping> smstemplateList = smsTemplateLanguageMappingDAO
+				.fetchSmsTemplate(UserServiceConstants.DEFAULT_LANG);
+		List<OrganizationTemplate> orgTemplateList = new ArrayList<>();
+		LoggerUtil.logInfo("completed");
+		OrganizationTemplate orgTemplate;
+		for (SmsTemplateLanguageMapping smstemplate : smstemplateList) {
+			orgTemplate = new OrganizationTemplate();
+			BeanUtils.copyProperties(smstemplate, orgTemplate);
+			orgTemplate.setLanguageID(smstemplate.getLangmaster().getLangID());
+			orgTemplate.setOrganization(organization);
+			orgTemplate.setCreatedAt(new Date());
+			orgTemplateList.add(orgTemplate);
+		}
+
+		organization.setOrganizationtemplates(orgTemplateList);
+		organization.setCustomer(customer);
+
+		customer.setOrganization(organization);
+
+		customerDAO.save(customer);
+
+		/*
+		 * OrganizationUser organizationUser = new OrganizationUser();
+		 * organizationUser.setOrganization(organization);
+		 * organizationUser.setCreatedBy(signUpDTO.getEmail());
+		 * organizationUser.setCreatedAt(new Date()); organizationUser.setUser(user);
+		 * LoggerUtil.logInfo("organization user inserted");
+		 * 
+		 * List<OrganizationUser> organizationUserList = new ArrayList<>();
+		 * organizationUserList.add(organizationUser);
+		 * organization.setOrganizationusers(organizationUserList);
+		 * user.setOrganizationusers(organizationUserList);
+		 * 
+		 * User savedUser = userDAO.save(user); // sending activation mail
+		 * sendActivationEmail(savedUser);
+		 */
+
+		/*
+		 * } else { LoggerUtil.logInfo("user exists"); }
+		 */
 
 	}
 
@@ -575,7 +599,6 @@ public class UserServiceImpl implements UserService {
 				sendActivationEmail(user);
 			}
 		}
-
 		return "Code Resend Successfully";
 	}
 
@@ -645,7 +668,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void fetchPlaceDetails(String placeId) throws JSONException {
+	public OrganizationDTO fetchPlaceDetails(String placeId) throws JSONException {
+
+		OrganizationDTO orgDTO = new OrganizationDTO();
+		AddressDTO addressDTO = new AddressDTO();
 
 		StringBuffer url = new StringBuffer();
 		url.append(UserServiceConstants.PLACE_DETAILS_API);
@@ -657,9 +683,9 @@ public class UserServiceImpl implements UserService {
 		JSONObject obj = new JSONObject(response);
 		JSONObject loc = obj.getJSONObject("result");
 
-		LoggerUtil.logInfo("loc" + loc.getString("name"));
-		LoggerUtil.logInfo("loc" + loc.getString("formatted_phone_number"));
-		LoggerUtil.logInfo("loc" + loc.getString("vicinity"));
+		orgDTO.setOrganizationName(loc.getString("name"));
+		orgDTO.setPrimaryPhone(new BigInteger(loc.getString("formatted_phone_number").replaceAll("[^0-9]", "")));
+		addressDTO.setAddressLineOne(loc.getString("vicinity"));
 
 		JSONArray array = loc.getJSONArray("address_components");
 		JSONObject address = null;
@@ -668,12 +694,20 @@ public class UserServiceImpl implements UserService {
 			address = array.getJSONObject(i);
 			String list = address.getString("types");
 			if (list.contains("locality")) {
-				LoggerUtil.logInfo("loc" + address.getString("long_name"));
+				addressDTO.setCity(address.getString("long_name"));
 			} else if (list.contains("administrative_area_level_1")) {
-				LoggerUtil.logInfo("loc" + address.getString("short_name"));
+				addressDTO.setState(address.getString("short_name"));
 			}
 		}
+		orgDTO.setAddressDTO(addressDTO);
+		return orgDTO;
 
+	}
+
+	@Override
+	public List<String> fetchCountryList() {
+		List<String> countryList = countryDAO.fetchCountryList();
+		return countryList;
 	}
 
 }

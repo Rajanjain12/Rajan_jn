@@ -25,6 +25,7 @@ import com.kyobeeUserService.util.Exception.InvalidLoginException;
 import com.kyobeeUserService.util.Exception.UserNotFoundException;
 import com.kyobeeUserService.dto.CredentialsDTO;
 import com.kyobeeUserService.dto.LoginUserDTO;
+import com.kyobeeUserService.dto.OrganizationDTO;
 import com.kyobeeUserService.dto.PlaceDTO;
 import com.kyobeeUserService.dto.ResetPasswordDTO;
 
@@ -36,7 +37,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	//For login of mobile and web both
+	// For login of mobile and web both
 	@PostMapping(value = "/login", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO login(@RequestBody CredentialsDTO credentialsDTO) {
 
@@ -66,7 +67,7 @@ public class UserController {
 		return responseDTO;
 	}
 
-	//For reset password of user account
+	// For reset password of user account
 	@PostMapping(value = "/resetPassword", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO resetPassword(@RequestBody ResetPasswordDTO resetpassword) {
 
@@ -92,7 +93,7 @@ public class UserController {
 		return responseDTO;
 	}
 
-	// for sending forgot password link 
+	// for sending forgot password link
 	@PostMapping(value = "/forgotPassword", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO forgotPassword(@RequestParam String username) {
 
@@ -123,26 +124,27 @@ public class UserController {
 		}
 		return responseDTO;
 	}
-	
-	//for signUp of organization
+
+	// for signUp of organization
 	@PostMapping(value = "/signUp", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO signUp(@RequestBody SignUpDTO signUpDTO) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
-		try {		
-            userService.signUp(signUpDTO);
-            responseDTO.setServiceResult("Signup done successfully\"");
+		try {
+			userService.signUp(signUpDTO);
+			responseDTO.setServiceResult("Signup done successfully\"");
 			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
-		}  catch (Exception e) {
+		} catch (Exception e) {
 			LoggerUtil.logError(e);
+			e.printStackTrace();
 			responseDTO.setServiceResult("Error while fetching details of user");
 			responseDTO.setMessage("Error while fetching details of user");
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
 		}
 		return responseDTO;
 	}
-	
-	//for activating user account
+
+	// for activating user account
 	@PostMapping(value = "/activateUser", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO activateUser(@RequestParam String activationCode, @RequestParam Integer userId) {
 
@@ -160,8 +162,8 @@ public class UserController {
 		}
 		return responseDTO;
 	}
-	
-	//for resend code
+
+	// for resend code
 	@PostMapping(value = "/resendCode", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO resendCode(@RequestParam Integer userId) {
 
@@ -179,7 +181,7 @@ public class UserController {
 		}
 		return responseDTO;
 	}
-	
+
 	// For fetching latitude and longitude according to zip code
 	@GetMapping(value = "/latLon", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO fetchLatLon(@RequestParam Integer zipCode) {
@@ -196,7 +198,7 @@ public class UserController {
 		}
 		return responseDTO;
 	}
-	
+
 	// For fetching place list according to latitude and longitude
 	@GetMapping(value = "/placeList", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO fetchPlaceList(@RequestParam String place, @RequestParam String latLon) {
@@ -215,15 +217,15 @@ public class UserController {
 		}
 		return responseDTO;
 	}
-	
+
 	// For fetching place details by place Id
 	@GetMapping(value = "/placeDetails", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO placeDetails(@RequestParam String placeId) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			userService.fetchPlaceDetails(placeId);
-			responseDTO.setServiceResult("Place lis fetched successfully");
+			 OrganizationDTO orgDTO = userService.fetchPlaceDetails(placeId);
+			responseDTO.setServiceResult(orgDTO);
 			responseDTO.setMessage("Place List fetched successfully");
 			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
 		} catch (Exception e) {
@@ -234,5 +236,24 @@ public class UserController {
 		}
 		return responseDTO;
 	}
-	
+
+	// For fetching country list
+	@GetMapping(value = "/country", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO fetchCountryList() {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			List<String> countryList = userService.fetchCountryList();
+			responseDTO.setServiceResult(countryList);
+			responseDTO.setMessage("Country List fetched successfully");
+			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
+		} catch (Exception e) {
+			LoggerUtil.logError(e);
+			responseDTO.setServiceResult("Error while fetching country list.");
+			responseDTO.setMessage("Error while fetching country list.");
+			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+		}
+		return responseDTO;
+	}
+
 }

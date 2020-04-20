@@ -16,6 +16,7 @@ import com.kyobeeUserService.dao.OrganizationTypeDAO;
 import com.kyobeeUserService.dao.SmsTemplateLanguageMappingDAO;
 import com.kyobeeUserService.dto.AddressDTO;
 import com.kyobeeUserService.dto.OrganizationDTO;
+import com.kyobeeUserService.dto.OrganizationTypeDTO;
 import com.kyobeeUserService.entity.Address;
 import com.kyobeeUserService.entity.Customer;
 import com.kyobeeUserService.entity.LangMaster;
@@ -52,7 +53,7 @@ public class SignUpServiceImpl implements SignUpService {
 	public void addBusiness(OrganizationDTO organizationDTO) {
 
 		Customer customer = new Customer();
-		
+
 		customer.setCustomerName(organizationDTO.getOrganizationName());
 		customer.setTrialPeriodStartDate(new Date());
 		Calendar cal = Calendar.getInstance();
@@ -63,7 +64,7 @@ public class SignUpServiceImpl implements SignUpService {
 		customer.setActive(UserServiceConstants.ACTIVE_ORG);
 
 		Address address = new Address();
-		
+
 		AddressDTO addressDTO = organizationDTO.getAddressDTO();
 		BeanUtils.copyProperties(addressDTO, address);
 		address.setCreatedAt(new Date());
@@ -134,6 +135,12 @@ public class SignUpServiceImpl implements SignUpService {
 		customerDAO.save(customer);
 		LoggerUtil.logInfo("Business added successfully");
 
+	}
+
+	@Override
+	public List<OrganizationTypeDTO> fetchAllOrganizationType() {
+		List<OrganizationTypeDTO> orgTypeList = organizationTypeDAO.fetchAllOrganizationType();
+		return orgTypeList;
 	}
 
 }

@@ -719,7 +719,7 @@ values('add_guest','Ajouter un invité','fr','French',1,'admin','2020-04-07');
 
 insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
 values('add_guest','Add Guest','en','English',1,'admin','2020-04-07');
-
+---------------------------------------------------------------------------------------------------------------------
 ALTER TABLE `KyobeeTechRevamp`.`CURRENCY` 
 DROP COLUMN `ShortName`,
 CHANGE COLUMN `FullName` `CurrencyName` VARCHAR(255) NULL DEFAULT NULL ;
@@ -727,9 +727,7 @@ CHANGE COLUMN `FullName` `CurrencyName` VARCHAR(255) NULL DEFAULT NULL ;
 ALTER TABLE `KyobeeTechRevamp`.`USER` 
 ADD COLUMN `SaltString` VARCHAR(10) NOT NULL AFTER `Password`;
 
-INSERT INTO `KyobeeTechRevamp`.`ROLE` (`RoleID`,`RoleName`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('4','Customer Admin', '1', 'admin', now());
-
-
+---------------------------------------------------------------------------------------------------------------------
 insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
 values('add_guest_error','손님 추가 중 오류','ko','Korean',1,'admin','2020-04-13');
 
@@ -747,3 +745,72 @@ values('add_guest_error','Erreur lors de l'ajout d'un invité','fr','French',1,'
 
 insert into KyobeeTechRevamp.LANGUAGEKEYMAPPING(keyName,Value,LangIsoCode,ScreenName,UpdateFlag,CreatedBy,CreatedAt) 
 values('add_guest_error','Error while adding guest','en','English',1,'admin','2020-04-13');
+---------------------------------------------------------------------------------------------------------------------
+
+INSERT INTO `KyobeeTechRevamp`.`PLAN` (`PlanName`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('Silver', '1', 'admin', '2020-04-15');
+INSERT INTO `KyobeeTechRevamp`.`PLAN` (`PlanName`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('Gold', '1', 'admin', '2020-04-15');
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+ALTER TABLE `KyobeeTechRevamp`.`PLANTERM` 
+CHANGE COLUMN `PlanTermID` `PlanTermID` INT(11) NOT NULL AUTO_INCREMENT ;
+
+INSERT INTO `KyobeeTechRevamp`.`PLANTERM` (`PlanTermName`, `SortOrder`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('Monthly', '1', '1', 'admin', '2020-04-15');
+INSERT INTO `KyobeeTechRevamp`.`PLANTERM` (`PlanTermName`, `SortOrder`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('Annually', '2', '1', 'admin', '2020-04-15');
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+INSERT INTO `KyobeeTechRevamp`.`FEATURE` (`FeatureName`, `FeatureDescription`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('Waitlist', 'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs', '1', 'admin', '2020-04-15');
+INSERT INTO `KyobeeTechRevamp`.`FEATURE` (`FeatureName`, `FeatureDescription`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('Text Marketing', 'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs', '1', 'admin', '2020-04-15');
+
+
+---------------------------------------------------------------------------------------------------------------------
+INSERT INTO `KyobeeTechRevamp`.`PLANFEATURECHARGE` (`FeatureID`, `PlanID`, `CurrencyID`, `PlanTermID`, `TermChargeAmt`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('1', '1', '216', '1', '26', '1', 'admin', now());
+INSERT INTO `KyobeeTechRevamp`.`PLANFEATURECHARGE` (`FeatureID`, `PlanID`, `CurrencyID`, `PlanTermID`, `TermChargeAmt`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('1', '2', '216', '1', '30', '1', 'admin', now());
+INSERT INTO `KyobeeTechRevamp`.`PLANFEATURECHARGE` (`FeatureID`, `PlanID`, `CurrencyID`, `PlanTermID`, `TermChargeAmt`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('2', '1', '216', '1', '26', '1', 'admin', now());
+INSERT INTO `KyobeeTechRevamp`.`PLANFEATURECHARGE` (`FeatureID`, `PlanID`, `CurrencyID`, `PlanTermID`, `TermChargeAmt`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('2', '2', '216', '1', '30', '1', 'admin', now());
+
+INSERT INTO `KyobeeTechRevamp`.`PLANFEATURECHARGE` (`FeatureID`, `PlanID`, `CurrencyID`, `PlanTermID`, `TermChargeAmt`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('1', '1', '216', '2', '100', '1', 'admin', now());
+INSERT INTO `KyobeeTechRevamp`.`PLANFEATURECHARGE` (`FeatureID`, `PlanID`, `CurrencyID`, `PlanTermID`, `TermChargeAmt`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('1', '2', '216', '2', '150', '1', 'admin', now());
+INSERT INTO `KyobeeTechRevamp`.`PLANFEATURECHARGE` (`FeatureID`, `PlanID`, `CurrencyID`, `PlanTermID`, `TermChargeAmt`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('2', '1', '216', '2', '100', '1', 'admin', now());
+INSERT INTO `KyobeeTechRevamp`.`PLANFEATURECHARGE` (`FeatureID`, `PlanID`, `CurrencyID`, `PlanTermID`, `TermChargeAmt`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('2', '2', '216', '2', '150', '1', 'admin', now());
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+ALTER TABLE `KyobeeTechRevamp`.`ROLE` 
+CHANGE COLUMN `RoleID` `RoleID` INT(11) NOT NULL AUTO_INCREMENT ;
+
+INSERT INTO `KyobeeTechRevamp`.`ROLE` (`RoleName`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('Customer Admin', '1', 'admin', now());
+INSERT INTO `KyobeeTechRevamp`.`ROLE` (`RoleName`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('Organization Admin', '1', 'admin', now());
+INSERT INTO `KyobeeTechRevamp`.`ROLE` (`RoleName`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('Organization Manager', '1', 'admin', now());
+INSERT INTO `KyobeeTechRevamp`.`ROLE` (`RoleName`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('Organization Staff', '1', 'admin', now());
+INSERT INTO `KyobeeTechRevamp`.`ROLE` (`RoleName`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('ITAdmin', '1', 'admin', now());
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+ALTER TABLE `KyobeeTechRevamp`.`PROTECTEDOBJECT` 
+ADD COLUMN `Active` BIT(1) NOT NULL AFTER `Filter`;
+
+INSERT INTO `KyobeeTechRevamp`.`PROTECTEDOBJECT` (`ProtectedObjectName`, `Description`,`Active`, `CreatedBy`, `CreatedAt`) VALUES ('DashbBoard','DashbBoard', '1', 'admin', now());
+INSERT INTO `KyobeeTechRevamp`.`PROTECTEDOBJECT` (`ProtectedObjectName`, `Description`,`Active`, `CreatedBy`, `CreatedAt`) VALUES ('Add Guest','Add Guest', '1', 'admin', now());
+INSERT INTO `KyobeeTechRevamp`.`PROTECTEDOBJECT` (`ProtectedObjectName`, `Description`,`Active`, `CreatedBy`, `CreatedAt`) VALUES ('History','History', '1', 'admin', now());
+INSERT INTO `KyobeeTechRevamp`.`PROTECTEDOBJECT` (`ProtectedObjectName`, `Description`,`Active`, `CreatedBy`, `CreatedAt`) VALUES ('Setting','Setting', '1', 'admin', now());
+INSERT INTO `KyobeeTechRevamp`.`PROTECTEDOBJECT` (`ProtectedObjectName`, `Description`,`Active`, `CreatedBy`, `CreatedAt`) VALUES ('Reset','Reset', '1', 'admin', now());
+INSERT INTO `KyobeeTechRevamp`.`PROTECTEDOBJECT` (`ProtectedObjectName`, `Description`,`Active`, `CreatedBy`, `CreatedAt`) VALUES ('Text Marketing','Text Marketing', '1', 'admin', now());
+INSERT INTO `KyobeeTechRevamp`.`PROTECTEDOBJECT` (`ProtectedObjectName`, `Description`,`Active`, `CreatedBy`, `CreatedAt`) VALUES ('Table Management','Table Management', '1', 'admin', now());
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+ALTER TABLE `KyobeeTechRevamp`.`ROLEPROTECTEDOBJECT` 
+ADD COLUMN `Active` BIT(1) NOT NULL AFTER `ProtectedObjectID`;
+
+INSERT INTO `KyobeeTechRevamp`.`ROLEPROTECTEDOBJECT` (`RoleID`, `ProtectedObjectID`,`Active`, `CreatedBy`, `CreatedAt`) VALUES ('1','1', '1', 'admin', now());
+INSERT INTO `KyobeeTechRevamp`.`ROLEPROTECTEDOBJECT` (`RoleID`, `ProtectedObjectID`,`Active`, `CreatedBy`, `CreatedAt`) VALUES ('1','2', '1', 'admin', now());
+INSERT INTO `KyobeeTechRevamp`.`ROLEPROTECTEDOBJECT` (`RoleID`, `ProtectedObjectID`,`Active`, `CreatedBy`, `CreatedAt`) VALUES ('1','3', '1', 'admin', now());
+INSERT INTO `KyobeeTechRevamp`.`ROLEPROTECTEDOBJECT` (`RoleID`, `ProtectedObjectID`,`Active`, `CreatedBy`, `CreatedAt`) VALUES ('1','4', '1', 'admin', now());
+INSERT INTO `KyobeeTechRevamp`.`ROLEPROTECTEDOBJECT` (`RoleID`, `ProtectedObjectID`,`Active`, `CreatedBy`, `CreatedAt`) VALUES ('1','5', '1', 'admin', now());
+INSERT INTO `KyobeeTechRevamp`.`ROLEPROTECTEDOBJECT` (`RoleID`, `ProtectedObjectID`,`Active`, `CreatedBy`, `CreatedAt`) VALUES ('1','6', '1', 'admin', now());
+INSERT INTO `KyobeeTechRevamp`.`ROLEPROTECTEDOBJECT` (`RoleID`, `ProtectedObjectID`,`Active`, `CreatedBy`, `CreatedAt`) VALUES ('1','7', '1', 'admin', now());
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONSUBSCRIPTION` 
+CHANGE COLUMN `OrganizationSubscriptionID` `OrganizationSubscriptionID` INT(11) NOT NULL AUTO_INCREMENT ;
+---------------------------------------------------------------------------------------------------------------------------------------------
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONCARDDETAIL` 
+CHANGE COLUMN `OrganizationCardDetailID` `OrganizationCardDetailID` INT(11) NOT NULL AUTO_INCREMENT ;

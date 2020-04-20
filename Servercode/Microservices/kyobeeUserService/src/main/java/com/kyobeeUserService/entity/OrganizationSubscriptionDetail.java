@@ -4,8 +4,11 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,6 +23,7 @@ public class OrganizationSubscriptionDetail implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "OrganizationSubscriptionPlanID")
 	private int organizationSubscriptionPlanID;
 
@@ -75,7 +79,7 @@ public class OrganizationSubscriptionDetail implements Serializable {
 	private String isFree;
 
 	// bi-directional many-to-one association to Organizationsubscription
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "SubscriptionID")
 	private OrganizationSubscription organizationSubscription;
 

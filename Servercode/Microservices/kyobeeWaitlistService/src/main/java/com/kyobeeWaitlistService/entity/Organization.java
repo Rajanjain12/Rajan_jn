@@ -32,8 +32,8 @@ public class Organization implements Serializable {
 	@Column(name = "OrganizationName")
 	private String organizationName;
 
-	@ManyToOne
-	@JoinColumn(name = "CustomerID")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "CustomerID",referencedColumnName = "customerID")
 	private Customer customer;
 
 	// bi-directional many-to-one association to Lookup

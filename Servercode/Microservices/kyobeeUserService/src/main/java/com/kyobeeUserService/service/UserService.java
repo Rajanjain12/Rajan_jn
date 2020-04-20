@@ -8,6 +8,7 @@ import org.json.JSONException;
 
 import com.kyobeeUserService.dto.CredentialsDTO;
 import com.kyobeeUserService.dto.LoginUserDTO;
+import com.kyobeeUserService.dto.OrganizationDTO;
 import com.kyobeeUserService.dto.PlaceDTO;
 import com.kyobeeUserService.dto.ResetPasswordDTO;
 import com.kyobeeUserService.dto.ResponseDTO;
@@ -39,6 +40,8 @@ public interface UserService {
 	
 	public List<PlaceDTO> fetchPlaceList(String place,String latLon) throws JSONException;
 	
-	public void fetchPlaceDetails(String placeId) throws JSONException;
+	public OrganizationDTO fetchPlaceDetails(String placeId) throws JSONException;
+	
+	public List<String> fetchCountryList();
 
 }
