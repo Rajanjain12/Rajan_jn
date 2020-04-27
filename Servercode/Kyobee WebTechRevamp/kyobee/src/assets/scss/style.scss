@@ -448,11 +448,11 @@ fieldset {
 .form-group select {
   width: 100%;
   font-size: 1rem;
-  height: 1.6rem;
+  height: 1.9rem;
   padding: 0.125rem 0.125rem 0.0625rem;
   background: none;
   border: none;
-  line-height: 1.6;
+  line-height: 1.9;
   box-shadow: none;
   &:hover,
   &:focus {
@@ -530,7 +530,8 @@ fieldset {
 .form-group textarea.form-file ~ .control-label,
 .form-group textarea.has-value ~ .control-label,
 .form-group input.no-value:focus ~ .control-label,
-.form-group textarea.no-value:focus ~ .control-label {
+.form-group textarea.no-value:focus ~ .control-label,
+.form-group .has-value-label {
   font-size: 0.8rem;
   color: gray;
   top: -1rem;
@@ -651,6 +652,61 @@ fieldset {
   width: 100%;
 }
 
+.ng-autocomplete {
+  width: auto !important;
+  .autocomplete-container,
+  .input-container,
+  .input-container input {
+    border-radius: 25px !important;
+  }
+  .autocomplete-container.active,
+  .active .input-container,
+  .active .input-container input {
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+  }
+  .autocomplete-container.active .suggestions-container {
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.25);
+    ul {
+      overflow: hidden;
+    }
+  }
+  .autocomplete-container.active:after {
+    content: '';
+    height: 1px;
+    width: 95%;
+    background-color: #999;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+.mobile-input-with-flag {
+  .control-label-flag {
+    margin: 0;
+    font-size: 1rem;
+  }
+  .countryCode-flag {
+    display: grid;
+    align-items: center;
+  }
+  .form-group {
+    margin: 0;
+    select {
+      line-height: 1.9;
+      height: 1.9rem;
+    }
+  }
+}
+
+.not-finding {
+  font-weight: bold;
+  font-size: 14px;
+  &:hover {
+    color: #999;
+  }
+}
 // --------------
 .fix-header {
   position: fixed;

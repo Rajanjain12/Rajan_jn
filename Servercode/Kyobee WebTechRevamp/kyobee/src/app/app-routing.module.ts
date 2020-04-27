@@ -7,6 +7,10 @@ const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   },
   {
+    path: 'auth-b2b',
+    loadChildren: () => import('./auth-b2b/auth-b2b.module').then(m => m.AuthB2bModule)
+  },
+  {
     path: 'waitlist',
     loadChildren: () => import('./waitlist/waitlist.module').then(m => m.WaitlistModule)
   },

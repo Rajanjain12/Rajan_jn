@@ -1,0 +1,83 @@
+$primary-color: #e14b28;
+$background-color: #fff;
+$text-color: #161616;
+$secondary-color: #707070;
+$circle-width: 46px;
+$half-width: $circle-width/2;
+.multi-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($circle-width * 2, 1fr));
+  width: 100%;
+  overflow: hidden;
+  li {
+    position: relative;
+    text-align: center;
+    color: $text-color;
+    opacity: 0.8;
+    margin: 0.5rem 0;
+    .step-icon {
+      display: block;
+      margin: 0 auto 4px;
+      background-color: $primary-color;
+      color: $background-color;
+      width: $circle-width;
+      height: $circle-width;
+      line-height: 0.85;
+      border: {
+        width: 2px;
+        style: solid;
+        color: $primary-color;
+        radius: 50%;
+      }
+      &:focus,
+      &:hover {
+        outline: 0;
+      }
+    }
+    &:after,
+    &:before {
+      content: '';
+      height: 2px;
+      width: calc(50% - #{$half-width});
+      background-color: $primary-color;
+      position: absolute;
+      z-index: -1;
+      top: $half-width;
+    }
+    &:after {
+      left: calc(50% + #{$half-width});
+    }
+    &:before {
+      left: 0;
+    }
+    &:first-child:before,
+    &:last-child:after {
+      display: none;
+    }
+    &.is-active {
+      .step-icon {
+        box-shadow: 0px 3px 6px #e14b28b3;
+      }
+      opacity: 1;
+      &:before {
+        opacity: 0.8;
+      }
+      &:after {
+        background-color: $secondary-color;
+      }
+      ~ li {
+        opacity: 1;
+        color: $secondary-color;
+        .step-icon {
+          background-color: $background-color;
+          color: $secondary-color;
+          border-color: $secondary-color;
+        }
+        &:before,
+        &:after {
+          background-color: $secondary-color;
+        }
+      }
+    }
+  }
+}

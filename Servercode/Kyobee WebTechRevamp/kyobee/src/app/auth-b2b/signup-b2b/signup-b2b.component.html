@@ -1,0 +1,54 @@
+<section class="pb-3 fade-in signupPage">
+  <div class="custom-container">
+    <div class="alert mb-3" [ngClass]="'alert-' + alertError.type" *ngIf="alertError.display != false">
+      <button type="button" class="close" data-dismiss="alert" (click)="alertError.display = false">&times;</button>
+      <p>{{ alertError.msg }}</p>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 py-3">
+          <ul class="mt-2 list-unstyled multi-steps">
+            <li [ngClass]="{'is-active': step == 0}">
+              <button class="step-icon" (click)='step = 0'> <i class="flaticon-user"></i> </button>
+              Register Business
+            </li>
+            <li [ngClass]="{'is-active': step == 1}">
+              <button class="step-icon" (click)='step = 1'><i class="flaticon-user"></i></button>
+              Create Profile
+            </li>
+            <li [ngClass]="{'is-active': step == 2}">
+              <button class="step-icon" (click)='step = 2'><i class="flaticon-user"></i></button>
+              Select Plans & Finalize
+            </li>
+            <li [ngClass]="{'is-active': step == 3}">
+              <button class="step-icon" (click)='step = 3'><i class="flaticon-user"></i></button>
+              All Set
+            </li>
+          </ul>
+        </div>
+        <div class="col-12 fade-in p-0" *ngIf=" step == 0">
+          <app-register-business></app-register-business>
+        </div>
+        <div class="col-12 fade-in p-0" *ngIf=" step == 1">
+          <app-create-business></app-create-business>
+        </div>
+        <div class="col-12 fade-in p-0" *ngIf=" step == 2">
+          <div class="col-12">
+            <h4 class="text-center mb-3">Select Plan</h4>
+          </div>
+        </div>
+        <div class="col-12 fade-in p-0" *ngIf=" step == 3">
+          <div class="col-12">
+            <h4 class="text-center mb-3">Set-up For Payment</h4>
+          </div>
+        </div>
+
+        <div class="col-12 text-center mt-4">
+          By signing up, you agree
+          <button type="button" class="btn btn-underline not-finding p-0">terms and
+            conditions</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
