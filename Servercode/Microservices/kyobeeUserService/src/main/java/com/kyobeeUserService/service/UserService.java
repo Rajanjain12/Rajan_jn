@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.json.JSONException;
 
+import com.kyobeeUserService.dto.CountryDTO;
 import com.kyobeeUserService.dto.CredentialsDTO;
 import com.kyobeeUserService.dto.LoginUserDTO;
 import com.kyobeeUserService.dto.OrganizationDTO;
@@ -17,6 +18,7 @@ import com.kyobeeUserService.util.Exception.InvalidActivationCodeException;
 import com.kyobeeUserService.util.Exception.AccountNotActivatedExeception;
 import com.kyobeeUserService.util.Exception.InvalidAuthCodeException;
 import com.kyobeeUserService.util.Exception.InvalidLoginException;
+import com.kyobeeUserService.util.Exception.InvalidZipCodeException;
 import com.kyobeeUserService.util.Exception.UserNotFoundException;
 
 public interface UserService {
@@ -36,12 +38,12 @@ public interface UserService {
 	
 	public String resendCode(Integer userId);
 	
-	public ResponseDTO fetchLatLon(Integer zipCode) throws JSONException;
+	public PlaceDTO fetchLatLon(Integer zipCode) throws JSONException,InvalidZipCodeException;
 	
-	public List<PlaceDTO> fetchPlaceList(String place,String latLon) throws JSONException;
+	public List<PlaceDTO> fetchPlaceList(String place,String latLon,String countryCode) throws JSONException;
 	
 	public OrganizationDTO fetchPlaceDetails(String placeId) throws JSONException;
 	
-	public List<String> fetchCountryList();
+	public List<CountryDTO> fetchCountryList();
 
 }

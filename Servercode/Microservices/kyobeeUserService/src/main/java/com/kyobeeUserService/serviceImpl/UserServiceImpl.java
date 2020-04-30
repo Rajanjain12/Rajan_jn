@@ -29,11 +29,11 @@ import com.kyobeeUserService.dao.OrganizationDAO;
 import com.kyobeeUserService.dao.OrganizationTemplateDAO;
 import com.kyobeeUserService.dao.OrganizationTypeDAO;
 import com.kyobeeUserService.dao.PlanDAO;
-import com.kyobeeUserService.dao.PlanFeatureChargeDAO;
 import com.kyobeeUserService.dao.RoleDAO;
 import com.kyobeeUserService.dao.SmsTemplateLanguageMappingDAO;
 import com.kyobeeUserService.dao.UserDAO;
 import com.kyobeeUserService.dto.AddressDTO;
+import com.kyobeeUserService.dto.CountryDTO;
 import com.kyobeeUserService.dto.CredentialsDTO;
 import com.kyobeeUserService.dto.LanguageKeyMappingDTO;
 import com.kyobeeUserService.dto.LanguageMasterDTO;
@@ -65,8 +65,8 @@ import com.kyobeeUserService.util.Exception.AccountNotActivatedExeception;
 import com.kyobeeUserService.util.Exception.InvalidAuthCodeException;
 import com.kyobeeUserService.util.Exception.InvalidActivationCodeException;
 import com.kyobeeUserService.util.Exception.InvalidLoginException;
+import com.kyobeeUserService.util.Exception.InvalidZipCodeException;
 import com.kyobeeUserService.util.Exception.UserNotFoundException;
-import com.kyobeeUserService.dto.ResponseDTO;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -603,7 +603,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public ResponseDTO fetchLatLon(Integer zipCode) throws JSONException {
+	public PlaceDTO fetchLatLon(Integer zipCode) throws JSONException, InvalidZipCodeException {
 
 		StringBuffer url = new StringBuffer();
 		url.append(UserServiceConstants.GEOCODING_API);
@@ -614,39 +614,31 @@ public class UserServiceImpl implements UserService {
 
 		JSONObject obj = new JSONObject(response);
 		JSONArray loc = obj.getJSONArray("results");
-		ResponseDTO responseDTO = null;
 
 		if (loc.length() != 0) {
-			responseDTO = new ResponseDTO();
 			PlaceDTO placeDTO = new PlaceDTO();
 			placeDTO.setLatitude(
 					loc.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getString("lat"));
 			placeDTO.setLongitude(
 					loc.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getString("lng"));
 
-			responseDTO.setServiceResult(placeDTO);
-			responseDTO.setMessage("Latitude and Longitude fetched successfully");
-			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
-
-			return responseDTO;
+			return placeDTO;
 		} else {
-			responseDTO = new ResponseDTO();
-			responseDTO.setServiceResult("Invalid zip code");
-			responseDTO.setMessage("Invalid zip code");
-			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
-			return responseDTO;
+			throw new InvalidZipCodeException("Invalid ZipCode");
+
 		}
 
 	}
 
 	@Override
-	public List<PlaceDTO> fetchPlaceList(String place, String latLon) throws JSONException {
+	public List<PlaceDTO> fetchPlaceList(String place, String latLon, String countryCode) throws JSONException {
 
 		List<PlaceDTO> placeList = new ArrayList<>();
 
 		StringBuffer url = new StringBuffer();
 		url.append(UserServiceConstants.AUTOCOMPLETE_API);
-		url.append(UserServiceConstants.PLACE_PARAM + place + UserServiceConstants.LOCATION_PARAM + latLon);
+		url.append(UserServiceConstants.PLACE_PARAM + place + UserServiceConstants.LOCATION_PARAM + latLon
+				+ UserServiceConstants.COUNTRY_PARAM + countryCode);
 
 		// call to google API
 		String response = restTemplate.getForObject(url.toString(), String.class);
@@ -705,8 +697,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<String> fetchCountryList() {
-		List<String> countryList = countryDAO.fetchCountryList();
+	public List<CountryDTO> fetchCountryList() {
+		List<CountryDTO> countryList = countryDAO.fetchCountryList();
 		return countryList;
 	}
 

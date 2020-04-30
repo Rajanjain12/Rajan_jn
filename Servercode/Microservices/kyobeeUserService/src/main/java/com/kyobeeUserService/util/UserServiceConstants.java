@@ -24,7 +24,7 @@ public class UserServiceConstants {
 	
 	public static final Byte ACTIVATED_USER=1;
 	public static final String WEB_USER="Web";
-	
+		
 	public static final String FOOTER_MSG="Copyright KYOBEE. All Rights Reserved - Version 1.3";
 	public static final String EXTENSION=".png";
 	public static final String KYOBEE_SERVER_URL="http://admin.kyobee.com/static/orglogos";
@@ -50,6 +50,7 @@ public class UserServiceConstants {
 	public static final String GEOCODE_PARAM ="&components=postal_code:";
 	public static final String PLACE_PARAM ="&input=";
 	public static final String LOCATION_PARAM ="&location=";
+	public static final String COUNTRY_PARAM = "&components=country:";
 	public static final String PLACE_DETAILS_PARAM ="&place_id=";
 	
 	public static final String UTIL_BASE_URL = "http://kyobee-util-service/";
@@ -75,5 +76,11 @@ public class UserServiceConstants {
 	public static final String PERC = "Percentage";
 	public static final String AMOUNT ="Amount";
 	public static final Byte ACTIVE = 1;
+	
+	//Braintree constants
+	public static final String BT_ENVIRONMENT="sandbox";
+	public static final String BT_MERCHANT_ID= "k5dtfbdcdw6brmhv";
+	public static final String BT_PUBLIC_KEY="vb2cv6dtn5ydthmx";
+	public static final String BT_PRIVATE_KEY="0ef72dc04a5f98238039b1796cd669d4";
 	
 }

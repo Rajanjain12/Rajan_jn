@@ -22,7 +22,10 @@ import com.kyobeeUserService.util.UserServiceConstants;
 import com.kyobeeUserService.util.Exception.AccountNotActivatedExeception;
 import com.kyobeeUserService.util.Exception.InvalidAuthCodeException;
 import com.kyobeeUserService.util.Exception.InvalidLoginException;
+import com.kyobeeUserService.util.Exception.InvalidZipCodeException;
 import com.kyobeeUserService.util.Exception.UserNotFoundException;
+import com.braintreegateway.BraintreeGateway;
+import com.kyobeeUserService.dto.CountryDTO;
 import com.kyobeeUserService.dto.CredentialsDTO;
 import com.kyobeeUserService.dto.LoginUserDTO;
 import com.kyobeeUserService.dto.OrganizationDTO;
@@ -188,8 +191,17 @@ public class UserController {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			responseDTO = userService.fetchLatLon(zipCode);
+			PlaceDTO placeDTO = userService.fetchLatLon(zipCode);
+			
+			responseDTO.setServiceResult(placeDTO);
+			responseDTO.setMessage("Latitude and Longitude fetched Successfully");
+			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
 
+		}catch (InvalidZipCodeException ie) {
+			LoggerUtil.logError(ie);
+			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+			responseDTO.setMessage(ie.getMessage());
+			responseDTO.setServiceResult(ie.getMessage());
 		} catch (Exception e) {
 			LoggerUtil.logError(e);
 			responseDTO.setServiceResult("Error while fetching lat lon");
@@ -201,11 +213,11 @@ public class UserController {
 
 	// For fetching place list according to latitude and longitude
 	@GetMapping(value = "/placeList", produces = "application/vnd.kyobee.v1+json")
-	public @ResponseBody ResponseDTO fetchPlaceList(@RequestParam String place, @RequestParam String latLon) {
+	public @ResponseBody ResponseDTO fetchPlaceList(@RequestParam String place, @RequestParam String latLon,@RequestParam String countryCode) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			List<PlaceDTO> placeList = userService.fetchPlaceList(place, latLon);
+			List<PlaceDTO> placeList = userService.fetchPlaceList(place, latLon ,countryCode);
 			responseDTO.setServiceResult(placeList);
 			responseDTO.setMessage("Place List fetched successfully");
 			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
@@ -224,7 +236,7 @@ public class UserController {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			 OrganizationDTO orgDTO = userService.fetchPlaceDetails(placeId);
+			OrganizationDTO orgDTO = userService.fetchPlaceDetails(placeId);
 			responseDTO.setServiceResult(orgDTO);
 			responseDTO.setMessage("Place List fetched successfully");
 			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
@@ -243,7 +255,7 @@ public class UserController {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			List<String> countryList = userService.fetchCountryList();
+			List<CountryDTO> countryList = userService.fetchCountryList();
 			responseDTO.setServiceResult(countryList);
 			responseDTO.setMessage("Country List fetched successfully");
 			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
