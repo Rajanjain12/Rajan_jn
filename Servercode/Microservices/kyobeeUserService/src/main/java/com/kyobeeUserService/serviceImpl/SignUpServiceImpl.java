@@ -139,8 +139,7 @@ public class SignUpServiceImpl implements SignUpService {
 
 	@Override
 	public List<OrganizationTypeDTO> fetchAllOrganizationType() {
-		List<OrganizationTypeDTO> orgTypeList = organizationTypeDAO.fetchAllOrganizationType();
-		return orgTypeList;
+		return organizationTypeDAO.fetchAllOrganizationType();
 	}
 
 }

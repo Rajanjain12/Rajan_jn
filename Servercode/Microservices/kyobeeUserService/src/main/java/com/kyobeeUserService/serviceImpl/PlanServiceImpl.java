@@ -3,7 +3,6 @@ package com.kyobeeUserService.serviceImpl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -66,7 +65,6 @@ public class PlanServiceImpl implements PlanService {
 	@Override
 	public PlanDetailsDTO fetchPlanDetails(String country) {
 
-		Map<PlanTerm, List<PlanFeatureCharge>> planTermMap = new LinkedHashMap<>();
 		PlanDetailsDTO planDetailsDTO = new PlanDetailsDTO();
 		PlanFeatureChargeDTO planFeatureChargeDTO = null;
 		PlanFeatureDTO planFeatureDTO = null;
@@ -79,7 +77,7 @@ public class PlanServiceImpl implements PlanService {
 				.fetchPlanCharge(countryDetails.getCountryID());
 
 		// for bifurcating plan term
-		planTermMap = planFeatureChargeList.stream().collect(Collectors.groupingBy(PlanFeatureCharge::getPlanterm));
+		Map<PlanTerm, List<PlanFeatureCharge>> planTermMap = planFeatureChargeList.stream().collect(Collectors.groupingBy(PlanFeatureCharge::getPlanterm));
 
 		for (Entry<PlanTerm, List<PlanFeatureCharge>> entry : planTermMap.entrySet()) {
 			List<PlanFeatureDTO> planFeatureDTOList = new ArrayList<>();
@@ -182,7 +180,7 @@ public class PlanServiceImpl implements PlanService {
 		} else if (promoCodeDTO.getFlatAmt() == null && promoCodeDTO.getPercAmt() == null
 				&& promoCodeDTO.getFlatAmt().compareTo(BigDecimal.ZERO) == 0
 				&& promoCodeDTO.getPercAmt().compareTo(BigDecimal.ZERO) == 0) {
-			throw new PromoCodeException("Please enter discount either in amount(flatAmt) or percentage(perAmt)");
+			throw new PromoCodeException("Please enter discount value");
 		}
 
 		PromotionalCode promoCode = new PromotionalCode();

@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { SignupB2bComponent } from './signup-b2b/signup-b2b.component';
 
-
 const routes: Routes = [
   {
     path: '',
@@ -20,4 +19,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AuthB2bRoutingModule { }
+export class AuthB2bRoutingModule {}

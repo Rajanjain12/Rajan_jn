@@ -7,10 +7,18 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
+import { StorageModule } from '@ngx-pwa/local-storage';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, SharedModule, CoreModule],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    SharedModule,
+    CoreModule,
+    StorageModule.forRoot({ IDBNoWrap: true })
+  ],
   exports: [],
   providers: [],
   bootstrap: [AppComponent]

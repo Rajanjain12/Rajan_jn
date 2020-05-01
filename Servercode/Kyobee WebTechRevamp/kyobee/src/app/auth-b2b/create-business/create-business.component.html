@@ -5,9 +5,7 @@
   <div class="row col-12 col-sm-8 col-md-6 m-auto container-box px-4 py-3">
     <div class="col-12">
       <div class="form-group my-3">
-        <input type="text" id="firstName" name="firstName" #firstName="ngModel"
-          [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }" class="form-control"
-          [(ngModel)]="createBusiness.firstName" required="required" />
+        <input type="text" id="firstName" name="firstName" #firstName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }" class="form-control" [(ngModel)]="createBusiness.firstName" required="required" />
         <label for="input" class="control-label">First Name*</label><i class="bar"></i>
         <div *ngIf="f.submitted && firstName.invalid" class="invalid-feedback">
           <div class="text-danger" *ngIf="firstName.errors?.required">Business Name is required</div>
@@ -16,9 +14,7 @@
     </div>
     <div class="col-12">
       <div class="form-group my-3">
-        <input type="text" id="lastName" name="lastName" #lastName="ngModel"
-          [ngClass]="{ 'is-invalid': f.submitted && lastName.invalid }" class="form-control"
-          [(ngModel)]="createBusiness.lastName" />
+        <input type="text" id="lastName" name="lastName" #lastName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && lastName.invalid }" class="form-control" [(ngModel)]="createBusiness.lastName" />
         <label for="input" class="control-label">Last Name</label><i class="bar"></i>
         <div *ngIf="f.submitted && lastName.invalid" class="invalid-feedback">
           <!-- <div class="text-danger" *ngIf="lastName.errors?.required">Business Name is required</div> -->
@@ -27,9 +23,7 @@
     </div>
     <div class="col-12">
       <div class="form-group my-3">
-        <input type="text" id="userName" name="userName" #userName="ngModel"
-          [ngClass]="{ 'is-invalid': f.submitted && userName.invalid }" class="form-control"
-          [(ngModel)]="createBusiness.userName" required="required" />
+        <input type="text" id="userName" name="userName" #userName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && userName.invalid }" class="form-control" [(ngModel)]="createBusiness.userName" required="required" />
         <label for="input" class="control-label">Username*</label><i class="bar"></i>
         <div *ngIf="f.submitted && userName.invalid" class="invalid-feedback">
           <div class="text-danger" *ngIf="userName.errors?.required">Business Name is required</div>
@@ -38,9 +32,7 @@
     </div>
     <div class="col-12">
       <div class="form-group my-3">
-        <input type="text" id="email" name="email" #email="ngModel" class="form-control"
-          [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" [(ngModel)]="createBusiness.email"
-          required="required" />
+        <input type="text" id="email" name="email" #email="ngModel" class="form-control" [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" [(ngModel)]="createBusiness.email" required="required" />
         <label for="input" class="control-label">Email*</label><i class="bar"></i>
         <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
           <div class="text-danger" *ngIf="email.errors?.required">Email is required</div>
@@ -49,12 +41,9 @@
     </div>
     <div class="col-12">
       <div class="form-group my-3">
-        <input type="password" id="password" name="password" #password="ngModel" class="form-control"
-          [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" [(ngModel)]="createBusiness.password"
-          required="required" />
+        <input type="password" id="password" name="password" #password="ngModel" class="form-control" [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" [(ngModel)]="createBusiness.password" required="required" />
         <label for="input" class="control-label">Password*</label><i class="bar"></i>
-        <span toggle="#password" (click)="toggleEye($event)"
-          class="grey flaticon-padlock eye-icon toggle-password font-weight-semibold"></span>
+        <span toggle="#password" (click)="toggleEye($event)" class="grey flaticon-padlock eye-icon toggle-password font-weight-semibold"></span>
         <div *ngIf="f.submitted && password.invalid" class="invalid-feedback">
           <div class="text-danger" *ngIf="password.errors.required">Password is required</div>
         </div>
@@ -62,12 +51,18 @@
     </div>
     <div class="col-12">
       <div class="form-group my-3">
-        <input type="password" id="confPassword" name="confPassword" #confPassword="ngModel" class="form-control"
-          [ngClass]="{ 'is-invalid': f.submitted && confPassword.invalid }" [(ngModel)]="createBusiness.confPassword"
-          required="required" />
+        <input
+          type="password"
+          id="confPassword"
+          name="confPassword"
+          #confPassword="ngModel"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': f.submitted && confPassword.invalid }"
+          [(ngModel)]="createBusiness.confPassword"
+          required="required"
+        />
         <label for="input" class="control-label">Confirm Password*</label><i class="bar"></i>
-        <span toggle="#confPassword" (click)="toggleEye($event)"
-          class="grey flaticon-padlock eye-icon toggle-confPassword font-weight-semibold"></span>
+        <span toggle="#confPassword" (click)="toggleEye($event)" class="grey flaticon-padlock eye-icon toggle-confPassword font-weight-semibold"></span>
         <div *ngIf="f.submitted && confPassword.invalid" class="invalid-feedback">
           <div class="text-danger" *ngIf="confPassword.errors.required">confPassword is required</div>
         </div>

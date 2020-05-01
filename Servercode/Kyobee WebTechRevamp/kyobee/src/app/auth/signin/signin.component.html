@@ -40,10 +40,9 @@
             </div>
 
             <div class="pb-3">
-              <input class="styled-checkbox" id="rememberMe" type="checkbox" />
+              <input class="styled-checkbox" id="rememberMe" type="checkbox" #remMe="ngModel" [(ngModel)]="user.rem" [ngModelOptions]="{ standalone: true }" />
               <label for="rememberMe">Remember Me</label>
             </div>
-
             <div class="col-ld-12 text-center pb-3">
               <button type="submit" class="btn btn-theme background-color shadow w-50" (click)="validateLogin(f.form.invalid)"><span>Sign In</span></button>
             </div>

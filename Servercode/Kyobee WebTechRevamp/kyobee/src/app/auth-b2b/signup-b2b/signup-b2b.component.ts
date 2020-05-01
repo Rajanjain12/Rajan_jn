@@ -12,5 +12,4 @@ export class SignupB2bComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
-
 }

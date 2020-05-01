@@ -23,7 +23,11 @@ export class PostLoginHeaderComponent implements OnInit {
   }
 
   logout() {
-    this.authService.removeLoginData();
+    // Remove logIn flag in authservice
+    this.authService.removeLogFlag();
+    // Remove data from localStorage when logOut
+    this.authService.removeLocalStorageData();
+    // Navigate to Url
     this.router.navigate(['/auth/login']);
   }
 }

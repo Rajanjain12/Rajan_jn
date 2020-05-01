@@ -1,166 +1,159 @@
 <form name="form" #f="ngForm" class="mt-3" (ngSubmit)="(f.form.valid)" novalidate>
-    <div class="row m-0" *ngIf="addBusinessFlag == false">
-        <div class="col-12">
-            <h4 class="text-center mb-3">Register Your Business</h4>
-        </div>
-        <div class="col-12 row m-0">
-            <div class="col-12 col-sm-4 col-md-3 ml-auto mr-md-3">
-                <div class="mobile-input-with-flag row m-0">
-                    <label for="input" class="col-12 m-0 pl-0 control-label-flag medium-gray-color"> Select
-                        Country</label>
-                    <div class="col-auto pl-0 form-group countryCode-flag">
-                        <img src="/assets/images/flag_placeholder.png"
-                            class="flag flag-{{ addBusiness.countryCode }}" />
-                    </div>
-                    <div class="col p-0 form-group">
-                        <select name="countryCode" id="countryCode" [(ngModel)]="addBusiness.countryCode">
-                            <option value="us">USA</option>
-                            <option value="in">India</option>
-                        </select>
-                        <i class="bar"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-4 col-md-3 mr-auto ml-md-3">
-                <label for="input" class="col-12 m-0 pl-0 control-label medium-gray-color">&nbsp;</label>
-                <div class="form-group m-0">
-                    <input type="text" name="zip" class="form-control" id="zip" [(ngModel)]="addBusiness.zipcode"
-                        #zip="ngModel" [ngClass]="{ 'is-invalid': f.submitted && zip.invalid }" required />
-                    <label for="people" class="control-label">Zip Code*</label>
-                    <i class="bar"></i>
-                    <div *ngIf="f.submitted && zip.invalid" class="invalid-feedback">
-                        <div class="text-danger" *ngIf="zip.errors?.required"> Zipcode is required</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 px-2">
-            <div class="ng-autocomplete mt-4">
-                <ng-autocomplete [data]="data" [searchKeyword]="'name'" [itemTemplate]="itemTemplate"
-                    placeHolder="Search your Business">
-                </ng-autocomplete>
-
-                <ng-template #itemTemplate let-item>
-                    <a [innerHTML]="item.name"></a>
-                </ng-template>
-            </div>
-        </div>
-        <div class="col-12 text-center mt-3">
-            <button type="button" class="btn btn-underline font-color not-finding"
-                (click)="addBusinessFlag = !addBusinessFlag">
-                Not finding?
-            </button>
-        </div>
+  <div class="row m-0" *ngIf="addBusinessFlag == false">
+    <div class="col-12">
+      <h4 class="text-center mb-3">Register Your Business</h4>
     </div>
-    <div class="row fade-in" *ngIf="addBusinessFlag == true">
-        <div class="col-12">
-            <h4 class="text-center mb-3">Add Business</h4>
+    <div class="col-12 row m-0">
+      <div class="col-12 col-sm-4 col-md-3 ml-auto mr-md-3">
+        <div class="mobile-input-with-flag row m-0">
+          <label for="input" class="col-12 m-0 pl-0 control-label-flag medium-gray-color"> Select Country</label>
+          <div class="col-auto pl-0 form-group countryCode-flag">
+            <img src="/assets/images/flag_placeholder.png" class="flag flag-{{ addBusiness.countryCode }}" />
+          </div>
+          <div class="col p-0 form-group">
+            <select name="countryCode" id="countryCode" [(ngModel)]="addBusiness.countryCode">
+              <option value="us">USA</option>
+              <option value="in">India</option>
+            </select>
+            <i class="bar"></i>
+          </div>
         </div>
-        <div class="row col-12 container-box px-4 py-3">
-            <div class="col-12 col-md-6">
-                <div class="form-group my-3">
-                    <input type="text" id="businessName" name="businessName" #businessName="ngModel"
-                        [ngClass]="{ 'is-invalid': f.submitted && businessName.invalid }" class="form-control"
-                        [(ngModel)]="addBusiness.businessName" required="required" />
-                    <label for="input" class="control-label">Business Name*</label><i class="bar"></i>
-                    <div *ngIf="f.submitted && businessName.invalid" class="invalid-feedback">
-                        <div class="text-danger" *ngIf="businessName.errors?.required">Business Name is required</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6">
-                <div class="form-group my-3">
-                    <input type="text" id="businessPhoneNumber" name="businessPhoneNumber"
-                        [ngClass]="{ 'is-invalid': f.submitted && businessPhoneNumber.invalid }" #businessPhoneNumber="ngModel"
-                        class="form-control" [(ngModel)]="addBusiness.businessPhoneNumber" required="required" />
-                    <label for="input" class="control-label">Business Phone Number*</label><i class="bar"></i>
-                    <div *ngIf="f.submitted && businessPhoneNumber.invalid" class="invalid-feedback">
-                        <div class="text-danger" *ngIf="businessPhoneNumber.errors?.required">Business Phone Number is
-                            required</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="form-group my-3">
-                    <input type="text" id="streetAddress" name="streetAddress" #streetAddress="ngModel"
-                        [ngClass]="{ 'is-invalid': f.submitted && streetAddress.invalid }" class="form-control"
-                        [(ngModel)]="addBusiness.streetAddress" />
-                    <label for="input" class="control-label">Street Address</label><i class="bar"></i>
-                    <div *ngIf="f.submitted && streetAddress.invalid" class="invalid-feedback">
-                        <!-- <div class="text-danger" *ngIf="streetAddress.errors?.required">Street Address is required</div> -->
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6">
-                <div class="form-group my-3">
-                    <select name="IndustryInfo" id="IndustryInfo" [(ngModel)]="addBusiness.IndustryInfo">
-                        <option value="Resturant">Resturant</option>
-                        <option value="Book Store">Book Store</option>
-                    </select>
-                    <label for="input" class="control-label">Industry info</label><i class="bar"></i>
-                </div>
-            </div>
-            <div class="col-12 col-md-6">
-                <div class="form-group my-3">
-                    <select name="city" id="city" [(ngModel)]="addBusiness.city">
-                        <option value="Culver City">Culver City</option>
-                        <option value="LA">LA</option>
-                    </select>
-                    <label for="input" class="control-label">City</label><i class="bar"></i>
-                </div>
-            </div>
-            <div class="col-12 col-md-6">
-                <div class="form-group my-3">
-                    <select name="state" id="state" [(ngModel)]="addBusiness.state">
-                        <option value="CA">CA</option>
-                        <option value="AF">AF</option>
-                    </select>
-                    <label for="input" class="control-label">State</label><i class="bar"></i>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 form-group my-3">
-                <div class="col-12">
-                    <label for="input" class="control-label has-value-label"> Country</label>
-                </div>
-                <div class="mobile-input-with-flag row m-0">
-                    <div class="col-auto pl-0 form-group countryCode-flag">
-                        <img src="/assets/images/flag_placeholder.png"
-                            class="flag flag-{{ addBusiness.countryCode }}" />
-                    </div>
-                    <div class="col p-0 form-group">
-                        <select name="countryCode1" id="countryCode1" [(ngModel)]="addBusiness.countryCode">
-                            <option value="us">USA</option>
-                            <option value="in">India</option>
-                        </select>
-                        <i class="bar"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6">
-                <div class="form-group my-3">
-                    <input type="number" name="zip1" class="form-control" id="zip1" #zip1="ngModel"
-                        [ngClass]="{ 'is-invalid': f.submitted && zip1.invalid }"
-                        [(ngModel)]="addBusiness.zipcode" />
-                    <label for="people" class="control-label">Zip Code*</label>
-                    <i class="bar"></i>
-                    <div *ngIf="f.submitted && zip1.invalid" class="invalid-feedback">
-                        <!-- <div class="text-danger" *ngIf="zip1.errors?.required"> Zipcode is required</div> -->
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6">
-                <div class="form-group my-3">
-                    <select name="timezone" id="timezone" [(ngModel)]="addBusiness.timezone">
-                        <option value="-11:00">Pacific/Midway (GMT-11:00)</option>
-                        <option value="5:00">5:00</option>
-                    </select>
-                    <label for="input" class="control-label">Time zone</label><i class="bar"></i>
-                </div>
-            </div>
+      </div>
+
+      <div class="col-12 col-sm-4 col-md-3 mr-auto ml-md-3">
+        <label for="input" class="col-12 m-0 pl-0 control-label medium-gray-color">&nbsp;</label>
+        <div class="form-group m-0">
+          <input type="text" name="zip" class="form-control" id="zip" [(ngModel)]="addBusiness.zipcode" #zip="ngModel" [ngClass]="{ 'is-invalid': f.submitted && zip.invalid }" required />
+          <label for="people" class="control-label">Zip Code*</label>
+          <i class="bar"></i>
+          <div *ngIf="f.submitted && zip.invalid" class="invalid-feedback">
+            <div class="text-danger" *ngIf="zip.errors?.required">Zipcode is required</div>
+          </div>
         </div>
-        <div class="col-12 text-center mt-4">
-            <button type="submit" class="btn btn-theme background-color shadow w-auto"> Sign In </button>
-        </div>
+      </div>
     </div>
+    <div class="col-12 px-2">
+      <div class="ng-autocomplete mt-4">
+        <ng-autocomplete [data]="data" [searchKeyword]="'name'" [itemTemplate]="itemTemplate" placeHolder="Search your Business"> </ng-autocomplete>
+
+        <ng-template #itemTemplate let-item>
+          <a [innerHTML]="item.name"></a>
+        </ng-template>
+      </div>
+    </div>
+    <div class="col-12 text-center mt-3">
+      <button type="button" class="btn btn-underline font-color not-finding" (click)="addBusinessFlag = !addBusinessFlag">
+        Not finding?
+      </button>
+    </div>
+  </div>
+  <div class="row fade-in" *ngIf="addBusinessFlag == true">
+    <div class="col-12">
+      <h4 class="text-center mb-3">Add Business</h4>
+    </div>
+    <div class="row col-12 container-box px-4 py-3">
+      <div class="col-12 col-md-6">
+        <div class="form-group my-3">
+          <input type="text" id="businessName" name="businessName" #businessName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && businessName.invalid }" class="form-control" [(ngModel)]="addBusiness.businessName" required="required" />
+          <label for="input" class="control-label">Business Name*</label><i class="bar"></i>
+          <div *ngIf="f.submitted && businessName.invalid" class="invalid-feedback">
+            <div class="text-danger" *ngIf="businessName.errors?.required">Business Name is required</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="form-group my-3">
+          <input
+            type="text"
+            id="businessPhoneNumber"
+            name="businessPhoneNumber"
+            [ngClass]="{ 'is-invalid': f.submitted && businessPhoneNumber.invalid }"
+            #businessPhoneNumber="ngModel"
+            class="form-control"
+            [(ngModel)]="addBusiness.businessPhoneNumber"
+            required="required"
+          />
+          <label for="input" class="control-label">Business Phone Number*</label><i class="bar"></i>
+          <div *ngIf="f.submitted && businessPhoneNumber.invalid" class="invalid-feedback">
+            <div class="text-danger" *ngIf="businessPhoneNumber.errors?.required">Business Phone Number is required</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-group my-3">
+          <input type="text" id="streetAddress" name="streetAddress" #streetAddress="ngModel" [ngClass]="{ 'is-invalid': f.submitted && streetAddress.invalid }" class="form-control" [(ngModel)]="addBusiness.streetAddress" />
+          <label for="input" class="control-label">Street Address</label><i class="bar"></i>
+          <div *ngIf="f.submitted && streetAddress.invalid" class="invalid-feedback">
+            <!-- <div class="text-danger" *ngIf="streetAddress.errors?.required">Street Address is required</div> -->
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="form-group my-3">
+          <select name="IndustryInfo" id="IndustryInfo" [(ngModel)]="addBusiness.IndustryInfo">
+            <option value="Resturant">Resturant</option>
+            <option value="Book Store">Book Store</option>
+          </select>
+          <label for="input" class="control-label">Industry info</label><i class="bar"></i>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="form-group my-3">
+          <select name="city" id="city" [(ngModel)]="addBusiness.city">
+            <option value="Culver City">Culver City</option>
+            <option value="LA">LA</option>
+          </select>
+          <label for="input" class="control-label">City</label><i class="bar"></i>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="form-group my-3">
+          <select name="state" id="state" [(ngModel)]="addBusiness.state">
+            <option value="CA">CA</option>
+            <option value="AF">AF</option>
+          </select>
+          <label for="input" class="control-label">State</label><i class="bar"></i>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 form-group my-3">
+        <div class="col-12">
+          <label for="input" class="control-label has-value-label"> Country</label>
+        </div>
+        <div class="mobile-input-with-flag row m-0">
+          <div class="col-auto pl-0 form-group countryCode-flag">
+            <img src="/assets/images/flag_placeholder.png" class="flag flag-{{ addBusiness.countryCode }}" />
+          </div>
+          <div class="col p-0 form-group">
+            <select name="countryCode1" id="countryCode1" [(ngModel)]="addBusiness.countryCode">
+              <option value="us">USA</option>
+              <option value="in">India</option>
+            </select>
+            <i class="bar"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="form-group my-3">
+          <input type="number" name="zip1" class="form-control" id="zip1" #zip1="ngModel" [ngClass]="{ 'is-invalid': f.submitted && zip1.invalid }" [(ngModel)]="addBusiness.zipcode" />
+          <label for="people" class="control-label">Zip Code*</label>
+          <i class="bar"></i>
+          <div *ngIf="f.submitted && zip1.invalid" class="invalid-feedback">
+            <!-- <div class="text-danger" *ngIf="zip1.errors?.required"> Zipcode is required</div> -->
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="form-group my-3">
+          <select name="timezone" id="timezone" [(ngModel)]="addBusiness.timezone">
+            <option value="-11:00">Pacific/Midway (GMT-11:00)</option>
+            <option value="5:00">5:00</option>
+          </select>
+          <label for="input" class="control-label">Time zone</label><i class="bar"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 text-center mt-4">
+      <button type="submit" class="btn btn-theme background-color shadow w-auto">Sign In</button>
+    </div>
+  </div>
 </form>

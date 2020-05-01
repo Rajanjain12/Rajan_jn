@@ -814,3 +814,13 @@ CHANGE COLUMN `OrganizationSubscriptionID` `OrganizationSubscriptionID` INT(11) 
 ---------------------------------------------------------------------------------------------------------------------------------------------
 ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONCARDDETAIL` 
 CHANGE COLUMN `OrganizationCardDetailID` `OrganizationCardDetailID` INT(11) NOT NULL AUTO_INCREMENT ;
+---------------------------------------------------------------------------------------------------------------------------------------------
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONPAYMENT` 
+CHANGE COLUMN `TransactionID` `TransactionID` VARCHAR(50) NULL DEFAULT NULL ;
+----------------------------------------------------------------------------------------------------------------------------------------------
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONPAYMENT` 
+CHANGE COLUMN `OrganizationPaymentID` `OrganizationPaymentID` INT(11) NOT NULL AUTO_INCREMENT ;
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONPAYMENT` 
+CHANGE COLUMN `PaymentDateTime` `PaymentDateTime` DATETIME NULL DEFAULT NULL ;

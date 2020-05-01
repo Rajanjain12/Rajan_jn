@@ -26,13 +26,13 @@ public class SignUpController {
 	@Autowired
 	SignUpService signUpService;
 
-	// API for adding new business
+	//for adding new business
 	@PostMapping(value = "/business", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO addBusiness(@RequestBody OrganizationDTO organizationDTO) {
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
 			signUpService.addBusiness(organizationDTO);
-			responseDTO.setServiceResult("Success");
+			responseDTO.setServiceResult("Business added successfully");
 			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
 		} catch (Exception e) {
 			LoggerUtil.logError(e);

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kyobeeUserService.dto.OrgCardDetailsDTO;
+import com.kyobeeUserService.dto.OrgPaymentDTO;
 import com.kyobeeUserService.dto.ResponseDTO;
 import com.kyobeeUserService.service.PaymentService;
 import com.kyobeeUserService.util.LoggerUtil;
@@ -19,10 +20,10 @@ import com.kyobeeUserService.util.UserServiceConstants;
 @RestController
 @RequestMapping("/rest/user/payment")
 public class PaymentController {
-	
+
 	@Autowired
 	private PaymentService paymentService;
-	
+
 	@PostMapping(value = "/cardDetails", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO saveOrgCardDetails(@RequestParam Integer orgId, @RequestParam Integer customerId,
 			@RequestBody OrgCardDetailsDTO orgCardDetailsDTO) {
@@ -35,9 +36,27 @@ public class PaymentController {
 			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
 		} catch (Exception e) {
 			LoggerUtil.logError(e);
-			e.printStackTrace();
 			responseDTO.setServiceResult("Error while saving Org Card details.");
 			responseDTO.setMessage("Error while saving Org Card details.");
+			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+		}
+		return responseDTO;
+	}
+
+	//API for payment transaction
+	@PostMapping(value = "/createTransaction", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO createTransaction(@RequestBody OrgPaymentDTO orgPaymentDTO) {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			paymentService.createTransaction(orgPaymentDTO);
+			responseDTO.setServiceResult("Successfully done payment");
+			responseDTO.setMessage("Successfully done payment");
+			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
+		} catch (Exception e) {
+			LoggerUtil.logError(e);
+			responseDTO.setServiceResult("Error while payment");
+			responseDTO.setMessage("Error while payment.");
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
 		}
 		return responseDTO;

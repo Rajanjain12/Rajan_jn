@@ -39,7 +39,6 @@ public class PlanController {
 			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
 		} catch (Exception e) {
 			LoggerUtil.logError(e);
-			e.printStackTrace();
 			responseDTO.setServiceResult("Error while fetching plan details.");
 			responseDTO.setMessage("Error while fetching plan details.");
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
@@ -47,6 +46,7 @@ public class PlanController {
 		return responseDTO;
 	}
 
+	//For saving plan details
 	@PostMapping(value = "/planDetails", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO savePlanDetails(@RequestParam Integer orgId, @RequestParam Integer customerId,
 			@RequestParam List<Integer> planFeatureChargeIds) {
@@ -59,7 +59,6 @@ public class PlanController {
 			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
 		} catch (Exception e) {
 			LoggerUtil.logError(e);
-			e.printStackTrace();
 			responseDTO.setServiceResult("Error while saving plan details.");
 			responseDTO.setMessage("Error while saving plan details.");
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
@@ -67,6 +66,7 @@ public class PlanController {
 		return responseDTO;
 	}
 
+    //for saving promo code	
 	@PostMapping(value = "/promoCode", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO savePromoCode(@RequestBody PromoCodeDTO promoCodeDTO) {
 

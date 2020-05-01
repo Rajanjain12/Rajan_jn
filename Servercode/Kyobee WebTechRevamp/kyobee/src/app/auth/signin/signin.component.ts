@@ -32,7 +32,7 @@ export class SigninComponent implements OnInit {
     this.user.deviceType = 'Web';
     this.user.deviceToken = '';
     this.user.clientBase = 'admin';
-    console.log('user ' + JSON.stringify(this.user));
+
     this.userService.login(this.user).subscribe((res: any) => {
       var respData = res;
       console.log('log== ' + JSON.stringify(respData));
@@ -43,6 +43,12 @@ export class SigninComponent implements OnInit {
         this.authService.SetLogFlag();
         this.userResponse = respData.serviceResult;
         this.authService.setSessionData(this.userResponse);
+
+        // When remMe is true then set data in local storage 
+        if (this.user.rem === true) {
+          console.log('Remember me pressed ');
+          this.authService.setLocalStorageData(this.userResponse);
+        }
         this.router.navigateByUrl('/waitlist/dashboard', { replaceUrl: true });
       } else {
         this.loading = false;

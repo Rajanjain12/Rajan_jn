@@ -67,9 +67,7 @@ export class RegisterBusinessComponent implements OnInit {
     timezone: ''
   };
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

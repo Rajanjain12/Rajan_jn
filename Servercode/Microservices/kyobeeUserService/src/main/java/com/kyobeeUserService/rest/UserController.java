@@ -138,7 +138,6 @@ public class UserController {
 			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
 		} catch (Exception e) {
 			LoggerUtil.logError(e);
-			e.printStackTrace();
 			responseDTO.setServiceResult("Error while fetching details of user");
 			responseDTO.setMessage("Error while fetching details of user");
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
