@@ -1,0 +1,154 @@
+.restaurant,
+.plan_summary,
+.plan {
+  padding: 0;
+  margin-bottom: 20px;
+  width: 100%;
+}
+.restaurant {
+  &_title {
+    padding: 15px;
+    border-bottom: 1px solid #707070;
+    font-weight: 700;
+  }
+  &_address {
+    padding: 15px;
+    span {
+      display: block;
+    }
+  }
+}
+.plan_summary {
+  &_title {
+    padding: 15px;
+    border-bottom: 1px solid #707070;
+    font-weight: 700;
+  }
+  &_detail {
+    padding: 15px;
+    margin: 0;
+    .border-bottom {
+      border-bottom: 1px solid #707070 !important;
+    }
+  }
+}
+
+.plan {
+  &_title {
+    text-align: center;
+    padding: 15px 0;
+    font-weight: 700;
+    & ~ label {
+      color: #707070;
+    }
+  }
+  &_detail {
+    margin-bottom: 15px !important;
+    padding: 15px 0;
+    margin: 0;
+    background-color: #f2f2f2;
+    align-items: center;
+  }
+  &_price {
+    display: grid;
+    grid-template-rows: min-content;
+    grid-template-columns: 1fr;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    border-left: 1px solid #707070;
+    padding: 25px 5px;
+    h6 {
+      font-size: 44px;
+    }
+    p {
+      font-size: 14px;
+      padding-left: 5px;
+    }
+  }
+  &_select {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    input {
+      opacity: 0;
+    }
+    label {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      left: 0;
+      right: 0;
+      margin: 0;
+      &::before {
+        content: '';
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 5px;
+        right: 15px;
+        border-radius: 50%;
+        background-color: #707070;
+        z-index: 1000;
+      }
+      &::after {
+        content: '';
+        width: 10px;
+        height: 5px;
+        position: absolute;
+        top: 11.5px;
+        right: 19.5px;
+        border-left: 2px solid #fff;
+        border-bottom: 2px solid #fff;
+        z-index: 1010;
+        transform: rotate(-45deg);
+      }
+    }
+    input:checked ~ label::before {
+      background-color: red;
+    }
+  }
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+  .plan {
+    &_price {
+      text-align: left;
+      grid-template-columns: auto minmax(auto, 40px);
+    }
+  }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+  .plan {
+    &_price {
+      text-align: left;
+      grid-template-columns: auto minmax(auto, 40px);
+    }
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+  .plan {
+    &_price {
+      text-align: center;
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+  .plan {
+    &_price {
+      text-align: left;
+      grid-template-columns: auto minmax(auto, 40px);
+    }
+  }
+}

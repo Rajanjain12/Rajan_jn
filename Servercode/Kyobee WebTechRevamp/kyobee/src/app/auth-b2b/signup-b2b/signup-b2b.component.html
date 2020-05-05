@@ -26,27 +26,30 @@
             </li>
           </ul>
         </div>
-        <div class="col-12 fade-in p-0" *ngIf="step == 0">
-          <app-register-business></app-register-business>
+      </div>
+    </div>
+  </div>
+    
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 fade-in p-0" *ngIf="step == 0">
+        <app-register-business [(step)]="step"></app-register-business>
+      </div>
+      <div class="col-12 fade-in p-0" *ngIf="step == 1">
+        <app-create-business [(step)]="step"></app-create-business>
+      </div>
+      <div class="col-12 fade-in p-0" *ngIf="step == 2">
+        <app-select-plan [(step)]="step"></app-select-plan>
+      </div>
+      <div class="col-12 fade-in p-0" *ngIf="step == 3">
+        <div class="col-12">
+          <h4 class="text-center mb-3">Set-up For Payment</h4>
         </div>
-        <div class="col-12 fade-in p-0" *ngIf="step == 1">
-          <app-create-business></app-create-business>
-        </div>
-        <div class="col-12 fade-in p-0" *ngIf="step == 2">
-          <div class="col-12">
-            <h4 class="text-center mb-3">Select Plan</h4>
-          </div>
-        </div>
-        <div class="col-12 fade-in p-0" *ngIf="step == 3">
-          <div class="col-12">
-            <h4 class="text-center mb-3">Set-up For Payment</h4>
-          </div>
-        </div>
+      </div>
 
-        <div class="col-12 text-center mt-4">
-          By signing up, you agree
-          <button type="button" class="btn btn-underline not-finding p-0">terms and conditions</button>
-        </div>
+      <div class="col-12 text-center mt-4">
+        By signing up, you agree
+        <button type="button" class="btn btn-underline not-finding p-0">terms and conditions</button>
       </div>
     </div>
   </div>

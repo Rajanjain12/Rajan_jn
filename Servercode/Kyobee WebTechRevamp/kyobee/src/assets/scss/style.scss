@@ -179,6 +179,23 @@ a:not([href]):not([tabindex]) {
   border: 0;
   background-color: transparent;
 }
+.btn-group > .btn:not(:first-child), .btn-group > .btn-group:not(:first-child) {
+  margin-left: 0;
+}
+.btn-group {
+  --border-radius: 0.5625rem;
+  .btn-custom {
+    z-index: 10;
+    padding: 0.5rem 2rem;
+    line-height: 1;
+    &:first-child {
+      border-radius: var(--border-radius) 0 0 var(--border-radius);
+    }
+    &:last-child {
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    }
+  }
+}
 .font-weight-semibold {
   font-weight: $font-weight-semibold;
 }
@@ -724,6 +741,15 @@ fieldset {
   padding: 10px 20px;
   border-top-left-radius: $border-radius;
   border-top-right-radius: $border-radius;
+}
+.modal-dialog {
+  max-width: 600px;
+}
+.modal-sm {
+  max-width: 300px;
+}
+.modal-lg {
+  max-width: 800px;
 }
 .normal-box-container {
   box-shadow: $box-shadow;

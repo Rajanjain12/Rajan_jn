@@ -1,75 +1,134 @@
-<form name="form" #f="ngForm" class="row mt-3" (ngSubmit)="(f.form.valid)" novalidate>
-  <div class="col-12">
-    <h4 class="text-center mb-3">Create Business Login</h4>
+<div class="custom-container">
+  <div class="container">
+    <form name="form" #f="ngForm" class="row mt-3" (ngSubmit)="onCreateBusiness(f.form.invalid)" novalidate>
+      <div class="col-12">
+        <h4 class="text-center mb-3">Create Business Login</h4>
+      </div>
+      <div class="row col-12 col-sm-8 col-md-6 m-auto container-box px-4 py-3">
+        <div class="col-12">
+          <div class="form-group my-3">
+            <input type="text" id="firstName" name="firstName" #firstName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }" class="form-control" [(ngModel)]="createBusiness.firstName" required="required" />
+            <label for="input" class="control-label">First Name*</label><i class="bar"></i>
+            <div *ngIf="f.submitted && firstName.invalid" class="invalid-feedback">
+              <div class="text-danger" *ngIf="firstName.errors?.required">Business Name is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group my-3">
+            <input type="text" id="lastName" name="lastName" #lastName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && lastName.invalid }" class="form-control" [(ngModel)]="createBusiness.lastName" />
+            <label for="input" class="control-label">Last Name</label><i class="bar"></i>
+            <div *ngIf="f.submitted && lastName.invalid" class="invalid-feedback">
+              <!-- <div class="text-danger" *ngIf="lastName.errors?.required">Business Name is required</div> -->
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group my-3">
+            <input type="text" id="userName" name="userName" #userName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && userName.invalid }" class="form-control" [(ngModel)]="createBusiness.userName" required="required" />
+            <label for="input" class="control-label">Username*</label><i class="bar"></i>
+            <div *ngIf="f.submitted && userName.invalid" class="invalid-feedback">
+              <div class="text-danger" *ngIf="userName.errors?.required">Business Name is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group my-3">
+            <input type="text" id="email" name="email" #email="ngModel" class="form-control" [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" [(ngModel)]="createBusiness.email" required="required" />
+            <label for="input" class="control-label">Email*</label><i class="bar"></i>
+            <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
+              <div class="text-danger" *ngIf="email.errors?.required">Email is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group my-3">
+            <input type="password" id="password" name="password" #password="ngModel" class="form-control" [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" [(ngModel)]="createBusiness.password" required="required" />
+            <label for="input" class="control-label">Password*</label><i class="bar"></i>
+            <span toggle="#password" (click)="toggleEye($event)" class="grey flaticon-padlock eye-icon toggle-password font-weight-semibold"></span>
+            <div *ngIf="f.submitted && password.invalid" class="invalid-feedback">
+              <div class="text-danger" *ngIf="password.errors.required">Password is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group my-3">
+            <input
+              type="password"
+              id="confPassword"
+              name="confPassword"
+              #confPassword="ngModel"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': f.submitted && confPassword.invalid }"
+              [(ngModel)]="createBusiness.confPassword"
+              required="required"
+            />
+            <label for="input" class="control-label">Confirm Password*</label><i class="bar"></i>
+            <span toggle="#confPassword" (click)="toggleEye($event)" class="grey flaticon-padlock eye-icon toggle-confPassword font-weight-semibold"></span>
+            <div *ngIf="f.submitted && confPassword.invalid" class="invalid-feedback">
+              <div class="text-danger" *ngIf="confPassword.errors.required">confPassword is required</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 text-center mt-4">
+        <button type="submit" class="btn btn-theme background-color shadow w-auto">Create My Account</button>
+      </div>
+    </form>
+
+    <!-- verificationCodeModal modal -->
+    <div class="modal fade" id="verificationCodeModal">
+      <div class="modal-dialog modal-dialog-centered modal-mxw-500">
+        <div class="modal-content border-radius border-0">
+          <div class="modal-body">
+            <form class="row pt-3" (ngSubmit)="(f.form.invalid)" #f1="ngForm" novalidate autocomplete="off">
+              <div [hidden]="true" class="col-md-12 my-2 alert alert-info">
+                Activation Code sent again.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="col-12 text-center"><img src="/assets/images/theme-admin/tick.svg" class="tick-img" alt="Tik Mark" /></div>
+              <h5 class="col-10 text-center mx-auto mb-3">Kindly check your email for verification code to activate your account.</h5>
+              <div class="col-8 mx-auto">
+                <div class="row m-0 form-group">
+                  <div class="col d-block px-2" *ngFor="let item of veriCode; let index = index; trackBy: trackByIndex">
+                    <div class="input-field my-0">
+                      <input
+                        type="password"
+                        tabindex="{{ index + 1 }}"
+                        id="activationCode{{ index }}"
+                        name="actCodee[index]"
+                        class="validate text-center verification-field h-2"
+                        maxlength="1"
+                        (input)="keytab(this.index, $event, 'input')"
+                        (keyup)="keytab(this.index, $event, 'keyup')"
+                        required
+                        [(ngModel)]="veriCode[index]"
+                        #act="ngModel"
+                      />
+                      <i class="bar"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-block invalid-feedback text-center">
+                  <span *ngIf="f1.submitted && (f1.untouched || f1.invalid)" class="has-error"> Please Enter Activation Code. </span>
+                  <span *ngIf="incorrectActCode == true" class="has-error"> Invalid Activation Code. </span>
+                </div>
+
+                <div class="col-12 text-center modal-btn my-4">
+                  <button type="submit" class="btn btn-theme background-color shadow" (click)="onVerificationCode(f1.invalid)">Submit</button>
+                </div>
+                <div class="col-12 text-center mb-4">
+                  Didn't receive verification code?
+                  <button type="button" class="btn btn-underline not-finding p-0">Resend now</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- .verificationCodeModal Ends-->
+    </div>
   </div>
-  <div class="row col-12 col-sm-8 col-md-6 m-auto container-box px-4 py-3">
-    <div class="col-12">
-      <div class="form-group my-3">
-        <input type="text" id="firstName" name="firstName" #firstName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }" class="form-control" [(ngModel)]="createBusiness.firstName" required="required" />
-        <label for="input" class="control-label">First Name*</label><i class="bar"></i>
-        <div *ngIf="f.submitted && firstName.invalid" class="invalid-feedback">
-          <div class="text-danger" *ngIf="firstName.errors?.required">Business Name is required</div>
-        </div>
-      </div>
-    </div>
-    <div class="col-12">
-      <div class="form-group my-3">
-        <input type="text" id="lastName" name="lastName" #lastName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && lastName.invalid }" class="form-control" [(ngModel)]="createBusiness.lastName" />
-        <label for="input" class="control-label">Last Name</label><i class="bar"></i>
-        <div *ngIf="f.submitted && lastName.invalid" class="invalid-feedback">
-          <!-- <div class="text-danger" *ngIf="lastName.errors?.required">Business Name is required</div> -->
-        </div>
-      </div>
-    </div>
-    <div class="col-12">
-      <div class="form-group my-3">
-        <input type="text" id="userName" name="userName" #userName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && userName.invalid }" class="form-control" [(ngModel)]="createBusiness.userName" required="required" />
-        <label for="input" class="control-label">Username*</label><i class="bar"></i>
-        <div *ngIf="f.submitted && userName.invalid" class="invalid-feedback">
-          <div class="text-danger" *ngIf="userName.errors?.required">Business Name is required</div>
-        </div>
-      </div>
-    </div>
-    <div class="col-12">
-      <div class="form-group my-3">
-        <input type="text" id="email" name="email" #email="ngModel" class="form-control" [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" [(ngModel)]="createBusiness.email" required="required" />
-        <label for="input" class="control-label">Email*</label><i class="bar"></i>
-        <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
-          <div class="text-danger" *ngIf="email.errors?.required">Email is required</div>
-        </div>
-      </div>
-    </div>
-    <div class="col-12">
-      <div class="form-group my-3">
-        <input type="password" id="password" name="password" #password="ngModel" class="form-control" [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" [(ngModel)]="createBusiness.password" required="required" />
-        <label for="input" class="control-label">Password*</label><i class="bar"></i>
-        <span toggle="#password" (click)="toggleEye($event)" class="grey flaticon-padlock eye-icon toggle-password font-weight-semibold"></span>
-        <div *ngIf="f.submitted && password.invalid" class="invalid-feedback">
-          <div class="text-danger" *ngIf="password.errors.required">Password is required</div>
-        </div>
-      </div>
-    </div>
-    <div class="col-12">
-      <div class="form-group my-3">
-        <input
-          type="password"
-          id="confPassword"
-          name="confPassword"
-          #confPassword="ngModel"
-          class="form-control"
-          [ngClass]="{ 'is-invalid': f.submitted && confPassword.invalid }"
-          [(ngModel)]="createBusiness.confPassword"
-          required="required"
-        />
-        <label for="input" class="control-label">Confirm Password*</label><i class="bar"></i>
-        <span toggle="#confPassword" (click)="toggleEye($event)" class="grey flaticon-padlock eye-icon toggle-confPassword font-weight-semibold"></span>
-        <div *ngIf="f.submitted && confPassword.invalid" class="invalid-feedback">
-          <div class="text-danger" *ngIf="confPassword.errors.required">confPassword is required</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-12 text-center mt-4">
-    <button type="submit" class="btn btn-theme background-color shadow w-auto">Create My Account</button>
-  </div>
-</form>
+</div>

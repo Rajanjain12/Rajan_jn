@@ -1,5 +1,11 @@
 # **KYOBEE** Version Requirements
 
+[**Download NVM for windows**](https://github.com/coreybutler/nvm-windows/releases)
+
+\$ `nvm install 12.14.0`
+
+\$ `nvm use 12.14.0`
+
 \$ `node -v`
 
 ```
@@ -11,7 +17,7 @@ v12.14.0
 ```
 6.13.4
 ```
-
+\$ `npm install -g @angular/cli@8.3.23`
 \$ `ng --version`
 
 ```
@@ -51,7 +57,7 @@ webpack                           4.39.2
 
 ## For Code Formatting
 
-\$ `npm i prettier -g`
+\$ `npm i prettier pretty-quick husky -g`
 
 > By Using `pretty-quick` and pre-commit hook `husky` will fromate code automatically on commit
 

@@ -115,9 +115,6 @@
   }
   #page-content-wrapper {
   }
-  .modal-dialog {
-    max-width: 600px !important;
-  }
   #sidebar-wrapper {
     width: 100%;
     height: all;
@@ -235,9 +232,6 @@
   .md-block {
     display: block !important;
   }
-  .modal-dialog {
-    max-width: 600px !important;
-  }
   #wrapper {
     margin-top: 3%;
     padding-left: $sizebar-size;
@@ -310,9 +304,6 @@
 // Large devices (desktops, 992px and up)
 @media (min-width: 992px) and (max-width: 1199.98px) {
   /* Common CSS */
-  .modal-dialog {
-    max-width: 600px !important;
-  }
   #wrapper {
     padding-left: $sizebar-size;
     #sidebar-wrapper {
@@ -353,9 +344,6 @@
 // Extra large devices (large desktops, 1200px and up)
 @media (min-width: 1200px) {
   /* Common CSS */
-  .modal-dialog {
-    max-width: 600px !important;
-  }
   #wrapper {
     padding-left: $sizebar-size;
     #sidebar-wrapper {

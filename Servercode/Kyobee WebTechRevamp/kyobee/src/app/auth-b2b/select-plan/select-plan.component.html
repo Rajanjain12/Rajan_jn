@@ -1,0 +1,118 @@
+<form name="form" #f="ngForm" class="row mx-0 mt-3" (ngSubmit)="(f.form.invalid)" novalidate>
+  <div class="col-12 col-sm-11 row mx-auto">
+    <div class="col-12">
+      <h4 class="text-center mb-3">Select Plan</h4>
+    </div>
+    <div class="col-12 text-center mt-2">
+      <button type="submit" class="btn btn-theme background-grey w-auto">Use free for 7 days</button>
+      <br />
+      <div class="btn-group mt-3" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-custom" [ngClass]="{ selected: selectPlan.planType == 'Month' }" (click)="selectPlan.planType = 'Month'">Monthly</button>
+        <button type="button" class="btn btn-custom" [ngClass]="{ selected: selectPlan.planType == 'Annum' }" (click)="selectPlan.planType = 'Annum'">Anually</button>
+      </div>
+    </div>
+    <div class="col-12 row m-0 p-0 align-items-lg-start mt-4">
+      <div class="col-12 col-md-6 col-lg-3 order-md-1 order-lg-0 p-0 pr-md-2">
+        <div class="container-box restaurant">
+          <h6 class="restaurant_title">Restaurant Address</h6>
+          <p class="restaurant_address">
+            <span class="font-weight-bold">{{ selectPlan.restaurantAddress.title }}</span>
+            <span> {{ selectPlan.restaurantAddress.address }} </span>
+            <span> {{ selectPlan.restaurantAddress.email }}</span>
+          </p>
+        </div>
+      </div>
+      <div class="col-12 col-md-12 col-lg-6 order-md-0 order-lg-1 p-0 px-lg-5">
+        <div class="container-box plan">
+          <div class="row mx-0">
+            <div class="col-4"></div>
+            <div class="col-4">
+              <h5 class="plan_title">Silver</h5>
+            </div>
+            <div class="col-4">
+              <h5 class="plan_title">Gold</h5>
+            </div>
+          </div>
+          <div class="row plan_detail">
+            <div class="col-4 text-center">
+              <h6 class="plan_title p-0">Waitlist</h6>
+              <label class="font-12 m-0">Lorem Ipsum is simply dummy text of the printing</label>
+              <button type="button" class="btn btn-underline not-finding p-0">See Details</button>
+            </div>
+            <div class="col-8 row p-0 m-0">
+              <div class="col-6 plan_price" *ngFor="let item of planList.waitlist" [hidden]="item.planType !== selectPlan.planType">
+                <h6><sup>$</sup>{{ item.price }}</h6>
+                <p>
+                  per
+                  <span>{{ item.planType }}</span>
+                </p>
+                <div class="plan_select">
+                  <input type="radio" name="planSummaryWaitlist" [id]="'planSummaryWaitlist' + item.id" [(ngModel)]="selectPlan.planSummary.waitlist" [value]="item.id" />
+                  <label [for]="'planSummaryWaitlist' + item.id"></label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row plan_detail">
+            <div class="col-4 text-center">
+              <h6 class="plan_title p-0">Text Marketing</h6>
+              <label class="font-12 m-0">Lorem Ipsum is simply dummy text of the printing</label>
+              <button type="button" class="btn btn-underline not-finding p-0">See Details</button>
+            </div>
+            <div class="col-8 row p-0 m-0">
+              <div class="col-6 plan_price" *ngFor="let item of planList.textMarketing" [hidden]="item.planType !== selectPlan.planType">
+                <h6><sup>$</sup>{{ item.price }}</h6>
+                <p>
+                  per
+                  <span>{{ item.planType }}</span>
+                </p>
+                <div class="plan_select">
+                  <input type="radio" name="planSummaryTextMarketing" [id]="'planSummaryTextMarketing' + item.id" [(ngModel)]="selectPlan.planSummary.textMarketing" [value]="item.id" />
+                  <label [for]="'planSummaryTextMarketing' + item.id"></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3 order-md-3 order-lg-2 p-0 pl-md-2">
+        <div class="container-box plan_summary">
+          <h6 class="plan_summary_title">Plan Summary</h6>
+          <div class="plan_summary_detail">
+            <div class="row m-0 pb-3" *ngFor="let item of planList.waitlist" [hidden]="item.id !== selectPlan.planSummary.waitlist">
+              <div class="col">
+                <p class="font-16">Waitlist</p>
+                <span class="font-color font-12">{{ item.name }} Plan</span>
+              </div>
+              <div class="col-auto">
+                <p class="font-weight-bold text-right font-16">{{ item.price | currency }}</p>
+                <p class="font-12">Per {{ item.planType }}</p>
+              </div>
+            </div>
+            <div class="row m-0 pb-3 border-bottom" *ngFor="let item of planList.textMarketing" [hidden]="item.id !== selectPlan.planSummary.textMarketing">
+              <div class="col">
+                <p class="font-16">Text Marketing</p>
+                <span class="font-color font-12">{{ item.name }} Plan</span>
+              </div>
+              <div class="col-auto">
+                <p class="font-weight-bold text-right font-16">{{ item.price | currency }}</p>
+                <p class="font-12">Per {{ item.planType }}</p>
+              </div>
+            </div>
+            <div class="row m-0 pt-3">
+              <div class="col">
+                <p class="font-16">Subtotal</p>
+              </div>
+              <div class="col-auto">
+                <p class="font-weight-bold text-right font-16">{{ '26' | currency }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 text-center mt-3">
+      <button type="submit" class="btn btn-theme background-color shadow w-auto" (click)="onSelectPlan(f.form.invalid)">Continue</button>
+    </div>
+  </div>
+</form>

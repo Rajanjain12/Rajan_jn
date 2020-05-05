@@ -12,6 +12,9 @@ a:hover {
 .background-color {
   background-color: $theme-color;
 }
+.background-grey {
+  background-color: $grey-color;
+}
 .shadow {
   box-shadow: 0px 3px 13px 0px rgba(0, 75, 133, 0.53) !important;
 }
@@ -175,6 +178,21 @@ header.header {
   font-size: 1rem;
   font-weight: 500;
   color: #fff;
+}
+.btn-group {
+  .btn-custom {
+    background: $white-color;
+    box-shadow: 0px 3px 6px #00000029;
+    &:hover, &:focus {
+      color: $black-color;
+      background-color: $white-color;
+      box-shadow: 0px 3px 6px #00000029;
+    }
+    &.selected {
+      background: $theme-color;
+      color: $white-color;
+    }
+  }
 }
 /*footer*/
 footer {

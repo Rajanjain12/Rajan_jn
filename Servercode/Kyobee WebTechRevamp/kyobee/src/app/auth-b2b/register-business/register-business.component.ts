@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-register-business',
@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./register-business.component.scss']
 })
 export class RegisterBusinessComponent implements OnInit {
+  @Input('step') step: number;
+  @Output('stepChange') stepChange = new EventEmitter<number>();
+
   countryList: Array<{ code: string; name: string }> = [
     { code: 'us', name: 'United State' },
     { code: 'in', name: 'India' }
@@ -70,4 +73,12 @@ export class RegisterBusinessComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  onAddBusiness(invalid) {
+    if (invalid) {
+      return;
+    }
+    this.step = 1;
+    this.stepChange.emit(this.step);
+  }
 }
