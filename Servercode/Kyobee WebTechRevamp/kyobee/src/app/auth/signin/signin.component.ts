@@ -44,7 +44,7 @@ export class SigninComponent implements OnInit {
         this.userResponse = respData.serviceResult;
         this.authService.setSessionData(this.userResponse);
 
-        // When remMe is true then set data in local storage 
+        // When remMe is true then set data in local storage
         if (this.user.rem === true) {
           console.log('Remember me pressed ');
           this.authService.setLocalStorageData(this.userResponse);

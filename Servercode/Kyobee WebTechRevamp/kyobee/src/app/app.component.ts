@@ -32,7 +32,7 @@ export class AppComponent {
     // this.loadStyle('theme-sweethoneydessert');
   }
   ngOnInit() {
-    // Check data in localstorage exists or not in application 
+    // Check data in localstorage exists or not in application
     if (localStorage.getItem('kyobeeUser') !== null) {
       console.log('gone');
       this.loggedInUser = localStorage.getItem('UserDetails'); // getting the stored user from localstorage.

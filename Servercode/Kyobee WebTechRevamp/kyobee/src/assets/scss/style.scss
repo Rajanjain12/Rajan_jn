@@ -179,7 +179,8 @@ a:not([href]):not([tabindex]) {
   border: 0;
   background-color: transparent;
 }
-.btn-group > .btn:not(:first-child), .btn-group > .btn-group:not(:first-child) {
+.btn-group > .btn:not(:first-child),
+.btn-group > .btn-group:not(:first-child) {
   margin-left: 0;
 }
 .btn-group {
