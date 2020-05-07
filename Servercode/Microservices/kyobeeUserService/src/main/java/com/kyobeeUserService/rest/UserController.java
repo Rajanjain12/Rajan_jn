@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kyobeeUserService.dto.ResponseDTO;
 import com.kyobeeUserService.dto.SignUpDTO;
+import com.kyobeeUserService.dto.UserSignUpDTO;
 import com.kyobeeUserService.service.UserService;
 import com.kyobeeUserService.util.LoggerUtil;
 import com.kyobeeUserService.util.UserServiceConstants;
 import com.kyobeeUserService.util.Exception.AccountNotActivatedExeception;
+import com.kyobeeUserService.util.Exception.DuplicateEmailExeception;
+import com.kyobeeUserService.util.Exception.DuplicateUserNameExeception;
 import com.kyobeeUserService.util.Exception.InvalidAuthCodeException;
 import com.kyobeeUserService.util.Exception.InvalidLoginException;
 import com.kyobeeUserService.util.Exception.InvalidZipCodeException;
@@ -265,5 +268,35 @@ public class UserController {
 		}
 		return responseDTO;
 	}
+	
+	// For create business login.
+	@PostMapping(value = "/addUser", produces = "application/vnd.kyobee.v1+json")
+		public @ResponseBody ResponseDTO addUser(@RequestBody UserSignUpDTO userSignUpDTO) {
+
+			ResponseDTO responseDTO = new ResponseDTO();
+			try {
+				userService.addUser(userSignUpDTO);
+				responseDTO.setServiceResult("User Added Successfully");
+				responseDTO.setMessage("User Added Successfully");
+				responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
+			} catch (DuplicateUserNameExeception e) {
+				LoggerUtil.logError(e);
+				responseDTO.setServiceResult("Username/Email already exists. Please try different one.");
+				responseDTO.setMessage("Username/Email already exists. Please try different one.");
+				responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+			} catch (DuplicateEmailExeception e) {
+				LoggerUtil.logError(e);
+				responseDTO.setServiceResult("Username/Email already exists. Please try different one.");
+				responseDTO.setMessage("Username/Email already exists. Please try different one.");
+				responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+			} catch (Exception e) {
+				LoggerUtil.logError(e);
+				responseDTO.setServiceResult("Error while adding user.");
+				responseDTO.setMessage("Error while adding user.");
+				responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+			}
+			return responseDTO;
+			
+		}
 
 }

@@ -43,6 +43,8 @@ import com.kyobeeUserService.dto.ResetPasswordDTO;
 import com.kyobeeUserService.dto.SeatingMarketingPrefDTO;
 import com.kyobeeUserService.dto.SignUpDTO;
 import com.kyobeeUserService.dto.SmsTemplateDTO;
+import com.kyobeeUserService.dto.UserSignUpDTO;
+import com.kyobeeUserService.entity.Customer;
 import com.kyobeeUserService.entity.Lookup;
 import com.kyobeeUserService.entity.Organization;
 import com.kyobeeUserService.entity.OrganizationCategory;
@@ -58,6 +60,8 @@ import com.kyobeeUserService.util.EmailUtil;
 import com.kyobeeUserService.util.LoggerUtil;
 import com.kyobeeUserService.util.UserServiceConstants;
 import com.kyobeeUserService.util.Exception.AccountNotActivatedExeception;
+import com.kyobeeUserService.util.Exception.DuplicateEmailExeception;
+import com.kyobeeUserService.util.Exception.DuplicateUserNameExeception;
 import com.kyobeeUserService.util.Exception.InvalidAuthCodeException;
 import com.kyobeeUserService.util.Exception.InvalidActivationCodeException;
 import com.kyobeeUserService.util.Exception.InvalidLoginException;
@@ -102,6 +106,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private CountryDAO countryDAO;
+	
+	@Autowired
+	private CustomerDAO customerDAO;
 
 	// to validate user and fetch data needed after login in web and mobile, single
 	// API for login from web and mobile
@@ -675,5 +682,76 @@ public class UserServiceImpl implements UserService {
 
 		return countryDAO.fetchCountryList();
 	}
+	
+	@Override
+	public void addUser(UserSignUpDTO userSignUpDTO) throws DuplicateUserNameExeception, DuplicateEmailExeception {
+
+		// check if user email exists or not
+		Boolean exists = checkIfUserExist(userSignUpDTO.getEmail());
+
+		if (!exists) {
+
+			// check if username exists or not
+			exists = checkIfUserNameExist(userSignUpDTO.getUserName());
+
+			if (!exists) {
+
+				User user = new User();
+
+				String salt = CommonUtil.getSaltString();
+
+				BeanUtils.copyProperties(userSignUpDTO, user);
+				user.setPassword(CommonUtil.encryptPassword(userSignUpDTO.getPassword() + salt));			
+				user.setActive(UserServiceConstants.INACTIVE_USER);
+				user.setCreatedAt(new Date());
+				user.setCreatedBy(userSignUpDTO.getEmail());
+				user.setSaltString(salt);
+
+				Role role = roleDAO.fetchRole(UserServiceConstants.CUSTOMER_ADMIN_ROLE);
+				Customer customer = customerDAO.getOne(userSignUpDTO.getCustomerId());
+				Organization organization = organizationDAO.getOne(userSignUpDTO.getOrgId());
+
+				organization.setEmail(userSignUpDTO.getEmail());
+				organization.setCreatedBy(userSignUpDTO.getEmail());
+				
+				OrganizationUser organizationUser = new OrganizationUser();
+				organizationUser.setActive(UserServiceConstants.ACTIVATED_USER);
+				organizationUser.setCreatedBy(userSignUpDTO.getEmail());
+				organizationUser.setCreatedAt(new Date());
+				organizationUser.setUser(user);
+				organizationUser.setRole(role);
+				organizationUser.setOrganization(organization);
+				organizationUser.setCustomer(customer);			
+				LoggerUtil.logInfo("organization user inserted");
+
+				List<OrganizationUser> organizationUserList = new ArrayList<>();
+				organizationUserList.add(organizationUser);
+				user.setOrganizationusers(organizationUserList);
+
+				User savedUser = userDAO.save(user);		
+
+			} else {
+				LoggerUtil.logInfo("userName exists");
+				throw new DuplicateUserNameExeception("Username already exists. Please try different one.");
+			}
+
+		} else {
+			LoggerUtil.logInfo("user email exists");
+			throw new DuplicateEmailExeception("Email already exists. Please try different one.");
+		}
+	}
+
+	@Override
+	public Boolean checkIfUserNameExist(String userName) {
+
+		User user = userDAO.findByUserName(userName);
+
+		if (user != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 
 }

@@ -96,5 +96,6 @@ public class UserServiceConstants {
 	public static final String ACTIVE_SUBSC = "Y";
 	
 	public static final String PPL_BIFURCATION = "N";
+	public static final Integer CUSTOMER_ADMIN_ROLE=4;
 
 }

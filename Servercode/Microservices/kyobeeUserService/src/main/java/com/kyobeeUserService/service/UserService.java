@@ -14,8 +14,11 @@ import com.kyobeeUserService.dto.PlaceDTO;
 import com.kyobeeUserService.dto.ResetPasswordDTO;
 import com.kyobeeUserService.dto.ResponseDTO;
 import com.kyobeeUserService.dto.SignUpDTO;
+import com.kyobeeUserService.dto.UserSignUpDTO;
 import com.kyobeeUserService.util.Exception.InvalidActivationCodeException;
 import com.kyobeeUserService.util.Exception.AccountNotActivatedExeception;
+import com.kyobeeUserService.util.Exception.DuplicateEmailExeception;
+import com.kyobeeUserService.util.Exception.DuplicateUserNameExeception;
 import com.kyobeeUserService.util.Exception.InvalidAuthCodeException;
 import com.kyobeeUserService.util.Exception.InvalidLoginException;
 import com.kyobeeUserService.util.Exception.InvalidZipCodeException;
@@ -35,6 +38,10 @@ public interface UserService {
 	public Boolean checkIfUserExist(String Email);
 	
 	public String activateUser(String activationCode,Integer userId) throws InvalidActivationCodeException;
+	
+	public void addUser(UserSignUpDTO userSignUpDTO) throws DuplicateUserNameExeception, DuplicateEmailExeception;
+
+	public Boolean checkIfUserNameExist(String userName);
 	
 	public String resendCode(Integer userId);
 	

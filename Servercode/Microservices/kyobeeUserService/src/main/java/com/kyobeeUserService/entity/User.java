@@ -33,6 +33,9 @@ public class User implements Serializable {
 
 	@Column(name = "Password")
 	private String password;
+	
+	@Column(name = "SaltString")
+	private String saltString;
 
 	@Column(name = "FirstName")
 	private String firstName;
@@ -110,6 +113,14 @@ public class User implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getSaltString() {
+		return saltString;
+	}
+
+	public void setSaltString(String saltString) {
+		this.saltString = saltString;
 	}
 
 	public String getFirstName() {

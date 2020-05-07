@@ -1,53 +1,62 @@
 package com.kyobeeUserService.util;
 
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.Random;
 
 public class CommonUtil {
 
-	public static String encryptPassword(String password){
+	public static String encryptPassword(String password) {
 
 		try {
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			md.update(password.getBytes());
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
 
-	        byte byteData[] = md.digest();
+			byte[] messageDigest = md.digest(password.getBytes());
 
-	        //convert the byte to hex format method 1
-	        StringBuilder sb = new StringBuilder();
-	        for (int i = 0; i < byteData.length; i++) {
-	         sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
-	        }
+			BigInteger no = new BigInteger(1, messageDigest);
 
-	        LoggerUtil.logInfo("Digest(in hex format):: " + sb.toString());
-	        //convert the byte to hex format method 2
-	        StringBuilder hexString = new StringBuilder();
-	    	for (int i=0;i<byteData.length;i++) {
-	    		String hex=Integer.toHexString(0xff & byteData[i]);
-	   	     	if(hex.length()==1) hexString.append('0');
-	   	     	hexString.append(hex);
-	    	}
-	    	LoggerUtil.logInfo("Digest(in hex format):: " + hexString.toString());
-	    	return hexString.toString();
+			String hashtext = no.toString(16);
+
+			while (hashtext.length() < 32) {
+				hashtext = "0" + hashtext;
+			}
+
+			return hashtext;
 		} catch (NoSuchAlgorithmException e) {
 			LoggerUtil.logError(e);
 			return null;
-		}      
-    }
-	
-	public static Long generateRandomToken() 
-	{
-		  return (long) (Math.random() * 1000000);
-		  //0000
+		}
 	}
-	
-	public static Date getDateByHour(Integer hours)
-	{
+
+	public static Long generateRandomToken() {
+		return (long) (Math.random() * 1000000);
+		// 0000
+	}
+
+	public static Date getDateByHour(Integer hours) {
 		Date today = new Date();
 		long hour = 3600 * 1000;
 		Date nextDay = new Date(today.getTime() + hours * hour);
 		return nextDay;
-		
+
+	}
+
+	public static String getSaltString() {
+
+		String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+		StringBuilder salt = new StringBuilder();
+		Random rnd = new Random();
+
+		while (salt.length() < 6) {
+
+			int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+			salt.append(SALTCHARS.charAt(index));
+
+		}
+
+		return salt.toString();
+
 	}
 }
