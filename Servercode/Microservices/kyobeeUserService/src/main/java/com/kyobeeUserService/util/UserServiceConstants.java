@@ -94,5 +94,7 @@ public class UserServiceConstants {
 	public static final String FAIL = "Failed";
 	public static final String INPROGRESS = "InProgress";
 	public static final String ACTIVE_SUBSC = "Y";
+	
+	public static final String PPL_BIFURCATION = "N";
 
 }

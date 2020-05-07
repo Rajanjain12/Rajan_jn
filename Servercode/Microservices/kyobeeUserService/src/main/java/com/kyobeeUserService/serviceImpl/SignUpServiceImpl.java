@@ -50,7 +50,7 @@ public class SignUpServiceImpl implements SignUpService {
 	private CustomerDAO customerDAO;
 
 	@Override
-	public void addBusiness(OrganizationDTO organizationDTO) {
+	public OrganizationDTO addBusiness(OrganizationDTO organizationDTO) {
 
 		Customer customer = new Customer();
 
@@ -60,7 +60,7 @@ public class SignUpServiceImpl implements SignUpService {
 		cal.add(Calendar.DATE, 7);
 		customer.setTrialPeriodEndDate(cal.getTime());
 		customer.setCreatedAt(new Date());
-		customer.setCreatedBy(organizationDTO.getEmail());
+		customer.setCreatedBy(UserServiceConstants.ADMIN);
 		customer.setActive(UserServiceConstants.ACTIVE_ORG);
 
 		Address address = new Address();
@@ -68,11 +68,11 @@ public class SignUpServiceImpl implements SignUpService {
 		AddressDTO addressDTO = organizationDTO.getAddressDTO();
 		BeanUtils.copyProperties(addressDTO, address);
 		address.setCreatedAt(new Date());
-		address.setCreatedBy(organizationDTO.getEmail());
+		address.setCreatedBy(UserServiceConstants.ADMIN);
 		LoggerUtil.logInfo("Address is added");
 
 		OrganizationType organizationType = organizationTypeDAO
-				.fetchOrganizationType(UserServiceConstants.DEFAULT_ORG_TYPE);
+				.fetchOrganizationType(organizationDTO.getOrgTypeId());
 
 		Organization organization = new Organization();
 		BeanUtils.copyProperties(organizationDTO, organization);
@@ -129,11 +129,17 @@ public class SignUpServiceImpl implements SignUpService {
 		organizationLangList.add(organizationLang);
 
 		organization.setOrganizationlangs(organizationLangList);
+		organization.setDefaultLangId(UserServiceConstants.DEFAULT_LANG);
+		organization.setPplBifurcation(UserServiceConstants.PPL_BIFURCATION);
 
 		LoggerUtil.logInfo("Organization Lang is Added");
 
-		customerDAO.save(customer);
+		Customer savedCustomer = customerDAO.save(customer);
+		organizationDTO.setCustomerId(savedCustomer.getCustomerID());
+		organizationDTO.setOrgId(savedCustomer.getOrganization().getOrganizationID());
+		
 		LoggerUtil.logInfo("Business added successfully");
+		return organizationDTO;
 
 	}
 

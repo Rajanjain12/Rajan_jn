@@ -31,8 +31,8 @@ public class SignUpController {
 	public @ResponseBody ResponseDTO addBusiness(@RequestBody OrganizationDTO organizationDTO) {
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			signUpService.addBusiness(organizationDTO);
-			responseDTO.setServiceResult("Business added successfully");
+			OrganizationDTO orgDTO = signUpService.addBusiness(organizationDTO);
+			responseDTO.setServiceResult(orgDTO);
 			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
 		} catch (Exception e) {
 			LoggerUtil.logError(e);

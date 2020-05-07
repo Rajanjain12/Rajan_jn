@@ -7,7 +7,7 @@ import com.kyobeeUserService.dto.OrganizationTypeDTO;
 
 public interface SignUpService {
 
-	public void addBusiness(OrganizationDTO organizationDTO);
+	public OrganizationDTO addBusiness(OrganizationDTO organizationDTO);
 
 	public List<OrganizationTypeDTO> fetchAllOrganizationType();
 

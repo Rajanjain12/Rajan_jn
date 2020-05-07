@@ -9,6 +9,9 @@ public class OrganizationDTO {
 	private String organizationName;
 	private BigInteger primaryPhone;
 	private BigInteger secondaryPhone;
+	private Integer orgId;
+	private Integer customerId;
+	private Integer orgTypeId;
 
 	public AddressDTO getAddressDTO() {
 		return addressDTO;
@@ -49,5 +52,30 @@ public class OrganizationDTO {
 	public void setSecondaryPhone(BigInteger secondaryPhone) {
 		this.secondaryPhone = secondaryPhone;
 	}
+
+	public Integer getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(Integer orgId) {
+		this.orgId = orgId;
+	}
+
+	public Integer getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(Integer customerId) {
+		this.customerId = customerId;
+	}
+
+	public Integer getOrgTypeId() {
+		return orgTypeId;
+	}
+
+	public void setOrgTypeId(Integer orgTypeId) {
+		this.orgTypeId = orgTypeId;
+	}
+	
 
 }
