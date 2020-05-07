@@ -1,0 +1,144 @@
+<form name="form" #f="ngForm" class="row mx-0 mt-3" (ngSubmit)="(f.form.invalid)" novalidate>
+  <div class="col-12 col-sm-11 row mx-auto">
+    <div class="col-12 pb-3">
+      <h4 class="text-center mb-3">Set-up For Payment</h4>
+    </div>
+    <div class="col-12 row m-0 p-0 align-items-lg-start mt-4">
+      <div class="col-12 col-md-6 col-lg-3 order-md-1 order-lg-0 p-0 pr-md-2">
+        <div class="container-box restaurant">
+          <h6 class="restaurant_title">Restaurant Address</h6>
+          <p class="restaurant_address">
+            <span class="font-weight-bold">{{ selectPlan.restaurantAddress.title }}</span>
+            <span> {{ selectPlan.restaurantAddress.address }} </span>
+            <span> {{ selectPlan.restaurantAddress.email }}</span>
+          </p>
+        </div>
+      </div>
+      <div class="col-12 col-md-12 col-lg-6 order-md-0 order-lg-1 p-0 px-lg-5">
+        <div class="container-box payment">
+          <div class="row m-0 p-2">
+            <div class="col-12">
+              <button type="button" class="btn btn-img-cards">
+                <img src="assets/images/card/visa-card.png" alt="visa-card" />
+              </button>
+              <button type="button" class="btn btn-img-cards">
+                <img src="assets/images/card/master-card.png" alt="visa-card" />
+              </button>
+              <button type="button" class="btn btn-img-cards">
+                <img src="assets/images/card/american-express-card.png" alt="visa-card" />
+              </button>
+              <button type="button" class="btn btn-img-cards">
+                <img src="assets/images/card/discover-card.png" alt="visa-card" />
+              </button>
+            </div>
+            <div class="col-12">
+              <div class="form-group my-3">
+                <input type="text" id="firstName" name="firstName" #firstName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }" class="form-control" [(ngModel)]="payment.firstName" required="required" />
+                <label for="input" class="control-label">First Name*</label><i class="bar"></i>
+                <div *ngIf="f.submitted && firstName.invalid" class="invalid-feedback">
+                  <div class="text-danger" *ngIf="firstName.errors?.required">Business Name is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group my-3">
+                <input type="text" id="lastName" name="lastName" #lastName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && lastName.invalid }" class="form-control" [(ngModel)]="payment.lastName" />
+                <label for="input" class="control-label">Last Name</label><i class="bar"></i>
+                <div *ngIf="f.submitted && lastName.invalid" class="invalid-feedback">
+                  <!-- <div class="text-danger" *ngIf="lastName.errors?.required">Business Name is required</div> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group my-3">
+                <input type="text" id="cardNumber" name="cardNumber" #cardNumber="ngModel" [ngClass]="{ 'is-invalid': f.submitted && cardNumber.invalid }" class="form-control" [(ngModel)]="payment.cardNumber" />
+                <label for="input" class="control-label">Card Number</label><i class="bar"></i>
+                <span class="eye-icon-img">
+                  <img src="assets/images/card/discover-card.png" alt="visa-card" />
+                </span>
+                <div *ngIf="f.submitted && cardNumber.invalid" class="invalid-feedback">
+                  <!-- <div class="text-danger" *ngIf="cardNumber.errors?.required">Business Name is required</div> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group my-3">
+                <input type="text" id="expiryDate" name="expiryDate" #expiryDate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && expiryDate.invalid }" class="form-control" [(ngModel)]="payment.expiryDate" />
+                <label for="input" class="control-label">Expiry Date(MM/YY)</label><i class="bar"></i>
+                <span class="grey flaticon-info-button eye-icon font-weight-semibold"></span>
+                <div *ngIf="f.submitted && expiryDate.invalid" class="invalid-feedback">
+                  <!-- <div class="text-danger" *ngIf="expiryDate.errors?.required">Business Name is required</div> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group my-3">
+                <input type="text" id="cvv" name="cvv" #cvv="ngModel" [ngClass]="{ 'is-invalid': f.submitted && cvv.invalid }" class="form-control" [(ngModel)]="payment.cvv" />
+                <label for="input" class="control-label">Security Code(CVV)</label><i class="bar"></i>
+                <span class="grey flaticon-info-button eye-icon font-weight-semibold"></span>
+                <div *ngIf="f.submitted && cvv.invalid" class="invalid-feedback">
+                  <!-- <div class="text-danger" *ngIf="cvv.errors?.required">Business Name is required</div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3 order-md-3 order-lg-2 p-0 pl-md-2">
+        <div class="container-box plan_summary">
+          <h6 class="plan_summary_title">Plan Summary</h6>
+          <div class="plan_summary_detail">
+            <div class="row m-0 pb-3" *ngFor="let item of planList.waitlist" [hidden]="item.id !== selectPlan.planSummary.waitlist">
+              <div class="col">
+                <p class="font-16">Waitlist</p>
+                <span class="font-color font-12">{{ item.name }} Plan</span>
+              </div>
+              <div class="col-auto">
+                <p class="font-weight-bold text-right font-16">{{ item.price | currency }}</p>
+                <p class="font-12">Per {{ item.planType }}</p>
+              </div>
+            </div>
+            <div class="row m-0 pb-3 border-bottom" *ngFor="let item of planList.textMarketing" [hidden]="item.id !== selectPlan.planSummary.textMarketing">
+              <div class="col">
+                <p class="font-16">Text Marketing</p>
+                <span class="font-color font-12">{{ item.name }} Plan</span>
+              </div>
+              <div class="col-auto">
+                <p class="font-weight-bold text-right font-16">{{ item.price | currency }}</p>
+                <p class="font-12">Per {{ item.planType }}</p>
+              </div>
+            </div>
+            <div class="row m-0 pt-3">
+              <div class="col">
+                <p class="font-16">Subtotal</p>
+              </div>
+              <div class="col-auto">
+                <p class="font-weight-bold text-right font-16">{{ '26' | currency }}</p>
+              </div>
+            </div>
+            <div class="row m-0 pt-3">
+              <div class="col">
+                <div class="form-group my-3">
+                  <input type="text" id="promoCode" name="promoCode" #promoCode="ngModel" [ngClass]="{ 'is-invalid': f.submitted && promoCode.invalid }" class="form-control" [(ngModel)]="payment.promoCode" />
+                  <label for="input" class="control-label">Have promo code?</label><i class="bar"></i>
+                  <div class="form-text text-muted">
+                    <div class="font-12">You get 50% off</div>
+                  </div>
+                  <div *ngIf="f.submitted && promoCode.invalid" class="invalid-feedback">
+                    <!-- <div class="text-danger" *ngIf="promoCode.errors?.required">Business Name is required</div> -->
+                  </div>
+                </div>
+              </div>
+              <div class="col-auto p-0">
+                <button type="button" class="btn btn-theme background-color shadow btn-sm mt-18px">Apply</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 text-center mt-3">
+      <button type="submit" class="btn btn-theme background-color shadow w-auto" (click)="onPayment(f.form.invalid)">Pay Now</button>
+    </div>
+  </div>
+</form>

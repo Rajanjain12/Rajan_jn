@@ -1,0 +1,76 @@
+.restaurant,
+.plan_summary,
+.payment,
+.plan {
+  padding: 0;
+  margin-bottom: 20px;
+  width: 100%;
+}
+.restaurant {
+  &_title {
+    padding: 15px;
+    border-bottom: 1px solid #707070;
+    font-weight: 700;
+  }
+  &_address {
+    padding: 15px;
+    span {
+      display: block;
+    }
+  }
+}
+.plan_summary {
+  &_title {
+    padding: 15px;
+    border-bottom: 1px solid #707070;
+    font-weight: 700;
+  }
+  &_detail {
+    padding: 15px;
+    margin: 0;
+    .border-bottom {
+      border-bottom: 1px solid #707070 !important;
+    }
+  }
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+}
+
+.btn-img-cards {
+  padding: 0;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  img {
+    width: 50px;
+  }
+}
+.eye-icon-img {
+  position: absolute;
+  right: 5px;
+  top: 0px;
+  cursor: pointer;
+  img {
+    width: 40px;
+  }
+}
+.btn-sm {
+  padding: 3px 20px !important;
+  min-width: auto !important;
+}
+.mt-18px {
+  margin-top: 18px;
+}

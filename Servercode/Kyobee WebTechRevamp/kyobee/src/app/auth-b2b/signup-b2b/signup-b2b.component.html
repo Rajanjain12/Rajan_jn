@@ -42,9 +42,7 @@
         <app-select-plan [(step)]="step"></app-select-plan>
       </div>
       <div class="col-12 fade-in p-0" *ngIf="step == 3">
-        <div class="col-12">
-          <h4 class="text-center mb-3">Set-up For Payment</h4>
-        </div>
+        <app-all-set [(step)]="step"></app-all-set>
       </div>
 
       <div class="col-12 text-center mt-4">

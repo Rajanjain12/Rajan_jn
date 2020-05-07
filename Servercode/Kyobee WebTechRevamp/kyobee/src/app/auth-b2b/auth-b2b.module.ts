@@ -8,9 +8,10 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { RegisterBusinessComponent } from './register-business/register-business.component';
 import { CreateBusinessComponent } from './create-business/create-business.component';
 import { SelectPlanComponent } from './select-plan/select-plan.component';
+import { AllSetComponent } from './all-set/all-set.component';
 
 @NgModule({
-  declarations: [SignupB2bComponent, RegisterBusinessComponent, CreateBusinessComponent, SelectPlanComponent],
+  declarations: [SignupB2bComponent, RegisterBusinessComponent, CreateBusinessComponent, SelectPlanComponent, AllSetComponent],
   imports: [CommonModule, AuthB2bRoutingModule, AutocompleteLibModule, FormsModule]
 })
 export class AuthB2bModule {}
