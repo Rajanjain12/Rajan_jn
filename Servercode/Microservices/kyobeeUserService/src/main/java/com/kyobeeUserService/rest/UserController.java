@@ -275,8 +275,8 @@ public class UserController {
 
 			ResponseDTO responseDTO = new ResponseDTO();
 			try {
-				userService.addUser(userSignUpDTO);
-				responseDTO.setServiceResult("User Added Successfully");
+				Integer userId = userService.addUser(userSignUpDTO);
+				responseDTO.setServiceResult(userId);
 				responseDTO.setMessage("User Added Successfully");
 				responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
 			} catch (DuplicateUserNameExeception e) {

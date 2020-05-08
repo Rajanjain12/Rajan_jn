@@ -39,7 +39,7 @@ public interface UserService {
 	
 	public String activateUser(String activationCode,Integer userId) throws InvalidActivationCodeException;
 	
-	public void addUser(UserSignUpDTO userSignUpDTO) throws DuplicateUserNameExeception, DuplicateEmailExeception;
+	public Integer addUser(UserSignUpDTO userSignUpDTO) throws DuplicateUserNameExeception, DuplicateEmailExeception;
 
 	public Boolean checkIfUserNameExist(String userName);
 	

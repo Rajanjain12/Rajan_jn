@@ -684,8 +684,9 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void addUser(UserSignUpDTO userSignUpDTO) throws DuplicateUserNameExeception, DuplicateEmailExeception {
+	public Integer addUser(UserSignUpDTO userSignUpDTO) throws DuplicateUserNameExeception, DuplicateEmailExeception {
 
+		User savedUser = null;
 		// check if user email exists or not
 		Boolean exists = checkIfUserExist(userSignUpDTO.getEmail());
 
@@ -728,7 +729,9 @@ public class UserServiceImpl implements UserService {
 				organizationUserList.add(organizationUser);
 				user.setOrganizationusers(organizationUserList);
 
-				User savedUser = userDAO.save(user);		
+				savedUser = userDAO.save(user);	
+				// sending activation mail
+				sendActivationEmail(savedUser);
 
 			} else {
 				LoggerUtil.logInfo("userName exists");
@@ -739,6 +742,7 @@ public class UserServiceImpl implements UserService {
 			LoggerUtil.logInfo("user email exists");
 			throw new DuplicateEmailExeception("Email already exists. Please try different one.");
 		}
+		return savedUser.getUserID();
 	}
 
 	@Override
