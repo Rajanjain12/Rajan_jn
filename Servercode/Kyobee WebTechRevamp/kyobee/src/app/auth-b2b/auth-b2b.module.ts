@@ -11,7 +11,13 @@ import { SelectPlanComponent } from './select-plan/select-plan.component';
 import { AllSetComponent } from './all-set/all-set.component';
 
 @NgModule({
-  declarations: [SignupB2bComponent, RegisterBusinessComponent, CreateBusinessComponent, SelectPlanComponent, AllSetComponent],
+  declarations: [
+    SignupB2bComponent,
+    RegisterBusinessComponent,
+    CreateBusinessComponent,
+    SelectPlanComponent,
+    AllSetComponent
+  ],
   imports: [CommonModule, AuthB2bRoutingModule, AutocompleteLibModule, FormsModule]
 })
 export class AuthB2bModule {}

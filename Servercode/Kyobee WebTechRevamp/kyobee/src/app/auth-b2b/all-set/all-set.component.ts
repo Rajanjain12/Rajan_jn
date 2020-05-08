@@ -15,12 +15,14 @@ export class AllSetComponent implements OnInit {
     cardNumber: string;
     expiryDate: string;
     cvv: string;
+    promoCode: string;
   } = {
     firstName: '',
     lastName: '',
     cardNumber: '',
     expiryDate: '',
-    cvv: ''
+    cvv: '',
+    promoCode: ''
   };
 
   selectPlan: {

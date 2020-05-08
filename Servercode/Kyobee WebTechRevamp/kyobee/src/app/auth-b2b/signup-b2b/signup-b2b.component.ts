@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignupB2bComponent implements OnInit {
   alertError: { type: string; msg: string; display: boolean } = { type: '', msg: '', display: false };
-  step: number = 3;
+  step: number = 0;
 
   constructor() {}
 
