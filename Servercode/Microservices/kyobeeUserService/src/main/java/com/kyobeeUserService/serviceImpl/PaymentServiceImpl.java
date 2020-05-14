@@ -50,7 +50,7 @@ public class PaymentServiceImpl implements PaymentService {
 	private PaymentCustomDAO paymentCustomDAO;
 
 	@Override
-	public void saveOrgCardDetails(Integer orgId, Integer customerId, OrgCardDetailsDTO orgCardDetailsDTO) {
+	public Integer saveOrgCardDetails(Integer orgId, Integer customerId, OrgCardDetailsDTO orgCardDetailsDTO) {
 		OrganizationCardDetail orgCardDetail = new OrganizationCardDetail();
 
 		BeanUtils.copyProperties(orgCardDetailsDTO, orgCardDetail);
@@ -64,7 +64,8 @@ public class PaymentServiceImpl implements PaymentService {
 		orgCardDetail.setCreatedBy(UserServiceConstants.ADMIN);
 		orgCardDetail.setCreatedAt(new Date());
 
-		orgCardDetailsDAO.save(orgCardDetail);
+		orgCardDetail = orgCardDetailsDAO.save(orgCardDetail);
+		return orgCardDetail.getOrganizationCardDetailID();
 	}
 
 	@Override

@@ -130,7 +130,7 @@ public class PlanServiceImpl implements PlanService {
 	}
 
 	@Override
-	public void savePlanDetails(Integer orgId, Integer customerId, List<Integer> planFeatureChargeIds) {
+	public Integer savePlanDetails(Integer orgId, Integer customerId, List<Integer> planFeatureChargeIds) {
 
 		BigDecimal totalAmount = null;
 		List<OrganizationSubscriptionDetail> orgSubscriptionDetailList = new ArrayList<>();
@@ -167,7 +167,8 @@ public class PlanServiceImpl implements PlanService {
 			orgSubscriptionDetailList.add(orgSubscriptionDetails);
 		}
 
-		orgSubscriptionDetailsDAO.saveAll(orgSubscriptionDetailList);
+		List<OrganizationSubscriptionDetail>  orgSubscDetail= orgSubscriptionDetailsDAO.saveAll(orgSubscriptionDetailList);
+		return orgSubscDetail.get(0).getOrganizationSubscription().getOrganizationSubscriptionID();
 	}
 
 	@Override

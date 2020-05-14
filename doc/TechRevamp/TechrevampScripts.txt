@@ -824,3 +824,8 @@ CHANGE COLUMN `OrganizationPaymentID` `OrganizationPaymentID` INT(11) NOT NULL A
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONPAYMENT` 
 CHANGE COLUMN `PaymentDateTime` `PaymentDateTime` DATETIME NULL DEFAULT NULL ;
+
+
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATION` 
+CHANGE COLUMN `Email` `Email` VARCHAR(255) NULL ;

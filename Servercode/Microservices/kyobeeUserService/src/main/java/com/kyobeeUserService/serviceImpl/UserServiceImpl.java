@@ -707,6 +707,7 @@ public class UserServiceImpl implements UserService {
 				user.setCreatedAt(new Date());
 				user.setCreatedBy(userSignUpDTO.getEmail());
 				user.setSaltString(salt);
+				user.setActivationCode(CommonUtil.generateRandomToken().toString());
 
 				Role role = roleDAO.fetchRole(UserServiceConstants.CUSTOMER_ADMIN_ROLE);
 				Customer customer = customerDAO.getOne(userSignUpDTO.getCustomerId());

@@ -53,8 +53,8 @@ public class PlanController {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			planService.savePlanDetails(orgId, customerId, planFeatureChargeIds);
-			responseDTO.setServiceResult("Plan Details saved successfully");
+			Integer orgSubscId = planService.savePlanDetails(orgId, customerId, planFeatureChargeIds);
+			responseDTO.setServiceResult(orgSubscId);
 			responseDTO.setMessage("Plan Details saved successfully");
 			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
 		} catch (Exception e) {

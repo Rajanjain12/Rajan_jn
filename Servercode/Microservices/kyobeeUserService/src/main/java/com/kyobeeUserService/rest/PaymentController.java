@@ -30,8 +30,8 @@ public class PaymentController {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			paymentService.saveOrgCardDetails(orgId, customerId, orgCardDetailsDTO);
-			responseDTO.setServiceResult("Org Card Details saved successfully");
+			Integer orgCardDetailId = paymentService.saveOrgCardDetails(orgId, customerId, orgCardDetailsDTO);
+			responseDTO.setServiceResult(orgCardDetailId);
 			responseDTO.setMessage("Org Card Details saved successfully");
 			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
 		} catch (Exception e) {

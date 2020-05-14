@@ -9,7 +9,7 @@ import com.kyobeeUserService.util.Exception.PromoCodeException;
 public interface PlanService {
 
 	public PlanDetailsDTO fetchPlanDetails(String country);
-	public void savePlanDetails(Integer orgId, Integer customerId, List<Integer> planFeatureChargeIds);
+	public Integer savePlanDetails(Integer orgId, Integer customerId, List<Integer> planFeatureChargeIds);
 	public void savePromoCode(PromoCodeDTO promoCodeDTO) throws PromoCodeException;
 
 }
