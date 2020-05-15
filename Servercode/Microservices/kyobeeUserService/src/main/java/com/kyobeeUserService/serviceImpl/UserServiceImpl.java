@@ -698,6 +698,7 @@ public class UserServiceImpl implements UserService {
 			if (!exists) {
 
 				User user = new User();
+				Date nextDay = CommonUtil.getDateByHour(24);
 
 				String salt = CommonUtil.getSaltString();
 
@@ -708,6 +709,7 @@ public class UserServiceImpl implements UserService {
 				user.setCreatedBy(userSignUpDTO.getEmail());
 				user.setSaltString(salt);
 				user.setActivationCode(CommonUtil.generateRandomToken().toString());
+				user.setActivationExpiryDate(nextDay);
 
 				Role role = roleDAO.fetchRole(UserServiceConstants.CUSTOMER_ADMIN_ROLE);
 				Customer customer = customerDAO.getOne(userSignUpDTO.getCustomerId());
