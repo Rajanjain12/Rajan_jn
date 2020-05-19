@@ -1,4 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { UserSignupDTO } from 'src/app/core/models/usersignup.model';
+import { AuthB2BService } from 'src/app/core/services/auth-b2b.service';
+import { UserService } from 'src/app/core/services/user.service';
+import { HttpParams } from '@angular/common/http';
+import { LoaderService } from 'src/app/core/services/loader.service';
 
 declare var $: any;
 
@@ -10,6 +15,9 @@ declare var $: any;
 export class CreateBusinessComponent implements OnInit {
   @Input('step') step: number;
   @Output('stepChange') stepChange = new EventEmitter<number>();
+
+  orgUser: UserSignupDTO = new UserSignupDTO();
+  userId;
 
   // Todo: Make Model of it
   createBusiness: {
@@ -31,28 +39,70 @@ export class CreateBusinessComponent implements OnInit {
   veriCode: number[] = new Array(6);
   incorrectActCode: boolean;
 
-  constructor() {}
+  constructor(
+    private authb2bService: AuthB2BService,
+    private userService: UserService,
+    public loaderService: LoaderService
+  ) {}
 
   ngOnInit() {}
 
-  onCreateBusiness(invalid) {
+  //Purpose : For Saving User
+  saveUser(invalid) {
     if (invalid) {
       return;
     }
+    // getting customer Id and organization Id from recently saved organization
+    this.orgUser.customerId = this.authb2bService.organization.customerId;
+    this.orgUser.orgId = this.authb2bService.organization.orgId;
+    console.log('user:' + JSON.stringify(this.orgUser));
 
-    $('#verificationCodeModal').modal('show');
+    //saving user
+    this.userService.saveUser(this.orgUser).subscribe((res: any) => {
+      if (res.success === 1) {
+        console.log('response:' + JSON.stringify(res.serviceResult));
+        this.userId = res.serviceResult;
+        $('#verificationCodeModal').modal('show');
+      } else {
+        alert(res.message);
+      }
+    });
   }
 
-  onVerificationCode(invalid) {
+  activateUser(invalid) {
     if (invalid) {
       return;
     }
-    $('#verificationCodeModal').modal('hide');
+    console.log('code:' + this.veriCode.toString().replace(/,/g, ''));
+    console.log(' activate user id:' + this.userId);
+    const params = new HttpParams()
+      .set('activationCode', this.veriCode.toString().replace(/,/g, ''))
+      .set('userId', this.userId);
 
-    this.step = 2;
-    this.stepChange.emit(this.step);
+    this.userService.activateUser(params).subscribe((res: any) => {
+      if (res.success === 1) {
+        console.log('response:' + JSON.stringify(res.serviceResult));
+        $('#verificationCodeModal').modal('hide');
+        this.step = 2;
+        this.stepChange.emit(this.step);
+      } else {
+        alert(res.message);
+      }
+    });
   }
 
+  resendCode() {
+    this.loaderService.disable = true;
+    const params = new HttpParams().set('userId', this.userId);
+    console.log(' resend user id:' + this.userId);
+    this.userService.resendCode(params).subscribe((res: any) => {
+      if (res.success === 1) {
+        console.log('response:' + JSON.stringify(res.serviceResult));
+      } else {
+        alert(res.message);
+      }
+    });
+  }
   trackByIndex(index: number, obj: any): any {
     return index;
   }

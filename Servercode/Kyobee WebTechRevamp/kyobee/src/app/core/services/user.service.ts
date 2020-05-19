@@ -18,4 +18,25 @@ export class UserService {
   forgotPassword(username: HttpParams) {
     return this.apiService.postParams('rest/user/forgotPassword', username);
   }
+  fetchCountryList() {
+    return this.apiService.get('rest/user/country');
+  }
+  fetchLatLon(zipCode: HttpParams) {
+    return this.apiService.getParams('rest/user/latLon', zipCode);
+  }
+  fetchPlaceList(params) {
+    return this.apiService.getParams('rest/user/placeList/', params);
+  }
+  fetchPlaceDetails(placeId: HttpParams) {
+    return this.apiService.getParams('rest/user/placeDetails', placeId);
+  }
+  saveUser(request) {
+    return this.apiService.post('rest/user/addUser', request);
+  }
+  activateUser(params) {
+    return this.apiService.postParams('rest/user/activateUser', params);
+  }
+  resendCode(userId: HttpParams) {
+    return this.apiService.postParams('rest/user/resendCode', userId);
+  }
 }

@@ -1,13 +1,13 @@
 <div class="custom-container">
   <div class="container">
-    <form name="form" #f="ngForm" class="row mt-3" (ngSubmit)="onCreateBusiness(f.form.invalid)" novalidate>
+    <form name="form" #f="ngForm" class="row mt-3" (ngSubmit)="saveUser(f.form.invalid)" novalidate>
       <div class="col-12">
         <h4 class="text-center mb-3">Create Business Login</h4>
       </div>
       <div class="row col-12 col-sm-8 col-md-6 m-auto container-box px-4 py-3">
         <div class="col-12">
           <div class="form-group my-3">
-            <input type="text" id="firstName" name="firstName" #firstName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }" class="form-control" [(ngModel)]="createBusiness.firstName" required="required" />
+            <input type="text" id="firstName" name="firstName" #firstName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }" class="form-control" [(ngModel)]="orgUser.firstName" required="required" />
             <label for="input" class="control-label">First Name*</label><i class="bar"></i>
             <div *ngIf="f.submitted && firstName.invalid" class="invalid-feedback">
               <div class="text-danger" *ngIf="firstName.errors?.required">Business Name is required</div>
@@ -16,7 +16,7 @@
         </div>
         <div class="col-12">
           <div class="form-group my-3">
-            <input type="text" id="lastName" name="lastName" #lastName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && lastName.invalid }" class="form-control" [(ngModel)]="createBusiness.lastName" />
+            <input type="text" id="lastName" name="lastName" #lastName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && lastName.invalid }" class="form-control" [(ngModel)]="orgUser.lastName" />
             <label for="input" class="control-label">Last Name</label><i class="bar"></i>
             <div *ngIf="f.submitted && lastName.invalid" class="invalid-feedback">
               <!-- <div class="text-danger" *ngIf="lastName.errors?.required">Business Name is required</div> -->
@@ -25,7 +25,7 @@
         </div>
         <div class="col-12">
           <div class="form-group my-3">
-            <input type="text" id="userName" name="userName" #userName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && userName.invalid }" class="form-control" [(ngModel)]="createBusiness.userName" required="required" />
+            <input type="text" id="userName" name="userName" #userName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && userName.invalid }" class="form-control" [(ngModel)]="orgUser.userName" required="required" />
             <label for="input" class="control-label">Username*</label><i class="bar"></i>
             <div *ngIf="f.submitted && userName.invalid" class="invalid-feedback">
               <div class="text-danger" *ngIf="userName.errors?.required">Business Name is required</div>
@@ -34,20 +34,42 @@
         </div>
         <div class="col-12">
           <div class="form-group my-3">
-            <input type="text" id="email" name="email" #email="ngModel" class="form-control" [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" [(ngModel)]="createBusiness.email" required="required" />
+            <input
+              type="text"
+              id="email"
+              name="email"
+              #email="ngModel"
+              class="form-control"
+              pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
+              [ngClass]="{ 'is-invalid': f.submitted && email.invalid }"
+              [(ngModel)]="orgUser.email"
+              required="required"
+            />
             <label for="input" class="control-label">Email*</label><i class="bar"></i>
             <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
               <div class="text-danger" *ngIf="email.errors?.required">Email is required</div>
+              <div class="text-danger" *ngIf="email.errors.pattern">Email must be a valid email address</div>
             </div>
           </div>
         </div>
         <div class="col-12">
           <div class="form-group my-3">
-            <input type="password" id="password" name="password" #password="ngModel" class="form-control" [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" [(ngModel)]="createBusiness.password" required="required" />
+            <input
+              type="password"
+              id="password"
+              name="password"
+              #password="ngModel"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': f.submitted && password.invalid }"
+              pattern="^(?=.*?[A-Z])(?=.*?[#?!@$%^&*-]).{8,12}$"
+              [(ngModel)]="orgUser.password"
+              required="required"
+            />
             <label for="input" class="control-label">Password*</label><i class="bar"></i>
             <span toggle="#password" (click)="toggleEye($event)" class="grey flaticon-padlock eye-icon toggle-password font-weight-semibold"></span>
             <div *ngIf="f.submitted && password.invalid" class="invalid-feedback">
               <div class="text-danger" *ngIf="password.errors.required">Password is required</div>
+              <div class="text-danger" *ngIf="password.errors?.pattern">Password should be proper</div>
             </div>
           </div>
         </div>
@@ -56,6 +78,7 @@
             <input
               type="password"
               id="confPassword"
+              appConfirmEqualValidator="password"
               name="confPassword"
               #confPassword="ngModel"
               class="form-control"
@@ -67,6 +90,7 @@
             <span toggle="#confPassword" (click)="toggleEye($event)" class="grey flaticon-padlock eye-icon toggle-confPassword font-weight-semibold"></span>
             <div *ngIf="f.submitted && confPassword.invalid" class="invalid-feedback">
               <div class="text-danger" *ngIf="confPassword.errors.required">confPassword is required</div>
+              <div class="text-danger" *ngIf="confPassword.errors?.notEqual">Password does not match</div>
             </div>
           </div>
         </div>
@@ -117,11 +141,11 @@
                 </div>
 
                 <div class="col-12 text-center modal-btn my-4">
-                  <button type="submit" class="btn btn-theme background-color shadow" (click)="onVerificationCode(f1.invalid)">Submit</button>
+                  <button type="submit" class="btn btn-theme background-color shadow" (click)="activateUser(f1.invalid)">Submit</button>
                 </div>
                 <div class="col-12 text-center mb-4">
                   Didn't receive verification code?
-                  <button type="button" class="btn btn-underline not-finding p-0">Resend now</button>
+                  <button type="button" class="btn btn-underline not-finding p-0" (click)="resendCode()">Resend now</button>
                 </div>
               </div>
             </form>

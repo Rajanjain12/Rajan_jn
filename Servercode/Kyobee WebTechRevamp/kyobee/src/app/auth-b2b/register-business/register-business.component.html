@@ -10,12 +10,11 @@
             <div class="mobile-input-with-flag row m-0">
               <label for="input" class="col-12 m-0 pl-0 control-label-flag medium-gray-color"> Select Country</label>
               <div class="col-auto pl-0 form-group countryCode-flag">
-                <img src="/assets/images/flag_placeholder.png" class="flag flag-{{ addBusiness.countryCode }}" />
+                <img src="/assets/images/flag_placeholder.png" class="flag flag-{{ countryCode | lowercase }}" />
               </div>
               <div class="col p-0 form-group">
-                <select name="countryCode" id="countryCode" [(ngModel)]="addBusiness.countryCode">
-                  <option value="us">USA</option>
-                  <option value="in">India</option>
+                <select name="countryCode" id="countryCode" [(ngModel)]="countryCode">
+                  <option *ngFor="let country of countryList" value="{{ country.isocode | lowercase }}">{{ country.countryName }}</option>
                 </select>
                 <i class="bar"></i>
               </div>
@@ -25,7 +24,7 @@
           <div class="col-12 col-sm-4 col-md-3 mr-auto ml-md-3">
             <label for="input" class="col-12 m-0 pl-0 control-label medium-gray-color">&nbsp;</label>
             <div class="form-group m-0">
-              <input type="text" name="zip" class="form-control" id="zip" [(ngModel)]="addBusiness.zipcode" #zip="ngModel" [ngClass]="{ 'is-invalid': f.submitted && zip.invalid }" required />
+              <input type="text" name="zip" class="form-control" id="zip" [(ngModel)]="zipCode" #zip="ngModel" [ngClass]="{ 'is-invalid': f.submitted && zip.invalid }" maxlength="8" (blur)="fetchLatLon()" required />
               <label for="people" class="control-label">Zip Code*</label>
               <i class="bar"></i>
               <div *ngIf="f.submitted && zip.invalid" class="invalid-feedback">
@@ -36,15 +35,26 @@
         </div>
         <div class="col-12 px-2">
           <div class="ng-autocomplete mt-4">
-            <ng-autocomplete [data]="data" [searchKeyword]="'name'" [itemTemplate]="itemTemplate" placeHolder="Search your Business"> </ng-autocomplete>
-
+            <ng-autocomplete
+              [data]="placeList"
+              [searchKeyword]="'placeName'"
+              placeHolder="Search your Business"
+              [debounceTime]="200"
+              [disabled]="!showBusiness"
+              (inputChanged)="fetchPlaceList($event)"
+              (inputCleared)="searchCleared()"
+              historyIdentifier="placeList"
+              (selected)="fetchPlaceDetails($event)"
+              [itemTemplate]="itemTemplate"
+            >
+            </ng-autocomplete>
             <ng-template #itemTemplate let-item>
-              <a [innerHTML]="item.name"></a>
+              <a [innerHTML]="item.placeName"></a>
             </ng-template>
           </div>
         </div>
         <div class="col-12 text-center mt-3">
-          <button type="button" class="btn btn-underline font-color not-finding" (click)="addBusinessFlag = !addBusinessFlag">
+          <button type="button" class="btn btn-underline font-color not-finding" (click)="addBusinessFlag = !addBusinessFlag; fetchOrganizationType()">
             Not finding?
           </button>
         </div>
@@ -63,7 +73,8 @@
                 #businessName="ngModel"
                 [ngClass]="{ 'is-invalid': f.submitted && businessName.invalid }"
                 class="form-control"
-                [(ngModel)]="addBusiness.businessName"
+                [(ngModel)]="organization.organizationName"
+                maxlength="50"
                 required="required"
               />
               <label for="input" class="control-label">Business Name*</label><i class="bar"></i>
@@ -78,10 +89,12 @@
                 type="text"
                 id="businessPhoneNumber"
                 name="businessPhoneNumber"
+                mask="(000)-000-0000"
                 [ngClass]="{ 'is-invalid': f.submitted && businessPhoneNumber.invalid }"
                 #businessPhoneNumber="ngModel"
                 class="form-control"
-                [(ngModel)]="addBusiness.businessPhoneNumber"
+                [(ngModel)]="organization.primaryPhone"
+                maxlength="8"
                 required="required"
               />
               <label for="input" class="control-label">Business Phone Number*</label><i class="bar"></i>
@@ -92,7 +105,16 @@
           </div>
           <div class="col-12">
             <div class="form-group my-3">
-              <input type="text" id="streetAddress" name="streetAddress" #streetAddress="ngModel" [ngClass]="{ 'is-invalid': f.submitted && streetAddress.invalid }" class="form-control" [(ngModel)]="addBusiness.streetAddress" />
+              <input
+                type="text"
+                id="streetAddress"
+                name="streetAddress"
+                #streetAddress="ngModel"
+                [ngClass]="{ 'is-invalid': f.submitted && streetAddress.invalid }"
+                class="form-control"
+                maxlength="100"
+                [(ngModel)]="organization.addressDTO.addressLineOne"
+              />
               <label for="input" class="control-label">Street Address</label><i class="bar"></i>
               <div *ngIf="f.submitted && streetAddress.invalid" class="invalid-feedback">
                 <!-- <div class="text-danger" *ngIf="streetAddress.errors?.required">Street Address is required</div> -->
@@ -101,28 +123,21 @@
           </div>
           <div class="col-12 col-md-6">
             <div class="form-group my-3">
-              <select name="IndustryInfo" id="IndustryInfo" [(ngModel)]="addBusiness.IndustryInfo">
-                <option value="Resturant">Resturant</option>
-                <option value="Book Store">Book Store</option>
+              <select name="IndustryInfo" id="IndustryInfo" [(ngModel)]="organization.orgTypeId">
+                <option *ngFor="let orgTypeList of organizationTypeList" value="{{ orgTypeList.typeID }}">{{ orgTypeList.typeName }}</option>
               </select>
               <label for="input" class="control-label">Industry info</label><i class="bar"></i>
             </div>
           </div>
           <div class="col-12 col-md-6">
             <div class="form-group my-3">
-              <select name="city" id="city" [(ngModel)]="addBusiness.city">
-                <option value="Culver City">Culver City</option>
-                <option value="LA">LA</option>
-              </select>
+              <input type="text" id="city" name="city" #city="ngModel" [ngClass]="{ 'is-invalid': f.submitted && city.invalid }" class="form-control" [(ngModel)]="organization.addressDTO.city" required="required" />
               <label for="input" class="control-label">City</label><i class="bar"></i>
             </div>
           </div>
           <div class="col-12 col-md-6">
             <div class="form-group my-3">
-              <select name="state" id="state" [(ngModel)]="addBusiness.state">
-                <option value="CA">CA</option>
-                <option value="AF">AF</option>
-              </select>
+              <input type="text" id="state" name="state" #state="ngModel" [ngClass]="{ 'is-invalid': f.submitted && state.invalid }" class="form-control" [(ngModel)]="organization.addressDTO.state" required="required" />
               <label for="input" class="control-label">State</label><i class="bar"></i>
             </div>
           </div>
@@ -132,12 +147,11 @@
             </div>
             <div class="mobile-input-with-flag row m-0">
               <div class="col-auto pl-0 form-group countryCode-flag">
-                <img src="/assets/images/flag_placeholder.png" class="flag flag-{{ addBusiness.countryCode }}" />
+                <img src="/assets/images/flag_placeholder.png" class="flag flag-{{ countryCode | lowercase }}" />
               </div>
               <div class="col p-0 form-group">
-                <select name="countryCode1" id="countryCode1" [(ngModel)]="addBusiness.countryCode">
-                  <option value="us">USA</option>
-                  <option value="in">India</option>
+                <select name="countryCode" id="countryCode" [(ngModel)]="countryCode">
+                  <option *ngFor="let country of countryList" value="{{ country.isocode | lowercase }}">{{ country.countryName }}</option>
                 </select>
                 <i class="bar"></i>
               </div>
@@ -145,7 +159,7 @@
           </div>
           <div class="col-12 col-md-6">
             <div class="form-group my-3">
-              <input type="number" name="zip1" class="form-control" id="zip1" #zip1="ngModel" [ngClass]="{ 'is-invalid': f.submitted && zip1.invalid }" [(ngModel)]="addBusiness.zipcode" />
+              <input type="text" name="zip1" class="form-control" id="zip1" #zip1="ngModel" [ngClass]="{ 'is-invalid': f.submitted && zip1.invalid }" [(ngModel)]="zipCode" maxlength="8" />
               <label for="people" class="control-label">Zip Code*</label>
               <i class="bar"></i>
               <div *ngIf="f.submitted && zip1.invalid" class="invalid-feedback">
@@ -164,7 +178,7 @@
           </div>
         </div>
         <div class="col-12 text-center mt-4">
-          <button type="submit" class="btn btn-theme background-color shadow w-auto" (click)="onAddBusiness(f.form.invalid)">Save</button>
+          <button type="submit" class="btn btn-theme background-color shadow w-auto" (click)="registerBusiness()">Save</button>
         </div>
       </div>
     </form>

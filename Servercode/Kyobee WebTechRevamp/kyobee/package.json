@@ -26,6 +26,7 @@
     "angular-ng-autocomplete": "^2.0.1",
     "angular-web-storage": "^7.0.0-beta.1",
     "bootstrap": "^4.3.1",
+    "braintree-web": "^3.62.0",
     "global.css": "^1.1.0",
     "jquery": "^3.3.1",
     "ng5-slider": "^1.2.4",

@@ -33,16 +33,16 @@
             </div>
             <div class="col-12">
               <div class="form-group my-3">
-                <input type="text" id="firstName" name="firstName" #firstName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }" class="form-control" [(ngModel)]="payment.firstName" required="required" />
+                <input type="text" id="firstName" name="firstName" maxlength="50" #firstName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }" class="form-control" [(ngModel)]="payment.firstName" required="required" />
                 <label for="input" class="control-label">First Name*</label><i class="bar"></i>
                 <div *ngIf="f.submitted && firstName.invalid" class="invalid-feedback">
-                  <div class="text-danger" *ngIf="firstName.errors?.required">Business Name is required</div>
+                  <div class="text-danger" *ngIf="firstName.errors?.required">First Name is required</div>
                 </div>
               </div>
             </div>
             <div class="col-12">
               <div class="form-group my-3">
-                <input type="text" id="lastName" name="lastName" #lastName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && lastName.invalid }" class="form-control" [(ngModel)]="payment.lastName" />
+                <input type="text" id="lastName" name="lastName" maxlength="50" #lastName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && lastName.invalid }" class="form-control" [(ngModel)]="payment.lastName" />
                 <label for="input" class="control-label">Last Name</label><i class="bar"></i>
                 <div *ngIf="f.submitted && lastName.invalid" class="invalid-feedback">
                   <!-- <div class="text-danger" *ngIf="lastName.errors?.required">Business Name is required</div> -->
@@ -50,34 +50,41 @@
               </div>
             </div>
             <div class="col-12">
+              <div id="cardNumber">
               <div class="form-group my-3">
-                <input type="text" id="cardNumber" name="cardNumber" #cardNumber="ngModel" [ngClass]="{ 'is-invalid': f.submitted && cardNumber.invalid }" class="form-control" [(ngModel)]="payment.cardNumber" />
+                <input type="text" id="cardNumber" name="cardNumber" #cardNumber="ngModel" [ngClass]="{ 'is-invalid': f.submitted && cardNumber.invalid }" class="form-control" [(ngModel)]="payment.cardNumber" required="required"/>
                 <label for="input" class="control-label">Card Number</label><i class="bar"></i>
                 <span class="eye-icon-img">
                   <img src="assets/images/card/discover-card.png" alt="visa-card" />
                 </span>
                 <div *ngIf="f.submitted && cardNumber.invalid" class="invalid-feedback">
-                  <!-- <div class="text-danger" *ngIf="cardNumber.errors?.required">Business Name is required</div> -->
+                  <div class="text-danger" *ngIf="cardNumber.errors?.required">Please Enter card number</div>
+                </div>
                 </div>
               </div>
             </div>
             <div class="col-12">
+              <div id="expiryDate">
               <div class="form-group my-3">
-                <input type="text" id="expiryDate" name="expiryDate" #expiryDate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && expiryDate.invalid }" class="form-control" [(ngModel)]="payment.expiryDate" />
+                <input type="text" id="expiryDate" name="expiryDate" #expiryDate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && expiryDate.invalid }" class="form-control" [(ngModel)]="payment.expiryDate" required="required"/>
                 <label for="input" class="control-label">Expiry Date(MM/YY)</label><i class="bar"></i>
                 <span class="grey flaticon-info-button eye-icon font-weight-semibold"></span>
                 <div *ngIf="f.submitted && expiryDate.invalid" class="invalid-feedback">
-                  <!-- <div class="text-danger" *ngIf="expiryDate.errors?.required">Business Name is required</div> -->
+                   <div class="text-danger" *ngIf="expiryDate.errors?.required">Please Enter your card expiry date</div> 
+                </div>
                 </div>
               </div>
             </div>
             <div class="col-12">
+              <div id="cvv">
               <div class="form-group my-3">
-                <input type="text" id="cvv" name="cvv" #cvv="ngModel" [ngClass]="{ 'is-invalid': f.submitted && cvv.invalid }" class="form-control" [(ngModel)]="payment.cvv" />
+                <input type="text" id="cvv" name="cvv" #cvv="ngModel" [ngClass]="{ 'is-invalid': f.submitted && cvv.invalid }" class="form-control" maxlength = "3" minlength = "3" [(ngModel)]="payment.cvv" required="required"/>
                 <label for="input" class="control-label">Security Code(CVV)</label><i class="bar"></i>
                 <span class="grey flaticon-info-button eye-icon font-weight-semibold"></span>
                 <div *ngIf="f.submitted && cvv.invalid" class="invalid-feedback">
-                  <!-- <div class="text-danger" *ngIf="cvv.errors?.required">Business Name is required</div> -->
+                  <div class="text-danger" *ngIf="cvv.errors?.required">Please enter Security Code</div>
+                  <div class="text-danger" *ngIf="cvv.errors.minlength">CVV must be at least 3 characters</div> 
+                </div>
                 </div>
               </div>
             </div>

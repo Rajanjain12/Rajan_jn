@@ -1,4 +1,13 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { UserService } from 'src/app/core/services/user.service';
+import { CountryDTO } from 'src/app/core/models/countryDTO.model';
+import { HttpParams } from '@angular/common/http';
+import { PlaceDTO } from 'src/app/core/models/place.model';
+import { LoaderService } from 'src/app/core/services/loader.service';
+import { OrganizationDTO } from 'src/app/core/models/organization.model';
+import { AddressDTO } from 'src/app/core/models/address.model';
+import { SignUpService } from 'src/app/core/services/signup.service';
+import { AuthB2BService } from 'src/app/core/services/auth-b2b.service';
 
 @Component({
   selector: 'app-register-business',
@@ -9,44 +18,19 @@ export class RegisterBusinessComponent implements OnInit {
   @Input('step') step: number;
   @Output('stepChange') stepChange = new EventEmitter<number>();
 
-  countryList: Array<{ code: string; name: string }> = [
-    { code: 'us', name: 'United State' },
-    { code: 'in', name: 'India' }
-  ];
-  data: Array<{ id: number; name: string }> = [
-    {
-      id: 1,
-      name: 'The Imperial Palace summertime ln, Culver City, CA,90230'
-    },
-    {
-      id: 2,
-      name: 'Lords Restaurant near The Imperial Palace summertime ln, Culver City, CA,90230'
-    },
-    {
-      id: 3,
-      name: 'The Imperial Palace summertime ln, Culver City, CA,90230'
-    },
-    {
-      id: 4,
-      name: 'Lords Restaurant near The Imperial Palace summertime ln, Culver City, CA,90230'
-    },
-    {
-      id: 5,
-      name: 'The Imperial Palace summertime ln, Culver City, CA,90230'
-    },
-    {
-      id: 6,
-      name: 'Lords Restaurant near The Imperial Palace summertime ln, Culver City, CA,90230'
-    },
-    {
-      id: 7,
-      name: 'The Imperial Palace summertime ln, Culver City, CA,90230'
-    },
-    {
-      id: 8,
-      name: 'Lords Restaurant near The Imperial Palace summertime ln, Culver City, CA,90230'
-    }
-  ];
+  countryList: Array<CountryDTO>;
+  countryCode = 'us';
+  country: CountryDTO = new CountryDTO();
+  countryName;
+  zipCode;
+  showBusiness = false;
+  latLon;
+  place;
+  placeList: Array<PlaceDTO>;
+  show = true;
+  organization: OrganizationDTO = new OrganizationDTO();
+  organizationTypeList;
+
   addBusinessFlag: boolean = false;
   addBusiness: {
     businessName: string;
@@ -70,15 +54,117 @@ export class RegisterBusinessComponent implements OnInit {
     timezone: ''
   };
 
-  constructor() {}
+  constructor(
+    private userService: UserService,
+    public loaderService: LoaderService,
+    private signupService: SignUpService,
+    private authb2bService: AuthB2BService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.fetchCountryList();
+    this.organization.addressDTO = new AddressDTO();
+    this.organization.orgTypeId = 1;
+  }
 
-  onAddBusiness(invalid) {
-    if (invalid) {
-      return;
-    }
-    this.step = 1;
-    this.stepChange.emit(this.step);
+  //Purpose : for fetching country list
+  fetchCountryList() {
+    this.userService.fetchCountryList().subscribe((res: any) => {
+      if (res.success === 1) {
+        console.log('response:' + JSON.stringify(res.serviceResult));
+        this.countryList = res.serviceResult;
+      } else {
+        alert(res.message);
+      }
+    });
+  }
+
+  //Purpose : for fetching latLon for given zipcode
+  fetchLatLon() {
+    const params = new HttpParams().set('zipCode', this.zipCode);
+    this.userService.fetchLatLon(params).subscribe((res: any) => {
+      if (res.success === 1) {
+        this.showBusiness = true;
+        console.log('response:' + JSON.stringify(res.serviceResult));
+        this.latLon = res.serviceResult.latitude + ',' + res.serviceResult.longitude;
+        console.log('this.latLon:' + this.latLon);
+      } else {
+        alert(res.message);
+        this.showBusiness = false;
+      }
+    });
+  }
+
+  //Purpose : for fetching placeList acc to country and zipcode
+  fetchPlaceList(name: string) {
+    console.log(name);
+    this.loaderService.disable = true;
+
+    const params = new HttpParams()
+      .set('place', name)
+      .set('latLon', this.latLon)
+      .set('countryCode', this.countryCode);
+    this.userService.fetchPlaceList(params).subscribe((res: any) => {
+      if (res.success === 1) {
+        this.placeList = [];
+        console.log('response:' + JSON.stringify(res.serviceResult));
+        this.placeList = res.serviceResult;
+      } else {
+        alert(res.message);
+      }
+    });
+  }
+
+  searchCleared() {
+    this.placeList = [];
+    console.log('placeList cleared:' + this.placeList);
+  }
+
+  fetchPlaceDetails(place) {
+    console.log('place Id:' + JSON.stringify(place.placeId));
+    const params = new HttpParams().set('placeId', place.placeId);
+    this.userService.fetchPlaceDetails(params).subscribe((res: any) => {
+      if (res.success === 1) {
+        this.placeList = [];
+        console.log('response:' + JSON.stringify(res.serviceResult));
+        this.organization = res.serviceResult;
+        this.organization.orgTypeId = 1;
+        this.fetchOrganizationType();
+        this.addBusinessFlag = true;
+      } else {
+        alert(res.message);
+      }
+    });
+  }
+  fetchOrganizationType() {
+    this.signupService.fetchOrganizationType().subscribe((res: any) => {
+      if (res.success === 1) {
+        console.log('response:' + JSON.stringify(res.serviceResult));
+        this.organizationTypeList = res.serviceResult;
+      } else {
+        alert(res.message);
+      }
+    });
+  }
+
+  registerBusiness() {
+    this.country = this.countryList.find(x => x.isocode == this.countryCode.toUpperCase());
+    this.organization.addressDTO.country = this.country.countryName;
+    this.organization.addressDTO.zipcode = this.zipCode;
+
+    console.log('organization:' + JSON.stringify(this.organization));
+
+    this.signupService.registerBusiness(this.organization).subscribe((res: any) => {
+      if (res.success === 1) {
+        console.log('response:' + JSON.stringify(res.serviceResult));
+        this.step = 1;
+        this.stepChange.emit(this.step);
+        this.organization = res.serviceResult;
+        console.log('saved organization:' + JSON.stringify(this.organization));
+        this.authb2bService.setOrganizationData(this.organization);
+      } else {
+        alert(res.message);
+      }
+    });
   }
 }

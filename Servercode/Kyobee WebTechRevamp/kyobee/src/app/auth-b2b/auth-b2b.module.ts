@@ -9,6 +9,7 @@ import { RegisterBusinessComponent } from './register-business/register-business
 import { CreateBusinessComponent } from './create-business/create-business.component';
 import { SelectPlanComponent } from './select-plan/select-plan.component';
 import { AllSetComponent } from './all-set/all-set.component';
+import { ConfirmEqualValidatorDirective } from './create-business/confirm-equal-validator.directive';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { AllSetComponent } from './all-set/all-set.component';
     RegisterBusinessComponent,
     CreateBusinessComponent,
     SelectPlanComponent,
+    ConfirmEqualValidatorDirective,
     AllSetComponent
   ],
   imports: [CommonModule, AuthB2bRoutingModule, AutocompleteLibModule, FormsModule]

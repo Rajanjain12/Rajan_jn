@@ -1,4 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import * as braintree from 'braintree-web';
+import { HttpParams } from '@angular/common/http';
+import { AuthB2BService } from 'src/app/core/services/auth-b2b.service';
+import { PaymentService } from 'src/app/core/services/payment.service';
+import { OrgCardDetailsDTO } from 'src/app/core/models/orgcard-details.model';
+import { OrgPaymentDTO } from 'src/app/core/models/org-payment.model';
 
 @Component({
   selector: 'app-all-set',
@@ -9,6 +15,11 @@ export class AllSetComponent implements OnInit {
   @Input('step') step: number;
   @Output('stepChange') stepChange = new EventEmitter<number>();
 
+  orgCardDetailsId;
+  orgCardDetails: OrgCardDetailsDTO = new OrgCardDetailsDTO();
+  orgPayment: OrgPaymentDTO = new OrgPaymentDTO();
+  hostedFieldsInstance: braintree.HostedFields;
+
   payment: {
     firstName: string;
     lastName: string;
@@ -17,12 +28,12 @@ export class AllSetComponent implements OnInit {
     cvv: string;
     promoCode: string;
   } = {
-    firstName: '',
-    lastName: '',
-    cardNumber: '',
-    expiryDate: '',
-    cvv: '',
-    promoCode: ''
+    firstName: 'Ria',
+    lastName: 'Sahesnani',
+    cardNumber: '4000111111111115',
+    expiryDate: '05/2021',
+    cvv: '100',
+    promoCode: '1111'
   };
 
   selectPlan: {
@@ -68,16 +79,101 @@ export class AllSetComponent implements OnInit {
     ]
   };
 
-  constructor() {}
 
-  ngOnInit() {}
+  
+
+  constructor(private authb2bService: AuthB2BService, private paymentService: PaymentService) {}
+
+  ngOnInit() {
+    this.createBraintreeUI();
+  }
+
+ 
+
+  createBraintreeUI() {
+    braintree.client.create({
+      authorization: 'sandbox_24jnfdmj_k5dtfbdcdw6brmhv'
+    }).then((clientInstance) => {
+      braintree.hostedFields.create({
+        client: clientInstance,
+        styles: {
+          // Override styles for the hosted fields
+        },
+
+        // The hosted fields that we will be using
+        // NOTE : cardholder's name field is not available in the field options
+        // and a separate input field has to be used incase you need it
+        fields: {
+          number: {
+            selector: '#cardNumber'
+          },
+          cvv: {
+            selector: '#cvv'
+          },
+          expirationDate: {
+            selector: '#expiryDate'
+          }
+        }
+      }).then((hostedFieldsInstance) => {
+
+        this.hostedFieldsInstance = hostedFieldsInstance;
+       
+      });
+    });
+  }
 
   onPayment(invalid) {
     if (invalid) {
       return;
     }
 
-    this.step = 3;
-    this.stepChange.emit(this.step);
+    this.hostedFieldsInstance.tokenize().then((payload) => {
+      console.log("tokenize");
+      console.log(payload);
+      console.log(payload.nonce);
+    
+    }).catch((error) => {
+      console.log(error);
+
+    });
+
+    /* const promise = this.saveOrgCardDetails();
+    promise.then(value => {
+      console.log("transaction");
+      this.createTransaction();
+    });*/
+  }
+
+  //Purpose: For saving credit/debit card details
+  saveOrgCardDetails() {
+    var promise = (promise = new Promise((resolve, reject) => {
+      const params = new HttpParams()
+        .set('orgId', this.authb2bService.organization.orgId.toString())
+        .set('customerId', this.authb2bService.organization.customerId.toString())
+        .set('orgCardDetailsDTO', this.orgCardDetails.toString());
+
+      this.paymentService.saveOrgCardDetails(params).subscribe((res: any) => {
+        if (res.success === 1) {
+          console.log('response:' + JSON.stringify(res.serviceResult));
+          this.orgCardDetailsId = res.serviceResult;
+          resolve();
+        } else {
+          alert(res.message);
+          reject();
+        }
+      });
+    }));
+    return promise;
+  }
+
+  //Purpose: creating transaction for payment in braintree
+  createTransaction() {
+    this.paymentService.saveOrgCardDetails(this.orgPayment).subscribe((res: any) => {
+      if (res.success === 1) {
+        console.log('response:' + JSON.stringify(res.serviceResult));
+      } else {
+        alert(res.message);
+      }
+    });
   }
 }
