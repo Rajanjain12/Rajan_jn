@@ -15,6 +15,7 @@ import com.kyobeeUserService.dto.ResponseDTO;
 import com.kyobeeUserService.service.PaymentService;
 import com.kyobeeUserService.util.LoggerUtil;
 import com.kyobeeUserService.util.UserServiceConstants;
+import com.kyobeeUserService.util.Exception.TransactionFailureException;
 
 @CrossOrigin
 @RestController
@@ -53,11 +54,18 @@ public class PaymentController {
 			responseDTO.setServiceResult("Successfully done payment");
 			responseDTO.setMessage("Successfully done payment");
 			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
-		} catch (Exception e) {
+		} catch (TransactionFailureException ex) {
+			LoggerUtil.logError(ex);
+			responseDTO.setServiceResult("Error during processing payment transaction");
+			responseDTO.setMessage("Error during processing payment transaction.");
+			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+			ex.printStackTrace();
+		}catch (Exception e) {
 			LoggerUtil.logError(e);
 			responseDTO.setServiceResult("Error while payment");
 			responseDTO.setMessage("Error while payment.");
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+			e.printStackTrace();
 		}
 		return responseDTO;
 	}

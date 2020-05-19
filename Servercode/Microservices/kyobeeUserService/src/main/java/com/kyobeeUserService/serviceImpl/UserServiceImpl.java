@@ -117,8 +117,9 @@ public class UserServiceImpl implements UserService {
 			throws InvalidLoginException, AccountNotActivatedExeception {
 
 		LoginUserDTO loginUserDTO;
+		String salt = userDAO.getSaltString(credentialsDTO.getUserName());
 		User user = userDAO.findByUserNameAndPassword(credentialsDTO.getUserName(),
-				CommonUtil.encryptPassword(credentialsDTO.getPassword()));
+				CommonUtil.encryptPassword(credentialsDTO.getPassword()+salt));
 		if (user != null) {
 			if (user.getActive() == UserServiceConstants.ACTIVATED_USER) {
 				loginUserDTO = new LoginUserDTO();

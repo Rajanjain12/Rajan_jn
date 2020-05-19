@@ -27,6 +27,7 @@ import com.kyobeeUserService.entity.OrganizationPayment;
 import com.kyobeeUserService.service.PaymentService;
 import com.kyobeeUserService.util.LoggerUtil;
 import com.kyobeeUserService.util.UserServiceConstants;
+import com.kyobeeUserService.util.Exception.TransactionFailureException;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
@@ -69,24 +70,37 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	@Override
-	public void createTransaction(OrgPaymentDTO orgPaymentDTO) {
+	public void createTransaction(OrgPaymentDTO orgPaymentDTO) throws TransactionFailureException {
 
-		OrganizationPayment orgPayment = new OrganizationPayment();
+		OrganizationPayment org = null;
 
-		orgPayment.setOrganization(organizationDAO.getOne(orgPaymentDTO.getOrgID()));
-		orgPayment.setOrganizationcardDetail(orgCardDetailsDAO.getOne(orgPaymentDTO.getOrganizationCardDetailID()));
-		orgPayment.setAmount(new BigDecimal(orgPaymentDTO.getAmount()));
-		orgPayment.setActive(UserServiceConstants.INACTIVE);
-		orgPayment.setCreatedBy(UserServiceConstants.ADMIN);
-		orgPayment.setCreatedAt(new Date());
+		//Checking if payment entry previously exists or not
+		
+		OrganizationPayment orgPayDetails = orgPaymentDAO.fetchOrgPaymentDetails(orgPaymentDTO.getOrgID());
+	
+		if (orgPayDetails == null
+				|| (orgPayDetails != null && !orgPayDetails.getPaymentStatus().equals(UserServiceConstants.FAIL))) {
+			OrganizationPayment orgPayment = new OrganizationPayment();
 
-		OrganizationPayment org = orgPaymentDAO.save(orgPayment);
+			orgPayment.setOrganization(organizationDAO.getOne(orgPaymentDTO.getOrgID()));
+			orgPayment.setOrganizationcardDetail(orgCardDetailsDAO.getOne(orgPaymentDTO.getOrganizationCardDetailID()));
+			orgPayment.setAmount(new BigDecimal(orgPaymentDTO.getAmount()));
+			orgPayment.setActive(UserServiceConstants.INACTIVE);
+			orgPayment.setCreatedBy(UserServiceConstants.ADMIN);
+			orgPayment.setCreatedAt(new Date());
+
+			org = orgPaymentDAO.save(orgPayment);
+		} else if (orgPayDetails != null && orgPayDetails.getPaymentStatus().equals(UserServiceConstants.FAIL)) {
+			org = orgPayDetails;
+		}
 
 		// Transaction request to braintree
-		TransactionRequest request = new TransactionRequest().amount(new BigDecimal("10.00"))
-				.paymentMethodNonce("fake-valid-mastercard-nonce").options().storeInVaultOnSuccess(true).done();
+		LoggerUtil.logInfo("Going to create transaction for payment");
+		TransactionRequest request = new TransactionRequest().amount(new BigDecimal(orgPaymentDTO.getAmount()))
+				.paymentMethodNonce(orgPaymentDTO.getPaymentNonce()).options().storeInVaultOnSuccess(true).done();
 
 		Result<Transaction> result = gateway.transaction().sale(request);
+		LoggerUtil.logInfo("Transaction result message:" + result.getMessage());
 
 		if (result.isSuccess()) {
 			Transaction transaction = result.getTarget();
@@ -107,7 +121,8 @@ public class PaymentServiceImpl implements PaymentService {
 			LoggerUtil.logInfo("customer id:" + transaction.getCustomer().getId());
 
 			paymentCustomDAO.updatePaymentDetailsOnSuccess(updatePaymentDetailDTO);
-
+			
+			LoggerUtil.logInfo("Payment done successfully");
 		} else {
 			StringBuilder errorDetails = new StringBuilder();
 
@@ -115,6 +130,7 @@ public class PaymentServiceImpl implements PaymentService {
 				errorDetails.append("Error: " + error.getCode() + ": " + error.getMessage() + "\n");
 			}
 
+			LoggerUtil.logInfo("ERROR:" + errorDetails);
 			UpdatePaymentDetailsDTO updatePaymentDetailDTO = new UpdatePaymentDetailsDTO();
 
 			updatePaymentDetailDTO.setOrganizationSubscriptionID(orgPaymentDTO.getOrganizationSubscriptionID());
@@ -123,8 +139,10 @@ public class PaymentServiceImpl implements PaymentService {
 			updatePaymentDetailDTO.setSubscriptionStatus(UserServiceConstants.CANCELLED);
 			updatePaymentDetailDTO.setPaymentStatus(UserServiceConstants.FAIL);
 			updatePaymentDetailDTO.setPayemntStatusReason(errorDetails.toString());
-			
+
 			paymentCustomDAO.updatePaymentDetailsOnFailure(updatePaymentDetailDTO);
+
+			throw new TransactionFailureException("Payment transaction failure");
 
 		}
 	}

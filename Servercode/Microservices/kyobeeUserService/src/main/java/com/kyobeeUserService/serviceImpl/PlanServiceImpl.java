@@ -2,6 +2,7 @@ package com.kyobeeUserService.serviceImpl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,7 @@ import com.kyobeeUserService.entity.PlanFeatureCharge;
 import com.kyobeeUserService.entity.PlanTerm;
 import com.kyobeeUserService.entity.PromotionalCode;
 import com.kyobeeUserService.service.PlanService;
+import com.kyobeeUserService.util.LoggerUtil;
 import com.kyobeeUserService.util.UserServiceConstants;
 import com.kyobeeUserService.util.Exception.PromoCodeException;
 
@@ -77,7 +79,8 @@ public class PlanServiceImpl implements PlanService {
 				.fetchPlanCharge(countryDetails.getCountryID());
 
 		// for bifurcating plan term
-		Map<PlanTerm, List<PlanFeatureCharge>> planTermMap = planFeatureChargeList.stream().collect(Collectors.groupingBy(PlanFeatureCharge::getPlanterm));
+		Map<PlanTerm, List<PlanFeatureCharge>> planTermMap = planFeatureChargeList.stream()
+				.collect(Collectors.groupingBy(PlanFeatureCharge::getPlanterm));
 
 		for (Entry<PlanTerm, List<PlanFeatureCharge>> entry : planTermMap.entrySet()) {
 			List<PlanFeatureDTO> planFeatureDTOList = new ArrayList<>();
@@ -148,26 +151,47 @@ public class PlanServiceImpl implements PlanService {
 		orgSubscription.setCreatedBy(UserServiceConstants.ADMIN);
 
 		OrganizationSubscriptionDetail orgSubscriptionDetails = null;
-		for (PlanFeatureCharge planList : selectedPlanList) {
-			totalAmount = totalAmount != null ? totalAmount.add(planList.getTermChargeAmt())
-					: planList.getTermChargeAmt();
+		//Entries for charged plan
+		if (!planFeatureChargeIds.isEmpty()) {
+			LoggerUtil.logInfo("non empty:"+planFeatureChargeIds);
+			for (PlanFeatureCharge planList : selectedPlanList) {
+				totalAmount = totalAmount != null ? totalAmount.add(planList.getTermChargeAmt())
+						: planList.getTermChargeAmt();
+				orgSubscriptionDetails = new OrganizationSubscriptionDetail();
+				BeanUtils.copyProperties(planList, orgSubscriptionDetails);
+				orgSubscriptionDetails.setOrganization(org);
+				orgSubscriptionDetails.setPlanFeatureCharge(planList);
+				orgSubscriptionDetails.setSubscriptionStatus(UserServiceConstants.PENDING);
+				orgSubscriptionDetails.setIsFree(UserServiceConstants.INACTIVE_PLAN);
+				orgSubscription.setBillAmt(totalAmount);
+				orgSubscription.setTotalBillAmount(totalAmount);
+				orgSubscriptionDetails.setOrganizationSubscription(orgSubscription);
+				orgSubscriptionDetails.setCurrentActiveSubscription(UserServiceConstants.INACTIVE_PLAN);
+				orgSubscriptionDetails.setActive(UserServiceConstants.INACTIVE);
+				orgSubscriptionDetails.setCreatedAt(new Date());
+				orgSubscriptionDetails.setCreatedBy(UserServiceConstants.ADMIN);
+				orgSubscriptionDetailList.add(orgSubscriptionDetails);
+			}
+		} else {
+			//Entries for free plan
 			orgSubscriptionDetails = new OrganizationSubscriptionDetail();
-			BeanUtils.copyProperties(planList, orgSubscriptionDetails);
 			orgSubscriptionDetails.setOrganization(org);
-			orgSubscriptionDetails.setPlanFeatureCharge(planList);
 			orgSubscriptionDetails.setSubscriptionStatus(UserServiceConstants.PENDING);
-			orgSubscriptionDetails.setIsFree(UserServiceConstants.INACTIVE_PLAN);
-			orgSubscription.setBillAmt(totalAmount);
-			orgSubscription.setTotalBillAmount(totalAmount);
+			orgSubscriptionDetails.setIsFree(UserServiceConstants.STATUS_Y);
 			orgSubscriptionDetails.setOrganizationSubscription(orgSubscription);
 			orgSubscriptionDetails.setCurrentActiveSubscription(UserServiceConstants.INACTIVE_PLAN);
+			orgSubscriptionDetails.setStartDate(new Date());
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.DATE, 7);
+			orgSubscriptionDetails.setEndDate(cal.getTime());
 			orgSubscriptionDetails.setActive(UserServiceConstants.INACTIVE);
 			orgSubscriptionDetails.setCreatedAt(new Date());
 			orgSubscriptionDetails.setCreatedBy(UserServiceConstants.ADMIN);
 			orgSubscriptionDetailList.add(orgSubscriptionDetails);
+			LoggerUtil.logInfo("empty:"+planFeatureChargeIds);
 		}
-
-		List<OrganizationSubscriptionDetail>  orgSubscDetail= orgSubscriptionDetailsDAO.saveAll(orgSubscriptionDetailList);
+		List<OrganizationSubscriptionDetail> orgSubscDetail = orgSubscriptionDetailsDAO
+				.saveAll(orgSubscriptionDetailList);
 		return orgSubscDetail.get(0).getOrganizationSubscription().getOrganizationSubscriptionID();
 	}
 

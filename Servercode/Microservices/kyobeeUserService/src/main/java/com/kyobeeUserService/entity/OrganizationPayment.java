@@ -42,7 +42,7 @@ public class OrganizationPayment implements Serializable {
 	private OrganizationCardDetail organizationcarddetail;
 
 	@Column(name = "TransactionID")
-	private Integer transactionID;
+	private String transactionID;
 
 	@Column(name = "Amount")
 	private BigDecimal amount;
@@ -106,11 +106,11 @@ public class OrganizationPayment implements Serializable {
 		this.organizationcarddetail = organizationcarddetail;
 	}
 
-	public Integer getTransactionID() {
+	public String getTransactionID() {
 		return transactionID;
 	}
 
-	public void setTransactionID(Integer transactionID) {
+	public void setTransactionID(String transactionID) {
 		this.transactionID = transactionID;
 	}
 

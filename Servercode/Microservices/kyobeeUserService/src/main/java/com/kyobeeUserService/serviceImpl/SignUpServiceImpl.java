@@ -78,10 +78,13 @@ public class SignUpServiceImpl implements SignUpService {
 		BeanUtils.copyProperties(organizationDTO, organization);
 		organization.setActive(UserServiceConstants.ACTIVE_ORG);
 		organization.setEmail(organizationDTO.getEmail());
+		organization.setClientBase(UserServiceConstants.ADMIN);
+		organization.setNotifyUserCount(UserServiceConstants.NOTIFY_FIRST);
+		organization.setMaxParty(UserServiceConstants.MAX_PARTY);
 		organization.setCreatedAt(new Date());
 		organization.setAddress(address);
 		organization.setOrganizationType(organizationType);
-		organization.setCreatedBy(organizationDTO.getEmail());
+		organization.setCreatedBy(UserServiceConstants.ADMIN);
 		organization.setCustomer(customer);
 		LoggerUtil.logInfo("Organization is added");
 

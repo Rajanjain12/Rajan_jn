@@ -1,6 +1,8 @@
 package com.kyobeeUserService.dao;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,4 +24,7 @@ public interface UserDAO extends CrudRepository<User, Integer>{
 	User findByUserIDAndActivationCode(Integer userId,String activationCode);
 	
 	User findByUserID(Integer userId);
+	
+	@Query(value="select saltString from User where userName =:userName")
+	String getSaltString(@Param("userName") String userName);
 }
