@@ -411,6 +411,47 @@ input {
   }
 }
 
+.select-styled {
+  position: relative;
+  width: 100%;
+  .arrow:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 8px;
+    margin: auto;
+
+    width: 0;
+    height: 0;
+    border-left: 0.3em solid transparent;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0.6em solid #000;
+    border-top: 0;
+
+    transform: rotate(0deg);
+    transition: transform 0.4s ease;
+  }
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    &:focus ~ .arrow:after {
+      transform: rotate(180deg);
+      transition: transform 0.4s ease;
+    }
+  }
+}
+
+select:after {
+  content: ' ';
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: blue;
+}
+
 /*sign in common*/
 .container-box {
   padding: 12% 5%;

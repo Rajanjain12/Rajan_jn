@@ -79,47 +79,65 @@ export class AllSetComponent implements OnInit {
     ]
   };
 
-
-  
-
   constructor(private authb2bService: AuthB2BService, private paymentService: PaymentService) {}
 
   ngOnInit() {
     this.createBraintreeUI();
   }
 
- 
-
   createBraintreeUI() {
-    braintree.client.create({
-      authorization: 'sandbox_24jnfdmj_k5dtfbdcdw6brmhv'
-    }).then((clientInstance) => {
-      braintree.hostedFields.create({
-        client: clientInstance,
-        styles: {
-          // Override styles for the hosted fields
-        },
+    braintree.client
+      .create({
+        authorization: 'sandbox_24jnfdmj_k5dtfbdcdw6brmhv'
+      })
+      .then(clientInstance => {
+        braintree.hostedFields
+          .create({
+            client: clientInstance,
+            styles: {
+              input: {
+                color: '#333',
+                display: 'block',
+                background: 'none',
+                padding: ' 0.125rem 0.125rem 0.0625rem',
+                'font-size': '1rem',
+                'border-width': '0',
+                'border-color': 'transparent',
+                'line-height': '1.9',
+                width: '100%',
+                '-webkit-transition': 'all 0.28s ease',
+                transition: 'all 0.28s ease',
+                'box-shadow': 'none'
+              },
 
-        // The hosted fields that we will be using
-        // NOTE : cardholder's name field is not available in the field options
-        // and a separate input field has to be used incase you need it
-        fields: {
-          number: {
-            selector: '#cardNumber'
-          },
-          cvv: {
-            selector: '#cvv'
-          },
-          expirationDate: {
-            selector: '#expiryDate'
-          }
-        }
-      }).then((hostedFieldsInstance) => {
+              '.number': {
+                'font-family': '"Source Sans Pro", sans-serif'
+              },
 
-        this.hostedFieldsInstance = hostedFieldsInstance;
-       
+              '.valid': {
+                color: 'green'
+              }
+            },
+
+            // The hosted fields that we will be using
+            // NOTE : cardholder's name field is not available in the field options
+            // and a separate input field has to be used incase you need it
+            fields: {
+              number: {
+                selector: '#cardNumber'
+              },
+              cvv: {
+                selector: '#cvv'
+              },
+              expirationDate: {
+                selector: '#expiryDate'
+              }
+            }
+          })
+          .then(hostedFieldsInstance => {
+            this.hostedFieldsInstance = hostedFieldsInstance;
+          });
       });
-    });
   }
 
   onPayment(invalid) {
@@ -127,15 +145,16 @@ export class AllSetComponent implements OnInit {
       return;
     }
 
-    this.hostedFieldsInstance.tokenize().then((payload) => {
-      console.log("tokenize");
-      console.log(payload);
-      console.log(payload.nonce);
-    
-    }).catch((error) => {
-      console.log(error);
-
-    });
+    this.hostedFieldsInstance
+      .tokenize()
+      .then(payload => {
+        console.log('tokenize');
+        console.log(payload);
+        console.log(payload.nonce);
+      })
+      .catch(error => {
+        console.log(error);
+      });
 
     /* const promise = this.saveOrgCardDetails();
     promise.then(value => {

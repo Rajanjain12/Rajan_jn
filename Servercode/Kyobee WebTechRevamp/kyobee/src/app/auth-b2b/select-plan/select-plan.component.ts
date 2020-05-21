@@ -36,8 +36,8 @@ export class SelectPlanComponent implements OnInit {
   selectedFeatureDetails: PlanFeatureDTO;
   displayPlanSummary = false;
   orgSubscriptionId;
- 
-  organization ;
+
+  organization;
   isFree = false;
 
   constructor(private planService: PlanService, public authb2bService: AuthB2BService) {}
@@ -47,9 +47,9 @@ export class SelectPlanComponent implements OnInit {
   }
 
   //Purpose:For saving free plan details
-  freePlan(){
+  freePlan() {
     this.isFree = true;
-    this.savePlanDetails("");
+    this.savePlanDetails('');
   }
 
   //Purpose : for saving plan details
@@ -66,10 +66,13 @@ export class SelectPlanComponent implements OnInit {
     const params = new HttpParams()
       .set('orgId', '821')
       .set('customerId', '8')
-      .set('planFeatureChargeIds', this.isFree === true ? [].toString() : [this.planSummary.textmarketing, this.planSummary.waitlist].toString());
-      console.log("params:"+params);
+      .set(
+        'planFeatureChargeIds',
+        this.isFree === true ? [].toString() : [this.planSummary.textmarketing, this.planSummary.waitlist].toString()
+      );
+    console.log('params:' + params);
 
-   this.planService.savePlanDetails(params).subscribe((res: any) => {
+    this.planService.savePlanDetails(params).subscribe((res: any) => {
       if (res.success === 1) {
         console.log('response:' + JSON.stringify(res.serviceResult));
         this.orgSubscriptionId = res.serviceResult;

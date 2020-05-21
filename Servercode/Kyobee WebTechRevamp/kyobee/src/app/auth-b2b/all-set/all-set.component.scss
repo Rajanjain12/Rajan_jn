@@ -33,6 +33,19 @@
     }
   }
 }
+.braintree-form {
+  .braintree-form-input {
+    height: 28px !important;
+  }
+  .braintree-hosted-fields-focused ~ .control-label,
+  .braintree-hosted-fields-valid ~ .control-label,
+  .braintree-hosted-fields-invalid ~ .control-label {
+    font-size: 0.8rem;
+    color: gray;
+    top: -1rem;
+    left: 0;
+  }
+}
 
 // Small devices (landscape phones, 576px and up)
 @media (min-width: 576px) {

@@ -7,11 +7,14 @@
             <a class="table-column-btn" href="" data-toggle="modal" id="tableColumnModalBtn" data-target="#tableColumnModal">Show Column<i class="flaticon-funnel font-color float-right"></i></a>
           </div>
           <div class="col-lg-3 pb-2">
-            <select class="table-column-btn bg-white" name="statusSelected" #statusSelected="ngModel" [(ngModel)]="selectedStatus" (change)="optionChange(selectedStatus)">
-              <option *ngFor="let status of statusOptions" value="{{ status }}">{{ status }}</option>
-              <!--  <option>Incomplete</option>
+            <div class="select-styled">
+              <select class="table-column-btn bg-white" name="statusSelected" #statusSelected="ngModel" [(ngModel)]="selectedStatus" (change)="optionChange(selectedStatus)">
+                <option *ngFor="let status of statusOptions" value="{{ status }}">{{ status }}</option>
+                <!--  <option>Incomplete</option>
                             <option>Not Present</option> -->
-            </select>
+              </select>
+              <i class="arrow"></i>
+            </div>
           </div>
           <div class="col-lg-6">
             <div class="table-column-btn">
