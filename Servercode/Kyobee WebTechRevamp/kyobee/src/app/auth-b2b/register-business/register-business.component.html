@@ -5,7 +5,7 @@
         <div class="col-12">
           <h4 class="text-center mb-3">Register Your Business</h4>
         </div>
-        <div class="col-12 row m-0">
+        <div class="col-12 row m-0 mb-4">
           <div class="col-12 col-sm-4 col-md-3 ml-auto mr-md-3">
             <div class="mobile-input-with-flag row m-0">
               <label for="input" class="col-12 m-0 pl-0 control-label-flag medium-gray-color"> Select Country</label>
@@ -34,7 +34,7 @@
           </div>
         </div>
         <div class="col-12 px-2">
-          <div class="ng-autocomplete mt-4">
+          <div class="ng-autocomplete auth-b2b-autocomplete">
             <ng-autocomplete
               [data]="placeList"
               [searchKeyword]="'placeName'"
@@ -48,6 +48,7 @@
               [itemTemplate]="itemTemplate"
             >
             </ng-autocomplete>
+            <i class="fi flaticon-search"></i>
             <ng-template #itemTemplate let-item>
               <a [innerHTML]="item.placeName"></a>
             </ng-template>

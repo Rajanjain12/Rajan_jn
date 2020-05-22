@@ -66,7 +66,7 @@
               required="required"
             />
             <label for="input" class="control-label">Password*</label><i class="bar"></i>
-            <span toggle="#password" (click)="toggleEye($event)" class="grey flaticon-padlock eye-icon toggle-password font-weight-semibold"></span>
+            <span toggle="#password" (click)="toggleEye($event)" class="grey fi flaticon-padlock font-14 eye-icon toggle-password font-weight-semibold"></span>
             <div *ngIf="f.submitted && password.invalid" class="invalid-feedback">
               <div class="text-danger" *ngIf="password.errors.required">Password is required</div>
               <div class="text-danger" *ngIf="password.errors?.pattern">Password should be proper</div>
@@ -87,7 +87,7 @@
               required="required"
             />
             <label for="input" class="control-label">Confirm Password*</label><i class="bar"></i>
-            <span toggle="#confPassword" (click)="toggleEye($event)" class="grey flaticon-padlock eye-icon toggle-confPassword font-weight-semibold"></span>
+            <span toggle="#confPassword" (click)="toggleEye($event)" class="grey fi flaticon-padlock font-14 eye-icon toggle-confPassword font-weight-semibold"></span>
             <div *ngIf="f.submitted && confPassword.invalid" class="invalid-feedback">
               <div class="text-danger" *ngIf="confPassword.errors.required">confPassword is required</div>
               <div class="text-danger" *ngIf="confPassword.errors?.notEqual">Password does not match</div>

@@ -18,6 +18,7 @@ v12.14.0
 6.13.4
 ```
 \$ `npm install -g @angular/cli@8.3.23`
+
 \$ `ng --version`
 
 ```

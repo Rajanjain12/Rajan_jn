@@ -131,14 +131,55 @@ a {
   width: 52%;
   margin: 0 auto;
 }
+.fi {
+  font-size: 22px;
+  transform: rotate(0.03deg);
+}
 .font-12 {
   font-size: 12px;
+}
+.font-14 {
+  font-size: 14px;
 }
 .font-16 {
   font-size: 16px;
 }
+.font-18 {
+  font-size: 18px;
+}
+.font-20 {
+  font-size: 20px;
+}
+.font-22 {
+  font-size: 22px;
+}
+.font-24 {
+  font-size: 24px;
+}
+.font-26 {
+  font-size: 26px;
+}
+.font-40 {
+  font-size: 40px;
+}
 a:not([href]):not([tabindex]) {
   cursor: pointer;
+}
+
+.flaticon-rubbish-bin:before {
+  color: #e21b1b;
+}
+.flaticon-file-grey:before {
+  color: #ababab;
+}
+.flaticon-chat:before {
+  color: #ff9f00;
+}
+.flaticon-file:before {
+  color: #33a2f3;
+}
+.flaticon-funnel:before {
+  display: flex;
 }
 .btn-grey-theme {
   padding: 5px 30px;
@@ -741,6 +782,24 @@ fieldset {
     transform: translateX(-50%);
   }
 }
+.ng-autocomplete.auth-b2b-autocomplete {
+  .fi {
+    position: absolute;
+    top: 0;
+    left: 20px;
+    font-size: 18px;
+    height: 100%;
+    display: grid;
+    color: #b3b3b3;
+    &::before {
+      margin: auto;
+    }
+  }
+  .input-container input {
+    padding-left: 40px !important;
+  }
+}
+
 .mobile-input-with-flag {
   .control-label-flag {
     margin: 0;

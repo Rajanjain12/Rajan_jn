@@ -29,7 +29,7 @@
               <input type="password" id="password" name="password" #pwd="ngModel" [ngClass]="{ 'is-invalid': f.submitted && pwd.invalid }" class="form-control" [(ngModel)]="user.password" required="required" />
 
               <label for="input" class="control-label">Password</label><i class="bar"></i>
-              <span toggle="#password" (click)="toggleEye($event)" class="grey flaticon-padlock eye-icon toggle-password font-weight-semibold"></span>
+              <span toggle="#password" (click)="toggleEye($event)" class="grey fi flaticon-padlock font-14 eye-icon toggle-password font-weight-semibold"></span>
               <div *ngIf="f.submitted && pwd.invalid" class="invalid-feedback">
                 <div class="text-danger" *ngIf="pwd.errors.required">Password is required</div>
               </div>

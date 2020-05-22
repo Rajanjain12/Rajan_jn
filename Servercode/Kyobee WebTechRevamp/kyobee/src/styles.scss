@@ -7,5 +7,28 @@
 /* Fonts Start Ends */
 
 @import './assets/scss/sidebar.scss';
+
+/* Icon CSS */
+$path: '~/assets/fonts/flaticon/';
+
+@font-face {
+  font-family: 'Flaticon';
+  src: url('#{$path}Flaticon.eot');
+  src: url('#{$path}Flaticon.eot?#iefix') format('embedded-opentype'), url('#{$path}Flaticon.woff2') format('woff2'),
+    url('#{$path}Flaticon.woff') format('woff'), url('#{$path}Flaticon.ttf') format('truetype'),
+    url('#{$path}Flaticon.svg#Flaticon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  @font-face {
+    font-family: 'Flaticon';
+    src: url('#{$path}Flaticon.svg#Flaticon') format('svg');
+  }
+}
 @import './assets/scss/flaticon.scss';
+@import './assets/scss/flag.scss';
+/* Icon css Ends */
+
 @import './assets/scss/style.scss';

@@ -1,42 +1,29 @@
 /*
-  	Flaticon icon font: Flaticon
-  	Creation date: 05/12/2019 12:08
-  	*/
+    Flaticon icon font: Flaticon
+    Creation date: 21/05/2020 13:29
+    */
 
-@font-face {
+.fi:before {
+  display: inline-block;
   font-family: 'Flaticon';
-  src: url('~/assets/fonts/flaticon/Flaticon.eot');
-  src: url('~/assets/fonts/flaticon/Flaticon.eot?#iefix') format('embedded-opentype'),
-    url('~/assets/fonts/flaticon/Flaticon.woff2') format('woff2'),
-    url('~/assets/fonts/flaticon/Flaticon.woff') format('woff'),
-    url('~/assets/fonts/flaticon/Flaticon.ttf') format('truetype'),
-    url('~/assets/fonts/flaticon/Flaticon.svg#Flaticon') format('svg');
+  font-style: normal;
   font-weight: normal;
-  font-style: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  font-size: inherit;
 }
 
-@media screen and (-webkit-min-device-pixel-ratio: 0) {
-  @font-face {
-    font-family: 'Flaticon';
-    src: url('~/assets/fonts/flaticon/Flaticon.svg#Flaticon') format('svg');
-  }
-}
-
-[class^='flaticon-']:before,
-[class*=' flaticon-']:before,
-[class^='flaticon-']:after,
-[class*=' flaticon-']:after {
-  font-family: Flaticon;
-  font-size: 22px;
-  font-style: normal;
-}
 .flaticon-dining:before {
   content: '\f100';
-  font-size: 24px;
 }
 .flaticon-power:before {
   content: '\f101';
-  font-size: 14px;
 }
 .flaticon-to-do-list:before {
   content: '\f102';
@@ -49,24 +36,15 @@
 }
 .flaticon-rubbish-bin:before {
   content: '\f105';
-  color: #e21b1b;
 }
 .flaticon-refresh:before {
   content: '\f106';
 }
-.big-font .flaticon-refresh:before {
-  font-size: 40px;
-}
-
 .flaticon-funnel:before {
   content: '\f107';
-  position: relative;
-  right: 0;
-  top: -5px;
 }
 .flaticon-credit-card:before {
   content: '\f108';
-  font-size: 16px;
 }
 .flaticon-settings:before {
   content: '\f109';
@@ -77,41 +55,96 @@
 .flaticon-user:before {
   content: '\f10b';
 }
-.flaticon-message:before {
-  content: '\f10c';
-  font-size: 26px;
-}
 .flaticon-black-male-user-symbol:before {
-  content: '\f10d';
+  content: '\f10c';
 }
 .flaticon-unlocked:before {
-  content: '\f10e';
-  font-size: 14px;
+  content: '\f10d';
 }
 .flaticon-padlock:before {
-  content: '\f10f';
-  font-size: 14px;
+  content: '\f10e';
 }
 .flaticon-chat:before {
-  content: '\f110';
-  color: #ff9f00;
+  content: '\f10f';
 }
 .flaticon-info-button:before {
-  content: '\f111';
-  font-size: 14px;
+  content: '\f110';
 }
 .flaticon-file:before {
-  content: '\f112';
-  color: #33a2f3;
-}
-.flaticon-file-grey:before {
-  content: '\f112';
-  color: #ababab;
-}
-.flaticon-workers:before {
-  content: '\f113';
-  font-size: 28px;
+  content: '\f111';
 }
 .flaticon-receipt:before {
+  content: '\f112';
+}
+.flaticon-writing:before {
+  content: '\f113';
+}
+.flaticon-dashboard:before {
   content: '\f114';
 }
+.flaticon-send-mail:before {
+  content: '\f115';
+}
+.flaticon-email-marketing:before {
+  content: '\f116';
+}
+.flaticon-shopping-list:before {
+  content: '\f117';
+}
+.flaticon-work-team:before {
+  content: '\f118';
+}
+.flaticon-interface:before {
+  content: '\f119';
+}
+.flaticon-information:before {
+  content: '\f11a';
+}
+.flaticon-search:before {
+  content: '\f11b';
+}
+.flaticon-test:before {
+  content: '\f11c';
+}
+.flaticon-credit-card-1:before {
+  content: '\f11d';
+}
+.flaticon-writing-1:before {
+  content: '\f11e';
+}
+.flaticon-message:before {
+  content: '\f11f';
+}
+
+$font-Flaticon-dining: '\f100';
+$font-Flaticon-power: '\f101';
+$font-Flaticon-to-do-list: '\f102';
+$font-Flaticon-add-group: '\f103';
+$font-Flaticon-counterclockwise: '\f104';
+$font-Flaticon-rubbish-bin: '\f105';
+$font-Flaticon-refresh: '\f106';
+$font-Flaticon-funnel: '\f107';
+$font-Flaticon-credit-card: '\f108';
+$font-Flaticon-settings: '\f109';
+$font-Flaticon-empire-state-building: '\f10a';
+$font-Flaticon-user: '\f10b';
+$font-Flaticon-black-male-user-symbol: '\f10c';
+$font-Flaticon-unlocked: '\f10d';
+$font-Flaticon-padlock: '\f10e';
+$font-Flaticon-chat: '\f10f';
+$font-Flaticon-info-button: '\f110';
+$font-Flaticon-file: '\f111';
+$font-Flaticon-receipt: '\f112';
+$font-Flaticon-writing: '\f113';
+$font-Flaticon-dashboard: '\f114';
+$font-Flaticon-send-mail: '\f115';
+$font-Flaticon-email-marketing: '\f116';
+$font-Flaticon-shopping-list: '\f117';
+$font-Flaticon-work-team: '\f118';
+$font-Flaticon-interface: '\f119';
+$font-Flaticon-information: '\f11a';
+$font-Flaticon-search: '\f11b';
+$font-Flaticon-test: '\f11c';
+$font-Flaticon-credit-card-1: '\f11d';
+$font-Flaticon-writing-1: '\f11e';
+$font-Flaticon-message: '\f11f';

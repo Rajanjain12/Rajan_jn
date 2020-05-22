@@ -2,7 +2,7 @@
   <section class="container pt-lg-4 pt-md-4 pt-sm-5 pt-5 fade-in" id="dashboardPage">
     <div class="alert alert-danger mt-2 row-eq-height" style="display: none;" role="alert">
       <span class="m-auto float-left">Notification about renewing plan. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</span>
-      <button href="#" data-dismiss="alert"><i class="flaticon-close font-color"></i></button>
+      <button href="#" data-dismiss="alert"><i class="fi flaticon-close font-color"></i></button>
       <div class="clearfix"></div>
     </div>
     <div class="alert alert-success alert-dismissible" *ngIf="successMsg != null">
@@ -14,7 +14,7 @@
       <div class="col-lg-9">
         <div class="row pb-2">
           <div class="col-lg-3 pb-2">
-            <a class="table-column-btn" data-toggle="modal" id="tableColumnModalBtn" data-target="#tableColumnModal">Show Column<i class="flaticon-funnel font-color float-right"></i></a>
+            <a class="table-column-btn" data-toggle="modal" id="tableColumnModalBtn" data-target="#tableColumnModal">Show Column<i class="fi flaticon-funnel font-color float-right"></i></a>
           </div>
           <div class="col-lg-auto pb-2">
             <span class="table-column-btn">
@@ -100,8 +100,8 @@
             <tr *ngFor="let guest of guestDTOList">
               <td *ngIf="toggleColumnArr.action == true">
                 <a class="btn-scale-up" (click)="showSeatModal(guest)">
-                  <i *ngIf="guest.calloutCount == null && guest.incompleteParty == null" class="flaticon-black-male-user-symbol font-color"></i>
-                  <i *ngIf="!(guest.calloutCount == null && guest.incompleteParty == null)" class="flaticon-black-male-user-symbol grey"></i>
+                  <i *ngIf="guest.calloutCount == null && guest.incompleteParty == null" class="fi flaticon-black-male-user-symbol font-color"></i>
+                  <i *ngIf="!(guest.calloutCount == null && guest.incompleteParty == null)" class="fi flaticon-black-male-user-symbol grey"></i>
                 </a>
               </td>
               <td *ngIf="toggleColumnArr.rank == true">{{ guest.rank }}</td>
@@ -132,7 +132,7 @@
                   data-container="body"
                   data-html="true"
                 >
-                  <i class="flaticon-file"></i>
+                  <i class="fi flaticon-file"></i>
                 </button>
                 <!-- {{ guest.note | json }} -->
                 <!-- <span *ngIf="guest.note != ''" class="info-icon custom-tooltip">
@@ -143,10 +143,10 @@
                 </span> -->
               </td>
               <td *ngIf="toggleColumnArr.deleteSym == true">
-                <a class="btn-scale-up" (click)="showDeleteModal(guest)"><i class="flaticon-rubbish-bin"></i></a>
+                <a class="btn-scale-up" (click)="showDeleteModal(guest)"><i class="fi flaticon-rubbish-bin"></i></a>
               </td>
               <td *ngIf="toggleColumnArr.sendText == true">
-                <a class="btn-scale-up" (click)="fetchSMSContent(guest)"><i class="flaticon-chat"></i></a>
+                <a class="btn-scale-up" (click)="fetchSMSContent(guest)"><i class="fi flaticon-chat"></i></a>
               </td>
             </tr>
           </tbody>

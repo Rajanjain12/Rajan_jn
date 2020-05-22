@@ -63,10 +63,10 @@ export class SigninComponent implements OnInit {
 
     if (document.querySelector(targetId).getAttribute('type') === 'password') {
       document.querySelector(targetId).setAttribute('type', 'text');
-      event.target.className = 'grey flaticon-unlocked eye-icon toggle-password font-weight-semibold';
+      event.target.className = 'grey fi flaticon-unlocked font-14 eye-icon toggle-password font-weight-semibold';
     } else {
       document.querySelector(targetId).setAttribute('type', 'password');
-      event.target.className = 'grey flaticon-padlock eye-icon toggle-password font-weight-semibold';
+      event.target.className = 'grey fi flaticon-padlock font-14 eye-icon toggle-password font-weight-semibold';
     }
   }
 }

@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="alert alert-danger mt-2 row-eq-height" style="display: none;" role="alert">
       <span class="m-auto float-left">Notification about renewing plan. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</span>
-      <button href="#" data-dismiss="alert"><i class="flaticon-close font-color"></i></button>
+      <button href="#" data-dismiss="alert"><i class="fi flaticon-close font-color"></i></button>
       <div class="clearfix"></div>
     </div>
     <nav class="navbar navbar-expand-lg navbar-expand-md navbar-light topnav p-md-0">
@@ -15,7 +15,7 @@
         <ul class="navbar-nav" id="showMobile">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle active" href="" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="flaticon-to-do-list"></i>
+              <i class="fi flaticon-to-do-list"></i>
               <p>WaitList</p>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -38,7 +38,7 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="text-marketing.html">
-              <i class="flaticon-message"></i>
+              <i class="fi flaticon-message"></i>
               <p>Text Marketing</p>
             </a>
             <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -47,7 +47,7 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="table-management.html">
-              <i class="flaticon-dining"></i>
+              <i class="fi flaticon-dining"></i>
               <p>Table Management</p>
             </a>
             <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -56,7 +56,7 @@
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="profile.html" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="flaticon-user"></i>
+              <i class="fi flaticon-user"></i>
               <p>My Account</p>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -73,25 +73,25 @@
         <ul class="navbar-nav" id="hideMobile">
           <li class="nav-item">
             <a class="nav-link active" href="" [routerLink]="['/waitlist/dashboard']">
-              <i class="flaticon-to-do-list"></i>
+              <i class="fi flaticon-to-do-list font-22"></i>
               <p>WaitList</p>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="text-marketing.html">
-              <i class="flaticon-message"></i>
+              <i class="fi flaticon-message font-26"></i>
               <p>Text Marketing</p>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="table-management.html">
-              <i class="flaticon-dining"></i>
+              <i class="fi flaticon-dining font-24"></i>
               <p>Table Management</p>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="profile.html">
-              <i class="flaticon-user"></i>
+              <i class="fi flaticon-user font-22"></i>
               <p>My Account</p>
             </a>
           </li>
@@ -99,9 +99,9 @@
       </div>
       <div class="ml-auto logout-res mt-2 mt-md-0">
         <button class="navbar-toggler float-left p-0 asidebar" id="asidetogglebtn" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="flaticon-right"></span>
+          <span class="fi flaticon-right"></span>
         </button>
-        Hello, <span>{{ user?.firstName }} {{ user?.lastName }}</span> | <a class="ml-3" href="" (click)="logout()"><i class="error flaticon-power mr-2"></i><span class="font-weight-semibold">Logout</span></a>
+        Hello, <span>{{ user?.firstName }} {{ user?.lastName }}</span> | <a class="ml-3" href="" (click)="logout()"><i class="error fi flaticon-power font-14 mr-2"></i><span class="font-weight-semibold">Logout</span></a>
       </div>
     </nav>
   </div>
