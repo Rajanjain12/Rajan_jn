@@ -38,6 +38,9 @@ public class PdfUtil {
 	public String generateInvoice(OrganizationDTO orgDTO, List<PlanFeatureCharge> plan, Integer orgSubscriptionId)
 			throws DocumentException, IOException, ParseException {
 
+		LoggerUtil.logInfo("Going to generate pdf");
+		LoggerUtil.logInfo("Organization name:"+orgDTO.getOrganizationName());
+		LoggerUtil.logInfo("Organization add:"+orgDTO.getAddressDTO().getAddressLineOne()+orgDTO.getAddressDTO().getCity()+orgDTO.getAddressDTO().getState()+orgDTO.getAddressDTO().getZipcode());
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		Document document = new Document(PageSize.A4);
 		PdfWriter.getInstance(document, out);
