@@ -1,5 +1,7 @@
 package com.kyobeeUserService.rest;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kyobeeUserService.dto.OrgCardDetailsDTO;
 import com.kyobeeUserService.dto.OrgPaymentDTO;
+import com.kyobeeUserService.dto.OrganizationDTO;
 import com.kyobeeUserService.dto.ResponseDTO;
 import com.kyobeeUserService.service.PaymentService;
 import com.kyobeeUserService.util.LoggerUtil;
@@ -44,7 +47,7 @@ public class PaymentController {
 		return responseDTO;
 	}
 
-	//API for payment transaction
+	// API for payment transaction
 	@PostMapping(value = "/createTransaction", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO createTransaction(@RequestBody OrgPaymentDTO orgPaymentDTO) {
 
@@ -60,10 +63,31 @@ public class PaymentController {
 			responseDTO.setMessage("Error during processing payment transaction.");
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
 			ex.printStackTrace();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			LoggerUtil.logError(e);
 			responseDTO.setServiceResult("Error while payment");
 			responseDTO.setMessage("Error while payment.");
+			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+			e.printStackTrace();
+		}
+		return responseDTO;
+	}
+
+	// API for generating invoice pdf and storing in aws s3
+	@PostMapping(value = "/generateInvoice", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO generateInvoice(@RequestBody OrganizationDTO orgDTO,
+			@RequestParam List<Integer> featureChargeIds, @RequestParam Integer orgSubscriptionId) {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			paymentService.generateInvoice(orgDTO, featureChargeIds,orgSubscriptionId);
+			responseDTO.setServiceResult("Invoice pdf generated successfully");
+			responseDTO.setMessage("Invoice pdf generated successfullyt");
+			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
+		} catch (Exception e) {
+			LoggerUtil.logError(e);
+			responseDTO.setServiceResult("Error while generating pdf invoice.");
+			responseDTO.setMessage("Error while generating pdf invoice.");
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
 			e.printStackTrace();
 		}

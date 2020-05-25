@@ -1,7 +1,6 @@
 package com.kyobeeUserService.dto;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class UpdatePaymentDetailsDTO {
 	

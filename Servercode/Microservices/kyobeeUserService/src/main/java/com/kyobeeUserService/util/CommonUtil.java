@@ -3,6 +3,9 @@ package com.kyobeeUserService.util;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
@@ -22,7 +25,6 @@ public class CommonUtil {
 			while (hashtext.length() < 32) {
 				hashtext = "0" + hashtext;
 			}
-
 			return hashtext;
 		} catch (NoSuchAlgorithmException e) {
 			LoggerUtil.logError(e);
@@ -58,5 +60,11 @@ public class CommonUtil {
 
 		return salt.toString();
 
+	}
+	public static String getDateWithFormat(String format) throws ParseException {
+
+		Date date = new Date();
+		DateFormat dateFormat = new SimpleDateFormat(format);
+		return dateFormat.format(date);
 	}
 }

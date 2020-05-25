@@ -1,5 +1,8 @@
 package com.kyobeeUserService.util;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 public class UserServiceConstants {
 
 	// EmailUtil constants
@@ -30,6 +33,9 @@ public class UserServiceConstants {
 
 	public static final String AWS_ACCESS_KEY_ID = "AKIAJQJN2NTV6IWMZXMQ";
 	public static final String AWS_SECRET_KEY = "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";
+	public static final String AWS_BUCKET_NAME = "kyobeeinvoice";
+	public static final String AWS_PATH = "https://s3-us-west-2.amazonaws.com/";
+	
 
 	public static final Byte INACTIVE_USER = 0;
 	public static final Integer DEFAULT_ROLE = 1;
@@ -102,5 +108,23 @@ public class UserServiceConstants {
 	
 	public static final Integer MAX_PARTY = 100;
 	public static final Integer NOTIFY_FIRST = 3;
+	
+	//constants related to Invoice pdf generation
+	public static final String IMG_PATH = "classpath:static/images/kyobee-logo.png";
+	public static final String FONT_PATH = "static/fonts/SourceSansPro-Regular.ttf";
+	public static final String DATE_FORMAT = "dd MMMM yyyy";
+	public static final String INVOICE = "INVOICE";
+	public static final String INVOICE_NO = "Invoice number : ";
+	public static final String INVOICE_DATE ="Invoice date : ";
+	public static final String 	ADD_LINE1 ="9415 Culver Blv,";
+	public static final String 	ADD_LINE2 ="Suite 117,";
+	public static final String 	ADD_LINE3 ="Culver city,CA 90230.";
+	public static final List<String> HEADER_lIST = List.of("Description","Quantity","Amount($)");
+	public static final String CURRENCY ="$";
+	public static final String SUBTOTAL ="SubTotal";
+	public static final String TAX ="Tax";
+	public static final String TOTAL ="Total";
+	public static final  String FILE_EXTENSION = ".pdf";
+	public static final BigDecimal TAX_AMT = new BigDecimal(10.00);
 
 }

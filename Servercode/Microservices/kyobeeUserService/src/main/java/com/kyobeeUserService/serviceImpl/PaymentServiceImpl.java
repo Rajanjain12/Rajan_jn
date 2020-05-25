@@ -1,31 +1,40 @@
 package com.kyobeeUserService.serviceImpl;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.braintreegateway.BraintreeGateway;
 import com.braintreegateway.Result;
 import com.braintreegateway.Transaction;
 import com.braintreegateway.TransactionRequest;
 import com.braintreegateway.ValidationError;
+import com.itextpdf.text.DocumentException;
 import com.kyobeeUserService.dao.CustomerDAO;
 import com.kyobeeUserService.dao.OrganizationCardDetailDAO;
 import com.kyobeeUserService.dao.OrganizationDAO;
 import com.kyobeeUserService.dao.OrganizationPaymentDAO;
+import com.kyobeeUserService.dao.OrganizationSubscriptionDAO;
 import com.kyobeeUserService.dao.PaymentCustomDAO;
+import com.kyobeeUserService.dao.PlanFeatureChargeDAO;
 import com.kyobeeUserService.dto.OrgCardDetailsDTO;
 import com.kyobeeUserService.dto.OrgPaymentDTO;
+import com.kyobeeUserService.dto.OrganizationDTO;
 import com.kyobeeUserService.dto.UpdatePaymentDetailsDTO;
 import com.kyobeeUserService.entity.Customer;
 import com.kyobeeUserService.entity.Organization;
 import com.kyobeeUserService.entity.OrganizationCardDetail;
 import com.kyobeeUserService.entity.OrganizationPayment;
+import com.kyobeeUserService.entity.PlanFeatureCharge;
 import com.kyobeeUserService.service.PaymentService;
 import com.kyobeeUserService.util.LoggerUtil;
+import com.kyobeeUserService.util.PdfUtil;
 import com.kyobeeUserService.util.UserServiceConstants;
 import com.kyobeeUserService.util.Exception.TransactionFailureException;
 
@@ -49,6 +58,15 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Autowired
 	private PaymentCustomDAO paymentCustomDAO;
+
+	@Autowired
+	private PlanFeatureChargeDAO planFeatureChargeDAO;
+
+	@Autowired
+	private PdfUtil pdfUtil;
+	
+	@Autowired
+	private OrganizationSubscriptionDAO orgSubscriptionDAO;
 
 	@Override
 	public Integer saveOrgCardDetails(Integer orgId, Integer customerId, OrgCardDetailsDTO orgCardDetailsDTO) {
@@ -74,16 +92,17 @@ public class PaymentServiceImpl implements PaymentService {
 
 		OrganizationPayment org = null;
 
-		//Checking if payment entry previously exists or not
-		
+		// Checking if payment entry previously exists or not
+
 		OrganizationPayment orgPayDetails = orgPaymentDAO.fetchOrgPaymentDetails(orgPaymentDTO.getOrgID());
-	
+
 		if (orgPayDetails == null
 				|| (orgPayDetails != null && !orgPayDetails.getPaymentStatus().equals(UserServiceConstants.FAIL))) {
 			OrganizationPayment orgPayment = new OrganizationPayment();
 
 			orgPayment.setOrganization(organizationDAO.getOne(orgPaymentDTO.getOrgID()));
 			orgPayment.setOrganizationcardDetail(orgCardDetailsDAO.getOne(orgPaymentDTO.getOrganizationCardDetailID()));
+			orgPayment.setOrganizationSubscription(orgSubscriptionDAO.getOne(orgPaymentDTO.getOrganizationSubscriptionID()));
 			orgPayment.setAmount(new BigDecimal(orgPaymentDTO.getAmount()));
 			orgPayment.setActive(UserServiceConstants.INACTIVE);
 			orgPayment.setCreatedBy(UserServiceConstants.ADMIN);
@@ -121,7 +140,7 @@ public class PaymentServiceImpl implements PaymentService {
 			LoggerUtil.logInfo("customer id:" + transaction.getCustomer().getId());
 
 			paymentCustomDAO.updatePaymentDetailsOnSuccess(updatePaymentDetailDTO);
-			
+
 			LoggerUtil.logInfo("Payment done successfully");
 		} else {
 			StringBuilder errorDetails = new StringBuilder();
@@ -145,6 +164,20 @@ public class PaymentServiceImpl implements PaymentService {
 			throw new TransactionFailureException("Payment transaction failure");
 
 		}
+	}
+	
+	@Override
+	public Integer generateInvoice(OrganizationDTO orgDTO,List<Integer> planFeatureChargeIds,Integer orgSubscriptionId)
+			throws DocumentException, IOException, ParseException {
+
+		List<PlanFeatureCharge> selectedPlanList = planFeatureChargeDAO
+				.findByPlanFeatureChargeIDIn(planFeatureChargeIds);
+		String invoiceFile = pdfUtil.generateInvoice(orgDTO,selectedPlanList ,orgSubscriptionId);
+		LoggerUtil.logInfo("File stored in aws s3 on path:"+invoiceFile);
+		
+		orgSubscriptionDAO.updateInvoiceDetails(UserServiceConstants.INVOICE_STATUS_BILLED, invoiceFile, orgSubscriptionId);
+		
+		return null;
 	}
 
 }
