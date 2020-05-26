@@ -80,6 +80,8 @@ public class PaymentController {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
+			LoggerUtil.logInfo("Organization name controller:"+orgDTO.getOrganizationName());
+			LoggerUtil.logInfo("Organization add controller:"+orgDTO.getAddressDTO().getAddressLineOne()+orgDTO.getAddressDTO().getCity()+orgDTO.getAddressDTO().getState()+orgDTO.getAddressDTO().getZipcode());
 			paymentService.generateInvoice(orgDTO, featureChargeIds,orgSubscriptionId);
 			responseDTO.setServiceResult("Invoice pdf generated successfully");
 			responseDTO.setMessage("Invoice pdf generated successfullyt");

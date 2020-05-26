@@ -170,6 +170,8 @@ public class PaymentServiceImpl implements PaymentService {
 	public Integer generateInvoice(OrganizationDTO orgDTO,List<Integer> planFeatureChargeIds,Integer orgSubscriptionId)
 			throws DocumentException, IOException, ParseException {
 
+		LoggerUtil.logInfo("Organization name service:"+orgDTO.getOrganizationName());
+		LoggerUtil.logInfo("Organization add service:"+orgDTO.getAddressDTO().getAddressLineOne()+orgDTO.getAddressDTO().getCity()+orgDTO.getAddressDTO().getState()+orgDTO.getAddressDTO().getZipcode());
 		List<PlanFeatureCharge> selectedPlanList = planFeatureChargeDAO
 				.findByPlanFeatureChargeIDIn(planFeatureChargeIds);
 		String invoiceFile = pdfUtil.generateInvoice(orgDTO,selectedPlanList ,orgSubscriptionId);
