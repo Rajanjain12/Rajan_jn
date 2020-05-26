@@ -75,11 +75,12 @@ public class PaymentController {
 
 	// API for generating invoice pdf and storing in aws s3
 	@PostMapping(value = "/generateInvoice", produces = "application/vnd.kyobee.v1+json")
-	public @ResponseBody ResponseDTO generateInvoice(@RequestBody OrganizationDTO orgDTO,
-			@RequestParam List<Integer> featureChargeIds, @RequestParam Integer orgSubscriptionId) {
+	public @ResponseBody ResponseDTO generateInvoice(@RequestParam List<Integer> featureChargeIds, @RequestParam Integer orgSubscriptionId, @RequestBody OrganizationDTO orgDTO) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
+			LoggerUtil.logInfo("feature id list:"+featureChargeIds);
+			LoggerUtil.logInfo("org subc id:"+orgSubscriptionId);
 			LoggerUtil.logInfo("Organization name controller:"+orgDTO.getOrganizationName());
 			LoggerUtil.logInfo("Organization add controller:"+orgDTO.getAddressDTO().getAddressLineOne()+orgDTO.getAddressDTO().getCity()+orgDTO.getAddressDTO().getState()+orgDTO.getAddressDTO().getZipcode());
 			paymentService.generateInvoice(orgDTO, featureChargeIds,orgSubscriptionId);
