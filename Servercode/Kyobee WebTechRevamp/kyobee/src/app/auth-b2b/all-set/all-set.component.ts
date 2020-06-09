@@ -15,6 +15,8 @@ export class AllSetComponent implements OnInit {
   @Input('step') step: number;
   @Output('stepChange') stepChange = new EventEmitter<number>();
 
+  fName;
+  lName;
   orgCardDetailsId;
   orgCardDetails: OrgCardDetailsDTO = new OrgCardDetailsDTO();
   orgPayment: OrgPaymentDTO = new OrgPaymentDTO();
@@ -56,30 +58,7 @@ export class AllSetComponent implements OnInit {
     }
   };
 
-  planList: {
-    waitlist: Array<{
-      id: number;
-      name: string;
-      price: number;
-      planType: string;
-    }>;
-    textMarketing: Array<{ id: number; name: string; price: number; planType: string }>;
-  } = {
-    waitlist: [
-      { id: 1, name: 'Silver', price: 26, planType: 'Month' },
-      { id: 2, name: 'Gold', price: 52, planType: 'Month' },
-      { id: 3, name: 'Silver', price: 200, planType: 'Annum' },
-      { id: 4, name: 'Gold', price: 440, planType: 'Annum' }
-    ],
-    textMarketing: [
-      { id: 1, name: 'Silver', price: 10, planType: 'Month' },
-      { id: 2, name: 'Gold', price: 20, planType: 'Month' },
-      { id: 3, name: 'Silver', price: 100, planType: 'Annum' },
-      { id: 4, name: 'Gold', price: 200, planType: 'Annum' }
-    ]
-  };
-
-  constructor(private authb2bService: AuthB2BService, private paymentService: PaymentService) {}
+  constructor(public authb2bService: AuthB2BService, private paymentService: PaymentService) {}
 
   ngOnInit() {
     this.createBraintreeUI();
@@ -151,16 +130,21 @@ export class AllSetComponent implements OnInit {
         console.log('tokenize');
         console.log(payload);
         console.log(payload.nonce);
+
+        this.orgCardDetails.cardName = this.fName + ' ' + this.lName;
+        this.orgCardDetails.cardNo = payload.details.lastFour;
+        this.orgCardDetails.cardType = payload.details.cardType;
+
+        const promise = this.saveOrgCardDetails();
+        promise.then(value => {
+          this.createTransaction();
+        });
       })
       .catch(error => {
         console.log(error);
+        alert('please enter proper value for feilds');
+        return;
       });
-
-    /* const promise = this.saveOrgCardDetails();
-    promise.then(value => {
-      console.log("transaction");
-      this.createTransaction();
-    });*/
   }
 
   //Purpose: For saving credit/debit card details

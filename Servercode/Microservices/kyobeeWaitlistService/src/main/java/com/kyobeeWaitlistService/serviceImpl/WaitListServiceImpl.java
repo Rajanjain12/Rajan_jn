@@ -1,8 +1,6 @@
 package com.kyobeeWaitlistService.serviceImpl;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -270,7 +268,6 @@ public class WaitListServiceImpl implements WaitListService {
 	@Override
 	public void saveSmsLog(GuestDTO guestDTO, SendSMSDTO sendSMSDTO) throws ParseException {
 
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = CommonUtil.getCurrentDateWithTime();
 
 		SmsLog log = new SmsLog();

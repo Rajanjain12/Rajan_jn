@@ -8,9 +8,8 @@
         <div class="container-box restaurant">
           <h6 class="restaurant_title">Restaurant Address</h6>
           <p class="restaurant_address">
-            <span class="font-weight-bold">{{ selectPlan.restaurantAddress.title }}</span>
-            <span> {{ selectPlan.restaurantAddress.address }} </span>
-            <span> {{ selectPlan.restaurantAddress.email }}</span>
+            <span class="font-weight-bold">{{ authb2bService.organization.organizationName }}</span>
+            <span> {{ authb2bService.organization.addressDTO.addressLineOne }} </span>
           </p>
         </div>
       </div>
@@ -33,17 +32,7 @@
             </div>
             <div class="col-12">
               <div class="form-group my-3">
-                <input
-                  type="text"
-                  id="firstName"
-                  name="firstName"
-                  maxlength="50"
-                  #firstName="ngModel"
-                  [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }"
-                  class="form-control"
-                  [(ngModel)]="payment.firstName"
-                  required="required"
-                />
+                <input type="text" id="firstName" name="firstName" maxlength="50" #firstName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }" class="form-control" [(ngModel)]="fName" required="required" />
                 <label for="input" class="control-label">First Name*</label><i class="bar"></i>
                 <div *ngIf="f.submitted && firstName.invalid" class="invalid-feedback">
                   <div class="text-danger" *ngIf="firstName.errors?.required">First Name is required</div>
@@ -52,7 +41,7 @@
             </div>
             <div class="col-12">
               <div class="form-group my-3">
-                <input type="text" id="lastName" name="lastName" maxlength="50" #lastName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && lastName.invalid }" class="form-control" [(ngModel)]="payment.lastName" />
+                <input type="text" id="lastName" name="lastName" maxlength="50" #lastName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && lastName.invalid }" class="form-control" [(ngModel)]="lName" />
                 <label for="input" class="control-label">Last Name</label><i class="bar"></i>
                 <div *ngIf="f.submitted && lastName.invalid" class="invalid-feedback">
                   <!-- <div class="text-danger" *ngIf="lastName.errors?.required">Business Name is required</div> -->
@@ -64,9 +53,11 @@
                 <div id="cardNumber" class="braintree-form-input"></div>
                 <!-- <input type="text" id="cardNumber" name="cardNumber" #cardNumber="ngModel" [ngClass]="{ 'is-invalid': f.submitted && cardNumber.invalid }" class="form-control" [(ngModel)]="payment.cardNumber" required="required" /> -->
                 <label for="input" class="control-label">Card Number</label><i class="bar"></i>
-                <span class="eye-icon-img">
+                <!-- commenting for  while start-->
+                <!--  <span class="eye-icon-img">
                   <img src="assets/images/card/discover-card.png" alt="visa-card" />
-                </span>
+                </span>-->
+                <!-- commenting for  while end-->
                 <!-- <div *ngIf="f.submitted && cardNumber.invalid" class="invalid-feedback">
                   <div class="text-danger" *ngIf="cardNumber.errors?.required">Please Enter card number</div>
                 </div> -->
@@ -102,17 +93,19 @@
         <div class="container-box plan_summary">
           <h6 class="plan_summary_title">Plan Summary</h6>
           <div class="plan_summary_detail">
-            <div class="row m-0 pb-3" *ngFor="let item of planList.waitlist" [hidden]="item.id !== selectPlan.planSummary.waitlist">
-              <div class="col">
-                <p class="font-16">Waitlist</p>
-                <span class="font-color font-12">{{ item.name }} Plan</span>
-              </div>
-              <div class="col-auto">
-                <p class="font-weight-bold text-right font-16">{{ item.price | currency }}</p>
-                <p class="font-12">Per {{ item.planType }}</p>
+            <div *ngFor="let termList of authb2bService.planTermList">
+              <div class="row m-0 pb-3" *ngFor="let planFeature of termList.featureList">
+                <div class="col" *ngFor="let item of planFeature.featureChargeDetails" [hidden]="item.planFeatureChargeId !== authb2bService.planSummary[planFeature.featureName.toLowerCase().replace(' ', '')]">
+                  <p class="font-16">{{ planFeature.featureName }}</p>
+                  <span class="font-color font-12">{{ item.planName }} Plan</span>
+                </div>
+                <div class="col-auto" *ngFor="let item of planFeature.featureChargeDetails" [hidden]="item.planFeatureChargeId !== authb2bService.planSummary[planFeature.featureName.toLowerCase().replace(' ', '')]">
+                  <p class="font-weight-bold text-right font-16">{{ item.featureCharge | currency }}</p>
+                  <p class="font-12">{{ termList.termName == 'Monthly' ? 'Month' : 'Annum' }}</p>
+                </div>
               </div>
             </div>
-            <div class="row m-0 pb-3 border-bottom" *ngFor="let item of planList.textMarketing" [hidden]="item.id !== selectPlan.planSummary.textMarketing">
+            <!--  <div class="row m-0 pb-3 border-bottom" *ngFor="let item of planList.textMarketing" [hidden]="item.id !== selectPlan.planSummary.textMarketing">
               <div class="col">
                 <p class="font-16">Text Marketing</p>
                 <span class="font-color font-12">{{ item.name }} Plan</span>
@@ -121,13 +114,13 @@
                 <p class="font-weight-bold text-right font-16">{{ item.price | currency }}</p>
                 <p class="font-12">Per {{ item.planType }}</p>
               </div>
-            </div>
+            </div>-->
             <div class="row m-0 pt-3">
               <div class="col">
                 <p class="font-16">Subtotal</p>
               </div>
               <div class="col-auto">
-                <p class="font-weight-bold text-right font-16">{{ '26' | currency }}</p>
+                <p class="font-weight-bold text-right font-16">{{ authb2bService.total | currency }}</p>
               </div>
             </div>
             <div class="row m-0 pt-3">

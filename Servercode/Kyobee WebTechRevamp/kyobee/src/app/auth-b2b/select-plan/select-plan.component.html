@@ -7,13 +7,7 @@
       <button type="submit" class="btn btn-theme background-grey w-auto" (click)="freePlan()">Use free for 7 days</button>
       <br />
       <div class="btn-group mt-3" role="group" aria-label="Basic example">
-        <button
-          type="button"
-          class="btn btn-custom"
-          [ngClass]="{ selected: selectedPlanTerm == planTerm.termName }"
-          (click)="selectedPlanTerm = planTerm.termName; selectedPlanTermDetails(); clearPreviousPlanTermDetails()"
-          *ngFor="let planTerm of planTermList"
-        >
+        <button type="button" class="btn btn-custom" [ngClass]="{ selected: selectedPlanTerm == planTerm.termName }" (click)="selectedPlanTerm = planTerm.termName; selectedPlanTermDetails()" *ngFor="let planTerm of planTermList">
           {{ planTerm.termName }}
         </button>
       </div>
@@ -70,14 +64,16 @@
         <div class="container-box plan_summary">
           <h6 class="plan_summary_title">Plan Summary</h6>
           <div class="plan_summary_detail">
-            <div class="row m-0 pb-3" *ngFor="let planFeature of planFeatureList">
-              <div class="col" *ngFor="let item of planFeature.featureChargeDetails" [hidden]="item.planFeatureChargeId !== planSummary[planFeature.featureName.toLowerCase().replace(' ', '')]">
-                <p class="font-16">{{ planFeature.featureName }}</p>
-                <span class="font-color font-12">{{ item.planName }} Plan</span>
-              </div>
-              <div class="col-auto" *ngFor="let item of planFeature.featureChargeDetails" [hidden]="item.planFeatureChargeId !== planSummary[planFeature.featureName.toLowerCase().replace(' ', '')]">
-                <p class="font-weight-bold text-right font-16">{{ item.featureCharge | currency }}</p>
-                <p class="font-12">{{ selectedPlanTerm == 'Monthly' ? 'Month' : 'Annum' }}</p>
+            <div *ngFor="let termList of planTermList">
+              <div class="row m-0 pb-3" *ngFor="let planFeature of termList.featureList">
+                <div class="col" *ngFor="let item of planFeature.featureChargeDetails" [hidden]="item.planFeatureChargeId !== planSummary[planFeature.featureName.toLowerCase().replace(' ', '')]">
+                  <p class="font-16">{{ planFeature.featureName }}</p>
+                  <span class="font-color font-12">{{ item.planName }} Plan</span>
+                </div>
+                <div class="col-auto" *ngFor="let item of planFeature.featureChargeDetails" [hidden]="item.planFeatureChargeId !== planSummary[planFeature.featureName.toLowerCase().replace(' ', '')]">
+                  <p class="font-weight-bold text-right font-16">{{ item.featureCharge | currency }}</p>
+                  <p class="font-12">{{ termList.termName == 'Monthly' ? 'Month' : 'Annum' }}</p>
+                </div>
               </div>
             </div>
             <div class="row m-0 pt-3">

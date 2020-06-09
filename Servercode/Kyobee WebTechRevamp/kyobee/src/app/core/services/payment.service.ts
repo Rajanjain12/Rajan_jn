@@ -15,4 +15,8 @@ export class PaymentService {
   createTransaction(params) {
     return this.apiService.post('rest/user/payment/createTransaction', params);
   }
+
+  generateInvoice(params) {
+    return this.apiService.postParams('rest/user/payment/generateInvoice', params);
+  }
 }

@@ -25,7 +25,7 @@ public class OrganizationTemplate implements Serializable{
 	private static final long serialVersionUID = -7095270916142896899L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="SmsTemplateID")
 	private Integer smsTemplateID;
 
