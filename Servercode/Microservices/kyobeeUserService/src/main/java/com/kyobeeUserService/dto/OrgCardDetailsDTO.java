@@ -6,6 +6,8 @@ public class OrgCardDetailsDTO {
 	private String cardType;
 	private String cardName;
 	private String vaultID;
+	private Integer orgId;
+	private Integer customerId;
 	
 	public Integer getCardNo() {
 		return cardNo;
@@ -30,6 +32,18 @@ public class OrgCardDetailsDTO {
 	}
 	public void setVaultID(String vaultID) {
 		this.vaultID = vaultID;
+	}
+	public Integer getOrgId() {
+		return orgId;
+	}
+	public void setOrgId(Integer orgId) {
+		this.orgId = orgId;
+	}
+	public Integer getCustomerId() {
+		return customerId;
+	}
+	public void setCustomerId(Integer customerId) {
+		this.customerId = customerId;
 	}
 	
 }

@@ -1,6 +1,5 @@
 package com.kyobeeUserService.rest;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kyobeeUserService.dto.InvoiceDTO;
 import com.kyobeeUserService.dto.OrgCardDetailsDTO;
 import com.kyobeeUserService.dto.OrgPaymentDTO;
-import com.kyobeeUserService.dto.OrganizationDTO;
 import com.kyobeeUserService.dto.ResponseDTO;
 import com.kyobeeUserService.service.PaymentService;
 import com.kyobeeUserService.util.LoggerUtil;
@@ -34,7 +33,7 @@ public class PaymentController {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			Integer orgCardDetailId = paymentService.saveOrgCardDetails(orgId, customerId, orgCardDetailsDTO);
+			Integer orgCardDetailId = paymentService.saveOrgCardDetails(orgCardDetailsDTO);
 			responseDTO.setServiceResult(orgCardDetailId);
 			responseDTO.setMessage("Org Card Details saved successfully");
 			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
@@ -68,22 +67,17 @@ public class PaymentController {
 			responseDTO.setServiceResult("Error while payment");
 			responseDTO.setMessage("Error while payment.");
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
-			e.printStackTrace();
 		}
 		return responseDTO;
 	}
 
 	// API for generating invoice pdf and storing in aws s3
 	@PostMapping(value = "/generateInvoice", produces = "application/vnd.kyobee.v1+json")
-	public @ResponseBody ResponseDTO generateInvoice(@RequestParam List<Integer> featureChargeIds, @RequestParam Integer orgSubscriptionId, @RequestBody OrganizationDTO orgDTO) {
+	public @ResponseBody ResponseDTO generateInvoice(@RequestBody InvoiceDTO invoiceDTO) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			LoggerUtil.logInfo("feature id list:"+featureChargeIds);
-			LoggerUtil.logInfo("org subc id:"+orgSubscriptionId);
-			LoggerUtil.logInfo("Organization name controller:"+orgDTO.getOrganizationName());
-			LoggerUtil.logInfo("Organization add controller:"+orgDTO.getAddressDTO().getAddressLineOne()+orgDTO.getAddressDTO().getCity()+orgDTO.getAddressDTO().getState()+orgDTO.getAddressDTO().getZipcode());
-			paymentService.generateInvoice(orgDTO, featureChargeIds,orgSubscriptionId);
+			paymentService.generateInvoice(invoiceDTO);
 			responseDTO.setServiceResult("Invoice pdf generated successfully");
 			responseDTO.setMessage("Invoice pdf generated successfullyt");
 			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
@@ -92,7 +86,6 @@ public class PaymentController {
 			responseDTO.setServiceResult("Error while generating pdf invoice.");
 			responseDTO.setMessage("Error while generating pdf invoice.");
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
-			e.printStackTrace();
 		}
 		return responseDTO;
 	}

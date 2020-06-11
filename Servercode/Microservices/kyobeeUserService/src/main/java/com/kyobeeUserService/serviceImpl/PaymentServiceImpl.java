@@ -23,9 +23,9 @@ import com.kyobeeUserService.dao.OrganizationPaymentDAO;
 import com.kyobeeUserService.dao.OrganizationSubscriptionDAO;
 import com.kyobeeUserService.dao.PaymentCustomDAO;
 import com.kyobeeUserService.dao.PlanFeatureChargeDAO;
+import com.kyobeeUserService.dto.InvoiceDTO;
 import com.kyobeeUserService.dto.OrgCardDetailsDTO;
 import com.kyobeeUserService.dto.OrgPaymentDTO;
-import com.kyobeeUserService.dto.OrganizationDTO;
 import com.kyobeeUserService.dto.UpdatePaymentDetailsDTO;
 import com.kyobeeUserService.entity.Customer;
 import com.kyobeeUserService.entity.Organization;
@@ -69,13 +69,13 @@ public class PaymentServiceImpl implements PaymentService {
 	private OrganizationSubscriptionDAO orgSubscriptionDAO;
 
 	@Override
-	public Integer saveOrgCardDetails(Integer orgId, Integer customerId, OrgCardDetailsDTO orgCardDetailsDTO) {
+	public Integer saveOrgCardDetails(OrgCardDetailsDTO orgCardDetailsDTO) {
 		OrganizationCardDetail orgCardDetail = new OrganizationCardDetail();
 
 		BeanUtils.copyProperties(orgCardDetailsDTO, orgCardDetail);
 
-		Organization org = organizationDAO.getOne(orgId);
-		Customer customer = customerDAO.getOne(customerId);
+		Organization org = organizationDAO.getOne(orgCardDetailsDTO.getOrgId());
+		Customer customer = customerDAO.getOne(orgCardDetailsDTO.getCustomerId());
 
 		orgCardDetail.setOrganization(org);
 		orgCardDetail.setCustomer(customer);
@@ -167,17 +167,14 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 	
 	@Override
-	public Integer generateInvoice(OrganizationDTO orgDTO,List<Integer> planFeatureChargeIds,Integer orgSubscriptionId)
+	public Integer generateInvoice(InvoiceDTO invoiceDTO)
 			throws DocumentException, IOException, ParseException {
-
-		LoggerUtil.logInfo("Organization name service:"+orgDTO.getOrganizationName());
-		LoggerUtil.logInfo("Organization add service:"+orgDTO.getAddressDTO().getAddressLineOne()+orgDTO.getAddressDTO().getCity()+orgDTO.getAddressDTO().getState()+orgDTO.getAddressDTO().getZipcode());
 		List<PlanFeatureCharge> selectedPlanList = planFeatureChargeDAO
-				.findByPlanFeatureChargeIDIn(planFeatureChargeIds);
-		String invoiceFile = pdfUtil.generateInvoice(orgDTO,selectedPlanList ,orgSubscriptionId);
+				.findByPlanFeatureChargeIDIn(invoiceDTO.getFeatureChargeIds());
+		String invoiceFile = pdfUtil.generateInvoice(invoiceDTO.getOrgDTO(),selectedPlanList ,invoiceDTO.getOrgSubscriptionId());
 		LoggerUtil.logInfo("File stored in aws s3 on path:"+invoiceFile);
 		
-		orgSubscriptionDAO.updateInvoiceDetails(UserServiceConstants.INVOICE_STATUS_BILLED, invoiceFile, orgSubscriptionId);
+		orgSubscriptionDAO.updateInvoiceDetails(UserServiceConstants.INVOICE_STATUS_BILLED, invoiceFile, invoiceDTO.getOrgSubscriptionId());
 		
 		return null;
 	}
