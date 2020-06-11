@@ -6,7 +6,7 @@
           <h4 class="text-center mb-3">Register Your Business</h4>
         </div>
         <div class="col-12 row m-0 mb-4">
-          <div class="col-12 col-sm-4 col-md-3 ml-auto mr-md-3">
+          <div class="col-12 col-sm-6 col-md-4 col-xl-3 ml-auto mr-md-3">
             <div class="mobile-input-with-flag row m-0">
               <label for="input" class="col-12 m-0 pl-0 control-label-flag medium-gray-color"> Select Country</label>
               <div class="col-auto pl-0 form-group countryCode-flag">
@@ -21,7 +21,7 @@
             </div>
           </div>
 
-          <div class="col-12 col-sm-4 col-md-3 mr-auto ml-md-3">
+          <div class="col-12 col-sm-6 col-md-4 col-xl-3 mr-auto ml-md-3">
             <label for="input" class="col-12 m-0 pl-0 control-label medium-gray-color">&nbsp;</label>
             <div class="form-group m-0">
               <input type="text" name="zip" class="form-control" id="zip" [(ngModel)]="zipCode" #zip="ngModel" [ngClass]="{ 'is-invalid': f.submitted && zip.invalid }" maxlength="8" (blur)="fetchLatLon()" required />
@@ -34,7 +34,25 @@
           </div>
         </div>
         <div class="col-12 px-2">
-          <div class="ng-autocomplete auth-b2b-autocomplete">
+          <div class="form-group my-3">
+            <i class="fi flaticon-search"></i>
+            <input
+              type="text"
+              id="search"
+              name="search"
+              #search="ngModel"
+              [disabled]="!showBusiness"
+              placeHolder="Search your Business"
+              [ngClass]="{ 'is-invalid': f.submitted && search.invalid }"
+              class="form-control search-input"
+              [(ngModel)]="searchKeyword"
+            />
+            <!-- <label for="input" class="control-label">Last Name</label><i class="bar"></i> -->
+            <!-- <div *ngIf="f.submitted && lastName.invalid" class="invalid-feedback"> -->
+            <!-- <div class="text-danger" *ngIf="lastName.errors?.required">Business Name is required</div> -->
+            <!-- </div> -->
+          </div>
+          <!-- <div class="ng-autocomplete auth-b2b-autocomplete">
             <ng-autocomplete
               [data]="placeList"
               [searchKeyword]="'placeName'"
@@ -52,7 +70,16 @@
             <ng-template #itemTemplate let-item>
               <a [innerHTML]="item.placeName"></a>
             </ng-template>
-          </div>
+          </div> -->
+        </div>
+        <div class="col-12 px-2">
+          <ul class="search-list">
+            <li><a href="#">The Imperial Palace summertime ln, Culver City, CA,90230</a></li>
+            <li><a href="#">The Imperial Palace summertime ln, Culver City, CA,90230</a></li>
+            <li><a href="#">The Imperial Palace summertime ln, Culver City, CA,90230</a></li>
+            <li><a href="#">The Imperial Palace summertime ln, Culver City, CA,90230</a></li>
+            <li><a href="#">The Imperial Palace summertime ln, Culver City, CA,90230</a></li>
+          </ul>
         </div>
         <div class="col-12 text-center mt-3">
           <button type="button" class="btn btn-underline font-color not-finding" (click)="addBusinessFlag = !addBusinessFlag; fetchOrganizationType()">

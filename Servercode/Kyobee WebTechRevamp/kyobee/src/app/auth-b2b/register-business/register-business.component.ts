@@ -21,15 +21,16 @@ export class RegisterBusinessComponent implements OnInit {
   countryList: Array<CountryDTO>;
   countryCode = 'us';
   country: CountryDTO = new CountryDTO();
-  countryName;
-  zipCode;
+  searchKeyword: string;
+  countryName: any;
+  zipCode: any;
   showBusiness = false;
-  latLon;
-  place;
+  latLon: string;
+  place: any;
   placeList: Array<PlaceDTO>;
   show = true;
   organization: OrganizationDTO = new OrganizationDTO();
-  organizationTypeList;
+  organizationTypeList: any;
 
   addBusinessFlag: boolean = false;
   addBusiness: {
