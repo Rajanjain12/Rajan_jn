@@ -133,7 +133,7 @@ public class PaymentServiceImpl implements PaymentService {
 			updatePaymentDetailDTO.setVaultId(transaction.getCreditCard().getToken());
 			updatePaymentDetailDTO.setTransactionId(transaction.getId());
 			updatePaymentDetailDTO.setPaymentStatus(UserServiceConstants.SUCCESS);
-			updatePaymentDetailDTO.setPayemntStatusReason(transaction.getStatus().toString());
+			updatePaymentDetailDTO.setPaymentStatusReason(transaction.getStatus().toString());
 
 			Timestamp stamp = new Timestamp(transaction.getCreatedAt().getTimeInMillis());
 			updatePaymentDetailDTO.setPaymentDateTime(stamp);
@@ -157,7 +157,7 @@ public class PaymentServiceImpl implements PaymentService {
 			updatePaymentDetailDTO.setInvoiceStatus(UserServiceConstants.CANCELLED);
 			updatePaymentDetailDTO.setSubscriptionStatus(UserServiceConstants.CANCELLED);
 			updatePaymentDetailDTO.setPaymentStatus(UserServiceConstants.FAIL);
-			updatePaymentDetailDTO.setPayemntStatusReason(errorDetails.toString());
+			updatePaymentDetailDTO.setPaymentStatusReason(errorDetails.toString());
 
 			paymentCustomDAO.updatePaymentDetailsOnFailure(updatePaymentDetailDTO);
 
