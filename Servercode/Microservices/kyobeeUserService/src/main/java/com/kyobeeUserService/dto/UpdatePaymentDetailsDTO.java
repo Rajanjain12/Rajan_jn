@@ -10,7 +10,7 @@ public class UpdatePaymentDetailsDTO {
 	private String vaultId;
 	private String transactionId;
 	private Timestamp paymentDateTime; 
-	private String payemntStatusReason;
+	private String paymentStatusReason;
 	private String paymentStatus;
 	private Integer organizationSubscriptionID;
 	private Integer organizationCardDetailID;
@@ -52,11 +52,11 @@ public class UpdatePaymentDetailsDTO {
 	public void setPaymentDateTime(Timestamp paymentDateTime) {
 		this.paymentDateTime = paymentDateTime;
 	}
-	public String getPayemntStatusReason() {
-		return payemntStatusReason;
+	public String getPaymentStatusReason() {
+		return paymentStatusReason;
 	}
-	public void setPayemntStatusReason(String payemntStatusReason) {
-		this.payemntStatusReason = payemntStatusReason;
+	public void setPaymentStatusReason(String paymentStatusReason) {
+		this.paymentStatusReason = paymentStatusReason;
 	}
 	public String getPaymentStatus() {
 		return paymentStatus;

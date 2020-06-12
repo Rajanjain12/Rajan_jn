@@ -79,13 +79,14 @@ public class PaymentCustomDAOImpl implements PaymentCustomDAO {
 			session.doWork(new Work() {
 				@Override
 				public void execute(Connection connection) throws SQLException {
-					CallableStatement cStmt = connection.prepareCall("{call TRANSACTIONFAILURE(?,?,?,?,?)}");
+					CallableStatement cStmt = connection.prepareCall("{call TRANSACTIONFAILURE(?,?,?,?,?,?)}");
 					try {
 						cStmt.setInt(1, updatePaymentDetailsDTO.getOrganizationSubscriptionID());
 						cStmt.setInt(2, updatePaymentDetailsDTO.getOrganizationPaymentID());
 						cStmt.setString(3, updatePaymentDetailsDTO.getInvoiceStatus());
 						cStmt.setString(4, updatePaymentDetailsDTO.getSubscriptionStatus());
 						cStmt.setString(5, updatePaymentDetailsDTO.getPaymentStatus());
+						cStmt.setString(6,updatePaymentDetailsDTO.getPaymentStatusReason());
 
 						cStmt.execute();
 
