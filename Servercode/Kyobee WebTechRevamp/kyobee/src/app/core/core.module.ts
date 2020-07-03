@@ -10,9 +10,11 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { AutosizeDirective } from './directives/autosize.directive';
 import { MaxValidator } from './directives/max.validator';
 import { MinValidator } from './directives/min.validator';
+import { NumberDirective } from './directives/numbers-only.directive';
+import { WhiteSpaceRestrictionDirective } from './directives/whitespace-restriction.directive';
 
 @NgModule({
-  declarations: [AutosizeDirective, MaxValidator, MinValidator],
+  declarations: [AutosizeDirective, MaxValidator, MinValidator, NumberDirective, WhiteSpaceRestrictionDirective],
   imports: [CommonModule, HttpClientModule],
   providers: [
     UserService,
@@ -21,6 +23,6 @@ import { MinValidator } from './directives/min.validator';
     LoaderService,
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
   ],
-  exports: [AutosizeDirective, MaxValidator, MinValidator]
+  exports: [AutosizeDirective, MaxValidator, MinValidator, NumberDirective, WhiteSpaceRestrictionDirective]
 })
 export class CoreModule {}
