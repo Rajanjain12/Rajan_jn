@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kyobeeWaitlistService.dto.LanguageKeyMappingDTO;
-import com.kyobeeWaitlistService.dto.OrgPrefKeyMapDTO;
+import com.kyobeeWaitlistService.dto.OrgPrefDTO;
 import com.kyobeeWaitlistService.dto.OrgSettingDTO;
 import com.kyobeeWaitlistService.dto.PusherDTO;
 import com.kyobeeWaitlistService.dto.ResponseDTO;
@@ -101,15 +101,15 @@ public class WaitListController {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			OrgPrefKeyMapDTO orgPrefKeyMapDTO = waitListService.fetchOrgPrefandKeyMap(orgId);
+			OrgPrefDTO orgPrefKeyMapDTO = waitListService.fetchOrgPref(orgId);
 			responseDTO.setServiceResult(orgPrefKeyMapDTO);
-			responseDTO.setMessage("Organization Preference Key Map fetched successfully");
+			responseDTO.setMessage("Organization Preference fetched successfully");
 			responseDTO.setSuccess(WaitListServiceConstants.SUCCESS_CODE);
 
 		} catch (Exception ex) {
 			LoggerUtil.logError(ex);
-			responseDTO.setServiceResult("Error while fetching organization preference key map");
-			responseDTO.setMessage("Error while fetching organization preference key map");
+			responseDTO.setServiceResult("Error while fetching organization preference");
+			responseDTO.setMessage("Error while fetching organization preference");
 			responseDTO.setSuccess(WaitListServiceConstants.ERROR_CODE);
 		}
 		return responseDTO;

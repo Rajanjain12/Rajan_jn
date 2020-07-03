@@ -829,3 +829,10 @@ CHANGE COLUMN `PaymentDateTime` `PaymentDateTime` DATETIME NULL DEFAULT NULL ;
 
 ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATION` 
 CHANGE COLUMN `Email` `Email` VARCHAR(255) NULL ;
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+INSERT INTO `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` (`KeyName`, `Value`, `LangIsoCode`, `ScreenName`, `UpdateFlag`, `CreatedBy`, `CreatedAt`) VALUES ('note_error', 'Error! Please enter a valid note', 'en', 'English', '0', 'admin', '2020-07-02');
+INSERT INTO `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` (`KeyName`, `Value`, `LangIsoCode`, `ScreenName`, `UpdateFlag`, `CreatedBy`, `CreatedAt`) VALUES ('note_error', '오류! 유효한 메모를 입력하십시오', 'ko', 'Korean', '0', 'admin', '2020-07-02');
+INSERT INTO `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` (`KeyName`, `Value`, `LangIsoCode`, `ScreenName`, `UpdateFlag`, `CreatedBy`, `CreatedAt`) VALUES ('note_error', 'Erreur! Veuillez saisir une note valide', 'fr', 'French', '0', 'admin', '2020-07-02');
+INSERT INTO `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` (`KeyName`, `Value`, `LangIsoCode`, `ScreenName`, `UpdateFlag`, `CreatedBy`, `CreatedAt`) VALUES ('note_error', '错误！请输入有效的备注', 'zh', 'Chinese', '0', 'admin', '2020-07-02');
+INSERT INTO `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` (`KeyName`, `Value`, `LangIsoCode`, `ScreenName`, `UpdateFlag`, `CreatedBy`, `CreatedAt`) VALUES ('note_error', '错误！请输入有效的备注', 'zh-Hans', 'Chinese (Simplified)', '0', 'admin', '2020-07-02');
+INSERT INTO `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` (`KeyName`, `Value`, `LangIsoCode`, `ScreenName`, `UpdateFlag`, `CreatedBy`, `CreatedAt`) VALUES ('note_error', '錯誤！請輸入有效的備註', 'zh-Hant', 'Chinese (Traditional)', '0', 'admin', '2020-07-02');

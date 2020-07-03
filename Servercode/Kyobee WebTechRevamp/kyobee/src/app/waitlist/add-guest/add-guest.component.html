@@ -13,13 +13,14 @@
                 type="text"
                 id="gname"
                 class="form-control"
-                ng-pattern="[A-Za-z0-9 ]*"
+                pattern ="[a-zA-Z0-9 ]*"
                 #gname="ngModel"
                 [ngClass]="{ 'is-invalid': f.submitted && gname.invalid }"
                 maxlength="50"
                 [(ngModel)]="guest.name"
                 name="gname"
                 required="required"
+                appInputRestriction
               />
               <label for="input" class="control-label">{{ languageKeyMap['name'] }}</label
               ><i class="bar"></i>
@@ -176,16 +177,19 @@
                 maxlength="150"
                 class="form-control"
                 #text="ngModel"
+                pattern="[A-z\d_@.#$=!%^)(\]:\*;\?\/\,}{'\|<>\[&\+-]*"
                 [ngClass]="{ 'is-invalid': f.submitted && text.invalid, 'no-value': text.value == '' || text.value == null }"
-                [(ngModel)]="guest.note"
+                [(ngModel)]="guest.note" appInputRestriction
               >
               </textarea>
+
+              <label for="textarea" class="control-label">{{ languageKeyMap['note'] }}</label
+              ><i class="bar"></i>
               <div *ngIf="f.submitted && text.invalid" class="invalid-feedback">
                 <!--  <div class="text-danger" *ngIf="text.errors?.required">Note is required</div> -->
                 <div class="text-danger" *ngIf="text.errors?.maxlength">{{ languageKeyMap['maximum_characters_limit_reached'] }}</div>
+                <div class="text-danger" *ngIf="text.errors?.pattern">{{ languageKeyMap['note_error'] }}</div>
               </div>
-              <label for="textarea" class="control-label">{{ languageKeyMap['note'] }}</label
-              ><i class="bar"></i>
             </div>
             <div class="col-ld-12 text-center pb-3">
               <button type="submit" id="btnSubmit" class="btn btn-theme background-color shadow" (click)="validate(f.form.invalid)">

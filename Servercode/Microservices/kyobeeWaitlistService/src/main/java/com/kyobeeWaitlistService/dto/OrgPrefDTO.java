@@ -2,7 +2,7 @@ package com.kyobeeWaitlistService.dto;
 
 import java.util.List;
 
-public class OrgPrefKeyMapDTO {
+public class OrgPrefDTO {
 
 	private List<SeatingMarketingPrefDTO> seatingPreference;
 	private List<SeatingMarketingPrefDTO> marketingPreference;

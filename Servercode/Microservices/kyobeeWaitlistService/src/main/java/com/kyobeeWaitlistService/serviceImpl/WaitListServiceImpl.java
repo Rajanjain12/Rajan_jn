@@ -28,7 +28,7 @@ import com.kyobeeWaitlistService.dto.GuestDTO;
 import com.kyobeeWaitlistService.dto.GuestNotificationDTO;
 import com.kyobeeWaitlistService.dto.LanguageKeyMappingDTO;
 import com.kyobeeWaitlistService.dto.LanguageMasterDTO;
-import com.kyobeeWaitlistService.dto.OrgPrefKeyMapDTO;
+import com.kyobeeWaitlistService.dto.OrgPrefDTO;
 import com.kyobeeWaitlistService.dto.OrgSettingDTO;
 import com.kyobeeWaitlistService.dto.OrgSettingPusherDTO;
 import com.kyobeeWaitlistService.dto.OrganizationTemplateDTO;
@@ -134,23 +134,13 @@ public class WaitListServiceImpl implements WaitListService {
 	}
 
 	@Override
-	public OrgPrefKeyMapDTO fetchOrgPrefandKeyMap(Integer orgId) {
+	public OrgPrefDTO fetchOrgPref(Integer orgId) {
 		// fetch seating pref and marketing pref associated with org
 		List<Lookup> lookupList = lookupDAO.fetchOrgSeatingAndMarketingPref(orgId,
 				WaitListServiceConstants.SEATING_PREF_ID, WaitListServiceConstants.MARKETING_PREF_ID);
-		OrgPrefKeyMapDTO orgPrefDTO = new OrgPrefKeyMapDTO();
+		OrgPrefDTO orgPrefDTO = new OrgPrefDTO();
 		List<SeatingMarketingPrefDTO> seatingPrefList = new ArrayList<>();
 		List<SeatingMarketingPrefDTO> marketingPrefList = new ArrayList<>();
-
-		List<LanguageMasterDTO> languageList = languageKeyMappingDAO.fetchByLangIsoCodeAndScreenName(
-				WaitListServiceConstants.ENG_ISO_CODE, WaitListServiceConstants.SCREEN_NAME);
-
-		Map<String, String> keymap = new HashMap<>();
-
-		for (LanguageMasterDTO langMaster : languageList) {
-			keymap.put(langMaster.getKeyName(), langMaster.getValue());
-
-		}
 
 		SeatingMarketingPrefDTO seatingPref;
 		SeatingMarketingPrefDTO marketingPref;
@@ -160,32 +150,14 @@ public class WaitListServiceImpl implements WaitListService {
 				seatingPref = new SeatingMarketingPrefDTO();
 				seatingPref.setPrefValue(lookup.getName());
 				seatingPref.setPrefValueId(lookup.getLookupID());
-				if (keymap.containsValue(lookup.getName())) {
-					String key = null;
-					for (Map.Entry<String, String> entry : keymap.entrySet()) {
-						if ((lookup.getName()).equals(entry.getValue())) {
-							key = entry.getKey();
-							seatingPref.setPrefKey(key);
-							break;
-						}
-					}
-				}
+				seatingPref.setPrefKey(lookup.getCode());
 				seatingPrefList.add(seatingPref);
+				
 			} else if (lookup.getLookuptype().getLookupTypeID() == WaitListServiceConstants.MARKETING_PREF_ID) {
 				marketingPref = new SeatingMarketingPrefDTO();
 				marketingPref.setPrefValue(lookup.getName());
 				marketingPref.setPrefValueId(lookup.getLookupID());
-				if (keymap.containsValue(lookup.getName())) {
-
-					String key = null;
-					for (Map.Entry<String, String> entry : keymap.entrySet()) {
-						if ((lookup.getName()).equals(entry.getValue())) {
-							key = entry.getKey();
-							marketingPref.setPrefKey(key);
-							break;
-						}
-					}
-				}
+				marketingPref.setPrefKey(lookup.getCode());
 				marketingPrefList.add(marketingPref);
 			}
 
@@ -332,7 +304,7 @@ public class WaitListServiceImpl implements WaitListService {
 
 		organizationCategoryDAO.saveAll(orgCategoryList);
 
-		// update notify first setting
+		// update notify first , default language, ppl bifurcation setting
 		organizationDAO.updateOrgSetting(orgSettingDTO.getNotifyFirst(), orgSettingDTO.getOrgId(),orgSettingDTO.getDefaultLanguage(),orgSettingDTO.getPplBifurcation());
 
 		// update template text for organization

@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.kyobeeWaitlistService.dto.GuestDTO;
 import com.kyobeeWaitlistService.dto.LanguageKeyMappingDTO;
-import com.kyobeeWaitlistService.dto.OrgPrefKeyMapDTO;
+import com.kyobeeWaitlistService.dto.OrgPrefDTO;
 import com.kyobeeWaitlistService.dto.OrgSettingDTO;
 import com.kyobeeWaitlistService.dto.OrganizationTemplateDTO;
 import com.kyobeeWaitlistService.dto.PusherDTO;
@@ -23,7 +23,7 @@ public interface WaitListService {
 	//to update org setting details
 	public PusherDTO updateOrgSettings(Integer orgId, Integer perPartyWaitTime,Integer numberOfUsers);
 	// fetch organization key map and pref
-	public OrgPrefKeyMapDTO fetchOrgPrefandKeyMap(Integer orgId);
+	public OrgPrefDTO fetchOrgPref(Integer orgId);
 	//fetch set sms detail and send sms
 	public void setSMSContentAndSendSMS(GuestDTO guestDTO, SendSMSDTO sendSMSDTO);
 	//for fetch org sms template by level

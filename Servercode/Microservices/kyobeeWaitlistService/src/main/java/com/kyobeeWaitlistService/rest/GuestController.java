@@ -97,7 +97,7 @@ public class GuestController {
 	}
 
 	// for fetching guest list , search text will be null for fetching whole data
-	@GetMapping(value = "/fetchGuestHistory", produces = "application/vnd.kyobee.v1+json")
+	@GetMapping(value = "/guestHistory", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO fetchGuestHistoryList(@RequestParam Integer orgId, @RequestParam Integer pageSize,
 			@RequestParam Integer pageNo, @RequestParam String searchText,
 			@RequestParam("clientTimezone") String clientTimezone, @RequestParam Integer sliderMaxTime,

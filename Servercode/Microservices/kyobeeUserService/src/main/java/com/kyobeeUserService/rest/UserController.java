@@ -270,7 +270,7 @@ public class UserController {
 	}
 	
 	// For create business login.
-	@PostMapping(value = "/addUser", produces = "application/vnd.kyobee.v1+json")
+	@PostMapping(value = "/user", produces = "application/vnd.kyobee.v1+json")
 		public @ResponseBody ResponseDTO addUser(@RequestBody UserSignUpDTO userSignUpDTO) {
 
 			ResponseDTO responseDTO = new ResponseDTO();
