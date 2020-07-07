@@ -9,5 +9,5 @@ import com.kyobeeUserService.entity.PromotionalCode;
 @Repository
 @Transactional
 public interface PromotionalCodeDAO extends JpaRepository<PromotionalCode, Integer>{
-
+	PromotionalCode findByPromoCode(String PromoCode);
 }

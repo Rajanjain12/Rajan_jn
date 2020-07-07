@@ -23,6 +23,7 @@ import com.kyobeeUserService.dao.OrganizationPaymentDAO;
 import com.kyobeeUserService.dao.OrganizationSubscriptionDAO;
 import com.kyobeeUserService.dao.PaymentCustomDAO;
 import com.kyobeeUserService.dao.PlanFeatureChargeDAO;
+import com.kyobeeUserService.dao.PromotionalCodeDAO;
 import com.kyobeeUserService.dto.InvoiceDTO;
 import com.kyobeeUserService.dto.OrgCardDetailsDTO;
 import com.kyobeeUserService.dto.OrgPaymentDTO;
@@ -32,10 +33,12 @@ import com.kyobeeUserService.entity.Organization;
 import com.kyobeeUserService.entity.OrganizationCardDetail;
 import com.kyobeeUserService.entity.OrganizationPayment;
 import com.kyobeeUserService.entity.PlanFeatureCharge;
+import com.kyobeeUserService.entity.PromotionalCode;
 import com.kyobeeUserService.service.PaymentService;
 import com.kyobeeUserService.util.LoggerUtil;
 import com.kyobeeUserService.util.PdfUtil;
 import com.kyobeeUserService.util.UserServiceConstants;
+import com.kyobeeUserService.util.Exception.PromoCodeException;
 import com.kyobeeUserService.util.Exception.TransactionFailureException;
 
 @Service
@@ -64,9 +67,12 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Autowired
 	private PdfUtil pdfUtil;
-	
+
 	@Autowired
 	private OrganizationSubscriptionDAO orgSubscriptionDAO;
+
+	@Autowired
+	PromotionalCodeDAO promotionalCodeDAO;
 
 	@Override
 	public Integer saveOrgCardDetails(OrgCardDetailsDTO orgCardDetailsDTO) {
@@ -102,7 +108,8 @@ public class PaymentServiceImpl implements PaymentService {
 
 			orgPayment.setOrganization(organizationDAO.getOne(orgPaymentDTO.getOrgID()));
 			orgPayment.setOrganizationcardDetail(orgCardDetailsDAO.getOne(orgPaymentDTO.getOrganizationCardDetailID()));
-			orgPayment.setOrganizationSubscription(orgSubscriptionDAO.getOne(orgPaymentDTO.getOrganizationSubscriptionID()));
+			orgPayment.setOrganizationSubscription(
+					orgSubscriptionDAO.getOne(orgPaymentDTO.getOrganizationSubscriptionID()));
 			orgPayment.setAmount(new BigDecimal(orgPaymentDTO.getAmount()));
 			orgPayment.setActive(UserServiceConstants.INACTIVE);
 			orgPayment.setCreatedBy(UserServiceConstants.ADMIN);
@@ -165,18 +172,36 @@ public class PaymentServiceImpl implements PaymentService {
 
 		}
 	}
-	
+
 	@Override
-	public Integer generateInvoice(InvoiceDTO invoiceDTO)
-			throws DocumentException, IOException, ParseException {
+	public Integer generateInvoice(InvoiceDTO invoiceDTO) throws DocumentException, IOException, ParseException {
 		List<PlanFeatureCharge> selectedPlanList = planFeatureChargeDAO
 				.findByPlanFeatureChargeIDIn(invoiceDTO.getFeatureChargeIds());
-		String invoiceFile = pdfUtil.generateInvoice(invoiceDTO.getOrgDTO(),selectedPlanList ,invoiceDTO.getOrgSubscriptionId());
-		LoggerUtil.logInfo("File stored in aws s3 on path:"+invoiceFile);
-		
-		orgSubscriptionDAO.updateInvoiceDetails(UserServiceConstants.INVOICE_STATUS_BILLED, invoiceFile, invoiceDTO.getOrgSubscriptionId());
-		
+		String invoiceFile = pdfUtil.generateInvoice(invoiceDTO.getOrgDTO(), selectedPlanList,
+				invoiceDTO.getOrgSubscriptionId());
+		LoggerUtil.logInfo("File stored in aws s3 on path:" + invoiceFile);
+
+		orgSubscriptionDAO.updateInvoiceDetails(UserServiceConstants.INVOICE_STATUS_BILLED, invoiceFile,
+				invoiceDTO.getOrgSubscriptionId());
+
 		return null;
+	}
+
+	@Override
+	public BigDecimal calculateDiscount(BigDecimal amount, String promoCode) throws PromoCodeException {
+
+		PromotionalCode promotionalCode = promotionalCodeDAO.findByPromoCode(promoCode);
+		if (promotionalCode != null) {
+			BigDecimal discPercentage = promotionalCode.getPercAmt();
+			BigDecimal discAmount = amount.multiply(discPercentage).divide(new BigDecimal(100));
+			BigDecimal finalAmount = amount.subtract(discAmount);
+			LoggerUtil.logInfo("Final amount to be paid:" + finalAmount);
+
+			return finalAmount;
+		} else {
+			throw new PromoCodeException("Invalid PromoCode");
+		}
+
 	}
 
 }

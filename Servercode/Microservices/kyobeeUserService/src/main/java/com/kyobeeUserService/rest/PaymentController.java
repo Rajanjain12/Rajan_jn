@@ -1,11 +1,14 @@
 package com.kyobeeUserService.rest;
 
+import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +19,7 @@ import com.kyobeeUserService.dto.ResponseDTO;
 import com.kyobeeUserService.service.PaymentService;
 import com.kyobeeUserService.util.LoggerUtil;
 import com.kyobeeUserService.util.UserServiceConstants;
+import com.kyobeeUserService.util.Exception.PromoCodeException;
 import com.kyobeeUserService.util.Exception.TransactionFailureException;
 
 @CrossOrigin
@@ -83,6 +87,31 @@ public class PaymentController {
 			LoggerUtil.logError(e);
 			responseDTO.setServiceResult("Error while generating pdf invoice.");
 			responseDTO.setMessage("Error while generating pdf invoice.");
+			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+		}
+		return responseDTO;
+	}
+
+	// API for calculating discount amount
+	@GetMapping(value = "/discount", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO calculateDiscount(@RequestParam BigDecimal amount,@RequestParam String promoCode) {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+
+			BigDecimal discAmount = paymentService.calculateDiscount(amount, promoCode);
+			responseDTO.setServiceResult(discAmount);
+			responseDTO.setMessage("Discount calculated successfully");
+			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
+		} catch (PromoCodeException e) {
+			LoggerUtil.logError(e);
+			responseDTO.setServiceResult("Invalid PromoCode.");
+			responseDTO.setMessage("Invalid PromoCode.");
+			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+		}catch (Exception e) {
+			LoggerUtil.logError(e);
+			responseDTO.setServiceResult("Error while calculating discount.");
+			responseDTO.setMessage("Error while calculating discount.");
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
 		}
 		return responseDTO;

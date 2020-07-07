@@ -3,6 +3,7 @@ package com.kyobeeUserService.serviceImpl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -114,15 +115,16 @@ public class PlanServiceImpl implements PlanService {
 
 					planFeatureChargeDTOList.add(planFeatureChargeDTO);
 				}
+				
 				planFeatureDTO.setFeatureChargeDetails(planFeatureChargeDTOList);
 				planFeatureDTOList.add(planFeatureDTO);
 
 			}
-
+			planFeatureDTOList.sort(Comparator.comparing(PlanFeatureDTO::getFeatureName).reversed());
 			planTermDTO.setFeatureList(planFeatureDTOList);
 			planTermList.add(planTermDTO);
 		}
-
+		planTermList.sort(Comparator.comparing(PlanTermDTO::getTermName).reversed());
 		planDetailsDTO.setTermList(planTermList);
 
 		// for fetching plan list

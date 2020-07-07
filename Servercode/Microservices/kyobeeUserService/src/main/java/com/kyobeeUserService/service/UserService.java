@@ -12,7 +12,6 @@ import com.kyobeeUserService.dto.LoginUserDTO;
 import com.kyobeeUserService.dto.OrganizationDTO;
 import com.kyobeeUserService.dto.PlaceDTO;
 import com.kyobeeUserService.dto.ResetPasswordDTO;
-import com.kyobeeUserService.dto.ResponseDTO;
 import com.kyobeeUserService.dto.SignUpDTO;
 import com.kyobeeUserService.dto.UserSignUpDTO;
 import com.kyobeeUserService.util.Exception.InvalidActivationCodeException;
