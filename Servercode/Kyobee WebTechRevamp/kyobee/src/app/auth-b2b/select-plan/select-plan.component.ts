@@ -10,6 +10,8 @@ import { PaymentService } from 'src/app/core/services/payment.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { OrganizationDTO } from 'src/app/core/models/organization.model';
 
+declare var $: any;
+
 @Component({
   selector: 'app-select-plan',
   templateUrl: './select-plan.component.html',
@@ -57,6 +59,7 @@ export class SelectPlanComponent implements OnInit {
   //Purpose:For saving free plan details
   freePlan() {
     this.isFree = true;
+    $('#thankYouModal').modal('show');
     this.savePlanDetails('');
   }
 
@@ -71,7 +74,7 @@ export class SelectPlanComponent implements OnInit {
       return;
     }
     //Save plan API call
-       const params = new HttpParams()
+    const params = new HttpParams()
       .set('orgId', this.authb2bService.organization.orgId.toString())
       .set('customerId', this.authb2bService.organization.customerId.toString())
       .set(

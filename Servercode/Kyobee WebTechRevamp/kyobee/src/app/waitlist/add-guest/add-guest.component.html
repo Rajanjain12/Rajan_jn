@@ -13,7 +13,7 @@
                 type="text"
                 id="gname"
                 class="form-control"
-                pattern ="[a-zA-Z0-9 ]*"
+                pattern="[a-zA-Z0-9 ]*"
                 #gname="ngModel"
                 [ngClass]="{ 'is-invalid': f.submitted && gname.invalid }"
                 maxlength="50"
@@ -179,7 +179,8 @@
                 #text="ngModel"
                 pattern="[A-z\d_@.#$=!%^)(\]:\*;\?\/\,}{'\|<>\[&\+-]*"
                 [ngClass]="{ 'is-invalid': f.submitted && text.invalid, 'no-value': text.value == '' || text.value == null }"
-                [(ngModel)]="guest.note" appInputRestriction
+                [(ngModel)]="guest.note"
+                appInputRestriction
               >
               </textarea>
 

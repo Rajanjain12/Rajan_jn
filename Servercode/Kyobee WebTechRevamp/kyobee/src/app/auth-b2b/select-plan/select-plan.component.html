@@ -37,25 +37,33 @@
               <button type="button" class="btn btn-underline not-finding p-0">See Details</button>
             </div>
             <div class="col-8 row p-0 m-0">
-              <div class="col-6 plan_price" *ngFor="let item of planFeature.featureChargeDetails">
-                <h6><sup>$</sup>{{ item.featureCharge }}</h6>
-                <p>
-                  per
-                  <span>{{ selectedPlanTerm == 'Monthly' ? 'Month' : 'Annum' }}</span>
-                </p>
-                <div class="plan_select">
-                  <input
-                    type="radio"
-                    name="{{ planFeature.featureName }}"
-                    [id]="planFeature.featureName + item.planFeatureChargeId"
-                    [(ngModel)]="planSummary[planFeature.featureName.toLowerCase().replace(' ', '')]"
-                    [checked]="item.checked"
-                    [value]="item.planFeatureChargeId"
-                    (click)="selectPlan(item, planFeature.featureName)"
-                  />
-                  <label [for]="planFeature.featureName + item.planFeatureChargeId"></label>
+              <div class="col-6 px-0 plan_price" *ngFor="let item of planFeature.featureChargeDetails">
+                <div class="plan_price_value">
+                  <h6><sup>$</sup>{{ item.featureCharge }}</h6>
+                  <p>
+                    per
+                    <span>{{ selectedPlanTerm == 'Monthly' ? 'Month' : 'Annum' }}</span>
+                  </p>
+                  <div class="plan_select">
+                    <input
+                      type="radio"
+                      name="{{ planFeature.featureName }}"
+                      [id]="planFeature.featureName + item.planFeatureChargeId"
+                      [(ngModel)]="planSummary[planFeature.featureName.toLowerCase().replace(' ', '')]"
+                      [checked]="item.checked"
+                      [value]="item.planFeatureChargeId"
+                      (click)="selectPlan(item, planFeature.featureName)"
+                    />
+                    <label [for]="planFeature.featureName + item.planFeatureChargeId"></label>
+                  </div>
+                </div>
+                <div class="col-12 text-center mt-2">
+                  <p>Security TV/OS Display Self Check-ins Guest Real-time Status</p>
                 </div>
               </div>
+            </div>
+            <div class="col-12 text-center">
+              <button type="button" class="btn btn-underline w-100 not-finding p-0"><i class="fi font-gray font-14 flaticon-up-arrow"></i></button>
             </div>
           </div>
         </div>
@@ -93,3 +101,24 @@
     </div>
   </div>
 </form>
+
+<!-- thankYouModal modal -->
+<div class="modal fade" id="thankYouModal">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content border-radius border-0">
+      <div class="modal-body">
+        <div class="row pt-3">
+          <div class="col-12 text-center mb-3"><img src="/assets/images/theme-admin/tick.svg" class="tick-img" alt="Tik Mark" /></div>
+          <h3 class="col-10 text-center mx-auto font-color mb-2">Thankyou</h3>
+          <h5 class="col-10 text-center mx-auto mb-3">Thanks for Registaring on kyobee Lorem ipsum dolor sit amet.</h5>
+          <div class="col-8 mx-auto">
+            <div class="col-12 text-center modal-btn my-4">
+              <button type="submit" class="btn btn-theme background-color shadow">Continue</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- .thankYouModal Ends-->
