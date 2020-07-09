@@ -44,6 +44,7 @@ export class SelectPlanComponent implements OnInit {
 
   organization: OrganizationDTO = new OrganizationDTO();
   isFree = false;
+  hide = true;
 
   constructor(
     private planService: PlanService,
@@ -56,24 +57,24 @@ export class SelectPlanComponent implements OnInit {
     this.fetchPlanDetails();
   }
 
-  //Purpose:For saving free plan details
+  // Purpose:For saving free plan details
   freePlan() {
     this.isFree = true;
-    $('#thankYouModal').modal('show');
     this.savePlanDetails('');
+    $('#thankYouModal').modal('show');
   }
 
-  //Purpose : for saving plan details
+  // Purpose : for saving plan details
   savePlanDetails(invalid) {
     if (invalid) {
       return;
     }
-    //If plan is not selected
+    // If plan is not selected
     else if (this.planSummary.textmarketing === 0 && this.planSummary.waitlist === 0 && this.isFree === false) {
       alert('please select plan');
       return;
     }
-    //Save plan API call
+    // Save plan API call
     const params = new HttpParams()
       .set('orgId', this.authb2bService.organization.orgId.toString())
       .set('customerId', this.authb2bService.organization.customerId.toString())
@@ -89,7 +90,7 @@ export class SelectPlanComponent implements OnInit {
         console.log('response:' + JSON.stringify(res.serviceResult));
         this.orgSubscriptionId = res.serviceResult;
         this.authb2bService.setPlanSummaryDetails(this.planFeatureList, this.planSummary, this.subTotal);
-        //If paid plan then generate invoice
+        // If paid plan then generate invoice
         if (!(this.isFree === true)) {
           this.generateInvoice();
         } else {
@@ -102,7 +103,7 @@ export class SelectPlanComponent implements OnInit {
     });
   }
 
-  //Purpose :For fetching plan details acc to country
+  // Purpose :For fetching plan details acc to country
   fetchPlanDetails() {
     const params = new HttpParams().set('country', this.country);
 
@@ -120,19 +121,19 @@ export class SelectPlanComponent implements OnInit {
     });
   }
 
-  //Purpose : For fetching details of selected plan term
+  // Purpose : For fetching details of selected plan term
   selectedPlanTermDetails() {
     this.selectedTermDetails = this.planTermList.find(x => x.termName === this.selectedPlanTerm);
     this.planFeatureList = this.selectedTermDetails.featureList;
   }
 
-  //Purpose : Get selected plan on check/uncheck event of radio button.
+  // Purpose : Get selected plan on check/uncheck event of radio button.
   selectPlan(plan, featureName) {
     this.displayPlanSummary = true;
     plan.checked = !plan.checked; // for checking selected plan
     this.total[featureName.toLowerCase().replace(' ', '')] = plan.featureCharge;
 
-    //for reseting the previously selected plan details if radio button is unchecked
+    // For reseting the previously selected plan details if radio button is unchecked
     if (plan.checked === false) {
       this.planSummary[featureName.toLowerCase().replace(' ', '')] = 0;
       this.total[featureName.toLowerCase().replace(' ', '')] = 0;
@@ -140,9 +141,9 @@ export class SelectPlanComponent implements OnInit {
         this.displayPlanSummary = false;
       }
     }
-    //for filtering feature
+    // For filtering feature
     this.selectedFeatureDetails = this.planFeatureList.find(x => x.featureName === featureName);
-    //For unchecking plan other than selected one
+    // For unchecking plan other than selected one
     this.selectedFeatureDetails.featureChargeDetails.forEach(obj => {
       if (obj.planFeatureChargeId != plan.planFeatureChargeId) {
         obj.checked = false;
@@ -154,7 +155,7 @@ export class SelectPlanComponent implements OnInit {
     this.subTotal = this.total.waitlist + this.total.textmarketing;
   }
 
-  //Purpose : For reseting previous plan details
+  // Purpose : For reseting previous plan details
   clearPreviousPlanTermDetails() {
     this.displayPlanSummary = false;
     /* this.planSummary = {
@@ -163,7 +164,7 @@ export class SelectPlanComponent implements OnInit {
     };*/
   }
 
-  //Purpose : Generate Invoice for selected plan
+  // Purpose : Generate Invoice for selected plan
   generateInvoice() {
     this.loaderService.disable = true;
     console.log('generating invoice');
@@ -195,5 +196,10 @@ export class SelectPlanComponent implements OnInit {
         alert(res.message);
       }
     });
+  }
+
+  // Purpose : For closing thank-you popup
+  hidePopUp(){
+    $('#thankYouModal').modal('hide');
   }
 }

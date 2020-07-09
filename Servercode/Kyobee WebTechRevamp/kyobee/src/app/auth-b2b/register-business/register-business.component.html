@@ -24,7 +24,7 @@
           <div class="col-12 col-sm-6 col-md-4 col-xl-3 mr-auto ml-md-3">
             <label for="input" class="col-12 m-0 pl-0 control-label medium-gray-color">&nbsp;</label>
             <div class="form-group m-0">
-              <input type="text" name="zip" class="form-control" id="zip" [(ngModel)]="zipCode" #zip="ngModel" [ngClass]="{ 'is-invalid': f.submitted && zip.invalid }" maxlength="8" (blur)="fetchLatLon()" required />
+              <input type="text" name="zip" class="form-control" id="zip" [(ngModel)]="zipCode" #zip="ngModel" [ngClass]="{ 'is-invalid': f.submitted && zip.invalid }" maxlength="8" required />
               <label for="people" class="control-label">Zip Code*</label>
               <i class="bar"></i>
               <div *ngIf="f.submitted && zip.invalid" class="invalid-feedback">
@@ -41,12 +41,15 @@
               id="search"
               name="search"
               #search="ngModel"
-              [disabled]="!showBusiness"
               placeHolder="Search your Business"
               [ngClass]="{ 'is-invalid': f.submitted && search.invalid }"
               class="form-control search-input"
               [(ngModel)]="searchKeyword"
+              required
             />
+            <div *ngIf="f.submitted && search.invalid" class="invalid-feedback">
+              <div class="text-danger" *ngIf="search.errors?.required">Business name is required</div>
+            </div>
             <!-- <label for="input" class="control-label">Last Name</label><i class="bar"></i> -->
             <!-- <div *ngIf="f.submitted && lastName.invalid" class="invalid-feedback"> -->
             <!-- <div class="text-danger" *ngIf="lastName.errors?.required">Business Name is required</div> -->
@@ -73,15 +76,18 @@
           </div> -->
         </div>
         <div class="col-12 text-center mb-3 px-2">
-          <button _ngcontent-onx-c7="" class="btn btn-theme background-color shadow w-auto" type="submit">Search</button>
+          <button _ngcontent-onx-c7="" class="btn btn-theme background-color shadow w-auto" type="submit" (click)="validate(f.form.invalid)">Search</button>
         </div>
         <div class="col-12 px-2">
           <ul class="search-list">
+            <li *ngFor="let place of placeList">
+              <a (click)="fetchPlaceDetails(place)">{{ place.placeName }}</a>
+            </li>
+          <!--  <li><a href="#">The Imperial Palace summertime ln, Culver City, CA,90230</a></li>
             <li><a href="#">The Imperial Palace summertime ln, Culver City, CA,90230</a></li>
             <li><a href="#">The Imperial Palace summertime ln, Culver City, CA,90230</a></li>
             <li><a href="#">The Imperial Palace summertime ln, Culver City, CA,90230</a></li>
-            <li><a href="#">The Imperial Palace summertime ln, Culver City, CA,90230</a></li>
-            <li><a href="#">The Imperial Palace summertime ln, Culver City, CA,90230</a></li>
+            <li><a href="#">The Imperial Palace summertime ln, Culver City, CA,90230</a></li>-->
           </ul>
         </div>
         <div class="col-12 text-center mt-3">

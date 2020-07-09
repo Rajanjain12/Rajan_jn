@@ -110,10 +110,10 @@
         <div class="row pt-3">
           <div class="col-12 text-center mb-3"><img src="/assets/images/theme-admin/tick.svg" class="tick-img" alt="Tik Mark" /></div>
           <h3 class="col-10 text-center mx-auto font-color mb-2">Thankyou</h3>
-          <h5 class="col-10 text-center mx-auto mb-3">Thanks for Registaring on kyobee Lorem ipsum dolor sit amet.</h5>
+          <h5 class="col-10 text-center mx-auto mb-3">Thanks for Registering on kyobee Lorem ipsum dolor sit amet.</h5>
           <div class="col-8 mx-auto">
             <div class="col-12 text-center modal-btn my-4">
-              <button type="submit" class="btn btn-theme background-color shadow">Continue</button>
+              <button type="submit" class="btn btn-theme background-color shadow" (click)="hidePopUp()" [routerLink]="['/auth/login']">Continue</button>
             </div>
           </div>
         </div>

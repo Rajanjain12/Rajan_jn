@@ -6,6 +6,8 @@ import { PaymentService } from 'src/app/core/services/payment.service';
 import { OrgCardDetailsDTO } from 'src/app/core/models/orgcard-details.model';
 import { OrgPaymentDTO } from 'src/app/core/models/org-payment.model';
 
+declare var $: any;
+
 @Component({
   selector: 'app-all-set',
   templateUrl: './all-set.component.html',
@@ -178,5 +180,10 @@ export class AllSetComponent implements OnInit {
         alert(res.message);
       }
     });
+  }
+
+  // Purpose : For closing thank-you popup
+  hidePopUp(){
+    $('#thankYouModal').modal('hide');
   }
 }
