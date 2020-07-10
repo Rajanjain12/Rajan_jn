@@ -5,6 +5,7 @@ import { AuthB2BService } from 'src/app/core/services/auth-b2b.service';
 import { PaymentService } from 'src/app/core/services/payment.service';
 import { OrgCardDetailsDTO } from 'src/app/core/models/orgcard-details.model';
 import { OrgPaymentDTO } from 'src/app/core/models/org-payment.model';
+import { PlanFeatureDTO } from 'src/app/core/models/plan-feature.model';
 
 declare var $: any;
 
@@ -19,10 +20,18 @@ export class AllSetComponent implements OnInit {
 
   fName;
   lName;
-  orgCardDetailsId;
+  orgCardDetailsId: number;
   orgCardDetails: OrgCardDetailsDTO = new OrgCardDetailsDTO();
   orgPayment: OrgPaymentDTO = new OrgPaymentDTO();
   hostedFieldsInstance: braintree.HostedFields;
+  planFeatureList: Array<PlanFeatureDTO>;
+  planSummary = {
+    waitlist: 26,
+    textmarketing: 24
+  };
+  subTotal = 50;
+  promoCode;
+  totalAmount;
 
   payment: {
     firstName: string;
@@ -64,6 +73,7 @@ export class AllSetComponent implements OnInit {
 
   ngOnInit() {
     this.createBraintreeUI();
+    this.totalAmount = this.authb2bService.total;
   }
 
   createBraintreeUI() {
@@ -133,9 +143,11 @@ export class AllSetComponent implements OnInit {
         console.log(payload);
         console.log(payload.nonce);
 
+        this.orgPayment.paymentNonce = payload.nonce;
         this.orgCardDetails.cardName = this.fName + ' ' + this.lName;
         this.orgCardDetails.cardNo = payload.details.lastFour;
         this.orgCardDetails.cardType = payload.details.cardType;
+        this.orgCardDetails.vaultID = '';
 
         const promise = this.saveOrgCardDetails();
         promise.then(value => {
@@ -149,17 +161,16 @@ export class AllSetComponent implements OnInit {
       });
   }
 
-  //Purpose: For saving credit/debit card details
+  // Purpose: For saving credit/debit card details
   saveOrgCardDetails() {
     var promise = (promise = new Promise((resolve, reject) => {
-      const params = new HttpParams()
-        .set('orgId', this.authb2bService.organization.orgId.toString())
-        .set('customerId', this.authb2bService.organization.customerId.toString())
-        .set('orgCardDetailsDTO', this.orgCardDetails.toString());
+      this.orgCardDetails.customerId = this.authb2bService.organization.customerId;
+      this.orgCardDetails.orgId = this.authb2bService.organization.orgId;
+      console.log('organization card details:' + JSON.stringify(this.orgCardDetails));
 
-      this.paymentService.saveOrgCardDetails(params).subscribe((res: any) => {
+      this.paymentService.saveOrgCardDetails(this.orgCardDetails).subscribe((res: any) => {
         if (res.success === 1) {
-          console.log('response:' + JSON.stringify(res.serviceResult));
+          console.log('response of orgcardDetails:' + JSON.stringify(res.serviceResult));
           this.orgCardDetailsId = res.serviceResult;
           resolve();
         } else {
@@ -171,11 +182,19 @@ export class AllSetComponent implements OnInit {
     return promise;
   }
 
-  //Purpose: creating transaction for payment in braintree
+  // Purpose: creating transaction for payment in braintree
   createTransaction() {
-    this.paymentService.saveOrgCardDetails(this.orgPayment).subscribe((res: any) => {
+    this.orgPayment.orgID = this.authb2bService.organization.orgId;
+    this.orgPayment.organizationSubscriptionID = this.authb2bService.orgSubscriptionId;
+    this.orgPayment.invoiceID = 0; // have to remove this feild later from both frontend and backend
+    this.orgPayment.organizationCardDetailID = this.orgCardDetailsId;
+    this.orgPayment.amount = this.totalAmount;
+
+    console.log('Org Payment details:' + JSON.stringify(this.orgPayment));
+    this.paymentService.createTransaction(this.orgPayment).subscribe((res: any) => {
       if (res.success === 1) {
-        console.log('response:' + JSON.stringify(res.serviceResult));
+        console.log('response of create transaction:' + JSON.stringify(res.serviceResult));
+        $('#thankYouModal').modal('show');
       } else {
         alert(res.message);
       }
@@ -183,7 +202,23 @@ export class AllSetComponent implements OnInit {
   }
 
   // Purpose : For closing thank-you popup
-  hidePopUp(){
+  hidePopUp() {
     $('#thankYouModal').modal('hide');
+  }
+
+  calculateDiscount() {
+    const params = new HttpParams()
+      .set('amount', this.authb2bService.total)
+      .set('promoCode', this.promoCode);
+
+    this.paymentService.calculateDiscount(params).subscribe((res: any) => {
+      if (res.success === 1) {
+        this.totalAmount = res.serviceResult;
+        this.authb2bService.total = res.serviceResult;
+        console.log('response of promocode:' + JSON.stringify(res.serviceResult));
+      } else {
+        alert(res.message);
+      }
+    });
   }
 }

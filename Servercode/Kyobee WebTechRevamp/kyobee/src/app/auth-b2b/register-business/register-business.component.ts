@@ -104,7 +104,6 @@ export class RegisterBusinessComponent implements OnInit {
 
   // Purpose : for fetching placeList acc to country and zipcode
   fetchPlaceList() {
-
     this.loaderService.disable = true;
 
     const params = new HttpParams()
@@ -129,7 +128,7 @@ export class RegisterBusinessComponent implements OnInit {
     console.log('placeList cleared:' + this.placeList);
   }
 
-   // Purpose : For fetching place details of selected place
+  // Purpose : For fetching place details of selected place
   fetchPlaceDetails(place) {
     console.log('place Id:' + JSON.stringify(place.placeId));
     const params = new HttpParams().set('placeId', place.placeId);

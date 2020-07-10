@@ -9,6 +9,7 @@ import { AuthB2BService } from 'src/app/core/services/auth-b2b.service';
 import { PaymentService } from 'src/app/core/services/payment.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { OrganizationDTO } from 'src/app/core/models/organization.model';
+import { InvoiceDTO } from 'src/app/core/models/invoice.model';
 
 declare var $: any;
 
@@ -41,10 +42,14 @@ export class SelectPlanComponent implements OnInit {
   selectedFeatureDetails: PlanFeatureDTO;
   displayPlanSummary = false;
   orgSubscriptionId;
+  invoice: InvoiceDTO = new InvoiceDTO();
+
 
   organization: OrganizationDTO = new OrganizationDTO();
   isFree = false;
   hide = true;
+  limit = 75;
+  text = 'See Details';
 
   constructor(
     private planService: PlanService,
@@ -89,6 +94,7 @@ export class SelectPlanComponent implements OnInit {
       if (res.success === 1) {
         console.log('response:' + JSON.stringify(res.serviceResult));
         this.orgSubscriptionId = res.serviceResult;
+        this.authb2bService.setOrgSubscriptionId(this.orgSubscriptionId);
         this.authb2bService.setPlanSummaryDetails(this.planFeatureList, this.planSummary, this.subTotal);
         // If paid plan then generate invoice
         if (!(this.isFree === true)) {
@@ -169,25 +175,13 @@ export class SelectPlanComponent implements OnInit {
     this.loaderService.disable = true;
     console.log('generating invoice');
     console.log('orgDTO' + JSON.stringify(this.authb2bService.organization));
-    this.orgSubscriptionId = 5;
-    console.log('featureChargeIds' + [this.planSummary.textmarketing, this.planSummary.waitlist].toString());
-    console.log('orgSubscriptionId' + this.orgSubscriptionId);
-    this.organization.addressDTO = this.authb2bService.organization.addressDTO;
-    this.organization.customerId = this.authb2bService.organization.customerId;
-    this.organization.orgId = this.authb2bService.organization.orgId;
-    this.organization.orgTypeId = this.authb2bService.organization.orgTypeId;
-    this.organization.organizationName = this.authb2bService.organization.organizationName;
-    console.log('organization:' + JSON.stringify(this.organization));
+    this.invoice.orgSubscriptionId = this.orgSubscriptionId;
+    this.invoice.featureChargeIds =
+      this.isFree === true ? [] : [this.planSummary.textmarketing, this.planSummary.waitlist];
+    this.invoice.orgDTO = this.authb2bService.organization;
+    console.log('invocie data:' + JSON.stringify(this.invoice));
 
-    const params = new HttpParams()
-      .set('orgDTO', this.orgSubscriptionId)
-      .set(
-        'featureChargeIds',
-        this.isFree === true ? [].toString() : [this.planSummary.textmarketing, this.planSummary.waitlist].toString()
-      )
-      .set('orgSubscriptionId', this.orgSubscriptionId);
-
-    this.paymentService.generateInvoice(params).subscribe((res: any) => {
+    this.paymentService.generateInvoice(this.invoice).subscribe((res: any) => {
       if (res.success === 1) {
         console.log('response:' + JSON.stringify(res.serviceResult));
         this.step = 3;
@@ -199,7 +193,19 @@ export class SelectPlanComponent implements OnInit {
   }
 
   // Purpose : For closing thank-you popup
-  hidePopUp(){
+  hidePopUp() {
     $('#thankYouModal').modal('hide');
+  }
+
+  //
+  toggle(description, name,list) {
+
+    if (this.text === 'See Details') {
+      this.text = 'Hide Details';
+      this.limit = description.length;
+    } else {
+      this.text = 'See Details';
+      this.limit = 75;
+    }
   }
 }
