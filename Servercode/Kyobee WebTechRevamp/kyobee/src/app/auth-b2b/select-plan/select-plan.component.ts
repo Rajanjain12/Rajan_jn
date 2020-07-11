@@ -65,8 +65,9 @@ export class SelectPlanComponent implements OnInit {
   // Purpose:For saving free plan details
   freePlan() {
     this.isFree = true;
-    this.savePlanDetails('');
     $('#thankYouModal').modal('show');
+    this.savePlanDetails('');
+    
   }
 
   // Purpose : for saving plan details
@@ -99,10 +100,9 @@ export class SelectPlanComponent implements OnInit {
         // If paid plan then generate invoice
         if (!(this.isFree === true)) {
           this.generateInvoice();
-        } else {
           this.step = 3;
           this.stepChange.emit(this.step);
-        }
+        } 
       } else {
         alert(res.message);
       }

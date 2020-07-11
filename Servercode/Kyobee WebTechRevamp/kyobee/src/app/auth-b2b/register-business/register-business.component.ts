@@ -158,7 +158,10 @@ export class RegisterBusinessComponent implements OnInit {
   }
 
   // Purpose : for adding business
-  registerBusiness() {
+  registerBusiness(invalid) {
+    if (invalid) {
+      return;
+    }
     this.country = this.countryList.find(x => x.isocode == this.countryCode.toUpperCase());
     this.organization.addressDTO.country = this.country.countryName;
     this.organization.addressDTO.zipcode = this.zipCode;
