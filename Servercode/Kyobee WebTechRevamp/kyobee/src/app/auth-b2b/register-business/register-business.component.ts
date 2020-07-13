@@ -31,6 +31,7 @@ export class RegisterBusinessComponent implements OnInit {
   show = true;
   organization: OrganizationDTO = new OrganizationDTO();
   organizationTypeList: any;
+  placeResults = false;
 
   addBusinessFlag: boolean = false;
   addBusiness: {
@@ -68,7 +69,7 @@ export class RegisterBusinessComponent implements OnInit {
     this.organization.orgTypeId = 1;
   }
 
-  //Purpose : for fetching country list
+  // Purpose : for fetching country list
   fetchCountryList() {
     this.userService.fetchCountryList().subscribe((res: any) => {
       if (res.success === 1) {
@@ -80,29 +81,33 @@ export class RegisterBusinessComponent implements OnInit {
     });
   }
 
-  //Purpose : for fetching latLon for given zipcode
+  // Purpose : for fetching latLon for given zipcode
   fetchLatLon() {
-    const params = new HttpParams().set('zipCode', this.zipCode);
-    this.userService.fetchLatLon(params).subscribe((res: any) => {
-      if (res.success === 1) {
-        this.showBusiness = true;
-        console.log('response:' + JSON.stringify(res.serviceResult));
-        this.latLon = res.serviceResult.latitude + ',' + res.serviceResult.longitude;
-        console.log('this.latLon:' + this.latLon);
-      } else {
-        alert(res.message);
-        this.showBusiness = false;
-      }
-    });
+    var promise = (promise = new Promise((resolve, reject) => {
+      const params = new HttpParams().set('zipCode', this.zipCode);
+      this.userService.fetchLatLon(params).subscribe((res: any) => {
+        if (res.success === 1) {
+          this.showBusiness = true;
+          console.log('response:' + JSON.stringify(res.serviceResult));
+          this.latLon = res.serviceResult.latitude + ',' + res.serviceResult.longitude;
+          console.log('this.latLon:' + this.latLon);
+          resolve();
+        } else {
+          alert(res.message);
+          this.showBusiness = false;
+          reject();
+        }
+      });
+    }));
+    return promise;
   }
 
-  //Purpose : for fetching placeList acc to country and zipcode
-  fetchPlaceList(name: string) {
-    console.log(name);
+  // Purpose : for fetching placeList acc to country and zipcode
+  fetchPlaceList() {
     this.loaderService.disable = true;
 
     const params = new HttpParams()
-      .set('place', name)
+      .set('place', this.searchKeyword)
       .set('latLon', this.latLon)
       .set('countryCode', this.countryCode);
     this.userService.fetchPlaceList(params).subscribe((res: any) => {
@@ -110,17 +115,20 @@ export class RegisterBusinessComponent implements OnInit {
         this.placeList = [];
         console.log('response:' + JSON.stringify(res.serviceResult));
         this.placeList = res.serviceResult;
+        this.placeResults = true;
       } else {
         alert(res.message);
       }
     });
   }
 
+  // Purpose : For clearing search results
   searchCleared() {
     this.placeList = [];
     console.log('placeList cleared:' + this.placeList);
   }
 
+  // Purpose : For fetching place details of selected place
   fetchPlaceDetails(place) {
     console.log('place Id:' + JSON.stringify(place.placeId));
     const params = new HttpParams().set('placeId', place.placeId);
@@ -137,6 +145,7 @@ export class RegisterBusinessComponent implements OnInit {
       }
     });
   }
+  // Purpose : for fetching organization type
   fetchOrganizationType() {
     this.signupService.fetchOrganizationType().subscribe((res: any) => {
       if (res.success === 1) {
@@ -148,7 +157,11 @@ export class RegisterBusinessComponent implements OnInit {
     });
   }
 
-  registerBusiness() {
+  // Purpose : for adding business
+  registerBusiness(invalid) {
+    if (invalid) {
+      return;
+    }
     this.country = this.countryList.find(x => x.isocode == this.countryCode.toUpperCase());
     this.organization.addressDTO.country = this.country.countryName;
     this.organization.addressDTO.zipcode = this.zipCode;
@@ -166,6 +179,15 @@ export class RegisterBusinessComponent implements OnInit {
       } else {
         alert(res.message);
       }
+    });
+  }
+  validate(invalidate) {
+    if (invalidate) {
+      return;
+    }
+    const promise = this.fetchLatLon();
+    promise.then(value => {
+      this.fetchPlaceList();
     });
   }
 }

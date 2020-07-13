@@ -17,6 +17,7 @@ export class AuthB2BService {
     textmarketing: 0
   };
   total;
+  orgSubscriptionId;
 
   setOrganizationData(data) {
     this.organization = data;
@@ -26,5 +27,8 @@ export class AuthB2BService {
     this.planSummary = summary;
     this.total = total;
     console.log('subtotal' + this.total);
+  }
+  setOrgSubscriptionId(Id) {
+    this.orgSubscriptionId = Id;
   }
 }

@@ -9,6 +9,9 @@ import { AuthB2BService } from 'src/app/core/services/auth-b2b.service';
 import { PaymentService } from 'src/app/core/services/payment.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { OrganizationDTO } from 'src/app/core/models/organization.model';
+import { InvoiceDTO } from 'src/app/core/models/invoice.model';
+
+declare var $: any;
 
 @Component({
   selector: 'app-select-plan',
@@ -39,9 +42,14 @@ export class SelectPlanComponent implements OnInit {
   selectedFeatureDetails: PlanFeatureDTO;
   displayPlanSummary = false;
   orgSubscriptionId;
+  invoice: InvoiceDTO = new InvoiceDTO();
+
 
   organization: OrganizationDTO = new OrganizationDTO();
   isFree = false;
+  hide = true;
+  limit = 75;
+  text = 'See Details';
 
   constructor(
     private planService: PlanService,
@@ -54,24 +62,26 @@ export class SelectPlanComponent implements OnInit {
     this.fetchPlanDetails();
   }
 
-  //Purpose:For saving free plan details
+  // Purpose:For saving free plan details
   freePlan() {
     this.isFree = true;
+    $('#thankYouModal').modal('show');
     this.savePlanDetails('');
+    
   }
 
-  //Purpose : for saving plan details
+  // Purpose : for saving plan details
   savePlanDetails(invalid) {
     if (invalid) {
       return;
     }
-    //If plan is not selected
+    // If plan is not selected
     else if (this.planSummary.textmarketing === 0 && this.planSummary.waitlist === 0 && this.isFree === false) {
       alert('please select plan');
       return;
     }
-    //Save plan API call
-       const params = new HttpParams()
+    // Save plan API call
+    const params = new HttpParams()
       .set('orgId', this.authb2bService.organization.orgId.toString())
       .set('customerId', this.authb2bService.organization.customerId.toString())
       .set(
@@ -85,21 +95,21 @@ export class SelectPlanComponent implements OnInit {
       if (res.success === 1) {
         console.log('response:' + JSON.stringify(res.serviceResult));
         this.orgSubscriptionId = res.serviceResult;
+        this.authb2bService.setOrgSubscriptionId(this.orgSubscriptionId);
         this.authb2bService.setPlanSummaryDetails(this.planFeatureList, this.planSummary, this.subTotal);
-        //If paid plan then generate invoice
+        // If paid plan then generate invoice
         if (!(this.isFree === true)) {
           this.generateInvoice();
-        } else {
           this.step = 3;
           this.stepChange.emit(this.step);
-        }
+        } 
       } else {
         alert(res.message);
       }
     });
   }
 
-  //Purpose :For fetching plan details acc to country
+  // Purpose :For fetching plan details acc to country
   fetchPlanDetails() {
     const params = new HttpParams().set('country', this.country);
 
@@ -117,19 +127,19 @@ export class SelectPlanComponent implements OnInit {
     });
   }
 
-  //Purpose : For fetching details of selected plan term
+  // Purpose : For fetching details of selected plan term
   selectedPlanTermDetails() {
     this.selectedTermDetails = this.planTermList.find(x => x.termName === this.selectedPlanTerm);
     this.planFeatureList = this.selectedTermDetails.featureList;
   }
 
-  //Purpose : Get selected plan on check/uncheck event of radio button.
+  // Purpose : Get selected plan on check/uncheck event of radio button.
   selectPlan(plan, featureName) {
     this.displayPlanSummary = true;
     plan.checked = !plan.checked; // for checking selected plan
     this.total[featureName.toLowerCase().replace(' ', '')] = plan.featureCharge;
 
-    //for reseting the previously selected plan details if radio button is unchecked
+    // For reseting the previously selected plan details if radio button is unchecked
     if (plan.checked === false) {
       this.planSummary[featureName.toLowerCase().replace(' ', '')] = 0;
       this.total[featureName.toLowerCase().replace(' ', '')] = 0;
@@ -137,9 +147,9 @@ export class SelectPlanComponent implements OnInit {
         this.displayPlanSummary = false;
       }
     }
-    //for filtering feature
+    // For filtering feature
     this.selectedFeatureDetails = this.planFeatureList.find(x => x.featureName === featureName);
-    //For unchecking plan other than selected one
+    // For unchecking plan other than selected one
     this.selectedFeatureDetails.featureChargeDetails.forEach(obj => {
       if (obj.planFeatureChargeId != plan.planFeatureChargeId) {
         obj.checked = false;
@@ -151,7 +161,7 @@ export class SelectPlanComponent implements OnInit {
     this.subTotal = this.total.waitlist + this.total.textmarketing;
   }
 
-  //Purpose : For reseting previous plan details
+  // Purpose : For reseting previous plan details
   clearPreviousPlanTermDetails() {
     this.displayPlanSummary = false;
     /* this.planSummary = {
@@ -160,30 +170,18 @@ export class SelectPlanComponent implements OnInit {
     };*/
   }
 
-  //Purpose : Generate Invoice for selected plan
+  // Purpose : Generate Invoice for selected plan
   generateInvoice() {
     this.loaderService.disable = true;
     console.log('generating invoice');
     console.log('orgDTO' + JSON.stringify(this.authb2bService.organization));
-    this.orgSubscriptionId = 5;
-    console.log('featureChargeIds' + [this.planSummary.textmarketing, this.planSummary.waitlist].toString());
-    console.log('orgSubscriptionId' + this.orgSubscriptionId);
-    this.organization.addressDTO = this.authb2bService.organization.addressDTO;
-    this.organization.customerId = this.authb2bService.organization.customerId;
-    this.organization.orgId = this.authb2bService.organization.orgId;
-    this.organization.orgTypeId = this.authb2bService.organization.orgTypeId;
-    this.organization.organizationName = this.authb2bService.organization.organizationName;
-    console.log('organization:' + JSON.stringify(this.organization));
+    this.invoice.orgSubscriptionId = this.orgSubscriptionId;
+    this.invoice.featureChargeIds =
+      this.isFree === true ? [] : [this.planSummary.textmarketing, this.planSummary.waitlist];
+    this.invoice.orgDTO = this.authb2bService.organization;
+    console.log('invocie data:' + JSON.stringify(this.invoice));
 
-    const params = new HttpParams()
-      .set('orgDTO', this.orgSubscriptionId)
-      .set(
-        'featureChargeIds',
-        this.isFree === true ? [].toString() : [this.planSummary.textmarketing, this.planSummary.waitlist].toString()
-      )
-      .set('orgSubscriptionId', this.orgSubscriptionId);
-
-    this.paymentService.generateInvoice(params).subscribe((res: any) => {
+    this.paymentService.generateInvoice(this.invoice).subscribe((res: any) => {
       if (res.success === 1) {
         console.log('response:' + JSON.stringify(res.serviceResult));
         this.step = 3;
@@ -192,5 +190,22 @@ export class SelectPlanComponent implements OnInit {
         alert(res.message);
       }
     });
+  }
+
+  // Purpose : For closing thank-you popup
+  hidePopUp() {
+    $('#thankYouModal').modal('hide');
+  }
+
+  //
+  toggle(description, name,list) {
+
+    if (this.text === 'See Details') {
+      this.text = 'Hide Details';
+      this.limit = description.length;
+    } else {
+      this.text = 'See Details';
+      this.limit = 75;
+    }
   }
 }

@@ -9,7 +9,7 @@ export class PaymentService {
   constructor(private apiService: ApiService) {}
 
   saveOrgCardDetails(params) {
-    return this.apiService.postParams('rest/user/payment/cardDetails', params);
+    return this.apiService.post('rest/user/payment/cardDetails', params);
   }
 
   createTransaction(params) {
@@ -17,6 +17,10 @@ export class PaymentService {
   }
 
   generateInvoice(params) {
-    return this.apiService.postParams('rest/user/payment/generateInvoice', params);
+    return this.apiService.post('rest/user/payment/generateInvoice', params);
+  }
+
+  calculateDiscount(params) {
+    return this.apiService.getParams('rest/user/payment/discount', params);
   }
 }

@@ -115,6 +115,18 @@
 .flaticon-message:before {
   content: '\f11f';
 }
+.flaticon-right-arrow:before {
+  content: '\f120';
+}
+.flaticon-left-arrow:before {
+  content: '\f121';
+}
+.flaticon-down-arrow:before {
+  content: '\f122';
+}
+.flaticon-up-arrow:before {
+  content: '\f123';
+}
 
 $font-Flaticon-dining: '\f100';
 $font-Flaticon-power: '\f101';
@@ -148,3 +160,7 @@ $font-Flaticon-test: '\f11c';
 $font-Flaticon-credit-card-1: '\f11d';
 $font-Flaticon-writing-1: '\f11e';
 $font-Flaticon-message: '\f11f';
+$font-Flaticon-right-arrow: '\f120';
+$font-Flaticon-left-arrow: '\f121';
+$font-Flaticon-down-arrow: '\f122';
+$font-Flaticon-up-arrow: '\f123';

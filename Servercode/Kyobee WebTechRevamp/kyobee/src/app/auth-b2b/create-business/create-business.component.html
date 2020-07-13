@@ -16,7 +16,7 @@
         </div>
         <div class="col-12">
           <div class="form-group my-3">
-            <input type="text" id="lastName" name="lastName" #lastName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && lastName.invalid }" class="form-control" [(ngModel)]="orgUser.lastName" />
+            <input type="text" id="lastName" name="lastName" #lastName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && lastName.invalid, 'no-value': !lastName.value }" class="form-control" [(ngModel)]="orgUser.lastName" />
             <label for="input" class="control-label">Last Name</label><i class="bar"></i>
             <div *ngIf="f.submitted && lastName.invalid" class="invalid-feedback">
               <!-- <div class="text-danger" *ngIf="lastName.errors?.required">Business Name is required</div> -->
@@ -101,7 +101,7 @@
     </form>
 
     <!-- verificationCodeModal modal -->
-    <div class="modal fade" id="verificationCodeModal">
+    <div class="modal fade" id="verificationCodeModal" data-backdrop="static" data-keyboard="false">
       <div class="modal-dialog modal-dialog-centered modal-mxw-500">
         <div class="modal-content border-radius border-0">
           <div class="modal-body">
@@ -152,7 +152,7 @@
           </div>
         </div>
       </div>
-      <!-- .verificationCodeModal Ends-->
     </div>
+    <!-- .verificationCodeModal Ends-->
   </div>
 </div>

@@ -3,4 +3,6 @@ export class OrgCardDetailsDTO {
   cardType: string;
   cardName: string;
   vaultID: string;
+  orgId: number;
+  customerId: number;
 }

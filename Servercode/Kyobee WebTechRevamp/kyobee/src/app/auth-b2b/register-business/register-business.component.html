@@ -24,7 +24,7 @@
           <div class="col-12 col-sm-6 col-md-4 col-xl-3 mr-auto ml-md-3">
             <label for="input" class="col-12 m-0 pl-0 control-label medium-gray-color">&nbsp;</label>
             <div class="form-group m-0">
-              <input type="text" name="zip" class="form-control" id="zip" [(ngModel)]="zipCode" #zip="ngModel" [ngClass]="{ 'is-invalid': f.submitted && zip.invalid }" maxlength="8" (blur)="fetchLatLon()" required />
+              <input type="text" name="zip" class="form-control" id="zip" [(ngModel)]="zipCode" #zip="ngModel" [ngClass]="{ 'is-invalid': f.submitted && zip.invalid }" maxlength="8" required />
               <label for="people" class="control-label">Zip Code*</label>
               <i class="bar"></i>
               <div *ngIf="f.submitted && zip.invalid" class="invalid-feedback">
@@ -41,12 +41,15 @@
               id="search"
               name="search"
               #search="ngModel"
-              [disabled]="!showBusiness"
               placeHolder="Search your Business"
               [ngClass]="{ 'is-invalid': f.submitted && search.invalid }"
               class="form-control search-input"
               [(ngModel)]="searchKeyword"
+              required
             />
+            <div *ngIf="f.submitted && search.invalid" class="invalid-feedback">
+              <div class="text-danger" *ngIf="search.errors?.required">Business name is required</div>
+            </div>
             <!-- <label for="input" class="control-label">Last Name</label><i class="bar"></i> -->
             <!-- <div *ngIf="f.submitted && lastName.invalid" class="invalid-feedback"> -->
             <!-- <div class="text-danger" *ngIf="lastName.errors?.required">Business Name is required</div> -->
@@ -72,13 +75,19 @@
             </ng-template>
           </div> -->
         </div>
+        <div class="col-12 text-center mb-3 px-2">
+          <button _ngcontent-onx-c7="" class="btn btn-theme background-color shadow w-auto" type="submit" (click)="validate(f.form.invalid)">Search</button>
+        </div>
         <div class="col-12 px-2">
           <ul class="search-list">
+            <li *ngFor="let place of placeList">
+              <a (click)="fetchPlaceDetails(place)">{{ place.placeName }}</a>
+            </li>
+            <!--  <li><a href="#">The Imperial Palace summertime ln, Culver City, CA,90230</a></li>
             <li><a href="#">The Imperial Palace summertime ln, Culver City, CA,90230</a></li>
             <li><a href="#">The Imperial Palace summertime ln, Culver City, CA,90230</a></li>
             <li><a href="#">The Imperial Palace summertime ln, Culver City, CA,90230</a></li>
-            <li><a href="#">The Imperial Palace summertime ln, Culver City, CA,90230</a></li>
-            <li><a href="#">The Imperial Palace summertime ln, Culver City, CA,90230</a></li>
+            <li><a href="#">The Imperial Palace summertime ln, Culver City, CA,90230</a></li>-->
           </ul>
         </div>
         <div class="col-12 text-center mt-3">
@@ -122,12 +131,15 @@
                 #businessPhoneNumber="ngModel"
                 class="form-control"
                 [(ngModel)]="organization.primaryPhone"
-                maxlength="8"
+                minlength="10"
+                maxlength="10"
                 required="required"
+                numbersOnly
               />
               <label for="input" class="control-label">Business Phone Number*</label><i class="bar"></i>
               <div *ngIf="f.submitted && businessPhoneNumber.invalid" class="invalid-feedback">
                 <div class="text-danger" *ngIf="businessPhoneNumber.errors?.required">Business Phone Number is required</div>
+                <div class="text-danger" *ngIf="businessPhoneNumber.errors?.minlength">Please enter proper phone no</div>
               </div>
             </div>
           </div>
@@ -160,13 +172,19 @@
           <div class="col-12 col-md-6">
             <div class="form-group my-3">
               <input type="text" id="city" name="city" #city="ngModel" [ngClass]="{ 'is-invalid': f.submitted && city.invalid }" class="form-control" [(ngModel)]="organization.addressDTO.city" required="required" />
-              <label for="input" class="control-label">City</label><i class="bar"></i>
+              <label for="input" class="control-label">City*</label><i class="bar"></i>
+              <div *ngIf="f.submitted && city.invalid" class="invalid-feedback">
+                <div class="text-danger" *ngIf="city.errors?.required">Cityq is required</div>
+                </div>
             </div>
           </div>
           <div class="col-12 col-md-6">
             <div class="form-group my-3">
               <input type="text" id="state" name="state" #state="ngModel" [ngClass]="{ 'is-invalid': f.submitted && state.invalid }" class="form-control" [(ngModel)]="organization.addressDTO.state" required="required" />
-              <label for="input" class="control-label">State</label><i class="bar"></i>
+              <label for="input" class="control-label">State*</label><i class="bar"></i>
+              <div *ngIf="f.submitted && state.invalid" class="invalid-feedback">
+                <div class="text-danger" *ngIf="state.errors?.required">State is required</div>
+                </div>
             </div>
           </div>
           <div class="col-12 col-md-6 form-group my-3">
@@ -206,7 +224,7 @@
           </div>
         </div>
         <div class="col-12 text-center mt-4">
-          <button type="submit" class="btn btn-theme background-color shadow w-auto" (click)="registerBusiness()">Save</button>
+          <button type="submit" class="btn btn-theme background-color shadow w-auto" (click)="registerBusiness(f.form.invalid)">Save</button>
         </div>
       </div>
     </form>

@@ -31,7 +31,7 @@ export class UserService {
     return this.apiService.getParams('rest/user/placeDetails', placeId);
   }
   saveUser(request) {
-    return this.apiService.post('rest/user/addUser', request);
+    return this.apiService.post('rest/user/user', request);
   }
   activateUser(params) {
     return this.apiService.postParams('rest/user/activateUser', params);
