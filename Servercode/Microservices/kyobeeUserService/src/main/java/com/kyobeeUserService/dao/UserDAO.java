@@ -27,4 +27,10 @@ public interface UserDAO extends CrudRepository<User, Integer>{
 	
 	@Query(value="select saltString from User where userName =:userName")
 	String getSaltString(@Param("userName") String userName);
+	
+	@Query(value="select authCode from User where userID =:userId")
+	String getAuthCode(@Param("userId") Integer userId);
+	
+	@Query(value="select u from User u where u.password =:password and u.userName =:userName or u.email =:userName ")
+	User fetchUser(@Param("userName") String userName,@Param("password") String password);
 }

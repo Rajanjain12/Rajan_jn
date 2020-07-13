@@ -16,9 +16,9 @@ public class UserServiceConstants {
 	public static final Integer SUCCESS_CODE = 1;
 	public static final Integer ERROR_CODE = 0;
 
-	public static final String KYOBEE_WEB_HOST = "http://localhost:4200/";
+	public static final String KYOBEE_WEB_HOST = "http://44.232.86.255/";
 	public static final String KYOBEE_MAIL_ID = "ordextechnology@gmail.com";
-	public static final String RESET_PWD_LINK = "reset-password/";
+	public static final String RESET_PWD_LINK = "auth/reset-password/";
 
 	public static final Integer ENGLISH_LANG_ID = 1;
 	public static final Integer SEATING_PREF_ID = 18;
@@ -35,6 +35,7 @@ public class UserServiceConstants {
 	public static final String AWS_SECRET_KEY = "ilnMJmHXDiNBqW1l+EeYER6duueOyDEldpipYuCW";
 	public static final String AWS_BUCKET_NAME = "kyobeeinvoice";
 	public static final String AWS_PATH = "https://s3-us-west-2.amazonaws.com/";
+	public static final String AWS_LOGOS_BUCKET_NAME ="kyobeeorglogos";
 	
 
 	public static final Byte INACTIVE_USER = 0;
@@ -102,7 +103,7 @@ public class UserServiceConstants {
 	public static final String ACTIVE_SUBSC = "Y";
 	
 	public static final String PPL_BIFURCATION = "N";
-	public static final Integer CUSTOMER_ADMIN_ROLE=4;
+	public static final Integer CUSTOMER_ADMIN_ROLE=1;
 	
 	public static final String STATUS_Y ="Y";
 	

@@ -25,6 +25,7 @@ import com.kyobeeUserService.util.Exception.DuplicateEmailExeception;
 import com.kyobeeUserService.util.Exception.DuplicateUserNameExeception;
 import com.kyobeeUserService.util.Exception.InvalidAuthCodeException;
 import com.kyobeeUserService.util.Exception.InvalidLoginException;
+import com.kyobeeUserService.util.Exception.InvalidPwdUrlException;
 import com.kyobeeUserService.util.Exception.InvalidZipCodeException;
 import com.kyobeeUserService.util.Exception.UserNotFoundException;
 import com.kyobeeUserService.dto.CountryDTO;
@@ -193,12 +194,12 @@ public class UserController {
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
 			PlaceDTO placeDTO = userService.fetchLatLon(zipCode);
-			
+
 			responseDTO.setServiceResult(placeDTO);
 			responseDTO.setMessage("Latitude and Longitude fetched Successfully");
 			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
 
-		}catch (InvalidZipCodeException ie) {
+		} catch (InvalidZipCodeException ie) {
 			LoggerUtil.logError(ie);
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
 			responseDTO.setMessage(ie.getMessage());
@@ -214,11 +215,12 @@ public class UserController {
 
 	// For fetching place list according to latitude and longitude
 	@GetMapping(value = "/placeList", produces = "application/vnd.kyobee.v1+json")
-	public @ResponseBody ResponseDTO fetchPlaceList(@RequestParam String place, @RequestParam String latLon,@RequestParam String countryCode) {
+	public @ResponseBody ResponseDTO fetchPlaceList(@RequestParam String place, @RequestParam String latLon,
+			@RequestParam String countryCode) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			List<PlaceDTO> placeList = userService.fetchPlaceList(place, latLon ,countryCode);
+			List<PlaceDTO> placeList = userService.fetchPlaceList(place, latLon, countryCode);
 			responseDTO.setServiceResult(placeList);
 			responseDTO.setMessage("Place List fetched successfully");
 			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
@@ -268,35 +270,59 @@ public class UserController {
 		}
 		return responseDTO;
 	}
-	
+
 	// For create business login.
 	@PostMapping(value = "/user", produces = "application/vnd.kyobee.v1+json")
-		public @ResponseBody ResponseDTO addUser(@RequestBody UserSignUpDTO userSignUpDTO) {
+	public @ResponseBody ResponseDTO addUser(@RequestBody UserSignUpDTO userSignUpDTO) {
 
-			ResponseDTO responseDTO = new ResponseDTO();
-			try {
-				Integer userId = userService.addUser(userSignUpDTO);
-				responseDTO.setServiceResult(userId);
-				responseDTO.setMessage("User Added Successfully");
-				responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
-			} catch (DuplicateUserNameExeception e) {
-				LoggerUtil.logError(e);
-				responseDTO.setServiceResult("Username/Email already exists. Please try different one.");
-				responseDTO.setMessage("Username/Email already exists. Please try different one.");
-				responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
-			} catch (DuplicateEmailExeception e) {
-				LoggerUtil.logError(e);
-				responseDTO.setServiceResult("Username/Email already exists. Please try different one.");
-				responseDTO.setMessage("Username/Email already exists. Please try different one.");
-				responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
-			} catch (Exception e) {
-				LoggerUtil.logError(e);
-				responseDTO.setServiceResult("Error while adding user.");
-				responseDTO.setMessage("Error while adding user.");
-				responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
-			}
-			return responseDTO;
-			
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			Integer userId = userService.addUser(userSignUpDTO);
+			responseDTO.setServiceResult(userId);
+			responseDTO.setMessage("User Added Successfully");
+			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
+		} catch (DuplicateUserNameExeception e) {
+			LoggerUtil.logError(e);
+			responseDTO.setServiceResult("Username/Email already exists. Please try different one.");
+			responseDTO.setMessage("Username/Email already exists. Please try different one.");
+			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+		} catch (DuplicateEmailExeception e) {
+			LoggerUtil.logError(e);
+			responseDTO.setServiceResult("Username/Email already exists. Please try different one.");
+			responseDTO.setMessage("Username/Email already exists. Please try different one.");
+			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+		} catch (Exception e) {
+			LoggerUtil.logError(e);
+			responseDTO.setServiceResult("Error while adding user.");
+			responseDTO.setMessage("Error while adding user.");
+			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
 		}
+		return responseDTO;
+
+	}
+
+	// For validating reset password url
+	@GetMapping(value = "/validateResetPwdUrl", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO validateResetPwdUrl(@RequestParam Integer userId, @RequestParam String authCode) {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			userService.validateResetPasswordUrl(userId, authCode);
+			responseDTO.setServiceResult("Url validated successfully.");
+			responseDTO.setMessage("Url validated successfully.");
+			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
+		} catch (InvalidPwdUrlException ex) {
+			LoggerUtil.logError(ex);
+			responseDTO.setServiceResult(ex.getMessage());
+			responseDTO.setMessage(ex.getMessage());
+			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+		} catch (Exception e) {
+			LoggerUtil.logError(e);
+			responseDTO.setServiceResult("Error while validating reset password url.");
+			responseDTO.setMessage("Error while validating reset password url.");
+			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+		}
+		return responseDTO;
+	}
 
 }

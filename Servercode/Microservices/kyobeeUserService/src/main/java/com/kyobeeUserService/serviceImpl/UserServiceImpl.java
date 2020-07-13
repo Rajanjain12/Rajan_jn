@@ -65,6 +65,7 @@ import com.kyobeeUserService.util.Exception.DuplicateUserNameExeception;
 import com.kyobeeUserService.util.Exception.InvalidAuthCodeException;
 import com.kyobeeUserService.util.Exception.InvalidActivationCodeException;
 import com.kyobeeUserService.util.Exception.InvalidLoginException;
+import com.kyobeeUserService.util.Exception.InvalidPwdUrlException;
 import com.kyobeeUserService.util.Exception.InvalidZipCodeException;
 import com.kyobeeUserService.util.Exception.UserNotFoundException;
 
@@ -106,7 +107,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private CountryDAO countryDAO;
-	
+
 	@Autowired
 	private CustomerDAO customerDAO;
 
@@ -118,8 +119,8 @@ public class UserServiceImpl implements UserService {
 
 		LoginUserDTO loginUserDTO;
 		String salt = userDAO.getSaltString(credentialsDTO.getUserName());
-		User user = userDAO.findByUserNameAndPassword(credentialsDTO.getUserName(),
-				CommonUtil.encryptPassword(credentialsDTO.getPassword()+salt));
+		User user = userDAO.fetchUser(credentialsDTO.getUserName(),
+				CommonUtil.encryptPassword(credentialsDTO.getPassword() + salt));
 		if (user != null) {
 			if (user.getActive() == UserServiceConstants.ACTIVATED_USER) {
 				loginUserDTO = new LoginUserDTO();
@@ -158,6 +159,7 @@ public class UserServiceImpl implements UserService {
 
 						if (UserServiceConstants.ENGLISH_LANG_ID == entry.getKey()) {
 							defaultLanguageKeyMap = keymap;
+							System.out.println("inside:" + defaultLanguageKeyMap);
 						}
 
 						languageKeyMappingDTO.setLanguageMap(keymap);
@@ -240,8 +242,8 @@ public class UserServiceImpl implements UserService {
 					loginUserDTO.setSeatingpref(seatingPrefList);
 					loginUserDTO.setMarketingPref(marketingPrefList);
 					loginUserDTO.setFooterMsg(UserServiceConstants.FOOTER_MSG);
-					loginUserDTO.setLogoPath(UserServiceConstants.KYOBEE_SERVER_URL + loginUserDTO.getOrganizationID()
-							+ UserServiceConstants.EXTENSION);
+					loginUserDTO.setLogoPath(UserServiceConstants.AWS_PATH + UserServiceConstants.AWS_LOGOS_BUCKET_NAME
+							+ "/" + loginUserDTO.getOrganizationID() + UserServiceConstants.EXTENSION);
 					loginUserDTO.setNotifyFirst(organization.getNotifyUserCount());
 					loginUserDTO.setPplBifurcation(organization.getPplBifurcation());
 
@@ -271,7 +273,10 @@ public class UserServiceImpl implements UserService {
 				// if user enters authcode after 24 hour
 				throw new InvalidAuthCodeException("Invalid Authcode exception");
 			} else {
-				user.setPassword(CommonUtil.encryptPassword(resetpassword.getPassword()));
+				String salt = CommonUtil.getSaltString();
+				user.setPassword(CommonUtil.encryptPassword(resetpassword.getPassword() + salt));
+				user.setSaltString(salt);
+				user.setAuthCode(null);
 				userDAO.save(user);
 				response = "password reset successfully.";
 			}
@@ -521,6 +526,9 @@ public class UserServiceImpl implements UserService {
 		LoggerUtil.logInfo("user:" + user);
 		if (user != null) {
 			Date today = new Date();
+			System.out.println("today date:" + today);
+			System.out.println("expiry date date:" + user.getActivationExpiryDate());
+
 			if (today.after(user.getActivationExpiryDate())) {
 				// if user enters activation code after 24 hour
 				throw new InvalidActivationCodeException("Invalid activation code exception");
@@ -590,7 +598,6 @@ public class UserServiceImpl implements UserService {
 		StringBuilder url = new StringBuilder();
 		url.append(UserServiceConstants.GEOCODING_API);
 		url.append(UserServiceConstants.GEOCODE_PARAM + zipCode);
-
 		// call to google API
 		String response = restTemplate.getForObject(url.toString(), String.class);
 
@@ -683,7 +690,7 @@ public class UserServiceImpl implements UserService {
 
 		return countryDAO.fetchCountryList();
 	}
-	
+
 	@Override
 	public Integer addUser(UserSignUpDTO userSignUpDTO) throws DuplicateUserNameExeception, DuplicateEmailExeception {
 
@@ -704,7 +711,7 @@ public class UserServiceImpl implements UserService {
 				String salt = CommonUtil.getSaltString();
 
 				BeanUtils.copyProperties(userSignUpDTO, user);
-				user.setPassword(CommonUtil.encryptPassword(userSignUpDTO.getPassword() + salt));			
+				user.setPassword(CommonUtil.encryptPassword(userSignUpDTO.getPassword() + salt));
 				user.setActive(UserServiceConstants.INACTIVE_USER);
 				user.setCreatedAt(new Date());
 				user.setCreatedBy(userSignUpDTO.getEmail());
@@ -718,7 +725,7 @@ public class UserServiceImpl implements UserService {
 
 				organization.setEmail(userSignUpDTO.getEmail());
 				organization.setCreatedBy(userSignUpDTO.getEmail());
-				
+
 				OrganizationUser organizationUser = new OrganizationUser();
 				organizationUser.setActive(UserServiceConstants.ACTIVATED_USER);
 				organizationUser.setCreatedBy(userSignUpDTO.getEmail());
@@ -726,14 +733,14 @@ public class UserServiceImpl implements UserService {
 				organizationUser.setUser(user);
 				organizationUser.setRole(role);
 				organizationUser.setOrganization(organization);
-				organizationUser.setCustomer(customer);			
+				organizationUser.setCustomer(customer);
 				LoggerUtil.logInfo("organization user inserted");
 
 				List<OrganizationUser> organizationUserList = new ArrayList<>();
 				organizationUserList.add(organizationUser);
 				user.setOrganizationusers(organizationUserList);
 
-				savedUser = userDAO.save(user);	
+				savedUser = userDAO.save(user);
 				// sending activation mail
 				sendActivationEmail(savedUser);
 
@@ -761,5 +768,17 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Override
+	public String validateResetPasswordUrl(Integer userId, String authCode) throws InvalidPwdUrlException {
+
+		String userAuthCode = userDAO.getAuthCode(userId);
+		LoggerUtil.logInfo("authcode:" + userAuthCode);
+		if (authCode.equals(userAuthCode)) {
+			return "Url validated successfully";
+		} else {
+			throw new InvalidPwdUrlException(
+					"Invalid URL. Verification failure. Please check the url again or contact support.");
+		}
+	}
 
 }

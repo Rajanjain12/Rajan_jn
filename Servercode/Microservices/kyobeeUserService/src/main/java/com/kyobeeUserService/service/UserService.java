@@ -20,6 +20,7 @@ import com.kyobeeUserService.util.Exception.DuplicateEmailExeception;
 import com.kyobeeUserService.util.Exception.DuplicateUserNameExeception;
 import com.kyobeeUserService.util.Exception.InvalidAuthCodeException;
 import com.kyobeeUserService.util.Exception.InvalidLoginException;
+import com.kyobeeUserService.util.Exception.InvalidPwdUrlException;
 import com.kyobeeUserService.util.Exception.InvalidZipCodeException;
 import com.kyobeeUserService.util.Exception.UserNotFoundException;
 
@@ -51,5 +52,7 @@ public interface UserService {
 	public OrganizationDTO fetchPlaceDetails(String placeId) throws JSONException;
 	
 	public List<CountryDTO> fetchCountryList();
+	
+	public String validateResetPasswordUrl(Integer userId,String authCode) throws InvalidPwdUrlException;
 
 }
