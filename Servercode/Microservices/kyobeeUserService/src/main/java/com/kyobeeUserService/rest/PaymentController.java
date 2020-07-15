@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kyobeeUserService.dto.DiscountDTO;
 import com.kyobeeUserService.dto.InvoiceDTO;
 import com.kyobeeUserService.dto.OrgCardDetailsDTO;
 import com.kyobeeUserService.dto.OrgPaymentDTO;
@@ -93,13 +94,13 @@ public class PaymentController {
 	}
 
 	// API for calculating discount amount
-	@GetMapping(value = "/discount", produces = "application/vnd.kyobee.v1+json")
-	public @ResponseBody ResponseDTO calculateDiscount(@RequestParam BigDecimal amount,@RequestParam String promoCode) {
+	@PostMapping(value = "/discount", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO calculateDiscount(@RequestBody DiscountDTO discountDTO) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
 
-			BigDecimal discAmount = paymentService.calculateDiscount(amount, promoCode);
+			BigDecimal discAmount = paymentService.calculateDiscount(discountDTO);
 			responseDTO.setServiceResult(discAmount);
 			responseDTO.setMessage("Discount calculated successfully");
 			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);

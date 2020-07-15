@@ -35,12 +35,14 @@ public class PdfUtil {
 	@Autowired
 	AWSUtil awsUtil;
 
-	public String generateInvoice(OrganizationDTO orgDTO, List<PlanFeatureCharge> plan, Integer orgSubscriptionId)
-			throws DocumentException, IOException, ParseException {
+	public String generateInvoice(OrganizationDTO orgDTO, List<PlanFeatureCharge> plan, Integer orgSubscriptionId,
+			BigDecimal discount) throws DocumentException, IOException, ParseException {
 
 		LoggerUtil.logInfo("Going to generate pdf");
-		LoggerUtil.logInfo("Organization name:"+orgDTO.getOrganizationName());
-		LoggerUtil.logInfo("Organization add:"+orgDTO.getAddressDTO().getAddressLineOne()+orgDTO.getAddressDTO().getCity()+orgDTO.getAddressDTO().getState()+orgDTO.getAddressDTO().getZipcode());
+		LoggerUtil.logInfo("Organization name:" + orgDTO.getOrganizationName());
+		LoggerUtil.logInfo(
+				"Organization add:" + orgDTO.getAddressDTO().getAddressLineOne() + orgDTO.getAddressDTO().getCity()
+						+ orgDTO.getAddressDTO().getState() + orgDTO.getAddressDTO().getZipcode());
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		Document document = new Document(PageSize.A4);
 		PdfWriter.getInstance(document, out);
@@ -188,6 +190,12 @@ public class PdfUtil {
 		addRow(table2, UserServiceConstants.TAX, Element.ALIGN_RIGHT, settingDTO);
 		settingDTO.setFontColor(BaseColor.BLACK);
 		addRow(table2, UserServiceConstants.CURRENCY + tax, Element.ALIGN_CENTER, settingDTO);
+		addRow(table2, "", Element.ALIGN_CENTER, settingDTO);
+		settingDTO.setFontColor(BaseColor.RED);
+		addRow(table2, UserServiceConstants.DISCOUNT, Element.ALIGN_RIGHT, settingDTO);
+		settingDTO.setFontColor(BaseColor.BLACK);
+		addRow(table2, UserServiceConstants.CURRENCY + discount, Element.ALIGN_CENTER, settingDTO);
+		total = total.subtract(discount);
 		addRow(table2, "", Element.ALIGN_CENTER, settingDTO);
 		settingDTO.setFontColor(BaseColor.RED);
 		addRow(table2, UserServiceConstants.TOTAL, Element.ALIGN_RIGHT, settingDTO);

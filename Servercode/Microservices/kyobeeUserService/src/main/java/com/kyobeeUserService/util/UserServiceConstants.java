@@ -127,5 +127,7 @@ public class UserServiceConstants {
 	public static final String TOTAL ="Total";
 	public static final  String FILE_EXTENSION = ".pdf";
 	public static final BigDecimal TAX_AMT = new BigDecimal(10.00);
+	public static final String DISCOUNT ="Discount";
+	public static final String INVOICE_API="http://localhost:8081/rest/user/payment/generateInvoice";
 
 }

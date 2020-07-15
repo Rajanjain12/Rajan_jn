@@ -1,11 +1,13 @@
 package com.kyobeeUserService.dto;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class InvoiceDTO {
 	List<Integer> featureChargeIds;
 	Integer orgSubscriptionId;
 	OrganizationDTO orgDTO;
+	BigDecimal discount;
 	
 	public List<Integer> getFeatureChargeIds() {
 		return featureChargeIds;
@@ -24,6 +26,12 @@ public class InvoiceDTO {
 	}
 	public void setOrgDTO(OrganizationDTO orgDTO) {
 		this.orgDTO = orgDTO;
+	}
+	public BigDecimal getDiscount() {
+		return discount;
+	}
+	public void setDiscount(BigDecimal discount) {
+		this.discount = discount;
 	}
 	
 }

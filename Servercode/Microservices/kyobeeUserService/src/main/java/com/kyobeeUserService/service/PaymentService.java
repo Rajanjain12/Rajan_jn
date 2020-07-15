@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import com.itextpdf.text.DocumentException;
+import com.kyobeeUserService.dto.DiscountDTO;
 import com.kyobeeUserService.dto.InvoiceDTO;
 import com.kyobeeUserService.dto.OrgCardDetailsDTO;
 import com.kyobeeUserService.dto.OrgPaymentDTO;
@@ -18,6 +19,6 @@ public interface PaymentService {
 	
 	public Integer generateInvoice(InvoiceDTO invoiceDTO) throws DocumentException, IOException, ParseException;
 	
-	public BigDecimal calculateDiscount(BigDecimal amount,String promoCode) throws PromoCodeException;
+	public BigDecimal calculateDiscount(DiscountDTO discountDTO) throws PromoCodeException;
 
 }

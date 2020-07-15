@@ -10,6 +10,8 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
 import com.braintreegateway.BraintreeGateway;
 import com.braintreegateway.Result;
 import com.braintreegateway.Transaction;
@@ -24,9 +26,11 @@ import com.kyobeeUserService.dao.OrganizationSubscriptionDAO;
 import com.kyobeeUserService.dao.PaymentCustomDAO;
 import com.kyobeeUserService.dao.PlanFeatureChargeDAO;
 import com.kyobeeUserService.dao.PromotionalCodeDAO;
+import com.kyobeeUserService.dto.DiscountDTO;
 import com.kyobeeUserService.dto.InvoiceDTO;
 import com.kyobeeUserService.dto.OrgCardDetailsDTO;
 import com.kyobeeUserService.dto.OrgPaymentDTO;
+import com.kyobeeUserService.dto.ResponseDTO;
 import com.kyobeeUserService.dto.UpdatePaymentDetailsDTO;
 import com.kyobeeUserService.entity.Customer;
 import com.kyobeeUserService.entity.Organization;
@@ -73,6 +77,10 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Autowired
 	PromotionalCodeDAO promotionalCodeDAO;
+	
+	@Autowired
+	RestTemplate restTemplate;
+	
 
 	@Override
 	public Integer saveOrgCardDetails(OrgCardDetailsDTO orgCardDetailsDTO) {
@@ -178,7 +186,7 @@ public class PaymentServiceImpl implements PaymentService {
 		List<PlanFeatureCharge> selectedPlanList = planFeatureChargeDAO
 				.findByPlanFeatureChargeIDIn(invoiceDTO.getFeatureChargeIds());
 		String invoiceFile = pdfUtil.generateInvoice(invoiceDTO.getOrgDTO(), selectedPlanList,
-				invoiceDTO.getOrgSubscriptionId());
+				invoiceDTO.getOrgSubscriptionId(),invoiceDTO.getDiscount());
 		LoggerUtil.logInfo("File stored in aws s3 on path:" + invoiceFile);
 
 		orgSubscriptionDAO.updateInvoiceDetails(UserServiceConstants.INVOICE_STATUS_BILLED, invoiceFile,
@@ -188,15 +196,18 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	@Override
-	public BigDecimal calculateDiscount(BigDecimal amount, String promoCode) throws PromoCodeException {
+	public BigDecimal calculateDiscount(DiscountDTO discountDTO) throws PromoCodeException {
 
-		PromotionalCode promotionalCode = promotionalCodeDAO.findByPromoCode(promoCode);
+		PromotionalCode promotionalCode = promotionalCodeDAO.findByPromoCode(discountDTO.getPromoCode());
 		if (promotionalCode != null) {
 			BigDecimal discPercentage = promotionalCode.getPercAmt();
-			BigDecimal discAmount = amount.multiply(discPercentage).divide(new BigDecimal(100));
-			BigDecimal finalAmount = amount.subtract(discAmount);
+			BigDecimal discAmount = discountDTO.getAmount().multiply(discPercentage).divide(new BigDecimal(100));
+			BigDecimal finalAmount = discountDTO.getAmount().subtract(discAmount);
 			LoggerUtil.logInfo("Final amount to be paid:" + finalAmount);
-
+			orgSubscriptionDAO.updateBillingPrice(discountDTO.getInvoiceDTO().getOrgSubscriptionId(), discAmount, finalAmount);
+			discountDTO.getInvoiceDTO().setDiscount(discAmount);
+			restTemplate.postForObject(UserServiceConstants.INVOICE_API, discountDTO.getInvoiceDTO(), ResponseDTO.class);
+			
 			return finalAmount;
 		} else {
 			throw new PromoCodeException("Invalid PromoCode");
