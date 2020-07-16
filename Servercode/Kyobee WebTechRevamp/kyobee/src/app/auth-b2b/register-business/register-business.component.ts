@@ -3,11 +3,11 @@ import { UserService } from 'src/app/core/services/user.service';
 import { CountryDTO } from 'src/app/core/models/countryDTO.model';
 import { HttpParams } from '@angular/common/http';
 import { PlaceDTO } from 'src/app/core/models/place.model';
-import { LoaderService } from 'src/app/core/services/loader.service';
 import { OrganizationDTO } from 'src/app/core/models/organization.model';
 import { AddressDTO } from 'src/app/core/models/address.model';
 import { SignUpService } from 'src/app/core/services/signup.service';
 import { AuthB2BService } from 'src/app/core/services/auth-b2b.service';
+import { TimezoneDTO } from 'src/app/core/models/timezone.model';
 
 @Component({
   selector: 'app-register-business',
@@ -32,6 +32,7 @@ export class RegisterBusinessComponent implements OnInit {
   organization: OrganizationDTO = new OrganizationDTO();
   organizationTypeList: any;
   placeResults = false;
+  timezoneList: Array<TimezoneDTO>;
 
   addBusinessFlag: boolean = false;
   addBusiness: {
@@ -58,7 +59,6 @@ export class RegisterBusinessComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    public loaderService: LoaderService,
     private signupService: SignUpService,
     private authb2bService: AuthB2BService
   ) {}
@@ -67,6 +67,7 @@ export class RegisterBusinessComponent implements OnInit {
     this.fetchCountryList();
     this.organization.addressDTO = new AddressDTO();
     this.organization.orgTypeId = 1;
+    this.organization.timezoneId = 386;
   }
 
   // Purpose : for fetching country list
@@ -104,8 +105,6 @@ export class RegisterBusinessComponent implements OnInit {
 
   // Purpose : for fetching placeList acc to country and zipcode
   fetchPlaceList() {
-    this.loaderService.disable = true;
-
     const params = new HttpParams()
       .set('place', this.searchKeyword)
       .set('latLon', this.latLon)
@@ -138,7 +137,9 @@ export class RegisterBusinessComponent implements OnInit {
         console.log('response:' + JSON.stringify(res.serviceResult));
         this.organization = res.serviceResult;
         this.organization.orgTypeId = 1;
+        this.organization.timezoneId = 386;
         this.fetchOrganizationType();
+        this.fetchTimezoneList();
         this.addBusinessFlag = true;
       } else {
         alert(res.message);
@@ -151,6 +152,12 @@ export class RegisterBusinessComponent implements OnInit {
       if (res.success === 1) {
         console.log('response:' + JSON.stringify(res.serviceResult));
         this.organizationTypeList = res.serviceResult;
+        // Sorting list
+        this.organizationTypeList.sort((a, b) => a.typeName.localeCompare(b.typeName));
+        // Move element to last position
+        this.organizationTypeList.push(
+          this.organizationTypeList.splice(
+            this.organizationTypeList.findIndex(x => x.typeName === 'Other'), 1 )[0]);
       } else {
         alert(res.message);
       }
@@ -188,6 +195,17 @@ export class RegisterBusinessComponent implements OnInit {
     const promise = this.fetchLatLon();
     promise.then(value => {
       this.fetchPlaceList();
+    });
+  }
+  // Purpose : for fetching timezone list
+  fetchTimezoneList() {
+    this.signupService.fetchTimezoneList().subscribe((res: any) => {
+      if (res.success === 1) {
+        console.log('response:' + JSON.stringify(res.serviceResult));
+        this.timezoneList = res.serviceResult;
+      } else {
+        alert(res.message);
+      }
     });
   }
 }

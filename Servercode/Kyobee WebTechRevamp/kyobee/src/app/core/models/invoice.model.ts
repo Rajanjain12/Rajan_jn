@@ -4,4 +4,5 @@ export class InvoiceDTO {
   featureChargeIds: Array<number>;
   orgSubscriptionId: number;
   orgDTO: OrganizationDTO;
+  discount: number;
 }

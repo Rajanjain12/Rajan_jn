@@ -39,4 +39,7 @@ export class UserService {
   resendCode(userId: HttpParams) {
     return this.apiService.postParams('rest/user/resendCode', userId);
   }
+  validateResetPwdUrl(params) {
+    return this.apiService.getParams('rest/user/validateResetPwdUrl/', params);
+  }
 }

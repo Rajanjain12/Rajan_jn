@@ -9,7 +9,8 @@
           <h6 class="restaurant_title">Restaurant Address</h6>
           <p class="restaurant_address">
             <span class="font-weight-bold">{{ authb2bService.organization.organizationName }}</span>
-            <span> {{ authb2bService.organization.addressDTO.addressLineOne }} </span>
+            <span> {{ authb2bService.organization.addressDTO.addressLineOne }}, </span>
+            <span>{{ authb2bService.organization.addressDTO.state }} , {{ authb2bService.organization.addressDTO.country }}.</span>
           </p>
         </div>
       </div>
@@ -126,7 +127,7 @@
             <div class="row m-0 pt-3">
               <div class="col">
                 <div class="form-group my-3">
-                  <input type="text" id="promoCode" name="promoCode"  [ngClass]="{ 'is-invalid': f.submitted && promoCode.invalid }" class="form-control" [(ngModel)]="promoCode" />
+                  <input type="text" id="promoCode" name="promoCode" [ngClass]="{ 'is-invalid': f.submitted && promoCode.invalid }" class="form-control" [(ngModel)]="promoCode" />
                   <label for="input" class="control-label">Have promo code?</label><i class="bar"></i>
                   <div class="form-text text-muted">
                     <div class="font-12">You get 50% off</div>
@@ -145,7 +146,7 @@
                 <p class="font-16">Total</p>
               </div>
               <div class="col-auto pr-0">
-                <p class="font-weight-bold text-right font-16">{{totalAmount | currency }}</p>
+                <p class="font-weight-bold text-right font-16">{{ totalAmount | currency }}</p>
               </div>
             </div>
           </div>

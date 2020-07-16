@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/core/services/user.service';
 import { ResetpasswordDTO } from 'src/app/core/models/resetPasswordDTO.model';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-reset-password',
@@ -14,10 +15,13 @@ export class ResetPasswordComponent implements OnInit {
   newPassword: string; // new password string.
   confirmPwd: string; // confirm password string.
   resetpasswordDTO: ResetpasswordDTO;
+  validUrl = true;
+
   ngOnInit() {
     this.resetpasswordDTO = new ResetpasswordDTO();
     this.resetpasswordDTO.userId = Number(this.route.snapshot.paramMap.get('userId'));
     this.resetpasswordDTO.authcode = String(this.route.snapshot.paramMap.get('authCode'));
+    this.validateResetPwdUrl();
   }
 
   changePwd(invalid) {
@@ -38,6 +42,24 @@ export class ResetPasswordComponent implements OnInit {
       },
       error => {
         console.log('TCL: ResetPasswordComponent -> changePwd -> error', error);
+      }
+    );
+  }
+
+  validateResetPwdUrl() {
+    const params = new HttpParams().set('userId', this.route.snapshot.paramMap.get('userId'))
+    .set('authCode', this.route.snapshot.paramMap.get('authCode'));
+
+    this.userService.validateResetPwdUrl(params).subscribe(
+      data => {
+        console.log('response of validateResetPwdUrl', data.serviceResult);
+        if (data.success === 0) {
+          this.validUrl = false;
+        } else if (data.success === 1) {
+        }
+      },
+      error => {
+        console.log('TCL: ResetPasswordComponent -> validateResetPwdUrl -> error', error);
       }
     );
   }

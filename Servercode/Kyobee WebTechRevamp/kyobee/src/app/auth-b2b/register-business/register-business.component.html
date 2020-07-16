@@ -91,7 +91,7 @@
           </ul>
         </div>
         <div class="col-12 text-center mt-3">
-          <button type="button" class="btn btn-underline font-color not-finding" (click)="addBusinessFlag = !addBusinessFlag; fetchOrganizationType()">
+          <button type="button" class="btn btn-underline font-color not-finding" (click)="addBusinessFlag = !addBusinessFlag; fetchOrganizationType();fetchTimezoneList()">
             Not finding?
           </button>
         </div>
@@ -164,7 +164,7 @@
           <div class="col-12 col-md-6">
             <div class="form-group my-3">
               <select name="IndustryInfo" id="IndustryInfo" [(ngModel)]="organization.orgTypeId">
-                <option *ngFor="let orgTypeList of organizationTypeList" value="{{ orgTypeList.typeID }}">{{ orgTypeList.typeName }}</option>
+                <option *ngFor="let orgTypeList of organizationTypeList" value="{{ orgTypeList.typeID }}">{{ orgTypeList.typeName}}</option>
               </select>
               <label for="input" class="control-label">Industry info</label><i class="bar"></i>
             </div>
@@ -215,9 +215,8 @@
           </div>
           <div class="col-12 col-md-6">
             <div class="form-group my-3">
-              <select name="timezone" id="timezone" [(ngModel)]="addBusiness.timezone">
-                <option value="-11:00">Pacific/Midway (GMT-11:00)</option>
-                <option value="5:00">5:00</option>
+              <select name="timezone" id="timezone" [(ngModel)]="organization.timezoneId">
+                <option *ngFor="let timezone of timezoneList" value="{{ timezone.timezoneId }}">{{ timezone.timezoneName}} ({{ timezone.offset}})</option>
               </select>
               <label for="input" class="control-label">Time zone</label><i class="bar"></i>
             </div>

@@ -21,6 +21,6 @@ export class PaymentService {
   }
 
   calculateDiscount(params) {
-    return this.apiService.getParams('rest/user/payment/discount', params);
+    return this.apiService.post('rest/user/payment/discount', params);
   }
 }

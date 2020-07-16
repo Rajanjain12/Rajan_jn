@@ -6,6 +6,7 @@ import { PaymentService } from 'src/app/core/services/payment.service';
 import { OrgCardDetailsDTO } from 'src/app/core/models/orgcard-details.model';
 import { OrgPaymentDTO } from 'src/app/core/models/org-payment.model';
 import { PlanFeatureDTO } from 'src/app/core/models/plan-feature.model';
+import { DiscountDTO } from 'src/app/core/models/discount.model';
 
 declare var $: any;
 
@@ -68,6 +69,8 @@ export class AllSetComponent implements OnInit {
       textMarketing: 1
     }
   };
+
+  discount : DiscountDTO = new DiscountDTO();
 
   constructor(public authb2bService: AuthB2BService, private paymentService: PaymentService) {}
 
@@ -207,11 +210,12 @@ export class AllSetComponent implements OnInit {
   }
 
   calculateDiscount() {
-    const params = new HttpParams()
-      .set('amount', this.authb2bService.total)
-      .set('promoCode', this.promoCode);
+    const params = new HttpParams().set('amount', this.authb2bService.total).set('promoCode', this.promoCode);
+    this.discount.amount = this.authb2bService.total;
+    this.discount.promoCode = this.promoCode;
+    this.discount.invoiceDTO = this.authb2bService.invoice;
 
-    this.paymentService.calculateDiscount(params).subscribe((res: any) => {
+    this.paymentService.calculateDiscount(this.discount).subscribe((res: any) => {
       if (res.success === 1) {
         this.totalAmount = res.serviceResult;
         this.authb2bService.total = res.serviceResult;

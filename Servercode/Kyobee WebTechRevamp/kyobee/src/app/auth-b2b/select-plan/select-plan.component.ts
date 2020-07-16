@@ -44,12 +44,11 @@ export class SelectPlanComponent implements OnInit {
   orgSubscriptionId;
   invoice: InvoiceDTO = new InvoiceDTO();
 
-
   organization: OrganizationDTO = new OrganizationDTO();
   isFree = false;
   hide = true;
-  limit = 75;
-  text = 'See Details';
+  limit = [75,75];
+  text = ['See Details', 'See Details'];
 
   constructor(
     private planService: PlanService,
@@ -59,15 +58,15 @@ export class SelectPlanComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+
     this.fetchPlanDetails();
   }
 
   // Purpose:For saving free plan details
   freePlan() {
     this.isFree = true;
-    $('#thankYouModal').modal('show');
     this.savePlanDetails('');
-    
+    $('#thankYouModal').modal('show');
   }
 
   // Purpose : for saving plan details
@@ -102,7 +101,8 @@ export class SelectPlanComponent implements OnInit {
           this.generateInvoice();
           this.step = 3;
           this.stepChange.emit(this.step);
-        } 
+        }
+
       } else {
         alert(res.message);
       }
@@ -179,9 +179,11 @@ export class SelectPlanComponent implements OnInit {
     this.invoice.featureChargeIds =
       this.isFree === true ? [] : [this.planSummary.textmarketing, this.planSummary.waitlist];
     this.invoice.orgDTO = this.authb2bService.organization;
+    this.invoice.discount = 0;
     console.log('invocie data:' + JSON.stringify(this.invoice));
 
     this.paymentService.generateInvoice(this.invoice).subscribe((res: any) => {
+      this.authb2bService.setInvoiceData(this.invoice);
       if (res.success === 1) {
         console.log('response:' + JSON.stringify(res.serviceResult));
         this.step = 3;
@@ -198,14 +200,13 @@ export class SelectPlanComponent implements OnInit {
   }
 
   //
-  toggle(description, name,list) {
-
-    if (this.text === 'See Details') {
-      this.text = 'Hide Details';
-      this.limit = description.length;
+  toggle(description, name, index) {
+    if (this.text[index] === 'See Details') {
+      this.text[index]  = 'Hide Details';
+      this.limit[index] = description.length;
     } else {
-      this.text = 'See Details';
-      this.limit = 75;
+      this.text[index]  = 'See Details';
+      this.limit [index]= 75;
     }
   }
 }

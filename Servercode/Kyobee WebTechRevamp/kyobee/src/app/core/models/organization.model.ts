@@ -9,6 +9,7 @@ export class OrganizationDTO {
   orgId: number;
   customerId: number;
   orgTypeId: number;
+  timezoneId: number;
 
   OrganizationDTO() {
     this.addressDTO = new AddressDTO();

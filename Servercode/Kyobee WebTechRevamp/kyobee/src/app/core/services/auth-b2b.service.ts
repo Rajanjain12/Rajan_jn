@@ -3,6 +3,7 @@ import { ApiService } from './api.service';
 import { HttpParams } from '@angular/common/http';
 import { OrganizationDTO } from 'src/app/core/models/organization.model';
 import { PlanTermDTO } from 'src/app/core/models/plan-term.model';
+import { InvoiceDTO } from 'src/app/core/models/invoice.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class AuthB2BService {
   constructor(private apiService: ApiService) {}
 
   organization: OrganizationDTO = new OrganizationDTO();
+  invoice: InvoiceDTO = new InvoiceDTO();
   planTermList: Array<PlanTermDTO>;
   planSummary = {
     waitlist: 0,
@@ -30,5 +32,8 @@ export class AuthB2BService {
   }
   setOrgSubscriptionId(Id) {
     this.orgSubscriptionId = Id;
+  }
+  setInvoiceData(data) {
+    this.invoice = data;
   }
 }

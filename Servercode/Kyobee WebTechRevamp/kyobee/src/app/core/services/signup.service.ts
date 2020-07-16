@@ -14,4 +14,7 @@ export class SignUpService {
   registerBusiness(params) {
     return this.apiService.post('rest/user/signup/business', params);
   }
+  fetchTimezoneList() {
+    return this.apiService.getParams('rest/user/signup/timezone');
+  }
 }
