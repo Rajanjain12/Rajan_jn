@@ -12,6 +12,7 @@ public class OrganizationDTO {
 	private Integer orgId;
 	private Integer customerId;
 	private Integer orgTypeId;
+	private Integer timezoneId;
 
 	public AddressDTO getAddressDTO() {
 		return addressDTO;
@@ -76,6 +77,13 @@ public class OrganizationDTO {
 	public void setOrgTypeId(Integer orgTypeId) {
 		this.orgTypeId = orgTypeId;
 	}
-	
 
+	public Integer getTimezoneId() {
+		return timezoneId;
+	}
+
+	public void setTimezoneId(Integer timezoneId) {
+		this.timezoneId = timezoneId;
+	}
+	
 }

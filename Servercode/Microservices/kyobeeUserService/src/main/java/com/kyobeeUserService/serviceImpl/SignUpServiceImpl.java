@@ -14,9 +14,11 @@ import com.kyobeeUserService.dao.LangMasterDAO;
 import com.kyobeeUserService.dao.LookupDAO;
 import com.kyobeeUserService.dao.OrganizationTypeDAO;
 import com.kyobeeUserService.dao.SmsTemplateLanguageMappingDAO;
+import com.kyobeeUserService.dao.TimezoneDAO;
 import com.kyobeeUserService.dto.AddressDTO;
 import com.kyobeeUserService.dto.OrganizationDTO;
 import com.kyobeeUserService.dto.OrganizationTypeDTO;
+import com.kyobeeUserService.dto.TimezoneDTO;
 import com.kyobeeUserService.entity.Address;
 import com.kyobeeUserService.entity.Customer;
 import com.kyobeeUserService.entity.LangMaster;
@@ -27,6 +29,7 @@ import com.kyobeeUserService.entity.OrganizationLang;
 import com.kyobeeUserService.entity.OrganizationTemplate;
 import com.kyobeeUserService.entity.OrganizationType;
 import com.kyobeeUserService.entity.SmsTemplateLanguageMapping;
+import com.kyobeeUserService.entity.Timezone;
 import com.kyobeeUserService.service.SignUpService;
 import com.kyobeeUserService.util.LoggerUtil;
 import com.kyobeeUserService.util.UserServiceConstants;
@@ -48,6 +51,9 @@ public class SignUpServiceImpl implements SignUpService {
 
 	@Autowired
 	private CustomerDAO customerDAO;
+
+	@Autowired
+	private TimezoneDAO timezoneDAO;
 
 	@Override
 	public OrganizationDTO addBusiness(OrganizationDTO organizationDTO) {
@@ -71,8 +77,8 @@ public class SignUpServiceImpl implements SignUpService {
 		address.setCreatedBy(UserServiceConstants.ADMIN);
 		LoggerUtil.logInfo("Address is added");
 
-		OrganizationType organizationType = organizationTypeDAO
-				.fetchOrganizationType(organizationDTO.getOrgTypeId());
+		OrganizationType organizationType = organizationTypeDAO.fetchOrganizationType(organizationDTO.getOrgTypeId());
+		Timezone timezone = timezoneDAO.getOne(organizationDTO.getTimezoneId());
 
 		Organization organization = new Organization();
 		BeanUtils.copyProperties(organizationDTO, organization);
@@ -84,6 +90,7 @@ public class SignUpServiceImpl implements SignUpService {
 		organization.setCreatedAt(new Date());
 		organization.setAddress(address);
 		organization.setOrganizationType(organizationType);
+		organization.setTimezone(timezone);
 		organization.setCreatedBy(UserServiceConstants.ADMIN);
 		organization.setCustomer(customer);
 		LoggerUtil.logInfo("Organization is added");
@@ -140,7 +147,7 @@ public class SignUpServiceImpl implements SignUpService {
 		Customer savedCustomer = customerDAO.save(customer);
 		organizationDTO.setCustomerId(savedCustomer.getCustomerID());
 		organizationDTO.setOrgId(savedCustomer.getOrganization().getOrganizationID());
-		
+
 		LoggerUtil.logInfo("Business added successfully");
 		return organizationDTO;
 
@@ -149,6 +156,12 @@ public class SignUpServiceImpl implements SignUpService {
 	@Override
 	public List<OrganizationTypeDTO> fetchAllOrganizationType() {
 		return organizationTypeDAO.fetchAllOrganizationType();
+	}
+
+	@Override
+	public List<TimezoneDTO> fetchTimezoneList() {
+
+		return timezoneDAO.fetchTimezoneList();
 	}
 
 }

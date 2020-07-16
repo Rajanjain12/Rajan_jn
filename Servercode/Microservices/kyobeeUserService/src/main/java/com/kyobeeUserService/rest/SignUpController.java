@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kyobeeUserService.dto.OrganizationDTO;
 import com.kyobeeUserService.dto.OrganizationTypeDTO;
 import com.kyobeeUserService.dto.ResponseDTO;
+import com.kyobeeUserService.dto.TimezoneDTO;
 import com.kyobeeUserService.service.SignUpService;
 import com.kyobeeUserService.util.LoggerUtil;
 import com.kyobeeUserService.util.UserServiceConstants;
@@ -26,7 +27,7 @@ public class SignUpController {
 	@Autowired
 	SignUpService signUpService;
 
-	//for adding new business
+	// for adding new business
 	@PostMapping(value = "/business", consumes = "application/json", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO addBusiness(@RequestBody OrganizationDTO organizationDTO) {
 		ResponseDTO responseDTO = new ResponseDTO();
@@ -56,6 +57,24 @@ public class SignUpController {
 			LoggerUtil.logError(e);
 			responseDTO.setServiceResult("Error while fetching organization type.");
 			responseDTO.setMessage("Error while fetching organization type.");
+			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+		}
+		return responseDTO;
+	}
+
+	// for fetching timezone list
+	@GetMapping(value = "/timezone", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO fetchTimezoneList() {
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			List<TimezoneDTO> timezoneDTO = signUpService.fetchTimezoneList();
+			responseDTO.setServiceResult(timezoneDTO);
+			responseDTO.setMessage("Timezone list fetched successfully");
+			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
+		} catch (Exception e) {
+			LoggerUtil.logError(e);
+			responseDTO.setServiceResult("Error while fetching timezone list.");
+			responseDTO.setMessage("Error while fetching timezone list.");
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
 		}
 		return responseDTO;

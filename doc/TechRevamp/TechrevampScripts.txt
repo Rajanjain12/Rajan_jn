@@ -836,3 +836,54 @@ INSERT INTO `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` (`KeyName`, `Value`, `LangIs
 INSERT INTO `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` (`KeyName`, `Value`, `LangIsoCode`, `ScreenName`, `UpdateFlag`, `CreatedBy`, `CreatedAt`) VALUES ('note_error', '错误！请输入有效的备注', 'zh', 'Chinese', '0', 'admin', '2020-07-02');
 INSERT INTO `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` (`KeyName`, `Value`, `LangIsoCode`, `ScreenName`, `UpdateFlag`, `CreatedBy`, `CreatedAt`) VALUES ('note_error', '错误！请输入有效的备注', 'zh-Hans', 'Chinese (Simplified)', '0', 'admin', '2020-07-02');
 INSERT INTO `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` (`KeyName`, `Value`, `LangIsoCode`, `ScreenName`, `UpdateFlag`, `CreatedBy`, `CreatedAt`) VALUES ('note_error', '錯誤！請輸入有效的備註', 'zh-Hant', 'Chinese (Traditional)', '0', 'admin', '2020-07-02');
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONTYPE` 
+CHANGE COLUMN `TypeId` `TypeId` INT(11) NOT NULL AUTO_INCREMENT ;
+UPDATE `KyobeeTechRevamp`.`ORGANIZATIONTYPE` SET `TypeName` = 'Resturant' WHERE (`TypeId` = '1');
+INSERT INTO `KyobeeTechRevamp`.`ORGANIZATIONTYPE` (`TypeName`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('Healthcare', '1', 'admin', '2020-07-14');
+INSERT INTO `KyobeeTechRevamp`.`ORGANIZATIONTYPE` (`TypeName`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('Retail', '1', 'admin', '2020-07-14');
+INSERT INTO `KyobeeTechRevamp`.`ORGANIZATIONTYPE` (`TypeName`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('Education', '1', 'admin', '2020-07-14');
+INSERT INTO `KyobeeTechRevamp`.`ORGANIZATIONTYPE` (`TypeName`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('Automative', '1', 'admin', '2020-07-14');
+INSERT INTO `KyobeeTechRevamp`.`ORGANIZATIONTYPE` (`TypeName`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('Finance', '1', 'admin', '2020-07-14');
+INSERT INTO `KyobeeTechRevamp`.`ORGANIZATIONTYPE` (`TypeName`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('Salons', '1', 'admin', '2020-07-14');
+INSERT INTO `KyobeeTechRevamp`.`ORGANIZATIONTYPE` (`TypeName`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('Other', '1', 'admin', '2020-07-14');
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE `KyobeeTechRevamp`.`TIMEZONE` (
+  `TimezoneID` INT NOT NULL AUTO_INCREMENT,
+  `TimezoneName` VARCHAR(250) NULL,
+  `CountryID` INT NULL,
+  `Active` TINYINT(1) NULL,
+  `CreatedBy` VARCHAR(100) NULL,
+  `CreatedAt` DATE NULL,
+  `ModifiedBy` VARCHAR(100) NULL,
+  `ModifiedAt` DATE NULL,
+  PRIMARY KEY (`TimezoneID`));
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------  
+ALTER TABLE `KyobeeTechRevamp`.`TIMEZONE` 
+ADD COLUMN `Offset` VARCHAR(250) NULL AFTER `TimezoneName`;
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ALTER TABLE `KyobeeTechRevamp`.`TIMEZONE` 
+ADD INDEX `FK_Timezone_CountryID_idx` (`CountryID` ASC);
+;
+ALTER TABLE `KyobeeTechRevamp`.`TIMEZONE` 
+ADD CONSTRAINT `FK_Timezone_CountryID`
+  FOREIGN KEY (`CountryID`)
+  REFERENCES `KyobeeTechRevamp`.`COUNTRY` (`CountryID`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATION` 
+ADD COLUMN `TimezoneID` INT NULL AFTER `PplBifurcation`;
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATION` 
+ADD INDEX `FKTimezoneID_idx` (`TimezoneID` ASC);
+;
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATION` 
+ADD CONSTRAINT `FKTimezoneID`
+  FOREIGN KEY (`TimezoneID`)
+  REFERENCES `KyobeeTechRevamp`.`TIMEZONE` (`TimezoneID`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+  
+  
