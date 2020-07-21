@@ -48,7 +48,7 @@ public class Organization implements Serializable {
 
 	// bi-directional many-to-one association to Address
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "AddressID")
+	@JoinColumn(name = "AddressID", referencedColumnName = "AddressID")
 	private Address address;
 
 	@Column(name = "AdsBalance")

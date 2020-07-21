@@ -3,6 +3,7 @@ package com.kyobeeUserService.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -26,20 +27,20 @@ public class OrganizationUser implements Serializable {
 	private Integer organizationUserID;
 
 	// bi-directional many-to-one association to Organization
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "OrganizationID")
 	private Organization organization;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "UserID")
 	private User user;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "CustomerID")
 	private Customer customer;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "RoleID")
 	private Role role;
 	

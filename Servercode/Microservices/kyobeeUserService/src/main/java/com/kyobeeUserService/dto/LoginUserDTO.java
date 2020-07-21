@@ -26,6 +26,8 @@ public class LoginUserDTO {
 	    private String logoPath;
 	    private Integer notifyFirst;
 	    private String pplBifurcation;
+	    private List<OrgUserDetailsDTO> orgUserDetailList;
+	    private Integer customerId;
 	    
 		public Integer getUserID() {
 			return userID;
@@ -153,4 +155,17 @@ public class LoginUserDTO {
 		public void setPplBifurcation(String pplBifurcation) {
 			this.pplBifurcation = pplBifurcation;
 		}
+		public List<OrgUserDetailsDTO> getOrgUserDetailList() {
+			return orgUserDetailList;
+		}
+		public void setOrgUserDetailList(List<OrgUserDetailsDTO> orgUserDetailList) {
+			this.orgUserDetailList = orgUserDetailList;
+		}
+		public Integer getCustomerId() {
+			return customerId;
+		}
+		public void setCustomerId(Integer customerId) {
+			this.customerId = customerId;
+		}
+		
 }

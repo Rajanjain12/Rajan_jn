@@ -26,8 +26,10 @@ import com.kyobeeUserService.dao.CustomerDAO;
 import com.kyobeeUserService.dao.LanguageKeyMappingDAO;
 import com.kyobeeUserService.dao.LookupDAO;
 import com.kyobeeUserService.dao.OrganizationDAO;
+import com.kyobeeUserService.dao.OrganizationSubscriptionDAO;
 import com.kyobeeUserService.dao.OrganizationTemplateDAO;
 import com.kyobeeUserService.dao.OrganizationTypeDAO;
+import com.kyobeeUserService.dao.OrganizationUserDAO;
 import com.kyobeeUserService.dao.RoleDAO;
 import com.kyobeeUserService.dao.SmsTemplateLanguageMappingDAO;
 import com.kyobeeUserService.dao.UserDAO;
@@ -37,6 +39,7 @@ import com.kyobeeUserService.dto.CredentialsDTO;
 import com.kyobeeUserService.dto.LanguageKeyMappingDTO;
 import com.kyobeeUserService.dto.LanguageMasterDTO;
 import com.kyobeeUserService.dto.LoginUserDTO;
+import com.kyobeeUserService.dto.OrgUserDetailsDTO;
 import com.kyobeeUserService.dto.OrganizationDTO;
 import com.kyobeeUserService.dto.PlaceDTO;
 import com.kyobeeUserService.dto.ResetPasswordDTO;
@@ -48,6 +51,7 @@ import com.kyobeeUserService.entity.Customer;
 import com.kyobeeUserService.entity.Lookup;
 import com.kyobeeUserService.entity.Organization;
 import com.kyobeeUserService.entity.OrganizationCategory;
+import com.kyobeeUserService.entity.OrganizationSubscription;
 import com.kyobeeUserService.entity.OrganizationTemplate;
 import com.kyobeeUserService.entity.OrganizationType;
 import com.kyobeeUserService.entity.OrganizationUser;
@@ -111,6 +115,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private CustomerDAO customerDAO;
 
+	@Autowired
+	private OrganizationUserDAO organizationUserDAO;
+
 	// to validate user and fetch data needed after login in web and mobile, single
 	// API for login from web and mobile
 	@Override
@@ -125,6 +132,35 @@ public class UserServiceImpl implements UserService {
 			if (user.getActive() == UserServiceConstants.ACTIVATED_USER) {
 				loginUserDTO = new LoginUserDTO();
 				BeanUtils.copyProperties(user, loginUserDTO);
+				// check if user has highest role(i.e customer admin)
+				Integer customerId = organizationUserDAO.checkForHighestRole(user.getUserID());
+				// If user has highest role then fetch all organization under that
+				if (customerId != null) {
+					loginUserDTO.setCustomerId(customerId);
+					List<OrganizationUser> orgList = organizationUserDAO.fetchOrganizationUser(customerId);
+					List<OrgUserDetailsDTO> orgUserDetailsList = new ArrayList<>();
+					OrganizationDTO orgDTO = null;
+					AddressDTO addressDTO = null;
+					CredentialsDTO credsDTO = null;
+					OrgUserDetailsDTO orgUserDetails = null;
+					for (OrganizationUser orgUser : orgList) {
+						orgDTO = new OrganizationDTO();
+						addressDTO = new AddressDTO();
+						credsDTO = new CredentialsDTO();
+						orgUserDetails = new OrgUserDetailsDTO();
+						BeanUtils.copyProperties(orgUser.getOrganization().getAddress(), addressDTO);
+						orgDTO.setAddressDTO(addressDTO);
+						orgDTO.setOrganizationName(orgUser.getOrganization().getOrganizationName());
+						credsDTO.setUserName(orgUser.getUser().getEmail());
+						credsDTO.setPassword(orgUser.getUser().getPassword());
+						credsDTO.setClientBase(orgUser.getOrganization().getClientBase());
+						orgUserDetails.setOrgDTO(orgDTO);
+						orgUserDetails.setCredDTO(credsDTO);
+						orgUserDetailsList.add(orgUserDetails);
+					}
+					loginUserDTO.setOrgUserDetailList(orgUserDetailsList);
+				}
+
 				// fetch organization details associated with user
 				Organization organization = organizationDAO.fetchOrganizationByUserId(user.getUserID());
 				if ((organization.getClientBase().equalsIgnoreCase(credentialsDTO.getClientBase())
@@ -663,6 +699,7 @@ public class UserServiceImpl implements UserService {
 
 		JSONObject obj = new JSONObject(response);
 		JSONObject loc = obj.getJSONObject("result");
+		LoggerUtil.logInfo("response:" + loc);
 
 		orgDTO.setOrganizationName(loc.getString("name"));
 		orgDTO.setPrimaryPhone(new BigInteger(loc.getString("formatted_phone_number").replaceAll("[^0-9]", "")));

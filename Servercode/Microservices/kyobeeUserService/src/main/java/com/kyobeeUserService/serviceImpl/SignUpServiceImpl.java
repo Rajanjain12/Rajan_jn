@@ -58,16 +58,21 @@ public class SignUpServiceImpl implements SignUpService {
 	@Override
 	public OrganizationDTO addBusiness(OrganizationDTO organizationDTO) {
 
-		Customer customer = new Customer();
+		Customer customer = null;
 
-		customer.setCustomerName(organizationDTO.getOrganizationName());
-		customer.setTrialPeriodStartDate(new Date());
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.DATE, 7);
-		customer.setTrialPeriodEndDate(cal.getTime());
-		customer.setCreatedAt(new Date());
-		customer.setCreatedBy(UserServiceConstants.ADMIN);
-		customer.setActive(UserServiceConstants.ACTIVE_ORG);
+		if (organizationDTO.getCustomerId() == null) {
+			customer = new Customer();
+			customer.setCustomerName(organizationDTO.getOrganizationName());
+			customer.setTrialPeriodStartDate(new Date());
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.DATE, 7);
+			customer.setTrialPeriodEndDate(cal.getTime());
+			customer.setCreatedAt(new Date());
+			customer.setCreatedBy(UserServiceConstants.ADMIN);
+			customer.setActive(UserServiceConstants.ACTIVE_ORG);
+		} else {
+			customer = customerDAO.getOne(organizationDTO.getCustomerId());
+		}
 
 		Address address = new Address();
 

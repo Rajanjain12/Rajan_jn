@@ -62,7 +62,7 @@ public class Address implements Serializable{
 	private String state;
 
 	@Column(name="Zipcode")
-	private int zipcode;
+	private Integer zipcode;
 
 	public Address() {
 		//constructor 
@@ -164,13 +164,19 @@ public class Address implements Serializable{
 		this.state = state;
 	}
 
-	public int getZipcode() {
-		return this.zipcode;
+	public Integer getZipcode() {
+		return zipcode;
 	}
 
-	public void setZipcode(int zipcode) {
+	public void setZipcode(Integer zipcode) {
 		this.zipcode = zipcode;
 	}
+
+	public void setAddressID(Integer addressID) {
+		this.addressID = addressID;
+	}
+
+	
 
 
 }
