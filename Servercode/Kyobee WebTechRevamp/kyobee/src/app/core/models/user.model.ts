@@ -1,5 +1,6 @@
 import { Preference } from './preference.model';
 import { SmsTemplate } from './sms-template.model';
+import { OrgUserDetailsDTO } from './orguser-details.model';
 
 export class User {
   userID: number;
@@ -23,4 +24,6 @@ export class User {
   logoPath: string;
   notifyFirst: number;
   pplBifurcation: string;
+  customerId: number;
+  orgUserDetailList: Array<OrgUserDetailsDTO>;
 }

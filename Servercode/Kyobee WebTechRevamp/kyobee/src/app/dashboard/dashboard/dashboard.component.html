@@ -1,0 +1,12 @@
+<div>Select Your Restaraunt!</div>
+<div class="col-12 col-md-6 col-lg-3 order-md-1 order-lg-0 p-0 pr-md-2">
+  <p class="restaurant_address" *ngFor="let restauraunt of user.orgUserDetailList">
+    <a (click)="restaurantLogin(restauraunt)">
+      <span class="font-weight-bold">{{ restauraunt.orgDTO.organizationName }}</span></a
+    ><br />
+    <span> {{ restauraunt.orgDTO.addressDTO.addressLineOne }}, </span><br />
+    <span>{{ restauraunt.orgDTO.addressDTO.state }} , {{ restauraunt.orgDTO.addressDTO.country }}.</span><br />
+    <span>{{ restauraunt.credDTO.userName }}</span>
+  </p>
+</div>
+<div><a class="nav-link active" [routerLink]="['/auth-b2b/signup-b2b']">Add restaurant</a></div>

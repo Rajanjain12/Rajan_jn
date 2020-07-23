@@ -18,7 +18,7 @@
           <h6 class="restaurant_title">Restaurant Address</h6>
           <p class="restaurant_address">
             <span class="font-weight-bold">{{ authb2bService.organization.organizationName }}</span>
-           <span> {{ authb2bService.organization.addressDTO.addressLineOne }}, </span>
+            <span> {{ authb2bService.organization.addressDTO.addressLineOne }}, </span>
             <span>{{ authb2bService.organization.addressDTO.state }} , {{ authb2bService.organization.addressDTO.country }}.</span>
           </p>
         </div>
@@ -31,7 +31,7 @@
               <h5 class="plan_title">{{ plan.planName }}</h5>
             </div>
           </div>
-          <div class="row plan_detail" *ngFor="let planFeature of planFeatureList,let i = index">
+          <div class="row plan_detail" *ngFor="let planFeature of planFeatureList; let i = index">
             <div class="col-4 text-center">
               <h6 class="plan_title p-0">{{ planFeature.featureName }}</h6>
               <label class="font-12 m-0">{{ planFeature.featureDesc | slice: 0:limit[i] }}</label>
@@ -58,12 +58,12 @@
                     <label [for]="planFeature.featureName + item.planFeatureChargeId"></label>
                   </div>
                 </div>
-             <!--   <div class="col-12 text-center mt-2">
+                <!--   <div class="col-12 text-center mt-2">
                   <p>Security TV/OS Display Self Check-ins Guest Real-time Status</p>
                 </div>-->
               </div>
             </div>
-          <!--  <div class="col-12 text-center">
+            <!--  <div class="col-12 text-center">
               <button type="button" class="btn btn-underline w-100 not-finding p-0"><i class="fi font-gray font-14 flaticon-up-arrow"></i></button>
             </div>-->
           </div>

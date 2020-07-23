@@ -96,6 +96,7 @@ public class SignUpServiceImpl implements SignUpService {
 		organization.setAddress(address);
 		organization.setOrganizationType(organizationType);
 		organization.setTimezone(timezone);
+		organization.setWaitTime(UserServiceConstants.WAITTIME);
 		organization.setCreatedBy(UserServiceConstants.ADMIN);
 		organization.setCustomer(customer);
 		LoggerUtil.logInfo("Organization is added");

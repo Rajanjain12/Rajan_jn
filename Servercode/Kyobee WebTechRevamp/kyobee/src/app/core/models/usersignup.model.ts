@@ -6,4 +6,5 @@ export class UserSignupDTO {
   password: string;
   orgId: number;
   customerId: number;
+  isCustomer: boolean;
 }

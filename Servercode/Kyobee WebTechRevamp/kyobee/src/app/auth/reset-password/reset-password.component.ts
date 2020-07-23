@@ -47,8 +47,9 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   validateResetPwdUrl() {
-    const params = new HttpParams().set('userId', this.route.snapshot.paramMap.get('userId'))
-    .set('authCode', this.route.snapshot.paramMap.get('authCode'));
+    const params = new HttpParams()
+      .set('userId', this.route.snapshot.paramMap.get('userId'))
+      .set('authCode', this.route.snapshot.paramMap.get('authCode'));
 
     this.userService.validateResetPwdUrl(params).subscribe(
       data => {

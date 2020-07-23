@@ -91,7 +91,7 @@
           </ul>
         </div>
         <div class="col-12 text-center mt-3">
-          <button type="button" class="btn btn-underline font-color not-finding" (click)="addBusinessFlag = !addBusinessFlag; fetchOrganizationType();fetchTimezoneList()">
+          <button type="button" class="btn btn-underline font-color not-finding" (click)="addBusinessFlag = !addBusinessFlag; fetchOrganizationType(); fetchTimezoneList()">
             Not finding?
           </button>
         </div>
@@ -164,7 +164,7 @@
           <div class="col-12 col-md-6">
             <div class="form-group my-3">
               <select name="IndustryInfo" id="IndustryInfo" [(ngModel)]="organization.orgTypeId">
-                <option *ngFor="let orgTypeList of organizationTypeList" value="{{ orgTypeList.typeID }}">{{ orgTypeList.typeName}}</option>
+                <option *ngFor="let orgTypeList of organizationTypeList" value="{{ orgTypeList.typeID }}">{{ orgTypeList.typeName }}</option>
               </select>
               <label for="input" class="control-label">Industry info</label><i class="bar"></i>
             </div>
@@ -175,7 +175,7 @@
               <label for="input" class="control-label">City*</label><i class="bar"></i>
               <div *ngIf="f.submitted && city.invalid" class="invalid-feedback">
                 <div class="text-danger" *ngIf="city.errors?.required">Cityq is required</div>
-                </div>
+              </div>
             </div>
           </div>
           <div class="col-12 col-md-6">
@@ -184,7 +184,7 @@
               <label for="input" class="control-label">State*</label><i class="bar"></i>
               <div *ngIf="f.submitted && state.invalid" class="invalid-feedback">
                 <div class="text-danger" *ngIf="state.errors?.required">State is required</div>
-                </div>
+              </div>
             </div>
           </div>
           <div class="col-12 col-md-6 form-group my-3">
@@ -216,7 +216,7 @@
           <div class="col-12 col-md-6">
             <div class="form-group my-3">
               <select name="timezone" id="timezone" [(ngModel)]="organization.timezoneId">
-                <option *ngFor="let timezone of timezoneList" value="{{ timezone.timezoneId }}">{{ timezone.timezoneName}} ({{ timezone.offset}})</option>
+                <option *ngFor="let timezone of timezoneList" value="{{ timezone.timezoneId }}">{{ timezone.timezoneName }} ({{ timezone.offset }})</option>
               </select>
               <label for="input" class="control-label">Time zone</label><i class="bar"></i>
             </div>

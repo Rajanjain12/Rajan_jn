@@ -130,5 +130,6 @@ public class UserServiceConstants {
 	public static final BigDecimal TAX_AMT = new BigDecimal(10.00);
 	public static final String DISCOUNT ="Discount";
 	public static final String INVOICE_API="http://localhost:8081/rest/user/payment/generateInvoice";
+	public static final Integer WAITTIME =5;
 
 }

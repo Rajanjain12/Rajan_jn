@@ -49,7 +49,11 @@ export class SigninComponent implements OnInit {
           console.log('Remember me pressed ');
           this.authService.setLocalStorageData(this.userResponse);
         }
-        this.router.navigateByUrl('/waitlist/dashboard', { replaceUrl: true });
+        if (respData.serviceResult.orgUserDetailList === null) {
+          this.router.navigateByUrl('/waitlist/dashboard', { replaceUrl: true });
+        } else {
+          this.router.navigateByUrl('/dashboard', { replaceUrl: true });
+        }
       } else {
         this.loading = false;
         this.alertError = { type: 'danger', msg: respData.message, display: true };

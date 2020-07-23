@@ -47,7 +47,7 @@ export class SelectPlanComponent implements OnInit {
   organization: OrganizationDTO = new OrganizationDTO();
   isFree = false;
   hide = true;
-  limit = [75,75];
+  limit = [75, 75];
   text = ['See Details', 'See Details'];
 
   constructor(
@@ -58,7 +58,6 @@ export class SelectPlanComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-
     this.fetchPlanDetails();
   }
 
@@ -102,7 +101,6 @@ export class SelectPlanComponent implements OnInit {
           this.step = 3;
           this.stepChange.emit(this.step);
         }
-
       } else {
         alert(res.message);
       }
@@ -202,11 +200,11 @@ export class SelectPlanComponent implements OnInit {
   //
   toggle(description, name, index) {
     if (this.text[index] === 'See Details') {
-      this.text[index]  = 'Hide Details';
+      this.text[index] = 'Hide Details';
       this.limit[index] = description.length;
     } else {
-      this.text[index]  = 'See Details';
-      this.limit [index]= 75;
+      this.text[index] = 'See Details';
+      this.limit[index] = 75;
     }
   }
 }

@@ -8,6 +8,8 @@ import { AddressDTO } from 'src/app/core/models/address.model';
 import { SignUpService } from 'src/app/core/services/signup.service';
 import { AuthB2BService } from 'src/app/core/services/auth-b2b.service';
 import { TimezoneDTO } from 'src/app/core/models/timezone.model';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { User } from 'src/app/core/models/user.model';
 
 @Component({
   selector: 'app-register-business',
@@ -33,6 +35,8 @@ export class RegisterBusinessComponent implements OnInit {
   organizationTypeList: any;
   placeResults = false;
   timezoneList: Array<TimezoneDTO>;
+  user: User = new User();
+  isCustomer = true;
 
   addBusinessFlag: boolean = false;
   addBusiness: {
@@ -60,7 +64,8 @@ export class RegisterBusinessComponent implements OnInit {
   constructor(
     private userService: UserService,
     private signupService: SignUpService,
-    private authb2bService: AuthB2BService
+    private authb2bService: AuthB2BService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -68,6 +73,7 @@ export class RegisterBusinessComponent implements OnInit {
     this.organization.addressDTO = new AddressDTO();
     this.organization.orgTypeId = 1;
     this.organization.timezoneId = 386;
+    this.user = this.authService.getUser();
   }
 
   // Purpose : for fetching country list
@@ -157,7 +163,10 @@ export class RegisterBusinessComponent implements OnInit {
         // Move element to last position
         this.organizationTypeList.push(
           this.organizationTypeList.splice(
-            this.organizationTypeList.findIndex(x => x.typeName === 'Other'), 1 )[0]);
+            this.organizationTypeList.findIndex(x => x.typeName === 'Other'),
+            1
+          )[0]
+        );
       } else {
         alert(res.message);
       }
@@ -172,6 +181,12 @@ export class RegisterBusinessComponent implements OnInit {
     this.country = this.countryList.find(x => x.isocode == this.countryCode.toUpperCase());
     this.organization.addressDTO.country = this.country.countryName;
     this.organization.addressDTO.zipcode = this.zipCode;
+    if (this.user.customerId != null) {
+      console.log(this.user.customerId);
+      this.organization.customerId = this.user.customerId;
+      this.isCustomer = false;
+      this.authb2bService.setCustomerInfo(this.isCustomer);
+    }
 
     console.log('organization:' + JSON.stringify(this.organization));
 
@@ -183,6 +198,7 @@ export class RegisterBusinessComponent implements OnInit {
         this.organization = res.serviceResult;
         console.log('saved organization:' + JSON.stringify(this.organization));
         this.authb2bService.setOrganizationData(this.organization);
+        this.authb2bService.setCustomerInfo(this.isCustomer);
       } else {
         alert(res.message);
       }

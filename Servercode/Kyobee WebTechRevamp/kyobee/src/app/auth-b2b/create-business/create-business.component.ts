@@ -55,6 +55,7 @@ export class CreateBusinessComponent implements OnInit {
     // getting customer Id and organization Id from recently saved organization
     this.orgUser.customerId = this.authb2bService.organization.customerId;
     this.orgUser.orgId = this.authb2bService.organization.orgId;
+    this.orgUser.isCustomer = this.authb2bService.isCustomer;
     console.log('user:' + JSON.stringify(this.orgUser));
 
     //saving user

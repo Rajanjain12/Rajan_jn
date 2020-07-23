@@ -20,6 +20,7 @@ export class AuthB2BService {
   };
   total;
   orgSubscriptionId;
+  isCustomer;
 
   setOrganizationData(data) {
     this.organization = data;
@@ -35,5 +36,8 @@ export class AuthB2BService {
   }
   setInvoiceData(data) {
     this.invoice = data;
+  }
+  setCustomerInfo(data) {
+    this.isCustomer = data;
   }
 }

@@ -4,5 +4,4 @@ export class DiscountDTO {
   amount: number;
   promoCode: string;
   invoiceDTO: InvoiceDTO;
-
 }

@@ -70,7 +70,7 @@ export class AllSetComponent implements OnInit {
     }
   };
 
-  discount : DiscountDTO = new DiscountDTO();
+  discount: DiscountDTO = new DiscountDTO();
 
   constructor(public authb2bService: AuthB2BService, private paymentService: PaymentService) {}
 
