@@ -742,6 +742,7 @@ public class UserServiceImpl implements UserService {
 
 			if (!exists) {
 
+				Role role = null;
 				User user = new User();
 				Date nextDay = CommonUtil.getDateByHour(24);
 
@@ -756,7 +757,11 @@ public class UserServiceImpl implements UserService {
 				user.setActivationCode(CommonUtil.generateRandomToken().toString());
 				user.setActivationExpiryDate(nextDay);
 
-				Role role = roleDAO.fetchRole(UserServiceConstants.CUSTOMER_ADMIN_ROLE);
+				if(userSignUpDTO.getIsCustomer()) {
+				role = roleDAO.fetchRole(UserServiceConstants.CUSTOMER_ADMIN_ROLE);
+				}else {
+			    role = roleDAO.fetchRole(UserServiceConstants.ORG_ADMIN_ROLE);	
+				}
 				Customer customer = customerDAO.getOne(userSignUpDTO.getCustomerId());
 				Organization organization = organizationDAO.getOne(userSignUpDTO.getOrgId());
 

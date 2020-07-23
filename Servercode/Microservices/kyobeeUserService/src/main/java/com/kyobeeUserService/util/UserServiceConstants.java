@@ -104,6 +104,7 @@ public class UserServiceConstants {
 	
 	public static final String PPL_BIFURCATION = "N";
 	public static final int CUSTOMER_ADMIN_ROLE=1;
+	public static final Integer ORG_ADMIN_ROLE=2;
 	
 	public static final String STATUS_Y ="Y";
 	

@@ -9,6 +9,7 @@ public class UserSignUpDTO {
 	private String password;
 	private Integer orgId;
 	private Integer customerId;
+	private Boolean isCustomer;
 	
 	
 	public String getFirstName() {
@@ -53,6 +54,11 @@ public class UserSignUpDTO {
 	public void setCustomerId(Integer customerId) {
 		this.customerId = customerId;
 	}
-	
+	public Boolean getIsCustomer() {
+		return isCustomer;
+	}
+	public void setIsCustomer(Boolean isCustomer) {
+		this.isCustomer = isCustomer;
+	}
 	
 }
