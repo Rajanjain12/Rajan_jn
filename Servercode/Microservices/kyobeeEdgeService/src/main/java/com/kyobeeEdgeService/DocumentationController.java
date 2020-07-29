@@ -25,10 +25,9 @@ public class DocumentationController implements SwaggerResourcesProvider {
     public List get() {
     	//Add each micro-service as swagger-resource.
         List resources = new ArrayList();
-        //resources.add(swaggerResource("", "/v2/api-docs", "1.0"));
         resources.add(swaggerResource("user-service", "/kyobee-user-service/v2/api-docs", "2.0"));
         resources.add(swaggerResource("waitlist-service", "/kyobee-waitlist-service/v2/api-docs", "2.0"));
-        //resources.add(swaggerResource("template-service", "/template-service/v2/api-docs", "2.0"));
+        resources.add(swaggerResource("account-service", "/kyobee-account-service/v2/api-docs", "2.0"));
         return resources;
     }
 

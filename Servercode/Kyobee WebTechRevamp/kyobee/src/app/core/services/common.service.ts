@@ -4,19 +4,18 @@ import { SignUpService } from 'src/app/core/services/signup.service';
 import { TimezoneDTO } from 'src/app/core/models/timezone.model';
 import { CountryDTO } from 'src/app/core/models/countryDTO.model';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
-countryList: Array<CountryDTO>;
-timezoneList: Array<TimezoneDTO>;
-organizationTypeList: any;
+  countryList: Array<CountryDTO>;
+  timezoneList: Array<TimezoneDTO>;
+  organizationTypeList: any;
 
-  constructor( private userService: UserService, private signupService: SignUpService) {}
+  constructor(private userService: UserService, private signupService: SignUpService) {}
 
-   // Purpose : for fetching country list
-   fetchCountryList() {
+  // Purpose : for fetching country list
+  fetchCountryList() {
     this.userService.fetchCountryList().subscribe((res: any) => {
       if (res.success === 1) {
         console.log('response:' + JSON.stringify(res.serviceResult));
@@ -27,8 +26,8 @@ organizationTypeList: any;
     });
   }
 
-   // Purpose : for fetching timezone list
-   fetchTimezoneList() {
+  // Purpose : for fetching timezone list
+  fetchTimezoneList() {
     this.signupService.fetchTimezoneList().subscribe((res: any) => {
       if (res.success === 1) {
         console.log('response:' + JSON.stringify(res.serviceResult));
@@ -39,7 +38,7 @@ organizationTypeList: any;
     });
   }
 
-   // Purpose : for fetching organization type
+  // Purpose : for fetching organization type
   fetchOrganizationType() {
     this.signupService.fetchOrganizationType().subscribe((res: any) => {
       if (res.success === 1) {
@@ -59,5 +58,4 @@ organizationTypeList: any;
       }
     });
   }
-
 }

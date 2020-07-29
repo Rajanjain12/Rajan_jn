@@ -12,7 +12,6 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { User } from 'src/app/core/models/user.model';
 import { CommonService } from 'src/app/core/services/common.service';
 
-
 @Component({
   selector: 'app-register-business',
   templateUrl: './register-business.component.html',
@@ -22,7 +21,7 @@ export class RegisterBusinessComponent implements OnInit {
   @Input('step') step: number;
   @Output('stepChange') stepChange = new EventEmitter<number>();
 
-//  countryList: Array<CountryDTO>;
+  //  countryList: Array<CountryDTO>;
   countryCode = 'us';
   country: CountryDTO = new CountryDTO();
   searchKeyword: string;
@@ -36,7 +35,7 @@ export class RegisterBusinessComponent implements OnInit {
   organization: OrganizationDTO = new OrganizationDTO();
   organizationTypeList: any;
   placeResults = false;
- // timezoneList: Array<TimezoneDTO>;
+  // timezoneList: Array<TimezoneDTO>;
   user: User = new User();
   isCustomer = true;
 
@@ -80,7 +79,7 @@ export class RegisterBusinessComponent implements OnInit {
   }
 
   // Purpose : for fetching country list
- /* fetchCountryList() {
+  /* fetchCountryList() {
     this.userService.fetchCountryList().subscribe((res: any) => {
       if (res.success === 1) {
         console.log('response:' + JSON.stringify(res.serviceResult));
@@ -156,7 +155,7 @@ export class RegisterBusinessComponent implements OnInit {
     });
   }
   // Purpose : for fetching organization type
-/*  fetchOrganizationType() {
+  /*  fetchOrganizationType() {
     this.signupService.fetchOrganizationType().subscribe((res: any) => {
       if (res.success === 1) {
         console.log('response:' + JSON.stringify(res.serviceResult));
@@ -217,7 +216,7 @@ export class RegisterBusinessComponent implements OnInit {
     });
   }
   // Purpose : for fetching timezone list
- /* fetchTimezoneList() {
+  /* fetchTimezoneList() {
     this.signupService.fetchTimezoneList().subscribe((res: any) => {
       if (res.success === 1) {
         console.log('response:' + JSON.stringify(res.serviceResult));

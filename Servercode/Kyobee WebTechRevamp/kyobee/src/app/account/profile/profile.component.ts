@@ -7,6 +7,7 @@ import { UserService } from 'src/app/core/services/user.service';
 import { OrganizationDTO } from 'src/app/core/models/organization.model';
 import { CountryDTO } from 'src/app/core/models/countryDTO.model';
 import { AddressDTO } from 'src/app/core/models/address.model';
+import { AccountService } from 'src/app/core/services/account.service';
 
 declare var $: any;
 
@@ -31,7 +32,8 @@ export class ProfileComponent implements OnInit {
   constructor(
     public commonService: CommonService,
     private authService: AuthService,
-    private userService: UserService
+    private accountService: AccountService,
+
   ) {}
 
   ngOnInit() {
@@ -47,7 +49,7 @@ export class ProfileComponent implements OnInit {
   fetchOrganization() {
     const params = new HttpParams().set('orgId', this.user.organizationID.toString());
 
-    this.userService.fetchOrganization(params).subscribe((res: any) => {
+    this.accountService.fetchAccountDetails(params).subscribe((res: any) => {
       if (res.success === 1) {
         console.log('response:' + JSON.stringify(res.serviceResult));
         this.organization = res.serviceResult;
@@ -95,7 +97,7 @@ export class ProfileComponent implements OnInit {
     formData.append('userDTO', JSON.stringify(this.user));
     formData.append('orgDTO', JSON.stringify(this.organization));
 
-    this.userService.updateProfileSetting(formData).subscribe((res: any) => {
+    this.accountService.updateAccountDetails(formData).subscribe((res: any) => {
       if (res.success === 1) {
         console.log('response:' + JSON.stringify(res.serviceResult));
         this.authService.setSessionData(this.user);
@@ -115,7 +117,7 @@ export class ProfileComponent implements OnInit {
       .set('newPwd', this.newPwd)
       .set('userId', this.user.userID.toString());
 
-    this.userService.changePassword(params).subscribe((res: any) => {
+    this.accountService.changePassword(params).subscribe((res: any) => {
       if (res.success === 1) {
         console.log('response:' + JSON.stringify(res.serviceResult));
         $('#passwordChange').modal('hide');

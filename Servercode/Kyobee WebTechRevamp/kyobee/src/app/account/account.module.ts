@@ -6,14 +6,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { FormsModule } from '@angular/forms';
 import { CoreModule } from '../core/core.module';
 
-
 @NgModule({
   declarations: [ProfileComponent],
-  imports: [
-    CommonModule,
-    AccountRoutingModule,
-    FormsModule,
-    CoreModule
-  ]
+  imports: [CommonModule, AccountRoutingModule, FormsModule, CoreModule]
 })
-export class AccountModule { }
+export class AccountModule {}

@@ -245,15 +245,17 @@
               </div>
               <div class="col-lg-12">
                 <div class="form-group mt-0">
-                  <input type="password"
-                  id="confPassword"
-                  appConfirmEqualValidator="newpwd"
-                  name="confPassword"
-                  #confPassword="ngModel"
-                  class="form-control"
-                  [ngClass]="{ 'is-invalid': f.submitted && confPassword.invalid }"
-                  [(ngModel)]="confPwd"
-                  required="required" />
+                  <input
+                    type="password"
+                    id="confPassword"
+                    appConfirmEqualValidator="newpwd"
+                    name="confPassword"
+                    #confPassword="ngModel"
+                    class="form-control"
+                    [ngClass]="{ 'is-invalid': f.submitted && confPassword.invalid }"
+                    [(ngModel)]="confPwd"
+                    required="required"
+                  />
                   <label for="input" class="control-label" id="pass3">Re - Type New Password</label><i class="bar"></i>
                   <div *ngIf="f.submitted && confPassword.invalid" class="invalid-feedback">
                     <div class="text-danger" *ngIf="confPassword.errors.required">confPassword is required</div>

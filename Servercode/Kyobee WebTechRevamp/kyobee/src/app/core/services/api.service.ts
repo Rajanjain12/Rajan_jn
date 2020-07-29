@@ -22,7 +22,7 @@ export class ApiService {
   }
   put(path: string, body): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-   headers.append('Accept', 'application/vnd.kyobee.v1+json');
+    headers.append('Accept', 'application/vnd.kyobee.v1+json');
     return this.http
       .put(`${environment.serverUrl}${path}`, JSON.stringify(body), { headers })
       .pipe(catchError(this.formatErrors));
