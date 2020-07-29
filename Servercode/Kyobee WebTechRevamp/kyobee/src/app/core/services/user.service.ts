@@ -42,4 +42,13 @@ export class UserService {
   validateResetPwdUrl(params) {
     return this.apiService.getParams('rest/user/validateResetPwdUrl/', params);
   }
+  fetchOrganization(orgId: HttpParams) {
+    return this.apiService.getParams('rest/user/organization', orgId);
+  }
+  changePassword(params) {
+    return this.apiService.putParams('rest/user/password', params);
+  }
+  updateProfileSetting(params) {
+    return this.apiService.postFile('rest/user/profileSetting', params);
+  }
 }

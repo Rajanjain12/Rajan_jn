@@ -10,6 +10,8 @@ import { AuthB2BService } from 'src/app/core/services/auth-b2b.service';
 import { TimezoneDTO } from 'src/app/core/models/timezone.model';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { User } from 'src/app/core/models/user.model';
+import { CommonService } from 'src/app/core/services/common.service';
+
 
 @Component({
   selector: 'app-register-business',
@@ -20,7 +22,7 @@ export class RegisterBusinessComponent implements OnInit {
   @Input('step') step: number;
   @Output('stepChange') stepChange = new EventEmitter<number>();
 
-  countryList: Array<CountryDTO>;
+//  countryList: Array<CountryDTO>;
   countryCode = 'us';
   country: CountryDTO = new CountryDTO();
   searchKeyword: string;
@@ -34,7 +36,7 @@ export class RegisterBusinessComponent implements OnInit {
   organization: OrganizationDTO = new OrganizationDTO();
   organizationTypeList: any;
   placeResults = false;
-  timezoneList: Array<TimezoneDTO>;
+ // timezoneList: Array<TimezoneDTO>;
   user: User = new User();
   isCustomer = true;
 
@@ -65,11 +67,12 @@ export class RegisterBusinessComponent implements OnInit {
     private userService: UserService,
     private signupService: SignUpService,
     private authb2bService: AuthB2BService,
-    private authService: AuthService
+    private authService: AuthService,
+    public commonService: CommonService
   ) {}
 
   ngOnInit() {
-    this.fetchCountryList();
+    this.commonService.fetchCountryList();
     this.organization.addressDTO = new AddressDTO();
     this.organization.orgTypeId = 1;
     this.organization.timezoneId = 386;
@@ -77,7 +80,7 @@ export class RegisterBusinessComponent implements OnInit {
   }
 
   // Purpose : for fetching country list
-  fetchCountryList() {
+ /* fetchCountryList() {
     this.userService.fetchCountryList().subscribe((res: any) => {
       if (res.success === 1) {
         console.log('response:' + JSON.stringify(res.serviceResult));
@@ -86,7 +89,7 @@ export class RegisterBusinessComponent implements OnInit {
         alert(res.message);
       }
     });
-  }
+  } */
 
   // Purpose : for fetching latLon for given zipcode
   fetchLatLon() {
@@ -144,8 +147,8 @@ export class RegisterBusinessComponent implements OnInit {
         this.organization = res.serviceResult;
         this.organization.orgTypeId = 1;
         this.organization.timezoneId = 386;
-        this.fetchOrganizationType();
-        this.fetchTimezoneList();
+        this.commonService.fetchOrganizationType();
+        this.commonService.fetchTimezoneList();
         this.addBusinessFlag = true;
       } else {
         alert(res.message);
@@ -153,7 +156,7 @@ export class RegisterBusinessComponent implements OnInit {
     });
   }
   // Purpose : for fetching organization type
-  fetchOrganizationType() {
+/*  fetchOrganizationType() {
     this.signupService.fetchOrganizationType().subscribe((res: any) => {
       if (res.success === 1) {
         console.log('response:' + JSON.stringify(res.serviceResult));
@@ -171,14 +174,14 @@ export class RegisterBusinessComponent implements OnInit {
         alert(res.message);
       }
     });
-  }
+  }*/
 
   // Purpose : for adding business
   registerBusiness(invalid) {
     if (invalid) {
       return;
     }
-    this.country = this.countryList.find(x => x.isocode == this.countryCode.toUpperCase());
+    this.country = this.commonService.countryList.find(x => x.isocode == this.countryCode.toUpperCase());
     this.organization.addressDTO.country = this.country.countryName;
     this.organization.addressDTO.zipcode = this.zipCode;
     if (this.user.customerId != null) {
@@ -214,7 +217,7 @@ export class RegisterBusinessComponent implements OnInit {
     });
   }
   // Purpose : for fetching timezone list
-  fetchTimezoneList() {
+ /* fetchTimezoneList() {
     this.signupService.fetchTimezoneList().subscribe((res: any) => {
       if (res.success === 1) {
         console.log('response:' + JSON.stringify(res.serviceResult));
@@ -223,5 +226,5 @@ export class RegisterBusinessComponent implements OnInit {
         alert(res.message);
       }
     });
-  }
+  } */
 }

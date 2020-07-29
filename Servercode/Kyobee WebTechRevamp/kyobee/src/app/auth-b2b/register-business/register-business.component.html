@@ -14,7 +14,7 @@
               </div>
               <div class="col p-0 form-group">
                 <select name="countryCode" id="countryCode" [(ngModel)]="countryCode">
-                  <option *ngFor="let country of countryList" value="{{ country.isocode | lowercase }}">{{ country.countryName }}</option>
+                  <option *ngFor="let country of commonService.countryList" value="{{ country.isocode | lowercase }}">{{ country.countryName }}</option>
                 </select>
                 <i class="bar"></i>
               </div>
@@ -91,7 +91,7 @@
           </ul>
         </div>
         <div class="col-12 text-center mt-3">
-          <button type="button" class="btn btn-underline font-color not-finding" (click)="addBusinessFlag = !addBusinessFlag; fetchOrganizationType(); fetchTimezoneList()">
+          <button type="button" class="btn btn-underline font-color not-finding" (click)="addBusinessFlag = !addBusinessFlag; commonService.fetchOrganizationType(); commonService.fetchTimezoneList()">
             Not finding?
           </button>
         </div>
@@ -164,7 +164,7 @@
           <div class="col-12 col-md-6">
             <div class="form-group my-3">
               <select name="IndustryInfo" id="IndustryInfo" [(ngModel)]="organization.orgTypeId">
-                <option *ngFor="let orgTypeList of organizationTypeList" value="{{ orgTypeList.typeID }}">{{ orgTypeList.typeName }}</option>
+                <option *ngFor="let orgTypeList of commonService.organizationTypeList" value="{{ orgTypeList.typeID }}">{{ orgTypeList.typeName }}</option>
               </select>
               <label for="input" class="control-label">Industry info</label><i class="bar"></i>
             </div>
@@ -174,7 +174,7 @@
               <input type="text" id="city" name="city" #city="ngModel" [ngClass]="{ 'is-invalid': f.submitted && city.invalid }" class="form-control" [(ngModel)]="organization.addressDTO.city" required="required" />
               <label for="input" class="control-label">City*</label><i class="bar"></i>
               <div *ngIf="f.submitted && city.invalid" class="invalid-feedback">
-                <div class="text-danger" *ngIf="city.errors?.required">Cityq is required</div>
+                <div class="text-danger" *ngIf="city.errors?.required">City is required</div>
               </div>
             </div>
           </div>
@@ -197,7 +197,7 @@
               </div>
               <div class="col p-0 form-group">
                 <select name="countryCode" id="countryCode" [(ngModel)]="countryCode">
-                  <option *ngFor="let country of countryList" value="{{ country.isocode | lowercase }}">{{ country.countryName }}</option>
+                  <option *ngFor="let country of commonService.countryList" value="{{ country.isocode | lowercase }}">{{ country.countryName }}</option>
                 </select>
                 <i class="bar"></i>
               </div>
@@ -216,7 +216,7 @@
           <div class="col-12 col-md-6">
             <div class="form-group my-3">
               <select name="timezone" id="timezone" [(ngModel)]="organization.timezoneId">
-                <option *ngFor="let timezone of timezoneList" value="{{ timezone.timezoneId }}">{{ timezone.timezoneName }} ({{ timezone.offset }})</option>
+                <option *ngFor="let timezone of commonService.timezoneList" value="{{ timezone.timezoneId }}">{{ timezone.timezoneName }} ({{ timezone.offset }})</option>
               </select>
               <label for="input" class="control-label">Time zone</label><i class="bar"></i>
             </div>

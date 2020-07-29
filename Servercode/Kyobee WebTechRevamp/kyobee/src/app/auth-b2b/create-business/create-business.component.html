@@ -10,7 +10,7 @@
             <input type="text" id="firstName" name="firstName" #firstName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }" class="form-control" [(ngModel)]="orgUser.firstName" required="required" />
             <label for="input" class="control-label">First Name*</label><i class="bar"></i>
             <div *ngIf="f.submitted && firstName.invalid" class="invalid-feedback">
-              <div class="text-danger" *ngIf="firstName.errors?.required">Business Name is required</div>
+              <div class="text-danger" *ngIf="firstName.errors?.required">First Name is required</div>
             </div>
           </div>
         </div>
@@ -28,7 +28,7 @@
             <input type="text" id="userName" name="userName" #userName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && userName.invalid }" class="form-control" [(ngModel)]="orgUser.userName" required="required" />
             <label for="input" class="control-label">Username*</label><i class="bar"></i>
             <div *ngIf="f.submitted && userName.invalid" class="invalid-feedback">
-              <div class="text-danger" *ngIf="userName.errors?.required">Business Name is required</div>
+              <div class="text-danger" *ngIf="userName.errors?.required">Username is required</div>
             </div>
           </div>
         </div>

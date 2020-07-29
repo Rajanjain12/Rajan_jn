@@ -1,6 +1,6 @@
 export class CountryDTO {
-  countryName: String;
-  isocode: String;
+  countryName: string;
+  isocode: string;
 
   CountryDTO() {
     this.countryName = 'United States';

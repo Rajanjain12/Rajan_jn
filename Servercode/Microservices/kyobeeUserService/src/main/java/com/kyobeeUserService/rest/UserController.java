@@ -2,11 +2,14 @@ package com.kyobeeUserService.rest;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -27,6 +30,7 @@ import com.kyobeeUserService.util.Exception.InvalidAuthCodeException;
 import com.kyobeeUserService.util.Exception.InvalidLoginException;
 import com.kyobeeUserService.util.Exception.InvalidPwdUrlException;
 import com.kyobeeUserService.util.Exception.InvalidZipCodeException;
+import com.kyobeeUserService.util.Exception.PasswordNotMatchException;
 import com.kyobeeUserService.util.Exception.UserNotFoundException;
 import com.kyobeeUserService.dto.CountryDTO;
 import com.kyobeeUserService.dto.CredentialsDTO;
@@ -320,6 +324,72 @@ public class UserController {
 			LoggerUtil.logError(e);
 			responseDTO.setServiceResult("Error while validating reset password url.");
 			responseDTO.setMessage("Error while validating reset password url.");
+			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+		}
+		return responseDTO;
+	}
+
+	// For fetching organization details for given id
+	@GetMapping(value = "/organization", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO fetchOrganization(@RequestParam Integer orgId) {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			OrganizationDTO orgDTO = userService.fetchOrganizationById(orgId);
+			responseDTO.setServiceResult(orgDTO);
+			responseDTO.setMessage("Organization Details fetched successfully");
+			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
+		} catch (Exception e) {
+			LoggerUtil.logError(e);
+			responseDTO.setServiceResult("Error while fetching organization details.");
+			responseDTO.setMessage("Error while fetching organization details.");
+			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+			e.printStackTrace();
+		}
+		return responseDTO;
+	}
+
+	// For updating user account password
+	@PutMapping(value = "/password", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO changePassword(@RequestParam String oldPwd, @RequestParam String newPwd,
+			@RequestParam Integer userId) {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			userService.changePassword(oldPwd, newPwd, userId);
+			responseDTO.setServiceResult("User Password updated successfully");
+			responseDTO.setMessage("User Password updated successfully");
+			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
+
+		} catch (PasswordNotMatchException pe) {
+			LoggerUtil.logError(pe);
+			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+			responseDTO.setMessage(pe.getMessage());
+			responseDTO.setServiceResult(pe.getMessage());
+		} catch (Exception e) {
+			LoggerUtil.logError(e);
+			responseDTO.setServiceResult("Error while updating password");
+			responseDTO.setMessage("Error while fetching updating password");
+			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+		}
+		return responseDTO;
+	}
+
+	// For updating user profile
+	@PutMapping(value = "/profileSetting",consumes="multipart/form-data", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO updateprofileSetting(HttpServletRequest request) {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			userService.updateProfileSetting(request);
+			responseDTO.setServiceResult("User profile details updated successfully");
+			responseDTO.setMessage("User profile details updated successfully");
+			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
+
+		}catch (Exception e) {
+			LoggerUtil.logError(e);
+			responseDTO.setServiceResult("Error while updating profile details");
+			responseDTO.setMessage("Error while updating profile details");
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
 		}
 		return responseDTO;

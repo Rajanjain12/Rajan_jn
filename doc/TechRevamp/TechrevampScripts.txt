@@ -886,4 +886,10 @@ ADD CONSTRAINT `FKTimezoneID`
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
   
-  
+ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ALTER TABLE `KyobeeTechRevamp`.`USER` 
+CHANGE COLUMN `Active` `Active` TINYINT(1) NULL ;
+
+ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATION` 
+CHANGE COLUMN `Active` `Active` TINYINT(1) NULL ;
+ 

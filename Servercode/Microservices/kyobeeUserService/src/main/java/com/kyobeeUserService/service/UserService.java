@@ -2,10 +2,15 @@ package com.kyobeeUserService.service;
 
 
 
+import java.io.IOException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.json.JSONException;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.kyobeeUserService.dto.CountryDTO;
 import com.kyobeeUserService.dto.CredentialsDTO;
 import com.kyobeeUserService.dto.LoginUserDTO;
@@ -22,6 +27,7 @@ import com.kyobeeUserService.util.Exception.InvalidAuthCodeException;
 import com.kyobeeUserService.util.Exception.InvalidLoginException;
 import com.kyobeeUserService.util.Exception.InvalidPwdUrlException;
 import com.kyobeeUserService.util.Exception.InvalidZipCodeException;
+import com.kyobeeUserService.util.Exception.PasswordNotMatchException;
 import com.kyobeeUserService.util.Exception.UserNotFoundException;
 
 public interface UserService {
@@ -54,5 +60,11 @@ public interface UserService {
 	public List<CountryDTO> fetchCountryList();
 	
 	public String validateResetPasswordUrl(Integer userId,String authCode) throws InvalidPwdUrlException;
+	
+	public OrganizationDTO fetchOrganizationById(Integer orgId);
+	
+	public void changePassword(String oldPassword,String newPassword,Integer userId) throws PasswordNotMatchException;
+	
+	public void updateProfileSetting(HttpServletRequest request) throws IOException;
 
 }

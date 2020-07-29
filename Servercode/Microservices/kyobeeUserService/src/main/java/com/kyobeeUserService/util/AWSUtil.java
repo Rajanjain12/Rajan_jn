@@ -1,5 +1,6 @@
 package com.kyobeeUserService.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -30,6 +31,17 @@ public class AWSUtil {
 				.withCannedAcl(CannedAccessControlList.PublicRead));
 		return UserServiceConstants.AWS_PATH + UserServiceConstants.AWS_BUCKET_NAME + "/" + fileName;
 
+	}
+	
+	public String uploadProfileImage(File file) {
+		AWSCredentials credentials = new BasicAWSCredentials(UserServiceConstants.AWS_ACCESS_KEY_ID,
+				UserServiceConstants.AWS_SECRET_KEY);
+		AmazonS3 s3client = AmazonS3ClientBuilder.standard().withRegion(Regions.US_WEST_2)
+				.withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
+		s3client.putObject(new PutObjectRequest(UserServiceConstants.AWS_LOGOS_BUCKET_NAME, file.getName(), file)
+						.withCannedAcl(CannedAccessControlList.PublicRead));
+		return UserServiceConstants.AWS_PATH + UserServiceConstants.AWS_LOGOS_BUCKET_NAME
+				+ "/" +file.getName();
 	}
 
 }

@@ -17,7 +17,7 @@ declare var $: any;
 export class AddGuestComponent implements OnInit {
   guest: GuestDTO = new GuestDTO();
   user: User = new User();
-  alertError: { type: string; msg: string; display: Boolean } = { type: '', msg: '', display: false };
+  alertError: { type: string; msg: string; display: boolean } = { type: '', msg: '', display: false };
   public sum = 0;
   marketingPref: Array<Preference>;
   seatingPref: Array<Preference>;

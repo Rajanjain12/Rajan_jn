@@ -22,7 +22,7 @@ export class ApiService {
   }
   put(path: string, body): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    headers.append('Accept', 'application/vnd.kyobee.v1+json');
+   headers.append('Accept', 'application/vnd.kyobee.v1+json');
     return this.http
       .put(`${environment.serverUrl}${path}`, JSON.stringify(body), { headers })
       .pipe(catchError(this.formatErrors));
@@ -60,5 +60,9 @@ export class ApiService {
     headers.append('Accept', 'application/vnd.kyobee.v1+json');
     const postbody = {};
     return this.http.delete(`${environment.serverUrl}${path}`, { headers, params }).pipe(catchError(this.formatErrors));
+  }
+
+  postFile(path: string, data: FormData): Observable<any> {
+    return this.http.put(`${environment.serverUrl}${path}`, data).pipe(catchError(this.formatErrors));
   }
 }

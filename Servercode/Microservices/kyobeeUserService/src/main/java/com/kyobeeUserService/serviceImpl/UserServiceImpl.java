@@ -1,13 +1,20 @@
 package com.kyobeeUserService.serviceImpl;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -19,8 +26,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kyobeeUserService.dao.AddressDAO;
 import com.kyobeeUserService.dao.CountryDAO;
 import com.kyobeeUserService.dao.CustomerDAO;
 import com.kyobeeUserService.dao.LanguageKeyMappingDAO;
@@ -32,6 +43,7 @@ import com.kyobeeUserService.dao.OrganizationTypeDAO;
 import com.kyobeeUserService.dao.OrganizationUserDAO;
 import com.kyobeeUserService.dao.RoleDAO;
 import com.kyobeeUserService.dao.SmsTemplateLanguageMappingDAO;
+import com.kyobeeUserService.dao.TimezoneDAO;
 import com.kyobeeUserService.dao.UserDAO;
 import com.kyobeeUserService.dto.AddressDTO;
 import com.kyobeeUserService.dto.CountryDTO;
@@ -47,6 +59,7 @@ import com.kyobeeUserService.dto.SeatingMarketingPrefDTO;
 import com.kyobeeUserService.dto.SignUpDTO;
 import com.kyobeeUserService.dto.SmsTemplateDTO;
 import com.kyobeeUserService.dto.UserSignUpDTO;
+import com.kyobeeUserService.entity.Address;
 import com.kyobeeUserService.entity.Customer;
 import com.kyobeeUserService.entity.Lookup;
 import com.kyobeeUserService.entity.Organization;
@@ -59,6 +72,7 @@ import com.kyobeeUserService.entity.Role;
 import com.kyobeeUserService.entity.SmsTemplateLanguageMapping;
 import com.kyobeeUserService.entity.User;
 import com.kyobeeUserService.service.UserService;
+import com.kyobeeUserService.util.AWSUtil;
 import com.kyobeeUserService.util.CommonUtil;
 import com.kyobeeUserService.util.EmailUtil;
 import com.kyobeeUserService.util.LoggerUtil;
@@ -71,6 +85,7 @@ import com.kyobeeUserService.util.Exception.InvalidActivationCodeException;
 import com.kyobeeUserService.util.Exception.InvalidLoginException;
 import com.kyobeeUserService.util.Exception.InvalidPwdUrlException;
 import com.kyobeeUserService.util.Exception.InvalidZipCodeException;
+import com.kyobeeUserService.util.Exception.PasswordNotMatchException;
 import com.kyobeeUserService.util.Exception.UserNotFoundException;
 
 @Service
@@ -117,6 +132,15 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private OrganizationUserDAO organizationUserDAO;
+
+	@Autowired
+	private AddressDAO addressDAO;
+
+	@Autowired
+	private TimezoneDAO timezoneDAO;
+	
+	@Autowired
+	private AWSUtil awsUtil;
 
 	// to validate user and fetch data needed after login in web and mobile, single
 	// API for login from web and mobile
@@ -278,8 +302,7 @@ public class UserServiceImpl implements UserService {
 					loginUserDTO.setSeatingpref(seatingPrefList);
 					loginUserDTO.setMarketingPref(marketingPrefList);
 					loginUserDTO.setFooterMsg(UserServiceConstants.FOOTER_MSG);
-					loginUserDTO.setLogoPath(UserServiceConstants.AWS_PATH + UserServiceConstants.AWS_LOGOS_BUCKET_NAME
-							+ "/" + loginUserDTO.getOrganizationID() + UserServiceConstants.EXTENSION);
+					loginUserDTO.setLogoPath(organization.getLogoFileName());
 					loginUserDTO.setNotifyFirst(organization.getNotifyUserCount());
 					loginUserDTO.setPplBifurcation(organization.getPplBifurcation());
 
@@ -757,10 +780,10 @@ public class UserServiceImpl implements UserService {
 				user.setActivationCode(CommonUtil.generateRandomToken().toString());
 				user.setActivationExpiryDate(nextDay);
 
-				if(userSignUpDTO.getIsCustomer()) {
-				role = roleDAO.fetchRole(UserServiceConstants.CUSTOMER_ADMIN_ROLE);
-				}else {
-			    role = roleDAO.fetchRole(UserServiceConstants.ORG_ADMIN_ROLE);	
+				if (userSignUpDTO.getIsCustomer()) {
+					role = roleDAO.fetchRole(UserServiceConstants.CUSTOMER_ADMIN_ROLE);
+				} else {
+					role = roleDAO.fetchRole(UserServiceConstants.ORG_ADMIN_ROLE);
 				}
 				Customer customer = customerDAO.getOne(userSignUpDTO.getCustomerId());
 				Organization organization = organizationDAO.getOne(userSignUpDTO.getOrgId());
@@ -821,6 +844,89 @@ public class UserServiceImpl implements UserService {
 			throw new InvalidPwdUrlException(
 					"Invalid URL. Verification failure. Please check the url again or contact support.");
 		}
+	}
+
+	@Override
+	public OrganizationDTO fetchOrganizationById(Integer orgId) {
+
+		OrganizationDTO orgDTO = new OrganizationDTO();
+		AddressDTO addressDTO = new AddressDTO();
+		Organization org = organizationDAO.getOne(orgId);
+		BeanUtils.copyProperties(org, orgDTO);
+		BeanUtils.copyProperties(org.getAddress(), addressDTO);
+		orgDTO.setAddressDTO(addressDTO);
+		orgDTO.setOrgTypeId(org.getOrganizationType().getTypeID());
+		orgDTO.setTimezoneId(org.getTimezone().getTimezoneId());
+
+		return orgDTO;
+	}
+
+	// For updating password
+	@Override
+	public void changePassword(String oldPassword, String newPassword, Integer userId)
+			throws PasswordNotMatchException {
+		User user = userDAO.findByUserID(userId);
+		if (!user.getPassword().equals(CommonUtil.encryptPassword(oldPassword + user.getSaltString()))) {
+			throw new PasswordNotMatchException("Old password does not match");
+		}
+		String salt = CommonUtil.getSaltString();
+		user.setPassword(CommonUtil.encryptPassword(newPassword + salt));
+		user.setSaltString(salt);
+		user.setModifiedBy(user.getEmail());
+		user.setModifiedAt(new Date());
+		userDAO.save(user);
+	}
+
+	// For updating/uploading profile image in AWS and updating profile details in
+	// DB
+	@Override
+	public void updateProfileSetting(HttpServletRequest request) throws IOException {
+
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		MultipartFile imageFile = multipartRequest.getFile("imageFile");
+		String orgDTOJson = multipartRequest.getParameter("orgDTO");
+		String userDTOJson = multipartRequest.getParameter("userDTO");
+
+		ObjectMapper mpr = new ObjectMapper();
+		// converting json string to dto
+		LoginUserDTO userDTO = mpr.readValue(userDTOJson, LoginUserDTO.class);
+		User user = userDAO.findByUserID(userDTO.getUserID());
+		BeanUtils.copyProperties(userDTO, user);
+		user.setModifiedBy(user.getEmail());
+		user.setModifiedAt(new Date());
+		LoggerUtil.logInfo("Going to update user details");
+		userDAO.save(user);
+
+		OrganizationDTO orgDTO = mpr.readValue(orgDTOJson, OrganizationDTO.class);
+		Organization org = organizationDAO.getOne(userDTO.getOrganizationID());
+		Address address = org.getAddress();
+		BeanUtils.copyProperties(orgDTO.getAddressDTO(), address);
+		BeanUtils.copyProperties(orgDTO, org);
+		org.setAddress(address);
+		org.setOrganizationType(organizationTypeDAO.getOne(orgDTO.getOrgTypeId()));
+		org.setTimezone(timezoneDAO.getOne(orgDTO.getTimezoneId()));
+		org.setModifiedBy(org.getEmail());
+		org.setModifiedAt(new Date());
+
+		if (imageFile != null) {
+			// image upload 
+			String name = imageFile.getOriginalFilename();
+			LoggerUtil.logInfo(name);
+			int index = name.lastIndexOf(".");
+			String extension = name.substring(index + 1);
+			String fileName = userDTO.getOrganizationID() + "." + extension;// set File Name
+			fileName = fileName.replaceAll("\\\\", "-");
+			fileName = fileName.replaceAll("\\/", "-");
+			fileName = fileName.replaceAll(" ", "-");
+			File file = new File(fileName);
+			Files.copy(imageFile.getInputStream(), Paths.get(fileName), StandardCopyOption.REPLACE_EXISTING);
+			String path = awsUtil.uploadProfileImage(file);
+			org.setLogoFileName(path);
+
+		}
+		LoggerUtil.logInfo("Going to update organization details");
+		organizationDAO.save(org);
+
 	}
 
 }
