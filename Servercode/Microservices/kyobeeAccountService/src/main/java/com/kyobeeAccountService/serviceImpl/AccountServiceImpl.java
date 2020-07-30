@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kyobeeAccountService.dao.OrganizationDAO;
 import com.kyobeeAccountService.dao.OrganizationTypeDAO;
+import com.kyobeeAccountService.dao.OrganizationUserDAO;
 import com.kyobeeAccountService.dao.TimezoneDAO;
 import com.kyobeeAccountService.dao.UserDAO;
 import com.kyobeeAccountService.dto.AddressDTO;
@@ -32,25 +33,27 @@ import com.kyobeeAccountService.util.CommonUtil;
 import com.kyobeeAccountService.util.LoggerUtil;
 import com.kyobeeAccountService.util.Exception.PasswordNotMatchException;
 
-
 @Service
 public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	OrganizationDAO organizationDAO;
-	
+
 	@Autowired
 	UserDAO userDAO;
-	
+
 	@Autowired
 	OrganizationTypeDAO organizationTypeDAO;
-	
+
 	@Autowired
-	TimezoneDAO timezoneDAO; 
-	
+	TimezoneDAO timezoneDAO;
+
 	@Autowired
 	AWSUtil awsUtil;
-	
+
+	@Autowired
+	OrganizationUserDAO organizationUserDAO;
+
 	// For fetching account details
 	@Override
 	public OrganizationDTO fetchAccountDetails(Integer orgId) {
@@ -130,6 +133,14 @@ public class AccountServiceImpl implements AccountService {
 		user.setModifiedBy(user.getEmail());
 		user.setModifiedAt(new Date());
 		userDAO.save(user);
+	}
+
+	// For deleting account
+	@Override
+	public void deleteAccount(Integer orgId, Integer userId) {
+		userDAO.deleteUser(userId);
+		organizationDAO.deleteOrganization(orgId);
+		organizationUserDAO.deleteOrganizationUser(userId, orgId);
 	}
 
 }

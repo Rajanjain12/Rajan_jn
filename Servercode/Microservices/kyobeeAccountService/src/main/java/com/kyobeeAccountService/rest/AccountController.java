@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,7 +46,7 @@ public class AccountController {
 		}
 		return responseDTO;
 	}
-	
+
 	// For updating user profile
 	@PutMapping(value = "/", consumes = "multipart/form-data", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO updateAccountDetails(HttpServletRequest request) {
@@ -65,7 +66,6 @@ public class AccountController {
 		}
 		return responseDTO;
 	}
-
 
 	// For updating user account password
 	@PutMapping(value = "/password", produces = "application/vnd.kyobee.v1+json")
@@ -92,5 +92,25 @@ public class AccountController {
 		}
 		return responseDTO;
 	}
-	
+
+	// For deleting user
+	@DeleteMapping(value = "/", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO deleteAccount(@RequestParam Integer orgId, @RequestParam Integer userId) {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			accountService.deleteAccount(orgId, userId);
+			responseDTO.setServiceResult("Resturant deleted successfully");
+			responseDTO.setMessage("Resturant deleted successfully");
+			responseDTO.setSuccess(AccountServiceConstants.SUCCESS_CODE);
+
+		} catch (Exception e) {
+			LoggerUtil.logError(e);
+			responseDTO.setServiceResult("Error while deleting resturant");
+			responseDTO.setMessage("Error while deleting resturant");
+			responseDTO.setSuccess(AccountServiceConstants.ERROR_CODE);
+		}
+		return responseDTO;
+	}
+
 }

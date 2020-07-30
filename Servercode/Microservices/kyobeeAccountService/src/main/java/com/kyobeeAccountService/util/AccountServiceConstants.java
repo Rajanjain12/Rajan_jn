@@ -8,5 +8,6 @@ public class AccountServiceConstants {
 	public static final String AWS_SECRET_KEY = "ilnMJmHXDiNBqW1l+EeYER6duueOyDEldpipYuCW";
 	public static final String AWS_PATH = "https://s3-us-west-2.amazonaws.com/";
 	public static final String AWS_LOGOS_BUCKET_NAME ="kyobeeorglogos";
+	public static final byte INACTIVE_USER = 0;
 
 }

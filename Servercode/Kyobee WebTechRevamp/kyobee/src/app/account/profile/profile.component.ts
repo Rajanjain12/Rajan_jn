@@ -32,8 +32,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     public commonService: CommonService,
     private authService: AuthService,
-    private accountService: AccountService,
-
+    private accountService: AccountService
   ) {}
 
   ngOnInit() {
