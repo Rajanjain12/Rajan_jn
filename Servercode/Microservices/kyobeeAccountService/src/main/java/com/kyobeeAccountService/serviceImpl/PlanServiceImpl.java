@@ -1,6 +1,8 @@
 package com.kyobeeAccountService.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.kyobeeAccountService.dao.OrganizationSubscriptionDAO;
 import com.kyobeeAccountService.dao.OrganizationSubscriptionDetailDAO;
 import com.kyobeeAccountService.dto.InvoiceDTO;
+import com.kyobeeAccountService.dto.SubscribedPlanDetailsDTO;
 import com.kyobeeAccountService.entity.OrganizationSubscription;
 import com.kyobeeAccountService.entity.OrganizationSubscriptionDetail;
 import com.kyobeeAccountService.service.PlanService;
@@ -63,7 +66,31 @@ public class PlanServiceImpl implements PlanService {
 
 		}
 		LoggerUtil.logInfo("Invoice details list:" + invoiceDTOList);
+		invoiceDTOList.sort(Comparator.comparing(InvoiceDTO::getInvoiceID).reversed());
 		return invoiceDTOList;
+	}
+
+	@Override
+	public List<SubscribedPlanDetailsDTO> fetchPlanDetails(Integer orgId) {
+		List<SubscribedPlanDetailsDTO> subscPlanList = new ArrayList<>();
+		List<OrganizationSubscription> orgSubsc = orgSubscDAO.fetchInvoiceDetails(orgId);
+		List<OrganizationSubscriptionDetail> planSubscDetailsList = orgSubscDetailDAO
+				.fetchPlanFeatureDetails(Arrays.asList(orgSubsc.get(0).getOrganizationSubscriptionID()));
+		SubscribedPlanDetailsDTO planDetailsDTO = null;
+		
+		for(OrganizationSubscriptionDetail planSubscDetails : planSubscDetailsList) {
+			planDetailsDTO = new SubscribedPlanDetailsDTO();
+			planDetailsDTO.setFeatureName(planSubscDetails.getFeature().getFeatureName());
+			planDetailsDTO.setFeatureDesc(planSubscDetails.getFeature().getFeatureDescription());
+			planDetailsDTO.setPlanName(planSubscDetails.getPlan().getPlanName());
+			planDetailsDTO.setPlanTerm(planSubscDetails.getPlanterm().getPlanTermName());
+			planDetailsDTO.setStatus(planSubscDetails.getActive());
+			planDetailsDTO.setSubscribedDate(planSubscDetails.getSubscribedDate());
+			planDetailsDTO.setEndDate(planSubscDetails.getEndDate());
+			subscPlanList.add(planDetailsDTO);
+		}
+		LoggerUtil.logInfo("subscPlanList"+subscPlanList);
+		return subscPlanList;
 	}
 
 }

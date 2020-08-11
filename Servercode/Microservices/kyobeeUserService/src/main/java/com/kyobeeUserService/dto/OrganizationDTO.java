@@ -13,6 +13,7 @@ public class OrganizationDTO {
 	private Integer customerId;
 	private Integer orgTypeId;
 	private Integer timezoneId;
+	private String imageURL;
 
 	public AddressDTO getAddressDTO() {
 		return addressDTO;
@@ -84,6 +85,14 @@ public class OrganizationDTO {
 
 	public void setTimezoneId(Integer timezoneId) {
 		this.timezoneId = timezoneId;
+	}
+
+	public String getImageURL() {
+		return imageURL;
+	}
+
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
 	}
 	
 }

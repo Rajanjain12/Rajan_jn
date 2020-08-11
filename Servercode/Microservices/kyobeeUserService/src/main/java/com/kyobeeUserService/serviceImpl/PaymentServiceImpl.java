@@ -142,7 +142,7 @@ public class PaymentServiceImpl implements PaymentService {
 			UpdatePaymentDetailsDTO updatePaymentDetailDTO = new UpdatePaymentDetailsDTO();
 			BeanUtils.copyProperties(orgPaymentDTO, updatePaymentDetailDTO);
 			updatePaymentDetailDTO.setOrganizationPaymentID(org.getOrganizationPaymentID());
-			updatePaymentDetailDTO.setInvoiceStatus(UserServiceConstants.INVOICE_STATUS_BILLED);
+			updatePaymentDetailDTO.setInvoiceStatus(UserServiceConstants.INVOICE_STATUS_PAID);
 			updatePaymentDetailDTO.setSubscriptionStatus(UserServiceConstants.SUBSCRIBED);
 			updatePaymentDetailDTO.setCurrentActiveSubscription(UserServiceConstants.ACTIVE_SUBSC);
 			updatePaymentDetailDTO.setVaultId(transaction.getCreditCard().getToken());

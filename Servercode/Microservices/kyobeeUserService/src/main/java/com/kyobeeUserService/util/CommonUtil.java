@@ -9,6 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class CommonUtil {
 
 	public static String encryptPassword(String password) {
