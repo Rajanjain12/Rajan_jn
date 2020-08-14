@@ -15,6 +15,7 @@ public class UpdatePaymentDetailsDTO {
 	private Integer organizationSubscriptionID;
 	private Integer organizationCardDetailID;
 	private Integer organizationPaymentID;
+	private String renewalType;
 	
 	public String getInvoiceStatus() {
 		return invoiceStatus;
@@ -81,6 +82,12 @@ public class UpdatePaymentDetailsDTO {
 	}
 	public void setOrganizationPaymentID(Integer organizationPaymentID) {
 		this.organizationPaymentID = organizationPaymentID;
+	}
+	public String getRenewalType() {
+		return renewalType;
+	}
+	public void setRenewalType(String renewalType) {
+		this.renewalType = renewalType;
 	}
 	
 }

@@ -138,7 +138,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private TimezoneDAO timezoneDAO;
-	
+
 	@Autowired
 	private AWSUtil awsUtil;
 
@@ -160,7 +160,6 @@ public class UserServiceImpl implements UserService {
 				Integer customerId = organizationUserDAO.checkForHighestRole(user.getUserID());
 				// If user has highest role then fetch all organization under that
 				if (customerId != null) {
-					loginUserDTO.setCustomerId(customerId);
 					List<OrganizationUser> orgList = organizationUserDAO.fetchOrganizationUser(customerId);
 					List<OrgUserDetailsDTO> orgUserDetailsList = new ArrayList<>();
 					OrganizationDTO orgDTO = null;
@@ -187,6 +186,9 @@ public class UserServiceImpl implements UserService {
 
 				// fetch organization details associated with user
 				Organization organization = organizationDAO.fetchOrganizationByUserId(user.getUserID());
+
+				loginUserDTO.setCustomerId(organization.getCustomer() != null ? organization.getCustomer().getCustomerID(): 0);
+
 				if ((organization.getClientBase().equalsIgnoreCase(credentialsDTO.getClientBase())
 						&& credentialsDTO.getDeviceType().equalsIgnoreCase(UserServiceConstants.WEB_USER)
 						|| (!credentialsDTO.getDeviceType().equalsIgnoreCase(UserServiceConstants.WEB_USER)))) {
@@ -909,7 +911,7 @@ public class UserServiceImpl implements UserService {
 		org.setModifiedAt(new Date());
 
 		if (imageFile != null) {
-			// image upload 
+			// image upload
 			String name = imageFile.getOriginalFilename();
 			LoggerUtil.logInfo(name);
 			int index = name.lastIndexOf(".");

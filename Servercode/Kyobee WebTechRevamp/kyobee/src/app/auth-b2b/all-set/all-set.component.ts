@@ -71,6 +71,7 @@ export class AllSetComponent implements OnInit {
   };
 
   discount: DiscountDTO = new DiscountDTO();
+  selected;
 
   constructor(public authb2bService: AuthB2BService, private paymentService: PaymentService) {}
 
@@ -146,6 +147,7 @@ export class AllSetComponent implements OnInit {
         console.log(payload);
         console.log(payload.nonce);
 
+        this.orgPayment.renewalType = this.selected === true ? 'AutoRenew' : 'Manual';
         this.orgPayment.paymentNonce = payload.nonce;
         this.orgCardDetails.cardName = this.fName + ' ' + this.lName;
         this.orgCardDetails.cardNo = payload.details.lastFour;

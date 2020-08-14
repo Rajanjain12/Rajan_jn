@@ -115,7 +115,7 @@ public class PlanServiceImpl implements PlanService {
 
 					planFeatureChargeDTOList.add(planFeatureChargeDTO);
 				}
-				
+
 				planFeatureDTO.setFeatureChargeDetails(planFeatureChargeDTOList);
 				planFeatureDTOList.add(planFeatureDTO);
 
@@ -153,9 +153,9 @@ public class PlanServiceImpl implements PlanService {
 		orgSubscription.setCreatedBy(UserServiceConstants.ADMIN);
 
 		OrganizationSubscriptionDetail orgSubscriptionDetails = null;
-		//Entries for charged plan
+		// Entries for charged plan
 		if (!planFeatureChargeIds.isEmpty()) {
-			LoggerUtil.logInfo("non empty:"+planFeatureChargeIds);
+			LoggerUtil.logInfo("non empty:" + planFeatureChargeIds);
 			for (PlanFeatureCharge planList : selectedPlanList) {
 				totalAmount = totalAmount != null ? totalAmount.add(planList.getTermChargeAmt())
 						: planList.getTermChargeAmt();
@@ -169,13 +169,18 @@ public class PlanServiceImpl implements PlanService {
 				orgSubscription.setTotalBillAmount(totalAmount);
 				orgSubscriptionDetails.setOrganizationSubscription(orgSubscription);
 				orgSubscriptionDetails.setCurrentActiveSubscription(UserServiceConstants.INACTIVE_PLAN);
+				orgSubscriptionDetails.setStartDate(new Date());
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.DATE,
+						orgSubscriptionDetails.getPlanterm().getPlanTermName().equals("Monthly") ? 30 : 365);
+				orgSubscriptionDetails.setEndDate(cal.getTime());
 				orgSubscriptionDetails.setActive(UserServiceConstants.INACTIVE);
 				orgSubscriptionDetails.setCreatedAt(new Date());
 				orgSubscriptionDetails.setCreatedBy(UserServiceConstants.ADMIN);
 				orgSubscriptionDetailList.add(orgSubscriptionDetails);
 			}
 		} else {
-			//Entries for free plan
+			// Entries for free plan
 			orgSubscriptionDetails = new OrganizationSubscriptionDetail();
 			orgSubscriptionDetails.setOrganization(org);
 			orgSubscriptionDetails.setSubscriptionStatus(UserServiceConstants.PENDING);
@@ -190,7 +195,7 @@ public class PlanServiceImpl implements PlanService {
 			orgSubscriptionDetails.setCreatedAt(new Date());
 			orgSubscriptionDetails.setCreatedBy(UserServiceConstants.ADMIN);
 			orgSubscriptionDetailList.add(orgSubscriptionDetails);
-			LoggerUtil.logInfo("empty:"+planFeatureChargeIds);
+			LoggerUtil.logInfo("empty:" + planFeatureChargeIds);
 		}
 		List<OrganizationSubscriptionDetail> orgSubscDetail = orgSubscriptionDetailsDAO
 				.saveAll(orgSubscriptionDetailList);

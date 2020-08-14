@@ -77,13 +77,18 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Autowired
 	PromotionalCodeDAO promotionalCodeDAO;
-	
+
 	@Autowired
 	RestTemplate restTemplate;
-	
 
 	@Override
 	public Integer saveOrgCardDetails(OrgCardDetailsDTO orgCardDetailsDTO) {
+
+		Integer orgCardId = orgCardDetailsDAO.fetchOrgCardDetails(orgCardDetailsDTO.getOrgId(),
+				orgCardDetailsDTO.getCustomerId(), orgCardDetailsDTO.getCardNo());
+		if (orgCardId != null) {
+			return orgCardId;
+		}
 		OrganizationCardDetail orgCardDetail = new OrganizationCardDetail();
 
 		BeanUtils.copyProperties(orgCardDetailsDTO, orgCardDetail);
@@ -149,6 +154,7 @@ public class PaymentServiceImpl implements PaymentService {
 			updatePaymentDetailDTO.setTransactionId(transaction.getId());
 			updatePaymentDetailDTO.setPaymentStatus(UserServiceConstants.SUCCESS);
 			updatePaymentDetailDTO.setPaymentStatusReason(transaction.getStatus().toString());
+			updatePaymentDetailDTO.setRenewalType(orgPaymentDTO.getRenewalType());
 
 			Timestamp stamp = new Timestamp(transaction.getCreatedAt().getTimeInMillis());
 			updatePaymentDetailDTO.setPaymentDateTime(stamp);
@@ -186,7 +192,7 @@ public class PaymentServiceImpl implements PaymentService {
 		List<PlanFeatureCharge> selectedPlanList = planFeatureChargeDAO
 				.findByPlanFeatureChargeIDIn(invoiceDTO.getFeatureChargeIds());
 		String invoiceFile = pdfUtil.generateInvoice(invoiceDTO.getOrgDTO(), selectedPlanList,
-				invoiceDTO.getOrgSubscriptionId(),invoiceDTO.getDiscount());
+				invoiceDTO.getOrgSubscriptionId(), invoiceDTO.getDiscount());
 		LoggerUtil.logInfo("File stored in aws s3 on path:" + invoiceFile);
 
 		orgSubscriptionDAO.updateInvoiceDetails(UserServiceConstants.INVOICE_STATUS_BILLED, invoiceFile,
@@ -204,10 +210,12 @@ public class PaymentServiceImpl implements PaymentService {
 			BigDecimal discAmount = discountDTO.getAmount().multiply(discPercentage).divide(new BigDecimal(100));
 			BigDecimal finalAmount = discountDTO.getAmount().subtract(discAmount);
 			LoggerUtil.logInfo("Final amount to be paid:" + finalAmount);
-			orgSubscriptionDAO.updateBillingPrice(discountDTO.getInvoiceDTO().getOrgSubscriptionId(), discAmount, finalAmount);
+			orgSubscriptionDAO.updateBillingPrice(discountDTO.getInvoiceDTO().getOrgSubscriptionId(), discAmount,
+					finalAmount);
 			discountDTO.getInvoiceDTO().setDiscount(discAmount);
-			restTemplate.postForObject(UserServiceConstants.INVOICE_API, discountDTO.getInvoiceDTO(), ResponseDTO.class);
-			
+			restTemplate.postForObject(UserServiceConstants.INVOICE_API, discountDTO.getInvoiceDTO(),
+					ResponseDTO.class);
+
 			return finalAmount;
 		} else {
 			throw new PromoCodeException("Invalid PromoCode");

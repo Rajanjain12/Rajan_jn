@@ -49,6 +49,7 @@ public class PaymentCustomDAOImpl implements PaymentCustomDAO {
 						cStmt.setTimestamp(9, updatePaymentDetailsDTO.getPaymentDateTime());
 						cStmt.setString(10, updatePaymentDetailsDTO.getPaymentStatusReason());
 						cStmt.setString(11, updatePaymentDetailsDTO.getPaymentStatus());
+						cStmt.setString(12, updatePaymentDetailsDTO.getRenewalType());
 
 						cStmt.execute();
 

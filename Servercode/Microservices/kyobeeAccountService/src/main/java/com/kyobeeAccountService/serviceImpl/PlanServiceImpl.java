@@ -1,22 +1,33 @@
 package com.kyobeeAccountService.serviceImpl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kyobeeAccountService.dao.CustomerDAO;
+import com.kyobeeAccountService.dao.OrganizationDAO;
 import com.kyobeeAccountService.dao.OrganizationSubscriptionDAO;
 import com.kyobeeAccountService.dao.OrganizationSubscriptionDetailDAO;
+import com.kyobeeAccountService.dao.PlanFeatureChargeDAO;
 import com.kyobeeAccountService.dto.InvoiceDTO;
 import com.kyobeeAccountService.dto.SubscribedPlanDetailsDTO;
+import com.kyobeeAccountService.entity.Customer;
+import com.kyobeeAccountService.entity.Organization;
 import com.kyobeeAccountService.entity.OrganizationSubscription;
 import com.kyobeeAccountService.entity.OrganizationSubscriptionDetail;
+import com.kyobeeAccountService.entity.PlanFeatureCharge;
 import com.kyobeeAccountService.service.PlanService;
+import com.kyobeeAccountService.util.AccountServiceConstants;
 import com.kyobeeAccountService.util.LoggerUtil;
 
 @Service
@@ -26,6 +37,18 @@ public class PlanServiceImpl implements PlanService {
 
 	@Autowired
 	OrganizationSubscriptionDAO orgSubscDAO;
+
+	@Autowired
+	OrganizationDAO organizationDAO;
+
+	@Autowired
+	CustomerDAO customerDAO;
+
+	@Autowired
+	PlanFeatureChargeDAO planFeatureChargeDAO;
+
+	@Autowired
+	OrganizationSubscriptionDetailDAO orgSubscriptionDetailsDAO;
 
 	@Override
 	public List<InvoiceDTO> fetchInvoiceDetails(Integer orgId) {
@@ -73,12 +96,12 @@ public class PlanServiceImpl implements PlanService {
 	@Override
 	public List<SubscribedPlanDetailsDTO> fetchPlanDetails(Integer orgId) {
 		List<SubscribedPlanDetailsDTO> subscPlanList = new ArrayList<>();
-		List<OrganizationSubscription> orgSubsc = orgSubscDAO.fetchInvoiceDetails(orgId);
+		OrganizationSubscription orgSubsc = orgSubscDAO.fetchSubcribedPlanDetails(orgId);
 		List<OrganizationSubscriptionDetail> planSubscDetailsList = orgSubscDetailDAO
-				.fetchPlanFeatureDetails(Arrays.asList(orgSubsc.get(0).getOrganizationSubscriptionID()));
+				.fetchPlanFeatureDetails(Arrays.asList(orgSubsc.getOrganizationSubscriptionID()));
 		SubscribedPlanDetailsDTO planDetailsDTO = null;
-		
-		for(OrganizationSubscriptionDetail planSubscDetails : planSubscDetailsList) {
+
+		for (OrganizationSubscriptionDetail planSubscDetails : planSubscDetailsList) {
 			planDetailsDTO = new SubscribedPlanDetailsDTO();
 			planDetailsDTO.setFeatureName(planSubscDetails.getFeature().getFeatureName());
 			planDetailsDTO.setFeatureDesc(planSubscDetails.getFeature().getFeatureDescription());
@@ -89,8 +112,87 @@ public class PlanServiceImpl implements PlanService {
 			planDetailsDTO.setEndDate(planSubscDetails.getEndDate());
 			subscPlanList.add(planDetailsDTO);
 		}
-		LoggerUtil.logInfo("subscPlanList"+subscPlanList);
+		LoggerUtil.logInfo("subscPlanList" + subscPlanList);
 		return subscPlanList;
 	}
 
+	@Override
+	public List<Integer> fetchChangedPlanDetails(Integer orgId) {
+
+		List<OrganizationSubscription> orgSubscDetails = orgSubscDAO.fetchInvoiceDetails(orgId);
+
+		List<OrganizationSubscriptionDetail> changedPlan = orgSubscDetailDAO
+				.fetchPlanFeatureDetails(Arrays.asList(orgSubscDetails.get(0).getOrganizationSubscriptionID()));
+
+		List<Integer> planFeatureChargeIds = new ArrayList<>();
+		for (OrganizationSubscriptionDetail orgSubscDetail : changedPlan) {
+			planFeatureChargeIds.add(orgSubscDetail.getPlanFeatureCharge().getPlanFeatureChargeID());
+		}
+		return planFeatureChargeIds;
+	}
+
+	@Override
+	public Integer changePlanSubcription(Integer orgId, Integer customerId, List<Integer> planFeatureChargeIds) {
+
+		// For checking if any plan is active for particular organization
+		List<OrganizationSubscriptionDetail> activeSubscriptionList = orgSubscriptionDetailsDAO
+				.fetchSubcribedPlanDetails(orgId);
+
+		// If any plan is active for organization then changes its renewal type to Manual
+		if (activeSubscriptionList != null) {
+			orgSubscriptionDetailsDAO.changeRenewalType(
+					activeSubscriptionList.get(0).getOrganizationSubscription().getOrganizationSubscriptionID());
+		}
+
+		List<OrganizationSubscriptionDetail> orgSubscriptionDetailList = new ArrayList<>();
+
+		BigDecimal totalAmount = null;
+
+		List<PlanFeatureCharge> selectedPlanList = planFeatureChargeDAO
+				.findByPlanFeatureChargeIDIn(planFeatureChargeIds);
+
+		Organization org = organizationDAO.getOne(orgId);
+		Customer customer = customerDAO.getOne(customerId);
+
+		OrganizationSubscription orgSubscription = new OrganizationSubscription();
+
+		orgSubscription.setOrganization(org);
+		orgSubscription.setCustomer(customer);
+		orgSubscription.setCurrentActiveSubscription(AccountServiceConstants.INACTIVE_PLAN);
+		orgSubscription.setActive(AccountServiceConstants.INACTIVE);
+		orgSubscription.setCreatedAt(new Date());
+		orgSubscription.setCreatedBy(AccountServiceConstants.ADMIN);
+
+		OrganizationSubscriptionDetail orgSubscriptionDetails = null;
+
+		for (PlanFeatureCharge planList : selectedPlanList) {
+			totalAmount = totalAmount != null ? totalAmount.add(planList.getTermChargeAmt())
+					: planList.getTermChargeAmt();
+			orgSubscriptionDetails = new OrganizationSubscriptionDetail();
+			BeanUtils.copyProperties(planList, orgSubscriptionDetails);
+			orgSubscriptionDetails.setOrganization(org);
+			orgSubscriptionDetails.setPlanFeatureCharge(planList);
+			orgSubscriptionDetails.setSubscriptionStatus(AccountServiceConstants.PENDING);
+			orgSubscriptionDetails.setIsFree(AccountServiceConstants.INACTIVE_PLAN);
+			orgSubscription.setBillAmt(totalAmount);
+			orgSubscription.setTotalBillAmount(totalAmount);
+			orgSubscriptionDetails.setOrganizationSubscription(orgSubscription);
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(activeSubscription.getStartDate());
+			cal.add(Calendar.DATE, 1);
+			orgSubscriptionDetails.setCurrentActiveSubscription(AccountServiceConstants.INACTIVE_PLAN);
+			orgSubscriptionDetails.setStartDate(orgSubscription != null ? cal.getTime() : new Date());
+			cal.setTime(orgSubscriptionDetails.getStartDate());
+			cal.add(Calendar.DATE, orgSubscriptionDetails.getPlanterm().getPlanTermName().equals("Monthly") ? 30 : 365);
+			orgSubscriptionDetails.setEndDate(cal.getTime());
+			orgSubscriptionDetails.setActive(AccountServiceConstants.INACTIVE);
+			orgSubscriptionDetails.setCreatedAt(new Date());
+			orgSubscriptionDetails.setCreatedBy(AccountServiceConstants.ADMIN);
+			orgSubscriptionDetailList.add(orgSubscriptionDetails);
+		}
+		List<OrganizationSubscriptionDetail> orgSubscDetail = orgSubscriptionDetailsDAO
+				.saveAll(orgSubscriptionDetailList);
+		return orgSubscDetail.get(0).getOrganizationSubscription().getOrganizationSubscriptionID();
+
+	}
 }

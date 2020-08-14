@@ -13,10 +13,10 @@
       </thead>
       <tbody>
         <tr *ngFor="let invoice of invoiceDetailsList">
-          <td>{{invoice.invoiceID}}</td>
-          <td>{{invoice.invoiceDate}}</td>
-          <td>{{invoice.title}}</td>
-          <td>{{invoice.amount}}</td>
+          <td>{{ invoice.invoiceID }}</td>
+          <td>{{ invoice.invoiceDate }}</td>
+          <td>{{ invoice.title }}</td>
+          <td>{{ invoice.amount }}</td>
           <td>{{ invoice.status == 0 ? 'Expired' : 'Active' }}</td>
           <td><button (click)="downloadFile(invoice.invoiceUrl)"></button></td>
         </tr>

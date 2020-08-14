@@ -72,6 +72,7 @@ public class UserController {
 			responseDTO.setServiceResult("Error while fetching details of user");
 			responseDTO.setMessage("Error while fetching details of user");
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
+			e.printStackTrace();
 
 		}
 		return responseDTO;
@@ -142,7 +143,7 @@ public class UserController {
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
 			userService.signUp(signUpDTO);
-			responseDTO.setServiceResult("Signup done successfully\"");
+			responseDTO.setServiceResult("Signup done successfully");
 			responseDTO.setSuccess(UserServiceConstants.SUCCESS_CODE);
 		} catch (Exception e) {
 			LoggerUtil.logError(e);

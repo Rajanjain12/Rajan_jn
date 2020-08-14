@@ -22,7 +22,7 @@ public class PlanFeatureCharge implements Serializable {
 
 	@Id
 	@Column(name = "PlanFeatureChargeID")
-	private int planFeatureChargeID;
+	private Integer planFeatureChargeID;
 
 	// bi-directional many-to-one association to Feature
 	@ManyToOne
@@ -67,11 +67,11 @@ public class PlanFeatureCharge implements Serializable {
 	@OneToMany(mappedBy = "planFeatureCharge")
 	private List<OrganizationSubscriptionDetail> organizationSubscriptionDetails;
 
-	public int getPlanFeatureChargeID() {
+	public Integer getPlanFeatureChargeID() {
 		return planFeatureChargeID;
 	}
 
-	public void setPlanFeatureChargeID(int planFeatureChargeID) {
+	public void setPlanFeatureChargeID(Integer planFeatureChargeID) {
 		this.planFeatureChargeID = planFeatureChargeID;
 	}
 

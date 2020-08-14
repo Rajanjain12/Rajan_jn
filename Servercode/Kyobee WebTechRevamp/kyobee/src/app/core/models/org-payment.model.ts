@@ -5,4 +5,5 @@ export class OrgPaymentDTO {
   orgID: number;
   amount: number;
   paymentNonce: string;
+  renewalType: string;
 }

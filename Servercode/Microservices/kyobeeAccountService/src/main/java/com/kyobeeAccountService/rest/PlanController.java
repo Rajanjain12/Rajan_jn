@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -60,6 +61,44 @@ public class PlanController {
 			responseDTO.setMessage("Error while fetching plan details");
 			responseDTO.setSuccess(AccountServiceConstants.ERROR_CODE);
 			e.printStackTrace();
+		}
+		return responseDTO;
+	}
+
+	// For fetching changed subscription plan details
+	@GetMapping(value = "/changedPlanDetails", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO fetchChangedPlanDetails(@RequestParam Integer orgId) {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			List<Integer> planFeatureChargeIds = planService.fetchChangedPlanDetails(orgId);
+			responseDTO.setServiceResult(planFeatureChargeIds);
+			responseDTO.setMessage("Plan Details fetched successfully");
+			responseDTO.setSuccess(AccountServiceConstants.SUCCESS_CODE);
+		} catch (Exception e) {
+			LoggerUtil.logError(e);
+			responseDTO.setServiceResult("Error while fetching plan details.");
+			responseDTO.setMessage("Error while fetching plan details");
+			responseDTO.setSuccess(AccountServiceConstants.ERROR_CODE);
+		}
+		return responseDTO;
+	}
+
+	// For changing subscription
+	@PostMapping(value = "/subcription", produces = "application/vnd.kyobee.v1+json")
+	public @ResponseBody ResponseDTO changePlanSubcription(@RequestParam Integer orgId,
+			@RequestParam Integer customerId, @RequestParam List<Integer> planFeatureChargeIds) {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			planService.changePlanSubcription(orgId, customerId, planFeatureChargeIds);
+			responseDTO.setMessage("Plan Details fetched successfully");
+			responseDTO.setSuccess(AccountServiceConstants.SUCCESS_CODE);
+		} catch (Exception e) {
+			LoggerUtil.logError(e);
+			responseDTO.setServiceResult("Error while fetching plan details.");
+			responseDTO.setMessage("Error while fetching plan details");
+			responseDTO.setSuccess(AccountServiceConstants.ERROR_CODE);
 		}
 		return responseDTO;
 	}
