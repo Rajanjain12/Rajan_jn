@@ -1,11 +1,13 @@
+
 <div id="sidebar-wrapper" class="collapse navbar-collapse sidehide">
-  <button class="navbar-toggler float-right asidebar sidehide" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler float-right asidebar sidehide" type="button" data-toggle="collapse"
+    data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
     <span class="flaticon-close"></span>
   </button>
   <aside id="sidebar">
     <ul id="sidemenu" class="sidebar-nav sidehide text-center pt-2">
-      <li class="border-bottom active">
-        <a href="profile.html">
+      <li class="border-bottom" [routerLinkActive]="'active'">
+        <a href="" [routerLink]="['/account/profile']">
           <div class="icon-border-right">
             <div class="icon-circle">
               <i class="flaticon-workers"></i>
@@ -14,8 +16,8 @@
           <span class="font-12">Organization Profile</span>
         </a>
       </li>
-      <li class="border-bottom">
-        <a href="plan-detail.html">
+      <li class="border-bottom"  [routerLinkActive]="'active'">
+        <a href=""  [routerLink]="['/account/planandpayments']">
           <div class="icon-border-right">
             <div class="icon-circle">
               <i class="flaticon-receipt grey"></i>
@@ -24,6 +26,28 @@
           <span class="font-12">Plans & Payment</span>
         </a>
       </li>
+      <li class="border-bottom"  [routerLinkActive]="'active'">
+        <a href=""  [routerLink]="['/account/invoice']">
+          <div class="icon-border-right">
+            <div class="icon-circle">
+              <i class="fab fa-alipay"></i>
+            </div>
+          </div>
+          <span class="font-12">Invoice</span>
+        </a>
+      </li>
+    
+      <li class="border-bottom" [routerLinkActive]="'active'">
+        <a class="dropdown-item sidehide" data-toggle="modal" data-target="#resetModal" style="cursor: pointer;">
+          <div class="icon-border-right">
+            <div class="icon-circle">
+              <i class="fi flaticon-refresh grey"></i>
+            </div>
+          </div>
+          <span class="font-12">Remove Restrauant</span>
+        </a>
+      </li>
+
       <li class="border-bottom sm-d-none" style="visibility: hidden;">
         <a href="" data-toggle="modal" data-target="#resetModal">
           <div class="icon-border-right">
@@ -36,4 +60,21 @@
       </li>
     </ul>
   </aside>
+</div>
+<!-- reset popup -->
+<div class="modal fade" id="resetModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-radius border-0">
+      <div class="custom-modal-header background-color">
+        <span class="modal-title text-white">Remove Restrauant</span>
+        <button type="button" class="close text-white p-1 btn-scale-up" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <h4 class="pt-3 pb-3">Are you sure you want to remove Restrauant</h4>
+        <div class="pt-3 pb-4">
+          <button type="button" class="btn btn-theme background-color shadow">Remove</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
