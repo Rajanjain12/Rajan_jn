@@ -1,6 +1,7 @@
-<div>
-  <div class="table-responsive pb-2">
-    <table class="table table-striped table-border text-center">
+<app-sidebar></app-sidebar>
+<div class="container">
+  <div class="table-responsive">
+    <table class="table table-striped table-border rounded text-center mt-5">
       <thead class="background-color text-white">
         <tr>
           <th class="font-weight-semibold">Invoice Id</th>
@@ -18,7 +19,7 @@
           <td>{{ invoice.title }}</td>
           <td>{{ invoice.amount }}</td>
           <td>{{ invoice.status == 0 ? 'Expired' : 'Active' }}</td>
-          <td><button (click)="downloadFile(invoice.invoiceUrl)"></button></td>
+          <td><img class="mb-2 pointer"   src="../../../assets/images/download.png"/></td>
         </tr>
       </tbody>
     </table>

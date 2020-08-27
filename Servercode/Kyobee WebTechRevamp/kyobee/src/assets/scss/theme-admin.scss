@@ -143,17 +143,16 @@ header.header {
     padding: 3px;
   }
 }
-.newbtn .label{
-
+.newbtn .label {
   position: relative;
- bottom: 25px;
+  bottom: 25px;
   background: whitesmoke;
   visibility: hidden;
 }
 .newbtn:hover .label {
-visibility: visible;
-opacity: 1;
-position: relative;
+  visibility: visible;
+  opacity: 1;
+  position: relative;
 }
 /*active filter*/
 .active-filter {

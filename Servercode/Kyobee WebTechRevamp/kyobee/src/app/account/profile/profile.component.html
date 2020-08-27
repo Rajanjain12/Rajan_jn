@@ -12,7 +12,6 @@
                   <img [src]="imgUrl" height="125px" width="125px" *ngIf="user.logoPath" class="img-fluid" />
                   <input class="d-none" type="file" (change)="onImgChange($event)" />
                   <div class="content">
-
                     <p class="label" *ngIf="!user.logoPath">Upload Profile</p>
                     <p class="label" *ngIf="user.logoPath">Change Image</p>
                   </div>
@@ -21,9 +20,7 @@
             </div>
             <div class="col-lg-6">
               <div class="form-group mt-0">
-                <input type="text" required="required" id="firstName" name="firstName" #firstName="ngModel"
-                  [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }" class="form-control"
-                  [(ngModel)]="user.firstName" />
+                <input type="text" required="required" id="firstName" name="firstName" #firstName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }" class="form-control" [(ngModel)]="user.firstName" />
                 <label for="input" class="control-label">First Name</label><i class="bar"></i>
                 <div *ngIf="f.submitted && firstName.invalid" class="invalid-feedback">
                   <div class="text-danger" *ngIf="firstName.errors?.required">First Name is required</div>
@@ -32,9 +29,16 @@
             </div>
             <div class="col-lg-6">
               <div class="form-group mt-0">
-                <input type="text" id="lastName" name="lastName" #lastName="ngModel"
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  #lastName="ngModel"
                   [ngClass]="{ 'is-invalid': f.submitted && lastName.invalid, 'no-value': !lastName.value }"
-                  class="form-control" [(ngModel)]="user.lastName" required="required" />
+                  class="form-control"
+                  [(ngModel)]="user.lastName"
+                  required="required"
+                />
                 <label for="input" class="control-label">Last Name</label><i class="bar"></i>
                 <div *ngIf="f.submitted && lastName.invalid" class="invalid-feedback">
                   <div class="text-danger" *ngIf="lastName.errors?.required">Last Name is required</div>
@@ -43,9 +47,7 @@
             </div>
             <div class="col-lg-6">
               <div class="form-group mt-0">
-                <input type="text" id="userName" name="userName" #userName="ngModel"
-                  [ngClass]="{ 'is-invalid': f.submitted && userName.invalid }" class="form-control"
-                  [(ngModel)]="user.userName" required="required" />
+                <input type="text" id="userName" name="userName" #userName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && userName.invalid }" class="form-control" [(ngModel)]="user.userName" required="required" />
                 <label for="input" class="control-label">User Name</label><i class="bar"></i>
                 <div *ngIf="f.submitted && userName.invalid" class="invalid-feedback">
                   <div class="text-danger" *ngIf="userName.errors?.required">Username is required</div>
@@ -54,10 +56,17 @@
             </div>
             <div class="col-lg-6">
               <div class="form-group mt-0">
-                <input type="email" id="email" name="email" #email="ngModel" class="form-control"
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  #email="ngModel"
+                  class="form-control"
                   ngPattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
-                  [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" [(ngModel)]="user.email"
-                  required="required" />
+                  [ngClass]="{ 'is-invalid': f.submitted && email.invalid }"
+                  [(ngModel)]="user.email"
+                  required="required"
+                />
                 <label for="input" class="control-label">Email</label><i class="bar"></i>
                 <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
                   <div class="text-danger" *ngIf="email.errors?.required">Email is required</div>
@@ -67,9 +76,17 @@
             </div>
             <div class="col-lg-6">
               <div class="form-group mt-0">
-                <input type="text" id="businessName" name="businessName" #businessName="ngModel"
-                  [ngClass]="{ 'is-invalid': f.submitted && businessName.invalid }" class="form-control"
-                  [(ngModel)]="organization.organizationName" maxlength="50" required="required" />
+                <input
+                  type="text"
+                  id="businessName"
+                  name="businessName"
+                  #businessName="ngModel"
+                  [ngClass]="{ 'is-invalid': f.submitted && businessName.invalid }"
+                  class="form-control"
+                  [(ngModel)]="organization.organizationName"
+                  maxlength="50"
+                  required="required"
+                />
                 <label for="input" class="control-label">Business Name</label><i class="bar"></i>
                 <div *ngIf="f.submitted && businessName.invalid" class="invalid-feedback">
                   <div class="text-danger" *ngIf="businessName.errors?.required">Business Name is required</div>
@@ -78,24 +95,41 @@
             </div>
             <div class="col-lg-6">
               <div class="form-group mt-0">
-                <input type="text" id="businessPhoneNumber" name="businessPhoneNumber" mask="(000)-000-0000"
+                <input
+                  type="text"
+                  id="businessPhoneNumber"
+                  name="businessPhoneNumber"
+                  mask="(000)-000-0000"
                   [ngClass]="{ 'is-invalid': f.submitted && businessPhoneNumber.invalid }"
-                  #businessPhoneNumber="ngModel" class="form-control" [(ngModel)]="organization.primaryPhone"
-                  minlength="10" maxlength="10" required="required" numbersOnly required="required" />
+                  #businessPhoneNumber="ngModel"
+                  class="form-control"
+                  [(ngModel)]="organization.primaryPhone"
+                  minlength="10"
+                  maxlength="10"
+                  required="required"
+                  numbersOnly
+                  required="required"
+                />
                 <label for="input" class="control-label">Mobile No</label><i class="bar"></i>
                 <div *ngIf="f.submitted && businessPhoneNumber.invalid" class="invalid-feedback">
-                  <div class="text-danger" *ngIf="businessPhoneNumber.errors?.required">Business Phone Number is
-                    required</div>
-                  <div class="text-danger" *ngIf="businessPhoneNumber.errors?.minlength">Please enter proper phone no
-                  </div>
+                  <div class="text-danger" *ngIf="businessPhoneNumber.errors?.required">Business Phone Number is required</div>
+                  <div class="text-danger" *ngIf="businessPhoneNumber.errors?.minlength">Please enter proper phone no</div>
                 </div>
               </div>
             </div>
             <div class="col-lg-12">
               <div class="form-group mt-0">
-                <input type="text" id="streetAddress" name="streetAddress" #streetAddress="ngModel"
-                  [ngClass]="{ 'is-invalid': f.submitted && streetAddress.invalid }" class="form-control"
-                  maxlength="100" [(ngModel)]="organization.addressDTO.addressLineOne" required="required" />
+                <input
+                  type="text"
+                  id="streetAddress"
+                  name="streetAddress"
+                  #streetAddress="ngModel"
+                  [ngClass]="{ 'is-invalid': f.submitted && streetAddress.invalid }"
+                  class="form-control"
+                  maxlength="100"
+                  [(ngModel)]="organization.addressDTO.addressLineOne"
+                  required="required"
+                />
                 <label for="input" class="control-label">Address</label><i class="bar"></i>
                 <div *ngIf="f.submitted && streetAddress.invalid" class="invalid-feedback"></div>
               </div>
@@ -103,26 +137,21 @@
             <div class="col-lg-6">
               <div class="form-group mt-0">
                 <select name="IndustryInfo" id="IndustryInfo" [(ngModel)]="organization.orgTypeId">
-                  <option *ngFor="let orgTypeList of commonService.organizationTypeList"
-                    value="{{ orgTypeList.typeID }}">{{ orgTypeList.typeName }}</option>
+                  <option *ngFor="let orgTypeList of commonService.organizationTypeList" value="{{ orgTypeList.typeID }}">{{ orgTypeList.typeName }}</option>
                 </select>
                 <label for="input" class="control-label">Industry info</label><i class="bar"></i>
               </div>
             </div>
             <div class="col-lg-6">
               <div class="form-group mt-0">
-                <input type="text" id="city" name="city" #city="ngModel"
-                  [ngClass]="{ 'is-invalid': f.submitted && city.invalid }" class="form-control"
-                  [(ngModel)]="organization.addressDTO.city" required="required" />
+                <input type="text" id="city" name="city" #city="ngModel" [ngClass]="{ 'is-invalid': f.submitted && city.invalid }" class="form-control" [(ngModel)]="organization.addressDTO.city" required="required" />
                 <label for="input" class="control-label">City</label><i class="bar"></i>
                 <div class="text-danger" *ngIf="city.errors?.required">City is required</div>
               </div>
             </div>
             <div class="col-lg-6">
               <div class="form-group mt-0">
-                <input type="text" id="state" name="state" #state="ngModel"
-                  [ngClass]="{ 'is-invalid': f.submitted && state.invalid }" class="form-control"
-                  [(ngModel)]="organization.addressDTO.state" required="required" />
+                <input type="text" id="state" name="state" #state="ngModel" [ngClass]="{ 'is-invalid': f.submitted && state.invalid }" class="form-control" [(ngModel)]="organization.addressDTO.state" required="required" />
                 <label for="input" class="control-label">State</label><i class="bar"></i>
                 <div class="text-danger" *ngIf="state.errors?.required">State is required</div>
               </div>
@@ -137,8 +166,7 @@
                 </div>
                 <div class="col p-0 form-group">
                   <select name="countryCode" id="countryCode" [(ngModel)]="countryCode">
-                    <option *ngFor="let country of commonService.countryList" value="{{ country.isocode | lowercase }}">
-                      {{ country.countryName }}</option>
+                    <option *ngFor="let country of commonService.countryList" value="{{ country.isocode | lowercase }}"> {{ country.countryName }}</option>
                   </select>
                   <i class="bar"></i>
                 </div>
@@ -146,9 +174,7 @@
             </div>
             <div class="col-lg-6">
               <div class="form-group mt-sm-3">
-                <input type="text" name="zip" class="form-control" id="zip" #zip="ngModel"
-                  [(ngModel)]="organization.addressDTO.zipcode" [ngClass]="{ 'is-invalid': f.submitted && zip.invalid }"
-                  maxlength="8" required="required" />
+                <input type="text" name="zip" class="form-control" id="zip" #zip="ngModel" [(ngModel)]="organization.addressDTO.zipcode" [ngClass]="{ 'is-invalid': f.submitted && zip.invalid }" maxlength="8" required="required" />
                 <label for="input" class="control-label">ZipCode</label>
                 <i class="bar"></i>
                 <div class="text-danger" *ngIf="zip.errors?.required">Zipcode is required</div>
@@ -157,8 +183,7 @@
             <div class="col-12 col-md-6">
               <div class="form-group my-3">
                 <select name="timezone" id="timezone" [(ngModel)]="organization.timezoneId">
-                  <option *ngFor="let timezone of commonService.timezoneList" value="{{ timezone.timezoneId }}">
-                    {{ timezone.timezoneName }} ({{ timezone.offset }})</option>
+                  <option *ngFor="let timezone of commonService.timezoneList" value="{{ timezone.timezoneId }}"> {{ timezone.timezoneName }} ({{ timezone.offset }})</option>
                 </select>
                 <label for="input" class="control-label">Time zone</label><i class="bar"></i>
               </div>
@@ -167,21 +192,19 @@
               <div class="form-group mt-0">
                 <!--   <input type="password" required="required"/>
                 <label for="input" class="control-label">Password</label><i class="bar"></i>-->
-                <a href="" class="font-color  font-weight-semibold" data-toggle="modal"
-                  data-target="#passwordChange">Change Password</a>
+                <a href="" class="font-color  font-weight-semibold" data-toggle="modal" data-target="#passwordChange">Change Password</a>
               </div>
             </div>
 
             <div class="col-lg-12 text-center">
-              <button type="button" class="btn btn-theme background-color shadow"
-                (click)="updateProfileSetting(f.form.invalid)"><span>Save</span></button>
+              <button type="button" class="btn btn-theme background-color shadow" (click)="updateProfileSetting(f.form.invalid)"><span>Save</span></button>
             </div>
           </div>
         </form>
       </div>
     </div>
     <!-- password modal -->
-    <div class="modal fade " style="padding-right:25px;" id="passwordChange">
+    <div class="modal fade"  id="passwordChange">
       <div class="modal-dialog modal-dialog-centered">
         <form name="form1" #f1="ngForm" novalidate>
           <div class="modal-content border-radius border-0">
@@ -192,9 +215,7 @@
             <div class="modal-body">
               <div class="col-lg-12">
                 <div class="form-group mt-1">
-                  <input type="password" id="oldpwd" name="oldpwd" #oldpwd="ngModel" class="form-control"
-                    [ngClass]="{ 'is-invalid': f.submitted && oldpwd.invalid }" [(ngModel)]="oldPwd"
-                    required="required" />
+                  <input type="password" id="oldpwd" name="oldpwd" #oldpwd="ngModel" class="form-control" [ngClass]="{ 'is-invalid': f.submitted && oldpwd.invalid }" [(ngModel)]="oldPwd" required="required" />
                   <label for="input" class="control-label">Old Password</label><i class="bar"></i>
                   <div *ngIf="f.submitted && oldpwd.invalid" class="invalid-feedback">
                     <div class="text-danger" *ngIf="oldpwd.errors.required">Old password is required</div>
@@ -204,25 +225,41 @@
               </div>
               <div class="col-lg-12">
                 <div class="form-group mt-0">
-                  <input style="width:500px" type="password" id="newpwd" name="newpwd" #newpwd="ngModel"
-                    class="form-control" [ngClass]="{ 'is-invalid': f.submitted && newpwd.invalid }"
-                    ngPattern="^(?=.*?[A-Z])(?=.*?[#?!@$%^&*-]).{8,12}$" [(ngModel)]="newPwd" required="required" />
+                  <input
+                    style="width:500px"
+                    type="password"
+                    id="newpwd"
+                    name="newpwd"
+                    #newpwd="ngModel"
+                    class="form-control"
+                    [ngClass]="{ 'is-invalid': f.submitted && newpwd.invalid }"
+                    ngPattern="^(?=.*?[A-Z])(?=.*?[#?!@$%^&*-]).{8,12}$"
+                    [(ngModel)]="newPwd"
+                    required="required"
+                  />
                   <label for="input" class="control-label" id="pass2">New Password</label><i class="bar"></i>
                   <div *ngIf="f.submitted && newpwd.invalid" class="invalid-feedback">
                     <div class="text-danger" *ngIf="newpwd.errors.required">Password is required</div>
                   </div>
                   <!-- <span toggle="#newpwd" class="font-color flaticon-eye-1 pass-link toggle-password font-weight-semibold"></span> -->
-                  <span class="password-tooltip" data-toggle="tooltip" data-placement="left"
-                    tooltip-title="Password should contain one upercase, one special character and length should be between 8-12.">
-                    <i class="icon-circle flaticon-button grey">i</i></span>
+                  <span class="password-tooltip" data-toggle="tooltip" data-placement="left" tooltip-title="Password should contain one upercase, one special character and length should be between 8-12.">
+                    <i class="fi flaticon-info-button grey"></i></span
+                  >
                 </div>
               </div>
               <div class="col-lg-12">
                 <div class="form-group mt-0">
-                  <input type="password" id="confPassword" appConfirmEqualValidator="newpwd" name="confPassword"
-                    #confPassword="ngModel" class="form-control"
-                    [ngClass]="{ 'is-invalid': f.submitted && confPassword.invalid }" [(ngModel)]="confPwd"
-                    required="required" />
+                  <input
+                    type="password"
+                    id="confPassword"
+                    appConfirmEqualValidator="newpwd"
+                    name="confPassword"
+                    #confPassword="ngModel"
+                    class="form-control"
+                    [ngClass]="{ 'is-invalid': f.submitted && confPassword.invalid }"
+                    [(ngModel)]="confPwd"
+                    required="required"
+                  />
                   <label for="input" class="control-label" id="pass3">Re - Type New Password</label><i class="bar"></i>
                   <div *ngIf="f.submitted && confPassword.invalid" class="invalid-feedback">
                     <div class="text-danger" *ngIf="confPassword.errors.required">confPassword is required</div>
@@ -232,8 +269,7 @@
                 </div>
               </div>
               <div class="col-lg-12 text-center">
-                <button type="button" class="btn btn-theme background-color shadow"
-                  (click)="changePassword(f1.form.invalid)"><span>Save</span></button>
+                <button type="button" class="btn btn-theme background-color shadow" (click)="changePassword(f1.form.invalid)"><span>Save</span></button>
               </div>
             </div>
           </div>
