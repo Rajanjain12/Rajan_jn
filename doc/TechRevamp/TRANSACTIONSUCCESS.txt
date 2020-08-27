@@ -12,7 +12,6 @@ SET
     InvoiceStatus = INVOICESTATUS,
     CurrentActiveSubscription = CURRACTIVESUBSC,
     SubscriptionDate = NOW(),
-    StartDate = NOW(),
 	RenewalType = RENEWALTYPE,
     Active = 1
 WHERE
@@ -23,7 +22,6 @@ SET
     SubscriptionStatus = SUBSCSTATUS,
     CurrentActiveSubscription = CURRACTIVESUBSC,
     SubscribedDate = NOW(),
-    StartDate = NOW(),
     Active = 1
 WHERE
     SubscriptionID = ORGSUBSCRIPTIONID;

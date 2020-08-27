@@ -173,7 +173,7 @@ public class UserController {
 		return responseDTO;
 	}
 
-	// for resend code
+	// for resend activation code 
 	@PostMapping(value = "/resendCode", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO resendCode(@RequestParam Integer userId) {
 
@@ -276,7 +276,7 @@ public class UserController {
 		return responseDTO;
 	}
 
-	// For create business login.
+	// Creating user for business login.
 	@PostMapping(value = "/user", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO addUser(@RequestBody UserSignUpDTO userSignUpDTO) {
 

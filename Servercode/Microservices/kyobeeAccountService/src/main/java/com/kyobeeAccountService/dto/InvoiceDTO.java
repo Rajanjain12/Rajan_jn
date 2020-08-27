@@ -11,6 +11,8 @@ public class InvoiceDTO {
 	private BigDecimal amount;
 	private Byte status;
 	private String invoiceUrl;
+	private String currency;
+	
 	public Integer getInvoiceID() {
 		return invoiceID;
 	}
@@ -47,5 +49,11 @@ public class InvoiceDTO {
 	public void setInvoiceUrl(String invoiceUrl) {
 		this.invoiceUrl = invoiceUrl;
 	}
-
+	public String getCurrency() {
+		return currency;
+	}
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
+	
 }

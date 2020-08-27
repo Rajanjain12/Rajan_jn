@@ -151,7 +151,8 @@ public class UserServiceImpl implements UserService {
 		LoginUserDTO loginUserDTO;
 		String salt = userDAO.getSaltString(credentialsDTO.getUserName());
 		User user = userDAO.fetchUser(credentialsDTO.getUserName(),
-				CommonUtil.encryptPassword(credentialsDTO.getPassword() + salt));
+				credentialsDTO.getMainOrganizationLogin() == false ? CommonUtil.encryptPassword(credentialsDTO.getPassword() + salt): credentialsDTO.getPassword() );
+		
 		if (user != null) {
 			if (user.getActive() == UserServiceConstants.ACTIVATED_USER) {
 				loginUserDTO = new LoginUserDTO();
@@ -179,6 +180,7 @@ public class UserServiceImpl implements UserService {
 						credsDTO.setClientBase(orgUser.getOrganization().getClientBase());
 						orgUserDetails.setOrgDTO(orgDTO);
 						orgUserDetails.setCredDTO(credsDTO);
+						orgUserDetails.setActive(orgUser.getActive());
 						orgUserDetailsList.add(orgUserDetails);
 					}
 					loginUserDTO.setOrgUserDetailList(orgUserDetailsList);
@@ -187,7 +189,8 @@ public class UserServiceImpl implements UserService {
 				// fetch organization details associated with user
 				Organization organization = organizationDAO.fetchOrganizationByUserId(user.getUserID());
 
-				loginUserDTO.setCustomerId(organization.getCustomer() != null ? organization.getCustomer().getCustomerID(): 0);
+				loginUserDTO.setCustomerId(
+						organization.getCustomer() != null ? organization.getCustomer().getCustomerID() : 0);
 
 				if ((organization.getClientBase().equalsIgnoreCase(credentialsDTO.getClientBase())
 						&& credentialsDTO.getDeviceType().equalsIgnoreCase(UserServiceConstants.WEB_USER)

@@ -9,6 +9,7 @@ public class OrgPaymentDTO {
 	private Integer amount;
 	private String paymentNonce;
 	private String renewalType;
+	private Boolean changeSubscription;
 	
 	public Integer getOrganizationSubscriptionID() {
 		return organizationSubscriptionID;
@@ -51,6 +52,12 @@ public class OrgPaymentDTO {
 	}
 	public void setRenewalType(String renewalType) {
 		this.renewalType = renewalType;
+	}
+	public Boolean getChangeSubscription() {
+		return changeSubscription;
+	}
+	public void setChangeSubscription(Boolean changeSubscription) {
+		this.changeSubscription = changeSubscription;
 	}
 	
 }

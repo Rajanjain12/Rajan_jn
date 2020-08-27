@@ -16,7 +16,7 @@ import com.kyobeeAccountService.util.AccountServiceConstants;
 @Transactional
 public interface OrganizationSubscriptionDAO extends JpaRepository<OrganizationSubscription,Integer>{
 
-	@Query(value="select * from ORGANIZATIONSUBSCRIPTION where OrganizationID=:orgId order by organizationSubscriptionID desc limit 6", nativeQuery = true)
+	@Query(value="select * from ORGANIZATIONSUBSCRIPTION where OrganizationID=:orgId order by organizationSubscriptionID desc", nativeQuery = true)
 	List<OrganizationSubscription> fetchInvoiceDetails(@Param("orgId") Integer orgId);
 	
 	@Query(value="select * from ORGANIZATIONSUBSCRIPTION where OrganizationID=:orgId and Active = "+AccountServiceConstants.ACTIVE+"order by organizationSubscriptionID desc", nativeQuery = true)

@@ -23,6 +23,7 @@ import com.kyobeeUserService.dao.OrganizationCardDetailDAO;
 import com.kyobeeUserService.dao.OrganizationDAO;
 import com.kyobeeUserService.dao.OrganizationPaymentDAO;
 import com.kyobeeUserService.dao.OrganizationSubscriptionDAO;
+import com.kyobeeUserService.dao.OrganizationSubscriptionDetailDAO;
 import com.kyobeeUserService.dao.PaymentCustomDAO;
 import com.kyobeeUserService.dao.PlanFeatureChargeDAO;
 import com.kyobeeUserService.dao.PromotionalCodeDAO;
@@ -80,6 +81,9 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Autowired
 	RestTemplate restTemplate;
+	
+	@Autowired
+	OrganizationSubscriptionDetailDAO orgSubscDetailDAO;
 
 	@Override
 	public Integer saveOrgCardDetails(OrgCardDetailsDTO orgCardDetailsDTO) {
@@ -111,9 +115,8 @@ public class PaymentServiceImpl implements PaymentService {
 
 		OrganizationPayment org = null;
 
-		// Checking if payment entry previously exists or not
-
-		OrganizationPayment orgPayDetails = orgPaymentDAO.fetchOrgPaymentDetails(orgPaymentDTO.getOrgID());
+		// Checking if there is payment failure
+		OrganizationPayment orgPayDetails = orgPaymentDAO.fetchOrgPaymentDetails(orgPaymentDTO.getOrgID(),orgPaymentDTO.getOrganizationSubscriptionID());
 
 		if (orgPayDetails == null
 				|| (orgPayDetails != null && !orgPayDetails.getPaymentStatus().equals(UserServiceConstants.FAIL))) {
@@ -161,8 +164,13 @@ public class PaymentServiceImpl implements PaymentService {
 			LoggerUtil.logInfo("customer id:" + transaction.getCustomer().getId());
 
 			paymentCustomDAO.updatePaymentDetailsOnSuccess(updatePaymentDetailDTO);
-
+			//Update details if subscription is changed
+			if(orgPaymentDTO.getChangeSubscription()) {
+				orgSubscDetailDAO.updateSubscriptionDetails(orgPaymentDTO.getOrganizationSubscriptionID());
+			}
+			
 			LoggerUtil.logInfo("Payment done successfully");
+			
 		} else {
 			StringBuilder errorDetails = new StringBuilder();
 

@@ -13,8 +13,8 @@ import com.kyobeeUserService.entity.OrganizationPayment;
 @Transactional
 public interface OrganizationPaymentDAO extends JpaRepository<OrganizationPayment, Integer> {
 		
-	@Query(value = "select op from OrganizationPayment op where op.organization.organizationID=:orgId")
-	OrganizationPayment fetchOrgPaymentDetails(@Param("orgId") Integer orgId);
+	@Query(value = "select op from OrganizationPayment op where op.organization.organizationID=:orgId and op.organizationSubscription.organizationSubscriptionID=:orgSubscId")
+	OrganizationPayment fetchOrgPaymentDetails(@Param("orgId") Integer orgId,@Param("orgSubscId") Integer orgSubscId);
 
 
 }

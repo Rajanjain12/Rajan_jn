@@ -55,9 +55,9 @@ public class PlanServiceImpl implements PlanService {
 		List<InvoiceDTO> invoiceDTOList = new ArrayList<>();
 		InvoiceDTO invoiceDTO = null;
 
-		// For fetching last six plan subscription details
+		// For fetching plan subscription details
 		List<OrganizationSubscription> invoiceDetailsList = orgSubscDAO.fetchInvoiceDetails(orgId);
-		// Getting subcription id id from plan subscription list
+		// Getting subscription id from plan subscription list
 		List<Integer> orgSubscIdsList = invoiceDetailsList.stream()
 				.map(orgSubscDTO -> orgSubscDTO.getOrganizationSubscriptionID()).collect(Collectors.toList());
 		LoggerUtil.logInfo("Org Subscription id list:" + orgSubscIdsList);
@@ -83,6 +83,7 @@ public class PlanServiceImpl implements PlanService {
 			for (OrganizationSubscriptionDetail list : entry.getValue()) {
 				invoiceTitle.add(list.getFeature().getFeatureName() + "-" + list.getPlan().getPlanName() + "("
 						+ list.getPlanterm().getPlanTermName() + ")");
+				invoiceDTO.setCurrency(list.getCurrency().getIcon());
 			}
 			invoiceDTO.setTitle(invoiceTitle);
 			invoiceDTOList.add(invoiceDTO);
@@ -94,7 +95,7 @@ public class PlanServiceImpl implements PlanService {
 	}
 
 	@Override
-	public List<SubscribedPlanDetailsDTO> fetchPlanDetails(Integer orgId) {
+	public List<SubscribedPlanDetailsDTO> fetchSubscribedPlanDetails(Integer orgId) {
 		List<SubscribedPlanDetailsDTO> subscPlanList = new ArrayList<>();
 		OrganizationSubscription orgSubsc = orgSubscDAO.fetchSubcribedPlanDetails(orgId);
 		List<OrganizationSubscriptionDetail> planSubscDetailsList = orgSubscDetailDAO
@@ -134,12 +135,13 @@ public class PlanServiceImpl implements PlanService {
 	@Override
 	public Integer changePlanSubcription(Integer orgId, Integer customerId, List<Integer> planFeatureChargeIds) {
 
-		// For checking if any plan is active for particular organization
+		// For checking if any plan is active for organization
 		List<OrganizationSubscriptionDetail> activeSubscriptionList = orgSubscriptionDetailsDAO
 				.fetchSubcribedPlanDetails(orgId);
 
-		// If any plan is active for organization then changes its renewal type to Manual
-		if (activeSubscriptionList != null) {
+		// If any plan is active for organization then changes its renewal type to
+		// Manual
+		if (!activeSubscriptionList.isEmpty()) {
 			orgSubscriptionDetailsDAO.changeRenewalType(
 					activeSubscriptionList.get(0).getOrganizationSubscription().getOrganizationSubscriptionID());
 		}
@@ -166,6 +168,7 @@ public class PlanServiceImpl implements PlanService {
 		OrganizationSubscriptionDetail orgSubscriptionDetails = null;
 
 		for (PlanFeatureCharge planList : selectedPlanList) {
+
 			totalAmount = totalAmount != null ? totalAmount.add(planList.getTermChargeAmt())
 					: planList.getTermChargeAmt();
 			orgSubscriptionDetails = new OrganizationSubscriptionDetail();
@@ -177,14 +180,34 @@ public class PlanServiceImpl implements PlanService {
 			orgSubscription.setBillAmt(totalAmount);
 			orgSubscription.setTotalBillAmount(totalAmount);
 			orgSubscriptionDetails.setOrganizationSubscription(orgSubscription);
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(activeSubscription.getStartDate());
-			cal.add(Calendar.DATE, 1);
+			Calendar cal = null;
+			OrganizationSubscriptionDetail activeFeature = null;
+			// Checking if plan feature active
+			if (!activeSubscriptionList.isEmpty()) {
+				activeFeature = activeSubscriptionList.stream().filter(featureName -> planList.getFeature()
+						.getFeatureName().equals(featureName.getFeature().getFeatureName())).findAny().orElse(null);
+
+			}
+			if (activeFeature != null) {
+				LoggerUtil.logInfo("Feature is already active");
+				cal = Calendar.getInstance();
+				cal.setTime(activeFeature.getEndDate());
+				cal.add(Calendar.DATE, 1);
+				orgSubscriptionDetails.setStartDate(cal.getTime());
+				cal.setTime(orgSubscriptionDetails.getStartDate());
+				cal.add(Calendar.DATE,
+						orgSubscriptionDetails.getPlanterm().getPlanTermName().equals("Monthly") ? 30 : 365);
+				orgSubscriptionDetails.setEndDate(cal.getTime());
+
+			} else {
+				LoggerUtil.logInfo("Feature expired");
+				cal = Calendar.getInstance();
+				orgSubscriptionDetails.setStartDate(new Date());
+				cal.add(Calendar.DATE,
+						orgSubscriptionDetails.getPlanterm().getPlanTermName().equals("Monthly") ? 30 : 365);
+				orgSubscriptionDetails.setEndDate(cal.getTime());
+			}
 			orgSubscriptionDetails.setCurrentActiveSubscription(AccountServiceConstants.INACTIVE_PLAN);
-			orgSubscriptionDetails.setStartDate(orgSubscription != null ? cal.getTime() : new Date());
-			cal.setTime(orgSubscriptionDetails.getStartDate());
-			cal.add(Calendar.DATE, orgSubscriptionDetails.getPlanterm().getPlanTermName().equals("Monthly") ? 30 : 365);
-			orgSubscriptionDetails.setEndDate(cal.getTime());
 			orgSubscriptionDetails.setActive(AccountServiceConstants.INACTIVE);
 			orgSubscriptionDetails.setCreatedAt(new Date());
 			orgSubscriptionDetails.setCreatedBy(AccountServiceConstants.ADMIN);

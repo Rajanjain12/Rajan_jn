@@ -7,7 +7,7 @@ public class CredentialsDTO {
        String deviceType;
        String deviceToken;
        String clientBase;
-       
+       Boolean mainOrganizationLogin;
        
 	public String getUserName() {
 		return userName;
@@ -39,6 +39,11 @@ public class CredentialsDTO {
 	public void setClientBase(String clientBase) {
 		this.clientBase = clientBase;
 	}
-       
-       
+	public Boolean getMainOrganizationLogin() {
+		return mainOrganizationLogin;
+	}
+	public void setMainOrganizationLogin(Boolean mainOrganizationLogin) {
+		this.mainOrganizationLogin = mainOrganizationLogin;
+	}
+	      
 }

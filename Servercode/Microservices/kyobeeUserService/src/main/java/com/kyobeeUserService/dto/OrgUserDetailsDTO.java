@@ -3,6 +3,8 @@ package com.kyobeeUserService.dto;
 public class OrgUserDetailsDTO {
 	private OrganizationDTO orgDTO;
 	private CredentialsDTO credDTO;
+	private Byte active;
+	
 	public OrganizationDTO getOrgDTO() {
 		return orgDTO;
 	}
@@ -15,7 +17,11 @@ public class OrgUserDetailsDTO {
 	public void setCredDTO(CredentialsDTO credDTO) {
 		this.credDTO = credDTO;
 	}
+	public Byte getActive() {
+		return active;
+	}
+	public void setActive(Byte active) {
+		this.active = active;
+	}
 	
-	
-
 }

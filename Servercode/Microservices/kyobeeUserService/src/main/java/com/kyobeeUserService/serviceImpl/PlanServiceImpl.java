@@ -147,6 +147,7 @@ public class PlanServiceImpl implements PlanService {
 		OrganizationSubscription orgSubscription = new OrganizationSubscription();
 		orgSubscription.setOrganization(org);
 		orgSubscription.setCustomer(customer);
+		orgSubscription.setStartDate(new Date());
 		orgSubscription.setCurrentActiveSubscription(UserServiceConstants.INACTIVE_PLAN);
 		orgSubscription.setActive(UserServiceConstants.INACTIVE);
 		orgSubscription.setCreatedAt(new Date());

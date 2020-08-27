@@ -26,7 +26,7 @@ public class PlanController {
 	@Autowired
 	PlanService planService;
 
-	// For fetching account details
+	// For fetching invoice details
 	@GetMapping(value = "/invoice", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO fetchInvoiceDetails(@RequestParam Integer orgId) {
 
@@ -47,11 +47,11 @@ public class PlanController {
 
 	// For fetching subscribed plan details
 	@GetMapping(value = "/", produces = "application/vnd.kyobee.v1+json")
-	public @ResponseBody ResponseDTO fetchPlanDetails(@RequestParam Integer orgId) {
+	public @ResponseBody ResponseDTO fetchSubscribedPlanDetails(@RequestParam Integer orgId) {
 
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			List<SubscribedPlanDetailsDTO> invoiceList = planService.fetchPlanDetails(orgId);
+			List<SubscribedPlanDetailsDTO> invoiceList = planService.fetchSubscribedPlanDetails(orgId);
 			responseDTO.setServiceResult(invoiceList);
 			responseDTO.setMessage("Plan Details fetched successfully");
 			responseDTO.setSuccess(AccountServiceConstants.SUCCESS_CODE);
@@ -60,7 +60,6 @@ public class PlanController {
 			responseDTO.setServiceResult("Error while fetching plan details.");
 			responseDTO.setMessage("Error while fetching plan details");
 			responseDTO.setSuccess(AccountServiceConstants.ERROR_CODE);
-			e.printStackTrace();
 		}
 		return responseDTO;
 	}

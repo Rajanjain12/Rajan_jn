@@ -5,10 +5,8 @@ import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,6 +29,7 @@ public class PaymentController {
 	@Autowired
 	private PaymentService paymentService;
 
+	// For saving credit/debit card details
 	@PostMapping(value = "/cardDetails", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO saveOrgCardDetails(@RequestBody OrgCardDetailsDTO orgCardDetailsDTO) {
 
@@ -64,7 +63,6 @@ public class PaymentController {
 			responseDTO.setServiceResult("Error during processing payment transaction");
 			responseDTO.setMessage("Error during processing payment transaction.");
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
-			ex.printStackTrace();
 		} catch (Exception e) {
 			LoggerUtil.logError(e);
 			responseDTO.setServiceResult("Error while payment");
@@ -109,7 +107,7 @@ public class PaymentController {
 			responseDTO.setServiceResult("Invalid PromoCode.");
 			responseDTO.setMessage("Invalid PromoCode.");
 			responseDTO.setSuccess(UserServiceConstants.ERROR_CODE);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			LoggerUtil.logError(e);
 			responseDTO.setServiceResult("Error while calculating discount.");
 			responseDTO.setMessage("Error while calculating discount.");

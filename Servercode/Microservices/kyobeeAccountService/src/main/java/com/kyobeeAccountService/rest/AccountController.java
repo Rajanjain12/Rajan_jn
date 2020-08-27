@@ -27,7 +27,7 @@ public class AccountController {
 	@Autowired
 	AccountService accountService;
 
-	// For fetching account details
+	// For fetching account details of organization
 	@GetMapping(value = "/", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO fetchAccountDetails(@RequestParam Integer orgId) {
 
@@ -42,12 +42,11 @@ public class AccountController {
 			responseDTO.setServiceResult("Error while fetching organization details.");
 			responseDTO.setMessage("Error while fetching organization details.");
 			responseDTO.setSuccess(AccountServiceConstants.ERROR_CODE);
-			e.printStackTrace();
 		}
 		return responseDTO;
 	}
 
-	// For updating user profile
+	// For updating organization profile
 	@PutMapping(value = "/", consumes = "multipart/form-data", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO updateAccountDetails(HttpServletRequest request) {
 
@@ -67,7 +66,7 @@ public class AccountController {
 		return responseDTO;
 	}
 
-	// For updating user account password
+	// For updating organization account password
 	@PutMapping(value = "/password", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO updatePassword(@RequestParam String oldPwd, @RequestParam String newPwd,
 			@RequestParam Integer userId) {
@@ -93,7 +92,7 @@ public class AccountController {
 		return responseDTO;
 	}
 
-	// For deleting user
+	// For deleting organization
 	@DeleteMapping(value = "/", produces = "application/vnd.kyobee.v1+json")
 	public @ResponseBody ResponseDTO deleteAccount(@RequestParam Integer orgId, @RequestParam Integer userId) {
 
@@ -106,8 +105,8 @@ public class AccountController {
 
 		} catch (Exception e) {
 			LoggerUtil.logError(e);
-			responseDTO.setServiceResult("Error while deleting resturant");
-			responseDTO.setMessage("Error while deleting resturant");
+			responseDTO.setServiceResult("Error while deleting restaurant");
+			responseDTO.setMessage("Error while deleting restaurant");
 			responseDTO.setSuccess(AccountServiceConstants.ERROR_CODE);
 		}
 		return responseDTO;

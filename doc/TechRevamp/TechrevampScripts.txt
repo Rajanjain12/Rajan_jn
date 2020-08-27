@@ -839,7 +839,7 @@ INSERT INTO `KyobeeTechRevamp`.`LANGUAGEKEYMAPPING` (`KeyName`, `Value`, `LangIs
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATIONTYPE` 
 CHANGE COLUMN `TypeId` `TypeId` INT(11) NOT NULL AUTO_INCREMENT ;
-UPDATE `KyobeeTechRevamp`.`ORGANIZATIONTYPE` SET `TypeName` = 'Resturant' WHERE (`TypeId` = '1');
+UPDATE `KyobeeTechRevamp`.`ORGANIZATIONTYPE` SET `TypeName` = 'Restaurant' WHERE (`TypeId` = '1');
 INSERT INTO `KyobeeTechRevamp`.`ORGANIZATIONTYPE` (`TypeName`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('Healthcare', '1', 'admin', '2020-07-14');
 INSERT INTO `KyobeeTechRevamp`.`ORGANIZATIONTYPE` (`TypeName`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('Retail', '1', 'admin', '2020-07-14');
 INSERT INTO `KyobeeTechRevamp`.`ORGANIZATIONTYPE` (`TypeName`, `Active`, `CreatedBy`, `CreatedAt`) VALUES ('Education', '1', 'admin', '2020-07-14');
@@ -892,4 +892,30 @@ CHANGE COLUMN `Active` `Active` TINYINT(1) NULL ;
 
 ALTER TABLE `KyobeeTechRevamp`.`ORGANIZATION` 
 CHANGE COLUMN `Active` `Active` TINYINT(1) NULL ;
- 
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+UPDATE `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` SET `TemplateText` = '#Guest_Name #Guest_Rank: There are #Parties_Ahead parties ahead of you w/ approx. wait-time of #Wait_Time min. For LIVE updates:#Turl' WHERE (`ID` = '1');
+UPDATE `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` SET `TemplateText` = '#Guest_Name #Guest_Rank: Your Table is ALMOST ready. Please make your way back to the restaurant with your entire party and wait for your number to be called. Click for updates: #Turl' WHERE (`ID` = '2');
+UPDATE `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` SET `TemplateText` = '#Guest_Name, you have been called for your table.  Please return to the store and see the host for seating arrangements.  Best regards,' WHERE (`ID` = '3');
+UPDATE `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` SET `TemplateText` = '#Guest_Name #Guest_Rank：您前面大约有#Parties_Ahead个派对，约有。 #Wait_Time分钟的等待时间。对于实时更新：#Turl' WHERE (`ID` = '4');
+UPDATE `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` SET `TemplateText` = '#Guest_Name #Guest_Rank：您的表已准备就绪。请全程带您返回餐厅，并等待拨打电话。单击获取更新：#Turl' WHERE (`ID` = '5');
+UPDATE `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` SET `TemplateText` = '#Guest_Name : 警告......你被叫了。请立即回到商店。请参阅FRONT DESK进行重新安排。最诚挚的问候' WHERE (`ID` = '6');
+UPDATE `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` SET `TemplateText` = '#Guest_Name #Guest_Rank： Il y a des soirées #Parties_Ahead devant vous avec env. temps d\'attente de #Wait_Time min. Pour les mises à jour LIVE:#Turl' WHERE (`ID` = '7');
+UPDATE `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` SET `TemplateText` = '#Guest_Name #Guest_Rank： Votre table est presque prête. Revenez au restaurant avec votre groupe et attendez que votre numéro soit appelé. Cliquez pour les mises à jour: #Turl' WHERE (`ID` = '8');
+UPDATE `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` SET `TemplateText` = '#Guest_Name Alerte… vous avez été appelé. Veuillez retourner au magasin IMMÉDIATEMENT. Voir BUREAU AVANT pour le réarrangement. Cordialement, ' WHERE (`ID` = '9');
+UPDATE `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` SET `TemplateText` = '#Guest_Name #Guest_Rank : 당신보다 앞서 #Parties_Ahead 파티가 있습니다. #Wait_Time 분의 대기 시간. 라이브 업데이트 : #Turl' WHERE (`ID` = '10');
+UPDATE `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` SET `TemplateText` = '#Guest_Name #Guest_Rank： 당신의 테이블은 거의 준비되었습니다. 파티 전체와 함께 식당으로 돌아가서 전화가 올 때까지 기다리십시오. 업데이트를 클릭하십시오 : #Turl' WHERE (`ID` = '11');
+UPDATE `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` SET `TemplateText` = '#Guest_Name, 당신에서 당신의 테이블에 부름을 받았습니다. 매장으로 돌아와 좌석 예약에 대해서는 호스트에게 문의하십시오. 감사합니다,' WHERE (`ID` = '12');
+UPDATE `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` SET `TemplateText` = '#Guest_Name #Guest_Rank：您前面大約有#Parties_Ahead個派對，約有。 #Wait_Time分鐘的等待時間。對於實時更新：#Turl' WHERE (`ID` = '13');
+UPDATE `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` SET `TemplateText` = '#Guest_Name #Guest_Rank：您的表已準備就緒。請全程帶您回到餐廳，並等待撥打電話。單擊獲取更新：#Turl' WHERE (`ID` = '14');
+UPDATE `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` SET `TemplateText` = '#Guest_Name，您已被要求召喚您的桌子。請返回商店，並請主持人安排座位。最好的祝福，' WHERE (`ID` = '15');
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+UPDATE `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` SET `TemplateText` = '#Guest_Name #Guest_Rank : Il y a des soirées #Parties_Ahead devant vous avec env. temps d\'attente de #Wait_Time min. Pour les mises à jour LIVE:#Turl' WHERE (`ID` = '7');
+UPDATE `KyobeeTechRevamp`.`SMSTEMPLATELANGUAGEMAPPING` SET `TemplateText` = '#Guest_Name #Guest_Rank : Votre table est presque prête. Revenez au restaurant avec votre groupe et attendez que votre numéro soit appelé. Cliquez pour les mises à jour: #Turl' WHERE (`ID` = '8');
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ALTER TABLE KyobeeTechRevamp.CURRENCY MODIFY COLUMN Icon VARCHAR(255)  
+    CHARACTER SET utf8 COLLATE utf8_general_ci;

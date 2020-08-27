@@ -9,7 +9,7 @@ public interface PlanService {
 
 	public List<InvoiceDTO> fetchInvoiceDetails(Integer orgId);
 
-	public List<SubscribedPlanDetailsDTO> fetchPlanDetails(Integer orgId);
+	public List<SubscribedPlanDetailsDTO> fetchSubscribedPlanDetails(Integer orgId);
 	
 	public List<Integer> fetchChangedPlanDetails(Integer orgId);
 	
