@@ -5,6 +5,7 @@ export class LoginDTO {
   deviceType: string;
   clientBase: string;
   rem: boolean;
+  mainOrganizationLogin: boolean;
 
   LoginDTO() {
     this.userName = '';
@@ -13,5 +14,6 @@ export class LoginDTO {
     this.deviceType = 'Web';
     this.clientBase = 'admin';
     this.rem = false;
+    this.mainOrganizationLogin = false;
   }
 }

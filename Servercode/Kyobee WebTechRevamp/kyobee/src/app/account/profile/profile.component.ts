@@ -28,6 +28,7 @@ export class ProfileComponent implements OnInit {
   oldPwd;
   newPwd;
   confPwd;
+  successMsg = null;
 
   constructor(
     public commonService: CommonService,
@@ -100,6 +101,7 @@ export class ProfileComponent implements OnInit {
       if (res.success === 1) {
         console.log('response:' + JSON.stringify(res.serviceResult));
         this.authService.setSessionData(this.user);
+        this.successMsg = res.serviceResult;
       } else {
         alert(res.message);
       }
@@ -124,5 +126,9 @@ export class ProfileComponent implements OnInit {
         alert(res.message);
       }
     });
+  }
+
+  resetForm(form) {
+    form.resetForm();
   }
 }

@@ -15,11 +15,14 @@
       <tbody>
         <tr *ngFor="let invoice of invoiceDetailsList">
           <td>{{ invoice.invoiceID }}</td>
-          <td>{{ invoice.invoiceDate }}</td>
+          <td>{{ invoice.invoiceDate | date }}</td>
           <td>{{ invoice.title }}</td>
-          <td>{{ invoice.amount }}</td>
-          <td>{{ invoice.status == 0 ? 'Expired' : 'Active' }}</td>
-          <td><img class="mb-2 pointer"   src="../../../assets/images/download.png"/></td>
+          <td>{{ invoice.currency }} {{ invoice.amount }}</td>
+          <td>
+            <div [ngClass]="invoice.status == 0 ? 'inactive' : 'active'">{{ invoice.status == 0 ? 'Expired' : 'Active' }}</div>
+          </td>
+
+          <td><img class="mb-2 pointer" (click)="downloadFile(invoice.invoiceUrl)" src="../../../assets/images/download.png" /></td>
         </tr>
       </tbody>
     </table>

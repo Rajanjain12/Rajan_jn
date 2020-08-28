@@ -5,4 +5,5 @@ export class InvoiceDetailsDTO {
   amount: number;
   status: number;
   invoiceUrl: string;
+  currency: string;
 }

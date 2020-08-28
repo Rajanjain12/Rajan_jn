@@ -32,6 +32,7 @@ export class SigninComponent implements OnInit {
     this.user.deviceType = 'Web';
     this.user.deviceToken = '';
     this.user.clientBase = 'admin';
+    this.user.mainOrganizationLogin = false;
 
     this.userService.login(this.user).subscribe((res: any) => {
       var respData = res;

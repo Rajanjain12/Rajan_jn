@@ -23,6 +23,7 @@
     "@angular/router": "~8.2.14",
     "@babel/compat-data": "7.8.0",
     "@ngx-pwa/local-storage": "^8.2.4",
+    "angular-mentions": "^1.2.0",
     "angular-ng-autocomplete": "^2.0.1",
     "angular-web-storage": "^7.0.0-beta.1",
     "bootstrap": "^4.3.1",

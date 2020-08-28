@@ -123,12 +123,22 @@
                 </select>
               </div>
               <div *ngFor="let template of selectedSMSTemplateText; let i = index" class="form-group">
-                <textarea appAutosize [minRows]="1" [maxRows]="10" required="required" [(ngModel)]="template.templateText" (change)="dosomething($event.target.value, template.level)" [ngModelOptions]="{ standalone: true }">{{
-                  template.templateText
-                }}</textarea>
+                <textarea
+                  appAutosize
+                  [minRows]="1"
+                  [maxRows]="10"
+                  [mention]="items"
+                  [mentionConfig]="{ triggerChar: '#', labelKey: 'name' }"
+                  required="required"
+                  [(ngModel)]="template.templateText"
+                  (change)="dosomething($event.target.value, template.level)"
+                  [ngModelOptions]="{ standalone: true }"
+                  >{{ template.templateText }}</textarea
+                >
                 <label for="textarea" class="control-label">{{ template.levelName }}</label
                 ><i class="bar"></i>
               </div>
+              <div class="form-group">Note : Use inbuilt tag by pressing #</div>
               <!-- <div class="form-group">
                 <textarea appAutosize [minRows]="1" [maxRows]="10" required="required">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</textarea>
                 <label for="textarea" class="control-label">Level 2</label><i class="bar"></i>

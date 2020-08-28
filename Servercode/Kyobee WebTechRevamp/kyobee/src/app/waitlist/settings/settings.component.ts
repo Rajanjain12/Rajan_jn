@@ -31,6 +31,17 @@ export class SettingsComponent implements OnInit {
   orgSettingDTO: OrgSettingDTO;
   successMsg = null;
   disabled = false;
+  items: string[] = ['Guest_name', 'Guest_rank', 'Wait_time', 'Parties_ahead', 'Turl'];
+
+  // initialized mentionConfig object used for configuration of @ngular mentions dropdown.
+  mentionConfig = {
+    mentions: [
+      {
+        items: this.items,
+        triggerChar: '#'
+      }
+    ]
+  };
 
   constructor(private authService: AuthService, private orgService: OrganizationService) {
     this.user = this.authService.getUser();

@@ -1,11 +1,26 @@
-.pointer{
-  cursor:pointer;
+.pointer {
+  cursor: pointer;
 }
-.table th, .table td {
+.table th,
+.table td {
   vertical-align: middle !important;
-  
 }
-th{
-  padding: 24px;
+th {
+  text-align: left !important;
+  padding-left: 30px;
+}
 
+td {
+  text-align: left !important;
+  padding-left: 30px;
+}
+.active {
+  color: #06af00;
+  background-color: #a8f0a6;
+  text-align: center !important;
+}
+.inactive {
+  color: #ff2626;
+  background-color: #ffe0e0;
+  text-align: center !important;
 }

@@ -1,5 +1,5 @@
 <div>Select Your Restaraunt!</div>
-<div class="col-12 col-md-6 col-lg-3 order-md-1 order-lg-0 p-0 pr-md-2">
+<!--<div class="col-12 col-md-6 col-lg-3 order-md-1 order-lg-0 p-0 pr-md-2">
   <p class="restaurant_address" *ngFor="let restauraunt of user.orgUserDetailList">
     <a (click)="restaurantLogin(restauraunt)">
       <span class="font-weight-bold">{{ restauraunt.orgDTO.organizationName }}</span></a
@@ -9,4 +9,32 @@
     <span>{{ restauraunt.credDTO.userName }}</span>
   </p>
 </div>
-<div><a class="nav-link active" [routerLink]="['/auth-b2b/signup-b2b']">Add restaurant</a></div>
+<div><a class="nav-link active" [routerLink]="['/auth-b2b/signup-b2b']">Add restaurant</a></div> -->
+
+<div class="container">
+  <div class="table-responsive">
+    <table class="table table-striped table-border rounded text-center mt-5">
+      <thead class="background-color text-white">
+        <tr>
+          <th class="font-weight-semibold">Store Id</th>
+          <th class="font-weight-semibold">Name</th>
+          <th class="font-weight-semibold">Address</th>
+          <th class="font-weight-semibold">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let restauraunt of user.orgUserDetailList; let i = index" (click)="restaurantLogin(restauraunt)">
+          <td>{{ i + 1 }}</td>
+          <td>{{ restauraunt.orgDTO.organizationName }}</td>
+          <td>
+            <span> {{ restauraunt.orgDTO.addressDTO.addressLineOne }}, </span><br />
+            <span>{{ restauraunt.orgDTO.addressDTO.state }} , {{ restauraunt.orgDTO.addressDTO.country }}.</span><br />
+          </td>
+          <td>
+            <div [ngClass]="restauraunt.active == 0 ? 'inactive' : 'active'">{{ restauraunt.active == 0 ? 'Expired' : 'Active' }}</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

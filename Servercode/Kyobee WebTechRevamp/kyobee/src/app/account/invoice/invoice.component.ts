@@ -36,6 +36,7 @@ export class InvoiceComponent implements OnInit {
   }
 
   downloadFile(url) {
+    console.log(url);
     window.location.href = url;
   }
 }

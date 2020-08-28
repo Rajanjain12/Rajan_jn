@@ -28,6 +28,7 @@ export class DashboardComponent implements OnInit {
     this.loginUser.clientBase = restaurant.credDTO.clientBase;
     this.loginUser.userName = restaurant.credDTO.userName;
     this.loginUser.password = restaurant.credDTO.password;
+    this.loginUser.mainOrganizationLogin = true;
 
     this.userService.login(this.loginUser).subscribe((res: any) => {
       const respData = res;

@@ -62,7 +62,7 @@
                   name="email"
                   #email="ngModel"
                   class="form-control"
-                  ngPattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
+                  pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
                   [ngClass]="{ 'is-invalid': f.submitted && email.invalid }"
                   [(ngModel)]="user.email"
                   required="required"
@@ -70,7 +70,7 @@
                 <label for="input" class="control-label">Email</label><i class="bar"></i>
                 <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
                   <div class="text-danger" *ngIf="email.errors?.required">Email is required</div>
-                  <div class="text-danger" *ngIf="email.errors.pattern">Email must be a valid email address</div>
+                  <div class="text-danger" *ngIf="email.errors?.pattern">Email must be a valid email address</div>
                 </div>
               </div>
             </div>
@@ -197,28 +197,28 @@
             </div>
 
             <div class="col-lg-12 text-center">
-              <button type="button" class="btn btn-theme background-color shadow" (click)="updateProfileSetting(f.form.invalid)"><span>Save</span></button>
+              <button type="submit" class="btn btn-theme background-color shadow" (click)="updateProfileSetting(f.form.invalid)"><span>Save</span></button>
             </div>
           </div>
         </form>
       </div>
     </div>
     <!-- password modal -->
-    <div class="modal fade"  id="passwordChange">
+    <div class="modal fade" id="passwordChange">
       <div class="modal-dialog modal-dialog-centered">
         <form name="form1" #f1="ngForm" novalidate>
           <div class="modal-content border-radius border-0">
             <div class="custom-modal-header background-color">
               <span class="modal-title text-white">Change Password</span>
-              <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+              <button type="button" class="close text-white" data-dismiss="modal" (click)="resetForm(f1)">&times;</button>
             </div>
             <div class="modal-body">
               <div class="col-lg-12">
                 <div class="form-group mt-1">
-                  <input type="password" id="oldpwd" name="oldpwd" #oldpwd="ngModel" class="form-control" [ngClass]="{ 'is-invalid': f.submitted && oldpwd.invalid }" [(ngModel)]="oldPwd" required="required" />
-                  <label for="input" class="control-label">Old Password</label><i class="bar"></i>
-                  <div *ngIf="f.submitted && oldpwd.invalid" class="invalid-feedback">
-                    <div class="text-danger" *ngIf="oldpwd.errors.required">Old password is required</div>
+                  <input type="password" id="oldpwd" name="oldpwd" #oldpwd="ngModel" class="form-control" [ngClass]="{ 'is-invalid': f1.submitted && oldpwd.invalid }" [(ngModel)]="oldPwd" required="required" />
+                  <label for="input" class="control-label">Old Password*</label><i class="bar"></i>
+                  <div *ngIf="f1.submitted && oldpwd.invalid" class="invalid-feedback">
+                    <div class="text-danger" *ngIf="oldpwd.errors?.required">Old password is required</div>
                   </div>
                   <!-- <span toggle="#oldpwd" class="font-color flaticon-eye-1 pass-link toggle-password font-weight-semibold"></span> -->
                 </div>
@@ -232,19 +232,19 @@
                     name="newpwd"
                     #newpwd="ngModel"
                     class="form-control"
-                    [ngClass]="{ 'is-invalid': f.submitted && newpwd.invalid }"
-                    ngPattern="^(?=.*?[A-Z])(?=.*?[#?!@$%^&*-]).{8,12}$"
+                    pattern="^(?=.*?[A-Z])(?=.*?[#?!@$%^&*-]).{8,12}$"
+                    [ngClass]="{ 'is-invalid': f1.submitted && newpwd.invalid }"
                     [(ngModel)]="newPwd"
                     required="required"
                   />
-                  <label for="input" class="control-label" id="pass2">New Password</label><i class="bar"></i>
-                  <div *ngIf="f.submitted && newpwd.invalid" class="invalid-feedback">
-                    <div class="text-danger" *ngIf="newpwd.errors.required">Password is required</div>
+                  <label for="input" class="control-label" id="pass2">New Password*</label><i class="bar"></i>
+                  <div *ngIf="f1.submitted && newpwd.invalid" class="invalid-feedback">
+                    <div class="text-danger" *ngIf="newpwd.errors?.pattern">Please enter a valid password, it should contain one uppercase, one special character and length should be between 8-12.</div>
+                    <div class="text-danger" *ngIf="newpwd.errors?.required">Password is required</div>
                   </div>
-                  <!-- <span toggle="#newpwd" class="font-color flaticon-eye-1 pass-link toggle-password font-weight-semibold"></span> -->
-                  <span class="password-tooltip" data-toggle="tooltip" data-placement="left" tooltip-title="Password should contain one upercase, one special character and length should be between 8-12.">
-                    <i class="fi flaticon-info-button grey"></i></span
-                  >
+                  <span class="password-tooltip" id="showWeb" data-toggle="tooltip" data-placement="right" tooltip-title="Password should contain one uppercase, one special character and length should be between 8-12.">
+                    <i class="fi flaticon-info-button font-14 grey"></i>
+                  </span>
                 </div>
               </div>
               <div class="col-lg-12">
@@ -252,24 +252,24 @@
                   <input
                     type="password"
                     id="confPassword"
-                    appConfirmEqualValidator="newpwd"
                     name="confPassword"
+                    appConfirmEqualValidator ="newpwd"
                     #confPassword="ngModel"
                     class="form-control"
-                    [ngClass]="{ 'is-invalid': f.submitted && confPassword.invalid }"
+                    [ngClass]="{ 'is-invalid': f1.submitted && confPassword.invalid }"
                     [(ngModel)]="confPwd"
                     required="required"
                   />
-                  <label for="input" class="control-label" id="pass3">Re - Type New Password</label><i class="bar"></i>
-                  <div *ngIf="f.submitted && confPassword.invalid" class="invalid-feedback">
-                    <div class="text-danger" *ngIf="confPassword.errors.required">confPassword is required</div>
+                  <label for="input" class="control-label" id="pass3">Re - Type New Password*</label><i class="bar"></i>
+                  <div *ngIf="f1.submitted && confPassword.invalid" class="invalid-feedback">
+                    <div class="text-danger" *ngIf="confPassword.errors?.required">Please re-type new password</div>
                     <div class="text-danger" *ngIf="confPassword.errors?.notEqual">Password does not match</div>
                   </div>
                   <!-- <span toggle="#renewpwd" class="font-color flaticon-eye-1 pass-link toggle-password font-weight-semibold"></span> -->
                 </div>
               </div>
               <div class="col-lg-12 text-center">
-                <button type="button" class="btn btn-theme background-color shadow" (click)="changePassword(f1.form.invalid)"><span>Save</span></button>
+                <button type="submit" class="btn btn-theme background-color shadow" (click)="changePassword(f1.form.invalid)"><span>Save</span></button>
               </div>
             </div>
           </div>

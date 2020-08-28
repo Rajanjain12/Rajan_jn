@@ -14,7 +14,8 @@ import { MainpageComponent } from './mainpage/mainpage.component';
 import { AddGuestComponent } from './add-guest/add-guest.component';
 import { HistoryComponent } from './history/history.component';
 import { SettingsComponent } from './settings/settings.component';
-import { MaxValidator } from '../core/directives/max.validator';
+/*import { MaxValidator } from '../core/directives/max.validator';*/
+import { MentionModule } from 'angular-mentions';
 /* import { MinValidator } from '../core/directives/min.validator'; */
 
 @NgModule({
@@ -29,7 +30,15 @@ import { MaxValidator } from '../core/directives/max.validator';
     /*  MaxValidator, */
     /* MinValidator */
   ],
-  imports: [CommonModule, CoreModule, WaitlistRoutingModule, FormsModule, Ng5SliderModule, NgxMaskModule.forRoot()],
+  imports: [
+    CommonModule,
+    CoreModule,
+    WaitlistRoutingModule,
+    FormsModule,
+    Ng5SliderModule,
+    MentionModule,
+    NgxMaskModule.forRoot()
+  ],
   providers: [PubNubAngular]
 })
 export class WaitlistModule {}
