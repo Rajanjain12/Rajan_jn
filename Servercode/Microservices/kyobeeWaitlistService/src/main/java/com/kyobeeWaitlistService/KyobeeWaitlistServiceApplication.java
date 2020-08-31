@@ -17,7 +17,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-/*@EnableEurekaClient*/ 
+@EnableEurekaClient 
 public class KyobeeWaitlistServiceApplication {
 	
 	public static void main(String[] args) {
@@ -36,7 +36,7 @@ public class KyobeeWaitlistServiceApplication {
 	}
 
 	@Bean
-	/*@LoadBalanced*/
+	@LoadBalanced
 	public WebClient.Builder getWebClientBuilder(){
 		return WebClient.builder();
 	}
