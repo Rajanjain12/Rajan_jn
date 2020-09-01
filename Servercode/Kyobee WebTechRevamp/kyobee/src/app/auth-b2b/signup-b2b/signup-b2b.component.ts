@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DesignService } from './../../core/services/design.service';
 
 @Component({
   selector: 'app-signup-b2b',
@@ -9,7 +10,9 @@ export class SignupB2bComponent implements OnInit {
   alertError: { type: string; msg: string; display: boolean } = { type: '', msg: '', display: false };
   step: number = 0;
 
-  constructor() {}
+  constructor(private designService: DesignService) {
+    this.designService.setHeaderStyle('signup');
+  }
 
   ngOnInit() {}
 }

@@ -7,6 +7,7 @@ import { LanguageKeyMappingDTO } from 'src/app/core/models/language-keymap.model
 import { OrgSettingDTO } from 'src/app/core/models/organization-setting.model';
 import { OrganizationService } from 'src/app/core/services/organization.service';
 import { HttpParams } from '@angular/common/http';
+import { DesignService } from './../../core/services/design.service';
 
 @Component({
   selector: 'app-settings',
@@ -43,10 +44,15 @@ export class SettingsComponent implements OnInit {
     ]
   };
 
-  constructor(private authService: AuthService, private orgService: OrganizationService) {
+  constructor(
+    private authService: AuthService,
+    private orgService: OrganizationService,
+    private designService: DesignService
+  ) {
     this.user = this.authService.getUser();
     this.selectedSMSTemplateLangId = this.user.defaultLangId;
     this.changeSelectedTemplate();
+    this.designService.setHeaderStyle('organizationLogin');
   }
 
   ngOnInit() {

@@ -1,4 +1,4 @@
-<header class="fix-header p-0 header">
+<header class="fix-header p-0 header" *ngIf="headerStyle == 'organizationLogin'">
   <div class="container-fluid">
     <div class="alert alert-danger mt-2 row-eq-height" style="display: none;" role="alert">
       <span class="m-auto float-left">Notification about renewing plan. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</span>
@@ -72,25 +72,25 @@
         <!-- For web view -->
         <ul class="navbar-nav" id="hideMobile">
           <li class="nav-item">
-            <a class="nav-link active" href="" [routerLink]="['/waitlist/dashboard']">
+            <a [ngClass]="tab == 1 ? 'nav-link active' : 'nav-link'" href="" [routerLink]="['/waitlist/dashboard']" (click)="setActiveTab(1)">
               <i class="fi flaticon-to-do-list font-22"></i>
               <p>WaitList</p>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="text-marketing.html">
+            <a [ngClass]="tab == 2 ? 'nav-link active' : 'nav-link'" href="" [routerLink]="['/waitlist/dashboard']" (click)="setActiveTab(1)">
               <i class="fi flaticon-message font-26"></i>
               <p>Text Marketing</p>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="table-management.html">
+            <a [ngClass]="tab == 3 ? 'nav-link active' : 'nav-link'" href="" [routerLink]="['/waitlist/dashboard']" (click)="setActiveTab(1)">
               <i class="fi flaticon-dining font-24"></i>
               <p>Table Management</p>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="" [routerLink]="['/account/profile']">
+            <a [ngClass]="tab == 4 ? 'nav-link active' : 'nav-link'" href="" [routerLink]="['/account/profile']" (click)="setActiveTab(4)">
               <i class="fi flaticon-user font-22"></i>
               <p>My Account</p>
             </a>
@@ -103,6 +103,30 @@
         </button>
         Hello, <span>{{ user?.firstName }} {{ user?.lastName }}</span> | <a class="ml-3" href="" (click)="logout()"><i class="error fi flaticon-power font-14 mr-2"></i><span class="font-weight-semibold">Logout</span></a>
       </div>
+    </nav>
+  </div>
+  <!-- container-fluid -->
+</header>
+<!-- header Ends -->
+
+<header class="fix-header p-0 header" *ngIf="headerStyle == 'mainOrganizationLogin'">
+  <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-expand-md navbar-light topnav p-md-0">
+      <a class="navbar-brand" routerLink="/"><img [src]="'assets/images/' + loadTheme + '/logo.png'"/></a>
+      <div><a class="nav-link" [routerLink]="['/auth-b2b/signup-b2b']">Add restaurant</a></div>
+      <div class="ml-auto logout-res mt-2 mt-md-0">
+        <a class="ml-3" href="" (click)="logout()"><i class="error fi flaticon-power font-14 mr-2"></i><span class="font-weight-semibold">Logout</span></a>
+      </div>
+    </nav>
+  </div>
+  <!-- container-fluid -->
+</header>
+<!-- header Ends -->
+
+<header class="fix-header p-0 header" *ngIf="headerStyle == 'signup'">
+  <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-expand-md navbar-light topnav p-md-0">
+      <a class="navbar-brand" routerLink="/"><img [src]="'assets/images/' + loadTheme + '/logo.png'"/></a>
     </nav>
   </div>
   <!-- container-fluid -->

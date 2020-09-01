@@ -8,6 +8,7 @@ import { OrganizationDTO } from 'src/app/core/models/organization.model';
 import { CountryDTO } from 'src/app/core/models/countryDTO.model';
 import { AddressDTO } from 'src/app/core/models/address.model';
 import { AccountService } from 'src/app/core/services/account.service';
+import { DesignService } from './../../core/services/design.service';
 
 declare var $: any;
 
@@ -33,7 +34,8 @@ export class ProfileComponent implements OnInit {
   constructor(
     public commonService: CommonService,
     private authService: AuthService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private designService: DesignService
   ) {}
 
   ngOnInit() {
@@ -44,6 +46,7 @@ export class ProfileComponent implements OnInit {
     this.fetchOrganization();
     this.commonService.fetchOrganizationType();
     this.commonService.fetchTimezoneList();
+    this.designService.setHeaderStyle('organizationLogin');
   }
   // Purpose : For fetching organization details
   fetchOrganization() {

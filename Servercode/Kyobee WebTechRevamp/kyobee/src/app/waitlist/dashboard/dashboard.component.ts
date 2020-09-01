@@ -11,6 +11,7 @@ import { PubNubAngular } from 'pubnub-angular2';
 import { environment } from '@env/environment';
 import { User } from 'src/app/core/models/user.model';
 import { SendSMSDTO } from 'src/app/core/models/send-sms.model';
+import { DesignService } from './../../core/services/design.service';
 
 declare var $: any;
 @Component({
@@ -23,8 +24,11 @@ export class DashboardComponent implements OnInit {
     private guestService: GuestService,
     private organizationService: OrganizationService,
     private authService: AuthService,
-    private pubnub: PubNubAngular
-  ) {}
+    private pubnub: PubNubAngular,
+    private designService: DesignService
+  ) {
+    this.designService.setHeaderStyle('organizationLogin');
+  }
   user: User;
   orgId;
   pageNo;

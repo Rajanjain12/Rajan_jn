@@ -7,6 +7,7 @@ import { environment } from '@env/environment';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { User } from 'src/app/core/models/user.model';
 import { Options, LabelType } from 'ng5-slider';
+import { DesignService } from './../../core/services/design.service';
 
 @Component({
   selector: 'app-history',
@@ -14,7 +15,14 @@ import { Options, LabelType } from 'ng5-slider';
   styleUrls: ['./history.component.scss']
 })
 export class HistoryComponent implements OnInit {
-  constructor(private guestService: GuestService, private pubnub: PubNubAngular, private authService: AuthService) {}
+  constructor(
+    private guestService: GuestService,
+    private pubnub: PubNubAngular,
+    private authService: AuthService,
+    private designService: DesignService
+  ) {
+    this.designService.setHeaderStyle('organizationLogin');
+  }
   sliderMaxTime = 24;
   sliderMinTime = 0;
   options: Options = {

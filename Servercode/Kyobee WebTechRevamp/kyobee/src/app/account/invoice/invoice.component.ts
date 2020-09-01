@@ -4,6 +4,7 @@ import { User } from 'src/app/core/models/user.model';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { AccountPlanService } from 'src/app/core/services/account-plan.service';
 import { InvoiceDetailsDTO } from 'src/app/core/models/invoice-details.model';
+import { DesignService } from './../../core/services/design.service';
 
 @Component({
   selector: 'app-invoice',
@@ -14,7 +15,13 @@ export class InvoiceComponent implements OnInit {
   user: User = new User(); // for storing user details
   invoiceDetailsList: Array<InvoiceDetailsDTO>;
 
-  constructor(private authService: AuthService, private accountPlanService: AccountPlanService) {}
+  constructor(
+    private authService: AuthService,
+    private accountPlanService: AccountPlanService,
+    private designService: DesignService
+  ) {
+    this.designService.setHeaderStyle('organizationLogin');
+  }
 
   ngOnInit() {
     this.user = this.authService.getUser();

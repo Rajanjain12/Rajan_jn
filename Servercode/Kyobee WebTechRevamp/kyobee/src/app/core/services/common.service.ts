@@ -3,6 +3,7 @@ import { UserService } from 'src/app/core/services/user.service';
 import { SignUpService } from 'src/app/core/services/signup.service';
 import { TimezoneDTO } from 'src/app/core/models/timezone.model';
 import { CountryDTO } from 'src/app/core/models/countryDTO.model';
+import { LocalStorage } from '@ngx-pwa/local-storage';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,11 @@ export class CommonService {
   timezoneList: Array<TimezoneDTO>;
   organizationTypeList: any;
 
-  constructor(private userService: UserService, private signupService: SignUpService) {}
+  constructor(
+    private userService: UserService,
+    private signupService: SignUpService,
+    private localStorage: LocalStorage
+  ) {}
 
   // Purpose : for fetching country list
   fetchCountryList() {
@@ -57,5 +62,11 @@ export class CommonService {
         alert(res.message);
       }
     });
+  }
+
+  // sets data in local storage
+  setLocalStorageData(name, data): void {
+    localStorage.setItem(name, data);
+    console.log('Active tab' + localStorage.getItem(name));
   }
 }

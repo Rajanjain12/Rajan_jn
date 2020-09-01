@@ -4,6 +4,7 @@ import { UserService } from 'src/app/core/services/user.service';
 import { User } from 'src/app/core/models/user.model';
 import { LoginDTO } from 'src/app/core/models/loginDTO.model';
 import { Router } from '@angular/router';
+import { DesignService } from './../../core/services/design.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,7 +16,14 @@ export class DashboardComponent implements OnInit {
   loginUser: LoginDTO = new LoginDTO();
   userResponse: User;
 
-  constructor(private authService: AuthService, private userService: UserService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+    private router: Router,
+    private designService: DesignService
+  ) {
+    this.designService.setHeaderStyle('mainOrganizationLogin');
+  }
 
   ngOnInit() {
     console.log('user in dashboard:' + JSON.stringify(this.authService.getUser()));

@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PubNubAngular } from 'pubnub-angular2';
 import { environment } from '@env/environment';
 import { HttpParams } from '@angular/common/http';
+import { DesignService } from './../../core/services/design.service';
 declare var $: any;
 @Component({
   selector: 'app-add-guest',
@@ -33,8 +34,11 @@ export class AddGuestComponent implements OnInit {
     private guestService: GuestService,
     private route: ActivatedRoute,
     private router: Router,
-    private pubnub: PubNubAngular
-  ) {}
+    private pubnub: PubNubAngular,
+    private designService: DesignService
+  ) {
+    this.designService.setHeaderStyle('organizationLogin');
+  }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
