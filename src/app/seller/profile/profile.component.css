@@ -1,0 +1,48 @@
+.error{
+    color: red;
+  }
+  
+  .fields {
+    text-align: center;
+    font-size: 120%;
+  }
+  .error-message {
+    color: red;
+  }
+  input[type=text],
+  input[type=email],
+  input[type=tel],
+  input[type=password] {
+    padding: 6px;
+    width: 75%;
+    border-radius: 7px;
+    border: none;
+  }
+  
+  .plain-text p a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.2s, font-size 0.2s;
+  }
+  
+  .plain-text p a:hover {
+    color: orange;
+    font-size: 150%;
+  }
+  
+  .register-btn {
+    font-size: 90%;  
+    color: #fff;
+    border: 1px solid transparent;
+    margin-right: 10px;
+    padding: 6px;
+    border-radius: 7px;
+    width: 15%;
+    background-color: rgb(57, 129, 57);
+    transition: background-color 0.2s;
+  }
+  
+  .register-btn:hover {
+    background-color: rgb(0, 95, 0);
+  }
+    

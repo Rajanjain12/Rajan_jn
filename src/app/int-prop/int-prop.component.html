@@ -1,0 +1,110 @@
+<app-header></app-header><hr>
+<app-dash-bar></app-dash-bar><hr>
+
+<h2>Interested Property</h2>
+<div *ngFor = 'let prop of pess'>
+
+
+    <div class="plain-box">
+        
+        <!--  -->
+        <swiper [config]="config"style="height: 400px;float:right; width: 500px;" >
+            <div class="swiper-wrapper">
+                
+                <div class="swiper-slide" *ngFor="let cust1 of prop.Images | ObjNgFor">
+                
+                    
+                <img  src="{{ prop.Images[cust1].imageLink }}" height="400px" width="500px">
+                </div>
+                <!--  -->
+        </div>
+        
+<div class="swiper-pagination"></div>
+  <div class="swiper-button-next"></div>
+  <div class="swiper-button-prev"></div>
+    </swiper>
+<!-- <div *ngFor="let cust1 of customer.Images| ObjNgFor">
+    <img src="{{ customer.Images[cust1].imageLink }}" alt="{{customer.Images[cust1].imageLink }}" >
+</div> -->
+
+            <!-- </div> -->
+            <div class="field">
+                Sell/Rent:    <span>{{ prop.type11 }}</span>
+            </div>
+        <div class="field">
+            Type of Property:  <span>{{ prop.type    }}</span>
+        </div>
+        <div class="field">
+            location of Property:    <span>{{ prop.location }}</span>
+        </div>
+        <div class="field">
+            Price of Property:    <span>{{ prop.price }}</span>
+        </div>
+        <div class="field">
+            Specification of Property:    <span>{{ prop.features }}</span>
+        </div>
+        <div class="field">
+            Address:    <span>{{ prop.contact }}</span>
+        </div>
+        <div class="field">
+            Size of the Property:    <span>{{ prop.area }} {{ prop.unit }}</span>
+           
+        </div>
+        <div class="field">
+            BHK:    <span>{{ prop.BHK }}</span>
+           
+        </div>
+        
+        <div class="field">
+             Property-ID:    <span>{{ prop.$key }} </span>
+           
+        </div>
+        
+        <div class="field">
+            
+            Seller-ID:    <span>{{ prop.id }} </span>
+          
+       </div>
+          
+       <button class="submit-btn" (click)="removex(prop.$key)"type = "submit">Remove</button>
+       <button class="register-btn" (click)="openDialog(prop.id)"type = "submit">Contact Details</button>
+    </div>
+   
+    </div>
+    
+<div *ngIf="pess?.length < 1">
+    <div class="field"><p>No Results Found!</p></div>
+</div>
+
+
+<h2>Interested Services</h2>
+<div *ngFor = 'let customer of pessS'>
+
+
+    <div class="plain-box">
+        <div class="field">
+            Name of Service: <span>{{ customer.serviceName }}</span>
+        </div>
+        <div class="field">
+            Location: <span>{{ customer.location }}</span>
+        </div>
+        <div class="field">
+            Price: <span>{{ customer.price }}</span>
+        </div>
+        <div class="field">
+            Specification of Service: <span>{{ customer.contactNo }}</span>
+        </div>
+        <div class="field">
+            Service ID: <span>{{ customer.$key }}</span>
+        </div>
+        <div class="field">
+            Service ID: <span>{{ customer.id }}</span>
+        </div>
+        <button class="submit-btn" (click)="remove(customer.$key)"type = "submit">Remove</button>
+        <button class="register-btn" (click)="openDialog(customer.id)"type = "reset">Contact Details</button>
+    </div>
+
+</div>
+<div *ngIf="pessS?.length < 1">
+    <div class="field"><p>No Results Found!</p></div>
+</div>

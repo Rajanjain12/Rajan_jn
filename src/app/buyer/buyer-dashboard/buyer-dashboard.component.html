@@ -1,0 +1,232 @@
+<app-header></app-header><hr>
+<app-buy-nav></app-buy-nav><hr>
+<div class="side-bar">
+    <!-- <h3>Filter</h3>
+    <select name="option-type" id="option-type" class="option-type" aria-placeholder="djasdj" >
+        <option value="select">Select Type</option>
+        <option value="property">Property</option>
+        <option value="service">Services</option>
+    </select>
+
+    <div class="filter-name">
+        Buy/Rent : <br>
+    </div>
+    <div class="filter-details">
+        <select name="sell-rent" id="sell-rent" class="sell-rent">
+            <option value="sell">Buy</option>
+            <option value="rent">Rent</option>
+        </select>
+    </div>
+
+    <div class="filter-name">
+        Property Type :
+    </div>
+    <div class="filter-details">
+        <input type="checkbox" name="f1" class="f1">Resedential <br>
+        <input type="checkbox" name="f1" class="f1">Commercial
+    </div>
+
+    <div class="filter-name">
+        Size In :
+    </div>
+    <div class="filter-details">
+        <select name="size-in" id="size-in" class="size-in">
+            <option value="square-m">Square Meter</option>
+            <option value="square-cms">Square Centimeter</option>
+            <option value="yard">Yards</option>
+        </select>
+    </div>
+
+    <div class="filter-name">
+        Size of Property :
+    </div>
+    <div class="filter-details">
+        <input type="number" name="number" class="number" placeholder="Enter the size..">
+    </div>
+
+    <div class="filter-name">
+        Location :
+    </div>
+    <div class="filter-details">
+        <input type="checkbox" name="l1" id="l1" class="location">Praladhnagar <br>
+        <input type="checkbox" name="l2" id="l1" class="location">Navrangpura <br>
+        <input type="checkbox" name="l3" id="l1" class="location">Paldi <br>
+        <input type="checkbox" name="l4" id="l1" class="location">Manekbagh <br>
+        <input type="checkbox" name="l5" id="l1" class="location">Naranpura <br>
+    </div>
+
+    <div class="filter-name">
+        Price :
+    </div>
+    <div class="filter-details">
+        <input type="number" name="price" id="price" class="price" placeholder="Enter the price">
+    </div>
+
+</div> -->
+ <h3>Filter</h3>
+<form [formGroup] = "filterForm" (ngSubmit) = "filterFunction()">
+    Sell/Rent : <select formControlName = "f5" >
+        <option value="Sell">Sell</option>
+        <option value="Rent">Rent</option>
+    </select> <br><br>
+    Type : <select formControlName = "f2">
+        <option value = "commercial">commercial</option>
+        <option value = "Residential">Residential</option>
+        
+    </select> <br><br>
+    Area : <input type="number" formControlName = "f1"> <br><br>
+    
+    Price : <input type="number" formControlName = "f3"> <br><br>
+               
+                <br><br>
+    BHK : <input type="number" formControlName = "f4"> <br><br>
+   
+    <button class="submit-btn" type = "submit">Submit</button>
+    <button class="reset-btn"(click) = "removeFilters()">Remove Filters</button>
+</form>
+</div>
+<div class="article">
+
+    <!-- <div *ngFor="let prop of (property$ | async) ">
+        <h4>{{prop?.location}}</h4>
+
+        <p>
+            {{prop.contact }}
+        </p>
+        
+        <p>
+            {{prop.type }}
+        </p>
+        <p>
+            {{prop.key }}
+        </p>
+        
+
+    </div>
+    <div *ngIf="(property$ | async)?.length < 1">
+        <hr />
+        <p>No results found :(</p>
+      </div>
+     -->
+    <!-- <div class="box"> -->
+        
+        <!-- <div class="field">
+            Sell/Rent: <span>Sell</span>
+        </div>
+        <div class="image-box">
+            <img src="../../background_img2.jpg" alt="not displayed">
+        </div>
+        <div class="field">
+            Type of Property:  <span>Resedential</span>
+        </div>
+        <div class="field">
+            Location of Property:    <span>Navrangpura</span>
+        </div>
+        <div class="field">
+            Price of Property:    <span>100000 Rs</span>
+        </div>
+        <div class="field">
+            Specification of Property:    <span>Xyz</span>
+        </div>
+        <div class="field">
+            Contact Number of the Person:    <span>9099384574</span>
+        </div>
+        <div class="field">
+            Size of the Property:    <span>5000 sq-m</span>
+        </div>
+        <div class="buttons">
+            <input type="button" class="delete-btn" (click)='displayReasons()' value="Report">
+            -->
+        <!-- </div> -->
+    <!-- </div> -->
+    <div *ngIf="pess?.length < 1">
+            <div class="field"><p>No Results Found!</p></div>
+        </div>
+    <div *ngFor = 'let prop of pess'>
+        <!-- <div class="filtered-prop">
+            <p>Area : {{ prop.area }}</p>
+            <p>Resedential or Commercial : {{ prop.type }} </p>
+            <p>Sell/Rent : {{ prop.type11 }} </p>
+            <p>BHK : {{ prop.BHK }} </p>
+            <p>Price : {{ prop.price }} </p>
+            <p>Key : {{prop.$key}} </p>
+        </div> -->
+        <div class="plain-box">
+        
+            <!--  -->
+           
+            <swiper [config]="config"style="height: 400px;float:right; width: 500px;" >
+               
+                    <button  class="btn btn-danger btn-xs"   style="float: right;background-color: lightskyblue;color: white; border: transparent; padding: 7px; border-radius: 7px; ">ACTIVE</button>
+               
+                <div class="swiper-wrapper">
+                    
+                    <div class="swiper-slide" *ngFor="let cust1 of prop.Images | ObjNgFor">
+                   
+                        
+                    <img  src="{{ prop.Images[cust1].imageLink }}" height="400px" width="500px">
+                    </div>
+                    <!--  -->
+            </div>
+            
+    <div class="swiper-pagination"></div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+        </swiper>
+   
+    
+                <!-- </div> -->
+                <div class="field">
+                    Sell/Rent:    <span>{{ prop.type11 }}</span>
+                </div>
+            <div class="field">
+                Type of Property:  <span>{{ prop.type    }}</span>
+            </div>
+            <div class="field">
+                location of Property:    <span>{{ prop.location }}</span>
+            </div>
+            <div class="field">
+                Price of Property:    <span>{{ prop.price }}</span>
+            </div>
+            <div class="field">
+                Specification of Property:    <span>{{ prop.features }}</span>
+            </div>
+            <div class="field">
+                Address:    <span>{{ prop.contact }}</span>
+            </div>
+            <div class="field">
+                Size of the Property:    <span>{{ prop.area }} {{ prop.unit }}</span>
+               
+            </div>
+            <div class="field">
+                BHK:    <span>{{ prop.BHK }}</span>
+               
+            </div>
+            
+            <div class="field">
+                 Property-ID:    <span>{{ prop.$key }} </span>
+               
+            </div>
+            
+            <div class="field">
+                
+                Seller-ID:    <span>{{ prop.id }} </span>
+              
+           </div>
+           <div class="buttons">
+            <button mat-raised-button (click) = "openDialog(prop.$key,prop.id)">Report </button>
+            <button mat-raised-button (click) = "Interested(prop.$key,prop.id)">Contact </button>
+            
+            <!-- <input type="button" class="delete-btn" (click)="Interested(prop.$key,prop.id)" value="Interested"> -->
+            
+           
+        </div>
+    </div>
+</div>
+<!-- <div *ngFor = pess?.length < 1>
+    <h2> No Result</h2> -->
+
+
+</div>
+
+

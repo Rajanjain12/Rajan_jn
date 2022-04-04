@@ -1,0 +1,60 @@
+<div class="row">
+    <form [formGroup]="propertyForm" class="register-form">
+        <div class="row">
+            <div class="col span-1-of-3">
+                <label for="basic-details">Basic Details:</label>
+            </div>
+            <div class="col span-2-of-3">
+                <input type="text" name="basic-details" formControlName="basic" id="basic-details" placeholder="Enter basic details of property.." required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col span-1-of-3">
+                <label for="location">Location:</label>
+            </div>
+            <div class="col span-2-of-3">
+                <input type="text" name="location" id="location"formControlName="location" placeholder="Enter location of property.." required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col span-1-of-3">
+                <label for="property-details">Property Details:</label>
+            </div>
+            <div class="col span-2-of-3">
+                <textarea rows="3" cols="20" name="property-details"formControlName="details" id="property-details" placeholder="Enter the details of your property.." required></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col span-1-of-3">
+                <label for="pricing">Pricing:</label>
+            </div>
+            <div class="col span-2-of-3">
+                <input type="number" name="pricing" id="pricing" formControlName="price"placeholder="Enter price of your property.." required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col span-1-of-3">
+                <label for="features">Features of your property:</label>
+            </div>
+            <div class="col span-2-of-3">
+                <textarea rows="3" cols="20" name="features" id="features" formControlName="features"placeholder="Enter features of your property.." required></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col span-1-of-3">
+                <label for="features">Contact:</label>
+            </div>
+            <div class="col span-2-of-3">
+                <input type="number" name="contact" id="contact" formControlName="contact"placeholder="Enter your contact number.." required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col span-1-of-3">
+                <label>&nbsp;</label>
+            </div>
+            <div class="col span-2-of-3">
+                <button type="button" (click)="onSubmit(propertyForm.value)" (click)="onSubmit(clearForm.value)">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,21 @@
+<p>You Can View this Property In Interested Section of Profile.</p>
+
+
+<form [formGroup] = "DisplayForm">
+    
+  <div *ngFor ="let x of pessUE">
+
+
+    Seller-Name: {{x.name}}
+    <hr>
+    Seller-Number: {{ x.contactNo}}
+    <hr>
+    Seller-Email: {{x.email}}
+    <hr>
+  
+  </div>      
+    
+    
+   
+   <button type="reset" (click)="Cancel()">Close</button>
+</form>

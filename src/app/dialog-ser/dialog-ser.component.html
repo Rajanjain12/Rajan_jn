@@ -1,0 +1,22 @@
+
+<p>You Can View this Service In Interested Section of Profile.</p>
+
+
+<form [formGroup] = "DisplayForm">
+    
+  <div *ngFor ="let x of pessUO">
+
+
+    Seller-Name: {{x.name}}
+    <hr>
+    Seller-Number: {{ x.contactNo}}
+    <hr>
+    Seller-Email: {{x.email}}
+    <hr>
+  
+  </div>      
+    
+    
+   
+   <button type="reset" (click)="Cancel()">Close</button>
+</form>

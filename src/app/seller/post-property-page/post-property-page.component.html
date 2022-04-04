@@ -1,0 +1,205 @@
+
+<app-header></app-header><hr>
+<app-become-seller-nav></app-become-seller-nav><hr>
+
+    <form [formGroup]="propertyForm" ngNativeValidate (ngSubmit)="clearForm()"class="register-form">
+        <div class="row"> 
+        <div class="row">
+            <div class="col fields span-1-of-3">
+                <label for="basic-details">Sell/Rent: </label><span class="required">*</span>
+            </div>
+            <div class="col span-2-of-3">
+                <select  name="basic-details" formControlName="type11" id="basic-11" [(ngModel)]="type11"placeholder="Select type"required >
+                    <option value="Select" selected>Select Option</option>
+                    <option value="Sell" >Sell</option>
+                    <option value="Rent" >Rent</option>
+                </select>
+            </div>
+        </div> 
+        <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.type11">
+                <div class="error-message" *ngIf="propertyForm.get('type11').hasError(error.type) && (propertyForm.get('type11').dirty || propertyForm.get('type11').touched)">
+                    {{ error.message }}
+                </div>
+            </ng-container>
+        </div>
+    
+      
+      
+        <div class="row">
+            <div class="col fields span-1-of-3">
+                <label for="basic-details">Type of Property: </label><span class="required">*</span>
+            </div>
+            <div class="col span-2-of-3">
+                <select  name="basic-details1" formControlName="type" id="basic-details" [(ngModel)]="type" placeholder="Select type" required>
+                    <option value="Select" selected>Select Option</option>
+                    <option value="Residential" routerLink=''>Residential</option>
+                    <option value="commercial" routerLink=''>commercial</option>
+                </select>
+            </div>
+        </div>
+        <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.type">
+                <div class="error-message" *ngIf="propertyForm.get('type').hasError(error.type) && (propertyForm.get('type').dirty || propertyForm.get('type').touched)">
+                    {{ error.message }}
+                </div>
+            </ng-container>
+        </div>
+
+        <div class="row">
+            <div class="col fields span-1-of-3">
+                <label for="location">Location: </label><span class="required">*</span>
+            </div>
+            <!-- <div class="col span-2-of-3">
+                <input type="text" name="location" id="location"formControlName="location"required minlength="4" [(ngModel)]="location" placeholder="Enter Address of property.." ngModel required>
+                
+            </div> -->
+            <div class="col span-2-of-3">
+                <AutocompleteComponent (setAddress)="getAddress($event)"   class="demo"   name="location" formControlName="location" id="location"adressType="geocode" required  ngDefaultControl></AutocompleteComponent>
+                <!-- formControlName="location" -->
+        </div>
+            
+        </div><div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.location">
+                <div class="error-message" *ngIf="propertyForm.get('location').hasError(error.type) && (propertyForm.get('location').dirty || propertyForm.get('location').touched)">
+                    {{ error.message }}
+                </div>
+            </ng-container>
+        </div>
+
+
+        <div class="row">
+            <div class="col fields span-1-of-3">
+                <label for="property-details">Area: </label><span class="required">*</span>
+            </div>
+            <div class="col span-2-of-3">
+                <input type="number" style="width: 58%;" formControlName="area" [(ngModel)]="area" id="property-details" placeholder="Enter the size. of your property.."ngModel required>   
+                <select  name="type4" style="width: 10%; margin-left: 2%;" class="field-2" formControlName="type4" [(ngModel)]="type4" id="ARA-details" placeholder="Select type" ngModel required>
+                    <option value="Select" selected>Select Option</option>
+                    <option value="Sq-ft" routerLink=''>Sq-ft</option>
+                    <option value="Sq-yards" routerLink=''>Sq-Yards</option>
+                    <option value="Sq-mts" routerLink=''>Sq-mts</option>
+                </select>
+            </div>
+        </div>
+        <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.area">
+                <div class="error-message" *ngIf="propertyForm.get('area').hasError(error.type) && (propertyForm.get('area').dirty || propertyForm.get('area').touched)">
+                    {{ error.message }}
+                </div>
+            </ng-container>
+        </div>
+        <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.type4">
+                <div class="error-message" *ngIf="propertyForm.get('type4').hasError(error.type) && (propertyForm.get('type4').dirty || propertyForm.get('type4').touched)">
+                    {{ error.message }}
+                </div>
+            </ng-container>
+        </div>
+        <div class="row">
+            <div class="col fields span-1-of-3">
+                <label for="bedrooms">Bedrooms:</label><span class="required">*</span>
+            </div>
+            <div class="col span-2-of-3">
+                <input type="number" formControlName="BHK" min="0" minlength="1"[(ngModel)]="BHK"name = "BHK"placeholder="Enter the no of bedrooms.." required>
+            </div>
+        </div>
+        <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.BHK">
+                <div class="error-message" *ngIf="propertyForm.get('BHK').hasError(error.type) && (propertyForm.get('BHK').dirty || propertyForm.get('BHK').touched)">
+                    {{ error.message }}
+                </div>
+                <div class="error-message" *ngIf="propertyForm.get('BHK').min || propertyForm.get('BHK').max">
+                    <p>Please Enter the Valid Details.</p>
+                  </div>
+            </ng-container>
+        </div>
+
+        
+        <div class="row">
+            <div class="col fields span-1-of-3">
+                <label for="pricing">Pricing: </label> <span class="required">*</span>
+                
+            </div>
+            <div class="col span-2-of-3">
+                <input type="number"  id="pricing"  minlength="4" [(ngModel)]="pricing"  name="pricing" formControlName="price"placeholder="Enter price of your property.." required >
+            </div>
+        </div>
+        <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.type11">
+                <div class="error-message" *ngIf="propertyForm.get('price').hasError(error.type) && (propertyForm.get('price').dirty || propertyForm.get('price').touched)">
+                    {{ error.message }}
+                </div>
+            </ng-container>
+        </div>
+
+
+        <div class="row">
+            <div class="col fields span-1-of-3">
+                <label for="features">Features of your property: </label><span class="required">*</span>
+            </div>
+            <div class="col span-2-of-3">
+                <textarea rows="3" cols="20"  id="features"  minlength="5"  name="features" [(ngModel)]="features" formControlName="features"placeholder="Enter features of your property.."  required ></textarea>
+            </div>
+        </div>
+        <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.features">
+                <div class="error-message" *ngIf="propertyForm.get('features').hasError(error.type) && (propertyForm.get('features').dirty || propertyForm.get('features').touched)">
+                    {{ error.message }}
+                </div>
+                <div class="error-message" *ngIf="propertyForm.get('features').minlength">
+                    <p>Please Enter more  Details.</p>
+                  </div>
+            </ng-container>
+        </div>
+
+        <div class="row">
+            <div class="col fields span-1-of-3">
+                <label for="features">Images: </label><span class="required">*</span>
+            </div>
+            <div class="col span-2-of-3">
+              <input type="file" accept="video/mp4,image/*" required name="Images" [(ngModel)]="Images" id="Images" (change)="onfileselect($event)"formControlName="Images"placeholder="Upload the images of the property.." multiple="multiple" >
+            </div>
+        </div>
+        <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.Images">
+                <div class="error-message" *ngIf="propertyForm.get('Images').hasError(error.type)   &&(propertyForm.get('Images').dirty || propertyForm.get('Images').touched)">
+                    {{ error.message }}
+                </div>
+            </ng-container>
+        </div>
+
+        <div class="row">
+            <div class="col fields span-1-of-3">
+                <label for="features">Address: </label><span class="required">*</span>
+            </div>
+            <div class="col span-2-of-3">
+                <input type="text"  id="contact"  [(ngModel)]="contact" name="contact" minlength="5" formControlName="contact"placeholder="Enter your Full Address.." required >
+            </div>
+        </div>
+        <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.contact">
+                <div class="error-message" *ngIf="propertyForm.get('contact').hasError(error.type) &&(propertyForm.get('contact').dirty || propertyForm.get('contact').touched)">
+                    {{ error.message }}
+                </div>
+          
+                <div class="error-message" *ngIf="propertyForm.get('contact').minlength ">
+                  <p>Please Enter the Valid Details.</p>
+                </div>
+            </ng-container>
+        </div>
+
+
+        <div class="row">
+            <div class="col span-1-of-3">
+                <label>&nbsp;</label>
+            </div>
+            <div class="col span-2-of-3">
+                <button type="button" (click)="onSubmit(propertyForm.value)" (click)="clearForm()"  class="submit-btn">Submit</button>
+            </div>
+        </div>
+    </div>
+    </form>
+    <p><span class="required">Note:</span>Incase You are Posting Commercial Property put 0 in BHK</p>
+    <p><span class="required">*</span> shows the Required Fields. </p>
+

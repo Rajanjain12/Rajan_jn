@@ -1,0 +1,45 @@
+.sub-text {
+    color: #fff;
+    font-size: 120%;
+}
+
+.reset-password,
+.back {
+    font-size: 90%;  
+    color: #fff;
+    width: 25%;
+    padding: 6px;
+    background-color: transparent;
+    border: 1px solid #fff;
+    border-radius: 7px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.back {
+    margin-left: 2%;
+    width: 15%;
+}
+
+.reset-password:hover,
+.back:hover {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid transparent;
+}
+
+.plain-box {
+    margin-top: 5%;
+    margin-bottom: 1%;
+}
+
+.fields {
+    text-align: center;
+    font-size: 120%;
+}
+
+input[type=email] {
+    padding: 6px;
+    width: 75%;
+    border-radius: 7px;
+    border: none;
+}

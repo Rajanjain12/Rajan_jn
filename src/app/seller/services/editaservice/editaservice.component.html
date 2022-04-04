@@ -1,0 +1,105 @@
+<app-header></app-header><hr>
+<app-service-bar></app-service-bar> <hr>
+
+
+<h2>Edit Your Service</h2>
+<div class="row">
+    <form [formGroup] = "editForm" ngNativeValidate (ngSubmit) = "updateService()" action="">
+
+
+
+        <div class="row">
+            <div class="col fields span-1-of-3">
+               <label for="location">Service Category:</label><span class="required">*</span>
+           </div>
+           <div class="col fields span-2-of-3">
+               <input type="text" name="serviceName" id="service-details"formControlName="serviceName"required  placeholder="Enter Service Category.."  required>
+           </div>
+       </div>
+       <div class="error-messages">
+        <ng-container *ngFor="let error of error_messages.serviceName">
+            <div class="error-message" *ngIf="editForm.get('serviceName').hasError(error.type) && (editForm.get('serviceName').dirty || editForm.get('serviceName').touched)">
+                {{ error.message }}
+            </div>
+        </ng-container>
+    </div>
+
+          <div class="row">
+             <div class="col fields span-1-of-3">
+                <label for="location">Location:</label><span class="readonly">#</span>
+            </div>
+            <div class="col fields span-2-of-3">
+                <input type="text" name="location" id="location"formControlName="location"required  placeholder="Enter Location you provide Services.."  readonly>
+            </div>
+        </div> 
+        
+        <!-- <div class="row">
+            <div class="col fields span-1-of-3">
+                <label for="location">Update Location:    </label>
+            </div>
+            <div class="col span-2-of-3">
+                <AutocompleteComponent (setAddress)="getAddress($event)"  class="demo"  [(ngModel)]="location" name="location" formControlName="location" id="location" adressType="geocode" ngDefaultControl></AutocompleteComponent>
+        </div>
+        </div> -->
+        <!-- <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.location">
+                <div class="error-message" *ngIf="editForm.get('location').dirty || editForm.get('location').touched">
+                    {{ error.message }}
+                </div>
+            </ng-container>
+        </div> -->
+
+
+
+
+
+        <div class="row">
+            <div class="col fields span-1-of-3">
+                <label for="pricing">Pricing:</label><span class="required">*</span>
+            </div>
+            <div class="col fields span-2-of-3">
+                <input type="number"  id="price"    name="pricing" formControlName="price"placeholder="Enter price of your property.."  required>
+            </div>
+        </div>
+        <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.price">
+                <div class="error-message" *ngIf="editForm.get('price').hasError(error.type) && (editForm.get('price').dirty || editForm.get('price').touched)">
+                    {{ error.message }}
+                </div>
+            </ng-container>
+        </div>
+        
+     
+
+        <div class="row">
+            <div class="col fields span-1-of-3">
+                <label for="features">Specification of Service:</label><span class="required">*</span>
+            </div>
+            <div class="col fields span-2-of-3">
+                <input type="text" name="contact" minlength="5" id="contactNo"[(ngModel)]="contactNo" formControlName="contactNo"placeholder="Enter Specification of the Service.." required>
+            </div>
+        </div>
+        
+       
+       <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.contactNo">
+                <div class="error-message" *ngIf="editForm.get('contactNo').hasError(error.type) && (editForm.get('contactNo').dirty || editForm.get('contactNo').touched)">
+                    {{ error.message }}
+                </div>
+            </ng-container>
+        </div>  
+
+
+        <div class="row">
+            <div class="col span-1-of-3">
+                <label>&nbsp;</label>
+            </div>
+            <div class="col span-2-of-3">
+                <button type = "submit" class="submit-btn">Update</button>
+            </div>
+        </div>
+    </form>
+   
+</div>
+<p><span class="required">*</span> Shows the Required Field</p>
+<p><span class="readonly">#</span> Shows the readonly Field</p>

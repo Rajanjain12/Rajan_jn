@@ -1,0 +1,43 @@
+<app-header></app-header> <hr>
+<app-service-bar></app-service-bar> <hr>
+
+<div *ngFor="let customer of customers">
+    <div class="plain-box">
+        <div class="field">
+            Name of Service: <span>{{ customer.serviceName }}</span>
+        </div>
+        <div class="field">
+            Location: <span>{{ customer.location }}</span>
+        </div>
+        <div class="field">
+            Price: <span>{{ customer.price }}</span>
+        </div>
+        <div class="field">
+            Specifications of Service: <span>{{ customer.contactNo }}</span>
+        </div>
+        <div class="field">
+            Service ID: <span>{{ customer.key }}</span>
+        </div>
+        <div class="buttons">
+            <input type="button" class="delete-btn" (click)='deleteRecord(customer.key)' value="Delete">
+            <button value="Edit" routerLink = "/editaservice/{{customer.key}}" class="edit-btn">Edit</button>
+        </div>
+    </div>
+</div>
+
+<!-- <div *ngFor="let customer of customers" style="width: 300px;" >
+    <div *ngIf="customer">
+        <div>
+            <label>First Name: </label> {{ customer.serviceName }}
+        </div>
+        <div>
+            <label>Age: </label> {{ customer.location }}
+        </div>
+        <div>
+            <label>Active: </label> {{ customer.price }}
+        </div>        
+    </div>
+</div>
+<div style="margin-top: 20px;">
+    <button type="button" class="button btn-danger" (click)='deleteCustomers()'>Delete All</button>
+</div> -->

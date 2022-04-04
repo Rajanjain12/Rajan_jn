@@ -1,0 +1,48 @@
+<app-header></app-header><hr>
+<app-service-nav></app-service-nav><hr>
+<h2>Service Dashboard</h2>
+
+<section class="search-engine">
+    
+<form [formGroup]="serviceSearch"ngNativeValidate (ngSubmit)="submit()">
+    <div class="main-text">
+    <div class="row">
+        <div class="col fields span-1-of-3">
+            <label for="service-details">Select Category of Service:</label> <span class="required">*</span>
+        </div>
+        <div class="col span-1-of-3">
+            <select  name="service-details" formControlName="f1" placeholder="service"[(ngModel)]="serviceName"id="service-details" placeholder="Select service.." required>
+                <option value="Select" selected>Select Option</option>
+                <option value="Laundry">Laundry</option>
+                <option value="Cleaning">Cleaning</option>
+                <option value="Food">Food</option>
+            </select>
+        </div>
+    </div>
+    <div class="error-messages">
+        <ng-container *ngFor="let error of error_messages.f1">
+            <div class="error-messages" *ngIf="serviceSearch.get('f1').hasError(error.type) && (serviceSearch.get('f1').dirty || serviceSearch.get('f1').touched)">
+                {{ error.message }}
+            </div>
+        </ng-container>
+    </div>
+    <div class="row">
+        <div class="col fields span-1-of-3">
+            <label for="service-details">Select Location for Service:</label> <span class="required">*</span>
+        </div>
+        <div class="col fields span-1-of-3">
+    <AutocompleteComponent1 (setAddress)="getAddress($event)" formControlName="f2" name="search" class="search" aria-placeholder="Search.."   adressType="geocode" required ngDefaultControl></AutocompleteComponent1>
+    <div class="error-messages">
+        <ng-container *ngFor="let error of error_messages.f2">
+            <div class="error-messages" *ngIf="serviceSearch.get('f2').hasError(error.type) && (serviceSearch.get('f2').dirty || serviceSearch.get('f2').touched)">
+                {{ error.message }}
+            </div>
+        </ng-container>
+    </div>
+<!-- <input type="text" name="search" #searchInput (keyup)="search(searchInput.value)" id="search" class="search" placeholder="Search..."> -->
+<input type="submit"  class="submit-btn"[disabled]="!serviceSearch.valid" routerLink="/service-dash" >
+</div></div>
+</div>
+</form>
+
+</section>

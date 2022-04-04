@@ -1,0 +1,262 @@
+.error{
+    color: red;
+  }
+  
+  .fields {
+    text-align: center;
+    font-size: 120%;
+  }
+  .error-message {
+    color: red;
+  }
+  input[type=text],
+  input[type=email],
+  input[type=tel],
+  input[type=password] {
+    padding: 6px;
+    width: 75%;
+    border-radius: 7px;
+    border: none;
+  }
+  
+  .plain-text p a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.2s, font-size 0.2s;
+  }
+  
+  .plain-text p a:hover {
+    color: orange;
+    font-size: 150%;
+  }
+  
+  .register-btn {
+    font-size: 90%;  
+    color: #fff;
+    border: 1px solid transparent;
+    margin-right: 10px;
+    padding: 6px;
+    border-radius: 7px;
+    width: 15%;
+    background-color: rgb(57, 129, 57);
+    transition: background-color 0.2s;
+  }
+  
+  .register-btn:hover {
+    background-color: rgb(0, 95, 0);
+  }
+  * {
+    outline: none;
+}
+
+.plain-box {
+    background-color: #ffffff;
+    color: black;
+    font-weight: 500;
+    margin: 2%;
+    padding: 2%;
+    height: auto;
+    overflow: hidden;
+    border-radius: 7px;
+}
+
+.field {
+    margin-bottom: 2%;
+}
+
+.field span {
+    margin-left: 1%;
+    color: brown;
+}
+
+.slider-container{
+    float: right;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+
+}
+.s{
+    
+    /* display: inline-block; */
+    float: right;
+}
+.image-box {
+    float: right;
+    width: 30%;
+    margin: 0;
+    transition: left 2s;
+    -webkit-transition: left 2s;
+    -moz-transition: left 2s;
+    -o-transition:left 2s;
+
+}
+.slider-image{
+    float:right;
+    margin:0;
+    padding: 0px;
+}
+
+.image-box img {
+    width: 100%;
+    border: 1px solid black;
+    margin-top: -10%;
+}
+.button-container{
+    top: -20px;
+    position: relative;
+
+}
+.slider-button{
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+    border-radius: 5px;
+    background-color: white;
+
+}
+
+.delete-form,
+.edit-form {
+    margin-top: 10%;
+    margin-left: 5%;
+    color: black;
+}
+
+.delete-form input[type=checkbox],
+.edit-form input[type=checkbox] {
+    margin-right: 2%;
+    margin-bottom: 2%;
+}
+
+.delete-btn {
+    background-color: rgb(253, 101, 101);
+    border:  2px solid transparent;
+    padding: 7px;
+    border-radius: 7px;
+}
+.add-btn {
+    background-color: lightsalmon;
+    border:  2px solid transparent;
+    padding: 7px;
+    border-radius: 7px;
+}
+.act-btn {
+    background-color:lime;
+    border:  2px solid transparent;
+    padding: 7px;
+    border-radius: 7px;
+}
+.edit-btn {
+    background-color: teal;
+    border: 2px solid transparent;
+    padding: 7px;
+    margin: 1%;
+    border-radius: 7px;
+}
+
+.delete-btn:hover {
+    background-color: rgb(255, 44, 44);
+}
+.submit-btn {
+    border: 2px solid transparent;
+    background-color: firebrick;
+    color: #fff;
+    padding: 7px;
+    border-radius: 12px;
+    width: auto;
+    
+    
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.submit-btn:hover {
+    cursor: pointer;
+    background-color: rgb(116, 202, 231);  
+    color: #000;  
+}
+
+.edit-btn:hover {
+    background-color: rgb(0, 100, 100);
+}
+
+.display-details{
+    display: none;
+}
+
+.bg-modal {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    width: 500px;
+    height: 300px;
+    background-color: white;
+    border-radius: 4px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 0;
+    right: 14px;
+    font-size: 42px;
+    transform: rotate(45deg);
+    cursor: pointer;
+    color: black;
+}
+
+* {
+    outline: none;
+}
+
+.plain-box {
+    background-color: #ffffff;
+    color: black;
+    font-weight: 500;
+    margin: 2%;
+    padding: 2%;
+    height: auto;
+    overflow: hidden;
+    border-radius: 7px;
+}
+
+.field {
+    margin-bottom: 2%;
+}
+
+.field span {
+    margin-left: 1%;
+    color: brown;
+}
+
+.delete-btn {
+    background-color: rgb(253, 101, 101);
+    border:  2px solid transparent;
+    padding: 7px;
+    border-radius: 7px;
+}
+
+.edit-btn {
+    background-color: teal;
+    border: 2px solid transparent;
+    padding: 7px;
+    margin: 1%;
+    border-radius: 7px;
+}
+
+.delete-btn:hover {
+    background-color: rgb(255, 44, 44);
+}
+
+.edit-btn:hover {
+    background-color: rgb(0, 100, 100);
+}

@@ -1,0 +1,14 @@
+
+
+<form [formGroup] = "AddForm" (ngSubmit) = "AddProperty(AddForm.value)">
+    
+            
+    <label for="features">Images: </label><span class="required">*</span>
+        
+        <p>Add Images</p>
+          <input type="file" accept="video/mp4,image/*" required name="Images" [(ngModel)]="Images" id="Images" (change)="onfileselect($event)"formControlName="Images"placeholder="Upload the images of the property.." multiple="multiple" >
+        
+    
+   <button type="submit">Add Images</button>
+   <button type="reset" (click)="Cancel()">Cancel</button>
+</form>

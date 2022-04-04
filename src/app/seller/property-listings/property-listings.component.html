@@ -1,0 +1,170 @@
+<div *ngFor="let customer of customers">
+    <div class="plain-box">
+        
+        <!--  -->
+        <swiper [config]="config"style="height: 400px;float:right; width: 500px;" >
+            <div class="swiper-wrapper">
+                
+                <div class="swiper-slide" *ngFor="let cust1 of customer.Images | ObjNgFor">
+                <button  class="btn btn-danger btn-xs" (click)="deleteImage(customer.key,customer.Images,customer.Images[cust1].imageLink)" style="float: right;background-color: rgb(253, 101, 101); border:  2px solid transparent; padding: 7px; border-radius: 7px; ">Delete Img</button>
+                    
+                <img  src="{{ customer.Images[cust1].imageLink }}" height="400px" width="500px">
+                </div>
+                <!--  -->
+        </div>
+        
+<div class="swiper-pagination"></div>
+  <div class="swiper-button-next"></div>
+  <div class="swiper-button-prev"></div>
+    </swiper>
+<!-- <div *ngFor="let cust1 of customer.Images| ObjNgFor">
+    <img src="{{ customer.Images[cust1].imageLink }}" alt="{{customer.Images[cust1].imageLink }}" >
+</div> -->
+
+            <!-- </div> -->
+            <div class="field">
+                Sell/Rent:    <span>{{ customer.type11 }}</span>
+            </div>
+        <div class="field">
+            Type of Property:  <span>{{ customer.type    }}</span>
+        </div>
+        <div class="field">
+            location of Property:    <span>{{ customer.location }}</span>
+        </div>
+        <div class="field">
+            Price of Property:    <span>{{ customer.price }}</span>
+        </div>
+        <div class="field">
+            Specification of Property:    <span>{{ customer.features }}</span>
+        </div>
+        <div class="field">
+            Address:    <span>{{ customer.contact }}</span>
+        </div>
+        <div class="field">
+            Size of the Property:    <span>{{ customer.area }} {{ customer.unit }}</span>
+           
+        </div>
+        <div class="field">
+            BHK:    <span>{{ customer.BHK }}</span>
+           
+        </div>
+        
+        <div class="field">
+             Property-ID:    <span>{{ customer.key }} </span>
+           
+        </div>
+        
+        <div class="field">
+            
+            Address:    <span>{{ customer.contact }} </span>
+          
+       </div>
+       <div class="field">
+        Posted Date:    <span>{{ customer.pdate }} </span>
+      
+   </div>
+       <div class="field"*ngIf="customer.verify; else loading;">
+       Status of Activation -<span> {{ customer.verify }} </span>
+      </div>
+      <ng-template #loading>
+        Loading your things...
+      </ng-template>
+
+       <!-- <div *ngIf="customer.verify">
+        Like this!
+      </div>
+      <div *ngIf="!customer.verify">
+        UnLike that!
+      </div> -->
+      
+     
+        
+        <div class="buttons">
+            <input type="button" class="delete-btn" (click)="deleteRecord(customer.key)" value="Delete">
+            <button class="edit-btn" routerLink = "/edit/{{customer.key}}" >Edit Details</button>
+            <button mat-raised-button  class="add-btn" (click) = "openDialog(customer.key)">Add Images </button>
+            <!-- <input type="button" class="add-btn" (click)="AddImages(customer.key)" value="Add Images"> -->
+
+            <input type="button" class="act-btn" (click)="Activate(customer.key)" value="Activate">
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+<div class="box">
+    <div class="image-box">
+        <img src="../../background_img2.jpg" alt="">
+    </div>
+    <div class="details">
+        <input type="checkbox" (click)="h()" >Details of the property <br>
+    </div>
+    <div class="property-id">
+        <p>Property Id:</p>
+    </div>
+    <div class="price">
+        <p>Price:</p>
+    </div>
+    <br>
+    <div class="posted-date">
+        <p>Posted Date:</p>
+    </div>
+    <div class="area">
+        <p>Area:</p>
+    </div>
+    <div class="buttons">
+        <input type="button" class="delete-btn" (click)='displayReasons()' value="Delete">
+        <input type="button" class="edit-btn" (click)='displayFun()' value="Edit">
+    </div>
+</div> -->
+
+<!-- 
+Dailog Boxes 
+<div [ngClass]="{ 'display-details': status_1 ==='true' }">
+    <div class="bg-modal">
+        <div class="modal-content">
+            <div class="close" (click)='notDisplayFun()'>+</div>
+            <div class="edit-text">
+                <form class="edit-form">
+                    <input type="checkbox" name="c1" id="c1">Reason 1 <br>
+                    <input type="checkbox" name="c2" id="c2">Reason 2 <br>
+                    <input type="checkbox" name="c3" id="c3">Reason 3 <br>
+                    <input type="checkbox" name="c4" id="c4">Reason 4 <br>
+                    <input type="checkbox" name="c5" id="c5">Reason 5 <br>
+                    <input type="checkbox" name="c6" id="c6">Reason 6 <br>
+                    <input type="checkbox" name="c7" id="c7">Reason 7 <br>
+                    <input type="checkbox" name="c8" id="c8">Reason 8 <br>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div [ngClass]="{ 'display-details': status_2 ==='true' }">
+    <div class="bg-modal">
+        <div class="modal-content">
+            <div class="close" (click)='notDisplayFun()'>+</div>
+            <div class="delete-text">
+                <form class="delete-form" [formGroup]="deleteForm">
+                    <input type="checkbox" name="c1" id="c1" formControlName= "c1">Reason 11 <br>
+                    <input type="checkbox" name="c2" id="c2" formControlName= "c2">Reason 2 <br>
+                    <input type="checkbox" name="c3" id="c3" formControlName= "c3">Reason 3 <br>
+                    <input type="checkbox" name="c4" id="c4" formControlName= "c4">Reason 4 <br>
+                    <input type="checkbox" name="c5" id="c5" formControlName= "c5">Reason 5 <br>
+                    <input type="checkbox" name="c6" id="c6" formControlName= "c6">Reason 6 <br>
+                    <input type="checkbox" name="c7" id="c7" formControlName= "c7">Reason 7 <br>
+                    <input type="checkbox" name="c8" id="c8" formControlName= "c8">Reason 8 <br>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>  -->

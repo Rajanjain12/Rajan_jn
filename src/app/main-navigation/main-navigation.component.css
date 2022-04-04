@@ -1,0 +1,26 @@
+nav {
+    list-style-type: none;
+    text-align: center;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+nav ul li{
+    display: inline-block;
+    margin-right: 2%;
+}
+
+nav ul li a:link,
+nav ul li a:visited {
+    text-decoration: none;
+    color: #fff;
+    font-size: 100%;
+    text-transform: uppercase;
+    transition: font-size 0.2s, color 0.2s;
+}
+
+nav ul li a:hover,
+nav ul li a:active {
+    font-size: 150%;
+    color: orange;
+}

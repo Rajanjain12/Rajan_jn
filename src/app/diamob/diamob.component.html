@@ -1,0 +1,19 @@
+<p>Please Enter the Contact Details</p>
+
+<form [formGroup] = "reportForm" (ngSubmit) = "reportProperty()">
+    
+    <!-- minlength="10" maxlength="10" -->
+    <input type="tel" pattern="^[0-9()\-+\s]+$"  minlength="10" maxlength="10" formControlName = "reported"  placeholder="Enter Your Contact Details" required> <br> 
+    <div class="error-messages">
+        <ng-container *ngFor="let error of error_messages.reported">
+            <div class="error-message" *ngIf="reportForm.get('reported').hasError(error.type) && (reportForm.get('reported').dirty || reportForm.get('reported').touched)">
+                {{ error.message }}
+            </div>
+            <div class="error-message" *ngIf="reportForm.get('reported').minlength || reportForm.get('reported').maxlength">
+                <p>Please Enter the Valid Details.</p>
+              </div>
+        </ng-container>
+    </div>
+   
+   <button type="submit">Submit!</button>
+</form>

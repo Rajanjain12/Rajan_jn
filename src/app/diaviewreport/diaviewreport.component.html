@@ -1,0 +1,20 @@
+
+<div *ngIf="pessPU?.length < 1">
+    <p>No Results Found!</p>
+</div>
+<div *ngFor="let buyer of pessPU">
+    
+    <div class="field">
+         Name: <span>{{ buyer.name }}</span>
+   
+         Email: <span>{{ buyer.email }}</span>
+    </div>
+    <div class="field">
+         Contact No: <span>{{ buyer.contactNo }}</span>
+        Message: <span>{{ buyer.report }}</span>
+</div>
+<hr>
+</div>
+<button type="reset" (click)="Cancel()">Close</button>
+
+        

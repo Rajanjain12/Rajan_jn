@@ -1,0 +1,14 @@
+.header {
+    background-color: transparent;
+}
+
+.header h1 {
+    text-align: center;
+    color: white;
+    margin: 0;
+    padding: 15px;
+    font-weight: 300;
+    font-size: 300%;
+    word-spacing: 5px;
+}
+

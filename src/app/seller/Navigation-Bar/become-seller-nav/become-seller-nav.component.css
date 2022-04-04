@@ -1,0 +1,43 @@
+.main-seller-nav {
+    text-align: center;
+}
+
+.main-seller-nav ul {
+    list-style: none;
+    
+}
+
+.main-seller-nav ul li {
+    display: inline-block;
+    padding: 5px;
+    color: #fff;
+    padding-bottom: 7px;
+    margin: 15px 20px;
+    text-transform: capitalize;
+    font-weight: 400;
+    font-size: 100%;
+    border-bottom: 1px solid transparent;
+    outline: none;
+    transition: font-size 0.2s, color 0.2s;
+}
+
+.main-seller-nav ul li:hover {
+    font-size: 150%;
+    color: orange;
+}
+
+.decorate {
+    color: orange;
+    font-size: 200%;
+}
+
+.logout-btn {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    transition: color 0.2s;
+}
+
+.logout-btn:hover {
+    color: orange;
+}

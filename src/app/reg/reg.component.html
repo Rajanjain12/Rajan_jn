@@ -1,0 +1,104 @@
+<app-header></app-header><hr>
+<section class="register-page">
+        <div class="row">
+            <h2>Register</h2>
+        </div>
+        <app-main-navigation></app-main-navigation>
+        <div class="row">
+            <form [formGroup]="registerForm" class="register-form">
+                <div class="row">
+                    <div class="col fields span-1-of-3">
+                        <label for="name">Name</label><span class="required">*</span>
+                    </div>
+                    <div class="col span-2-of-3">
+                         <input type="text" name="name"formControlName="name"  id="name" placeholder="Enter your name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }"required> 
+                    </div>
+                </div>  
+
+                <div class="error-messages">
+                    <ng-container *ngFor="let error of error_messages.name">
+                        <div class="error-message" *ngIf="registerForm.get('name').hasError(error.type) && (registerForm.get('name').dirty || registerForm.get('name').touched)">
+                            {{ error.message }}
+                        </div>
+                    </ng-container>
+                </div>
+    
+
+
+
+                
+                <div class="row">
+                    <div class="col fields span-1-of-3">
+                        <label for="email">Email-id</label><span class="required">*</span>
+                    </div>
+                    <div class="col span-2-of-3">
+                        <input type="text" name="email"formControlName="email" id="email"[formGroup]="registerForm" placeholder="Enter your email" required>
+                    </div>
+                </div>
+                <div class="error-messages">
+                    <ng-container *ngFor="let error of error_messages.email">
+                        <div class="error-message" *ngIf="registerForm.get('email').hasError(error.type) && (registerForm.get('email').dirty || registerForm.get('email').touched)">
+                            {{ error.message }}
+                        </div>
+                    </ng-container>
+                </div>
+
+
+
+
+
+              <div class="row">
+                    <div class="col fields span-1-of-3">
+                        <label for="number">Mobile no</label><span class="required">*</span>
+                    </div>
+                    <div class="col span-2-of-3">
+                        <input type="tel" name="number" formControlName="mobile" id="number" placeholder="Enter your number" [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }"required>    
+                    </div>
+                </div>  
+                <div class="error-messages">
+                    <ng-container *ngFor="let error of error_messages.mobile">
+                        <div class="error-message" *ngIf="registerForm.get('mobile').hasError(error.type) && (registerForm.get('mobile').dirty || registerForm.get('mobile').touched)">
+                            {{ error.message }}
+                        </div>
+                    </ng-container>
+                </div>
+
+
+                <div class="row">
+                    <div class="col fields span-1-of-3">
+                        <label for="password">Password</label><span class="required">*</span>
+                    </div>
+                 <div class="col span-2-of-3">
+                        <input type="password"formControlName="password" name="password" id="password" placeholder="Enter your password" required>
+                    </div>
+                </div>
+                <div class="error-messages">
+                    <ng-container *ngFor="let error of error_messages.password">
+                        <div class="error-message" *ngIf="registerForm.get('password').hasError(error.type) && (registerForm.get('password').dirty || registerForm.get('password').touched)">
+                            {{ error.message }}
+                        </div>
+                    </ng-container>
+                </div>
+
+                <div><label class="error">{{errorMessage}}</label>
+                    <label class="success">{{successMessage}}</label></div>
+                <div class="row">
+                    <div class="col span-1-of-3">
+                        <label>&nbsp;</label>
+                    </div>
+                    <div class="col span-2-of-3">
+                        <button type="button" (click)="tryRegister(registerForm.value)"  (click)="clearForm()"  class="register-btn">Register</button> 
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="col span-1-of-3">
+                <label>&nbsp;</label>
+            </div>
+            <div class="col plain-text span-2-of-3">
+                <p>Already have an account? <a routerLink="/login">Login</a></p>
+            </div>
+        </div>        
+    </section>
+    <p><span class="required">*</span> shows the Required Fields. </p>    

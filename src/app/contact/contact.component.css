@@ -1,0 +1,26 @@
+.fields {
+    text-align: center;
+    font-size: 120%;
+}
+
+input[type=email],
+input[type=text] {
+    padding: 6px;
+    width: 75%;
+    border-radius: 7px;
+    border: none;
+}
+
+.submit-btn {
+    font-size: 90%;
+    color: #fff;
+    border: 1px solid transparent;
+    padding: 6px;
+    border-radius: 7px;
+    background-color: rgb(57, 129, 57);
+    transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: rgb(0, 95, 0);
+}

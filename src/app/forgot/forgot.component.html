@@ -1,0 +1,33 @@
+<section class="login-page">
+    <div class="row">
+        <h2>Forgot Password</h2>
+    </div>
+    <div class="row">
+         <form class="login-form" [formGroup]="forgotForm">
+            <div class="row">
+                <p class="sub-text">Please Enter Your Registered Email Address And We will send you instructions to reset the password!</p>
+            </div>
+            <div class="row plain-box">
+                <div class="fields col span-1-of-3">
+                    <label for="email">Email</label>
+                </div>
+                <div class="col span-2-of-3">
+                    <input type="email" name="email" id="email" formControlName="email" placeholder="Please Enter Your Email Address?" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col span-1-of-3">
+                    <label>&nbsp;</label>
+                </div>
+                <div class="col span-2-of-3">
+                    <button type="submit" (click)="Reset(forgotForm.value)" id="btn-reset" class="reset-password">Reset Password</button>
+                    <button type="button" id="btn-back" class="back" routerLink='/login'>Back</button>
+                    <label class="error">{{errorMessage}}</label>  
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+   
+

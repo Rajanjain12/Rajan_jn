@@ -1,0 +1,98 @@
+<app-header></app-header> <hr>
+<app-service-bar></app-service-bar> <hr>
+<div class="row">
+    <form [formGroup]="serviceForm"ngNativeValidate class="service-Form" >
+        <div class="row">
+            <div class="col fields span-1-of-3">
+                <label for="service-details">Category of Service:</label> <span class="required">*</span>
+            </div>
+            <div class="col span-2-of-3">
+                <select  name="service-details" formControlName="serviceName" [(ngModel)]="serviceName"id="service-details" placeholder="Select service.." required="">
+                    <option value="Select" selected>Select Option</option>
+                    <option value="Laundry">Laundry</option>
+                    <option value="Cleaning">Cleaning</option>
+                    <option value="Food">Food</option>
+                </select>
+            </div>
+        </div>
+        <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.serviceName">
+                <div class="error-message" *ngIf="serviceForm.get('serviceName').hasError(error.type) && (serviceForm.get('serviceName').dirty || serviceForm.get('serviceName').touched)">
+                    {{ error.message }}
+                </div>
+            </ng-container>
+        </div>
+        <!-- <div class="row">
+            <div class="col fields span-1-of-3">
+                <label for="location">Location: </label><span class="required">*</span>
+            </div>
+            <div class="col span-2-of-3">
+                <textarea name="location" formControlName="location" id="location" cols="30" rows="10" [(ngModel)]="location"placeholder="Enter location.."required></textarea>
+            </div>
+        </div> -->
+        <!-- <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.location">
+                <div class="error-message" *ngIf="serviceForm.get('location').hasError(error.type) && (serviceForm.get('location').dirty || serviceForm.get('location').touched)">
+                    {{ error.message }}
+                </div>
+            </ng-container>
+        </div> -->
+
+        <div class="row">
+            <div class="col fields span-1-of-3">
+                <label for="location">Location: </label><span class="required">*</span>
+            </div>
+            <div class="col span-2-of-3">
+                <AutocompleteComponent (setAddress)="getAddress($event)"   class="demo"   name="location" formControlName="location" id="location"adressType="geocode" required  ngDefaultControl></AutocompleteComponent>
+                <!-- formControlName="location" -->
+        </div>
+        </div>
+        <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.location">
+                <div class="error-message" *ngIf="serviceForm.get('location').hasError(error.type) && (serviceForm.get('location').dirty || serviceForm.get('location').touched)">
+                    {{ error.message }}
+                </div>
+            </ng-container>
+        </div>
+        <div class="row">
+            <div class="col fields span-1-of-3">
+                <label for="price">Price of Services: </label><span class="required">*</span>
+            </div>
+            <div class="col span-2-of-3">
+                <input type="number" min="0" name="price" formControlName="price" [(ngModel)]="price" placeholder="Enter the price.."required>
+            </div>
+        </div>
+        <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.price">
+                <div class="error-message" *ngIf="serviceForm.get('price').hasError(error.type) && (serviceForm.get('price').dirty || serviceForm.get('price').touched)">
+                    {{ error.message }}
+                </div>
+            </ng-container>
+        </div>
+        <div class="row">
+            <div class="col fields span-1-of-3">
+                <label for="contactNo">Specifications of Service: </label><span class="required">*</span>
+            </div>
+            <div class="col span-2-of-3">
+                <input type="text" name="contactNo" id="features"  minlength="5"  [(ngModel)]="contactNo"formControlName="contactNo"placeholder="Enter features of your property.."  required >
+            </div>
+        </div>
+        <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.contactNo">
+                <div class="error-message" *ngIf="serviceForm.get('contactNo').hasError(error.type) && (serviceForm.get('contactNo').dirty || serviceForm.get('contactNo').touched)">
+                    {{ error.message }}
+                </div>
+            </ng-container>
+        </div>
+        <div class="row">
+            <div class="col span-1-of-3">
+                <label>&nbsp;</label>
+            </div>
+            <div class="col span-2-of-3">
+                <button type="submit"  (click)='onSubmit(serviceForm.value)' (click)="clearForm()" class="submit-btn">Submit</button>
+            </div>
+        </div>
+    </form>
+   
+</div>
+<p><span class="required">*</span> shows Required Fields.</p>

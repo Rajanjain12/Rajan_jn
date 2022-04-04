@@ -1,0 +1,63 @@
+<app-header></app-header><hr>
+<div class="main-nav">
+    <ul>
+        <li routerLink='/become-seller'>Become a Seller</li>
+        <li routerLink='/service-page'>Become a Service Provider</li>
+        <li routerLink='/ser-ser'>Service Dashboard</li>
+        <li routerLink='/profile'>Profile</li> 
+        <li><button (click)="tryLogout()" class="logout-btn">LogOut</button></li>
+    </ul>
+</div>
+<hr>
+
+<!-- <h2>Filtered Services</h2> -->
+
+<div class="side-bar">
+
+    <h3>Filter</h3>
+    <form [formGroup] = "filterForm" (ngSubmit) = "filterFunction()">
+      
+        
+        Price : <input type="number" formControlName = "f1"> <br><br>
+                   
+                    <br><br>
+      
+       
+        <button class="submit-btn" type = "submit">Submit</button>
+        <button class="reset-btn"(click) = "removeFilters()">Remove Filters</button>
+    </form>
+</div>
+
+<div class="article">
+
+        <div *ngIf="service?.length < 1">
+                <div class="field"><p>No Results Found!</p></div>
+            </div>
+    <div *ngFor="let customer of service">
+        <div class="plain-box">
+            <div class="field">
+                Service ID: <span>{{ customer.$key }}</span>
+            </div>
+            <div class="field">
+                Name of Service: <span>{{ customer.serviceName }}</span>
+            </div>
+            <div class="field">
+                Location: <span>{{ customer.location }}</span>
+            </div>
+            <div class="field">
+                Price: <span>{{ customer.price }}</span>
+            </div>
+            <div class="field">
+                Specification of Service: <span>{{ customer.contactNo }}</span>
+            </div>
+           
+            <div class="buttons">
+                <button mat-raised-button (click) = "openDialog(customer.$key,customer.id)">Report</button>
+                <!-- <input type="button" class="delete-btn" (click)="Interested(customer.$key,customer.id)" value="Interested"> -->
+                <button mat-raised-button (click) = "Interested(customer.$key,customer.id)">Contact</button>
+               
+            </div>
+        </div>
+    </div>
+    
+</div>

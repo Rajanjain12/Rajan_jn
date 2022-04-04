@@ -1,0 +1,138 @@
+<app-header></app-header><hr>
+<div class="row">
+  <h2>Contact Us</h2>
+</div>
+<app-main-navigation></app-main-navigation>
+
+<div class="row">
+  <form   [formGroup]="contactForm" class="register-form">
+    <div class="row">
+      <div class="col fields span-1-of-3">
+        <label for="name">Name</label>
+      </div>
+      <div class="col span-2-of-3">
+        <input type="text" name="name"formControlName="name" id="name" placeholder="Enter your name" required> 
+      </div>
+    </div>
+    <div class="row">
+      <div class="col fields span-1-of-3">
+        <label for="email">Email-id</label>
+      </div>
+      <div class="col span-2-of-3">
+        <input type="email" name="email"formControlName="email" id="email" placeholder="Enter your email" required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col fields span-1-of-3">
+        <label for="number">Subject:</label>
+      </div>
+      <div class="col span-2-of-3">
+        <input type="text" name="subject"  formControlName="subject"  id="number" placeholder="Enter your Subject" required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col fields span-1-of-3">
+        <label for="message">Message</label>
+      </div>
+      <div class="col span-2-of-3">
+        <input type="text"   name="message"  formControlName="message" placeholder="What's on your mind?" required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col span-1-of-3">
+        <label>&nbsp;</label>
+      </div>
+      <div class="col span-2-of-3">
+        <button type="button" (click)="onSubmit(contactForm.value)" (click)="clearForm()" class="submit-btn">Submit</button>
+      </div>
+    </div>
+    
+  </form>
+</div>
+
+<!--
+<header> 
+        <div class="row">
+            <img  class="logo">
+            <ul class="main-nav">
+                <li><a routerLink="/login"  routerLinkActive="active">LogIn</a></li>
+                 <li><a routerLink="/reg"  routerLinkActive="active">Register</a></li> 
+                <li><a routerLink="/about"  routerLinkActive="active">About us</a></li>
+                <li><a routerLink="/contact"  routerLinkActive="active">Contact Us</a></li>
+                <!-- <div id="myModal" class="modal">
+                        Modal content 
+                    <div class="modal-content">  
+                        <span class="close">&times;</span>
+                        <p>Some text is here..</p>
+                    </div>
+                </div>
+            </ul>
+        </div>
+      </header> 
+      
+        <div class="main-text">
+
+            <div class="row">
+            <form   [formGroup]="contactForm" class="register-form">
+           
+      <div class="row">
+          <div class="col span-1-of-3">
+              <label for="name">Name</label>
+          </div>
+          <div class="col span-2-of-3">
+               <input type="text" name="name"formControlName="name" id="name" placeholder="Enter your name" required> 
+                 
+          </div>
+      </div> 
+     
+
+      <div class="row">
+        <div class="col span-1-of-3">
+            <label for="email">Email-id</label>
+        </div>
+        <div class="col span-2-of-3">
+            <input type="text" name="email"formControlName="email" id="email" placeholder="Enter your email" required>
+        </div>
+    </div>
+  
+
+    <div class="row">
+      <div class="col span-1-of-3">
+          <label for="number">Subject:</label>
+      </div>
+      <div class="col span-2-of-3">
+          <input type="text" name="subject"  formControlName="subject"  id="number" placeholder="Enter your Subject" required>
+          
+      </div>
+  </div> 
+
+
+  <div class="row">
+    <div class="col span-1-of-3">
+        <label for="message">Message</label>
+    </div>
+ <div class="col span-2-of-3">
+  <!-- class="textarea" 
+  <input type="text"   name="message"  formControlName="message" placeholder="What's on your mind?" required>
+        </div>
+  </div>
+
+  <div class="row">
+    <div class="col span-1-of-3">
+        <label>&nbsp;</label>
+    </div>
+    <div class="col span-2-of-3">
+        <button type="button" (click)="onSubmit(contactForm.value)" (click)="clearForm()" class="btn btn-default">Submit</button>
+    </div>
+</div>
+
+
+
+  
+</form></div>
+<br><br>
+<footer> <label>Email Id:-</label><br><h4>homeeasy04@gmail.com</h4>
+  <label>Contact No:-</label><h4>8238247290</h4></footer>
+-->
+
+

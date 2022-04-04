@@ -1,0 +1,22 @@
+blockquote {
+    color: #fff;
+    font-style: italic;
+    line-height: 145%;
+    margin-left: 20px;
+}
+
+.plain-box {
+    height: 120px;
+}
+
+cite {
+    display: block;
+    margin-top: 35px;
+    font-size: 90%;
+}
+
+cite img {
+    height: 55px;
+    border-radius: 50%;
+    margin-right: 10px;
+}

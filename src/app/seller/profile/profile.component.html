@@ -1,0 +1,59 @@
+<app-header></app-header><hr>
+<app-dash-bar></app-dash-bar><hr>
+    <h2>Edit Profile</h2>
+
+    
+<div class="row">
+    <form [formGroup] = "profileForm" (onload)="getPrevEmail()"(ngSubmit) = "updateProfile()" action="">
+       
+        <div class="row">
+           <div class="col fields span-1-of-3">
+                <label for="basic-details">Name:</label>
+            </div>
+            <div class="col span-2-of-3">
+                <input type="text"  name="basic-details1" formControlName="name" id="basic-details" placeholder="Enter Your Name.." required>
+            </div>
+        </div>
+
+
+<!--   Could be Used For Location Preference
+        <div class="row">
+             <div class="col fields span-1-of-3">
+                <label for="location">Location:</label>
+            </div>
+            <div class="col span-2-of-3">
+                <input type="text" name="location" id="location"formControlName="location"required  placeholder="Enter Address of property.."  required>
+            </div>
+        </div>
+ -->
+        <div class="row">
+           <div class="col fields span-1-of-3">
+                <label for="property-details">Email:</label>
+            </div>
+            <div class="col span-2-of-3">
+                <input type="email" formControlName="email"  id="property-details"placeholder="Enter your Email for further contact..." readonly>
+              
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col fields span-1-of-3">
+                 <label for="property-details">Contact:</label>
+             </div>
+             <div class="col span-2-of-3">
+                 <input type="tel" formControlName="contactNo"  id="property-details"placeholder="Enter your Contact for further contact..." required>
+               
+             </div>
+         </div>
+       
+        <div class="row">
+            <div class="col span-1-of-3">
+                <label>&nbsp;</label>
+            </div>
+            <div class="col span-2-of-3">
+                <button class="register-btn"  [disabled]="!profileForm.dirty"type = "submit">Update</button>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- <p>profile works!</p> -->

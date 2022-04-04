@@ -1,0 +1,20 @@
+<p>dialog-v-res-service works!</p>
+<div *ngIf="pessU?.length < 1">
+    <div class="field"><p>No Results Found!</p></div>
+</div>
+<div *ngFor="let buyer of pessU">
+    
+    <div class="field">
+        Name: <span>{{ buyer.name }}</span>
+    
+    
+         Email: <span>{{ buyer.email }}</span>
+    
+    
+        Contact: <span>{{ buyer.contactNo }}</span>
+        <hr>
+    </div>
+    
+
+</div> 
+<button type="reset" (click)="Cancel()">Close</button>

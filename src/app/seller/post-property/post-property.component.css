@@ -1,0 +1,36 @@
+.register-form {
+    text-align: center;
+    margin-top: 3%;
+}
+
+label {
+    color: #fff;
+}
+
+input[type=text],
+textarea,
+input[type=number] {
+    width: 80%;
+    padding: 7px;
+    border-radius: 12px;
+    outline: none;
+    border: none;
+}
+
+input[type=submit] {
+    border: none;
+    background-color: green;
+    color: #fff;
+    padding: 12px;
+    border-radius: 12px;
+    text-align: center;
+    margin-left: -50%;
+    outline: none;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+input[type=submit]:hover {
+    cursor: pointer;
+    background-color: rgb(116, 202, 231);
+    color: #000;
+}

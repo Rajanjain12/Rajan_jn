@@ -1,0 +1,12 @@
+<p>Please Select One Option!</p>
+
+<form [formGroup] = "reportForm" (ngSubmit) = "reportProperty()">
+    
+    <!-- minlength="10" maxlength="10" -->
+    <p>Please click on the verification link sent on email to login.</p>
+    <p>Click "CANCEL" to use the old link.</p>
+    <p>Click on "Resend verification Link" incase old link is expired or new one is needed</p>
+    <button class="submit-btn"type="submit">Resend Verification Link</button>  
+   
+   <button class="reset-btn"type="reset" (click)="cancel()">Cancel</button>
+</form>

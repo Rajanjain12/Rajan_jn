@@ -1,0 +1,207 @@
+
+<app-header></app-header>
+<hr>
+<app-become-seller-nav></app-become-seller-nav>
+<hr>
+
+<h2>Responses Over Property</h2>
+<div *ngIf="pess?.length < 1">
+    <div class="field"><p>No Results Found!</p></div>
+</div>
+<div *ngFor="let customer of pess">
+    <div class="plain-box">
+        
+        <swiper [config]="config"style="height: 400px;float:right; width: 500px;" >
+            <div class="swiper-wrapper">
+                
+                <div class="swiper-slide" *ngFor="let cust1 of customer.Images | ObjNgFor">
+              
+                    
+                <img  src="{{ customer.Images[cust1].imageLink }}" height="400px" width="500px">
+                </div>
+                <!--  -->
+        </div>
+        
+<div class="swiper-pagination"></div>
+  <div class="swiper-button-next"></div>
+  <div class="swiper-button-prev"></div>
+    </swiper>
+
+            <div class="field">
+                Sell/Rent:    <span>{{ customer.type11 }}</span>
+            </div>
+        <div class="field">
+            Type of Property:  <span>{{ customer.type    }}</span>
+        </div>
+        <div class="field">
+            location of Property:    <span>{{ customer.location }}</span>
+        </div>
+        <div class="field">
+            Price of Property:    <span>{{ customer.price }}</span>
+        </div>
+        <div class="field">
+            Specification of Property:    <span>{{ customer.features }}</span>
+        </div>
+        <div class="field">
+            Address:    <span>{{ customer.contact }}</span>
+        </div>
+        <div class="field">
+            Size of the Property:    <span>{{ customer.area }} {{ customer.unit }}</span>  
+        </div>
+        <div class="field">
+            BHK:    <span>{{ customer.BHK }}</span>
+            
+           
+        </div>
+        <div class="field">   
+        ID:    <span>{{ customer.$key }}</span>
+        </div>
+
+        <!-- <div *ngFor="let buyerP of pessPU">
+            <h3>Interested Buyers</h3>
+
+            <div class="field">
+                Buyer Name: <span>{{ buyerP.name }}</span>
+            </div>
+            <div class="field">
+                Buyer Email: <span>{{ buyerP.email }}</span>
+            </div>
+            <div class="field">
+                Buyer Contact No: <span>{{ buyerP.contactNo }}</span>
+            </div>
+
+</div> -->
+       <div class="buttons">
+            <button mat-raised-button (click) = "openDialog(customer.$key)">View</button>
+         
+        </div> 
+
+    </div>
+    
+</div>
+
+
+
+<h2>Reported Property</h2>
+<div *ngIf="pessR?.length < 1">
+    <div class="field"><p>No Results Found!</p></div>
+</div>
+<div *ngFor="let customer of pessR">
+    <div class="plain-box">
+        
+        <swiper [config]="config"style="height: 400px;float:right; width: 500px;" >
+            <div class="swiper-wrapper">
+                
+                <div class="swiper-slide" *ngFor="let cust1 of customer.Images | ObjNgFor">
+              
+                    
+                <img  src="{{ customer.Images[cust1].imageLink }}" height="400px" width="500px">
+                </div>
+                
+        </div>
+        
+<div class="swiper-pagination"></div>
+  <div class="swiper-button-next"></div>
+  <div class="swiper-button-prev"></div>
+    </swiper>
+
+            <div class="field">
+                Sell/Rent:    <span>{{ customer.type11 }}</span>
+            </div>
+        <div class="field">
+            Type of Property:  <span>{{ customer.type    }}</span>
+        </div>
+        <div class="field">
+            location of Property:    <span>{{ customer.location }}</span>
+        </div>
+        <div class="field">
+            Price of Property:    <span>{{ customer.price }}</span>
+        </div>
+        <div class="field">
+            Specification of Property:    <span>{{ customer.features }}</span>
+        </div>
+        <div class="field">
+            Address:    <span>{{ customer.contact }}</span>
+        </div>
+        <div class="field">
+            Size of the Property:    <span>{{ customer.area }} {{ customer.unit }}</span>  
+        </div>
+        <div class="field">
+            BHK:    <span>{{ customer.BHK }}</span>
+           
+        </div>
+        <div class="field">
+            PROP-ID:    <span>{{ customer.$key }}</span>
+           
+        </div>
+        <!-- <div *ngFor="let new of pessUR">
+                    <h3>Reported By</h3>
+
+                    <div class="field">
+                        Buyer Name: <span>{{ new.name }}</span>
+                    </div>
+                    <div class="field">
+                        Buyer Email: <span>{{ new.email }}</span>
+                    </div>
+                    <div class="field">
+                        Buyer Contact No: <span>{{ new.contactNo }}</span>
+                    </div>
+                </div>   -->
+
+        <!-- <div *ngFor="let buyerPX of pessRR">
+
+<h3>Reason</h3>
+            <div class="field">
+                Message: <span>{{ buyerPX }}</span>
+            </div>
+            
+        </div> -->
+        <div class="buttons">
+            <button mat-raised-button (click) = "openDialogReport(customer.$key)">View</button>
+         
+        </div> 
+
+     
+    </div>
+</div>
+
+
+
+
+
+
+
+<!-- <h2>Responses Over Services</h2>
+<div *ngFor="let customer of pessS">
+    <div class="plain-box">
+        <div class="field">
+            Service ID: <span>{{ customer.$key }}</span>
+        </div>
+        <div class="field">
+            Name of Service: <span>{{ customer.serviceName }}</span>
+        </div>
+        <div class="field">
+            Location: <span>{{ customer.location }}</span>
+        </div>
+        <div class="field">
+            Price: <span>{{ customer.price }}</span>
+        </div>
+        <div *ngFor="let buyer of pessU">
+                <h3>Interested Buyer</h3>
+                <div class="field">
+                    Buyer Name: <span>{{ buyer.name }}</span>
+                </div>
+                <div class="field">
+                    Buyer Email: <span>{{ buyer.email }}</span>
+                </div>
+                <div class="field">
+                    Buyer Contact No: <span>{{ customer.contactNo }}</span>
+                </div>
+                
+
+        </div>
+       
+    </div>
+</div> -->
+
+

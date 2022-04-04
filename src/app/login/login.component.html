@@ -1,0 +1,76 @@
+<app-header></app-header><hr>
+<section class="login-page">
+    <div class="row">
+        <h2>Login</h2>
+    </div>
+    <app-main-navigation></app-main-navigation>
+    <div class="row">
+         <form class="login-form" [formGroup]="loginForm" >
+            <div class="row">
+                <div class="fields col span-1-of-3">
+                    <label for="username">Username</label><span class="required">*</span>
+                </div>
+                <div class="col span-2-of-3">
+                    <input type="email" name="username" id="email" formControlName="email" placeholder="Enter your username" required>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="fields col span-1-of-3">
+                    <label for="password">Password</label><span class="required">*</span>
+                </div>
+                <div class="col span-2-of-3">
+                    <input type="password" formControlName="password" name="password" id="password" placeholder="Enter your password" required>
+                    <label class="error">{{errorMessage}}</label>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col span-1-of-3">
+                    <label>&nbsp;</label>
+                </div>
+                <div class="col span-2-of-3">
+                    <button type="submit" (click)="tryLogin(loginForm.value)" id="btn-login" class="login-btn">Login</button>
+                    <button type="button" routerLink='/forgot' class="forgot-password">Forgot Password</button> 
+                </div>
+                <!-- <div class="row">
+                    <div class="col span-1-of-3">
+                        <label>&nbsp;</label>
+                    </div>
+                        <div class="col-md-4 col-md-offset-4">
+                          <button type="button" (click)="tryFacebookLogin()" id="btn-facebook" class="facebook-btn">Login with Facebook</button>
+                        </div>
+                      </div> -->
+                      <div class="row">
+                            <div class="col span-1-of-3">
+                                <label>&nbsp;</label>
+                            </div>
+                            <div class="col-md-4 col-md-offset-4">
+                            <button type="button" (click)="tryGoogleLogin()" id="btn-google" class="google-btn">Login with Google</button>
+                            </div>
+                      </div>
+<!-- 
+
+                      <div class="row">
+                            <div class="col span-1-of-3">
+                                    <label>&nbsp;</label>
+                                </div>
+                        <div class="col-md-4 col-md-offset-4">
+                          <button type="button" (click)="tryTwitterLogin()" id="btn-twitter" class="twitter-btn">Login with Twitter</button>
+                        </div>
+                      </div> -->
+                      <div class="row">
+                          <div class="col span-1-of-3">
+                              <label>&nbsp;</label>
+                          </div>
+                          <div class="col plain-text span-2-of-3">
+                            <p>No account yet? <a routerLink="/reg"  routerLinkActive="active">Create an account</a></p>
+                          </div>
+                      </div>
+                </div>
+            </form>
+        </div>
+    </section>
+    <p><span class="required">*</span> shows the Required Fields. </p>    

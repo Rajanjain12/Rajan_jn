@@ -1,0 +1,101 @@
+<app-header></app-header> <hr>
+<app-service-bar></app-service-bar> <hr>
+<h2>Responses Over Services</h2>
+
+
+
+<div *ngIf="pessS?.length < 1">
+    <div class="field"><p>No Results Found!</p></div>
+</div>
+<div *ngFor="let customer of pessS">
+    <div class="plain-box">
+        <div class="field">
+            Service ID: <span>{{ customer.$key }}</span>
+        </div>
+        
+        <div class="field">
+            Name of Service: <span>{{ customer.serviceName }}</span>
+        </div>
+        <div class="field">
+            Location: <span>{{ customer.location }}</span>
+        </div>
+        <div class="field">
+            Price: <span>{{ customer.price }}</span>
+        </div>
+        <div class="field">
+            Specification of Service: <span>{{ customer.contactNo }}</span>
+        </div>
+        <!-- <div *ngFor="let buyer of pessU">
+                <h3>Interested Buyer</h3>
+                <div class="field">
+                    Buyer Name: <span>{{ buyer.name }}</span>
+                </div>
+                <div class="field">
+                    Buyer Email: <span>{{ buyer.email }}</span>
+                </div>
+                <div class="field">
+                    Buyer Contact No: <span>{{ customer.contactNo }}</span>
+                </div>
+                
+
+        </div> -->
+        <div class="buttons">
+            <button mat-raised-button (click) = "openDialog(customer.$key)">View</button>
+         
+        </div>  
+    </div>
+</div>
+<h2>Reported Services</h2>
+
+
+    <div *ngIf="pessSR?.length < 1">
+        <div class="field"><p>No Results Found!</p></div>
+    </div>
+<div *ngFor="let customer of pessSR">
+    <div class="plain-box">    
+        <div class="field">
+            Service ID: <span>{{ customer.$key }}</span>
+        </div>
+        <div class="field">
+            Name of Service: <span>{{ customer.serviceName }}</span>
+        </div>
+        <div class="field">
+            Location: <span>{{ customer.location }}</span>
+        </div>
+        <div class="field">
+            Price: <span>{{ customer.price }}</span>
+        </div>
+        <div class="field">
+            Specification of Service: <span>{{ customer.contactNo }}</span>
+        </div>
+        
+        <!-- <div *ngFor="let buyer of pessUR">
+                <h3>Reported By:</h3>
+                <div class="field">
+                     Name: <span>{{ buyer.name }}</span>
+                </div>
+                <div class="field">
+                     Email: <span>{{ buyer.email }}</span>
+                </div>
+                <div class="field">
+                     Contact No: <span>{{ buyer.contactNo }}</span>
+                </div> -->
+                <!-- <div *ngFor="let mess of pessRR">
+
+                    <div class= "field">
+                        Message: <span>{{ mess }}</span>
+                    </div>
+
+                    </div>                 -->
+
+                    <div class="buttons">
+                        <button mat-raised-button (click) = "openDialogforReport(customer.$key)">View</button>
+                     
+                    </div>  
+        </div>
+       
+    
+</div>
+
+
+

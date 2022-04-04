@@ -1,0 +1,177 @@
+<app-header></app-header><hr>
+<app-become-seller-nav></app-become-seller-nav><hr>
+<h2>Edit Property Details</h2>
+<div class="row">
+    <form [formGroup] = "editForm"ngNativeValidate (ngSubmit) = "updateProperty()" action="">
+        <div class="row">
+            <div class="col fields span-1-of-3">
+                <label for="basic-details">Sell/Rent:</label><span class="required">*</span>
+            </div>
+            <div class="col span-2-of-3">
+                <input type="text" name="basic-details" formControlName="type11" id="basic-11" placeholder="Enter basic details of property.." required>
+            </div>
+        </div>
+        <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.type11">
+                <div class="error-message" *ngIf="editForm.get('type11').hasError(error.type) && (editForm.get('type11').dirty || editForm.get('type11').touched)">
+                    {{ error.message }}
+                </div>
+            </ng-container>
+        </div>
+
+        <div class="row">
+           <div class="col fields span-1-of-3">
+                <label for="basic-details">Type of Property:</label><span class="required">*</span>
+            </div>
+            <div class="col span-2-of-3">
+                <input type="text"  name="basic-details1" formControlName="type" id="basic-details" placeholder="Enter Type of property.." required>
+            </div>
+        </div>
+        <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.type">
+                <div class="error-message" *ngIf="editForm.get('type').hasError(error.type) && (editForm.get('type').dirty || editForm.get('type').touched)">
+                    {{ error.message }}
+                </div>
+            </ng-container>
+        </div>
+
+
+
+        <div class="row">
+             <div class="col fields span-1-of-3">
+                <label for="location">Location:</label><span class="required">*</span>
+            </div>
+            <div class="col span-2-of-3">
+                <input type="text" name="location" id="location"formControlName="location"  placeholder="Enter Address of property.."  readonly>
+            </div>
+        </div>
+        <!-- <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.location">
+                <div class="error-message" *ngIf="editForm.get('location').hasError(error.type) && (editForm.get('location').dirty || editForm.get('location').touched)">
+                    {{ error.message }}
+                </div>
+            </ng-container>
+        </div> -->
+
+
+        <div class="row">
+           <div class="col fields span-1-of-3">
+                <label for="property-details">Area:</label><span class="required">*</span>
+            </div>
+            <div class="col span-2-of-3">
+                <input type="number" formControlName="area"  id="property-details"placeholder="Enter Area of your property.." required>
+                <input type="text" style="width: 10%; margin-left: 2%;" name="unit"class="field-2"  formControlName="unit" id="property-details"  required>   
+            </div>
+        </div>
+        <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.area">
+                <div class="error-message" *ngIf="editForm.get('area').hasError(error.type) && (editForm.get('area').dirty || editForm.get('area').touched)">
+                    {{ error.message }}
+                </div>
+            </ng-container>
+        </div>
+        <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.unit">
+                <div class="error-message" *ngIf="editForm.get('unit').hasError(error.type) && (editForm.get('unit').dirty || editForm.get('unit').touched)">
+                    {{ error.message }}
+                </div>
+            </ng-container>
+        </div>
+
+
+        <div class="row">
+               <div class="col fields span-1-of-3">
+                <label for="bedrooms">Bedrooms:</label><span class="required">*</span>
+            </div>
+         <div class="col span-2-of-3">
+            <input type="number" formControlName="BHK" min="0"  id="no-of-bedrooms"name = "BHK"placeholder="Enter the no of bedrooms.." >
+            </div>
+        </div>
+        <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.BHK">
+                <div class="error-message" *ngIf="editForm.get('BHK').hasError(error.type) && (editForm.get('BHK').dirty || editForm.get('BHK').touched)">
+                    {{ error.message }}
+                </div>
+                <div class="error-message" *ngIf="editForm.get('BHK').min || editForm.get('BHK').max">
+                    <p>Please Enter the Valid Details.</p>
+                  </div>
+            </ng-container>
+        </div>
+
+        <div class="row">
+            <div class="col fields span-1-of-3">
+                <label for="pricing">Pricing:</label><span class="required">*</span>
+            </div>
+            <div class="col span-2-of-3">
+                <input type="number"  id="pricing"    name="pricing" formControlName="price"placeholder="Enter price of your property.."  >
+            </div>
+        </div>
+        <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.type11">
+                <div class="error-message" *ngIf="editForm.get('price').hasError(error.type) && (editForm.get('price').dirty || editForm.get('price').touched)">
+                    {{ error.message }}
+                </div>
+            </ng-container>
+        </div>
+
+        
+        <div class="row">
+            <div class="col fields span-1-of-3">
+                <label for="features">Features of your property:</label><span class="required">*</span>
+            </div>
+            <div class="col span-2-of-3">
+                <textarea rows="3" cols="20"  id="features" required   name="features"  formControlName="features"placeholder="Enter features of your property.."  ></textarea>
+            </div>
+        </div>
+        <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.features">
+                <div class="error-message" *ngIf="editForm.get('features').hasError(error.type) && (editForm.get('features').dirty || editForm.get('features').touched)">
+                    {{ error.message }}
+                </div>
+                <div class="error-message" *ngIf="editForm.get('features').minlength">
+                    <p>Please Enter more  Details.</p>
+                  </div>
+            </ng-container>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col fields span-1-of-3">
+                <label for="contact">Address:</label> <span class="required">*</span>
+            </div>
+            <div class="col span-2-of-3">
+                <input type="text" maxlength="20" name="contact" id="contact" formControlName="contact"placeholder="Enter Address of Posting.." required>
+            </div>
+        </div>
+        <div class="error-messages">
+            <ng-container *ngFor="let error of error_messages.contact">
+                <div class="error-message" *ngIf="editForm.get('contact').hasError(error.type) &&(editForm.get('contact').dirty || editForm.get('contact').touched)">
+                    {{ error.message }}
+                </div>
+          
+                <div class="error-message" *ngIf="editForm.get('contact').minlength || editForm.get('contact').maxlength">
+                  <p>Please Enter the Valid Details.</p>
+                </div>
+            </ng-container>
+        </div>
+        <!-- <div class="row">
+            <div class="col fields span-1-of-3">
+                <label for="contact">Add more Images:</label> 
+            </div>
+            <div class="col span-2-of-3">
+                <input type="file" accept="video/mp4,image/*" required name="Images" [(ngModel)]="Images" id="Images" (change)="onfileselect($event)"formControlName="Images"placeholder="Upload the images of the property.." multiple="multiple" >
+              </div>
+        </div> -->
+        <div class="row">
+            <div class="col span-1-of-3">
+                <label>&nbsp;</label>
+            </div>
+            <div class="col span-2-of-3">
+                <button type = "submit" class="submit-btn">Update</button>
+              
+            </div>
+        </div>
+    </form>
+</div>
+<p><span class="required">*</span> shows the Required Field</p>

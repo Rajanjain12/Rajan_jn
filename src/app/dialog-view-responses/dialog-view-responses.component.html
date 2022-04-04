@@ -1,0 +1,20 @@
+<p>dialog-view-responses works!</p>
+
+<div *ngIf="pessPU?.length < 1">
+    <div class="field"><p>No Results Found!</p></div>
+</div>
+<div *ngFor="let buyerP of pessPU">
+    
+
+    <div class="field">
+        Name: <span>{{ buyerP.name }} </span> 
+    
+    
+        Email: <span>{{ buyerP.email }}</span>
+    
+Contact: <span>{{ buyerP.contactNo }}</span>
+        <hr>
+    </div>
+
+</div>
+<button type="reset" (click)="Cancel()">Close</button>

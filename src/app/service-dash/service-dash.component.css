@@ -1,0 +1,232 @@
+.main-nav {
+    text-align: center;
+}
+
+.main-nav ul {
+    list-style-type: none;
+}
+
+.plain-box {
+    background-color: #ffffff;
+    color: black;
+    font-weight: 500;
+    margin: 2%;
+    padding: 2%;
+    height: auto;
+    overflow: hidden;
+    border-radius: 7px;
+}
+
+.field {
+    margin-bottom: 2%;
+}
+
+.field span {
+    margin-left: 1%;
+    color: brown;
+}
+
+.main-nav ul li {
+    display: inline-block;
+    padding: 5px;
+    color: #fff;
+    padding-bottom: 7px;
+    margin: 15px 20px;
+    text-transform: capitalize;
+    font-weight: 400;
+    font-size: 100%;
+    border-bottom: 1px solid transparent;
+    outline: none;
+    transition: font-size 0.2s, color 0.2s;
+}
+
+.main-nav ul li:hover {
+    font-size: 150%;
+    color: orange;
+}
+
+.logout-btn {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    transition: color 0.2s;
+}
+
+.logout-btn:hover {
+    color: orange;
+}
+
+.side-bar {
+    width: 20%;
+    float: left;
+    height: auto;
+    
+    border-right: 2px solid #ffffff;
+}
+* {
+    outline: none;
+}
+
+.plain-box {
+    background-color: #ffffff;
+    color: black;
+    font-weight: 500;
+    margin: 2%;
+    padding: 2%;
+    height: auto;
+    overflow: hidden;
+    border-radius: 7px;
+}
+
+.field {
+    margin-bottom: 2%;
+}
+
+.field span {
+    margin-left: 1%;
+    color: brown;
+}
+.submit-btn {
+    border: none;
+    background-color: green;
+    color: #fff;
+    
+    border-radius: 12px;
+    width: 50%;
+    
+    
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.submit-btn:hover {
+    cursor: pointer;
+    background-color: rgb(116, 202, 231);  
+    color: #000;  
+}
+.reset-btn {
+    border: none;
+    background-color:red;
+    color: #fff;
+    
+    border-radius: 12px;
+    width: 50%;
+    
+    
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.reset-btn:hover {
+    cursor: pointer;
+    background-color: rgb(116, 202, 231);  
+    color: #000;  
+}
+
+
+.article {
+    width: 80%;
+    float: right;
+    overflow: auto;
+}
+.delete-btn {
+    background-color:green;
+    border:  2px solid transparent;
+    padding: 7px;
+    border-radius: 7px;
+}
+
+.delete-btn:hover {
+    background-color:darkgreen;
+}
+.report-btn {
+    background-color: rgb(253, 101, 101);
+    border:  2px solid transparent;
+    padding: 7px;
+    border-radius: 7px;
+}
+
+.report-btn:hover {
+    background-color: rgb(255, 44, 44);
+}
+.box {
+    background-color: #ffffff;
+    color: black;
+    font-weight: 500;
+    margin: 2%;
+    padding: 2%;
+    height: auto;
+    overflow: hidden;
+    border-radius: 7px;
+}
+
+.field {
+    margin-bottom: 2%;
+}
+
+.field span {
+    margin-left: 1%;
+    color: brown;
+}
+
+.image-box {
+    float: right;
+    width: 30%;
+    margin: 0;
+}
+
+.image-box img {
+    width: 100%;
+    border: 1px solid black;
+    margin-top: -10%;
+}
+
+/* --------------------- Side Nav --------------------------- */
+ h3 {
+     font-size: 150%;
+     font-weight: 300;
+     text-align: center;
+     margin-top: 5%;
+}
+
+.f1, 
+.location {
+    margin-right: 5%;
+    margin-bottom: 2%;
+}
+
+.option-type {
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 5%;
+    margin-bottom: 10%;
+    border-radius: 7px;
+}
+
+.filter-name {
+    margin-left: 10%;
+    margin-top: 10%;
+}
+
+.filter-details {
+    margin-left: 10%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    font-size: 90%;
+}
+
+.sell-rent,
+.size-in {
+    width: 50%;
+    border-radius: 7px;
+    font-size: 90%;
+}
+
+.size-in {
+    width: 70%;
+}
+
+input[type=number] {
+    width: 70%;
+    border-radius: 7px;
+    font-size: 80%;
+    border: 1px solid transparent;
+}

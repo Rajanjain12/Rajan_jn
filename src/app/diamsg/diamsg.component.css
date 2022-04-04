@@ -1,0 +1,79 @@
+.reportForm {
+    text-align: center;
+    margin-top: 3%;
+}
+.error-message {
+    color: red;
+  }
+.required {
+    color: red;
+  }
+s{
+    color: tomato;
+}
+label {
+    color: #fff;
+}
+
+.fields {
+    text-align: center;
+    font-size: 120%;
+}
+
+input[type=text],
+textarea,
+select,
+input[type=number] ,
+input[type=tel] 
+{
+    width: 70%;
+    padding: 6px;
+    border-radius: 7px;
+    outline: none;
+    border: none;
+}
+
+.submit-btn {
+    font-size: 90%;  
+    color: #fff;
+    border: 1px solid transparent;
+    padding: 6px;
+    border-radius: 7px;
+    background-color: rgb(57, 129, 57);
+    transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: rgb(0, 95, 0);
+}
+.reset-btn {
+    font-size: 90%;  
+    color: #fff;
+    border: 1px solid transparent;
+    padding: 6px;
+    border-radius: 7px;
+    background-color: red;
+    transition: background-color 0.2s;
+}
+
+.reset-btn:hover {
+    background-color: firebrick;
+}
+
+input[type=submit] {
+    border: none;
+    background-color: green;
+    color: #fff;
+    padding: 12px;
+    border-radius: 12px;
+    text-align: center;
+    margin-left: -50%;
+    outline: none;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+input[type=submit]:hover {
+    cursor: pointer;
+    background-color: rgb(116, 202, 231);
+    color: #000;
+}

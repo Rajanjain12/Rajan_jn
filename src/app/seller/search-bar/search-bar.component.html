@@ -1,0 +1,44 @@
+<section class="search-engine">
+    <div class="main-text">
+        
+            <div class="main-nav">
+                <ul>
+                    <li>Buy</li>
+                    <li>Rent</li>
+                    <li>PG</li>
+                    <li>Projects</li>
+                </ul>
+            </div>
+            <form>
+
+               
+                    <AutocompleteComponent1 (setAddress)="getAddress($event)" name="search" style="width: 220%;" class="search" aria-placeholder="Search.."   adressType="geocode"></AutocompleteComponent1>
+                    <!-- #searchInput (keyup)="search(searchInput.value)" -->
+                
+                  
+            <!-- <input type="text" name="search" #searchInput (keyup)="search(searchInput.value)" id="search" class="search" placeholder="Search..."> -->
+            <input type="submit"  class="submit-btn" routerLink="/buyer-dashboard" >
+           
+            <!-- routerLink="/buyer-dashboard" -->
+                <!-- <div *ngFor="let prop of (property$ | async) ">
+                    <h4>{{prop?.location}}</h4>
+
+                    <p>
+                        {{prop.contact }}
+                    </p>
+                    
+                    <p>
+                        {{prop.type }}
+                    </p>
+                    
+
+                </div>
+                <div *ngIf="(property$ | async)?.length < 1">
+                    <hr />
+                    <p>No results found :(</p>
+                  </div>
+                   -->
+
+        </form>
+    </div>
+</section>
